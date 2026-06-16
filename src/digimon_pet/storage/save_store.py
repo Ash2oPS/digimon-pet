@@ -23,6 +23,7 @@ def load_pet_state(path: Path | None = None) -> PetState:
 def save_pet_state(state: PetState, path: Path | None = None) -> None:
     save_path = path or SAVE_PATH
     save_path.parent.mkdir(parents=True, exist_ok=True)
+    state.mark_discovered()
     state.clamp()
     payload = asdict(state)
     payload["stage"] = state.stage.value
@@ -61,6 +62,14 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         is_sleeping=bool(raw.get("is_sleeping", False)),
         current_action=str(raw.get("current_action", "idle")),
         needs_rebirth_choice=bool(raw.get("needs_rebirth_choice", False)),
+        discovered_species_ids=_species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"])),
     )
+    state.mark_discovered()
     state.clamp()
     return state
+
+
+def _species_ids_from_raw(raw: Any, current_species_id: str) -> list[str]:
+    if not isinstance(raw, list):
+        return [current_species_id]
+    return [str(item) for item in raw]

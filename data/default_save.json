@@ -19,5 +19,8 @@
   "techniques_mastered": 0,
   "is_sleeping": false,
   "current_action": "idle",
-  "needs_rebirth_choice": false
+  "needs_rebirth_choice": false,
+  "discovered_species_ids": [
+    "botamon"
+  ]
 }

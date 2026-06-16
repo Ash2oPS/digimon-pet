@@ -8,6 +8,7 @@ from PySide6.QtCore import QPoint, Qt, QTimer
 from PySide6.QtGui import QAction, QMouseEvent
 from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QVBoxLayout, QWidget
 
+from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.theme import APP_QSS
@@ -40,6 +41,7 @@ class PetWindow(QWidget):
         self._drag_offset: QPoint | None = None
         self._was_dragging = False
         self._positioned_once = False
+        self._collection_dialog: CollectionDialog | None = None
 
         self._configure_window()
 
@@ -91,6 +93,10 @@ class PetWindow(QWidget):
             action = QAction(label, self)
             action.triggered.connect(lambda checked=False, name=action_name: self._handle_action(name))
             menu.addAction(action)
+        menu.addSeparator()
+        collection_action = QAction("Collection", self)
+        collection_action.triggered.connect(self._open_collection)
+        menu.addAction(collection_action)
         menu.addSeparator()
         debug_action = QAction("Toggle Debug", self)
         debug_action.triggered.connect(self._toggle_debug)
@@ -308,6 +314,13 @@ class PetWindow(QWidget):
 
     def _toggle_debug(self) -> None:
         self._debug_panel.setVisible(not self._debug_panel.isVisible())
+
+    def _open_collection(self) -> None:
+        self._state.mark_discovered()
+        self._collection_dialog = CollectionDialog(self._species, self._state.discovered_species_ids, self)
+        self._collection_dialog.show()
+        self._collection_dialog.raise_()
+        self._collection_dialog.activateWindow()
 
     def toggle_debug(self) -> None:
         self._toggle_debug()

@@ -20,7 +20,7 @@ python -m digimon_pet
 
 The app also appears in the Windows background task tray. Use the tray icon menu to show/hide the pet, open the debug panel, or quit.
 
-By default, the pet starts near the bottom-right corner of the primary screen. Drag it with the left mouse button to move it manually. Right-click the pet to open care actions.
+By default, the pet starts near the bottom-right corner of the primary screen. Drag it with the left mouse button to move it manually. Right-click the pet to open care actions and the collection.
 
 Development mode with accelerated time:
 

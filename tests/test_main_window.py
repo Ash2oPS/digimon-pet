@@ -57,6 +57,16 @@ def test_debug_panel_updates_pet_stat():
     assert window._state.hp == 777
 
 
+def test_collection_dialog_opens_from_window():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    window._open_collection()
+
+    assert window._collection_dialog is not None
+    assert window._collection_dialog.windowTitle() == "Collection"
+
+
 def test_tick_persists_advanced_age(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"

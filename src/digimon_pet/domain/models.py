@@ -43,6 +43,7 @@ class PetState:
     is_sleeping: bool = False
     current_action: str = "idle"
     needs_rebirth_choice: bool = False
+    discovered_species_ids: list[str] = field(default_factory=list)
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -61,6 +62,13 @@ class PetState:
         self.weight = max(0, self.weight)
         self.won_battles = max(0, self.won_battles)
         self.techniques_mastered = max(0, self.techniques_mastered)
+        self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
+
+    def mark_discovered(self, species_id: str | None = None) -> None:
+        target_id = species_id or self.species_id
+        if target_id not in self.discovered_species_ids:
+            self.discovered_species_ids.append(target_id)
+        self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
 
 
 @dataclass(frozen=True)
@@ -80,3 +88,7 @@ def _clamp(value: int, minimum: int = 0, maximum: int = 100) -> int:
 
 def _clamp_stat(value: int) -> int:
     return max(0, min(9999, value))
+
+
+def _dedupe_species_ids(species_ids: list[str]) -> list[str]:
+    return list(dict.fromkeys(str(species_id) for species_id in species_ids if str(species_id).strip()))
