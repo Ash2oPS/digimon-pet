@@ -55,7 +55,7 @@ def next_lifecycle_event(state: PetState, schedule: EvolutionSchedule) -> Lifecy
     rookie_id = BABY_2_TO_ROOKIE.get(state.species_id, "agumon")
     label = {
         GrowthStage.BABY: f"Evolution to {baby_2_id.title()}",
-        GrowthStage.BABY_2: f"Evolution to {rookie_id.title()} or Kunemon",
+        GrowthStage.BABY_2: f"Rookie evolution check, fallback to {rookie_id.title()}, or Kunemon",
         GrowthStage.ROOKIE: "Evolution check",
         GrowthStage.CHAMPION: "Ultimate check or death",
         GrowthStage.ULTIMATE: "Death and rebirth",
@@ -81,6 +81,9 @@ def advance_lifecycle(
     if state.stage == GrowthStage.BABY_2:
         if "kunemon" in species and rng.random() < 0.1:
             return _evolve_to(state, species["kunemon"])
+        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        if target is not None:
+            return _evolve_to(state, target)
         target_id = BABY_2_TO_ROOKIE.get(state.species_id, "agumon")
         return _evolve_to(state, species[target_id])
     if state.stage == GrowthStage.ROOKIE:

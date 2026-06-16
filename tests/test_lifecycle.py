@@ -53,7 +53,7 @@ def test_baby_line_evolves_forced_and_resets_stage_state():
     assert state.current_action == "idle"
 
 
-def test_baby_2_evolves_to_current_default_rookie_line():
+def test_baby_2_evolves_to_default_rookie_line_without_dw1_data():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
     state = PetState(
         species_id="koromon",
@@ -67,6 +67,48 @@ def test_baby_2_evolves_to_current_default_rookie_line():
     assert state.species_id == "agumon"
     assert state.stage == GrowthStage.ROOKIE
     assert state.age_seconds == 0
+
+
+def test_baby_2_can_evolve_to_valid_dw1_rookie_candidate():
+    schedule = EvolutionSchedule(baby_2_seconds=3600)
+    state = PetState(
+        species_id="koromon",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+        weight=15,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "agumon",
+                "requirements": {
+                    "groups": {
+                        "stats": {"hp": 10, "mp": 10, "offense": 1},
+                        "weight": {"min": 10, "max": 20},
+                        "care_mistakes": {"min": 0},
+                    }
+                },
+            },
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "gabumon",
+                "requirements": {
+                    "groups": {
+                        "stats": {"defense": 1, "speed": 1, "brains": 1},
+                        "weight": {"min": 10, "max": 20},
+                        "care_mistakes": {"min": 0},
+                    }
+                },
+            },
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(0))
+
+    assert event == "evolved:gabumon"
+    assert state.species_id == "gabumon"
+    assert state.stage == GrowthStage.ROOKIE
 
 
 def test_baby_2_has_ten_percent_chance_to_evolve_to_kunemon():
