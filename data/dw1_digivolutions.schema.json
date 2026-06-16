@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/digimon-pet/dw1_digivolutions.schema.json",
+  "title": "Digimon World 1 Digivolutions",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "game",
+    "platform",
+    "sources",
+    "global_rules",
+    "evolution_timing_hours",
+    "digimon",
+    "natural_evolutions",
+    "special_evolutions",
+    "indexes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "game": {
+      "const": "Digimon World"
+    },
+    "platform": {
+      "const": "PlayStation"
+    },
+    "locale_scope": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "global_rules": {
+      "type": "object"
+    },
+    "evolution_timing_hours": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "digimon": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/digimon"
+      }
+    },
+    "natural_evolutions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/natural_evolution"
+      }
+    },
+    "special_evolutions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/special_evolution"
+      }
+    },
+    "indexes": {
+      "type": "object",
+      "required": ["by_source"],
+      "properties": {
+        "by_source": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "species_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+$"
+    },
+    "digimon": {
+      "type": "object",
+      "required": ["id", "name", "stage", "requirements", "natural_sources", "natural_targets", "source_sheet_name"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/species_id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "requirements": {
+          "$ref": "#/$defs/requirements"
+        },
+        "natural_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/species_id"
+          }
+        },
+        "natural_targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/species_id"
+          }
+        },
+        "source_sheet_name": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "natural_evolution": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "source_species_id",
+        "source_name",
+        "target_species_id",
+        "target_name",
+        "target_stage",
+        "chart_order",
+        "requirements",
+        "sources"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "const": "natural"
+        },
+        "source_species_id": {
+          "$ref": "#/$defs/species_id"
+        },
+        "source_name": {
+          "type": "string"
+        },
+        "target_species_id": {
+          "$ref": "#/$defs/species_id"
+        },
+        "target_name": {
+          "type": "string"
+        },
+        "target_stage": {
+          "type": "string"
+        },
+        "chart_order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "requirements": {
+          "$ref": "#/$defs/requirements"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "special_evolution": {
+      "type": "object",
+      "required": ["id", "type", "target_species_id", "target_name", "target_stage", "source_selector", "trigger", "notes", "sources"],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "const": "special"
+        },
+        "target_species_id": {
+          "$ref": "#/$defs/species_id"
+        },
+        "target_name": {
+          "type": "string"
+        },
+        "target_stage": {
+          "type": "string"
+        },
+        "source_selector": {
+          "type": "object"
+        },
+        "trigger": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "required": ["mode", "required_group_count", "alternate", "available_base_group_count", "has_bonus_group", "groups"],
+      "properties": {
+        "mode": {
+          "const": "natural_3_groups_or_2_plus_bonus"
+        },
+        "required_group_count": {
+          "const": 3
+        },
+        "alternate": {
+          "type": "object",
+          "required": ["base_group_count", "requires_bonus"]
+        },
+        "available_base_group_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "has_bonus_group": {
+          "type": "boolean"
+        },
+        "groups": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
