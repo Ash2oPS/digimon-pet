@@ -2,9 +2,13 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QCheckBox,
     QGridLayout,
+    QGroupBox,
     QLabel,
+    QScrollArea,
     QSpinBox,
     QVBoxLayout,
     QWidget,
@@ -21,6 +25,7 @@ class DebugPanel(QWidget):
         schedule_changed: Callable[[EvolutionSchedule], None] | None = None,
         time_scale_changed: Callable[[int], None] | None = None,
         stat_changed: Callable[[str, int], None] | None = None,
+        auto_rebirth_changed: Callable[[bool], None] | None = None,
     ) -> None:
         super().__init__(parent)
         self._labels: dict[str, QLabel] = {}
@@ -29,57 +34,77 @@ class DebugPanel(QWidget):
         self._schedule_changed = schedule_changed
         self._time_scale_changed = time_scale_changed
         self._stat_changed = stat_changed
+        self._auto_rebirth_changed = auto_rebirth_changed
         self._updating_schedule = False
         self._updating_stats = False
         self.setWindowTitle("Digimon Pet Debug")
-        self.setMinimumWidth(320)
+        self.setMinimumSize(420, 560)
+        self.resize(460, 680)
 
         root = QVBoxLayout(self)
-        root.setContentsMargins(12, 12, 12, 12)
-        root.setSpacing(8)
+        root.setContentsMargins(0, 0, 0, 0)
+        root.setSpacing(0)
 
-        title = QLabel("Pet Debug")
+        header = QWidget(self)
+        header.setObjectName("DebugHeader")
+        header_layout = QVBoxLayout(header)
+        header_layout.setContentsMargins(16, 14, 16, 12)
+        header_layout.setSpacing(3)
+        title = QLabel("Pet Debug", header)
         title.setObjectName("Title")
-        root.addWidget(title)
+        subtitle = QLabel("Live state and tuning", header)
+        subtitle.setObjectName("Muted")
+        header_layout.addWidget(title)
+        header_layout.addWidget(subtitle)
+        root.addWidget(header)
 
-        grid = QGridLayout()
-        grid.setHorizontalSpacing(12)
-        grid.setVerticalSpacing(5)
-        root.addLayout(grid)
+        scroll_area = QScrollArea(self)
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setFrameShape(QScrollArea.Shape.NoFrame)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        root.addWidget(scroll_area, 1)
 
-        for row, key in enumerate([
-            "species",
-            "stage",
-            "age",
-            "next",
-            "remaining",
-            "hunger",
-            "fatigue",
-            "discipline",
-            "happiness",
-            "mistakes",
-            "training",
-            "weight",
-            "hp",
-            "mp",
-            "offense",
-            "defense",
-            "speed",
-            "brains",
-            "battles",
-            "techniques",
+        content = QWidget(scroll_area)
+        content_layout = QVBoxLayout(content)
+        content_layout.setContentsMargins(14, 14, 14, 14)
+        content_layout.setSpacing(12)
+        scroll_area.setWidget(content)
+
+        overview_grid = self._section_grid(content_layout, "Current")
+        self._add_readout(overview_grid, 0, "species", "Species")
+        self._add_readout(overview_grid, 1, "stage", "Stage")
+        self._add_readout(overview_grid, 2, "age", "Age")
+        self._add_readout(overview_grid, 3, "next", "Next")
+        self._add_readout(overview_grid, 4, "remaining", "Remaining")
+
+        care_grid = self._section_grid(content_layout, "Care")
+        for row, (key, label_text) in enumerate([
+            ("hunger", "Hunger"),
+            ("fatigue", "Fatigue"),
+            ("discipline", "Discipline"),
+            ("happiness", "Happiness"),
+            ("mistakes", "Care Mistakes"),
+            ("training", "Training"),
+            ("weight", "Weight"),
         ]):
-            label = QLabel(f"{key.title()}:")
-            label.setObjectName("Muted")
-            value = QLabel("-")
-            self._labels[key] = value
-            grid.addWidget(label, row, 0)
-            grid.addWidget(value, row, 1)
+            self._add_readout(care_grid, row, key, label_text)
 
-        schedule_grid = QGridLayout()
-        schedule_grid.setHorizontalSpacing(12)
-        schedule_grid.setVerticalSpacing(5)
-        root.addLayout(schedule_grid)
+        stats_grid = self._section_grid(content_layout, "Stats")
+        for index, (key, label_text) in enumerate([
+            ("hp", "HP"),
+            ("mp", "MP"),
+            ("offense", "Offense"),
+            ("defense", "Defense"),
+            ("speed", "Speed"),
+            ("brains", "Brains"),
+            ("battles", "Battles"),
+            ("techniques", "Techniques"),
+        ]):
+            row = index // 2
+            column = (index % 2) * 2
+            self._add_readout(stats_grid, row, key, label_text, column)
+
+        schedule_grid = self._section_grid(content_layout, "Timing")
 
         for row, (key, label_text) in enumerate([
             ("baby_seconds", "Baby1"),
@@ -108,10 +133,15 @@ class DebugPanel(QWidget):
         schedule_grid.addWidget(time_scale_label, len(self._schedule_inputs), 0)
         schedule_grid.addWidget(self._time_scale_input, len(self._schedule_inputs), 1)
 
-        stats_grid = QGridLayout()
-        stats_grid.setHorizontalSpacing(12)
-        stats_grid.setVerticalSpacing(5)
-        root.addLayout(stats_grid)
+        automation_group = QGroupBox("Automation")
+        automation_layout = QVBoxLayout(automation_group)
+        automation_layout.setContentsMargins(12, 14, 12, 12)
+        self._auto_rebirth_checkbox = QCheckBox("Auto-pick random Baby1 on death")
+        self._auto_rebirth_checkbox.toggled.connect(self._emit_auto_rebirth_changed)
+        automation_layout.addWidget(self._auto_rebirth_checkbox)
+        content_layout.addWidget(automation_group)
+
+        editor_grid = self._section_grid(content_layout, "Edit Stats")
 
         stat_ranges = {
             "hp": (0, 9999),
@@ -134,8 +164,35 @@ class DebugPanel(QWidget):
             value.setRange(bounds[0], bounds[1])
             value.valueChanged.connect(lambda new_value, name=key: self._emit_stat_changed(name, new_value))
             self._stat_inputs[key] = value
-            stats_grid.addWidget(label, row, 0)
-            stats_grid.addWidget(value, row, 1)
+            editor_grid.addWidget(label, row, 0)
+            editor_grid.addWidget(value, row, 1)
+
+        content_layout.addStretch(1)
+
+    def set_auto_rebirth_enabled(self, enabled: bool) -> None:
+        self._auto_rebirth_checkbox.setChecked(enabled)
+
+    def _section_grid(self, parent_layout: QVBoxLayout, title: str) -> QGridLayout:
+        group = QGroupBox(title)
+        layout = QGridLayout(group)
+        layout.setContentsMargins(12, 16, 12, 12)
+        layout.setHorizontalSpacing(14)
+        layout.setVerticalSpacing(7)
+        layout.setColumnStretch(1, 1)
+        layout.setColumnStretch(3, 1)
+        parent_layout.addWidget(group)
+        return layout
+
+    def _add_readout(self, layout: QGridLayout, row: int, key: str, label_text: str, column: int = 0) -> None:
+        label = QLabel(f"{label_text}:")
+        label.setObjectName("Muted")
+        value = QLabel("-")
+        value.setObjectName("DebugValue")
+        value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        value.setWordWrap(True)
+        self._labels[key] = value
+        layout.addWidget(label, row, column)
+        layout.addWidget(value, row, column + 1)
 
     def set_schedule_values(self, schedule: EvolutionSchedule) -> None:
         self._updating_schedule = True
@@ -187,6 +244,10 @@ class DebugPanel(QWidget):
     def _emit_time_scale_changed(self) -> None:
         if self._time_scale_changed is not None:
             self._time_scale_changed(self._time_scale_input.value())
+
+    def _emit_auto_rebirth_changed(self, enabled: bool) -> None:
+        if self._auto_rebirth_changed is not None:
+            self._auto_rebirth_changed(enabled)
 
     def _set_stat_values(self, state: PetState) -> None:
         self._updating_stats = True

@@ -7,6 +7,7 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app.main_window import PetWindow
+from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import load_pet_state
 from digimon_pet.storage import save_store
@@ -38,6 +39,14 @@ def test_debug_panel_updates_time_scale():
     assert window._debug_time_scale == 7
 
 
+def test_debug_panel_updates_auto_rebirth_toggle():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._debug_panel._auto_rebirth_checkbox.setChecked(True)
+
+    assert window._auto_rebirth_random is True
+
 def test_tick_uses_debug_time_scale():
     app = QApplication.instance() or QApplication([])
 
@@ -58,6 +67,21 @@ def test_debug_panel_updates_pet_stat():
 
     assert window._state.hp == 777
 
+
+def test_auto_rebirth_chooses_random_baby_on_death():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_rebirth_random = True
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+
+    window._advance_lifecycle()
+
+    assert window._state.needs_rebirth_choice is False
+    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.stage == GrowthStage.BABY
 
 def test_collection_dialog_opens_from_window():
     app = QApplication.instance() or QApplication([])

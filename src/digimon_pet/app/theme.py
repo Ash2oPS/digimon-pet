@@ -31,6 +31,15 @@ QLabel#Title {{
 QLabel#Muted {{
     color: {COLORS["muted"]};
 }}
+QLabel#DebugValue {{
+    color: {COLORS["text"]};
+    font-weight: 600;
+}}
+
+QWidget#DebugHeader {{
+    background: {COLORS["panel"]};
+    border-bottom: 1px solid #343337;
+}}
 
 QLabel#StageHeader {{
     color: {COLORS["focus"]};
@@ -65,6 +74,86 @@ QPushButton:disabled {{
     background: #1d1d20;
 }}
 
+
+QGroupBox {{
+    background: {COLORS["panel"]};
+    border: 1px solid #343337;
+    border-radius: 6px;
+    margin-top: 9px;
+    padding-top: 6px;
+    font-weight: 700;
+}}
+
+QGroupBox::title {{
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0 4px;
+    color: {COLORS["focus"]};
+}}
+
+QSpinBox {{
+    background: #111113;
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    padding: 4px 8px;
+    min-height: 22px;
+}}
+
+QSpinBox:hover {{
+    border-color: {COLORS["accent"]};
+}}
+
+QSpinBox:focus {{
+    border-color: {COLORS["focus"]};
+}}
+
+QCheckBox {{
+    spacing: 8px;
+    font-weight: 600;
+}}
+
+QCheckBox::indicator {{
+    width: 16px;
+    height: 16px;
+    border: 1px solid #4c4a46;
+    border-radius: 4px;
+    background: #111113;
+}}
+
+QCheckBox::indicator:hover {{
+    border-color: {COLORS["accent"]};
+}}
+
+QCheckBox::indicator:checked {{
+    background: {COLORS["accent"]};
+    border-color: {COLORS["accent"]};
+}}
+
+QScrollArea {{
+    border: none;
+}}
+
+QScrollBar:vertical {{
+    background: #111113;
+    width: 10px;
+    margin: 0;
+}}
+
+QScrollBar::handle:vertical {{
+    background: #4a4742;
+    border-radius: 5px;
+    min-height: 40px;
+}}
+
+QScrollBar::handle:vertical:hover {{
+    background: {COLORS["accent_pressed"]};
+}}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {{
+    height: 0;
+}}
 QMenu {{
     background: {COLORS["panel"]};
     border: 1px solid #3a3938;
