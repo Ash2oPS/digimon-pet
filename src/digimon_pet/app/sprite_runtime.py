@@ -1,0 +1,92 @@
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+from digimon_pet.data.sprite_pipeline import DEFAULT_MANIFEST_PATH
+from digimon_pet.domain.models import PetState, Species
+
+
+@dataclass(frozen=True)
+class SpriteAnimation:
+    path: str
+    frame_width: int | None = None
+    frame_height: int | None = None
+    frame_count: int = 1
+    fps: int = 6
+
+
+def load_runtime_manifest(path: Path = DEFAULT_MANIFEST_PATH) -> dict[str, Any]:
+    if not path.exists():
+        return {"entries": {}}
+    with path.open("r", encoding="utf-8") as handle:
+        raw = json.load(handle)
+    if not isinstance(raw, dict):
+        return {"entries": {}}
+    entries = raw.get("entries")
+    if not isinstance(entries, dict):
+        raw["entries"] = {}
+    return raw
+
+
+def resolve_sprite_animation(
+    state: PetState,
+    species: Species,
+    manifest: dict[str, Any],
+) -> SpriteAnimation | None:
+    entry = _manifest_entry(state.species_id, manifest)
+    if entry is not None:
+        animation = _manifest_animation(state.current_action, entry)
+        if animation is not None:
+            return animation
+
+    slot = species.sprite_slots.get(state.current_action) or species.sprite_slots.get("idle")
+    if not slot:
+        return None
+    return SpriteAnimation(path=slot)
+
+
+def _manifest_entry(species_id: str, manifest: dict[str, Any]) -> dict[str, Any] | None:
+    entries = manifest.get("entries")
+    if not isinstance(entries, dict):
+        return None
+    entry = entries.get(species_id)
+    if not isinstance(entry, dict):
+        return None
+    return entry
+
+
+def _manifest_animation(action: str, entry: dict[str, Any]) -> SpriteAnimation | None:
+    asset_path = str(entry.get("asset_path") or "").strip()
+    metadata = entry.get("metadata")
+    if not isinstance(metadata, dict):
+        metadata = {}
+
+    animations = metadata.get("animations")
+    if isinstance(animations, dict):
+        selected = animations.get(action) or animations.get("idle")
+        if isinstance(selected, dict):
+            path = str(selected.get("path") or asset_path).strip()
+            return _animation_from_metadata(path, {**metadata, **selected})
+
+    if asset_path:
+        return _animation_from_metadata(asset_path, metadata)
+    return None
+
+
+def _animation_from_metadata(path: str, metadata: dict[str, Any]) -> SpriteAnimation:
+    return SpriteAnimation(
+        path=path,
+        frame_width=_optional_int(metadata.get("frame_width")),
+        frame_height=_optional_int(metadata.get("frame_height")),
+        frame_count=max(1, int(metadata.get("frame_count", 1))),
+        fps=max(1, int(metadata.get("fps", 6))),
+    )
+
+
+def _optional_int(value: Any) -> int | None:
+    if value is None or value == "":
+        return None
+    return int(value)

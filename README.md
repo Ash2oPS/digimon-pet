@@ -58,3 +58,22 @@ Build the generated DW1 sprite manifest and report with:
 ```powershell
 python -m digimon_pet.data.sprite_pipeline
 ```
+
+Source manifests may use per-Digimon frame metadata:
+
+```json
+{
+  "sprites": [
+    {
+      "name": "Agumon",
+      "path": "agumon.png",
+      "frame_width": 24,
+      "frame_height": 24,
+      "frame_count": 4,
+      "fps": 8
+    }
+  ]
+}
+```
+
+For action-specific sheets, put an `animations` object with keys such as `idle`, `sleep`, `eat`, or `train`.

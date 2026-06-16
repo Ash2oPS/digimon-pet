@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PySide6.QtCore import QPoint, QRect, Qt
+from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import QWidget
 
+from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -16,13 +17,25 @@ class PetWidget(QWidget):
         self._state: PetState | None = None
         self._species: Species | None = None
         self._pixmap: QPixmap | None = None
+        self._animation: SpriteAnimation | None = None
+        self._frame_index = 0
+        self._frame_rects: list[QRect] = []
+        self._manifest = load_runtime_manifest()
+        self._animation_timer = QTimer(self)
+        self._animation_timer.timeout.connect(self._advance_frame)
         self.setFixedSize(128, 128)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
     def set_pet(self, state: PetState, species: Species) -> None:
         self._state = state
         self._species = species
-        self._pixmap = self._load_pixmap(state, species)
+        animation = resolve_sprite_animation(state, species, self._manifest)
+        if animation != self._animation:
+            self._animation = animation
+            self._frame_index = 0
+            self._pixmap = self._load_pixmap(animation)
+            self._frame_rects = self._build_frame_rects(self._pixmap, animation)
+            self._configure_animation_timer(animation)
         self.update()
 
     def paintEvent(self, event) -> None:  # noqa: N802
@@ -31,18 +44,43 @@ class PetWidget(QWidget):
 
         if self._pixmap and not self._pixmap.isNull():
             target = QRect(16, 16, 96, 96)
-            painter.drawPixmap(target, self._pixmap)
+            if self._frame_rects:
+                source = self._frame_rects[self._frame_index % len(self._frame_rects)]
+                painter.drawPixmap(target, self._pixmap, source)
+            else:
+                painter.drawPixmap(target, self._pixmap)
         else:
             self._draw_placeholder(painter)
 
-    def _load_pixmap(self, state: PetState, species: Species) -> QPixmap | None:
-        slot = species.sprite_slots.get(state.current_action) or species.sprite_slots.get("idle")
-        if not slot:
+    def _load_pixmap(self, animation: SpriteAnimation | None) -> QPixmap | None:
+        if animation is None:
             return None
-        path = PROJECT_ROOT / Path(slot)
+        path = PROJECT_ROOT / Path(animation.path)
         if not path.exists():
             return None
         return QPixmap(str(path))
+
+    def _build_frame_rects(self, pixmap: QPixmap | None, animation: SpriteAnimation | None) -> list[QRect]:
+        if pixmap is None or pixmap.isNull() or animation is None or animation.frame_count <= 1:
+            return []
+        frame_width = animation.frame_width or pixmap.width() // animation.frame_count
+        frame_height = animation.frame_height or pixmap.height()
+        if frame_width <= 0 or frame_height <= 0:
+            return []
+        frame_count = min(animation.frame_count, max(1, pixmap.width() // frame_width))
+        return [QRect(index * frame_width, 0, frame_width, frame_height) for index in range(frame_count)]
+
+    def _configure_animation_timer(self, animation: SpriteAnimation | None) -> None:
+        self._animation_timer.stop()
+        if animation is None or animation.frame_count <= 1:
+            return
+        self._animation_timer.start(max(16, round(1000 / animation.fps)))
+
+    def _advance_frame(self) -> None:
+        if not self._frame_rects:
+            return
+        self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
+        self.update()
 
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
