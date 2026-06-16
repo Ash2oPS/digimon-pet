@@ -24,7 +24,9 @@ def species_map():
         "kunemon": Species("kunemon", "Kunemon", GrowthStage.ROOKIE),
         "numemon": Species("numemon", "Numemon", GrowthStage.CHAMPION),
         "greymon": Species("greymon", "Greymon", GrowthStage.CHAMPION),
+        "sukamon": Species("sukamon", "Sukamon", GrowthStage.CHAMPION),
         "metalgreymon": Species("metalgreymon", "MetalGreymon", GrowthStage.ULTIMATE),
+        "vademon": Species("vademon", "Vademon", GrowthStage.ULTIMATE),
     }
 
 
@@ -185,6 +187,56 @@ def test_champion_dies_when_no_known_ultimate_conditions_match():
     assert event == "died:choice_required"
     assert state.needs_rebirth_choice is True
     assert state.species_id == "numemon"
+
+
+def test_champion_does_not_auto_evolve_to_vademon_without_praise_or_scold_action():
+    schedule = EvolutionSchedule(champion_seconds=18000)
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        age_seconds=18000,
+        current_action="idle",
+    )
+    digivolutions = {
+        "special_evolutions": [
+            {
+                "target_species_id": "vademon",
+                "source_selector": {"stage": "champion"},
+                "trigger": "praise or scold with evolution counter at least 240h",
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "died:choice_required"
+    assert state.species_id == "numemon"
+    assert state.needs_rebirth_choice is True
+
+
+def test_ultimate_cannot_devolve_to_sukamon_from_full_virus_bar():
+    schedule = EvolutionSchedule(ultimate_seconds=18000)
+    state = PetState(
+        species_id="vademon",
+        stage=GrowthStage.ULTIMATE,
+        age_seconds=18000,
+        care_mistakes=10,
+    )
+    digivolutions = {
+        "special_evolutions": [
+            {
+                "target_species_id": "sukamon",
+                "source_selector": {"scope": "any"},
+                "trigger": "full Virus Bar",
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "died:choice_required"
+    assert state.species_id == "vademon"
+    assert state.needs_rebirth_choice is True
 
 
 def test_rebirth_choice_resets_pet_to_selected_baby_1():

@@ -94,10 +94,6 @@ def advance_lifecycle(
             return _die_and_rebirth(state)
         return _evolve_to(state, target)
     if state.stage == GrowthStage.ULTIMATE:
-        target = _choose_valid_special_evolution(state, species, digivolutions, rng)
-        if target is not None:
-            return _evolve_to(state, target)
-    if state.stage == GrowthStage.ULTIMATE:
         return _die_and_rebirth(state)
     return None
 
@@ -168,8 +164,8 @@ def _matches_special_trigger(state: PetState, trigger: str) -> bool:
         return state.discipline >= 100 and state.won_battles >= 50
     if "100 discipline" in lowered and ">=500 defense" in lowered:
         return state.discipline >= 100 and state.defense >= 500
-    if "evolution counter at least 240h" in lowered:
-        return state.stage == GrowthStage.CHAMPION
+    if "praise or scold" in lowered and "evolution counter at least 240h" in lowered:
+        return state.stage == GrowthStage.CHAMPION and state.current_action in {"happy", "angry"}
     if "monzaemon suit" in lowered:
         return state.species_id == "numemon" and state.happiness >= 50
     if "guardromon" in lowered:
