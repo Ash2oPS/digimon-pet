@@ -51,6 +51,7 @@ class PetWindow(QWidget):
         self._debug_panel = DebugPanel(
             schedule_changed=self._set_lifecycle_schedule,
             time_scale_changed=self._set_debug_time_scale,
+            stat_changed=self._set_pet_stat,
         )
         self._debug_panel.setStyleSheet(APP_QSS)
         self._debug_panel.set_schedule_values(self._lifecycle_schedule)
@@ -297,6 +298,13 @@ class PetWindow(QWidget):
 
     def _set_debug_time_scale(self, time_scale: int) -> None:
         self._debug_time_scale = max(1, int(time_scale))
+
+    def _set_pet_stat(self, name: str, value: int) -> None:
+        if not hasattr(self._state, name):
+            return
+        setattr(self._state, name, int(value))
+        self._state.clamp()
+        self._save_and_refresh()
 
     def _toggle_debug(self) -> None:
         self._debug_panel.setVisible(not self._debug_panel.isVisible())

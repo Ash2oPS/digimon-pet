@@ -239,6 +239,30 @@ def test_ultimate_cannot_devolve_to_sukamon_from_full_virus_bar():
     assert state.needs_rebirth_choice is True
 
 
+def test_full_virus_bar_does_not_special_evolve_to_sukamon():
+    schedule = EvolutionSchedule(rookie_seconds=10800)
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        care_mistakes=10,
+    )
+    digivolutions = {
+        "special_evolutions": [
+            {
+                "target_species_id": "sukamon",
+                "source_selector": {"scope": "any"},
+                "trigger": "full Virus Bar",
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:numemon"
+    assert state.species_id == "numemon"
+
+
 def test_rebirth_choice_resets_pet_to_selected_baby_1():
     state = PetState(
         species_id="numemon",

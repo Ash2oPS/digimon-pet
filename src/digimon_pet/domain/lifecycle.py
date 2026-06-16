@@ -151,7 +151,7 @@ def _matches_source_selector(state: PetState, selector: dict[str, Any]) -> bool:
 def _matches_special_trigger(state: PetState, trigger: str) -> bool:
     lowered = trigger.lower()
     if "full virus bar" in lowered:
-        return state.care_mistakes >= 10
+        return False
     if "0 happiness" in lowered and "0 discipline" in lowered:
         return state.happiness == 0 and state.discipline == 0
     if "discipline <= 50" in lowered:

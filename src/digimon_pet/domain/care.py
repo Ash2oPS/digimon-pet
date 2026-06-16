@@ -87,16 +87,5 @@ def scold(state: PetState) -> PetState:
 def apply_tick(state: PetState, elapsed_seconds: int, debug_multiplier: int = 1) -> PetState:
     elapsed = max(0, elapsed_seconds) * max(1, debug_multiplier)
     state.age_seconds += elapsed
-
-    if state.is_sleeping:
-        state.fatigue -= max(1, elapsed // 5)
-        state.hunger += max(1, elapsed // 20)
-    else:
-        state.hunger += max(1, elapsed // 15)
-        state.fatigue += max(1, elapsed // 25)
-
-    if state.hunger >= 100 or state.fatigue >= 100:
-        state.care_mistakes += 1
-
     state.clamp()
     return state

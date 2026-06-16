@@ -43,3 +43,12 @@ def test_tick_uses_debug_time_scale():
     window._tick()
 
     assert window._state.age_seconds == 5
+
+
+def test_debug_panel_updates_pet_stat():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._debug_panel._stat_inputs["hp"].setValue(777)
+
+    assert window._state.hp == 777

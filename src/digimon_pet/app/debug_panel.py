@@ -20,13 +20,17 @@ class DebugPanel(QWidget):
         parent: QWidget | None = None,
         schedule_changed: Callable[[EvolutionSchedule], None] | None = None,
         time_scale_changed: Callable[[int], None] | None = None,
+        stat_changed: Callable[[str, int], None] | None = None,
     ) -> None:
         super().__init__(parent)
         self._labels: dict[str, QLabel] = {}
         self._schedule_inputs: dict[str, QSpinBox] = {}
+        self._stat_inputs: dict[str, QSpinBox] = {}
         self._schedule_changed = schedule_changed
         self._time_scale_changed = time_scale_changed
+        self._stat_changed = stat_changed
         self._updating_schedule = False
+        self._updating_stats = False
         self.setWindowTitle("Digimon Pet Debug")
         self.setMinimumWidth(320)
 
@@ -104,6 +108,35 @@ class DebugPanel(QWidget):
         schedule_grid.addWidget(time_scale_label, len(self._schedule_inputs), 0)
         schedule_grid.addWidget(self._time_scale_input, len(self._schedule_inputs), 1)
 
+        stats_grid = QGridLayout()
+        stats_grid.setHorizontalSpacing(12)
+        stats_grid.setVerticalSpacing(5)
+        root.addLayout(stats_grid)
+
+        stat_ranges = {
+            "hp": (0, 9999),
+            "mp": (0, 9999),
+            "offense": (0, 9999),
+            "defense": (0, 9999),
+            "speed": (0, 9999),
+            "brains": (0, 9999),
+            "weight": (0, 999),
+            "happiness": (0, 100),
+            "discipline": (0, 100),
+            "care_mistakes": (0, 999),
+            "won_battles": (0, 999),
+            "techniques_mastered": (0, 999),
+        }
+        for row, (key, bounds) in enumerate(stat_ranges.items()):
+            label = QLabel(f"{key.replace('_', ' ').title()}:")
+            label.setObjectName("Muted")
+            value = QSpinBox()
+            value.setRange(bounds[0], bounds[1])
+            value.valueChanged.connect(lambda new_value, name=key: self._emit_stat_changed(name, new_value))
+            self._stat_inputs[key] = value
+            stats_grid.addWidget(label, row, 0)
+            stats_grid.addWidget(value, row, 1)
+
     def set_schedule_values(self, schedule: EvolutionSchedule) -> None:
         self._updating_schedule = True
         try:
@@ -136,6 +169,7 @@ class DebugPanel(QWidget):
         self._labels["brains"].setText(str(state.brains))
         self._labels["battles"].setText(str(state.won_battles))
         self._labels["techniques"].setText(str(state.techniques_mastered))
+        self._set_stat_values(state)
 
     def _emit_schedule_changed(self) -> None:
         if self._updating_schedule or self._schedule_changed is None:
@@ -153,3 +187,16 @@ class DebugPanel(QWidget):
     def _emit_time_scale_changed(self) -> None:
         if self._time_scale_changed is not None:
             self._time_scale_changed(self._time_scale_input.value())
+
+    def _set_stat_values(self, state: PetState) -> None:
+        self._updating_stats = True
+        try:
+            for key, widget in self._stat_inputs.items():
+                widget.setValue(int(getattr(state, key)))
+        finally:
+            self._updating_stats = False
+
+    def _emit_stat_changed(self, name: str, value: int) -> None:
+        if self._updating_stats or self._stat_changed is None:
+            return
+        self._stat_changed(name, value)
