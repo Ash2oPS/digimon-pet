@@ -116,3 +116,11 @@ def test_missing_species_are_reported(tmp_path):
 
 def test_alias_map_keeps_distinct_forms_separate():
     assert "WaruMonzaemon" not in DEFAULT_ALIAS_MAP.get("Monzaemon", [])
+
+
+def test_alias_map_covers_download_source_spellings():
+    assert "Mojymon" in DEFAULT_ALIAS_MAP["Mojyamon"]
+    assert "Mozaemon" in DEFAULT_ALIAS_MAP["Monzaemon"]
+    assert "Herkule Kabuterimon" in DEFAULT_ALIAS_MAP["HerculesKabuterimon"]
+    assert "Ignamon" in DEFAULT_ALIAS_MAP["Ninjamon"]
+    assert "Metal Mamemon" in DEFAULT_ALIAS_MAP["MetalMamemon"]

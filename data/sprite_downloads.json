@@ -1,1 +1,560 @@
-[]
+[
+  {
+    "species_id": "botamon",
+    "name": "Botamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Botamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Botamon.png",
+    "frame_count": 11,
+    "fps": 6
+  },
+  {
+    "species_id": "poyomon",
+    "name": "Poyomon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Poyomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Poyomon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "punimon",
+    "name": "Punimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Punimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Punimon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "yuramon",
+    "name": "Yuramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Yuramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Yuramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "koromon",
+    "name": "Koromon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Koromon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Koromon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "tanemon",
+    "name": "Tanemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Tanemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Tanemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "tokomon",
+    "name": "Tokomon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Tokomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Tokomon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "tsunomon",
+    "name": "Tsunomon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Tsunomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Tsunomon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "agumon",
+    "name": "Agumon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Agumon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Agumon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "betamon",
+    "name": "Betamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Betamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Betamon.png",
+    "frame_count": 10,
+    "fps": 6
+  },
+  {
+    "species_id": "elecmon",
+    "name": "Elecmon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Elecmon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Elecmon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "gabumon",
+    "name": "Gabumon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Gabumon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Gabumon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "kunemon",
+    "name": "Kunemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Kunemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Kunemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "palmon",
+    "name": "Palmon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Palmon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Palmon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "patamon",
+    "name": "Patamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Patamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Patamon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "biyomon",
+    "name": "Biyomon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Piyomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Piyomon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "penguinmon",
+    "name": "Penguinmon",
+    "source_id": "xros_loader_toy",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmall/Penmon.png",
+    "path": "assets/sprite_sources/xros_loader_toy/Penmon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "airdramon",
+    "name": "Airdramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Airdramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Airdramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "angemon",
+    "name": "Angemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Angemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Angemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "bakemon",
+    "name": "Bakemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Bakemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Bakemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "birdramon",
+    "name": "Birdramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Birdramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Birdramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "centarumon",
+    "name": "Centarumon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Centalmon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Centalmon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "coelamon",
+    "name": "Coelamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Coelamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Coelamon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "devimon",
+    "name": "Devimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Devimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Devimon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "drimogemon",
+    "name": "Drimogemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Drimogemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Drimogemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "frigimon",
+    "name": "Frigimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Yukidarumon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Yukidarumon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "garurumon",
+    "name": "Garurumon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Garurumon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Garurumon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "greymon",
+    "name": "Greymon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Greymon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Greymon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "kabuterimon",
+    "name": "Kabuterimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Kabuterimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Kabuterimon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "kokatorimon",
+    "name": "Kokatorimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Cockatrimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Cockatrimon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "kuwagamon",
+    "name": "Kuwagamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Kuwagamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Kuwagamon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "leomon",
+    "name": "Leomon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Leomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Leomon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "meramon",
+    "name": "Meramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Meramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Meramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "monochromon",
+    "name": "Monochromon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Monochromon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Monochromon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "mojyamon",
+    "name": "Mojyamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Mojymon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Mojymon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "nanimon",
+    "name": "Nanimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Nanimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Nanimon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "ninjamon",
+    "name": "Ninjamon",
+    "source_id": "digimon_pendulum_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/pen/Ignamon.png",
+    "path": "assets/sprite_sources/digimon_pendulum_color/Ignamon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "numemon",
+    "name": "Numemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Numemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Numemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "ogremon",
+    "name": "Ogremon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Orgemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Orgemon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "seadramon",
+    "name": "Seadramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Seadramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Seadramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "shellmon",
+    "name": "Shellmon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Shellmon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Shellmon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "sukamon",
+    "name": "Sukamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Scumon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Scumon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "tyrannomon",
+    "name": "Tyrannomon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Tyranomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Tyranomon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "unimon",
+    "name": "Unimon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Unimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Unimon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "vegiemon",
+    "name": "Vegiemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Vegimon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Vegimon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "whamon",
+    "name": "Whamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Whamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Whamon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "andromon",
+    "name": "Andromon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Andromon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Andromon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "digitamamon",
+    "name": "Digitamamon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Digitamamon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Digitamamon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "etemon",
+    "name": "Etemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Etemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Etemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "giromon",
+    "name": "Giromon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Giromon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Giromon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "herculeskabuterimon",
+    "name": "HerculesKabuterimon",
+    "source_id": "digimon_pendulum_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/pen/Herkule%20Kabuterimon.png",
+    "path": "assets/sprite_sources/digimon_pendulum_color/Herkule Kabuterimon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "machinedramon",
+    "name": "Machinedramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Mugendramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Mugendramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "mamemon",
+    "name": "Mamemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Mamemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Mamemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "megadramon",
+    "name": "Megadramon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Megadramon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Megadramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "megaseadramon",
+    "name": "MegaSeadramon",
+    "source_id": "digimon_pendulum_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/pen/Mega%20Seadramon.png",
+    "path": "assets/sprite_sources/digimon_pendulum_color/Mega Seadramon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "metalgreymon",
+    "name": "MetalGreymon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Metal%20Greymon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Metal Greymon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "metalmamemon",
+    "name": "MetalMamemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Metal%20Mamemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Metal Mamemon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "monzaemon",
+    "name": "Monzaemon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Mozaemon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Mozaemon.png",
+    "frame_count": 9,
+    "fps": 6
+  },
+  {
+    "species_id": "phoenixmon",
+    "name": "Phoenixmon",
+    "source_id": "digimon_pendulum_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/pen/Hououmon.png",
+    "path": "assets/sprite_sources/digimon_pendulum_color/Hououmon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "piximon",
+    "name": "Piximon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Piccolomon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Piccolomon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "skullgreymon",
+    "name": "SkullGreymon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Skull%20Greymon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Skull Greymon.png",
+    "frame_count": 13,
+    "fps": 6
+  },
+  {
+    "species_id": "vademon",
+    "name": "Vademon",
+    "source_id": "digital_monster_color",
+    "url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Vademon.png",
+    "path": "assets/sprite_sources/digital_monster_color/Vademon.png",
+    "frame_count": 13,
+    "fps": 6
+  }
+]

@@ -1,70 +1,71 @@
 # Digimon World 1 Sprite Resolution Report
 
 ## Resolved
+- Botamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Botamon.png); aliases: -
+- Poyomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Poyomon.png); aliases: -
+- Punimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Punimon.png); aliases: -
+- Yuramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Yuramon.png); aliases: -
+- Koromon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Koromon.png); aliases: -
+- Tanemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tanemon.png); aliases: -
+- Tokomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tokomon.png); aliases: -
+- Tsunomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tsunomon.png); aliases: -
+- Agumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Agumon.png); aliases: -
+- Betamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Betamon.png); aliases: -
+- Elecmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Elecmon.png); aliases: -
+- Gabumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Gabumon.png); aliases: -
+- Kunemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kunemon.png); aliases: -
+- Palmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Palmon.png); aliases: -
+- Patamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Patamon.png); aliases: -
+- Biyomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Piyomon.png); aliases: -
+- Penguinmon: Digimon Xros Loader Toy (assets/sprite_sources/xros_loader_toy/Penmon.png); aliases: -
+- Airdramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Airdramon.png); aliases: -
+- Angemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Angemon.png); aliases: -
+- Bakemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Bakemon.png); aliases: -
+- Birdramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Birdramon.png); aliases: -
+- Centarumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Centalmon.png); aliases: -
+- Coelamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Coelamon.png); aliases: -
+- Devimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Devimon.png); aliases: -
+- Drimogemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Drimogemon.png); aliases: -
+- Frigimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Yukidarumon.png); aliases: -
+- Garurumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Garurumon.png); aliases: -
+- Greymon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Greymon.png); aliases: -
+- Kabuterimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kabuterimon.png); aliases: -
+- Kokatorimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Cockatrimon.png); aliases: -
+- Kuwagamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kuwagamon.png); aliases: -
+- Leomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Leomon.png); aliases: -
+- Meramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Meramon.png); aliases: -
+- Monochromon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Monochromon.png); aliases: -
+- Mojyamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mojymon.png); aliases: -
+- Nanimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Nanimon.png); aliases: -
+- Ninjamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Ignamon.png); aliases: -
+- Numemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Numemon.png); aliases: -
+- Ogremon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Orgemon.png); aliases: -
+- Seadramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Seadramon.png); aliases: -
+- Shellmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Shellmon.png); aliases: -
+- Sukamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Scumon.png); aliases: -
+- Tyrannomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tyranomon.png); aliases: -
+- Unimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Unimon.png); aliases: -
+- Vegiemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Vegimon.png); aliases: -
+- Whamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Whamon.png); aliases: -
+- Andromon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Andromon.png); aliases: -
+- Digitamamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Digitamamon.png); aliases: -
+- Etemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Etemon.png); aliases: -
+- Giromon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Giromon.png); aliases: -
+- HerculesKabuterimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Herkule Kabuterimon.png); aliases: -
+- Machinedramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mugendramon.png); aliases: -
+- Mamemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mamemon.png); aliases: -
+- Megadramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Megadramon.png); aliases: -
+- MegaSeadramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Mega Seadramon.png); aliases: -
+- MetalGreymon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Metal Greymon.png); aliases: -
+- MetalMamemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Metal Mamemon.png); aliases: -
+- Monzaemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mozaemon.png); aliases: -
+- Phoenixmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Hououmon.png); aliases: -
+- Piximon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Piccolomon.png); aliases: -
+- SkullGreymon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Skull Greymon.png); aliases: -
+- Vademon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Vademon.png); aliases: -
 
 ## Missing
-- Botamon
-- Poyomon
-- Punimon
-- Yuramon
-- Koromon
-- Tanemon
-- Tokomon
-- Tsunomon
-- Agumon
-- Betamon
-- Elecmon
-- Gabumon
-- Kunemon
-- Palmon
-- Patamon
-- Biyomon
-- Penguinmon
-- Airdramon
-- Angemon
-- Bakemon
-- Birdramon
-- Centarumon
-- Coelamon
-- Devimon
-- Drimogemon
-- Frigimon
-- Garurumon
-- Greymon
-- Kabuterimon
-- Kokatorimon
-- Kuwagamon
-- Leomon
-- Meramon
-- Monochromon
-- Mojyamon
-- Nanimon
-- Ninjamon
-- Numemon
-- Ogremon
-- Seadramon
-- Shellmon
-- Sukamon
-- Tyrannomon
-- Unimon
-- Vegiemon
-- Whamon
-- Andromon
-- Digitamamon
-- Etemon
-- Giromon
-- HerculesKabuterimon
-- Machinedramon
-- Mamemon
-- Megadramon
-- MegaSeadramon
-- MetalGreymon
-- MetalMamemon
-- Monzaemon
-- Phoenixmon
-- Piximon
-- SkullGreymon
-- Vademon
+- None
 
 ## Conflicts
 - None

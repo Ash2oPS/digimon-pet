@@ -1,256 +1,814 @@
 {
   "conflicts": [],
-  "entries": {},
-  "missing": [
-    {
-      "name": "Botamon",
-      "species_id": "botamon"
-    },
-    {
-      "name": "Poyomon",
-      "species_id": "poyomon"
-    },
-    {
-      "name": "Punimon",
-      "species_id": "punimon"
-    },
-    {
-      "name": "Yuramon",
-      "species_id": "yuramon"
-    },
-    {
-      "name": "Koromon",
-      "species_id": "koromon"
-    },
-    {
-      "name": "Tanemon",
-      "species_id": "tanemon"
-    },
-    {
-      "name": "Tokomon",
-      "species_id": "tokomon"
-    },
-    {
-      "name": "Tsunomon",
-      "species_id": "tsunomon"
-    },
-    {
+  "entries": {
+    "agumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Agumon.png",
+      "matched_name": "Agumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Agumon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "agumon"
     },
-    {
-      "name": "Betamon",
-      "species_id": "betamon"
-    },
-    {
-      "name": "Elecmon",
-      "species_id": "elecmon"
-    },
-    {
-      "name": "Gabumon",
-      "species_id": "gabumon"
-    },
-    {
-      "name": "Kunemon",
-      "species_id": "kunemon"
-    },
-    {
-      "name": "Palmon",
-      "species_id": "palmon"
-    },
-    {
-      "name": "Patamon",
-      "species_id": "patamon"
-    },
-    {
-      "name": "Biyomon",
-      "species_id": "biyomon"
-    },
-    {
-      "name": "Penguinmon",
-      "species_id": "penguinmon"
-    },
-    {
+    "airdramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Airdramon.png",
+      "matched_name": "Airdramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Airdramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "airdramon"
     },
-    {
-      "name": "Angemon",
-      "species_id": "angemon"
-    },
-    {
-      "name": "Bakemon",
-      "species_id": "bakemon"
-    },
-    {
-      "name": "Birdramon",
-      "species_id": "birdramon"
-    },
-    {
-      "name": "Centarumon",
-      "species_id": "centarumon"
-    },
-    {
-      "name": "Coelamon",
-      "species_id": "coelamon"
-    },
-    {
-      "name": "Devimon",
-      "species_id": "devimon"
-    },
-    {
-      "name": "Drimogemon",
-      "species_id": "drimogemon"
-    },
-    {
-      "name": "Frigimon",
-      "species_id": "frigimon"
-    },
-    {
-      "name": "Garurumon",
-      "species_id": "garurumon"
-    },
-    {
-      "name": "Greymon",
-      "species_id": "greymon"
-    },
-    {
-      "name": "Kabuterimon",
-      "species_id": "kabuterimon"
-    },
-    {
-      "name": "Kokatorimon",
-      "species_id": "kokatorimon"
-    },
-    {
-      "name": "Kuwagamon",
-      "species_id": "kuwagamon"
-    },
-    {
-      "name": "Leomon",
-      "species_id": "leomon"
-    },
-    {
-      "name": "Meramon",
-      "species_id": "meramon"
-    },
-    {
-      "name": "Monochromon",
-      "species_id": "monochromon"
-    },
-    {
-      "name": "Mojyamon",
-      "species_id": "mojyamon"
-    },
-    {
-      "name": "Nanimon",
-      "species_id": "nanimon"
-    },
-    {
-      "name": "Ninjamon",
-      "species_id": "ninjamon"
-    },
-    {
-      "name": "Numemon",
-      "species_id": "numemon"
-    },
-    {
-      "name": "Ogremon",
-      "species_id": "ogremon"
-    },
-    {
-      "name": "Seadramon",
-      "species_id": "seadramon"
-    },
-    {
-      "name": "Shellmon",
-      "species_id": "shellmon"
-    },
-    {
-      "name": "Sukamon",
-      "species_id": "sukamon"
-    },
-    {
-      "name": "Tyrannomon",
-      "species_id": "tyrannomon"
-    },
-    {
-      "name": "Unimon",
-      "species_id": "unimon"
-    },
-    {
-      "name": "Vegiemon",
-      "species_id": "vegiemon"
-    },
-    {
-      "name": "Whamon",
-      "species_id": "whamon"
-    },
-    {
+    "andromon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Andromon.png",
+      "matched_name": "Andromon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Andromon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "andromon"
     },
-    {
+    "angemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Angemon.png",
+      "matched_name": "Angemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Angemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "angemon"
+    },
+    "bakemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Bakemon.png",
+      "matched_name": "Bakemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Bakemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "bakemon"
+    },
+    "betamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Betamon.png",
+      "matched_name": "Betamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 10
+      },
+      "name": "Betamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "betamon"
+    },
+    "birdramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Birdramon.png",
+      "matched_name": "Birdramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Birdramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "birdramon"
+    },
+    "biyomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Piyomon.png",
+      "matched_name": "Biyomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Biyomon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "biyomon"
+    },
+    "botamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Botamon.png",
+      "matched_name": "Botamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 11
+      },
+      "name": "Botamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "botamon"
+    },
+    "centarumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Centalmon.png",
+      "matched_name": "Centarumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Centarumon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "centarumon"
+    },
+    "coelamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Coelamon.png",
+      "matched_name": "Coelamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Coelamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "coelamon"
+    },
+    "devimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Devimon.png",
+      "matched_name": "Devimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Devimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "devimon"
+    },
+    "digitamamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Digitamamon.png",
+      "matched_name": "Digitamamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Digitamamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "digitamamon"
     },
-    {
+    "drimogemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Drimogemon.png",
+      "matched_name": "Drimogemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Drimogemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "drimogemon"
+    },
+    "elecmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Elecmon.png",
+      "matched_name": "Elecmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Elecmon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "elecmon"
+    },
+    "etemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Etemon.png",
+      "matched_name": "Etemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Etemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "etemon"
     },
-    {
+    "frigimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Yukidarumon.png",
+      "matched_name": "Frigimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Frigimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "frigimon"
+    },
+    "gabumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Gabumon.png",
+      "matched_name": "Gabumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Gabumon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "gabumon"
+    },
+    "garurumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Garurumon.png",
+      "matched_name": "Garurumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Garurumon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "garurumon"
+    },
+    "giromon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Giromon.png",
+      "matched_name": "Giromon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Giromon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "giromon"
     },
-    {
+    "greymon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Greymon.png",
+      "matched_name": "Greymon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Greymon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "greymon"
+    },
+    "herculeskabuterimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Herkule Kabuterimon.png",
+      "matched_name": "HerculesKabuterimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "HerculesKabuterimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
       "species_id": "herculeskabuterimon"
     },
-    {
+    "kabuterimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Kabuterimon.png",
+      "matched_name": "Kabuterimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Kabuterimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "kabuterimon"
+    },
+    "kokatorimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Cockatrimon.png",
+      "matched_name": "Kokatorimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Kokatorimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "kokatorimon"
+    },
+    "koromon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Koromon.png",
+      "matched_name": "Koromon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Koromon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "koromon"
+    },
+    "kunemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Kunemon.png",
+      "matched_name": "Kunemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Kunemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "kunemon"
+    },
+    "kuwagamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Kuwagamon.png",
+      "matched_name": "Kuwagamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Kuwagamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "kuwagamon"
+    },
+    "leomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Leomon.png",
+      "matched_name": "Leomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Leomon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "leomon"
+    },
+    "machinedramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Mugendramon.png",
+      "matched_name": "Machinedramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Machinedramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "machinedramon"
     },
-    {
+    "mamemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Mamemon.png",
+      "matched_name": "Mamemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Mamemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "mamemon"
     },
-    {
+    "megadramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Megadramon.png",
+      "matched_name": "Megadramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Megadramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "megadramon"
     },
-    {
+    "megaseadramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Mega Seadramon.png",
+      "matched_name": "MegaSeadramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "MegaSeadramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
       "species_id": "megaseadramon"
     },
-    {
+    "meramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Meramon.png",
+      "matched_name": "Meramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Meramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "meramon"
+    },
+    "metalgreymon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Metal Greymon.png",
+      "matched_name": "MetalGreymon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "MetalGreymon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "metalgreymon"
     },
-    {
+    "metalmamemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Metal Mamemon.png",
+      "matched_name": "MetalMamemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "MetalMamemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "metalmamemon"
     },
-    {
+    "mojyamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Mojymon.png",
+      "matched_name": "Mojyamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Mojyamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "mojyamon"
+    },
+    "monochromon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Monochromon.png",
+      "matched_name": "Monochromon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Monochromon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "monochromon"
+    },
+    "monzaemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Mozaemon.png",
+      "matched_name": "Monzaemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
       "name": "Monzaemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "monzaemon"
     },
-    {
+    "nanimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Nanimon.png",
+      "matched_name": "Nanimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Nanimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "nanimon"
+    },
+    "ninjamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Ignamon.png",
+      "matched_name": "Ninjamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Ninjamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ninjamon"
+    },
+    "numemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Numemon.png",
+      "matched_name": "Numemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Numemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "numemon"
+    },
+    "ogremon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Orgemon.png",
+      "matched_name": "Ogremon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Ogremon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "ogremon"
+    },
+    "palmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Palmon.png",
+      "matched_name": "Palmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Palmon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "palmon"
+    },
+    "patamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Patamon.png",
+      "matched_name": "Patamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Patamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "patamon"
+    },
+    "penguinmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/xros_loader_toy/Penmon.png",
+      "matched_name": "Penguinmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Penguinmon",
+      "source_id": "xros_loader_toy",
+      "source_name": "Digimon Xros Loader Toy",
+      "species_id": "penguinmon"
+    },
+    "phoenixmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Hououmon.png",
+      "matched_name": "Phoenixmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Phoenixmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
       "species_id": "phoenixmon"
     },
-    {
+    "piximon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Piccolomon.png",
+      "matched_name": "Piximon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Piximon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "piximon"
     },
-    {
+    "poyomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Poyomon.png",
+      "matched_name": "Poyomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Poyomon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "poyomon"
+    },
+    "punimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Punimon.png",
+      "matched_name": "Punimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Punimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "punimon"
+    },
+    "seadramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Seadramon.png",
+      "matched_name": "Seadramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Seadramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "seadramon"
+    },
+    "shellmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Shellmon.png",
+      "matched_name": "Shellmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Shellmon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "shellmon"
+    },
+    "skullgreymon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Skull Greymon.png",
+      "matched_name": "SkullGreymon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "SkullGreymon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "skullgreymon"
     },
-    {
+    "sukamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Scumon.png",
+      "matched_name": "Sukamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Sukamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "sukamon"
+    },
+    "tanemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Tanemon.png",
+      "matched_name": "Tanemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Tanemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "tanemon"
+    },
+    "tokomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Tokomon.png",
+      "matched_name": "Tokomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Tokomon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "tokomon"
+    },
+    "tsunomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Tsunomon.png",
+      "matched_name": "Tsunomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Tsunomon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "tsunomon"
+    },
+    "tyrannomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Tyranomon.png",
+      "matched_name": "Tyrannomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Tyrannomon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "tyrannomon"
+    },
+    "unimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Unimon.png",
+      "matched_name": "Unimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 9
+      },
+      "name": "Unimon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "unimon"
+    },
+    "vademon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Vademon.png",
+      "matched_name": "Vademon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
       "name": "Vademon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
       "species_id": "vademon"
+    },
+    "vegiemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Vegimon.png",
+      "matched_name": "Vegiemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Vegiemon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "vegiemon"
+    },
+    "whamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Whamon.png",
+      "matched_name": "Whamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Whamon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "whamon"
+    },
+    "yuramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digital_monster_color/Yuramon.png",
+      "matched_name": "Yuramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "Yuramon",
+      "source_id": "digital_monster_color",
+      "source_name": "Digital Monster COLOR",
+      "species_id": "yuramon"
     }
-  ],
+  },
+  "missing": [],
   "source_priority": [
     {
       "id": "digital_monster_color",

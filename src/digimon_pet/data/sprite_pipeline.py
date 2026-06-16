@@ -20,8 +20,8 @@ DEFAULT_ALIAS_MAP: dict[str, list[str]] = {
     "Biyomon": ["Piyomon"],
     "Centarumon": ["Centalmon"],
     "Phoenixmon": ["Hououmon"],
-    "HerculesKabuterimon": ["Herakle Kabuterimon"],
-    "Ninjamon": ["Igamon"],
+    "HerculesKabuterimon": ["Herakle Kabuterimon", "Herkule Kabuterimon"],
+    "Ninjamon": ["Igamon", "Ignamon"],
     "Piximon": ["Piccolomon"],
     "Frigimon": ["Yukidarumon"],
     "Kokatorimon": ["Cockatrimon"],
@@ -33,6 +33,10 @@ DEFAULT_ALIAS_MAP: dict[str, list[str]] = {
     "Tyrannomon": ["Tyranomon"],
     "MegaSeadramon": ["Mega Seadramon"],
     "MetalGreymon": ["Metal Greymon", "Metal Greymon (Virus)"],
+    "MetalMamemon": ["Metal Mamemon"],
+    "Mojyamon": ["Mojymon"],
+    "Monzaemon": ["Mozaemon"],
+    "SkullGreymon": ["Skull Greymon"],
 }
 
 

@@ -52,8 +52,6 @@ def load_or_build_runtime_manifest(
     download_manifest_path: Path = DEFAULT_DOWNLOAD_MANIFEST_PATH,
 ) -> dict[str, Any]:
     manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
-    if not manifest.get("missing"):
-        return manifest
     download_missing_sprites(project_root, manifest, download_manifest_path)
     manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
     if manifest.get("entries") or manifest_path.exists():
@@ -74,19 +72,23 @@ def download_missing_sprites(
     downloads = _load_download_entries(download_manifest_path)
     missing_ids = {str(item["species_id"]) for item in manifest.get("missing", []) if isinstance(item, dict)}
     count = 0
+    downloaded_entries: list[dict[str, Any]] = []
     for entry in downloads:
         species_id = str(entry.get("species_id", ""))
-        if species_id not in missing_ids:
-            continue
         target_path = _project_relative_path(project_root, entry.get("path"))
         if target_path.exists():
+            downloaded_entries.append(_source_manifest_entry(project_root, target_path, entry))
+            continue
+        if species_id not in missing_ids:
             continue
         url = str(entry.get("url", "")).strip()
         if not url:
             continue
         target_path.parent.mkdir(parents=True, exist_ok=True)
         urlretrieve(url, target_path)
+        downloaded_entries.append(_source_manifest_entry(project_root, target_path, entry))
         count += 1
+    _write_downloaded_source_manifests(downloaded_entries)
     return count
 
 
@@ -164,3 +166,48 @@ def _project_relative_path(project_root: Path, raw_path: Any) -> Path:
     if path.is_absolute():
         raise ValueError(f"Expected a project-relative download path, got {path}")
     return project_root / path
+
+
+def _source_manifest_entry(project_root: Path, target_path: Path, entry: dict[str, Any]) -> dict[str, Any]:
+    metadata = {
+        key: value
+        for key, value in entry.items()
+        if key not in {"species_id", "source_id", "url", "path"} and value is not None
+    }
+    return {
+        "manifest_path": target_path.parent / "manifest.json",
+        "item": {
+            "name": str(entry.get("name") or entry.get("species_id") or target_path.stem),
+            "path": target_path.relative_to(project_root).as_posix(),
+            **metadata,
+        },
+    }
+
+
+def _write_downloaded_source_manifests(entries: list[dict[str, Any]]) -> None:
+    grouped: dict[Path, list[dict[str, Any]]] = {}
+    for entry in entries:
+        manifest_path = entry["manifest_path"]
+        grouped.setdefault(manifest_path, []).append(entry["item"])
+
+    for manifest_path, new_items in grouped.items():
+        existing = _load_existing_source_manifest(manifest_path)
+        by_name = {str(item.get("name", "")): item for item in existing}
+        for item in new_items:
+            by_name[str(item["name"])] = item
+        manifest_path.write_text(
+            json.dumps({"sprites": list(by_name.values())}, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+
+def _load_existing_source_manifest(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    with path.open("r", encoding="utf-8") as handle:
+        raw = json.load(handle)
+    if isinstance(raw, dict) and isinstance(raw.get("sprites"), list):
+        return [item for item in raw["sprites"] if isinstance(item, dict)]
+    if isinstance(raw, list):
+        return [item for item in raw if isinstance(item, dict)]
+    return []

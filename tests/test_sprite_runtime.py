@@ -154,6 +154,7 @@ def test_runtime_downloads_declared_missing_sprite_before_rebuilding_manifest(tm
                     "name": "Digital Monster COLOR",
                     "priority": 1,
                     "root": "assets/sprite_sources/digital_monster_color",
+                    "manifest": "assets/sprite_sources/digital_monster_color/manifest.json",
                 }
             ]
         ),
@@ -164,9 +165,12 @@ def test_runtime_downloads_declared_missing_sprite_before_rebuilding_manifest(tm
             [
                 {
                     "species_id": "agumon",
+                    "name": "Agumon",
                     "source_id": "digital_monster_color",
                     "url": source_png.as_uri(),
                     "path": "assets/sprite_sources/digital_monster_color/agumon.png",
+                    "frame_count": 2,
+                    "fps": 5,
                 }
             ]
         ),
@@ -186,3 +190,58 @@ def test_runtime_downloads_declared_missing_sprite_before_rebuilding_manifest(tm
 
     assert target_png.read_bytes() == b"png bytes"
     assert manifest["entries"]["agumon"]["asset_path"] == "assets/sprite_sources/digital_monster_color/agumon.png"
+    assert manifest["entries"]["agumon"]["metadata"]["frame_count"] == 2
+    assert manifest["entries"]["agumon"]["metadata"]["fps"] == 5
+
+
+def test_runtime_writes_source_manifest_for_existing_downloaded_file(tmp_path):
+    roster_path = tmp_path / "data" / "roster.json"
+    sources_path = tmp_path / "data" / "sources.json"
+    downloads_path = tmp_path / "data" / "sprite_downloads.json"
+    manifest_path = tmp_path / "data" / "dw1_sprite_manifest.json"
+    report_path = tmp_path / "data" / "dw1_sprite_report.md"
+    target_png = tmp_path / "assets" / "sprite_sources" / "digital_monster_color" / "agumon.png"
+
+    roster_path.parent.mkdir(parents=True)
+    roster_path.write_text(json.dumps([{"id": "agumon", "name": "Agumon"}]), encoding="utf-8")
+    sources_path.write_text(
+        json.dumps(
+            [
+                {
+                    "id": "digital_monster_color",
+                    "name": "Digital Monster COLOR",
+                    "priority": 1,
+                    "manifest": "assets/sprite_sources/digital_monster_color/manifest.json",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    downloads_path.write_text(
+        json.dumps(
+            [
+                {
+                    "species_id": "agumon",
+                    "name": "Agumon",
+                    "source_id": "digital_monster_color",
+                    "url": "file:///unused/agumon.png",
+                    "path": "assets/sprite_sources/digital_monster_color/agumon.png",
+                    "frame_count": 2,
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    target_png.parent.mkdir(parents=True)
+    target_png.write_bytes(b"already downloaded")
+
+    manifest = load_or_build_runtime_manifest(
+        tmp_path,
+        manifest_path=manifest_path,
+        roster_path=roster_path,
+        source_config_path=sources_path,
+        report_path=report_path,
+        download_manifest_path=downloads_path,
+    )
+
+    assert manifest["entries"]["agumon"]["metadata"]["frame_count"] == 2
