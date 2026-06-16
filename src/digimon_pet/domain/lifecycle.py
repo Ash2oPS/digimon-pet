@@ -167,7 +167,7 @@ def _matches_special_trigger(state: PetState, trigger: str) -> bool:
     if "praise or scold" in lowered and "evolution counter at least 240h" in lowered:
         return state.stage == GrowthStage.CHAMPION and state.current_action in {"happy", "angry"}
     if "monzaemon suit" in lowered:
-        return state.species_id == "numemon" and state.happiness >= 50
+        return False
     if "guardromon" in lowered:
         return state.species_id == "mamemon"
     if "scold or praise" in lowered:

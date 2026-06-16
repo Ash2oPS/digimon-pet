@@ -26,6 +26,7 @@ def species_map():
         "greymon": Species("greymon", "Greymon", GrowthStage.CHAMPION),
         "sukamon": Species("sukamon", "Sukamon", GrowthStage.CHAMPION),
         "metalgreymon": Species("metalgreymon", "MetalGreymon", GrowthStage.ULTIMATE),
+        "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
         "vademon": Species("vademon", "Vademon", GrowthStage.ULTIMATE),
     }
 
@@ -261,6 +262,31 @@ def test_full_virus_bar_does_not_special_evolve_to_sukamon():
 
     assert event == "evolved:numemon"
     assert state.species_id == "numemon"
+
+
+def test_numemon_does_not_auto_evolve_to_monzaemon_without_toy_town_suit():
+    schedule = EvolutionSchedule(champion_seconds=18000)
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        age_seconds=18000,
+        happiness=50,
+    )
+    digivolutions = {
+        "special_evolutions": [
+            {
+                "target_species_id": "monzaemon",
+                "source_selector": {"species_ids": ["numemon"]},
+                "trigger": "talk to the Monzaemon suit in Toy Town",
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "died:choice_required"
+    assert state.species_id == "numemon"
+    assert state.needs_rebirth_choice is True
 
 
 def test_rebirth_choice_resets_pet_to_selected_baby_1():

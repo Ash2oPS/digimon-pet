@@ -5,6 +5,9 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtWidgets import QApplication
 
 from digimon_pet.app.main_window import PetWindow
+from digimon_pet.domain.models import GrowthStage
+from digimon_pet.storage import load_pet_state
+from digimon_pet.storage import save_store
 
 
 def test_pet_window_does_not_auto_move():
@@ -52,3 +55,20 @@ def test_debug_panel_updates_pet_stat():
     window._debug_panel._stat_inputs["hp"].setValue(777)
 
     assert window._state.hp == 777
+
+
+def test_tick_persists_advanced_age(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.species_id = "agumon"
+    window._state.stage = GrowthStage.ROOKIE
+    window._state.age_seconds = 123
+    window._debug_time_scale = 4
+
+    window._tick()
+    loaded = load_pet_state(save_path)
+
+    assert loaded.age_seconds == 127
