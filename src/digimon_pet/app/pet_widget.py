@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QColor, QPainter, QPixmap
+from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
@@ -11,8 +11,8 @@ from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
 SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
-SHADOW_RECT = QRect(28, 100, 72, 18)
-SHADOW_COLOR = QColor(0, 0, 0, 90)
+SHADOW_OFFSET = QPoint(6, 6)
+SHADOW_COLOR = QColor(0, 0, 0, 95)
 
 
 class PetWidget(QWidget):
@@ -45,13 +45,14 @@ class PetWidget(QWidget):
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        self._draw_shadow(painter)
 
         if self._pixmap and not self._pixmap.isNull():
             if self._frame_rects:
                 source = self._frame_rects[self._frame_index % len(self._frame_rects)]
+                self._draw_sprite_shadow(painter, self._pixmap, source)
                 painter.drawPixmap(SPRITE_TARGET_RECT, self._pixmap, source)
             else:
+                self._draw_sprite_shadow(painter, self._pixmap, None)
                 painter.drawPixmap(SPRITE_TARGET_RECT, self._pixmap)
         else:
             self._draw_placeholder(painter)
@@ -90,10 +91,18 @@ class PetWidget(QWidget):
         self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
         self.update()
 
-    def _draw_shadow(self, painter: QPainter) -> None:
-        painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(SHADOW_COLOR)
-        painter.drawEllipse(SHADOW_RECT)
+    def _draw_sprite_shadow(self, painter: QPainter, pixmap: QPixmap, source: QRect | None) -> None:
+        source_pixmap = pixmap.copy(source) if source is not None else pixmap
+        shadow = QImage(source_pixmap.size(), QImage.Format.Format_ARGB32_Premultiplied)
+        shadow.fill(Qt.GlobalColor.transparent)
+
+        shadow_painter = QPainter(shadow)
+        shadow_painter.drawPixmap(0, 0, source_pixmap)
+        shadow_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
+        shadow_painter.fillRect(shadow.rect(), SHADOW_COLOR)
+        shadow_painter.end()
+
+        painter.drawImage(SPRITE_TARGET_RECT.translated(SHADOW_OFFSET), shadow)
 
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
