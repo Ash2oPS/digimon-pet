@@ -81,7 +81,7 @@ def advance_lifecycle(
     if state.stage == GrowthStage.BABY_2:
         if "kunemon" in species and rng.random() < 0.1:
             return _evolve_to(state, species["kunemon"])
-        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        target = _choose_closest_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
             return _evolve_to(state, target)
         target_id = BABY_2_TO_ROOKIE.get(state.species_id, "agumon")
@@ -118,6 +118,48 @@ def _choose_valid_natural_evolution(
         return None
     selected = rng.choice(candidates)
     return species[str(selected["target_species_id"])]
+
+
+def _choose_closest_natural_evolution(
+    state: PetState,
+    species: dict[str, Species],
+    digivolutions: dict[str, Any],
+    rng: random.Random,
+) -> Species | None:
+    scored_candidates = [
+        (_requirement_distance(state, transition.get("requirements", {})), transition)
+        for transition in digivolutions.get("natural_evolutions", [])
+        if transition.get("source_species_id") == state.species_id
+        and transition.get("target_species_id") in species
+    ]
+    if not scored_candidates:
+        return None
+    best_score = min(score for score, _transition in scored_candidates)
+    best_candidates = [transition for score, transition in scored_candidates if score == best_score]
+    selected = rng.choice(best_candidates)
+    return species[str(selected["target_species_id"])]
+
+
+def _requirement_distance(state: PetState, requirements: dict[str, Any]) -> int:
+    groups = requirements.get("groups", {})
+    score = 0
+
+    stats = groups.get("stats")
+    if isinstance(stats, dict):
+        score += sum(abs(getattr(state, stat_name, 0) - int(required)) for stat_name, required in stats.items())
+
+    weight = groups.get("weight")
+    if isinstance(weight, dict):
+        if "target" in weight:
+            score += abs(state.weight - int(weight["target"]))
+        else:
+            score += _range_distance(state.weight, weight.get("min"), weight.get("max"))
+
+    care_mistakes = groups.get("care_mistakes")
+    if isinstance(care_mistakes, dict):
+        score += _range_distance(state.care_mistakes, care_mistakes.get("min"), care_mistakes.get("max"))
+
+    return score
 
 
 def _choose_valid_special_evolution(
@@ -205,6 +247,14 @@ def _matches_weight(state: PetState, rule: dict[str, Any] | None) -> bool:
     if not rule:
         return False
     return int(rule.get("min", 0)) <= state.weight <= int(rule.get("max", 9999))
+
+
+def _range_distance(value: int, minimum: Any, maximum: Any) -> int:
+    if minimum is not None and value < int(minimum):
+        return int(minimum) - value
+    if maximum is not None and value > int(maximum):
+        return value - int(maximum)
+    return 0
 
 
 def _matches_care_mistakes(state: PetState, rule: dict[str, Any] | None) -> bool:
