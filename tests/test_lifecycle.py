@@ -1,0 +1,167 @@
+import random
+
+from digimon_pet.domain.lifecycle import EvolutionSchedule, advance_lifecycle, next_lifecycle_event
+from digimon_pet.domain.models import GrowthStage, PetState, Species
+
+
+def species_map():
+    return {
+        "botamon": Species("botamon", "Botamon", GrowthStage.BABY),
+        "koromon": Species("koromon", "Koromon", GrowthStage.BABY_2),
+        "agumon": Species("agumon", "Agumon", GrowthStage.ROOKIE),
+        "numemon": Species("numemon", "Numemon", GrowthStage.CHAMPION),
+        "greymon": Species("greymon", "Greymon", GrowthStage.CHAMPION),
+        "metalgreymon": Species("metalgreymon", "MetalGreymon", GrowthStage.ULTIMATE),
+    }
+
+
+def test_baby_line_evolves_forced_and_resets_stage_state():
+    schedule = EvolutionSchedule(baby_seconds=1800, baby_2_seconds=3600)
+    state = PetState(
+        species_id="botamon",
+        stage=GrowthStage.BABY,
+        age_seconds=1800,
+        care_mistakes=3,
+        training_count=4,
+        current_action="train",
+    )
+
+    event = advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
+
+    assert event == "evolved:koromon"
+    assert state.species_id == "koromon"
+    assert state.stage == GrowthStage.BABY_2
+    assert state.age_seconds == 0
+    assert state.care_mistakes == 0
+    assert state.training_count == 0
+    assert state.current_action == "idle"
+
+
+def test_baby_2_evolves_to_current_default_rookie_line():
+    schedule = EvolutionSchedule(baby_2_seconds=3600)
+    state = PetState(
+        species_id="koromon",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+    )
+
+    event = advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
+
+    assert event == "evolved:agumon"
+    assert state.species_id == "agumon"
+    assert state.stage == GrowthStage.ROOKIE
+    assert state.age_seconds == 0
+
+
+def test_rookie_falls_back_to_numemon_when_no_known_conditions_match():
+    schedule = EvolutionSchedule(rookie_seconds=10800)
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        care_mistakes=0,
+        discipline=100,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "agumon",
+                "target_species_id": "greymon",
+                "requirements": {
+                    "groups": {
+                        "stats": {"offense": 100},
+                        "weight": {"target": 30, "min": 25, "max": 35},
+                        "care_mistakes": {"max": 1},
+                        "bonus": {"any_of": [{"type": "discipline", "min": 90}]},
+                    }
+                },
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:numemon"
+    assert state.species_id == "numemon"
+    assert state.stage == GrowthStage.CHAMPION
+    assert state.age_seconds == 0
+
+
+def test_random_valid_rookie_evolution_is_used_when_available():
+    schedule = EvolutionSchedule(rookie_seconds=10800)
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        care_mistakes=0,
+        discipline=100,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "agumon",
+                "target_species_id": "greymon",
+                "requirements": {
+                    "groups": {
+                        "care_mistakes": {"max": 1},
+                        "bonus": {"any_of": [{"type": "discipline", "min": 90}]},
+                    }
+                },
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:greymon"
+    assert state.species_id == "greymon"
+    assert state.stage == GrowthStage.CHAMPION
+
+
+def test_champion_dies_when_no_known_ultimate_conditions_match():
+    schedule = EvolutionSchedule(champion_seconds=18000)
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        age_seconds=18000,
+        hunger=90,
+        fatigue=80,
+        discipline=12,
+        care_mistakes=9,
+        training_count=7,
+        is_sleeping=True,
+        current_action="sleep",
+    )
+
+    event = advance_lifecycle(state, species_map(), {"natural_evolutions": []}, schedule, random.Random(1))
+
+    assert event == "died:botamon"
+    assert state == PetState(species_id="botamon", stage=GrowthStage.BABY)
+
+
+def test_ultimate_dies_after_final_lifetime():
+    schedule = EvolutionSchedule(ultimate_seconds=18000)
+    state = PetState(
+        species_id="metalgreymon",
+        stage=GrowthStage.ULTIMATE,
+        age_seconds=18000,
+    )
+
+    event = advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
+
+    assert event == "died:botamon"
+    assert state == PetState(species_id="botamon", stage=GrowthStage.BABY)
+
+
+def test_next_lifecycle_event_reports_remaining_seconds():
+    schedule = EvolutionSchedule(baby_seconds=1800)
+    state = PetState(
+        species_id="botamon",
+        stage=GrowthStage.BABY,
+        age_seconds=1200,
+    )
+
+    event = next_lifecycle_event(state, schedule)
+
+    assert event.label == "Evolution to Koromon"
+    assert event.remaining_seconds == 600

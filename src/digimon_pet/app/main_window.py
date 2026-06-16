@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ctypes
+import random
 import sys
 
 from PySide6.QtCore import QPoint, Qt, QTimer
@@ -10,10 +11,10 @@ from PySide6.QtWidgets import QApplication, QMenu, QVBoxLayout, QWidget
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.data import load_evolution_rules, load_species
+from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain import clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.evolution import choose_evolution
+from digimon_pet.domain.lifecycle import EvolutionSchedule, advance_lifecycle, next_lifecycle_event
 from digimon_pet.domain.models import PetState
 from digimon_pet.storage import load_pet_state, save_pet_state
 
@@ -24,7 +25,9 @@ class PetWindow(QWidget):
         self._overlay = overlay
         self._debug = debug
         self._species = load_species()
-        self._rules = load_evolution_rules()
+        self._digivolutions = load_dw1_digivolutions()
+        self._lifecycle_schedule = EvolutionSchedule()
+        self._rng = random.Random()
         self._state = load_pet_state()
         self._direction = QPoint(3, 0)
         self._drag_offset: QPoint | None = None
@@ -38,8 +41,9 @@ class PetWindow(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self._pet_widget)
 
-        self._debug_panel = DebugPanel()
+        self._debug_panel = DebugPanel(schedule_changed=self._set_lifecycle_schedule)
         self._debug_panel.setStyleSheet(APP_QSS)
+        self._debug_panel.set_schedule_values(self._lifecycle_schedule)
 
         self._tick_timer = QTimer(self)
         self._tick_timer.timeout.connect(self._tick)
@@ -182,14 +186,14 @@ class PetWindow(QWidget):
         }
         action = actions[name]
         action(self._state)
-        self._check_evolution()
+        self._advance_lifecycle()
         self._save_and_refresh()
 
     def _tick(self) -> None:
-        apply_tick(self._state, 1, debug_multiplier=10 if self._debug else 1)
+        apply_tick(self._state, 1)
         if self._state.current_action not in {"sleep", "idle"}:
             self._state.current_action = "idle"
-        self._check_evolution()
+        self._advance_lifecycle()
         self._save_and_refresh()
 
     def _move_pet(self) -> None:
@@ -228,14 +232,14 @@ class PetWindow(QWidget):
         y = min(max(self.y(), bounds.top()), bounds.bottom() - self.height())
         self.move(x, y)
 
-    def _check_evolution(self) -> None:
-        evolved = choose_evolution(self._state, self._rules, self._species)
-        if evolved is None:
-            return
-        self._state.species_id = evolved.id
-        self._state.stage = evolved.stage
-        self._state.current_action = "idle"
-        self._state.clamp()
+    def _advance_lifecycle(self) -> None:
+        advance_lifecycle(
+            self._state,
+            self._species,
+            self._digivolutions,
+            self._lifecycle_schedule,
+            self._rng,
+        )
 
     def _save_and_refresh(self) -> None:
         save_pet_state(self._state)
@@ -244,7 +248,12 @@ class PetWindow(QWidget):
     def _refresh(self) -> None:
         species = self._species[self._state.species_id]
         self._pet_widget.set_pet(self._state, species)
-        self._debug_panel.refresh(self._state, species)
+        next_event = next_lifecycle_event(self._state, self._lifecycle_schedule)
+        self._debug_panel.refresh(self._state, species, next_event)
+
+    def _set_lifecycle_schedule(self, schedule: EvolutionSchedule) -> None:
+        self._lifecycle_schedule = schedule
+        self._refresh()
 
     def _toggle_debug(self) -> None:
         self._debug_panel.setVisible(not self._debug_panel.isVisible())

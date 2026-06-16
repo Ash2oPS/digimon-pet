@@ -19,6 +19,10 @@ def load_evolution_rules(path: Path | None = None) -> list[EvolutionRule]:
     return [_rule_from_dict(item) for item in raw_items]
 
 
+def load_dw1_digivolutions(path: Path | None = None) -> dict[str, Any]:
+    return dict(_read_json(path or DATA_DIR / "dw1_digivolutions.json"))
+
+
 def _read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -49,4 +53,3 @@ def _optional_int(value: Any) -> int | None:
     if value is None:
         return None
     return int(value)
-

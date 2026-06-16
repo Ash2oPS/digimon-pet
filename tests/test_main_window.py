@@ -13,3 +13,12 @@ def test_pet_window_does_not_auto_move():
     window = PetWindow(overlay=True, debug=False)
 
     assert not window._move_timer.isActive()
+
+
+def test_debug_panel_updates_lifecycle_schedule():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._debug_panel._schedule_inputs["baby_seconds"].setValue(42)
+
+    assert window._lifecycle_schedule.baby_seconds == 42

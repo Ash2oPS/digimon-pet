@@ -34,6 +34,17 @@
       "eat": "assets/sprites/agumon/eat.png",
       "train": "assets/sprites/agumon/train.png"
     }
+  },
+  {
+    "id": "numemon",
+    "name": "Numemon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/numemon/idle.png",
+      "walk": "assets/sprites/numemon/walk.png",
+      "sleep": "assets/sprites/numemon/sleep.png",
+      "eat": "assets/sprites/numemon/eat.png",
+      "train": "assets/sprites/numemon/train.png"
+    }
   }
 ]
-
