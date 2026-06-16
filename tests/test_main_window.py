@@ -85,6 +85,40 @@ def test_debug_panel_updates_pet_stat():
     assert window._state.hp == 777
 
 
+def test_debug_panel_resets_saved_stat_progression():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.hp = 999
+    window._state.mp = 888
+    window._state.offense = 77
+    window._state.defense = 66
+    window._state.speed = 55
+    window._state.brains = 44
+    window._state.pending_rebirth_stat_bonuses = {"hp": 45, "speed": 7}
+
+    window._debug_panel._reset_stats_button.click()
+
+    assert window._state.hp == 300
+    assert window._state.mp == 300
+    assert window._state.offense == 30
+    assert window._state.defense == 30
+    assert window._state.speed == 30
+    assert window._state.brains == 30
+    assert window._state.pending_rebirth_stat_bonuses == {}
+
+
+def test_debug_panel_resets_collection_progression():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.species_id = "agumon"
+    window._state.discovered_species_ids = ["botamon", "koromon", "agumon", "greymon"]
+
+    window._debug_panel._reset_collection_button.click()
+
+    assert window._state.discovered_species_ids == ["agumon"]
+
 def test_pet_tooltip_shows_current_stats():
     app = QApplication.instance() or QApplication([])
 

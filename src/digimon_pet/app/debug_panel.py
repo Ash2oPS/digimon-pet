@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QGroupBox,
     QLabel,
+    QPushButton,
     QScrollArea,
     QSpinBox,
     QVBoxLayout,
@@ -26,6 +27,8 @@ class DebugPanel(QWidget):
         time_scale_changed: Callable[[int], None] | None = None,
         stat_changed: Callable[[str, int], None] | None = None,
         auto_rebirth_changed: Callable[[bool], None] | None = None,
+        reset_stats_requested: Callable[[], None] | None = None,
+        reset_collection_requested: Callable[[], None] | None = None,
     ) -> None:
         super().__init__(parent)
         self._labels: dict[str, QLabel] = {}
@@ -35,6 +38,8 @@ class DebugPanel(QWidget):
         self._time_scale_changed = time_scale_changed
         self._stat_changed = stat_changed
         self._auto_rebirth_changed = auto_rebirth_changed
+        self._reset_stats_requested = reset_stats_requested
+        self._reset_collection_requested = reset_collection_requested
         self._updating_schedule = False
         self._updating_stats = False
         self.setWindowTitle("Digimon Pet Debug")
@@ -140,6 +145,18 @@ class DebugPanel(QWidget):
         self._auto_rebirth_checkbox.toggled.connect(self._emit_auto_rebirth_changed)
         automation_layout.addWidget(self._auto_rebirth_checkbox)
         content_layout.addWidget(automation_group)
+
+        reset_group = QGroupBox("Reset")
+        reset_layout = QVBoxLayout(reset_group)
+        reset_layout.setContentsMargins(12, 14, 12, 12)
+        reset_layout.setSpacing(8)
+        self._reset_stats_button = QPushButton("Reset Stats")
+        self._reset_stats_button.clicked.connect(self._emit_reset_stats_requested)
+        self._reset_collection_button = QPushButton("Reset Collection")
+        self._reset_collection_button.clicked.connect(self._emit_reset_collection_requested)
+        reset_layout.addWidget(self._reset_stats_button)
+        reset_layout.addWidget(self._reset_collection_button)
+        content_layout.addWidget(reset_group)
 
         editor_grid = self._section_grid(content_layout, "Edit Stats")
 
@@ -248,6 +265,14 @@ class DebugPanel(QWidget):
     def _emit_auto_rebirth_changed(self, enabled: bool) -> None:
         if self._auto_rebirth_changed is not None:
             self._auto_rebirth_changed(enabled)
+
+    def _emit_reset_stats_requested(self) -> None:
+        if self._reset_stats_requested is not None:
+            self._reset_stats_requested()
+
+    def _emit_reset_collection_requested(self) -> None:
+        if self._reset_collection_requested is not None:
+            self._reset_collection_requested()
 
     def _set_stat_values(self, state: PetState) -> None:
         self._updating_stats = True

@@ -58,6 +58,8 @@ class PetWindow(QWidget):
             time_scale_changed=self._set_debug_time_scale,
             stat_changed=self._set_pet_stat,
             auto_rebirth_changed=self._set_auto_rebirth_random,
+            reset_stats_requested=self._reset_stat_progression,
+            reset_collection_requested=self._reset_collection_progression,
         )
         self._debug_panel.setStyleSheet(APP_QSS)
         self._debug_panel.set_schedule_values(self._lifecycle_schedule)
@@ -330,6 +332,21 @@ class PetWindow(QWidget):
             return
         setattr(self._state, name, int(value))
         self._state.clamp()
+        self._save_and_refresh()
+
+    def _reset_stat_progression(self) -> None:
+        fresh = PetState(species_id=self._state.species_id, stage=self._state.stage)
+        self._state.hp = fresh.hp
+        self._state.mp = fresh.mp
+        self._state.offense = fresh.offense
+        self._state.defense = fresh.defense
+        self._state.speed = fresh.speed
+        self._state.brains = fresh.brains
+        self._state.pending_rebirth_stat_bonuses = {}
+        self._save_and_refresh()
+
+    def _reset_collection_progression(self) -> None:
+        self._state.discovered_species_ids = [self._state.species_id]
         self._save_and_refresh()
 
     def _toggle_debug(self) -> None:
