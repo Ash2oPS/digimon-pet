@@ -85,6 +85,21 @@ def test_debug_panel_updates_pet_stat():
     assert window._state.hp == 777
 
 
+def test_pet_tooltip_shows_current_stats():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    window._state.hp = 777
+    window._state.mp = 888
+    window._state.offense = 111
+    window._state.defense = 222
+    window._state.speed = 333
+    window._state.brains = 444
+    window._refresh()
+
+    assert window._pet_widget.toolTip() == "HP: 777\nMP: 888\nOFF: 111\nDEF: 222\nSPD: 333\nINT: 444"
+
+
 def test_auto_rebirth_chooses_random_baby_on_death():
     app = QApplication.instance() or QApplication([])
 

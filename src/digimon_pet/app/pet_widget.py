@@ -33,6 +33,7 @@ class PetWidget(QWidget):
     def set_pet(self, state: PetState, species: Species) -> None:
         self._state = state
         self._species = species
+        self.setToolTip(_stats_tooltip(state))
         animation = resolve_sprite_animation(state, species, self._manifest)
         if animation != self._animation:
             self._animation = animation
@@ -113,3 +114,16 @@ class PetWidget(QWidget):
         painter.drawEllipse(QPoint(77, 54), 5, 5)
         painter.setPen(QColor("#171719"))
         painter.drawArc(QRect(50, 62, 28, 16), 200 * 16, 140 * 16)
+
+
+def _stats_tooltip(state: PetState) -> str:
+    return "\n".join(
+        [
+            f"HP: {state.hp}",
+            f"MP: {state.mp}",
+            f"OFF: {state.offense}",
+            f"DEF: {state.defense}",
+            f"SPD: {state.speed}",
+            f"INT: {state.brains}",
+        ]
+    )
