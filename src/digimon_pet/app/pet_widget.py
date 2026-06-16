@@ -10,6 +10,10 @@ from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtim
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
+SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
+SHADOW_RECT = QRect(28, 100, 72, 18)
+SHADOW_COLOR = QColor(0, 0, 0, 90)
+
 
 class PetWidget(QWidget):
     def __init__(self, parent: QWidget | None = None) -> None:
@@ -41,14 +45,14 @@ class PetWidget(QWidget):
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        self._draw_shadow(painter)
 
         if self._pixmap and not self._pixmap.isNull():
-            target = QRect(16, 16, 96, 96)
             if self._frame_rects:
                 source = self._frame_rects[self._frame_index % len(self._frame_rects)]
-                painter.drawPixmap(target, self._pixmap, source)
+                painter.drawPixmap(SPRITE_TARGET_RECT, self._pixmap, source)
             else:
-                painter.drawPixmap(target, self._pixmap)
+                painter.drawPixmap(SPRITE_TARGET_RECT, self._pixmap)
         else:
             self._draw_placeholder(painter)
 
@@ -85,6 +89,11 @@ class PetWidget(QWidget):
             return
         self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
         self.update()
+
+    def _draw_shadow(self, painter: QPainter) -> None:
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setBrush(SHADOW_COLOR)
+        painter.drawEllipse(SHADOW_RECT)
 
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
