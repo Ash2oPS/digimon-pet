@@ -1,0 +1,13 @@
+{
+  "species_id": "botamon",
+  "stage": "baby",
+  "age_seconds": 0,
+  "hunger": 30,
+  "fatigue": 0,
+  "discipline": 50,
+  "care_mistakes": 0,
+  "training_count": 0,
+  "is_sleeping": false,
+  "current_action": "idle"
+}
+

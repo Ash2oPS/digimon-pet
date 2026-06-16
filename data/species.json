@@ -1,0 +1,39 @@
+[
+  {
+    "id": "botamon",
+    "name": "Botamon",
+    "stage": "baby",
+    "sprite_slots": {
+      "idle": "assets/sprites/botamon/idle.png",
+      "walk": "assets/sprites/botamon/walk.png",
+      "sleep": "assets/sprites/botamon/sleep.png",
+      "eat": "assets/sprites/botamon/eat.png",
+      "train": "assets/sprites/botamon/train.png"
+    }
+  },
+  {
+    "id": "koromon",
+    "name": "Koromon",
+    "stage": "baby_2",
+    "sprite_slots": {
+      "idle": "assets/sprites/koromon/idle.png",
+      "walk": "assets/sprites/koromon/walk.png",
+      "sleep": "assets/sprites/koromon/sleep.png",
+      "eat": "assets/sprites/koromon/eat.png",
+      "train": "assets/sprites/koromon/train.png"
+    }
+  },
+  {
+    "id": "agumon",
+    "name": "Agumon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/agumon/idle.png",
+      "walk": "assets/sprites/agumon/walk.png",
+      "sleep": "assets/sprites/agumon/sleep.png",
+      "eat": "assets/sprites/agumon/eat.png",
+      "train": "assets/sprites/agumon/train.png"
+    }
+  }
+]
+

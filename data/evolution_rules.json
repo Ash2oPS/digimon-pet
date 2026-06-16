@@ -1,0 +1,21 @@
+[
+  {
+    "source_species_id": "botamon",
+    "target_species_id": "koromon",
+    "min_age_seconds": 60,
+    "max_care_mistakes": 3,
+    "min_discipline": 20,
+    "min_training_count": 0,
+    "priority": 10
+  },
+  {
+    "source_species_id": "koromon",
+    "target_species_id": "agumon",
+    "min_age_seconds": 180,
+    "max_care_mistakes": 5,
+    "min_discipline": 35,
+    "min_training_count": 1,
+    "priority": 10
+  }
+]
+
