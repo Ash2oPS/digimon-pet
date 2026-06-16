@@ -59,7 +59,20 @@ Build the generated DW1 sprite manifest and report with:
 python -m digimon_pet.data.sprite_pipeline
 ```
 
-The desktop pet also rebuilds this manifest on startup if it is empty, using the local source manifests and PNG files already present under `assets/sprite_sources/`.
+The desktop pet checks this manifest on startup. If any roster sprite is missing, it downloads entries declared in `data/sprite_downloads.json`, then rebuilds the manifest from local files.
+
+Download entries use direct file URLs and project-relative targets:
+
+```json
+[
+  {
+    "species_id": "agumon",
+    "source_id": "digital_monster_color",
+    "url": "https://example.com/agumon.png",
+    "path": "assets/sprite_sources/digital_monster_color/agumon.png"
+  }
+]
+```
 
 Source manifests may use per-Digimon frame metadata:
 

@@ -4,6 +4,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.request import urlretrieve
 
 from digimon_pet.data.sprite_pipeline import (
     DEFAULT_MANIFEST_PATH,
@@ -14,6 +15,9 @@ from digimon_pet.data.sprite_pipeline import (
 )
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
+
+
+DEFAULT_DOWNLOAD_MANIFEST_PATH = PROJECT_ROOT / "data" / "sprite_downloads.json"
 
 
 @dataclass(frozen=True)
@@ -45,14 +49,45 @@ def load_or_build_runtime_manifest(
     roster_path: Path = DEFAULT_ROSTER_PATH,
     source_config_path: Path = DEFAULT_SOURCE_CONFIG_PATH,
     report_path: Path = DEFAULT_REPORT_PATH,
+    download_manifest_path: Path = DEFAULT_DOWNLOAD_MANIFEST_PATH,
 ) -> dict[str, Any]:
-    manifest = load_runtime_manifest(manifest_path)
-    if manifest.get("entries"):
+    manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
+    if not manifest.get("missing"):
         return manifest
+    download_missing_sprites(project_root, manifest, download_manifest_path)
+    manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
+    if manifest.get("entries") or manifest_path.exists():
+        return manifest
+    manifest = load_runtime_manifest(manifest_path)
     if not roster_path.exists() or not source_config_path.exists():
         return manifest
-    rebuilt = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
-    return rebuilt
+    return manifest
+
+
+def download_missing_sprites(
+    project_root: Path,
+    manifest: dict[str, Any],
+    download_manifest_path: Path = DEFAULT_DOWNLOAD_MANIFEST_PATH,
+) -> int:
+    if not download_manifest_path.exists():
+        return 0
+    downloads = _load_download_entries(download_manifest_path)
+    missing_ids = {str(item["species_id"]) for item in manifest.get("missing", []) if isinstance(item, dict)}
+    count = 0
+    for entry in downloads:
+        species_id = str(entry.get("species_id", ""))
+        if species_id not in missing_ids:
+            continue
+        target_path = _project_relative_path(project_root, entry.get("path"))
+        if target_path.exists():
+            continue
+        url = str(entry.get("url", "")).strip()
+        if not url:
+            continue
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        urlretrieve(url, target_path)
+        count += 1
+    return count
 
 
 def resolve_sprite_animation(
@@ -114,3 +149,18 @@ def _optional_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
     return int(value)
+
+
+def _load_download_entries(path: Path) -> list[dict[str, Any]]:
+    with path.open("r", encoding="utf-8") as handle:
+        raw = json.load(handle)
+    if not isinstance(raw, list):
+        return []
+    return [item for item in raw if isinstance(item, dict)]
+
+
+def _project_relative_path(project_root: Path, raw_path: Any) -> Path:
+    path = Path(str(raw_path))
+    if path.is_absolute():
+        raise ValueError(f"Expected a project-relative download path, got {path}")
+    return project_root / path
