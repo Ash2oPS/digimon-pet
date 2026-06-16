@@ -54,7 +54,7 @@ def test_baby_line_evolves_forced_and_resets_stage_state():
     assert state.current_action == "idle"
 
 
-def test_evolution_boosts_stats_by_ten_percent():
+def test_evolution_boosts_two_random_stats_more_than_the_others():
     schedule = EvolutionSchedule(baby_seconds=1800)
     state = PetState(
         species_id="botamon",
@@ -71,10 +71,10 @@ def test_evolution_boosts_stats_by_ten_percent():
     advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
 
     assert state.hp == 220
-    assert state.mp == 165
+    assert state.mp == 172
     assert state.offense == 22
     assert state.defense == 33
-    assert state.speed == 44
+    assert state.speed == 46
     assert state.brains == 55
     assert state.age_seconds == 0
 

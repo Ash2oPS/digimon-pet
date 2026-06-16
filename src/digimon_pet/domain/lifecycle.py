@@ -78,25 +78,25 @@ def advance_lifecycle(
 
     if state.stage == GrowthStage.BABY:
         target_id = BABY_1_TO_BABY_2.get(state.species_id, "koromon")
-        return _evolve_to(state, species[target_id])
+        return _evolve_to(state, species[target_id], rng)
     if state.stage == GrowthStage.BABY_2:
         if "kunemon" in species and rng.random() < 0.1:
-            return _evolve_to(state, species["kunemon"])
+            return _evolve_to(state, species["kunemon"], rng)
         target = _choose_closest_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
-            return _evolve_to(state, target)
+            return _evolve_to(state, target, rng)
         target_id = BABY_2_TO_ROOKIE.get(state.species_id, "agumon")
-        return _evolve_to(state, species[target_id])
+        return _evolve_to(state, species[target_id], rng)
     if state.stage == GrowthStage.ROOKIE:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
-        return _evolve_to(state, target or species[ROOKIE_FALLBACK_ID])
+        return _evolve_to(state, target or species[ROOKIE_FALLBACK_ID], rng)
     if state.stage == GrowthStage.CHAMPION:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
         if target is None:
             return _die_and_rebirth(state, rng)
-        return _evolve_to(state, target)
+        return _evolve_to(state, target, rng)
     if state.stage == GrowthStage.ULTIMATE:
         return _die_and_rebirth(state, rng)
     return None
@@ -295,17 +295,19 @@ def _matches_bonus_condition(state: PetState, condition: dict[str, Any]) -> bool
     return False
 
 
-def _evolve_to(state: PetState, target: Species) -> str:
+def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
     state.species_id = target.id
     state.stage = target.stage
-    _boost_evolution_stats(state)
+    _boost_evolution_stats(state, rng)
     _reset_stage_state(state)
     return f"evolved:{target.id}"
 
 
-def _boost_evolution_stats(state: PetState) -> None:
+def _boost_evolution_stats(state: PetState, rng: random.Random) -> None:
+    boosted_stats = set(rng.sample(INHERITED_STAT_NAMES, 2))
     for stat_name in INHERITED_STAT_NAMES:
-        setattr(state, stat_name, int(getattr(state, stat_name) * 1.1))
+        rate = 1.15 if stat_name in boosted_stats else 1.1
+        setattr(state, stat_name, int(getattr(state, stat_name) * rate))
 
 
 def _die_and_rebirth(state: PetState, rng: random.Random) -> str:
