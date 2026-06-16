@@ -19,11 +19,13 @@ class DebugPanel(QWidget):
         self,
         parent: QWidget | None = None,
         schedule_changed: Callable[[EvolutionSchedule], None] | None = None,
+        time_scale_changed: Callable[[int], None] | None = None,
     ) -> None:
         super().__init__(parent)
         self._labels: dict[str, QLabel] = {}
         self._schedule_inputs: dict[str, QSpinBox] = {}
         self._schedule_changed = schedule_changed
+        self._time_scale_changed = time_scale_changed
         self._updating_schedule = False
         self.setWindowTitle("Digimon Pet Debug")
         self.setMinimumWidth(320)
@@ -82,6 +84,16 @@ class DebugPanel(QWidget):
             schedule_grid.addWidget(label, row, 0)
             schedule_grid.addWidget(value, row, 1)
 
+        time_scale_label = QLabel("Time Scale:")
+        time_scale_label.setObjectName("Muted")
+        self._time_scale_input = QSpinBox()
+        self._time_scale_input.setRange(1, 3600)
+        self._time_scale_input.setSuffix("x")
+        self._time_scale_input.setValue(1)
+        self._time_scale_input.valueChanged.connect(self._emit_time_scale_changed)
+        schedule_grid.addWidget(time_scale_label, len(self._schedule_inputs), 0)
+        schedule_grid.addWidget(self._time_scale_input, len(self._schedule_inputs), 1)
+
     def set_schedule_values(self, schedule: EvolutionSchedule) -> None:
         self._updating_schedule = True
         try:
@@ -117,3 +129,7 @@ class DebugPanel(QWidget):
                 ultimate_seconds=self._schedule_inputs["ultimate_seconds"].value(),
             )
         )
+
+    def _emit_time_scale_changed(self) -> None:
+        if self._time_scale_changed is not None:
+            self._time_scale_changed(self._time_scale_input.value())

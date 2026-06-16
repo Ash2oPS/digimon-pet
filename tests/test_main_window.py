@@ -22,3 +22,24 @@ def test_debug_panel_updates_lifecycle_schedule():
     window._debug_panel._schedule_inputs["baby_seconds"].setValue(42)
 
     assert window._lifecycle_schedule.baby_seconds == 42
+
+
+def test_debug_panel_updates_time_scale():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._debug_panel._time_scale_input.setValue(7)
+
+    assert window._debug_time_scale == 7
+
+
+def test_tick_uses_debug_time_scale():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._debug_time_scale = 5
+    window._state.age_seconds = 0
+
+    window._tick()
+
+    assert window._state.age_seconds == 5
