@@ -15,13 +15,13 @@ python -m pip install -e ".[dev]"
 Overlay desktop pet:
 
 ```powershell
-python -m digimon_pet --overlay
+python -m digimon_pet
 ```
 
 Development mode with accelerated time:
 
 ```powershell
-python -m digimon_pet --overlay --debug
+python -m digimon_pet --debug
 ```
 
 Normal framed window for Qt debugging:

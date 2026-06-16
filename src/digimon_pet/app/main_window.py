@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import ctypes
+import sys
+
 from PySide6.QtCore import QPoint, Qt, QTimer
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QApplication, QMenu, QVBoxLayout, QWidget
@@ -69,18 +72,70 @@ class PetWindow(QWidget):
         self.setWindowTitle("Digimon Pet")
         self.setFixedSize(128, 128)
         if self._overlay:
+            self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+            self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
+            self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, False)
+            self.setAutoFillBackground(False)
             flags = (
-                Qt.WindowType.FramelessWindowHint
+                Qt.WindowType.Window
+                | Qt.WindowType.FramelessWindowHint
                 | Qt.WindowType.WindowStaysOnTopHint
                 | Qt.WindowType.Tool
+                | Qt.WindowType.NoDropShadowWindowHint
             )
             self.setWindowFlags(flags)
-            self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-            self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground)
             self.setStyleSheet("background: transparent;")
         else:
             self.setWindowFlags(Qt.WindowType.Window)
             self.setStyleSheet(APP_QSS)
+
+    def showEvent(self, event) -> None:  # noqa: N802
+        super().showEvent(event)
+        if self._overlay:
+            self._apply_windows_overlay_styles()
+
+    def _apply_windows_overlay_styles(self) -> None:
+        if sys.platform != "win32":
+            return
+
+        hwnd = int(self.winId())
+        user32 = ctypes.windll.user32
+        gwl_style = -16
+        gwl_exstyle = -20
+        ws_popup = 0x80000000
+        ws_visible = 0x10000000
+        ws_caption = 0x00C00000
+        ws_thickframe = 0x00040000
+        ws_minimizebox = 0x00020000
+        ws_maximizebox = 0x00010000
+        ws_sysmenu = 0x00080000
+        ws_ex_layered = 0x00080000
+        ws_ex_toolwindow = 0x00000080
+        ws_ex_topmost = 0x00000008
+        hwnd_topmost = -1
+        swp_nosize = 0x0001
+        swp_nomove = 0x0002
+        swp_noactivate = 0x0010
+        swp_framechanged = 0x0020
+
+        style = user32.GetWindowLongW(hwnd, gwl_style)
+        style &= ~(ws_caption | ws_thickframe | ws_minimizebox | ws_maximizebox | ws_sysmenu)
+        style |= ws_popup | ws_visible
+        user32.SetWindowLongW(hwnd, gwl_style, style)
+
+        exstyle = user32.GetWindowLongW(hwnd, gwl_exstyle)
+        exstyle |= ws_ex_layered | ws_ex_toolwindow | ws_ex_topmost
+        user32.SetWindowLongW(hwnd, gwl_exstyle, exstyle)
+
+        user32.SetWindowPos(
+            hwnd,
+            hwnd_topmost,
+            0,
+            0,
+            0,
+            0,
+            swp_nomove | swp_nosize | swp_noactivate | swp_framechanged,
+        )
 
     def _handle_action(self, name: str) -> None:
         actions = {
