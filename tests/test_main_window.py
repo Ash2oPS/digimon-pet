@@ -2,6 +2,8 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from PySide6.QtCore import QEvent, QPoint, QPointF, Qt
+from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app.main_window import PetWindow
@@ -79,6 +81,26 @@ def test_collection_dialog_groups_species_by_growth_stage():
         if label.objectName() == "StageHeader"
     ]
     assert headers == ["Baby1", "Baby2", "Rookie", "Champion", "Ultimate"]
+
+
+def test_drag_release_allows_future_context_menu():
+    app = QApplication.instance() or QApplication([])
+    window = PetWindow(overlay=True, debug=False)
+    window._drag_offset = QPoint(8, 8)
+    window._was_dragging = True
+    event = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        QPointF(16, 16),
+        QPointF(16, 16),
+        QPointF(16, 16),
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.NoButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+
+    window.mouseReleaseEvent(event)
+
+    assert not window._was_dragging
 
 
 def test_tick_persists_advanced_age(tmp_path, monkeypatch):

@@ -152,6 +152,7 @@ class PetWindow(QWidget):
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton and self._drag_offset is not None:
             self._drag_offset = None
+            self._was_dragging = False
             self._keep_inside_screen()
             event.accept()
             return
