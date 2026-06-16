@@ -475,12 +475,12 @@ def test_rebirth_choice_applies_pending_generation_stat_bonuses():
     event = choose_rebirth(state, "botamon", species_map())
 
     assert event == "reborn:botamon"
-    assert state.hp == 145
-    assert state.mp == 100
-    assert state.offense == 10
-    assert state.defense == 10
-    assert state.speed == 17
-    assert state.brains == 14
+    assert state.hp == 345
+    assert state.mp == 300
+    assert state.offense == 30
+    assert state.defense == 30
+    assert state.speed == 37
+    assert state.brains == 34
     assert state.pending_rebirth_stat_bonuses == {}
 
 

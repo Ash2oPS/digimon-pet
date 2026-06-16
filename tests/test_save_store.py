@@ -77,6 +77,12 @@ def test_load_creates_default_save_when_missing(tmp_path):
 
     assert loaded.species_id == "botamon"
     assert loaded.stage == GrowthStage.BABY
+    assert loaded.hp == 300
+    assert loaded.mp == 300
+    assert loaded.offense == 30
+    assert loaded.defense == 30
+    assert loaded.speed == 30
+    assert loaded.brains == 30
     assert loaded.discovered_species_ids == ["botamon"]
     assert loaded.pending_rebirth_stat_bonuses == {}
     assert path.exists()
