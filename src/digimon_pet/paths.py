@@ -8,6 +8,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 ASSETS_DIR = PROJECT_ROOT / "assets"
 SAVE_DIR = PROJECT_ROOT / ".local"
 SAVE_PATH = SAVE_DIR / "pet_save.json"
+DEBUG_SETTINGS_PATH = SAVE_DIR / "debug_settings.json"
 
 
 def ensure_save_dir() -> None:

@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication, QLabel
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
+from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state
 from digimon_pet.storage import save_store
 
@@ -46,6 +47,22 @@ def test_debug_panel_updates_auto_rebirth_toggle():
     window._debug_panel._auto_rebirth_checkbox.setChecked(True)
 
     assert window._auto_rebirth_random is True
+
+def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    settings_path = tmp_path / "debug_settings.json"
+    monkeypatch.setattr(debug_settings, "DEBUG_SETTINGS_PATH", settings_path)
+
+    first = PetWindow(overlay=True, debug=True)
+    first._debug_panel._time_scale_input.setValue(9)
+    first._debug_panel._auto_rebirth_checkbox.setChecked(True)
+
+    second = PetWindow(overlay=True, debug=True)
+
+    assert second._debug_time_scale == 9
+    assert second._auto_rebirth_random is True
+    assert second._debug_panel._time_scale_input.value() == 9
+    assert second._debug_panel._auto_rebirth_checkbox.isChecked()
 
 def test_tick_uses_debug_time_scale():
     app = QApplication.instance() or QApplication([])

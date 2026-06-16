@@ -23,6 +23,7 @@ from digimon_pet.domain.lifecycle import (
     next_lifecycle_event,
 )
 from digimon_pet.domain.models import PetState
+from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
 
 
@@ -34,8 +35,9 @@ class PetWindow(QWidget):
         self._species = load_species()
         self._digivolutions = load_dw1_digivolutions()
         self._lifecycle_schedule = EvolutionSchedule()
-        self._debug_time_scale = 1
-        self._auto_rebirth_random = False
+        self._debug_settings = debug_settings.load_debug_settings()
+        self._debug_time_scale = self._debug_settings.time_scale
+        self._auto_rebirth_random = self._debug_settings.auto_rebirth_random
         self._rng = random.Random()
         self._state = load_pet_state()
         self._direction = QPoint(3, 0)
@@ -59,6 +61,8 @@ class PetWindow(QWidget):
         )
         self._debug_panel.setStyleSheet(APP_QSS)
         self._debug_panel.set_schedule_values(self._lifecycle_schedule)
+        self._debug_panel._time_scale_input.setValue(self._debug_time_scale)
+        self._debug_panel.set_auto_rebirth_enabled(self._auto_rebirth_random)
 
         self._tick_timer = QTimer(self)
         self._tick_timer.timeout.connect(self._tick)
@@ -310,9 +314,16 @@ class PetWindow(QWidget):
 
     def _set_debug_time_scale(self, time_scale: int) -> None:
         self._debug_time_scale = max(1, int(time_scale))
+        self._save_debug_settings()
 
     def _set_auto_rebirth_random(self, enabled: bool) -> None:
         self._auto_rebirth_random = bool(enabled)
+        self._save_debug_settings()
+
+    def _save_debug_settings(self) -> None:
+        self._debug_settings.time_scale = self._debug_time_scale
+        self._debug_settings.auto_rebirth_random = self._auto_rebirth_random
+        debug_settings.save_debug_settings(self._debug_settings)
 
     def _set_pet_stat(self, name: str, value: int) -> None:
         if not hasattr(self._state, name):
