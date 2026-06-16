@@ -4,7 +4,7 @@ import ctypes
 import random
 import sys
 
-from PySide6.QtCore import QPoint, Qt, QTimer
+from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QAction, QMouseEvent
 from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QVBoxLayout, QWidget
 
@@ -238,10 +238,9 @@ class PetWindow(QWidget):
     def _move_pet(self) -> None:
         if not self._overlay:
             return
-        screen = QApplication.primaryScreen()
-        if screen is None:
+        bounds = self._current_screen_bounds()
+        if bounds is None:
             return
-        bounds = screen.availableGeometry()
         next_pos = self.pos() + self._direction
         if next_pos.x() <= bounds.left() or next_pos.x() + self.width() >= bounds.right():
             self._direction.setX(-self._direction.x())
@@ -263,13 +262,19 @@ class PetWindow(QWidget):
         )
 
     def _keep_inside_screen(self) -> None:
-        screen = QApplication.primaryScreen()
-        if screen is None:
+        bounds = self._virtual_screen_bounds()
+        if bounds is None:
             return
-        bounds = screen.availableGeometry()
         x = min(max(self.x(), bounds.left()), bounds.right() - self.width())
         y = min(max(self.y(), bounds.top()), bounds.bottom() - self.height())
         self.move(x, y)
+
+    def _current_screen_bounds(self) -> QRect | None:
+        center = self.frameGeometry().center()
+        screen = QApplication.screenAt(center) or QApplication.primaryScreen()
+        if screen is None:
+            return None
+        return screen.availableGeometry()
 
     def _update_pet_orientation(self) -> None:
         if not hasattr(self, "_pet_widget"):
@@ -282,6 +287,17 @@ class PetWindow(QWidget):
         if bounds is None:
             return
         self._pet_widget.set_flipped_x(center.x() < bounds.center().x())
+
+    def _virtual_screen_bounds(self) -> QRect | None:
+        screens = QApplication.screens()
+        if not screens:
+            return None
+
+        bounds = screens[0].availableGeometry()
+        for screen in screens[1:]:
+            bounds = bounds.united(screen.availableGeometry())
+        return bounds
+
     def _advance_lifecycle(self) -> None:
         event = advance_lifecycle(
             self._state,

@@ -13,4 +13,3 @@ DEBUG_SETTINGS_PATH = SAVE_DIR / "debug_settings.json"
 
 def ensure_save_dir() -> None:
     SAVE_DIR.mkdir(parents=True, exist_ok=True)
-

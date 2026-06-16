@@ -31,6 +31,7 @@ QLabel#Title {{
 QLabel#Muted {{
     color: {COLORS["muted"]};
 }}
+
 QLabel#DebugValue {{
     color: {COLORS["text"]};
     font-weight: 600;
@@ -73,7 +74,6 @@ QPushButton:disabled {{
     color: #686560;
     background: #1d1d20;
 }}
-
 
 QGroupBox {{
     background: {COLORS["panel"]};
@@ -154,6 +154,7 @@ QScrollBar::add-line:vertical,
 QScrollBar::sub-line:vertical {{
     height: 0;
 }}
+
 QMenu {{
     background: {COLORS["panel"]};
     border: 1px solid #3a3938;
@@ -167,4 +168,3 @@ QMenu::item:selected {{
     background: {COLORS["accent_pressed"]};
 }}
 """
-

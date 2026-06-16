@@ -48,6 +48,7 @@ def test_debug_panel_updates_auto_rebirth_toggle():
 
     assert window._auto_rebirth_random is True
 
+
 def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     settings_path = tmp_path / "debug_settings.json"
@@ -63,6 +64,7 @@ def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
     assert second._auto_rebirth_random is True
     assert second._debug_panel._time_scale_input.value() == 9
     assert second._debug_panel._auto_rebirth_checkbox.isChecked()
+
 
 def test_tick_uses_debug_time_scale():
     app = QApplication.instance() or QApplication([])
@@ -121,6 +123,7 @@ def test_debug_panel_resets_collection_progression():
 
     assert window._state.discovered_species_ids == ["agumon"]
 
+
 def test_pet_tooltip_shows_current_stats():
     app = QApplication.instance() or QApplication([])
 
@@ -151,6 +154,7 @@ def test_auto_rebirth_chooses_random_baby_on_death():
     assert window._state.needs_rebirth_choice is False
     assert window._state.species_id in BABY_1_CHOICES
     assert window._state.stage == GrowthStage.BABY
+
 
 def test_collection_dialog_opens_from_window():
     app = QApplication.instance() or QApplication([])
