@@ -166,6 +166,10 @@ class PetWindow(QWidget):
             return
         super().mouseReleaseEvent(event)
 
+    def moveEvent(self, event) -> None:  # noqa: N802
+        super().moveEvent(event)
+        self._update_pet_orientation()
+
     def _apply_windows_overlay_styles(self) -> None:
         if sys.platform != "win32":
             return
@@ -267,6 +271,17 @@ class PetWindow(QWidget):
         y = min(max(self.y(), bounds.top()), bounds.bottom() - self.height())
         self.move(x, y)
 
+    def _update_pet_orientation(self) -> None:
+        if not hasattr(self, "_pet_widget"):
+            return
+        center = self.frameGeometry().center()
+        screen = QApplication.screenAt(center) or QApplication.primaryScreen()
+        if screen is None:
+            return
+        bounds = screen.availableGeometry()
+        if bounds is None:
+            return
+        self._pet_widget.set_flipped_x(center.x() < bounds.center().x())
     def _advance_lifecycle(self) -> None:
         event = advance_lifecycle(
             self._state,

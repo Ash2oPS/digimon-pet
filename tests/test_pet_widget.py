@@ -36,3 +36,32 @@ def test_pet_widget_draws_shadow_from_sprite_alpha():
     assert shadow_pixel.alpha() > 0
     assert shadow_pixel.red() < 10
     assert transparent_pixel.alpha() == 0
+
+
+def test_pet_widget_flips_sprite_and_shadow_when_on_left_side():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_flipped_x(True)
+    widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
+    widget._pixmap.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(widget._pixmap)
+    painter.fillRect(0, 20, 12, 12, QColor("#ff0000"))
+    painter.end()
+
+    image = QImage(widget.size(), QImage.Format.Format_ARGB32)
+    image.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(image)
+    widget.render(painter, QPoint(0, 0))
+    painter.end()
+
+    flipped_sprite_pixel = image.pixelColor(SPRITE_TARGET_RECT.right() - 4, SPRITE_TARGET_RECT.top() + 26)
+    original_side_pixel = image.pixelColor(SPRITE_TARGET_RECT.left() + 4, SPRITE_TARGET_RECT.top() + 26)
+    mirrored_shadow_pixel = image.pixelColor(
+        SPRITE_TARGET_RECT.right() - 4 - SHADOW_OFFSET.x(),
+        SPRITE_TARGET_RECT.top() + 26 + SHADOW_OFFSET.y(),
+    )
+
+    assert flipped_sprite_pixel.red() > 200
+    assert original_side_pixel.alpha() == 0
+    assert mirrored_shadow_pixel.alpha() > 0
+    assert mirrored_shadow_pixel.red() < 10

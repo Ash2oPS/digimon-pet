@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
+from PySide6.QtGui import QColor, QImage, QPainter, QPixmap, QTransform
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
@@ -24,6 +24,7 @@ class PetWidget(QWidget):
         self._animation: SpriteAnimation | None = None
         self._frame_index = 0
         self._frame_rects: list[QRect] = []
+        self._flipped_x = False
         self._manifest = load_or_build_runtime_manifest()
         self._animation_timer = QTimer(self)
         self._animation_timer.timeout.connect(self._advance_frame)
@@ -44,6 +45,13 @@ class PetWidget(QWidget):
             self._configure_animation_timer(animation)
         self.update()
 
+    def set_flipped_x(self, flipped: bool) -> None:
+        flipped = bool(flipped)
+        if self._flipped_x == flipped:
+            return
+        self._flipped_x = flipped
+        self.update()
+
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -51,11 +59,11 @@ class PetWidget(QWidget):
         if self._pixmap and not self._pixmap.isNull():
             if self._frame_rects:
                 source = self._frame_rects[self._frame_index % len(self._frame_rects)]
-                self._draw_sprite_shadow(painter, self._pixmap, source)
-                painter.drawPixmap(SPRITE_TARGET_RECT, self._pixmap, source)
+                source_pixmap = self._sprite_pixmap(self._pixmap, source)
             else:
-                self._draw_sprite_shadow(painter, self._pixmap, None)
-                painter.drawPixmap(SPRITE_TARGET_RECT, self._pixmap)
+                source_pixmap = self._sprite_pixmap(self._pixmap, None)
+            self._draw_sprite_shadow(painter, source_pixmap)
+            painter.drawPixmap(SPRITE_TARGET_RECT, source_pixmap)
         else:
             self._draw_placeholder(painter)
 
@@ -93,8 +101,13 @@ class PetWidget(QWidget):
         self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
         self.update()
 
-    def _draw_sprite_shadow(self, painter: QPainter, pixmap: QPixmap, source: QRect | None) -> None:
+    def _sprite_pixmap(self, pixmap: QPixmap, source: QRect | None) -> QPixmap:
         source_pixmap = pixmap.copy(source) if source is not None else pixmap
+        if not self._flipped_x:
+            return source_pixmap
+        return source_pixmap.transformed(QTransform().scale(-1, 1))
+
+    def _draw_sprite_shadow(self, painter: QPainter, source_pixmap: QPixmap) -> None:
         shadow = QImage(source_pixmap.size(), QImage.Format.Format_ARGB32_Premultiplied)
         shadow.fill(Qt.GlobalColor.transparent)
 
@@ -104,7 +117,12 @@ class PetWidget(QWidget):
         shadow_painter.fillRect(shadow.rect(), SHADOW_COLOR)
         shadow_painter.end()
 
-        painter.drawImage(SPRITE_TARGET_RECT.translated(SHADOW_OFFSET), shadow)
+        painter.drawImage(SPRITE_TARGET_RECT.translated(self._shadow_offset()), shadow)
+
+    def _shadow_offset(self) -> QPoint:
+        if self._flipped_x:
+            return QPoint(-SHADOW_OFFSET.x(), SHADOW_OFFSET.y())
+        return SHADOW_OFFSET
 
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
