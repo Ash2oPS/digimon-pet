@@ -47,7 +47,6 @@ class PetWindow(QWidget):
 
         self._move_timer = QTimer(self)
         self._move_timer.timeout.connect(self._move_pet)
-        self._move_timer.start(80)
 
         self._refresh()
 
@@ -125,8 +124,6 @@ class PetWindow(QWidget):
         if event.button() == Qt.MouseButton.LeftButton and self._drag_offset is not None:
             self._drag_offset = None
             self._keep_inside_screen()
-            if self._overlay:
-                self._move_timer.start(80)
             event.accept()
             return
         super().mouseReleaseEvent(event)

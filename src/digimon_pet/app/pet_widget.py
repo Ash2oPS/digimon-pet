@@ -67,8 +67,12 @@ class PetWidget(QWidget):
         frame_height = animation.frame_height or pixmap.height()
         if frame_width <= 0 or frame_height <= 0:
             return []
-        frame_count = min(animation.frame_count, max(1, pixmap.width() // frame_width))
-        return [QRect(index * frame_width, 0, frame_width, frame_height) for index in range(frame_count)]
+        max_frames = max(1, pixmap.width() // frame_width)
+        return [
+            QRect(index * frame_width, 0, frame_width, frame_height)
+            for index in animation.frame_indices
+            if index < max_frames
+        ]
 
     def _configure_animation_timer(self, animation: SpriteAnimation | None) -> None:
         self._animation_timer.stop()

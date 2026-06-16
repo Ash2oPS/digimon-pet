@@ -41,6 +41,7 @@ def test_manifest_sprite_wins_over_species_slots(tmp_path):
     assert animation.frame_height == 24
     assert animation.frame_count == 4
     assert animation.fps == 8
+    assert animation.frame_indices == (0, 1)
 
 
 def test_manifest_action_metadata_uses_current_action_then_idle(tmp_path):
@@ -80,9 +81,11 @@ def test_manifest_action_metadata_uses_current_action_then_idle(tmp_path):
     assert sleep.frame_height == 18
     assert sleep.frame_count == 3
     assert sleep.fps == 4
+    assert sleep.frame_indices == (0, 1)
     assert eat is not None
     assert eat.path.endswith("agumon_idle.png")
     assert eat.frame_count == 2
+    assert eat.frame_indices == (0, 1)
 
 
 def test_species_sprite_slots_are_used_when_manifest_entry_is_missing():
@@ -93,6 +96,51 @@ def test_species_sprite_slots_are_used_when_manifest_entry_is_missing():
     assert animation is not None
     assert animation.path == "assets/sprites/agumon/sleep.png"
     assert animation.frame_count == 1
+    assert animation.frame_indices == (0,)
+
+
+def test_default_digimon_sheet_uses_context_frame_sequences():
+    manifest = {
+        "entries": {
+            "agumon": {
+                "asset_path": "assets/sprite_sources/dmc/agumon.png",
+                "metadata": {"frame_count": 13},
+            }
+        }
+    }
+
+    idle = resolve_sprite_animation(PetState("agumon", GrowthStage.ROOKIE), _species(), manifest)
+    sleep = resolve_sprite_animation(PetState("agumon", GrowthStage.ROOKIE, current_action="sleep"), _species(), manifest)
+    eat = resolve_sprite_animation(PetState("agumon", GrowthStage.ROOKIE, current_action="eat"), _species(), manifest)
+    train = resolve_sprite_animation(PetState("agumon", GrowthStage.ROOKIE, current_action="train"), _species(), manifest)
+
+    assert idle is not None
+    assert idle.frame_indices == (0, 1)
+    assert sleep is not None
+    assert sleep.frame_indices == (6,)
+    assert eat is not None
+    assert eat.frame_indices == (5, 10)
+    assert train is not None
+    assert train.frame_indices == (12,)
+
+
+def test_default_digimon_context_frames_fall_back_to_idle_when_missing():
+    manifest = {
+        "entries": {
+            "agumon": {
+                "asset_path": "assets/sprite_sources/dmc/agumon.png",
+                "metadata": {"frame_count": 2},
+            }
+        }
+    }
+
+    sleep = resolve_sprite_animation(PetState("agumon", GrowthStage.ROOKIE, current_action="sleep"), _species(), manifest)
+    train = resolve_sprite_animation(PetState("agumon", GrowthStage.ROOKIE, current_action="train"), _species(), manifest)
+
+    assert sleep is not None
+    assert sleep.frame_indices == (0, 1)
+    assert train is not None
+    assert train.frame_indices == (0, 1)
 
 
 def test_empty_runtime_manifest_is_rebuilt_from_local_source_manifests(tmp_path):

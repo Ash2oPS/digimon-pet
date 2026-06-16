@@ -27,6 +27,7 @@ class SpriteAnimation:
     frame_height: int | None = None
     frame_count: int = 1
     fps: int = 6
+    frame_indices: tuple[int, ...] = (0,)
 
 
 def load_runtime_manifest(path: Path = DEFAULT_MANIFEST_PATH) -> dict[str, Any]:
@@ -130,20 +131,22 @@ def _manifest_animation(action: str, entry: dict[str, Any]) -> SpriteAnimation |
         selected = animations.get(action) or animations.get("idle")
         if isinstance(selected, dict):
             path = str(selected.get("path") or asset_path).strip()
-            return _animation_from_metadata(path, {**metadata, **selected})
+            return _animation_from_metadata(path, {**metadata, **selected}, "idle")
 
     if asset_path:
-        return _animation_from_metadata(asset_path, metadata)
+        return _animation_from_metadata(asset_path, metadata, action)
     return None
 
 
-def _animation_from_metadata(path: str, metadata: dict[str, Any]) -> SpriteAnimation:
+def _animation_from_metadata(path: str, metadata: dict[str, Any], action: str) -> SpriteAnimation:
+    frame_count = max(1, int(metadata.get("frame_count", 1)))
     return SpriteAnimation(
         path=path,
         frame_width=_optional_int(metadata.get("frame_width")),
         frame_height=_optional_int(metadata.get("frame_height")),
-        frame_count=max(1, int(metadata.get("frame_count", 1))),
+        frame_count=frame_count,
         fps=max(1, int(metadata.get("fps", 6))),
+        frame_indices=_frame_indices_for_action(action, frame_count),
     )
 
 
@@ -151,6 +154,27 @@ def _optional_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
     return int(value)
+
+
+def _frame_indices_for_action(action: str, frame_count: int) -> tuple[int, ...]:
+    sequences = {
+        "idle": (0, 1),
+        "sleep": (6,),
+        "eat": (5, 10),
+        "train": (12,),
+        "angry": (2,),
+        "scold": (2,),
+        "happy": (4,),
+        "clean": (4,),
+        "walk": (13, 14),
+        "move": (13, 14),
+    }
+    candidates = sequences.get(action, sequences["idle"])
+    valid = tuple(index for index in candidates if index < frame_count)
+    if valid:
+        return valid
+    idle = tuple(index for index in sequences["idle"] if index < frame_count)
+    return idle or (0,)
 
 
 def _load_download_entries(path: Path) -> list[dict[str, Any]]:

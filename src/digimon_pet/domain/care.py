@@ -37,7 +37,7 @@ def wake(state: PetState) -> PetState:
 
 def clean(state: PetState) -> PetState:
     state.discipline += 2
-    state.current_action = "idle"
+    state.current_action = "happy"
     state.clamp()
     return state
 
@@ -45,7 +45,7 @@ def clean(state: PetState) -> PetState:
 def scold(state: PetState) -> PetState:
     state.discipline += 8
     state.fatigue += 4
-    state.current_action = "idle"
+    state.current_action = "angry"
     state.clamp()
     return state
 
@@ -66,4 +66,3 @@ def apply_tick(state: PetState, elapsed_seconds: int, debug_multiplier: int = 1)
 
     state.clamp()
     return state
-
