@@ -4,7 +4,7 @@ import ctypes
 import sys
 
 from PySide6.QtCore import QPoint, Qt, QTimer
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QMouseEvent
 from PySide6.QtWidgets import QApplication, QMenu, QVBoxLayout, QWidget
 
 from digimon_pet.app.debug_panel import DebugPanel
@@ -27,6 +27,9 @@ class PetWindow(QWidget):
         self._rules = load_evolution_rules()
         self._state = load_pet_state()
         self._direction = QPoint(3, 0)
+        self._drag_offset: QPoint | None = None
+        self._was_dragging = False
+        self._positioned_once = False
 
         self._configure_window()
 
@@ -49,6 +52,10 @@ class PetWindow(QWidget):
         self._refresh()
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
+        if self._was_dragging:
+            event.ignore()
+            return
+
         menu = QMenu(self)
         menu.setStyleSheet(APP_QSS)
         for label, action_name in [
@@ -91,8 +98,38 @@ class PetWindow(QWidget):
 
     def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
+        if not self._positioned_once:
+            self._move_to_bottom_right()
+            self._positioned_once = True
         if self._overlay:
             self._apply_windows_overlay_styles()
+
+    def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if event.button() == Qt.MouseButton.LeftButton:
+            self._drag_offset = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            self._was_dragging = False
+            self._move_timer.stop()
+            event.accept()
+            return
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if self._drag_offset is not None and event.buttons() & Qt.MouseButton.LeftButton:
+            self._was_dragging = True
+            self.move(event.globalPosition().toPoint() - self._drag_offset)
+            event.accept()
+            return
+        super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        if event.button() == Qt.MouseButton.LeftButton and self._drag_offset is not None:
+            self._drag_offset = None
+            self._keep_inside_screen()
+            if self._overlay:
+                self._move_timer.start(80)
+            event.accept()
+            return
+        super().mouseReleaseEvent(event)
 
     def _apply_windows_overlay_styles(self) -> None:
         if sys.platform != "win32":
@@ -173,6 +210,26 @@ class PetWindow(QWidget):
         if next_pos.y() + self.height() > bounds.bottom():
             next_pos.setY(bounds.bottom() - self.height())
         self.move(self.pos() + self._direction)
+
+    def _move_to_bottom_right(self) -> None:
+        screen = QApplication.primaryScreen()
+        if screen is None:
+            return
+        bounds = screen.availableGeometry()
+        margin = 24
+        self.move(
+            bounds.right() - self.width() - margin,
+            bounds.bottom() - self.height() - margin,
+        )
+
+    def _keep_inside_screen(self) -> None:
+        screen = QApplication.primaryScreen()
+        if screen is None:
+            return
+        bounds = screen.availableGeometry()
+        x = min(max(self.x(), bounds.left()), bounds.right() - self.width())
+        y = min(max(self.y(), bounds.top()), bounds.bottom() - self.height())
+        self.move(x, y)
 
     def _check_evolution(self) -> None:
         evolved = choose_evolution(self._state, self._rules, self._species)
