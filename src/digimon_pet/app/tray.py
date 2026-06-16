@@ -1,0 +1,60 @@
+from __future__ import annotations
+
+from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
+from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
+
+from digimon_pet.app.main_window import PetWindow
+from digimon_pet.app.theme import APP_QSS
+
+
+def create_tray_icon(app: QApplication, window: PetWindow) -> QSystemTrayIcon:
+    tray = QSystemTrayIcon(_create_icon(), app)
+    tray.setToolTip("Digimon Pet")
+    tray.setContextMenu(_create_menu(app, window))
+    tray.activated.connect(lambda reason: _handle_activation(reason, window))
+    tray.show()
+    return tray
+
+
+def _create_menu(app: QApplication, window: PetWindow) -> QMenu:
+    menu = QMenu()
+    menu.setStyleSheet(APP_QSS)
+
+    toggle_pet = QAction("Show/Hide Pet", menu)
+    toggle_pet.triggered.connect(lambda: window.setVisible(not window.isVisible()))
+    menu.addAction(toggle_pet)
+
+    toggle_debug = QAction("Toggle Debug", menu)
+    toggle_debug.triggered.connect(window.toggle_debug)
+    menu.addAction(toggle_debug)
+
+    menu.addSeparator()
+
+    quit_action = QAction("Quit", menu)
+    quit_action.triggered.connect(app.quit)
+    menu.addAction(quit_action)
+
+    return menu
+
+
+def _handle_activation(reason: QSystemTrayIcon.ActivationReason, window: PetWindow) -> None:
+    if reason == QSystemTrayIcon.ActivationReason.Trigger:
+        window.setVisible(not window.isVisible())
+
+
+def _create_icon() -> QIcon:
+    pixmap = QPixmap(32, 32)
+    pixmap.fill(QColor(0, 0, 0, 0))
+
+    painter = QPainter(pixmap)
+    painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+    painter.setPen(QColor("#171719"))
+    painter.setBrush(QColor("#f08a3c"))
+    painter.drawEllipse(4, 4, 24, 24)
+    painter.setBrush(QColor("#ffd166"))
+    painter.drawEllipse(10, 11, 4, 4)
+    painter.drawEllipse(18, 11, 4, 4)
+    painter.drawArc(10, 15, 12, 7, 200 * 16, 140 * 16)
+    painter.end()
+
+    return QIcon(pixmap)

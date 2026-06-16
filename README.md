@@ -18,6 +18,8 @@ Overlay desktop pet:
 python -m digimon_pet
 ```
 
+The app also appears in the Windows background task tray. Use the tray icon menu to show/hide the pet, open the debug panel, or quit.
+
 Development mode with accelerated time:
 
 ```powershell

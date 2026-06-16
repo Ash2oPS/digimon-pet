@@ -194,3 +194,6 @@ class PetWindow(QWidget):
 
     def _toggle_debug(self) -> None:
         self._debug_panel.setVisible(not self._debug_panel.isVisible())
+
+    def toggle_debug(self) -> None:
+        self._toggle_debug()
