@@ -43,3 +43,18 @@ python -m pytest -v
 ## Assets
 
 Sprites are intentionally not bundled. Put manually supplied PNG spritesheets under `assets/sprites/<species_id>/` and update `data/species.json`.
+
+Offline Digimon World 1 sprite source manifests are configured in `data/sprite_sources.json`.
+Put local PNG exports or source manifests under:
+
+```text
+assets/sprite_sources/digital_monster_color/
+assets/sprite_sources/digimon_pendulum_color/
+assets/sprite_sources/xros_loader_toy/
+```
+
+Build the generated DW1 sprite manifest and report with:
+
+```powershell
+python -m digimon_pet.data.sprite_pipeline
+```

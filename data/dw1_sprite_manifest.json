@@ -1,0 +1,271 @@
+{
+  "conflicts": [],
+  "entries": {},
+  "missing": [
+    {
+      "name": "Botamon",
+      "species_id": "botamon"
+    },
+    {
+      "name": "Poyomon",
+      "species_id": "poyomon"
+    },
+    {
+      "name": "Punimon",
+      "species_id": "punimon"
+    },
+    {
+      "name": "Yuramon",
+      "species_id": "yuramon"
+    },
+    {
+      "name": "Koromon",
+      "species_id": "koromon"
+    },
+    {
+      "name": "Tanemon",
+      "species_id": "tanemon"
+    },
+    {
+      "name": "Tokomon",
+      "species_id": "tokomon"
+    },
+    {
+      "name": "Tsunomon",
+      "species_id": "tsunomon"
+    },
+    {
+      "name": "Agumon",
+      "species_id": "agumon"
+    },
+    {
+      "name": "Betamon",
+      "species_id": "betamon"
+    },
+    {
+      "name": "Elecmon",
+      "species_id": "elecmon"
+    },
+    {
+      "name": "Gabumon",
+      "species_id": "gabumon"
+    },
+    {
+      "name": "Kunemon",
+      "species_id": "kunemon"
+    },
+    {
+      "name": "Palmon",
+      "species_id": "palmon"
+    },
+    {
+      "name": "Patamon",
+      "species_id": "patamon"
+    },
+    {
+      "name": "Biyomon",
+      "species_id": "biyomon"
+    },
+    {
+      "name": "Penguinmon",
+      "species_id": "penguinmon"
+    },
+    {
+      "name": "Airdramon",
+      "species_id": "airdramon"
+    },
+    {
+      "name": "Angemon",
+      "species_id": "angemon"
+    },
+    {
+      "name": "Bakemon",
+      "species_id": "bakemon"
+    },
+    {
+      "name": "Birdramon",
+      "species_id": "birdramon"
+    },
+    {
+      "name": "Centarumon",
+      "species_id": "centarumon"
+    },
+    {
+      "name": "Coelamon",
+      "species_id": "coelamon"
+    },
+    {
+      "name": "Devimon",
+      "species_id": "devimon"
+    },
+    {
+      "name": "Drimogemon",
+      "species_id": "drimogemon"
+    },
+    {
+      "name": "Frigimon",
+      "species_id": "frigimon"
+    },
+    {
+      "name": "Garurumon",
+      "species_id": "garurumon"
+    },
+    {
+      "name": "Greymon",
+      "species_id": "greymon"
+    },
+    {
+      "name": "Kabuterimon",
+      "species_id": "kabuterimon"
+    },
+    {
+      "name": "Kokatorimon",
+      "species_id": "kokatorimon"
+    },
+    {
+      "name": "Kuwagamon",
+      "species_id": "kuwagamon"
+    },
+    {
+      "name": "Leomon",
+      "species_id": "leomon"
+    },
+    {
+      "name": "Meramon",
+      "species_id": "meramon"
+    },
+    {
+      "name": "Monochromon",
+      "species_id": "monochromon"
+    },
+    {
+      "name": "Mojyamon",
+      "species_id": "mojyamon"
+    },
+    {
+      "name": "Nanimon",
+      "species_id": "nanimon"
+    },
+    {
+      "name": "Ninjamon",
+      "species_id": "ninjamon"
+    },
+    {
+      "name": "Numemon",
+      "species_id": "numemon"
+    },
+    {
+      "name": "Ogremon",
+      "species_id": "ogremon"
+    },
+    {
+      "name": "Seadramon",
+      "species_id": "seadramon"
+    },
+    {
+      "name": "Shellmon",
+      "species_id": "shellmon"
+    },
+    {
+      "name": "Sukamon",
+      "species_id": "sukamon"
+    },
+    {
+      "name": "Tyrannomon",
+      "species_id": "tyrannomon"
+    },
+    {
+      "name": "Unimon",
+      "species_id": "unimon"
+    },
+    {
+      "name": "Vegiemon",
+      "species_id": "vegiemon"
+    },
+    {
+      "name": "Whamon",
+      "species_id": "whamon"
+    },
+    {
+      "name": "Andromon",
+      "species_id": "andromon"
+    },
+    {
+      "name": "Digitamamon",
+      "species_id": "digitamamon"
+    },
+    {
+      "name": "Etemon",
+      "species_id": "etemon"
+    },
+    {
+      "name": "Giromon",
+      "species_id": "giromon"
+    },
+    {
+      "name": "HerculesKabuterimon",
+      "species_id": "herculeskabuterimon"
+    },
+    {
+      "name": "Machinedramon",
+      "species_id": "machinedramon"
+    },
+    {
+      "name": "Mamemon",
+      "species_id": "mamemon"
+    },
+    {
+      "name": "Megadramon",
+      "species_id": "megadramon"
+    },
+    {
+      "name": "MegaSeadramon",
+      "species_id": "megaseadramon"
+    },
+    {
+      "name": "MetalGreymon",
+      "species_id": "metalgreymon"
+    },
+    {
+      "name": "MetalMamemon",
+      "species_id": "metalmamemon"
+    },
+    {
+      "name": "Monzaemon",
+      "species_id": "monzaemon"
+    },
+    {
+      "name": "Phoenixmon",
+      "species_id": "phoenixmon"
+    },
+    {
+      "name": "Piximon",
+      "species_id": "piximon"
+    },
+    {
+      "name": "SkullGreymon",
+      "species_id": "skullgreymon"
+    },
+    {
+      "name": "Vademon",
+      "species_id": "vademon"
+    }
+  ],
+  "source_priority": [
+    {
+      "id": "digital_monster_color",
+      "name": "Digital Monster COLOR",
+      "priority": 1
+    },
+    {
+      "id": "digimon_pendulum_color",
+      "name": "Digimon Pendulum COLOR",
+      "priority": 2
+    },
+    {
+      "id": "xros_loader_toy",
+      "name": "Digimon Xros Loader Toy",
+      "priority": 3
+    }
+  ]
+}

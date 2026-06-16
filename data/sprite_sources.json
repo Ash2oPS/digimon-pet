@@ -1,0 +1,23 @@
+[
+  {
+    "id": "digital_monster_color",
+    "name": "Digital Monster COLOR",
+    "priority": 1,
+    "root": "assets/sprite_sources/digital_monster_color",
+    "manifest": "assets/sprite_sources/digital_monster_color/manifest.json"
+  },
+  {
+    "id": "digimon_pendulum_color",
+    "name": "Digimon Pendulum COLOR",
+    "priority": 2,
+    "root": "assets/sprite_sources/digimon_pendulum_color",
+    "manifest": "assets/sprite_sources/digimon_pendulum_color/manifest.json"
+  },
+  {
+    "id": "xros_loader_toy",
+    "name": "Digimon Xros Loader Toy",
+    "priority": 3,
+    "root": "assets/sprite_sources/xros_loader_toy",
+    "manifest": "assets/sprite_sources/xros_loader_toy/manifest.json"
+  }
+]
