@@ -5,8 +5,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from digimon_pet.data.sprite_pipeline import DEFAULT_MANIFEST_PATH
+from digimon_pet.data.sprite_pipeline import (
+    DEFAULT_MANIFEST_PATH,
+    DEFAULT_REPORT_PATH,
+    DEFAULT_ROSTER_PATH,
+    DEFAULT_SOURCE_CONFIG_PATH,
+    build_sprite_manifest,
+)
 from digimon_pet.domain.models import PetState, Species
+from digimon_pet.paths import PROJECT_ROOT
 
 
 @dataclass(frozen=True)
@@ -29,6 +36,23 @@ def load_runtime_manifest(path: Path = DEFAULT_MANIFEST_PATH) -> dict[str, Any]:
     if not isinstance(entries, dict):
         raw["entries"] = {}
     return raw
+
+
+def load_or_build_runtime_manifest(
+    project_root: Path = PROJECT_ROOT,
+    *,
+    manifest_path: Path = DEFAULT_MANIFEST_PATH,
+    roster_path: Path = DEFAULT_ROSTER_PATH,
+    source_config_path: Path = DEFAULT_SOURCE_CONFIG_PATH,
+    report_path: Path = DEFAULT_REPORT_PATH,
+) -> dict[str, Any]:
+    manifest = load_runtime_manifest(manifest_path)
+    if manifest.get("entries"):
+        return manifest
+    if not roster_path.exists() or not source_config_path.exists():
+        return manifest
+    rebuilt = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
+    return rebuilt
 
 
 def resolve_sprite_animation(

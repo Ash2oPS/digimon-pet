@@ -6,7 +6,7 @@ from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import QWidget
 
-from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
+from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -20,7 +20,7 @@ class PetWidget(QWidget):
         self._animation: SpriteAnimation | None = None
         self._frame_index = 0
         self._frame_rects: list[QRect] = []
-        self._manifest = load_runtime_manifest()
+        self._manifest = load_or_build_runtime_manifest()
         self._animation_timer = QTimer(self)
         self._animation_timer.timeout.connect(self._advance_frame)
         self.setFixedSize(128, 128)

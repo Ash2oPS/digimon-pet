@@ -59,6 +59,8 @@ Build the generated DW1 sprite manifest and report with:
 python -m digimon_pet.data.sprite_pipeline
 ```
 
+The desktop pet also rebuilds this manifest on startup if it is empty, using the local source manifests and PNG files already present under `assets/sprite_sources/`.
+
 Source manifests may use per-Digimon frame metadata:
 
 ```json
