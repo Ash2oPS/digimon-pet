@@ -48,9 +48,19 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         discipline=int(raw.get("discipline", 50)),
         care_mistakes=int(raw.get("care_mistakes", 0)),
         training_count=int(raw.get("training_count", 0)),
+        hp=int(raw.get("hp", 100)),
+        mp=int(raw.get("mp", 100)),
+        offense=int(raw.get("offense", 10)),
+        defense=int(raw.get("defense", 10)),
+        speed=int(raw.get("speed", 10)),
+        brains=int(raw.get("brains", 10)),
+        weight=int(raw.get("weight", 5)),
+        happiness=int(raw.get("happiness", 50)),
+        won_battles=int(raw.get("won_battles", 0)),
+        techniques_mastered=int(raw.get("techniques_mastered", 0)),
         is_sleeping=bool(raw.get("is_sleeping", False)),
         current_action=str(raw.get("current_action", "idle")),
+        needs_rebirth_choice=bool(raw.get("needs_rebirth_choice", False)),
     )
     state.clamp()
     return state
-

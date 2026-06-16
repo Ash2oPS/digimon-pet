@@ -12,6 +12,42 @@
     }
   },
   {
+    "id": "poyomon",
+    "name": "Poyomon",
+    "stage": "baby",
+    "sprite_slots": {
+      "idle": "assets/sprites/poyomon/idle.png",
+      "walk": "assets/sprites/poyomon/walk.png",
+      "sleep": "assets/sprites/poyomon/sleep.png",
+      "eat": "assets/sprites/poyomon/eat.png",
+      "train": "assets/sprites/poyomon/train.png"
+    }
+  },
+  {
+    "id": "punimon",
+    "name": "Punimon",
+    "stage": "baby",
+    "sprite_slots": {
+      "idle": "assets/sprites/punimon/idle.png",
+      "walk": "assets/sprites/punimon/walk.png",
+      "sleep": "assets/sprites/punimon/sleep.png",
+      "eat": "assets/sprites/punimon/eat.png",
+      "train": "assets/sprites/punimon/train.png"
+    }
+  },
+  {
+    "id": "yuramon",
+    "name": "Yuramon",
+    "stage": "baby",
+    "sprite_slots": {
+      "idle": "assets/sprites/yuramon/idle.png",
+      "walk": "assets/sprites/yuramon/walk.png",
+      "sleep": "assets/sprites/yuramon/sleep.png",
+      "eat": "assets/sprites/yuramon/eat.png",
+      "train": "assets/sprites/yuramon/train.png"
+    }
+  },
+  {
     "id": "koromon",
     "name": "Koromon",
     "stage": "baby_2",
@@ -21,6 +57,390 @@
       "sleep": "assets/sprites/koromon/sleep.png",
       "eat": "assets/sprites/koromon/eat.png",
       "train": "assets/sprites/koromon/train.png"
+    }
+  },
+  {
+    "id": "tanemon",
+    "name": "Tanemon",
+    "stage": "baby_2",
+    "sprite_slots": {
+      "idle": "assets/sprites/tanemon/idle.png",
+      "walk": "assets/sprites/tanemon/walk.png",
+      "sleep": "assets/sprites/tanemon/sleep.png",
+      "eat": "assets/sprites/tanemon/eat.png",
+      "train": "assets/sprites/tanemon/train.png"
+    }
+  },
+  {
+    "id": "tokomon",
+    "name": "Tokomon",
+    "stage": "baby_2",
+    "sprite_slots": {
+      "idle": "assets/sprites/tokomon/idle.png",
+      "walk": "assets/sprites/tokomon/walk.png",
+      "sleep": "assets/sprites/tokomon/sleep.png",
+      "eat": "assets/sprites/tokomon/eat.png",
+      "train": "assets/sprites/tokomon/train.png"
+    }
+  },
+  {
+    "id": "tsunomon",
+    "name": "Tsunomon",
+    "stage": "baby_2",
+    "sprite_slots": {
+      "idle": "assets/sprites/tsunomon/idle.png",
+      "walk": "assets/sprites/tsunomon/walk.png",
+      "sleep": "assets/sprites/tsunomon/sleep.png",
+      "eat": "assets/sprites/tsunomon/eat.png",
+      "train": "assets/sprites/tsunomon/train.png"
+    }
+  },
+  {
+    "id": "airdramon",
+    "name": "Airdramon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/airdramon/idle.png",
+      "walk": "assets/sprites/airdramon/walk.png",
+      "sleep": "assets/sprites/airdramon/sleep.png",
+      "eat": "assets/sprites/airdramon/eat.png",
+      "train": "assets/sprites/airdramon/train.png"
+    }
+  },
+  {
+    "id": "angemon",
+    "name": "Angemon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/angemon/idle.png",
+      "walk": "assets/sprites/angemon/walk.png",
+      "sleep": "assets/sprites/angemon/sleep.png",
+      "eat": "assets/sprites/angemon/eat.png",
+      "train": "assets/sprites/angemon/train.png"
+    }
+  },
+  {
+    "id": "bakemon",
+    "name": "Bakemon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/bakemon/idle.png",
+      "walk": "assets/sprites/bakemon/walk.png",
+      "sleep": "assets/sprites/bakemon/sleep.png",
+      "eat": "assets/sprites/bakemon/eat.png",
+      "train": "assets/sprites/bakemon/train.png"
+    }
+  },
+  {
+    "id": "birdramon",
+    "name": "Birdramon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/birdramon/idle.png",
+      "walk": "assets/sprites/birdramon/walk.png",
+      "sleep": "assets/sprites/birdramon/sleep.png",
+      "eat": "assets/sprites/birdramon/eat.png",
+      "train": "assets/sprites/birdramon/train.png"
+    }
+  },
+  {
+    "id": "centarumon",
+    "name": "Centarumon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/centarumon/idle.png",
+      "walk": "assets/sprites/centarumon/walk.png",
+      "sleep": "assets/sprites/centarumon/sleep.png",
+      "eat": "assets/sprites/centarumon/eat.png",
+      "train": "assets/sprites/centarumon/train.png"
+    }
+  },
+  {
+    "id": "coelamon",
+    "name": "Coelamon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/coelamon/idle.png",
+      "walk": "assets/sprites/coelamon/walk.png",
+      "sleep": "assets/sprites/coelamon/sleep.png",
+      "eat": "assets/sprites/coelamon/eat.png",
+      "train": "assets/sprites/coelamon/train.png"
+    }
+  },
+  {
+    "id": "devimon",
+    "name": "Devimon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/devimon/idle.png",
+      "walk": "assets/sprites/devimon/walk.png",
+      "sleep": "assets/sprites/devimon/sleep.png",
+      "eat": "assets/sprites/devimon/eat.png",
+      "train": "assets/sprites/devimon/train.png"
+    }
+  },
+  {
+    "id": "drimogemon",
+    "name": "Drimogemon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/drimogemon/idle.png",
+      "walk": "assets/sprites/drimogemon/walk.png",
+      "sleep": "assets/sprites/drimogemon/sleep.png",
+      "eat": "assets/sprites/drimogemon/eat.png",
+      "train": "assets/sprites/drimogemon/train.png"
+    }
+  },
+  {
+    "id": "frigimon",
+    "name": "Frigimon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/frigimon/idle.png",
+      "walk": "assets/sprites/frigimon/walk.png",
+      "sleep": "assets/sprites/frigimon/sleep.png",
+      "eat": "assets/sprites/frigimon/eat.png",
+      "train": "assets/sprites/frigimon/train.png"
+    }
+  },
+  {
+    "id": "garurumon",
+    "name": "Garurumon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/garurumon/idle.png",
+      "walk": "assets/sprites/garurumon/walk.png",
+      "sleep": "assets/sprites/garurumon/sleep.png",
+      "eat": "assets/sprites/garurumon/eat.png",
+      "train": "assets/sprites/garurumon/train.png"
+    }
+  },
+  {
+    "id": "greymon",
+    "name": "Greymon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/greymon/idle.png",
+      "walk": "assets/sprites/greymon/walk.png",
+      "sleep": "assets/sprites/greymon/sleep.png",
+      "eat": "assets/sprites/greymon/eat.png",
+      "train": "assets/sprites/greymon/train.png"
+    }
+  },
+  {
+    "id": "kabuterimon",
+    "name": "Kabuterimon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/kabuterimon/idle.png",
+      "walk": "assets/sprites/kabuterimon/walk.png",
+      "sleep": "assets/sprites/kabuterimon/sleep.png",
+      "eat": "assets/sprites/kabuterimon/eat.png",
+      "train": "assets/sprites/kabuterimon/train.png"
+    }
+  },
+  {
+    "id": "kokatorimon",
+    "name": "Kokatorimon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/kokatorimon/idle.png",
+      "walk": "assets/sprites/kokatorimon/walk.png",
+      "sleep": "assets/sprites/kokatorimon/sleep.png",
+      "eat": "assets/sprites/kokatorimon/eat.png",
+      "train": "assets/sprites/kokatorimon/train.png"
+    }
+  },
+  {
+    "id": "kuwagamon",
+    "name": "Kuwagamon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/kuwagamon/idle.png",
+      "walk": "assets/sprites/kuwagamon/walk.png",
+      "sleep": "assets/sprites/kuwagamon/sleep.png",
+      "eat": "assets/sprites/kuwagamon/eat.png",
+      "train": "assets/sprites/kuwagamon/train.png"
+    }
+  },
+  {
+    "id": "leomon",
+    "name": "Leomon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/leomon/idle.png",
+      "walk": "assets/sprites/leomon/walk.png",
+      "sleep": "assets/sprites/leomon/sleep.png",
+      "eat": "assets/sprites/leomon/eat.png",
+      "train": "assets/sprites/leomon/train.png"
+    }
+  },
+  {
+    "id": "meramon",
+    "name": "Meramon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/meramon/idle.png",
+      "walk": "assets/sprites/meramon/walk.png",
+      "sleep": "assets/sprites/meramon/sleep.png",
+      "eat": "assets/sprites/meramon/eat.png",
+      "train": "assets/sprites/meramon/train.png"
+    }
+  },
+  {
+    "id": "mojyamon",
+    "name": "Mojyamon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/mojyamon/idle.png",
+      "walk": "assets/sprites/mojyamon/walk.png",
+      "sleep": "assets/sprites/mojyamon/sleep.png",
+      "eat": "assets/sprites/mojyamon/eat.png",
+      "train": "assets/sprites/mojyamon/train.png"
+    }
+  },
+  {
+    "id": "monochromon",
+    "name": "Monochromon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/monochromon/idle.png",
+      "walk": "assets/sprites/monochromon/walk.png",
+      "sleep": "assets/sprites/monochromon/sleep.png",
+      "eat": "assets/sprites/monochromon/eat.png",
+      "train": "assets/sprites/monochromon/train.png"
+    }
+  },
+  {
+    "id": "nanimon",
+    "name": "Nanimon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/nanimon/idle.png",
+      "walk": "assets/sprites/nanimon/walk.png",
+      "sleep": "assets/sprites/nanimon/sleep.png",
+      "eat": "assets/sprites/nanimon/eat.png",
+      "train": "assets/sprites/nanimon/train.png"
+    }
+  },
+  {
+    "id": "ninjamon",
+    "name": "Ninjamon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/ninjamon/idle.png",
+      "walk": "assets/sprites/ninjamon/walk.png",
+      "sleep": "assets/sprites/ninjamon/sleep.png",
+      "eat": "assets/sprites/ninjamon/eat.png",
+      "train": "assets/sprites/ninjamon/train.png"
+    }
+  },
+  {
+    "id": "numemon",
+    "name": "Numemon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/numemon/idle.png",
+      "walk": "assets/sprites/numemon/walk.png",
+      "sleep": "assets/sprites/numemon/sleep.png",
+      "eat": "assets/sprites/numemon/eat.png",
+      "train": "assets/sprites/numemon/train.png"
+    }
+  },
+  {
+    "id": "ogremon",
+    "name": "Ogremon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/ogremon/idle.png",
+      "walk": "assets/sprites/ogremon/walk.png",
+      "sleep": "assets/sprites/ogremon/sleep.png",
+      "eat": "assets/sprites/ogremon/eat.png",
+      "train": "assets/sprites/ogremon/train.png"
+    }
+  },
+  {
+    "id": "seadramon",
+    "name": "Seadramon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/seadramon/idle.png",
+      "walk": "assets/sprites/seadramon/walk.png",
+      "sleep": "assets/sprites/seadramon/sleep.png",
+      "eat": "assets/sprites/seadramon/eat.png",
+      "train": "assets/sprites/seadramon/train.png"
+    }
+  },
+  {
+    "id": "shellmon",
+    "name": "Shellmon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/shellmon/idle.png",
+      "walk": "assets/sprites/shellmon/walk.png",
+      "sleep": "assets/sprites/shellmon/sleep.png",
+      "eat": "assets/sprites/shellmon/eat.png",
+      "train": "assets/sprites/shellmon/train.png"
+    }
+  },
+  {
+    "id": "sukamon",
+    "name": "Sukamon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/sukamon/idle.png",
+      "walk": "assets/sprites/sukamon/walk.png",
+      "sleep": "assets/sprites/sukamon/sleep.png",
+      "eat": "assets/sprites/sukamon/eat.png",
+      "train": "assets/sprites/sukamon/train.png"
+    }
+  },
+  {
+    "id": "tyrannomon",
+    "name": "Tyrannomon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/tyrannomon/idle.png",
+      "walk": "assets/sprites/tyrannomon/walk.png",
+      "sleep": "assets/sprites/tyrannomon/sleep.png",
+      "eat": "assets/sprites/tyrannomon/eat.png",
+      "train": "assets/sprites/tyrannomon/train.png"
+    }
+  },
+  {
+    "id": "unimon",
+    "name": "Unimon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/unimon/idle.png",
+      "walk": "assets/sprites/unimon/walk.png",
+      "sleep": "assets/sprites/unimon/sleep.png",
+      "eat": "assets/sprites/unimon/eat.png",
+      "train": "assets/sprites/unimon/train.png"
+    }
+  },
+  {
+    "id": "vegiemon",
+    "name": "Vegiemon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/vegiemon/idle.png",
+      "walk": "assets/sprites/vegiemon/walk.png",
+      "sleep": "assets/sprites/vegiemon/sleep.png",
+      "eat": "assets/sprites/vegiemon/eat.png",
+      "train": "assets/sprites/vegiemon/train.png"
+    }
+  },
+  {
+    "id": "whamon",
+    "name": "Whamon",
+    "stage": "champion",
+    "sprite_slots": {
+      "idle": "assets/sprites/whamon/idle.png",
+      "walk": "assets/sprites/whamon/walk.png",
+      "sleep": "assets/sprites/whamon/sleep.png",
+      "eat": "assets/sprites/whamon/eat.png",
+      "train": "assets/sprites/whamon/train.png"
     }
   },
   {
@@ -36,15 +456,291 @@
     }
   },
   {
-    "id": "numemon",
-    "name": "Numemon",
-    "stage": "champion",
+    "id": "betamon",
+    "name": "Betamon",
+    "stage": "rookie",
     "sprite_slots": {
-      "idle": "assets/sprites/numemon/idle.png",
-      "walk": "assets/sprites/numemon/walk.png",
-      "sleep": "assets/sprites/numemon/sleep.png",
-      "eat": "assets/sprites/numemon/eat.png",
-      "train": "assets/sprites/numemon/train.png"
+      "idle": "assets/sprites/betamon/idle.png",
+      "walk": "assets/sprites/betamon/walk.png",
+      "sleep": "assets/sprites/betamon/sleep.png",
+      "eat": "assets/sprites/betamon/eat.png",
+      "train": "assets/sprites/betamon/train.png"
+    }
+  },
+  {
+    "id": "biyomon",
+    "name": "Biyomon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/biyomon/idle.png",
+      "walk": "assets/sprites/biyomon/walk.png",
+      "sleep": "assets/sprites/biyomon/sleep.png",
+      "eat": "assets/sprites/biyomon/eat.png",
+      "train": "assets/sprites/biyomon/train.png"
+    }
+  },
+  {
+    "id": "elecmon",
+    "name": "Elecmon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/elecmon/idle.png",
+      "walk": "assets/sprites/elecmon/walk.png",
+      "sleep": "assets/sprites/elecmon/sleep.png",
+      "eat": "assets/sprites/elecmon/eat.png",
+      "train": "assets/sprites/elecmon/train.png"
+    }
+  },
+  {
+    "id": "gabumon",
+    "name": "Gabumon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/gabumon/idle.png",
+      "walk": "assets/sprites/gabumon/walk.png",
+      "sleep": "assets/sprites/gabumon/sleep.png",
+      "eat": "assets/sprites/gabumon/eat.png",
+      "train": "assets/sprites/gabumon/train.png"
+    }
+  },
+  {
+    "id": "kunemon",
+    "name": "Kunemon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/kunemon/idle.png",
+      "walk": "assets/sprites/kunemon/walk.png",
+      "sleep": "assets/sprites/kunemon/sleep.png",
+      "eat": "assets/sprites/kunemon/eat.png",
+      "train": "assets/sprites/kunemon/train.png"
+    }
+  },
+  {
+    "id": "palmon",
+    "name": "Palmon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/palmon/idle.png",
+      "walk": "assets/sprites/palmon/walk.png",
+      "sleep": "assets/sprites/palmon/sleep.png",
+      "eat": "assets/sprites/palmon/eat.png",
+      "train": "assets/sprites/palmon/train.png"
+    }
+  },
+  {
+    "id": "patamon",
+    "name": "Patamon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/patamon/idle.png",
+      "walk": "assets/sprites/patamon/walk.png",
+      "sleep": "assets/sprites/patamon/sleep.png",
+      "eat": "assets/sprites/patamon/eat.png",
+      "train": "assets/sprites/patamon/train.png"
+    }
+  },
+  {
+    "id": "penguinmon",
+    "name": "Penguinmon",
+    "stage": "rookie",
+    "sprite_slots": {
+      "idle": "assets/sprites/penguinmon/idle.png",
+      "walk": "assets/sprites/penguinmon/walk.png",
+      "sleep": "assets/sprites/penguinmon/sleep.png",
+      "eat": "assets/sprites/penguinmon/eat.png",
+      "train": "assets/sprites/penguinmon/train.png"
+    }
+  },
+  {
+    "id": "andromon",
+    "name": "Andromon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/andromon/idle.png",
+      "walk": "assets/sprites/andromon/walk.png",
+      "sleep": "assets/sprites/andromon/sleep.png",
+      "eat": "assets/sprites/andromon/eat.png",
+      "train": "assets/sprites/andromon/train.png"
+    }
+  },
+  {
+    "id": "digitamamon",
+    "name": "Digitamamon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/digitamamon/idle.png",
+      "walk": "assets/sprites/digitamamon/walk.png",
+      "sleep": "assets/sprites/digitamamon/sleep.png",
+      "eat": "assets/sprites/digitamamon/eat.png",
+      "train": "assets/sprites/digitamamon/train.png"
+    }
+  },
+  {
+    "id": "etemon",
+    "name": "Etemon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/etemon/idle.png",
+      "walk": "assets/sprites/etemon/walk.png",
+      "sleep": "assets/sprites/etemon/sleep.png",
+      "eat": "assets/sprites/etemon/eat.png",
+      "train": "assets/sprites/etemon/train.png"
+    }
+  },
+  {
+    "id": "giromon",
+    "name": "Giromon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/giromon/idle.png",
+      "walk": "assets/sprites/giromon/walk.png",
+      "sleep": "assets/sprites/giromon/sleep.png",
+      "eat": "assets/sprites/giromon/eat.png",
+      "train": "assets/sprites/giromon/train.png"
+    }
+  },
+  {
+    "id": "herculeskabuterimon",
+    "name": "HerculesKabuterimon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/herculeskabuterimon/idle.png",
+      "walk": "assets/sprites/herculeskabuterimon/walk.png",
+      "sleep": "assets/sprites/herculeskabuterimon/sleep.png",
+      "eat": "assets/sprites/herculeskabuterimon/eat.png",
+      "train": "assets/sprites/herculeskabuterimon/train.png"
+    }
+  },
+  {
+    "id": "mamemon",
+    "name": "Mamemon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/mamemon/idle.png",
+      "walk": "assets/sprites/mamemon/walk.png",
+      "sleep": "assets/sprites/mamemon/sleep.png",
+      "eat": "assets/sprites/mamemon/eat.png",
+      "train": "assets/sprites/mamemon/train.png"
+    }
+  },
+  {
+    "id": "megaseadramon",
+    "name": "MegaSeadramon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/megaseadramon/idle.png",
+      "walk": "assets/sprites/megaseadramon/walk.png",
+      "sleep": "assets/sprites/megaseadramon/sleep.png",
+      "eat": "assets/sprites/megaseadramon/eat.png",
+      "train": "assets/sprites/megaseadramon/train.png"
+    }
+  },
+  {
+    "id": "megadramon",
+    "name": "Megadramon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/megadramon/idle.png",
+      "walk": "assets/sprites/megadramon/walk.png",
+      "sleep": "assets/sprites/megadramon/sleep.png",
+      "eat": "assets/sprites/megadramon/eat.png",
+      "train": "assets/sprites/megadramon/train.png"
+    }
+  },
+  {
+    "id": "metalgreymon",
+    "name": "MetalGreymon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/metalgreymon/idle.png",
+      "walk": "assets/sprites/metalgreymon/walk.png",
+      "sleep": "assets/sprites/metalgreymon/sleep.png",
+      "eat": "assets/sprites/metalgreymon/eat.png",
+      "train": "assets/sprites/metalgreymon/train.png"
+    }
+  },
+  {
+    "id": "metalmamemon",
+    "name": "MetalMamemon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/metalmamemon/idle.png",
+      "walk": "assets/sprites/metalmamemon/walk.png",
+      "sleep": "assets/sprites/metalmamemon/sleep.png",
+      "eat": "assets/sprites/metalmamemon/eat.png",
+      "train": "assets/sprites/metalmamemon/train.png"
+    }
+  },
+  {
+    "id": "monzaemon",
+    "name": "Monzaemon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/monzaemon/idle.png",
+      "walk": "assets/sprites/monzaemon/walk.png",
+      "sleep": "assets/sprites/monzaemon/sleep.png",
+      "eat": "assets/sprites/monzaemon/eat.png",
+      "train": "assets/sprites/monzaemon/train.png"
+    }
+  },
+  {
+    "id": "phoenixmon",
+    "name": "Phoenixmon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/phoenixmon/idle.png",
+      "walk": "assets/sprites/phoenixmon/walk.png",
+      "sleep": "assets/sprites/phoenixmon/sleep.png",
+      "eat": "assets/sprites/phoenixmon/eat.png",
+      "train": "assets/sprites/phoenixmon/train.png"
+    }
+  },
+  {
+    "id": "piximon",
+    "name": "Piximon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/piximon/idle.png",
+      "walk": "assets/sprites/piximon/walk.png",
+      "sleep": "assets/sprites/piximon/sleep.png",
+      "eat": "assets/sprites/piximon/eat.png",
+      "train": "assets/sprites/piximon/train.png"
+    }
+  },
+  {
+    "id": "skullgreymon",
+    "name": "SkullGreymon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/skullgreymon/idle.png",
+      "walk": "assets/sprites/skullgreymon/walk.png",
+      "sleep": "assets/sprites/skullgreymon/sleep.png",
+      "eat": "assets/sprites/skullgreymon/eat.png",
+      "train": "assets/sprites/skullgreymon/train.png"
+    }
+  },
+  {
+    "id": "vademon",
+    "name": "Vademon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/vademon/idle.png",
+      "walk": "assets/sprites/vademon/walk.png",
+      "sleep": "assets/sprites/vademon/sleep.png",
+      "eat": "assets/sprites/vademon/eat.png",
+      "train": "assets/sprites/vademon/train.png"
+    }
+  },
+  {
+    "id": "weregarurumon",
+    "name": "WereGarurumon",
+    "stage": "ultimate",
+    "sprite_slots": {
+      "idle": "assets/sprites/weregarurumon/idle.png",
+      "walk": "assets/sprites/weregarurumon/walk.png",
+      "sleep": "assets/sprites/weregarurumon/sleep.png",
+      "eat": "assets/sprites/weregarurumon/eat.png",
+      "train": "assets/sprites/weregarurumon/train.png"
     }
   }
 ]

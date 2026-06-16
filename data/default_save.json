@@ -7,7 +7,17 @@
   "discipline": 50,
   "care_mistakes": 0,
   "training_count": 0,
+  "hp": 100,
+  "mp": 100,
+  "offense": 10,
+  "defense": 10,
+  "speed": 10,
+  "brains": 10,
+  "weight": 5,
+  "happiness": 50,
+  "won_battles": 0,
+  "techniques_mastered": 0,
   "is_sleeping": false,
-  "current_action": "idle"
+  "current_action": "idle",
+  "needs_rebirth_choice": false
 }
-

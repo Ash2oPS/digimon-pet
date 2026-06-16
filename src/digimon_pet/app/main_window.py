@@ -6,15 +6,21 @@ import sys
 
 from PySide6.QtCore import QPoint, Qt, QTimer
 from PySide6.QtGui import QAction, QMouseEvent
-from PySide6.QtWidgets import QApplication, QMenu, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QVBoxLayout, QWidget
 
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
-from digimon_pet.domain import clean, feed, scold, sleep, train, wake
+from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.lifecycle import EvolutionSchedule, advance_lifecycle, next_lifecycle_event
+from digimon_pet.domain.lifecycle import (
+    BABY_1_CHOICES,
+    EvolutionSchedule,
+    advance_lifecycle,
+    choose_rebirth,
+    next_lifecycle_event,
+)
 from digimon_pet.domain.models import PetState
 from digimon_pet.storage import load_pet_state, save_pet_state
 
@@ -65,9 +71,17 @@ class PetWindow(QWidget):
 
         menu = QMenu(self)
         menu.setStyleSheet(APP_QSS)
+        if self._state.needs_rebirth_choice:
+            for baby_id in BABY_1_CHOICES:
+                species = self._species[baby_id]
+                action = QAction(f"Rebirth as {species.name}", self)
+                action.triggered.connect(lambda checked=False, name=baby_id: self._choose_rebirth(name))
+                menu.addAction(action)
+            menu.addSeparator()
         for label, action_name in [
             ("Feed", "feed"),
             ("Train", "train"),
+            ("Battle", "battle"),
             ("Sleep", "sleep"),
             ("Wake", "wake"),
             ("Clean", "clean"),
@@ -183,6 +197,7 @@ class PetWindow(QWidget):
         actions = {
             "feed": feed,
             "train": train,
+            "battle": battle,
             "sleep": sleep,
             "wake": wake,
             "clean": clean,
@@ -237,13 +252,34 @@ class PetWindow(QWidget):
         self.move(x, y)
 
     def _advance_lifecycle(self) -> None:
-        advance_lifecycle(
+        event = advance_lifecycle(
             self._state,
             self._species,
             self._digivolutions,
             self._lifecycle_schedule,
             self._rng,
         )
+        if event == "died:choice_required":
+            self._prompt_rebirth_choice()
+
+    def _prompt_rebirth_choice(self) -> None:
+        labels = [self._species[baby_id].name for baby_id in BABY_1_CHOICES]
+        selected, accepted = QInputDialog.getItem(
+            self,
+            "Choose Baby Digimon",
+            "Baby1:",
+            labels,
+            0,
+            False,
+        )
+        if not accepted:
+            return
+        by_label = {self._species[baby_id].name: baby_id for baby_id in BABY_1_CHOICES}
+        self._choose_rebirth(by_label[selected])
+
+    def _choose_rebirth(self, baby_id: str) -> None:
+        choose_rebirth(self._state, baby_id, self._species)
+        self._save_and_refresh()
 
     def _save_and_refresh(self) -> None:
         save_pet_state(self._state)

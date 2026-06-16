@@ -52,8 +52,18 @@ class DebugPanel(QWidget):
             "hunger",
             "fatigue",
             "discipline",
+            "happiness",
             "mistakes",
             "training",
+            "weight",
+            "hp",
+            "mp",
+            "offense",
+            "defense",
+            "speed",
+            "brains",
+            "battles",
+            "techniques",
         ]):
             label = QLabel(f"{key.title()}:")
             label.setObjectName("Muted")
@@ -114,8 +124,18 @@ class DebugPanel(QWidget):
         self._labels["hunger"].setText(str(state.hunger))
         self._labels["fatigue"].setText(str(state.fatigue))
         self._labels["discipline"].setText(str(state.discipline))
+        self._labels["happiness"].setText(str(state.happiness))
         self._labels["mistakes"].setText(str(state.care_mistakes))
         self._labels["training"].setText(str(state.training_count))
+        self._labels["weight"].setText(str(state.weight))
+        self._labels["hp"].setText(str(state.hp))
+        self._labels["mp"].setText(str(state.mp))
+        self._labels["offense"].setText(str(state.offense))
+        self._labels["defense"].setText(str(state.defense))
+        self._labels["speed"].setText(str(state.speed))
+        self._labels["brains"].setText(str(state.brains))
+        self._labels["battles"].setText(str(state.won_battles))
+        self._labels["techniques"].setText(str(state.techniques_mastered))
 
     def _emit_schedule_changed(self) -> None:
         if self._updating_schedule or self._schedule_changed is None:

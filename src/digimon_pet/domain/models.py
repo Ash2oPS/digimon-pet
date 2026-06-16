@@ -30,16 +30,37 @@ class PetState:
     discipline: int = 50
     care_mistakes: int = 0
     training_count: int = 0
+    hp: int = 100
+    mp: int = 100
+    offense: int = 10
+    defense: int = 10
+    speed: int = 10
+    brains: int = 10
+    weight: int = 5
+    happiness: int = 50
+    won_battles: int = 0
+    techniques_mastered: int = 0
     is_sleeping: bool = False
     current_action: str = "idle"
+    needs_rebirth_choice: bool = False
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
         self.fatigue = _clamp(self.fatigue)
         self.discipline = _clamp(self.discipline)
+        self.happiness = _clamp(self.happiness)
         self.care_mistakes = max(0, self.care_mistakes)
         self.training_count = max(0, self.training_count)
         self.age_seconds = max(0, self.age_seconds)
+        self.hp = _clamp_stat(self.hp)
+        self.mp = _clamp_stat(self.mp)
+        self.offense = _clamp_stat(self.offense)
+        self.defense = _clamp_stat(self.defense)
+        self.speed = _clamp_stat(self.speed)
+        self.brains = _clamp_stat(self.brains)
+        self.weight = max(0, self.weight)
+        self.won_battles = max(0, self.won_battles)
+        self.techniques_mastered = max(0, self.techniques_mastered)
 
 
 @dataclass(frozen=True)
@@ -56,3 +77,6 @@ class EvolutionRule:
 def _clamp(value: int, minimum: int = 0, maximum: int = 100) -> int:
     return max(minimum, min(maximum, value))
 
+
+def _clamp_stat(value: int) -> int:
+    return max(0, min(9999, value))

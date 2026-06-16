@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from digimon_pet.data import load_dw1_digivolutions, load_species
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -61,3 +63,19 @@ def test_dw1_digivolutions_by_source_index_points_to_existing_transitions():
         assert set(indexed_ids) <= transition_ids
 
     assert "agumon__to__greymon" in data["indexes"]["by_source"]["agumon"]
+
+
+def test_species_contains_all_normal_dw1_evolution_targets_and_sources():
+    data = load_dw1_digivolutions()
+    species = load_species()
+    species_ids = set(species)
+    required = {"botamon", "punimon", "poyomon", "yuramon", "kunemon"}
+
+    for transition in data["natural_evolutions"]:
+        required.add(transition["source_species_id"])
+        required.add(transition["target_species_id"])
+    for transition in data["special_evolutions"]:
+        required.add(transition["target_species_id"])
+        required.update(transition.get("source_selector", {}).get("species_ids", []))
+
+    assert required <= species_ids
