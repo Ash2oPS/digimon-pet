@@ -12,16 +12,22 @@ python -m pip install -e ".[dev]"
 
 ## Run
 
-Development window:
-
-```powershell
-python -m digimon_pet --normal --debug
-```
-
-Overlay window:
+Overlay desktop pet:
 
 ```powershell
 python -m digimon_pet --overlay
+```
+
+Development mode with accelerated time:
+
+```powershell
+python -m digimon_pet --overlay --debug
+```
+
+Normal framed window for Qt debugging:
+
+```powershell
+python -m digimon_pet --normal --debug
 ```
 
 ## Test
@@ -33,4 +39,3 @@ python -m pytest -v
 ## Assets
 
 Sprites are intentionally not bundled. Put manually supplied PNG spritesheets under `assets/sprites/<species_id>/` and update `data/species.json`.
-

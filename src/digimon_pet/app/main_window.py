@@ -25,7 +25,6 @@ class PetWindow(QWidget):
         self._state = load_pet_state()
         self._direction = QPoint(3, 0)
 
-        self.setStyleSheet(APP_QSS)
         self._configure_window()
 
         self._pet_widget = PetWidget(self)
@@ -33,10 +32,8 @@ class PetWindow(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self._pet_widget)
 
-        self._debug_panel = DebugPanel(self._handle_action)
+        self._debug_panel = DebugPanel()
         self._debug_panel.setStyleSheet(APP_QSS)
-        if debug:
-            self._debug_panel.show()
 
         self._tick_timer = QTimer(self)
         self._tick_timer.timeout.connect(self._tick)
@@ -50,6 +47,7 @@ class PetWindow(QWidget):
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
         menu = QMenu(self)
+        menu.setStyleSheet(APP_QSS)
         for label, action_name in [
             ("Feed", "feed"),
             ("Train", "train"),
@@ -78,8 +76,11 @@ class PetWindow(QWidget):
             )
             self.setWindowFlags(flags)
             self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+            self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground)
+            self.setStyleSheet("background: transparent;")
         else:
             self.setWindowFlags(Qt.WindowType.Window)
+            self.setStyleSheet(APP_QSS)
 
     def _handle_action(self, name: str) -> None:
         actions = {
@@ -138,4 +139,3 @@ class PetWindow(QWidget):
 
     def _toggle_debug(self) -> None:
         self._debug_panel.setVisible(not self._debug_panel.isVisible())
-

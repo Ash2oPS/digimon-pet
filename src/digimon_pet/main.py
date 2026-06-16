@@ -14,7 +14,7 @@ def main(argv: list[str] | None = None) -> int:
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--normal", action="store_true", help="Run as a normal debug window.")
     mode.add_argument("--overlay", action="store_true", help="Run as a transparent overlay.")
-    parser.add_argument("--debug", action="store_true", help="Show debug controls and speed up time.")
+    parser.add_argument("--debug", action="store_true", help="Speed up time. Stats panel stays hidden until right-click toggle.")
     parser.add_argument("--smoke-ms", type=int, default=0, help="Auto-close after this many ms.")
     args = parser.parse_args(argv)
 
@@ -30,4 +30,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

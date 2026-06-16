@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, Qt
-from PySide6.QtGui import QColor, QFont, QPainter, QPixmap
+from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.domain.models import PetState, Species
@@ -30,15 +30,10 @@ class PetWidget(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         if self._pixmap and not self._pixmap.isNull():
-            target = QRect(16, 8, 96, 96)
+            target = QRect(16, 16, 96, 96)
             painter.drawPixmap(target, self._pixmap)
         else:
             self._draw_placeholder(painter)
-
-        if self._species:
-            painter.setPen(QColor("#f3f0e8"))
-            painter.setFont(QFont("Segoe UI", 9, QFont.Weight.DemiBold))
-            painter.drawText(QRect(0, 104, 128, 20), Qt.AlignmentFlag.AlignCenter, self._species.name)
 
     def _load_pixmap(self, state: PetState, species: Species) -> QPixmap | None:
         slot = species.sprite_slots.get(state.current_action) or species.sprite_slots.get("idle")
@@ -52,10 +47,9 @@ class PetWidget(QWidget):
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
         painter.setBrush(QColor("#f08a3c"))
-        painter.drawEllipse(QPoint(64, 54), 34, 30)
+        painter.drawEllipse(QPoint(64, 64), 34, 30)
         painter.setBrush(QColor("#ffd166"))
-        painter.drawEllipse(QPoint(51, 44), 5, 5)
-        painter.drawEllipse(QPoint(77, 44), 5, 5)
+        painter.drawEllipse(QPoint(51, 54), 5, 5)
+        painter.drawEllipse(QPoint(77, 54), 5, 5)
         painter.setPen(QColor("#171719"))
-        painter.drawArc(QRect(50, 52, 28, 16), 200 * 16, 140 * 16)
-
+        painter.drawArc(QRect(50, 62, 28, 16), 200 * 16, 140 * 16)
