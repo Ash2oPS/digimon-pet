@@ -23,5 +23,6 @@
   "discovered_species_ids": [
     "botamon"
   ],
+  "generation_stat_bonuses": {},
   "pending_rebirth_stat_bonuses": {}
 }

@@ -95,6 +95,7 @@ def test_debug_panel_resets_saved_stat_progression():
     window._state.defense = 66
     window._state.speed = 55
     window._state.brains = 44
+    window._state.generation_stat_bonuses = {"hp": 12, "mp": 8}
     window._state.pending_rebirth_stat_bonuses = {"hp": 45, "speed": 7}
 
     window._debug_panel._reset_stats_button.click()
@@ -105,6 +106,7 @@ def test_debug_panel_resets_saved_stat_progression():
     assert window._state.defense == 30
     assert window._state.speed == 30
     assert window._state.brains == 30
+    assert window._state.generation_stat_bonuses == {}
     assert window._state.pending_rebirth_stat_bonuses == {}
 
 

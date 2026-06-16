@@ -346,7 +346,8 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     state.defense = fresh.defense
     state.speed = fresh.speed
     state.brains = fresh.brains
-    _apply_rebirth_stat_bonuses(state)
+    _promote_pending_rebirth_stat_bonuses(state)
+    _apply_generation_stat_bonuses(state)
     state.weight = fresh.weight
     state.happiness = fresh.happiness
     state.won_battles = fresh.won_battles
@@ -360,7 +361,17 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
 
 
 def _apply_rebirth_stat_bonuses(state: PetState) -> None:
+    _apply_generation_stat_bonuses(state)
+
+
+def _promote_pending_rebirth_stat_bonuses(state: PetState) -> None:
     for stat_name, bonus in state.pending_rebirth_stat_bonuses.items():
+        if stat_name in INHERITED_STAT_NAMES:
+            state.generation_stat_bonuses[stat_name] = state.generation_stat_bonuses.get(stat_name, 0) + int(bonus)
+
+
+def _apply_generation_stat_bonuses(state: PetState) -> None:
+    for stat_name, bonus in state.generation_stat_bonuses.items():
         if stat_name in INHERITED_STAT_NAMES:
             setattr(state, stat_name, getattr(state, stat_name) + int(bonus))
 

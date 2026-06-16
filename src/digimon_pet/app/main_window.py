@@ -357,6 +357,7 @@ class PetWindow(QWidget):
         self._state.defense = fresh.defense
         self._state.speed = fresh.speed
         self._state.brains = fresh.brains
+        self._state.generation_stat_bonuses = {}
         self._state.pending_rebirth_stat_bonuses = {}
         self._save_and_refresh()
 

@@ -469,19 +469,41 @@ def test_rebirth_choice_applies_pending_generation_stat_bonuses():
         species_id="numemon",
         stage=GrowthStage.CHAMPION,
         needs_rebirth_choice=True,
+        generation_stat_bonuses={"hp": 12, "mp": 8},
         pending_rebirth_stat_bonuses={"hp": 45, "speed": 7, "brains": 4},
     )
 
     event = choose_rebirth(state, "botamon", species_map())
 
     assert event == "reborn:botamon"
-    assert state.hp == 345
-    assert state.mp == 300
+    assert state.hp == 357
+    assert state.mp == 308
     assert state.offense == 30
     assert state.defense == 30
     assert state.speed == 37
     assert state.brains == 34
+    assert state.generation_stat_bonuses == {"hp": 57, "mp": 8, "speed": 7, "brains": 4}
     assert state.pending_rebirth_stat_bonuses == {}
+
+
+def test_rebirth_choice_reapplies_accumulated_generation_stat_bonuses():
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        needs_rebirth_choice=True,
+        generation_stat_bonuses={"hp": 57, "mp": 8, "speed": 7, "brains": 4},
+    )
+
+    event = choose_rebirth(state, "punimon", species_map())
+
+    assert event == "reborn:punimon"
+    assert state.hp == 357
+    assert state.mp == 308
+    assert state.offense == 30
+    assert state.defense == 30
+    assert state.speed == 37
+    assert state.brains == 34
+    assert state.generation_stat_bonuses == {"hp": 57, "mp": 8, "speed": 7, "brains": 4}
 
 
 def test_ultimate_dies_after_final_lifetime():
