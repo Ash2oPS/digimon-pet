@@ -32,6 +32,15 @@ QLabel#Muted {{
     color: {COLORS["muted"]};
 }}
 
+QLabel#StageHeader {{
+    color: {COLORS["focus"]};
+    background: {COLORS["panel"]};
+    border: 1px solid #3a3938;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-weight: 700;
+}}
+
 QPushButton {{
     background: {COLORS["panel_alt"]};
     border: 1px solid #3a3938;

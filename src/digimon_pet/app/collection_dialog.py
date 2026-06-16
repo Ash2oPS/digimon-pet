@@ -8,8 +8,24 @@ from PySide6.QtWidgets import QDialog, QGridLayout, QLabel, QScrollArea, QVBoxLa
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS, COLORS
-from digimon_pet.domain.models import PetState, Species
+from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
+
+STAGE_LABELS = {
+    GrowthStage.BABY: "Baby1",
+    GrowthStage.BABY_2: "Baby2",
+    GrowthStage.ROOKIE: "Rookie",
+    GrowthStage.CHAMPION: "Champion",
+    GrowthStage.ULTIMATE: "Ultimate",
+}
+
+STAGE_ORDER = (
+    GrowthStage.BABY,
+    GrowthStage.BABY_2,
+    GrowthStage.ROOKIE,
+    GrowthStage.CHAMPION,
+    GrowthStage.ULTIMATE,
+)
 
 
 class CollectionDialog(QDialog):
@@ -45,22 +61,26 @@ class CollectionDialog(QDialog):
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QScrollArea.Shape.NoFrame)
 
-        grid_host = QWidget(scroll_area)
-        grid = QGridLayout(grid_host)
-        grid.setContentsMargins(0, 0, 0, 0)
-        grid.setHorizontalSpacing(8)
-        grid.setVerticalSpacing(8)
+        content = QWidget(scroll_area)
+        content_layout = QVBoxLayout(content)
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        content_layout.setSpacing(14)
 
-        for index, item in enumerate(self._species.values()):
-            tile = CollectionTile(
-                item,
-                item.id in self._discovered_species_ids,
-                self._pixmap_for_species(item),
-                grid_host,
+        for stage in STAGE_ORDER:
+            items = [item for item in self._species.values() if item.stage == stage]
+            if not items:
+                continue
+            section = CollectionStageSection(
+                STAGE_LABELS[stage],
+                items,
+                self._discovered_species_ids,
+                self,
+                content,
             )
-            grid.addWidget(tile, index // 5, index % 5)
+            content_layout.addWidget(section)
+        content_layout.addStretch(1)
 
-        scroll_area.setWidget(grid_host)
+        scroll_area.setWidget(content)
         layout.addWidget(scroll_area, 1)
 
     def _pixmap_for_species(self, species: Species) -> QPixmap | None:
@@ -76,6 +96,43 @@ class CollectionDialog(QDialog):
             return None
         frame = _first_frame_rect(pixmap, animation)
         return pixmap.copy(frame) if frame is not None else pixmap
+
+
+class CollectionStageSection(QWidget):
+    def __init__(
+        self,
+        label: str,
+        species: list[Species],
+        discovered_species_ids: set[str],
+        dialog: CollectionDialog,
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(6)
+
+        discovered_count = sum(1 for item in species if item.id in discovered_species_ids)
+        header = QLabel(f"{label}  {discovered_count}/{len(species)}")
+        header.setObjectName("StageHeader")
+        layout.addWidget(header)
+
+        grid_host = QWidget(self)
+        grid = QGridLayout(grid_host)
+        grid.setContentsMargins(0, 0, 0, 0)
+        grid.setHorizontalSpacing(8)
+        grid.setVerticalSpacing(8)
+
+        for index, item in enumerate(species):
+            tile = CollectionTile(
+                item,
+                item.id in discovered_species_ids,
+                dialog._pixmap_for_species(item),
+                grid_host,
+            )
+            grid.addWidget(tile, index // 5, index % 5)
+
+        layout.addWidget(grid_host)
 
 
 class CollectionTile(QWidget):

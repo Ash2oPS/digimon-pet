@@ -2,7 +2,7 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.domain.models import GrowthStage
@@ -65,6 +65,20 @@ def test_collection_dialog_opens_from_window():
 
     assert window._collection_dialog is not None
     assert window._collection_dialog.windowTitle() == "Collection"
+
+
+def test_collection_dialog_groups_species_by_growth_stage():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    window._open_collection()
+
+    headers = [
+        label.text().split()[0]
+        for label in window._collection_dialog.findChildren(QLabel)
+        if label.objectName() == "StageHeader"
+    ]
+    assert headers == ["Baby1", "Baby2", "Rookie", "Champion", "Ultimate"]
 
 
 def test_tick_persists_advanced_age(tmp_path, monkeypatch):
