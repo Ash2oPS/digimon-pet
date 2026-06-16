@@ -324,6 +324,12 @@ def test_champion_dies_when_no_known_ultimate_conditions_match():
         discipline=12,
         care_mistakes=9,
         training_count=7,
+        hp=300,
+        mp=400,
+        offense=50,
+        defense=60,
+        speed=70,
+        brains=80,
         is_sleeping=True,
         current_action="sleep",
     )
@@ -333,6 +339,11 @@ def test_champion_dies_when_no_known_ultimate_conditions_match():
     assert event == "died:choice_required"
     assert state.needs_rebirth_choice is True
     assert state.species_id == "numemon"
+    assert state.pending_rebirth_stat_bonuses == {
+        "mp": 60,
+        "speed": 7,
+        "hp": 15,
+    }
 
 
 def test_champion_does_not_auto_evolve_to_vademon_without_praise_or_scold_action():
@@ -451,6 +462,26 @@ def test_rebirth_choice_resets_pet_to_selected_baby_1():
 
     assert event == "reborn:yuramon"
     assert state == PetState(species_id="yuramon", stage=GrowthStage.BABY)
+
+
+def test_rebirth_choice_applies_pending_generation_stat_bonuses():
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        needs_rebirth_choice=True,
+        pending_rebirth_stat_bonuses={"hp": 45, "speed": 7, "brains": 4},
+    )
+
+    event = choose_rebirth(state, "botamon", species_map())
+
+    assert event == "reborn:botamon"
+    assert state.hp == 145
+    assert state.mp == 100
+    assert state.offense == 10
+    assert state.defense == 10
+    assert state.speed == 17
+    assert state.brains == 14
+    assert state.pending_rebirth_stat_bonuses == {}
 
 
 def test_ultimate_dies_after_final_lifetime():

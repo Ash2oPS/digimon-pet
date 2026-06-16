@@ -44,6 +44,7 @@ class PetState:
     current_action: str = "idle"
     needs_rebirth_choice: bool = False
     discovered_species_ids: list[str] = field(default_factory=list)
+    pending_rebirth_stat_bonuses: dict[str, int] = field(default_factory=dict)
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -63,6 +64,7 @@ class PetState:
         self.won_battles = max(0, self.won_battles)
         self.techniques_mastered = max(0, self.techniques_mastered)
         self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
+        self.pending_rebirth_stat_bonuses = _clean_stat_bonuses(self.pending_rebirth_stat_bonuses)
 
     def mark_discovered(self, species_id: str | None = None) -> None:
         target_id = species_id or self.species_id
@@ -92,3 +94,12 @@ def _clamp_stat(value: int) -> int:
 
 def _dedupe_species_ids(species_ids: list[str]) -> list[str]:
     return list(dict.fromkeys(str(species_id) for species_id in species_ids if str(species_id).strip()))
+
+
+def _clean_stat_bonuses(bonuses: dict[str, int]) -> dict[str, int]:
+    valid_stats = {"hp", "mp", "offense", "defense", "speed", "brains"}
+    return {
+        str(stat_name): max(0, int(value))
+        for stat_name, value in bonuses.items()
+        if str(stat_name) in valid_stats
+    }

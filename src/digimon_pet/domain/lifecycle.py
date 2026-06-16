@@ -9,6 +9,7 @@ from digimon_pet.domain.models import GrowthStage, PetState, Species
 
 DEFAULT_BABY_1_ID = "botamon"
 ROOKIE_FALLBACK_ID = "numemon"
+INHERITED_STAT_NAMES = ("hp", "mp", "offense", "defense", "speed", "brains")
 BABY_1_TO_BABY_2 = {
     "botamon": "koromon",
     "punimon": "tsunomon",
@@ -94,10 +95,10 @@ def advance_lifecycle(
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
         if target is None:
-            return _die_and_rebirth(state)
+            return _die_and_rebirth(state, rng)
         return _evolve_to(state, target)
     if state.stage == GrowthStage.ULTIMATE:
-        return _die_and_rebirth(state)
+        return _die_and_rebirth(state, rng)
     return None
 
 
@@ -303,15 +304,25 @@ def _evolve_to(state: PetState, target: Species) -> str:
 
 
 def _boost_evolution_stats(state: PetState) -> None:
-    for stat_name in ("hp", "mp", "offense", "defense", "speed", "brains"):
+    for stat_name in INHERITED_STAT_NAMES:
         setattr(state, stat_name, int(getattr(state, stat_name) * 1.1))
 
 
-def _die_and_rebirth(state: PetState) -> str:
+def _die_and_rebirth(state: PetState, rng: random.Random) -> str:
+    state.pending_rebirth_stat_bonuses = _roll_rebirth_stat_bonuses(state, rng)
     state.needs_rebirth_choice = True
     state.current_action = "idle"
     state.is_sleeping = False
     return "died:choice_required"
+
+
+def _roll_rebirth_stat_bonuses(state: PetState, rng: random.Random) -> dict[str, int]:
+    rates = (0.15, 0.10, 0.05)
+    selected_stats = rng.sample(INHERITED_STAT_NAMES, len(rates))
+    return {
+        stat_name: int(getattr(state, stat_name) * rate)
+        for stat_name, rate in zip(selected_stats, rates, strict=True)
+    }
 
 
 def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species]) -> str:
@@ -333,6 +344,7 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     state.defense = fresh.defense
     state.speed = fresh.speed
     state.brains = fresh.brains
+    _apply_rebirth_stat_bonuses(state)
     state.weight = fresh.weight
     state.happiness = fresh.happiness
     state.won_battles = fresh.won_battles
@@ -340,7 +352,15 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     state.is_sleeping = fresh.is_sleeping
     state.current_action = fresh.current_action
     state.needs_rebirth_choice = False
+    state.pending_rebirth_stat_bonuses = {}
+    state.clamp()
     return f"reborn:{target.id}"
+
+
+def _apply_rebirth_stat_bonuses(state: PetState) -> None:
+    for stat_name, bonus in state.pending_rebirth_stat_bonuses.items():
+        if stat_name in INHERITED_STAT_NAMES:
+            setattr(state, stat_name, getattr(state, stat_name) + int(bonus))
 
 
 def _reset_stage_state(state: PetState) -> None:

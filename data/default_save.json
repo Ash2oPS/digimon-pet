@@ -22,5 +22,6 @@
   "needs_rebirth_choice": false,
   "discovered_species_ids": [
     "botamon"
-  ]
+  ],
+  "pending_rebirth_stat_bonuses": {}
 }
