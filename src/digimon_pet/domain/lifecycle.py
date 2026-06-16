@@ -297,8 +297,14 @@ def _matches_bonus_condition(state: PetState, condition: dict[str, Any]) -> bool
 def _evolve_to(state: PetState, target: Species) -> str:
     state.species_id = target.id
     state.stage = target.stage
+    _boost_evolution_stats(state)
     _reset_stage_state(state)
     return f"evolved:{target.id}"
+
+
+def _boost_evolution_stats(state: PetState) -> None:
+    for stat_name in ("hp", "mp", "offense", "defense", "speed", "brains"):
+        setattr(state, stat_name, int(getattr(state, stat_name) * 1.1))
 
 
 def _die_and_rebirth(state: PetState) -> str:

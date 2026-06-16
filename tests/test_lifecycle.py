@@ -54,6 +54,31 @@ def test_baby_line_evolves_forced_and_resets_stage_state():
     assert state.current_action == "idle"
 
 
+def test_evolution_boosts_stats_by_ten_percent():
+    schedule = EvolutionSchedule(baby_seconds=1800)
+    state = PetState(
+        species_id="botamon",
+        stage=GrowthStage.BABY,
+        age_seconds=1800,
+        hp=200,
+        mp=150,
+        offense=20,
+        defense=30,
+        speed=40,
+        brains=50,
+    )
+
+    advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
+
+    assert state.hp == 220
+    assert state.mp == 165
+    assert state.offense == 22
+    assert state.defense == 33
+    assert state.speed == 44
+    assert state.brains == 55
+    assert state.age_seconds == 0
+
+
 def test_baby_2_evolves_to_default_rookie_line_without_dw1_data():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
     state = PetState(
