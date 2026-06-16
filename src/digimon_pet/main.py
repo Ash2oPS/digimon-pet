@@ -7,7 +7,7 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
 from digimon_pet.app.main_window import PetWindow
-from digimon_pet.app.tray import create_tray_icon
+from digimon_pet.app.tray import create_app_icon, create_tray_icon
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -20,6 +20,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     app = QApplication(sys.argv[:1])
+    app.setWindowIcon(create_app_icon())
     app.setQuitOnLastWindowClosed(False)
     window = PetWindow(overlay=not args.normal or args.overlay, debug=args.debug)
     tray = create_tray_icon(app, window)

@@ -5,10 +5,11 @@ from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.app.theme import APP_QSS
+from digimon_pet.paths import ASSETS_DIR
 
 
 def create_tray_icon(app: QApplication, window: PetWindow) -> QSystemTrayIcon:
-    tray = QSystemTrayIcon(_create_icon(), app)
+    tray = QSystemTrayIcon(create_app_icon(), app)
     tray.setToolTip("Digimon Pet")
     tray.setContextMenu(_create_menu(app, window))
     tray.activated.connect(lambda reason: _handle_activation(reason, window))
@@ -42,7 +43,16 @@ def _handle_activation(reason: QSystemTrayIcon.ActivationReason, window: PetWind
         window.setVisible(not window.isVisible())
 
 
-def _create_icon() -> QIcon:
+def create_app_icon() -> QIcon:
+    icon_path = ASSETS_DIR / "app" / "digitama.png"
+    if icon_path.exists():
+        icon = QIcon(str(icon_path))
+        if not icon.isNull():
+            return icon
+    return _create_fallback_icon()
+
+
+def _create_fallback_icon() -> QIcon:
     pixmap = QPixmap(32, 32)
     pixmap.fill(QColor(0, 0, 0, 0))
 
