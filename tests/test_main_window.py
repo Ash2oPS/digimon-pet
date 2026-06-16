@@ -132,6 +132,7 @@ def test_pet_tooltip_shows_current_stats():
     window._refresh()
 
     assert window._pet_widget.toolTip() == "HP: 777\nMP: 888\nOFF: 111\nDEF: 222\nSPD: 333\nINT: 444"
+    assert window._pet_widget.testAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
 
 
 def test_auto_rebirth_chooses_random_baby_on_death():

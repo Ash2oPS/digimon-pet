@@ -29,6 +29,7 @@ class PetWidget(QWidget):
         self._animation_timer.timeout.connect(self._advance_frame)
         self.setFixedSize(128, 128)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
 
     def set_pet(self, state: PetState, species: Species) -> None:
         self._state = state
