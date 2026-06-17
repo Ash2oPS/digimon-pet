@@ -407,7 +407,6 @@ class PetWindow(QWidget):
         if clear_effect:
             self._pet_widget.set_lifecycle_pending(None)
         discovered_before = set(self._state.discovered_species_ids)
-        stats_before = _stat_snapshot(self._state)
         event = advance_lifecycle(
             self._state,
             self._species,
@@ -416,7 +415,6 @@ class PetWindow(QWidget):
             self._rng,
         )
         if event is not None and event.startswith("evolved:"):
-            self._trigger_stat_gain_text_if_needed(stats_before)
             self._trigger_new_badge_if_needed(discovered_before)
         if event == "died:choice_required":
             if self._auto_rebirth_random:
@@ -501,14 +499,6 @@ class PetWindow(QWidget):
         self._clear_secondary_event(schedule_next=True)
         self._save_and_refresh()
 
-    def _trigger_stat_gain_text_if_needed(self, stats_before: dict[str, int]) -> None:
-        gains = {
-            stat_name: getattr(self._state, stat_name) - before
-            for stat_name, before in stats_before.items()
-            if getattr(self._state, stat_name) > before
-        }
-        self._pet_widget.trigger_stat_gain_text(gains)
-
     def _clear_secondary_event(self, *, schedule_next: bool = False) -> None:
         self._secondary_event_kind = None
         self._secondary_event_ttl_seconds = 0
@@ -590,7 +580,3 @@ class PetWindow(QWidget):
 
     def toggle_debug(self) -> None:
         self._toggle_debug()
-
-
-def _stat_snapshot(state: PetState) -> dict[str, int]:
-    return {stat_name: getattr(state, stat_name) for stat_name in BONUS_STATS}
