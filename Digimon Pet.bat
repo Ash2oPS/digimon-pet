@@ -3,6 +3,11 @@ setlocal
 
 cd /d "%~dp0"
 set "VENV_PY=.venv\Scripts\python.exe"
+set "UPDATE_CHECK=packaging\windows\launcher_update_check.ps1"
+
+if exist "%UPDATE_CHECK%" (
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%UPDATE_CHECK%"
+)
 
 if not exist "%VENV_PY%" (
     where py >nul 2>nul

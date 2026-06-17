@@ -31,7 +31,7 @@ Windows: Digimon Pet.vbs
 macOS: Digimon Pet.app
 ```
 
-These silent launchers create `.venv` if needed, install the app dependencies, and start the pet in normal overlay mode without `--debug`.
+These silent launchers show a small loading window, fetch Git updates when the project has an upstream remote, ask before applying pending commits, create `.venv` if needed, install the app dependencies, and start the pet in normal overlay mode without `--debug`.
 Troubleshooting logs are written under `.local/`.
 
 Overlay desktop pet:
