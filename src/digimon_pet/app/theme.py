@@ -108,6 +108,35 @@ QSpinBox:focus {{
     border-color: {COLORS["focus"]};
 }}
 
+QComboBox {{
+    background: #111113;
+    color: {COLORS["text"]};
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    padding: 4px 8px;
+    min-height: 22px;
+}}
+
+QComboBox:hover {{
+    border-color: {COLORS["accent"]};
+}}
+
+QComboBox:focus {{
+    border-color: {COLORS["focus"]};
+}}
+
+QComboBox QAbstractItemView {{
+    background: {COLORS["panel"]};
+    color: {COLORS["text"]};
+    border: 1px solid #3a3938;
+    selection-background-color: {COLORS["accent_pressed"]};
+    selection-color: {COLORS["text"]};
+}}
+
+QInputDialog QLabel {{
+    color: {COLORS["text"]};
+}}
+
 QCheckBox {{
     spacing: 8px;
     font-weight: 600;

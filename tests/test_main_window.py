@@ -27,8 +27,9 @@ def default_initial_baby_choice(tmp_path, monkeypatch):
         tmp_path / ".local" / "debug_settings.json",
     )
     monkeypatch.setattr(
-        "digimon_pet.app.main_window.QInputDialog.getItem",
-        lambda *args, **kwargs: ("Botamon", True),
+        PetWindow,
+        "_get_baby_choice",
+        lambda self, labels: ("Botamon", True),
     )
 
 
@@ -101,8 +102,9 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     save_path = tmp_path / "pet_save.json"
     monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
     monkeypatch.setattr(
-        "digimon_pet.app.main_window.QInputDialog.getItem",
-        lambda *args, **kwargs: ("Punimon", True),
+        PetWindow,
+        "_get_baby_choice",
+        lambda self, labels: ("Punimon", True),
     )
 
     window = PetWindow(overlay=True, debug=True)
@@ -133,8 +135,9 @@ def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, mon
     monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
     monkeypatch.setattr(save_store, "LEGACY_SAVE_PATH", legacy_path)
     monkeypatch.setattr(
-        "digimon_pet.app.main_window.QInputDialog.getItem",
-        lambda *args, **kwargs: ("Punimon", True),
+        PetWindow,
+        "_get_baby_choice",
+        lambda self, labels: ("Punimon", True),
     )
 
     window = PetWindow(overlay=True, debug=True)

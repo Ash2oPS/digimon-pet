@@ -5,7 +5,7 @@ import random
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QAction, QMouseEvent
-from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QDialog, QInputDialog, QMenu, QVBoxLayout, QWidget
 
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
@@ -447,18 +447,21 @@ class PetWindow(QWidget):
 
     def _prompt_baby_choice(self) -> str | None:
         labels = [self._species[baby_id].name for baby_id in BABY_1_CHOICES]
-        selected, accepted = QInputDialog.getItem(
-            self,
-            "Choose Baby Digimon",
-            "Baby1:",
-            labels,
-            0,
-            False,
-        )
+        selected, accepted = self._get_baby_choice(labels)
         if not accepted:
             return None
         by_label = {self._species[baby_id].name: baby_id for baby_id in BABY_1_CHOICES}
         return by_label[selected]
+
+    def _get_baby_choice(self, labels: list[str]) -> tuple[str, bool]:
+        dialog = QInputDialog(self)
+        dialog.setWindowTitle("Choose Baby Digimon")
+        dialog.setLabelText("Baby1:")
+        dialog.setComboBoxItems(labels)
+        dialog.setComboBoxEditable(False)
+        dialog.setStyleSheet(APP_QSS)
+        accepted = dialog.exec() == QDialog.DialogCode.Accepted
+        return dialog.textValue(), accepted
 
     def _choose_rebirth(self, baby_id: str) -> None:
         discovered_before = set(self._state.discovered_species_ids)

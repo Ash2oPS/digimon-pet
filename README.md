@@ -4,6 +4,8 @@ Small desktop virtual pet scaffold inspired by Digimon World 1.
 
 ## Setup
 
+Requires Python 3.11+ available from the terminal. On first launch, the Windows and macOS launchers create `.venv` and install runtime dependencies with `pip`, so an internet connection may be needed.
+
 Windows:
 
 ```powershell
