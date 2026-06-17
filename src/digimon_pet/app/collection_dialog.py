@@ -236,8 +236,9 @@ class EvolutionTreeDialog(QDialog):
         layout.addWidget(title)
 
         links = build_evolution_links(species, digivolutions)
-        graph_ids = graph_species_ids(selected_species_id, species, links)
-        visible_links = graph_links(selected_species_id, species, links)
+        all_graph_ids = graph_species_ids(selected_species_id, species, links)
+        graph_ids = _graph_species_until_next_stage(all_graph_ids, species, self._discovered_species_ids)
+        visible_links = _links_within_graph(graph_links(selected_species_id, species, links), graph_ids)
         known_count = len(graph_ids.intersection(self._discovered_species_ids))
         summary = QLabel(f"{known_count}/{len(graph_ids)} graph Digimon discovered")
         summary.setObjectName("Muted")
@@ -478,3 +479,30 @@ def _node_tooltip(species: Species, discovered: bool, requirements: list[str]) -
 
 def _stage_index(stage: GrowthStage) -> int:
     return STAGE_ORDER.index(stage)
+
+
+def _graph_species_until_next_stage(
+    graph_species_ids: set[str],
+    species: dict[str, Species],
+    discovered_species_ids: set[str],
+) -> set[str]:
+    discovered_graph_ids = graph_species_ids.intersection(discovered_species_ids)
+    if not discovered_graph_ids:
+        return set(graph_species_ids)
+
+    highest_discovered_stage = max(_stage_index(species[species_id].stage) for species_id in discovered_graph_ids)
+    max_visible_stage = min(highest_discovered_stage + 1, len(STAGE_ORDER) - 1)
+    return {
+        species_id
+        for species_id in graph_species_ids
+        if _stage_index(species[species_id].stage) <= max_visible_stage
+    }
+
+
+def _links_within_graph(links: list[EvolutionLink], graph_species_ids: set[str]) -> list[EvolutionLink]:
+    return [
+        link
+        for link in links
+        if link.target_species_id in graph_species_ids
+        and (link.source_species_id is None or link.source_species_id in graph_species_ids)
+    ]

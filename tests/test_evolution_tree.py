@@ -230,6 +230,24 @@ def test_evolution_tree_groups_nodes_by_growth_stage_from_top_to_bottom():
     assert headers == ["Baby1", "Baby2", "Rookie", "Champion"]
 
 
+def test_evolution_tree_stops_one_stage_after_highest_discovered_graph_species():
+    app = QApplication.instance() or QApplication([])
+
+    tree = EvolutionTreeDialog(_species_map(), _digivolutions(), {"botamon", "koromon"}, "botamon")
+
+    headers = [
+        label.text()
+        for label in tree.findChildren(QLabel)
+        if label.objectName() == "EvolutionGraphStageHeader"
+    ]
+    nodes = {node._species.id: node for node in tree.findChildren(EvolutionNode)}
+
+    assert headers == ["Baby1", "Baby2", "Rookie"]
+    assert "agumon" in nodes
+    assert "kunemon" in nodes
+    assert "greymon" not in nodes
+
+
 def test_evolution_graph_only_draws_links_to_later_growth_stages():
     app = QApplication.instance() or QApplication([])
     species = {
