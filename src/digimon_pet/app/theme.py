@@ -133,8 +133,38 @@ QComboBox QAbstractItemView {{
     selection-color: {COLORS["text"]};
 }}
 
-QInputDialog QLabel {{
+QListWidget {{
+    background: #111113;
     color: {COLORS["text"]};
+    border: 1px solid #3a3938;
+    border-radius: 6px;
+    padding: 4px;
+    outline: 0;
+}}
+
+QListWidget::item {{
+    border-radius: 4px;
+    padding: 6px 8px;
+}}
+
+QListWidget::item:hover {{
+    background: {COLORS["panel_alt"]};
+}}
+
+QListWidget::item:selected {{
+    background: {COLORS["accent_pressed"]};
+    color: {COLORS["text"]};
+}}
+
+QDialogButtonBox QPushButton {{
+    min-width: 72px;
+}}
+
+QToolTip {{
+    background: {COLORS["panel"]};
+    color: {COLORS["text"]};
+    border: 1px solid #3a3938;
+    padding: 4px 6px;
 }}
 
 QCheckBox {{

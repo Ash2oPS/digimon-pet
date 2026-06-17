@@ -8,7 +8,7 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet import platform as desktop_platform
-from digimon_pet.app.main_window import PetWindow
+from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
 from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import debug_settings
@@ -116,6 +116,15 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     assert window._state.hp == 300
     assert window._state.needs_rebirth_choice is False
     assert loaded.species_id == "punimon"
+
+
+def test_baby_choice_dialog_returns_selected_label():
+    app = QApplication.instance() or QApplication([])
+    dialog = BabyChoiceDialog(["Botamon", "Punimon"])
+
+    dialog._list.setCurrentRow(1)
+
+    assert dialog.selected_label() == "Punimon"
 
 
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):

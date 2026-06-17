@@ -2,10 +2,20 @@ from __future__ import annotations
 
 import copy
 import random
+from collections.abc import Sequence
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QAction, QMouseEvent
-from PySide6.QtWidgets import QApplication, QDialog, QInputDialog, QMenu, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (
+    QApplication,
+    QDialog,
+    QDialogButtonBox,
+    QLabel,
+    QListWidget,
+    QMenu,
+    QVBoxLayout,
+    QWidget,
+)
 
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
@@ -33,6 +43,40 @@ SECONDARY_EVENT_MAX_SECONDS = 360
 SECONDARY_EVENT_TTL_SECONDS = 30
 SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
+
+
+class BabyChoiceDialog(QDialog):
+    def __init__(self, labels: Sequence[str], parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.setWindowTitle("Choose Baby Digimon")
+        self.setStyleSheet(APP_QSS)
+        self.setMinimumWidth(220)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(14, 14, 14, 14)
+        layout.setSpacing(10)
+
+        title = QLabel("Baby1:")
+        title.setObjectName("Title")
+        layout.addWidget(title)
+
+        self._list = QListWidget(self)
+        self._list.addItems(list(labels))
+        self._list.setCurrentRow(0)
+        self._list.itemDoubleClicked.connect(self.accept)
+        layout.addWidget(self._list)
+
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
+            self,
+        )
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+
+    def selected_label(self) -> str:
+        item = self._list.currentItem()
+        return item.text() if item is not None else ""
 
 
 class PetWindow(QWidget):
@@ -454,14 +498,9 @@ class PetWindow(QWidget):
         return by_label[selected]
 
     def _get_baby_choice(self, labels: list[str]) -> tuple[str, bool]:
-        dialog = QInputDialog(self)
-        dialog.setWindowTitle("Choose Baby Digimon")
-        dialog.setLabelText("Baby1:")
-        dialog.setComboBoxItems(labels)
-        dialog.setComboBoxEditable(False)
-        dialog.setStyleSheet(APP_QSS)
+        dialog = BabyChoiceDialog(labels, self)
         accepted = dialog.exec() == QDialog.DialogCode.Accepted
-        return dialog.textValue(), accepted
+        return dialog.selected_label(), accepted
 
     def _choose_rebirth(self, baby_id: str) -> None:
         discovered_before = set(self._state.discovered_species_ids)
