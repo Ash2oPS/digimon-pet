@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap, QTransform
+from PySide6.QtGui import QColor, QImage, QPainter, QPainterPath, QPen, QPixmap, QTransform
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
@@ -19,6 +19,8 @@ EFFECT_INTERVAL_MS = 33
 RESOLUTION_DURATION_MS = 1450
 EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
+NEW_BADGE_DURATION_MS = 1500
+EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
 
@@ -43,6 +45,9 @@ class PetWidget(QWidget):
         self._effect_revealed = False
         self._effect_timer = QTimer(self)
         self._effect_timer.timeout.connect(self._advance_effect)
+        self._new_badge_elapsed_ms = 0
+        self._new_badge_timer = QTimer(self)
+        self._new_badge_timer.timeout.connect(self._advance_new_badge)
         self.setFixedSize(128, 128)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
@@ -98,6 +103,24 @@ class PetWidget(QWidget):
         self._effect_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
+    def trigger_new_badge(self) -> None:
+        self._new_badge_elapsed_ms = 1
+        self._new_badge_timer.start(EFFECT_INTERVAL_MS)
+        self.update()
+
+    def event_prompt_kind(self) -> str | None:
+        if self._effect_name == "pending_evolution":
+            return "evolution"
+        if self._effect_name == "pending_death":
+            return "death"
+        return None
+
+    def event_prompt_rect(self) -> QRect:
+        return QRect(EVENT_PROMPT_RECT)
+
+    def is_event_prompt_at(self, point: QPoint) -> bool:
+        return self.event_prompt_kind() is not None and EVENT_PROMPT_RECT.contains(point)
+
     def set_flipped_x(self, flipped: bool) -> None:
         flipped = bool(flipped)
         if self._flipped_x == flipped:
@@ -122,6 +145,8 @@ class PetWidget(QWidget):
         else:
             self._draw_placeholder(painter)
         self._draw_effect_particles(painter)
+        self._draw_event_prompt(painter)
+        self._draw_new_badge(painter)
 
     def _load_pixmap(self, animation: SpriteAnimation | None) -> QPixmap | None:
         if animation is None:
@@ -182,6 +207,13 @@ class PetWidget(QWidget):
                 finished()
             self.update()
             return
+        self.update()
+
+    def _advance_new_badge(self) -> None:
+        self._new_badge_elapsed_ms += EFFECT_INTERVAL_MS
+        if self._new_badge_elapsed_ms >= NEW_BADGE_DURATION_MS:
+            self._new_badge_elapsed_ms = 0
+            self._new_badge_timer.stop()
         self.update()
 
     def _sprite_pixmap(self, pixmap: QPixmap, source: QRect | None) -> QPixmap:
@@ -309,6 +341,98 @@ class PetWidget(QWidget):
             painter.setBrush(color)
             painter.drawEllipse(QPoint(x, y), radius, radius)
 
+    def _draw_event_prompt(self, painter: QPainter) -> None:
+        kind = self.event_prompt_kind()
+        if kind is None:
+            return
+        pulse = _smooth_pulse(self._effect_elapsed_ms, 1200)
+        rect = QRect(EVENT_PROMPT_RECT)
+        rect.translate(0, -round(2 * pulse))
+
+        painter.save()
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        path = QPainterPath()
+        path.addRoundedRect(rect, 10, 10)
+        tail = QPainterPath()
+        tail.moveTo(rect.left() + 8, rect.bottom() - 6)
+        tail.lineTo(rect.left() - 3, rect.bottom() + 7)
+        tail.lineTo(rect.left() + 15, rect.bottom() - 2)
+        tail.closeSubpath()
+        path = path.united(tail)
+        painter.setPen(QPen(QColor(65, 43, 24, 220), 2))
+        painter.setBrush(QColor(255, 250, 214, 245))
+        painter.drawPath(path)
+
+        if kind == "evolution":
+            self._draw_evolution_prompt_icon(painter, rect.center())
+        else:
+            self._draw_death_prompt_icon(painter, rect.center())
+        painter.restore()
+
+    def _draw_evolution_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
+        painter.setPen(QPen(QColor(65, 43, 24), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.setBrush(QColor(255, 211, 52))
+        star = QPainterPath()
+        for index in range(10):
+            radius = 11 if index % 2 == 0 else 5
+            angle = -math.pi / 2 + index * math.pi / 5
+            point = QPoint(round(center.x() + math.cos(angle) * radius), round(center.y() + math.sin(angle) * radius))
+            if index == 0:
+                star.moveTo(point)
+            else:
+                star.lineTo(point)
+        star.closeSubpath()
+        painter.drawPath(star)
+
+    def _draw_death_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
+        painter.setPen(QPen(QColor(65, 43, 24), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.setBrush(QColor(255, 84, 91))
+        painter.drawEllipse(center, 10, 10)
+        painter.setBrush(QColor(65, 43, 24))
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.drawEllipse(QPoint(center.x() - 4, center.y() - 2), 2, 2)
+        painter.drawEllipse(QPoint(center.x() + 4, center.y() - 2), 2, 2)
+        painter.setPen(QPen(QColor(65, 43, 24), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawLine(center.x() - 4, center.y() + 5, center.x() + 4, center.y() + 5)
+
+    def _draw_new_badge(self, painter: QPainter) -> None:
+        if self._new_badge_elapsed_ms <= 0:
+            return
+        progress = min(1.0, self._new_badge_elapsed_ms / NEW_BADGE_DURATION_MS)
+        pop = _ease_out_back(min(1.0, progress / 0.34))
+        fade = 1.0 if progress < 0.72 else max(0.0, 1.0 - (progress - 0.72) / 0.28)
+        y = 22 - round(10 * _ease_out_cubic(progress))
+        scale = 0.72 + 0.34 * pop
+        alpha = round(255 * fade)
+
+        painter.save()
+        painter.translate(64, y)
+        painter.scale(scale, scale)
+        self._draw_new_badge_strokes(painter, QColor(80, 39, 0, alpha), 6)
+        self._draw_new_badge_strokes(painter, QColor(255, 255, 255, alpha), 4)
+        self._draw_new_badge_strokes(painter, QColor(255, 217, 55, alpha), 2)
+        painter.restore()
+
+    def _draw_new_badge_strokes(self, painter: QPainter, color: QColor, width: int) -> None:
+        painter.setPen(QPen(color, width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+        strokes = [
+            ((-26, 8), (-26, -8)),
+            ((-26, -8), (-16, 8)),
+            ((-16, 8), (-16, -8)),
+            ((-10, -8), (-10, 8)),
+            ((-10, -8), (1, -8)),
+            ((-10, 0), (-1, 0)),
+            ((-10, 8), (1, 8)),
+            ((7, -8), (10, 8)),
+            ((10, 8), (15, -2)),
+            ((15, -2), (20, 8)),
+            ((20, 8), (23, -8)),
+            ((29, -8), (29, 3)),
+            ((29, 8), (29, 8)),
+        ]
+        for start, end in strokes:
+            painter.drawLine(start[0], start[1], end[0], end[1])
+
     def _effect_duration_ms(self) -> int:
         if self._effect_name == "death":
             return DEATH_RESOLUTION_DURATION_MS
@@ -351,6 +475,13 @@ def _smooth_pulse(elapsed_ms: int, period_ms: int) -> float:
 def _ease_out_cubic(value: float) -> float:
     clamped = max(0.0, min(1.0, value))
     return 1.0 - math.pow(1.0 - clamped, 3)
+
+
+def _ease_out_back(value: float) -> float:
+    clamped = max(0.0, min(1.0, value))
+    overshoot = 1.70158
+    shifted = clamped - 1.0
+    return 1.0 + (overshoot + 1.0) * math.pow(shifted, 3) + overshoot * math.pow(shifted, 2)
 
 
 def _scaled_rect(rect: QRect, x_scale: float, y_scale: float) -> QRect:

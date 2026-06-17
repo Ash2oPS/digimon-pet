@@ -79,6 +79,36 @@ def test_pending_lifecycle_effect_pulses_sprite_scale():
     assert target.height() > SPRITE_TARGET_RECT.height()
 
 
+def test_pending_lifecycle_event_renders_clickable_bubble():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("evolution")
+
+    image = QImage(widget.size(), QImage.Format.Format_ARGB32)
+    image.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(image)
+    widget.render(painter, QPoint(0, 0))
+    painter.end()
+
+    bubble_center = widget.event_prompt_rect().center()
+
+    assert widget.event_prompt_kind() == "evolution"
+    assert widget.is_event_prompt_at(bubble_center)
+    assert not widget.is_event_prompt_at(SPRITE_TARGET_RECT.center())
+    assert image.pixelColor(bubble_center).alpha() > 0
+
+
+def test_clearing_lifecycle_pending_hides_event_bubble():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("death")
+
+    widget.set_lifecycle_pending(None)
+
+    assert widget.event_prompt_kind() is None
+    assert not widget.is_event_prompt_at(QPoint(64, 24))
+
+
 def test_death_resolution_hides_sprite_immediately_and_emits_particles():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
@@ -114,3 +144,22 @@ def test_evolution_resolution_calls_reveal_before_finish():
 
     assert events == ["revealed"]
     assert widget._effect_name == "evolution"
+
+
+def test_new_badge_renders_above_pet():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.trigger_new_badge()
+
+    image = QImage(widget.size(), QImage.Format.Format_ARGB32)
+    image.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(image)
+    widget.render(painter, QPoint(0, 0))
+    painter.end()
+
+    assert widget._new_badge_elapsed_ms > 0
+    assert any(
+        image.pixelColor(x, y).alpha() > 0
+        for x in range(30, 98)
+        for y in range(2, 28)
+    )

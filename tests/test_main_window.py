@@ -141,7 +141,7 @@ def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch
     assert window._pet_widget._effect_name == "pending_evolution"
 
 
-def test_click_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):
+def test_click_on_pet_body_does_not_start_lifecycle_resolution_animation(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
 
@@ -165,6 +165,45 @@ def test_click_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):
         QPointF(16, 16),
         QPointF(16, 16),
         QPointF(16, 16),
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.NoButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+
+    window.mousePressEvent(press)
+    window.mouseReleaseEvent(release)
+
+    assert window._pending_lifecycle_kind == "evolution"
+    assert window._lifecycle_animating is False
+    assert window._pet_widget._effect_name == "pending_evolution"
+
+
+def test_click_on_event_bubble_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._queue_or_advance_lifecycle()
+    bubble_center = window._pet_widget.event_prompt_rect().center()
+    bubble_point = QPointF(bubble_center)
+    press = QMouseEvent(
+        QEvent.Type.MouseButtonPress,
+        bubble_point,
+        bubble_point,
+        bubble_point,
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.LeftButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+    release = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        bubble_point,
+        bubble_point,
+        bubble_point,
         Qt.MouseButton.LeftButton,
         Qt.MouseButton.NoButton,
         Qt.KeyboardModifier.NoModifier,
@@ -250,6 +289,54 @@ def test_auto_lifecycle_resolves_without_pending_animation(tmp_path, monkeypatch
     assert window._pending_lifecycle_kind is None
     assert window._pet_widget._effect_name is None
     assert window._state.species_id == "koromon"
+
+
+def test_new_badge_appears_for_new_evolution_species(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._state.discovered_species_ids = ["botamon"]
+
+    window._queue_or_advance_lifecycle()
+
+    assert window._state.species_id == "koromon"
+    assert window._pet_widget._new_badge_elapsed_ms > 0
+
+
+def test_new_badge_does_not_appear_for_known_evolution_species(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._state.discovered_species_ids = ["botamon", "koromon"]
+
+    window._queue_or_advance_lifecycle()
+
+    assert window._state.species_id == "koromon"
+    assert window._pet_widget._new_badge_elapsed_ms == 0
+
+
+def test_new_badge_appears_for_new_rebirth_baby(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.discovered_species_ids = ["botamon"]
+    window._state.needs_rebirth_choice = True
+
+    window._choose_rebirth("yuramon")
+
+    assert window._state.species_id == "yuramon"
+    assert window._pet_widget._new_badge_elapsed_ms > 0
 
 
 def test_debug_panel_updates_pet_stat():

@@ -171,7 +171,11 @@ class PetWindow(QWidget):
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton and self._drag_offset is not None:
-            if self._pending_lifecycle_kind is not None and not self._was_dragging:
+            if (
+                self._pending_lifecycle_kind is not None
+                and not self._was_dragging
+                and self._pet_widget.is_event_prompt_at(event.position().toPoint())
+            ):
                 self._drag_offset = None
                 self._confirm_pending_lifecycle()
                 event.accept()
@@ -379,6 +383,7 @@ class PetWindow(QWidget):
     def _resolve_lifecycle_now(self, *, clear_effect: bool = True) -> None:
         if clear_effect:
             self._pet_widget.set_lifecycle_pending(None)
+        discovered_before = set(self._state.discovered_species_ids)
         event = advance_lifecycle(
             self._state,
             self._species,
@@ -386,9 +391,12 @@ class PetWindow(QWidget):
             self._lifecycle_schedule,
             self._rng,
         )
+        if event is not None and event.startswith("evolved:"):
+            self._trigger_new_badge_if_needed(discovered_before)
         if event == "died:choice_required":
             if self._auto_rebirth_random:
                 choose_rebirth(self._state, self._rng.choice(BABY_1_CHOICES), self._species)
+                self._trigger_new_badge_if_needed(discovered_before)
                 return
             self._prompt_rebirth_choice()
 
@@ -424,8 +432,14 @@ class PetWindow(QWidget):
         return by_label[selected]
 
     def _choose_rebirth(self, baby_id: str) -> None:
+        discovered_before = set(self._state.discovered_species_ids)
         choose_rebirth(self._state, baby_id, self._species)
+        self._trigger_new_badge_if_needed(discovered_before)
         self._save_and_refresh()
+
+    def _trigger_new_badge_if_needed(self, discovered_before: set[str]) -> None:
+        if self._state.species_id not in discovered_before:
+            self._pet_widget.trigger_new_badge()
 
     def _save_and_refresh(self) -> None:
         save_pet_state(self._state)
