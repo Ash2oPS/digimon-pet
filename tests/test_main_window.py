@@ -2,6 +2,7 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+import pytest
 from PySide6.QtCore import QEvent, QPoint, QPointF, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
@@ -12,6 +13,14 @@ from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state
 from digimon_pet.storage import save_store
+
+
+@pytest.fixture(autouse=True)
+def default_initial_baby_choice(monkeypatch):
+    monkeypatch.setattr(
+        "digimon_pet.app.main_window.QInputDialog.getItem",
+        lambda *args, **kwargs: ("Botamon", True),
+    )
 
 
 def test_pet_window_does_not_auto_move():
@@ -76,6 +85,26 @@ def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
     assert second._debug_panel._time_scale_input.value() == 9
     assert second._debug_panel._auto_rebirth_checkbox.isChecked()
     assert second._debug_panel._auto_lifecycle_checkbox.isChecked()
+
+
+def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    monkeypatch.setattr(
+        "digimon_pet.app.main_window.QInputDialog.getItem",
+        lambda *args, **kwargs: ("Punimon", True),
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+    loaded = load_pet_state(save_path)
+
+    assert window._state.species_id == "punimon"
+    assert window._state.stage == GrowthStage.BABY
+    assert window._state.age_seconds == 0
+    assert window._state.hp == 300
+    assert window._state.needs_rebirth_choice is False
+    assert loaded.species_id == "punimon"
 
 
 def test_tick_uses_debug_time_scale():

@@ -26,6 +26,7 @@ from digimon_pet.domain.lifecycle import (
 from digimon_pet.domain.models import PetState
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
+from digimon_pet.storage import save_store
 
 
 class PetWindow(QWidget):
@@ -41,6 +42,7 @@ class PetWindow(QWidget):
         self._auto_rebirth_random = self._debug_settings.auto_rebirth_random
         self._auto_lifecycle_events = self._debug_settings.auto_lifecycle_events
         self._rng = random.Random()
+        self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
         self._state = load_pet_state()
         self._pending_lifecycle_kind: str | None = None
         self._lifecycle_animating = False
@@ -80,7 +82,10 @@ class PetWindow(QWidget):
         self._move_timer = QTimer(self)
         self._move_timer.timeout.connect(self._move_pet)
 
-        self._refresh()
+        if self._needs_initial_baby_choice:
+            self._prompt_initial_baby_choice()
+        else:
+            self._refresh()
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
         if self._was_dragging:
@@ -391,6 +396,19 @@ class PetWindow(QWidget):
         self._queue_or_advance_lifecycle()
 
     def _prompt_rebirth_choice(self) -> None:
+        baby_id = self._prompt_baby_choice()
+        if baby_id is None:
+            return
+        self._choose_rebirth(baby_id)
+
+    def _prompt_initial_baby_choice(self) -> None:
+        baby_id = self._prompt_baby_choice()
+        if baby_id is not None:
+            self._choose_rebirth(baby_id)
+            return
+        self._save_and_refresh()
+
+    def _prompt_baby_choice(self) -> str | None:
         labels = [self._species[baby_id].name for baby_id in BABY_1_CHOICES]
         selected, accepted = QInputDialog.getItem(
             self,
@@ -401,9 +419,9 @@ class PetWindow(QWidget):
             False,
         )
         if not accepted:
-            return
+            return None
         by_label = {self._species[baby_id].name: baby_id for baby_id in BABY_1_CHOICES}
-        self._choose_rebirth(by_label[selected])
+        return by_label[selected]
 
     def _choose_rebirth(self, baby_id: str) -> None:
         choose_rebirth(self._state, baby_id, self._species)
