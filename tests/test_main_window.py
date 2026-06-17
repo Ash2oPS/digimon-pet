@@ -169,6 +169,30 @@ def test_tick_uses_debug_time_scale():
     assert window._state.age_seconds == 5
 
 
+def test_tick_increases_random_hp_or_mp_by_ten_each_elapsed_minute():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedChoiceRng("mp")
+    window._state.age_seconds = 59
+
+    window._tick()
+
+    assert window._state.mp == 310
+
+
+def test_tick_increases_random_non_resource_stat_by_one_each_elapsed_minute():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedChoiceRng("offense")
+    window._state.age_seconds = 59
+
+    window._tick()
+
+    assert window._state.offense == 31
+
+
 def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -721,3 +745,12 @@ class _FixedSecondaryEventRng:
 
     def randint(self, minimum: int, maximum: int) -> int:
         return minimum
+
+
+class _FixedChoiceRng(_FixedSecondaryEventRng):
+    def __init__(self, choice_value: str) -> None:
+        super().__init__([choice_value])
+        self._choice_value = choice_value
+
+    def choice(self, population):
+        return self._choice_value

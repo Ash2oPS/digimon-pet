@@ -43,6 +43,7 @@ SECONDARY_EVENT_MAX_SECONDS = 360
 SECONDARY_EVENT_TTL_SECONDS = 30
 SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
+PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
 class BabyChoiceDialog(QDialog):
@@ -324,12 +325,22 @@ class PetWindow(QWidget):
 
     def _tick(self) -> None:
         if self._pending_lifecycle_kind is None and not self._lifecycle_animating:
+            previous_age_seconds = self._state.age_seconds
             apply_tick(self._state, 1, debug_multiplier=self._debug_time_scale)
+            self._apply_passive_stat_growth(previous_age_seconds)
             if self._state.current_action not in {"sleep", "idle"}:
                 self._state.current_action = "idle"
             self._queue_or_advance_lifecycle()
         self._tick_secondary_event()
         self._save_and_refresh()
+
+    def _apply_passive_stat_growth(self, previous_age_seconds: int) -> None:
+        elapsed_minutes = self._state.age_seconds // 60 - max(0, previous_age_seconds) // 60
+        for _index in range(max(0, elapsed_minutes)):
+            stat_name = self._rng.choice(PASSIVE_GROWTH_STATS)
+            increment = 10 if stat_name in {"hp", "mp"} else 1
+            setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
+        self._state.clamp()
 
     def _move_pet(self) -> None:
         if not self._overlay:
