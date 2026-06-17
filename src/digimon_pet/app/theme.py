@@ -68,16 +68,10 @@ QLabel#EvolutionNodeName {{
     font-weight: 700;
 }}
 
-QLabel#TreeArrow {{
+QLabel#EvolutionGraphStageHeader {{
     background: transparent;
     color: {COLORS["focus"]};
     font-weight: 700;
-}}
-
-QLabel#ConditionLabel {{
-    background: transparent;
-    color: {COLORS["muted"]};
-    font-size: 11px;
 }}
 
 QPushButton {{

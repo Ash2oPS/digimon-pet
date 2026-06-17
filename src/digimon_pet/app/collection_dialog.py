@@ -4,13 +4,13 @@ from pathlib import Path
 
 from typing import Any
 
-from PySide6.QtCore import QRect, QSize, Qt, Signal
-from PySide6.QtGui import QColor, QFont, QImage, QPainter, QPixmap
-from PySide6.QtWidgets import QDialog, QGridLayout, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtCore import QPointF, QRect, QSize, Qt, Signal
+from PySide6.QtGui import QColor, QFont, QImage, QPainter, QPen, QPixmap, QPolygonF
+from PySide6.QtWidgets import QDialog, QGridLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS, COLORS
-from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, family_species_ids
+from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, graph_links, graph_species_ids
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -236,10 +236,10 @@ class EvolutionTreeDialog(QDialog):
         layout.addWidget(title)
 
         links = build_evolution_links(species, digivolutions)
-        family_ids = family_species_ids(selected_species_id, links)
-        family_links = _sort_links([link for link in links if _is_family_link(link, family_ids)], species)
-        known_count = len(family_ids.intersection(self._discovered_species_ids))
-        summary = QLabel(f"{known_count}/{len(family_ids)} family Digimon discovered")
+        graph_ids = graph_species_ids(selected_species_id, species, links)
+        visible_links = graph_links(selected_species_id, species, links)
+        known_count = len(graph_ids.intersection(self._discovered_species_ids))
+        summary = QLabel(f"{known_count}/{len(graph_ids)} graph Digimon discovered")
         summary.setObjectName("Muted")
         layout.addWidget(summary)
 
@@ -247,62 +247,122 @@ class EvolutionTreeDialog(QDialog):
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QScrollArea.Shape.NoFrame)
 
-        content = QWidget(scroll_area)
-        content_layout = QVBoxLayout(content)
-        content_layout.setContentsMargins(0, 0, 0, 0)
-        content_layout.setSpacing(8)
-
-        if family_links:
-            for link in family_links:
-                content_layout.addWidget(self._link_row(link))
-        else:
-            empty = QLabel("No known evolution links.")
-            empty.setObjectName("Muted")
-            content_layout.addWidget(empty)
-        content_layout.addStretch(1)
-
-        scroll_area.setWidget(content)
-        layout.addWidget(scroll_area, 1)
-
-    def _link_row(self, link: EvolutionLink) -> QWidget:
-        row = QWidget(self)
-        row_layout = QHBoxLayout(row)
-        row_layout.setContentsMargins(0, 0, 0, 0)
-        row_layout.setSpacing(10)
-
-        row_layout.addWidget(self._node(link.source_species_id))
-        row_layout.addWidget(self._link_details(link), 1)
-        row_layout.addWidget(self._node(link.target_species_id))
-        return row
-
-    def _node(self, species_id: str) -> QWidget:
-        species = self._species[species_id]
-        return EvolutionNode(
+        graph = EvolutionGraphWidget(
             species,
-            species_id in self._discovered_species_ids,
-            species_id == self._selected_species_id,
-            _pixmap_for_species(species, self._manifest),
-            self,
+            graph_ids,
+            visible_links,
+            self._discovered_species_ids,
+            selected_species_id,
+            self._manifest,
+            scroll_area,
         )
 
-    def _link_details(self, link: EvolutionLink) -> QWidget:
-        details = QWidget(self)
-        layout = QVBoxLayout(details)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(3)
+        scroll_area.setWidget(graph)
+        layout.addWidget(scroll_area, 1)
 
-        arrow = QLabel("->")
-        arrow.setObjectName("TreeArrow")
-        arrow.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(arrow)
 
-        if link.target_species_id in self._discovered_species_ids:
-            condition = QLabel(link.description)
-            condition.setObjectName("ConditionLabel")
-            condition.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            condition.setWordWrap(True)
-            layout.addWidget(condition)
-        return details
+class EvolutionGraphWidget(QWidget):
+    NODE_SIZE = QSize(116, 96)
+    LEFT_MARGIN = 92
+    TOP_MARGIN = 18
+    RIGHT_MARGIN = 22
+    BOTTOM_MARGIN = 22
+    X_GAP = 34
+    Y_GAP = 54
+
+    def __init__(
+        self,
+        species: dict[str, Species],
+        graph_species: set[str],
+        links: list[EvolutionLink],
+        discovered_species_ids: set[str],
+        selected_species_id: str,
+        manifest: dict[str, Any],
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self._species = species
+        self._graph_species = graph_species
+        self._links = links
+        self._discovered_species_ids = discovered_species_ids
+        self._selected_species_id = selected_species_id
+        self._manifest = manifest
+        self._nodes: dict[str, EvolutionNode] = {}
+        self._build_graph()
+
+    def paintEvent(self, event) -> None:  # noqa: N802
+        super().paintEvent(event)
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setPen(QPen(QColor(COLORS["focus"]), 1))
+        painter.setBrush(QColor(COLORS["focus"]))
+
+        for link in self._links:
+            if link.source_species_id is None:
+                continue
+            source = self._nodes.get(link.source_species_id)
+            target = self._nodes.get(link.target_species_id)
+            if source is None or target is None:
+                continue
+            source_rect = source.geometry()
+            target_rect = target.geometry()
+            start = QPointF(source_rect.center().x(), source_rect.bottom())
+            end = QPointF(target_rect.center().x(), target_rect.top())
+            painter.drawLine(start, end)
+            painter.drawPolygon(
+                QPolygonF(
+                    [
+                        end,
+                        QPointF(end.x() - 4, end.y() - 7),
+                        QPointF(end.x() + 4, end.y() - 7),
+                    ]
+                )
+            )
+
+    def _build_graph(self) -> None:
+        incoming_requirements = _incoming_requirements(self._links)
+        stage_rows = [
+            (stage, self._species_for_stage(stage))
+            for stage in STAGE_ORDER
+            if self._species_for_stage(stage)
+        ]
+
+        y = self.TOP_MARGIN
+        max_width = self.LEFT_MARGIN + self.NODE_SIZE.width() + self.RIGHT_MARGIN
+        for stage, stage_species in stage_rows:
+            header = QLabel(STAGE_LABELS[stage], self)
+            header.setObjectName("EvolutionGraphStageHeader")
+            header.setGeometry(0, y + 34, self.LEFT_MARGIN - 14, 22)
+            header.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+
+            for index, species_id in enumerate(stage_species):
+                item = self._species[species_id]
+                x = self.LEFT_MARGIN + index * (self.NODE_SIZE.width() + self.X_GAP)
+                requirements = incoming_requirements.get(species_id, [])
+                node = EvolutionNode(
+                    item,
+                    species_id in self._discovered_species_ids,
+                    species_id == self._selected_species_id,
+                    _pixmap_for_species(item, self._manifest),
+                    requirements,
+                    self,
+                )
+                node.setGeometry(x, y, self.NODE_SIZE.width(), self.NODE_SIZE.height())
+                self._nodes[species_id] = node
+                max_width = max(max_width, x + self.NODE_SIZE.width() + self.RIGHT_MARGIN)
+            y += self.NODE_SIZE.height() + self.Y_GAP
+
+        graph_height = max(self.TOP_MARGIN + self.NODE_SIZE.height() + self.BOTTOM_MARGIN, y - self.Y_GAP + self.BOTTOM_MARGIN)
+        self.setMinimumSize(max_width, graph_height)
+
+    def _species_for_stage(self, stage: GrowthStage) -> list[str]:
+        return sorted(
+            (species_id for species_id in self._graph_species if self._species[species_id].stage == stage),
+            key=lambda species_id: (
+                0 if species_id == self._selected_species_id else 1,
+                self._species[species_id].name,
+            ),
+        )
 
 
 class EvolutionNode(QWidget):
@@ -312,13 +372,15 @@ class EvolutionNode(QWidget):
         discovered: bool,
         selected: bool,
         pixmap: QPixmap | None,
+        requirements: list[str] | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
+        self._species = species
         self.setObjectName("EvolutionNode")
         self.setProperty("selected", selected)
         self.setFixedSize(QSize(116, 96))
-        self.setToolTip(species.name if discovered else "Unknown")
+        self.setToolTip(_node_tooltip(species, discovered, requirements or []))
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(8, 8, 8, 7)
@@ -387,19 +449,16 @@ def _tree_node_pixmap(pixmap: QPixmap | None, discovered: bool) -> QPixmap:
     return placeholder
 
 
-def _is_family_link(link: EvolutionLink, family_ids: set[str]) -> bool:
-    return link.source_species_id in family_ids and link.target_species_id in family_ids
+def _incoming_requirements(links: list[EvolutionLink]) -> dict[str, list[str]]:
+    requirements: dict[str, list[str]] = {}
+    for link in links:
+        requirements.setdefault(link.target_species_id, []).append(link.description)
+    return requirements
 
 
-def _sort_links(links: list[EvolutionLink], species: dict[str, Species]) -> list[EvolutionLink]:
-    stage_index = {stage: index for index, stage in enumerate(STAGE_ORDER)}
-    return sorted(
-        links,
-        key=lambda link: (
-            stage_index.get(species[link.source_species_id].stage, 99),
-            species[link.source_species_id].name,
-            link.order,
-            stage_index.get(species[link.target_species_id].stage, 99),
-            species[link.target_species_id].name,
-        ),
-    )
+def _node_tooltip(species: Species, discovered: bool, requirements: list[str]) -> str:
+    if not discovered:
+        return "Unknown"
+    if not requirements:
+        return species.name
+    return "\n".join([species.name, "Requirements:", *requirements])
