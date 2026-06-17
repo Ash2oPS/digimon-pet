@@ -394,6 +394,7 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
     assert window._state.offense == 40
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() is None
+    assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF"]
 
 
 def test_secondary_event_does_not_override_pending_lifecycle(tmp_path, monkeypatch):
@@ -412,6 +413,24 @@ def test_secondary_event_does_not_override_pending_lifecycle(tmp_path, monkeypat
     assert window._pending_lifecycle_kind == "evolution"
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() == "evolution"
+
+def test_evolution_triggers_stat_gain_text(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._state.hp = 1000
+    window._state.mp = 1000
+    window._state.offense = 100
+
+    window._queue_or_advance_lifecycle()
+
+    assert any(label.startswith("+") and label.endswith("HP") for label in window._pet_widget._stat_gain_labels)
+    assert any(label.startswith("+") and label.endswith("OFF") for label in window._pet_widget._stat_gain_labels)
 
 def test_new_badge_appears_for_new_evolution_species(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])

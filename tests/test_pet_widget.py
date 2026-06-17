@@ -226,6 +226,23 @@ def test_new_badge_renders_above_pet():
     )
 
 
+def test_stat_gain_text_renders_in_blue():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.trigger_stat_gain_text({"hp": 100, "offense": 10})
+
+    image = _render_widget(widget)
+
+    assert widget._stat_gain_elapsed_ms > 0
+    assert widget._stat_gain_labels == ["+100HP", "+10OFF"]
+    assert any(
+        pixel.blue() > 150 and pixel.red() < 120
+        for x in range(12, 116)
+        for y in range(0, 44)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
+
+
 def _render_widget(widget: PetWidget) -> QImage:
     image = QImage(widget.size(), QImage.Format.Format_ARGB32)
     image.fill(Qt.GlobalColor.transparent)

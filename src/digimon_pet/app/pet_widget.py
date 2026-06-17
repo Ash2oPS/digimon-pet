@@ -20,11 +20,44 @@ RESOLUTION_DURATION_MS = 1450
 EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
+STAT_GAIN_TEXT_DURATION_MS = 1700
 LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
 RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
 SECONDARY_EVENT_PROMPTS = {"meat", "dumbbell"}
+STAT_LABELS = {
+    "hp": "HP",
+    "mp": "MP",
+    "offense": "OFF",
+    "defense": "DEF",
+    "speed": "SPD",
+    "brains": "INT",
+}
+PIXEL_GLYPHS = {
+    "+": ("000", "010", "111", "010", "000"),
+    "0": ("111", "101", "101", "101", "111"),
+    "1": ("010", "110", "010", "010", "111"),
+    "2": ("111", "001", "111", "100", "111"),
+    "3": ("111", "001", "111", "001", "111"),
+    "4": ("101", "101", "111", "001", "001"),
+    "5": ("111", "100", "111", "001", "111"),
+    "6": ("111", "100", "111", "101", "111"),
+    "7": ("111", "001", "010", "010", "010"),
+    "8": ("111", "101", "111", "101", "111"),
+    "9": ("111", "101", "111", "001", "111"),
+    "D": ("110", "101", "101", "101", "110"),
+    "E": ("111", "100", "110", "100", "111"),
+    "F": ("111", "100", "110", "100", "100"),
+    "H": ("101", "101", "111", "101", "101"),
+    "I": ("111", "010", "010", "010", "111"),
+    "M": ("101", "111", "111", "101", "101"),
+    "N": ("101", "111", "111", "111", "101"),
+    "O": ("111", "101", "101", "101", "111"),
+    "P": ("111", "101", "111", "100", "100"),
+    "S": ("111", "100", "111", "001", "111"),
+    "T": ("111", "010", "010", "010", "010"),
+}
 
 
 class PetWidget(QWidget):
@@ -51,6 +84,10 @@ class PetWidget(QWidget):
         self._new_badge_elapsed_ms = 0
         self._new_badge_timer = QTimer(self)
         self._new_badge_timer.timeout.connect(self._advance_new_badge)
+        self._stat_gain_elapsed_ms = 0
+        self._stat_gain_labels: list[str] = []
+        self._stat_gain_timer = QTimer(self)
+        self._stat_gain_timer.timeout.connect(self._advance_stat_gain_text)
         self.setFixedSize(128, 128)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
@@ -111,6 +148,19 @@ class PetWidget(QWidget):
         self._new_badge_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
+    def trigger_stat_gain_text(self, gains: dict[str, int]) -> None:
+        labels = [
+            f"+{int(amount)}{STAT_LABELS[stat_name]}"
+            for stat_name, amount in gains.items()
+            if stat_name in STAT_LABELS and int(amount) > 0
+        ]
+        if not labels:
+            return
+        self._stat_gain_labels = labels
+        self._stat_gain_elapsed_ms = 1
+        self._stat_gain_timer.start(EFFECT_INTERVAL_MS)
+        self.update()
+
     def set_secondary_event_prompt(self, kind: str | None) -> None:
         if kind is not None and kind not in SECONDARY_EVENT_PROMPTS:
             raise ValueError(f"Unknown secondary event prompt: {kind}")
@@ -163,6 +213,7 @@ class PetWidget(QWidget):
         self._draw_effect_particles(painter)
         self._draw_event_prompt(painter)
         self._draw_new_badge(painter)
+        self._draw_stat_gain_text(painter)
 
     def _load_pixmap(self, animation: SpriteAnimation | None) -> QPixmap | None:
         if animation is None:
@@ -230,6 +281,14 @@ class PetWidget(QWidget):
         if self._new_badge_elapsed_ms >= NEW_BADGE_DURATION_MS:
             self._new_badge_elapsed_ms = 0
             self._new_badge_timer.stop()
+        self.update()
+
+    def _advance_stat_gain_text(self) -> None:
+        self._stat_gain_elapsed_ms += EFFECT_INTERVAL_MS
+        if self._stat_gain_elapsed_ms >= STAT_GAIN_TEXT_DURATION_MS:
+            self._stat_gain_elapsed_ms = 0
+            self._stat_gain_labels = []
+            self._stat_gain_timer.stop()
         self.update()
 
     def _sprite_pixmap(self, pixmap: QPixmap, source: QRect | None) -> QPixmap:
@@ -493,6 +552,35 @@ class PetWidget(QWidget):
         for start, end in strokes:
             painter.drawLine(start[0], start[1], end[0], end[1])
 
+    def _draw_stat_gain_text(self, painter: QPainter) -> None:
+        if self._stat_gain_elapsed_ms <= 0 or not self._stat_gain_labels:
+            return
+        progress = min(1.0, self._stat_gain_elapsed_ms / STAT_GAIN_TEXT_DURATION_MS)
+        fade = 1.0 if progress < 0.72 else max(0.0, 1.0 - (progress - 0.72) / 0.28)
+        y_offset = round(9 * _ease_out_cubic(progress))
+        alpha = round(255 * fade)
+
+        painter.save()
+        rows = [" ".join(self._stat_gain_labels[index : index + 2]) for index in range(0, len(self._stat_gain_labels), 2)]
+        for row_index, text in enumerate(rows[:3]):
+            y = 14 + row_index * 13 - y_offset
+            self._draw_outlined_pixel_text(
+                painter,
+                y,
+                text,
+                QColor(0, 42, 84, alpha),
+                QColor(70, 178, 255, alpha),
+            )
+        painter.restore()
+
+    def _draw_outlined_pixel_text(self, painter: QPainter, y: int, text: str, outline: QColor, fill: QColor) -> None:
+        scale = 2
+        width = _pixel_text_width(text, scale)
+        x = max(0, (self.width() - width) // 2)
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            _draw_pixel_text(painter, text, x + dx, y + dy, scale, outline)
+        _draw_pixel_text(painter, text, x, y, scale, fill)
+
     def _effect_duration_ms(self) -> int:
         if self._effect_name == "death":
             return DEATH_RESOLUTION_DURATION_MS
@@ -525,6 +613,32 @@ def _stats_tooltip(state: PetState) -> str:
             f"INT: {state.brains}",
         ]
     )
+
+
+def _pixel_text_width(text: str, scale: int) -> int:
+    width = 0
+    for char in text:
+        width += (2 if char == " " else 4) * scale
+    return max(0, width - scale)
+
+
+def _draw_pixel_text(painter: QPainter, text: str, x: int, y: int, scale: int, color: QColor) -> None:
+    painter.setPen(Qt.PenStyle.NoPen)
+    painter.setBrush(color)
+    cursor_x = x
+    for char in text:
+        if char == " ":
+            cursor_x += 2 * scale
+            continue
+        glyph = PIXEL_GLYPHS.get(char)
+        if glyph is None:
+            cursor_x += 4 * scale
+            continue
+        for row_index, row in enumerate(glyph):
+            for column_index, enabled in enumerate(row):
+                if enabled == "1":
+                    painter.drawRect(cursor_x + column_index * scale, y + row_index * scale, scale, scale)
+        cursor_x += 4 * scale
 
 
 def _smooth_pulse(elapsed_ms: int, period_ms: int) -> float:
