@@ -230,10 +230,10 @@ def test_evolution_tree_groups_nodes_by_growth_stage_from_top_to_bottom():
     assert headers == ["Baby1", "Baby2", "Rookie", "Champion"]
 
 
-def test_evolution_tree_stops_one_stage_after_highest_discovered_graph_species():
+def test_evolution_tree_stops_one_stage_after_selected_species_stage():
     app = QApplication.instance() or QApplication([])
 
-    tree = EvolutionTreeDialog(_species_map(), _digivolutions(), {"botamon", "koromon"}, "botamon")
+    tree = EvolutionTreeDialog(_species_map(), _digivolutions(), {"botamon", "koromon", "agumon"}, "koromon")
 
     headers = [
         label.text()

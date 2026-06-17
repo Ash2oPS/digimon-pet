@@ -237,7 +237,7 @@ class EvolutionTreeDialog(QDialog):
 
         links = build_evolution_links(species, digivolutions)
         all_graph_ids = graph_species_ids(selected_species_id, species, links)
-        graph_ids = _graph_species_until_next_stage(all_graph_ids, species, self._discovered_species_ids)
+        graph_ids = _graph_species_until_stage_after_selected(all_graph_ids, species, selected.stage)
         visible_links = _links_within_graph(graph_links(selected_species_id, species, links), graph_ids)
         known_count = len(graph_ids.intersection(self._discovered_species_ids))
         summary = QLabel(f"{known_count}/{len(graph_ids)} graph Digimon discovered")
@@ -481,17 +481,12 @@ def _stage_index(stage: GrowthStage) -> int:
     return STAGE_ORDER.index(stage)
 
 
-def _graph_species_until_next_stage(
+def _graph_species_until_stage_after_selected(
     graph_species_ids: set[str],
     species: dict[str, Species],
-    discovered_species_ids: set[str],
+    selected_stage: GrowthStage,
 ) -> set[str]:
-    discovered_graph_ids = graph_species_ids.intersection(discovered_species_ids)
-    if not discovered_graph_ids:
-        return set(graph_species_ids)
-
-    highest_discovered_stage = max(_stage_index(species[species_id].stage) for species_id in discovered_graph_ids)
-    max_visible_stage = min(highest_discovered_stage + 1, len(STAGE_ORDER) - 1)
+    max_visible_stage = min(_stage_index(selected_stage) + 1, len(STAGE_ORDER) - 1)
     return {
         species_id
         for species_id in graph_species_ids
