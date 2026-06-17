@@ -7,6 +7,7 @@ from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication
 
 from digimon_pet.app.pet_widget import PetWidget, SHADOW_OFFSET, SPRITE_TARGET_RECT
+from digimon_pet.app.sprite_runtime import SpriteAnimation
 
 
 def test_pet_widget_draws_shadow_from_sprite_alpha():
@@ -65,6 +66,15 @@ def test_pet_widget_flips_sprite_and_shadow_when_on_left_side():
     assert original_side_pixel.alpha() == 0
     assert mirrored_shadow_pixel.alpha() > 0
     assert mirrored_shadow_pixel.red() < 10
+
+
+def test_sprite_animation_timer_is_two_and_a_half_times_slower_than_sheet_fps():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+
+    widget._configure_animation_timer(SpriteAnimation(path="unused.png", frame_count=2, fps=10))
+
+    assert widget._animation_timer.interval() == 250
 
 
 def test_pending_lifecycle_effect_pulses_sprite_scale():

@@ -21,6 +21,7 @@ EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
+SPRITESHEET_ANIMATION_SPEED_DIVISOR = 2.5
 LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
 RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
@@ -243,7 +244,7 @@ class PetWidget(QWidget):
             return
         if animation is None or animation.frame_count <= 1:
             return
-        self._animation_timer.start(max(16, round(1000 / animation.fps)))
+        self._animation_timer.start(max(16, round((1000 / animation.fps) * SPRITESHEET_ANIMATION_SPEED_DIVISOR)))
 
     def _advance_frame(self) -> None:
         if not self._frame_rects:
