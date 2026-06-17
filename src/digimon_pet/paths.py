@@ -18,6 +18,7 @@ ASSETS_DIR = PROJECT_ROOT / "assets"
 LEGACY_SAVE_DIR = desktop_platform.legacy_project_save_dir(PROJECT_ROOT)
 SAVE_DIR = desktop_platform.user_data_dir()
 SAVE_PATH = SAVE_DIR / "pet_save.json"
+DEBUG_SAVE_PATH = SAVE_DIR / "Debug" / "pet_save.json"
 DEBUG_SETTINGS_PATH = SAVE_DIR / "debug_settings.json"
 LEGACY_SAVE_PATH = LEGACY_SAVE_DIR / "pet_save.json"
 LEGACY_DEBUG_SETTINGS_PATH = LEGACY_SAVE_DIR / "debug_settings.json"

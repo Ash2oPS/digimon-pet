@@ -7,7 +7,14 @@ from pathlib import Path
 from typing import Any
 
 from digimon_pet.domain.models import GrowthStage, PetState
-from digimon_pet.paths import DATA_DIR, LEGACY_SAVE_PATH, SAVE_PATH, ensure_save_dir
+from digimon_pet.paths import DATA_DIR, DEBUG_SAVE_PATH, LEGACY_SAVE_PATH, SAVE_PATH as NORMAL_SAVE_PATH, ensure_save_dir
+
+SAVE_PATH = NORMAL_SAVE_PATH
+
+
+def configure_save_path(*, debug: bool) -> None:
+    global SAVE_PATH
+    SAVE_PATH = DEBUG_SAVE_PATH if debug else NORMAL_SAVE_PATH
 
 
 def load_pet_state(path: Path | None = None) -> PetState:

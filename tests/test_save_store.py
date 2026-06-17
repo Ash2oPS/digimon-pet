@@ -147,3 +147,25 @@ def test_load_does_not_replace_existing_user_save_with_legacy_save(tmp_path, mon
 
     assert loaded.species_id == "koromon"
     assert "koromon" in save_path.read_text(encoding="utf-8")
+
+
+def test_configure_save_path_uses_normal_user_save_by_default(tmp_path, monkeypatch):
+    normal_path = tmp_path / "Digimon Pet" / "pet_save.json"
+    debug_path = tmp_path / "Digimon Pet" / "Debug" / "pet_save.json"
+    monkeypatch.setattr(save_store, "NORMAL_SAVE_PATH", normal_path)
+    monkeypatch.setattr(save_store, "DEBUG_SAVE_PATH", debug_path)
+
+    save_store.configure_save_path(debug=False)
+
+    assert save_store.SAVE_PATH == normal_path
+
+
+def test_configure_save_path_uses_debug_subfolder_for_debug_mode(tmp_path, monkeypatch):
+    normal_path = tmp_path / "Digimon Pet" / "pet_save.json"
+    debug_path = tmp_path / "Digimon Pet" / "Debug" / "pet_save.json"
+    monkeypatch.setattr(save_store, "NORMAL_SAVE_PATH", normal_path)
+    monkeypatch.setattr(save_store, "DEBUG_SAVE_PATH", debug_path)
+
+    save_store.configure_save_path(debug=True)
+
+    assert save_store.SAVE_PATH == debug_path

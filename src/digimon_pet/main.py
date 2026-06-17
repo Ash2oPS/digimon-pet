@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.app.tray import create_app_icon, create_tray_icon
+from digimon_pet.storage import save_store
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -21,6 +22,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     desktop_platform.configure_process_for_desktop_app()
+    save_store.configure_save_path(debug=args.debug)
     app = QApplication(sys.argv[:1])
     app.setWindowIcon(create_app_icon())
     app.setQuitOnLastWindowClosed(False)
