@@ -172,7 +172,10 @@ try {
     $pull = Invoke-Git @("pull", "--ff-only")
     if ($pull.ExitCode -ne 0) {
         Show-Notice "La mise a jour Git a echoue. Le jeu va demarrer avec la version locale.`n`n$($pull.Output)" "Mise a jour impossible"
+        exit 0
     }
+
+    exit 10
 }
 catch {
     exit 0

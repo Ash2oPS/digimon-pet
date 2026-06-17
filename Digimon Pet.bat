@@ -7,6 +7,11 @@ set "UPDATE_CHECK=packaging\windows\launcher_update_check.ps1"
 
 if exist "%UPDATE_CHECK%" (
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%UPDATE_CHECK%"
+    set "UPDATE_EXIT_CODE=%ERRORLEVEL%"
+    if "%UPDATE_EXIT_CODE%"=="10" (
+        call "%~f0" %*
+        exit /b %ERRORLEVEL%
+    )
 )
 
 if not exist "%VENV_PY%" (
