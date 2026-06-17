@@ -9,3 +9,4 @@ build/
 dist/
 *.egg-info/
 assets/sprite_sources/
+assets/artworks/

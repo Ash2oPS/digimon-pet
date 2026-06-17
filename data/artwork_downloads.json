@@ -1,0 +1,498 @@
+[
+  {
+    "species_id": "botamon",
+    "name": "Botamon",
+    "official_name": "Botamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=botamon",
+    "url": "https://www.digimon.net/cimages/digimon/botamon.jpg",
+    "path": "assets/artworks/botamon.jpg"
+  },
+  {
+    "species_id": "poyomon",
+    "name": "Poyomon",
+    "official_name": "Poyomon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=poyomon",
+    "url": "https://www.digimon.net/cimages/digimon/poyomon.jpg",
+    "path": "assets/artworks/poyomon.jpg"
+  },
+  {
+    "species_id": "punimon",
+    "name": "Punimon",
+    "official_name": "Punimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=punimon",
+    "url": "https://www.digimon.net/cimages/digimon/punimon.jpg",
+    "path": "assets/artworks/punimon.jpg"
+  },
+  {
+    "species_id": "yuramon",
+    "name": "Yuramon",
+    "official_name": "Yuramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=yuramon",
+    "url": "https://www.digimon.net/cimages/digimon/yuramon.jpg",
+    "path": "assets/artworks/yuramon.jpg"
+  },
+  {
+    "species_id": "koromon",
+    "name": "Koromon",
+    "official_name": "Koromon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=koromon",
+    "url": "https://www.digimon.net/cimages/digimon/koromon.jpg",
+    "path": "assets/artworks/koromon.jpg"
+  },
+  {
+    "species_id": "tanemon",
+    "name": "Tanemon",
+    "official_name": "Tanemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=tanemon",
+    "url": "https://www.digimon.net/cimages/digimon/tanemon.jpg",
+    "path": "assets/artworks/tanemon.jpg"
+  },
+  {
+    "species_id": "tokomon",
+    "name": "Tokomon",
+    "official_name": "Tokomon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=tokomon",
+    "url": "https://www.digimon.net/cimages/digimon/tokomon.jpg",
+    "path": "assets/artworks/tokomon.jpg"
+  },
+  {
+    "species_id": "tsunomon",
+    "name": "Tsunomon",
+    "official_name": "Tsunomon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=tunomon",
+    "url": "https://www.digimon.net/cimages/digimon/tunomon.jpg",
+    "path": "assets/artworks/tsunomon.jpg"
+  },
+  {
+    "species_id": "agumon",
+    "name": "Agumon",
+    "official_name": "Agumon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=agumon",
+    "url": "https://www.digimon.net/cimages/digimon/agumon.jpg",
+    "path": "assets/artworks/agumon.jpg"
+  },
+  {
+    "species_id": "betamon",
+    "name": "Betamon",
+    "official_name": "Betamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=betamon",
+    "url": "https://www.digimon.net/cimages/digimon/betamon.jpg",
+    "path": "assets/artworks/betamon.jpg"
+  },
+  {
+    "species_id": "elecmon",
+    "name": "Elecmon",
+    "official_name": "Elecmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=elecmon",
+    "url": "https://www.digimon.net/cimages/digimon/elecmon.jpg",
+    "path": "assets/artworks/elecmon.jpg"
+  },
+  {
+    "species_id": "gabumon",
+    "name": "Gabumon",
+    "official_name": "Gabumon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=gabumon",
+    "url": "https://www.digimon.net/cimages/digimon/gabumon.jpg",
+    "path": "assets/artworks/gabumon.jpg"
+  },
+  {
+    "species_id": "kunemon",
+    "name": "Kunemon",
+    "official_name": "Kunemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=kunemon",
+    "url": "https://www.digimon.net/cimages/digimon/kunemon.jpg",
+    "path": "assets/artworks/kunemon.jpg"
+  },
+  {
+    "species_id": "palmon",
+    "name": "Palmon",
+    "official_name": "Palmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=palmon",
+    "url": "https://www.digimon.net/cimages/digimon/palmon.jpg",
+    "path": "assets/artworks/palmon.jpg"
+  },
+  {
+    "species_id": "patamon",
+    "name": "Patamon",
+    "official_name": "Patamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=patamon",
+    "url": "https://www.digimon.net/cimages/digimon/patamon.jpg",
+    "path": "assets/artworks/patamon.jpg"
+  },
+  {
+    "species_id": "biyomon",
+    "name": "Biyomon",
+    "official_name": "Biyomon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=piyomon",
+    "url": "https://www.digimon.net/cimages/digimon/piyomon.jpg",
+    "path": "assets/artworks/biyomon.jpg"
+  },
+  {
+    "species_id": "penguinmon",
+    "name": "Penguinmon",
+    "official_name": "Penmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=penmon",
+    "url": "https://www.digimon.net/cimages/digimon/penmon.jpg",
+    "path": "assets/artworks/penguinmon.jpg"
+  },
+  {
+    "species_id": "airdramon",
+    "name": "Airdramon",
+    "official_name": "Airdramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=airdramon",
+    "url": "https://www.digimon.net/cimages/digimon/airdramon.jpg",
+    "path": "assets/artworks/airdramon.jpg"
+  },
+  {
+    "species_id": "angemon",
+    "name": "Angemon",
+    "official_name": "Angemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=angemon",
+    "url": "https://www.digimon.net/cimages/digimon/angemon.jpg",
+    "path": "assets/artworks/angemon.jpg"
+  },
+  {
+    "species_id": "bakemon",
+    "name": "Bakemon",
+    "official_name": "Bakemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=bakemon",
+    "url": "https://www.digimon.net/cimages/digimon/bakemon.jpg",
+    "path": "assets/artworks/bakemon.jpg"
+  },
+  {
+    "species_id": "birdramon",
+    "name": "Birdramon",
+    "official_name": "Birdramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=birdramon",
+    "url": "https://www.digimon.net/cimages/digimon/birdramon.jpg",
+    "path": "assets/artworks/birdramon.jpg"
+  },
+  {
+    "species_id": "centarumon",
+    "name": "Centarumon",
+    "official_name": "Centarumon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=centalmon",
+    "url": "https://www.digimon.net/cimages/digimon/centalmon.jpg",
+    "path": "assets/artworks/centarumon.jpg"
+  },
+  {
+    "species_id": "coelamon",
+    "name": "Coelamon",
+    "official_name": "Coelamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=coelamon",
+    "url": "https://www.digimon.net/cimages/digimon/coelamon.jpg",
+    "path": "assets/artworks/coelamon.jpg"
+  },
+  {
+    "species_id": "devimon",
+    "name": "Devimon",
+    "official_name": "Devimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=devimon",
+    "url": "https://www.digimon.net/cimages/digimon/devimon.jpg",
+    "path": "assets/artworks/devimon.jpg"
+  },
+  {
+    "species_id": "drimogemon",
+    "name": "Drimogemon",
+    "official_name": "Drimogemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=drimogemon",
+    "url": "https://www.digimon.net/cimages/digimon/drimogemon.jpg",
+    "path": "assets/artworks/drimogemon.jpg"
+  },
+  {
+    "species_id": "frigimon",
+    "name": "Frigimon",
+    "official_name": "Frigimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=yukidarumon",
+    "url": "https://www.digimon.net/cimages/digimon/yukidarumon.jpg",
+    "path": "assets/artworks/frigimon.jpg"
+  },
+  {
+    "species_id": "garurumon",
+    "name": "Garurumon",
+    "official_name": "Garurumon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=garurumon",
+    "url": "https://www.digimon.net/cimages/digimon/garurumon.jpg",
+    "path": "assets/artworks/garurumon.jpg"
+  },
+  {
+    "species_id": "greymon",
+    "name": "Greymon",
+    "official_name": "Greymon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=greymon-first",
+    "url": "https://www.digimon.net/cimages/digimon/greymon-first.jpg",
+    "path": "assets/artworks/greymon.jpg"
+  },
+  {
+    "species_id": "kabuterimon",
+    "name": "Kabuterimon",
+    "official_name": "Kabuterimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=kabuterimon",
+    "url": "https://www.digimon.net/cimages/digimon/kabuterimon.jpg",
+    "path": "assets/artworks/kabuterimon.jpg"
+  },
+  {
+    "species_id": "kokatorimon",
+    "name": "Kokatorimon",
+    "official_name": "Kokatorimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=cockatrimon",
+    "url": "https://www.digimon.net/cimages/digimon/cockatrimon.jpg",
+    "path": "assets/artworks/kokatorimon.jpg"
+  },
+  {
+    "species_id": "kuwagamon",
+    "name": "Kuwagamon",
+    "official_name": "Kuwagamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=kuwagamon",
+    "url": "https://www.digimon.net/cimages/digimon/kuwagamon.jpg",
+    "path": "assets/artworks/kuwagamon.jpg"
+  },
+  {
+    "species_id": "leomon",
+    "name": "Leomon",
+    "official_name": "Leomon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=leomon",
+    "url": "https://www.digimon.net/cimages/digimon/leomon.jpg",
+    "path": "assets/artworks/leomon.jpg"
+  },
+  {
+    "species_id": "meramon",
+    "name": "Meramon",
+    "official_name": "Meramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=meramon",
+    "url": "https://www.digimon.net/cimages/digimon/meramon.jpg",
+    "path": "assets/artworks/meramon.jpg"
+  },
+  {
+    "species_id": "monochromon",
+    "name": "Monochromon",
+    "official_name": "Monochromon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=monochromon",
+    "url": "https://www.digimon.net/cimages/digimon/monochromon.jpg",
+    "path": "assets/artworks/monochromon.jpg"
+  },
+  {
+    "species_id": "mojyamon",
+    "name": "Mojyamon",
+    "official_name": "Mojyamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=mojyamon",
+    "url": "https://www.digimon.net/cimages/digimon/mojyamon.jpg",
+    "path": "assets/artworks/mojyamon.jpg"
+  },
+  {
+    "species_id": "nanimon",
+    "name": "Nanimon",
+    "official_name": "Nanimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=nanimon",
+    "url": "https://www.digimon.net/cimages/digimon/nanimon.jpg",
+    "path": "assets/artworks/nanimon.jpg"
+  },
+  {
+    "species_id": "ninjamon",
+    "name": "Ninjamon",
+    "official_name": "Ninjamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=igamon",
+    "url": "https://www.digimon.net/cimages/digimon/igamon.jpg",
+    "path": "assets/artworks/ninjamon.jpg"
+  },
+  {
+    "species_id": "numemon",
+    "name": "Numemon",
+    "official_name": "Numemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=numemon",
+    "url": "https://www.digimon.net/cimages/digimon/numemon.jpg",
+    "path": "assets/artworks/numemon.jpg"
+  },
+  {
+    "species_id": "ogremon",
+    "name": "Ogremon",
+    "official_name": "Ogremon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=orgemon",
+    "url": "https://www.digimon.net/cimages/digimon/orgemon.jpg",
+    "path": "assets/artworks/ogremon.jpg"
+  },
+  {
+    "species_id": "seadramon",
+    "name": "Seadramon",
+    "official_name": "Seadramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=seadramon",
+    "url": "https://www.digimon.net/cimages/digimon/seadramon.jpg",
+    "path": "assets/artworks/seadramon.jpg"
+  },
+  {
+    "species_id": "shellmon",
+    "name": "Shellmon",
+    "official_name": "Shellmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=shellmon",
+    "url": "https://www.digimon.net/cimages/digimon/shellmon.jpg",
+    "path": "assets/artworks/shellmon.jpg"
+  },
+  {
+    "species_id": "sukamon",
+    "name": "Sukamon",
+    "official_name": "Sukamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=scumon",
+    "url": "https://www.digimon.net/cimages/digimon/scumon.jpg",
+    "path": "assets/artworks/sukamon.jpg"
+  },
+  {
+    "species_id": "tyrannomon",
+    "name": "Tyrannomon",
+    "official_name": "Tyrannomon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=tyranomon",
+    "url": "https://www.digimon.net/cimages/digimon/tyranomon.jpg",
+    "path": "assets/artworks/tyrannomon.jpg"
+  },
+  {
+    "species_id": "unimon",
+    "name": "Unimon",
+    "official_name": "Unimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=yunimon",
+    "url": "https://www.digimon.net/cimages/digimon/yunimon.jpg",
+    "path": "assets/artworks/unimon.jpg"
+  },
+  {
+    "species_id": "vegiemon",
+    "name": "Vegiemon",
+    "official_name": "Vegiemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=vegimon",
+    "url": "https://www.digimon.net/cimages/digimon/vegimon.jpg",
+    "path": "assets/artworks/vegiemon.jpg"
+  },
+  {
+    "species_id": "whamon",
+    "name": "Whamon",
+    "official_name": "Whamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=whamon",
+    "url": "https://www.digimon.net/cimages/digimon/whamon.jpg",
+    "path": "assets/artworks/whamon.jpg"
+  },
+  {
+    "species_id": "andromon",
+    "name": "Andromon",
+    "official_name": "Andromon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=andromon",
+    "url": "https://www.digimon.net/cimages/digimon/andromon.jpg",
+    "path": "assets/artworks/andromon.jpg"
+  },
+  {
+    "species_id": "digitamamon",
+    "name": "Digitamamon",
+    "official_name": "Digitamamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=digitamamon",
+    "url": "https://www.digimon.net/cimages/digimon/digitamamon.jpg",
+    "path": "assets/artworks/digitamamon.jpg"
+  },
+  {
+    "species_id": "etemon",
+    "name": "Etemon",
+    "official_name": "Etemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=etemon",
+    "url": "https://www.digimon.net/cimages/digimon/etemon.jpg",
+    "path": "assets/artworks/etemon.jpg"
+  },
+  {
+    "species_id": "giromon",
+    "name": "Giromon",
+    "official_name": "Giromon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=giromon",
+    "url": "https://www.digimon.net/cimages/digimon/giromon.jpg",
+    "path": "assets/artworks/giromon.jpg"
+  },
+  {
+    "species_id": "herculeskabuterimon",
+    "name": "HerculesKabuterimon",
+    "official_name": "HerculesKabuterimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=heraklekabuterimon",
+    "url": "https://www.digimon.net/cimages/digimon/heraklekabuterimon.jpg",
+    "path": "assets/artworks/herculeskabuterimon.jpg"
+  },
+  {
+    "species_id": "machinedramon",
+    "name": "Machinedramon",
+    "official_name": "Machinedramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=mugendramon",
+    "url": "https://www.digimon.net/cimages/digimon/mugendramon.jpg",
+    "path": "assets/artworks/machinedramon.jpg"
+  },
+  {
+    "species_id": "mamemon",
+    "name": "Mamemon",
+    "official_name": "Mamemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=mamemon",
+    "url": "https://www.digimon.net/cimages/digimon/mamemon.jpg",
+    "path": "assets/artworks/mamemon.jpg"
+  },
+  {
+    "species_id": "megadramon",
+    "name": "Megadramon",
+    "official_name": "Megadramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=megadramon",
+    "url": "https://www.digimon.net/cimages/digimon/megadramon.jpg",
+    "path": "assets/artworks/megadramon.jpg"
+  },
+  {
+    "species_id": "megaseadramon",
+    "name": "MegaSeadramon",
+    "official_name": "MegaSeadramon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=megaseadramon",
+    "url": "https://www.digimon.net/cimages/digimon/megaseadramon.jpg",
+    "path": "assets/artworks/megaseadramon.jpg"
+  },
+  {
+    "species_id": "metalgreymon",
+    "name": "MetalGreymon",
+    "official_name": "MetalGreymon (Virus)",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=metalgreymon-web",
+    "url": "https://www.digimon.net/cimages/digimon/metalgreymon-web.jpg",
+    "path": "assets/artworks/metalgreymon.jpg"
+  },
+  {
+    "species_id": "metalmamemon",
+    "name": "MetalMamemon",
+    "official_name": "MetalMamemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=metalmamemon",
+    "url": "https://www.digimon.net/cimages/digimon/metalmamemon.jpg",
+    "path": "assets/artworks/metalmamemon.jpg"
+  },
+  {
+    "species_id": "monzaemon",
+    "name": "Monzaemon",
+    "official_name": "Monzaemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=monzaemon",
+    "url": "https://www.digimon.net/cimages/digimon/monzaemon.jpg",
+    "path": "assets/artworks/monzaemon.jpg"
+  },
+  {
+    "species_id": "phoenixmon",
+    "name": "Phoenixmon",
+    "official_name": "Phoenixmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=hououmon",
+    "url": "https://www.digimon.net/cimages/digimon/hououmon.jpg",
+    "path": "assets/artworks/phoenixmon.jpg"
+  },
+  {
+    "species_id": "piximon",
+    "name": "Piximon",
+    "official_name": "Piximon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=picklemon",
+    "url": "https://www.digimon.net/cimages/digimon/picklemon.jpg",
+    "path": "assets/artworks/piximon.jpg"
+  },
+  {
+    "species_id": "skullgreymon",
+    "name": "SkullGreymon",
+    "official_name": "SkullGreymon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=skullgreymon",
+    "url": "https://www.digimon.net/cimages/digimon/skullgreymon.jpg",
+    "path": "assets/artworks/skullgreymon.jpg"
+  },
+  {
+    "species_id": "vademon",
+    "name": "Vademon",
+    "official_name": "Vademon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=vademon",
+    "url": "https://www.digimon.net/cimages/digimon/vademon.jpg",
+    "path": "assets/artworks/vademon.jpg"
+  }
+]

@@ -140,3 +140,11 @@ Source manifests may use per-Digimon frame metadata:
 ```
 
 For action-specific sheets, put an `animations` object with keys such as `idle`, `sleep`, `eat`, or `train`.
+
+Official artwork downloads for the stats window are declared in `data/artwork_downloads.json`. Missing files are downloaded from Digimon Web into:
+
+```text
+assets/artworks/
+```
+
+The stats window uses the local official artwork when present and falls back to the runtime sprite otherwise.

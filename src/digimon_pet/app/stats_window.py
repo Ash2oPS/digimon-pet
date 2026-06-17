@@ -6,6 +6,7 @@ from PySide6.QtCore import QRect, Qt
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QDialog, QGridLayout, QLabel, QVBoxLayout, QWidget
 
+from digimon_pet.app.artwork_runtime import download_missing_artworks, resolve_artwork_path
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.domain.models import PetState, Species
@@ -16,10 +17,11 @@ class StatsWindow(QDialog):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._manifest = load_runtime_manifest()
+        download_missing_artworks()
         self._labels: dict[str, QLabel] = {}
 
         self.setWindowTitle("Stats")
-        self.setMinimumSize(260, 300)
+        self.setMinimumSize(280, 340)
         self.setStyleSheet(APP_QSS)
 
         layout = QVBoxLayout(self)
@@ -28,7 +30,7 @@ class StatsWindow(QDialog):
 
         self._sprite_label = QLabel(self)
         self._sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._sprite_label.setMinimumHeight(104)
+        self._sprite_label.setMinimumHeight(150)
         layout.addWidget(self._sprite_label)
 
         self._name_label = QLabel("-", self)
@@ -82,14 +84,29 @@ class StatsWindow(QDialog):
             return
         self._sprite_label.setPixmap(
             pixmap.scaled(
-                96,
-                96,
+                148,
+                148,
                 Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.FastTransformation,
+                Qt.TransformationMode.SmoothTransformation,
             )
         )
 
     def _pixmap_for_species(self, state: PetState, species: Species) -> QPixmap | None:
+        artwork = self._artwork_pixmap_for_species(species)
+        if artwork is not None:
+            return artwork
+        return self._sprite_pixmap_for_species(state, species)
+
+    def _artwork_pixmap_for_species(self, species: Species) -> QPixmap | None:
+        path = resolve_artwork_path(species.id)
+        if path is None:
+            return None
+        pixmap = QPixmap(str(path))
+        if pixmap.isNull():
+            return None
+        return pixmap
+
+    def _sprite_pixmap_for_species(self, state: PetState, species: Species) -> QPixmap | None:
         animation = resolve_sprite_animation(state, species, self._manifest)
         if animation is None:
             return None
