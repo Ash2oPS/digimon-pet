@@ -285,12 +285,7 @@ class EvolutionGraphWidget(QWidget):
         self._species = species
         self._graph_species = graph_species
         self._links = links
-        self._drawable_links = [
-            link
-            for link in links
-            if link.source_species_id is not None
-            and _stage_index(species[link.target_species_id].stage) > _stage_index(species[link.source_species_id].stage)
-        ]
+        self._drawable_links = _drawable_links_for_graph(species, graph_species, links)
         self._discovered_species_ids = discovered_species_ids
         self._selected_species_id = selected_species_id
         self._manifest = manifest
@@ -479,6 +474,56 @@ def _node_tooltip(species: Species, discovered: bool, requirements: list[str]) -
 
 def _stage_index(stage: GrowthStage) -> int:
     return STAGE_ORDER.index(stage)
+
+
+def _drawable_links_for_graph(
+    species: dict[str, Species],
+    graph_species: set[str],
+    links: list[EvolutionLink],
+) -> list[EvolutionLink]:
+    drawable_links: list[EvolutionLink] = []
+    for link in links:
+        if link.source_species_id is not None:
+            if _is_forward_link(species, link.source_species_id, link.target_species_id):
+                drawable_links.append(link)
+            continue
+
+        drawable_links.extend(_concrete_links_for_global_link(species, graph_species, link))
+    return drawable_links
+
+
+def _concrete_links_for_global_link(
+    species: dict[str, Species],
+    graph_species: set[str],
+    link: EvolutionLink,
+) -> list[EvolutionLink]:
+    source_ids = sorted(
+        (
+            species_id
+            for species_id in graph_species
+            if species_id != link.target_species_id
+            and species_id not in link.excluded_source_species_ids
+            and (link.source_stage is None or species[species_id].stage == link.source_stage)
+            and _is_forward_link(species, species_id, link.target_species_id)
+        ),
+        key=lambda species_id: (_stage_index(species[species_id].stage), species[species_id].name),
+    )
+    return [
+        EvolutionLink(
+            source_id,
+            link.target_species_id,
+            link.kind,
+            link.description,
+            link.order,
+            link.source_stage,
+            link.excluded_source_species_ids,
+        )
+        for source_id in source_ids
+    ]
+
+
+def _is_forward_link(species: dict[str, Species], source_species_id: str, target_species_id: str) -> bool:
+    return _stage_index(species[target_species_id].stage) > _stage_index(species[source_species_id].stage)
 
 
 def _graph_species_until_stage_after_selected(

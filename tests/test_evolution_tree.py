@@ -135,6 +135,18 @@ def test_kunemon_is_visible_in_baby_1_and_baby_2_trees():
     assert "kunemon" in graph_species_ids("koromon", _species_map(), links)
 
 
+def test_evolution_tree_draws_possible_broad_special_evolution_from_visible_source_stage():
+    app = QApplication.instance() or QApplication([])
+
+    tree = EvolutionTreeDialog(_species_map(), _digivolutions(), {"botamon", "koromon"}, "koromon")
+    graph = tree.findChild(EvolutionGraphWidget)
+
+    assert graph is not None
+    assert ("koromon", "kunemon") in {
+        (link.source_species_id, link.target_species_id) for link in graph._drawable_links
+    }
+
+
 def test_family_uses_selected_ancestors_and_descendants_without_sibling_branches():
     species = {
         "poyomon": _species("poyomon", "Poyomon", GrowthStage.BABY),
