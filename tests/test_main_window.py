@@ -177,7 +177,7 @@ def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch
     assert window._pet_widget._effect_name == "pending_evolution"
 
 
-def test_click_on_pet_body_does_not_start_lifecycle_resolution_animation(tmp_path, monkeypatch):
+def test_click_on_pet_body_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
 
@@ -189,18 +189,18 @@ def test_click_on_pet_body_does_not_start_lifecycle_resolution_animation(tmp_pat
     window._queue_or_advance_lifecycle()
     press = QMouseEvent(
         QEvent.Type.MouseButtonPress,
-        QPointF(16, 16),
-        QPointF(16, 16),
-        QPointF(16, 16),
+        QPointF(64, 64),
+        QPointF(64, 64),
+        QPointF(64, 64),
         Qt.MouseButton.LeftButton,
         Qt.MouseButton.LeftButton,
         Qt.KeyboardModifier.NoModifier,
     )
     release = QMouseEvent(
         QEvent.Type.MouseButtonRelease,
-        QPointF(16, 16),
-        QPointF(16, 16),
-        QPointF(16, 16),
+        QPointF(64, 64),
+        QPointF(64, 64),
+        QPointF(64, 64),
         Qt.MouseButton.LeftButton,
         Qt.MouseButton.NoButton,
         Qt.KeyboardModifier.NoModifier,
@@ -209,9 +209,9 @@ def test_click_on_pet_body_does_not_start_lifecycle_resolution_animation(tmp_pat
     window.mousePressEvent(press)
     window.mouseReleaseEvent(release)
 
-    assert window._pending_lifecycle_kind == "evolution"
-    assert window._lifecycle_animating is False
-    assert window._pet_widget._effect_name == "pending_evolution"
+    assert window._pending_lifecycle_kind is None
+    assert window._lifecycle_animating is True
+    assert window._pet_widget._effect_name == "evolution"
 
 
 def test_click_on_event_bubble_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):

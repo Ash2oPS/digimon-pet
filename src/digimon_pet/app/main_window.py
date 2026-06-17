@@ -173,7 +173,10 @@ class PetWindow(QWidget):
             if (
                 self._pending_lifecycle_kind is not None
                 and not self._was_dragging
-                and self._pet_widget.is_event_prompt_at(event.position().toPoint())
+                and (
+                    self._pet_widget.is_event_prompt_at(event.position().toPoint())
+                    or self._pet_widget.is_pet_body_at(event.position().toPoint())
+                )
             ):
                 self._drag_offset = None
                 self._confirm_pending_lifecycle()

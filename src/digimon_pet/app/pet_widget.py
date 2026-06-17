@@ -121,6 +121,9 @@ class PetWidget(QWidget):
     def is_event_prompt_at(self, point: QPoint) -> bool:
         return self.event_prompt_kind() is not None and EVENT_PROMPT_RECT.contains(point)
 
+    def is_pet_body_at(self, point: QPoint) -> bool:
+        return SPRITE_TARGET_RECT.contains(point)
+
     def set_flipped_x(self, flipped: bool) -> None:
         flipped = bool(flipped)
         if self._flipped_x == flipped:
