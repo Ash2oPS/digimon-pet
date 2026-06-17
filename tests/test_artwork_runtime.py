@@ -2,7 +2,7 @@ import json
 
 from PySide6.QtGui import QColor, QImage
 
-from digimon_pet.app.artwork_runtime import download_missing_artworks, resolve_artwork_path
+from digimon_pet.app.artwork_runtime import download_artwork_for_species, download_missing_artworks, resolve_artwork_path
 from digimon_pet.data.sprite_pipeline import load_roster
 
 
@@ -62,6 +62,40 @@ def test_existing_artwork_is_not_downloaded_again(tmp_path):
 
     assert count == 0
     assert target_png.read_bytes() == b"already downloaded"
+
+
+def test_download_artwork_for_species_fetches_only_requested_species(tmp_path):
+    agumon_source = tmp_path / "remote" / "agumon.jpg"
+    numemon_source = tmp_path / "remote" / "numemon.jpg"
+    agumon_target = tmp_path / "assets" / "artworks" / "agumon.png"
+    numemon_target = tmp_path / "assets" / "artworks" / "numemon.png"
+    manifest_path = tmp_path / "data" / "artwork_downloads.json"
+    agumon_source.parent.mkdir(parents=True)
+    _save_test_artwork(agumon_source)
+    _save_test_artwork(numemon_source)
+    _write_json(
+        manifest_path,
+        [
+            {
+                "species_id": "agumon",
+                "name": "Agumon",
+                "url": agumon_source.as_uri(),
+                "path": "assets/artworks/agumon.png",
+            },
+            {
+                "species_id": "numemon",
+                "name": "Numemon",
+                "url": numemon_source.as_uri(),
+                "path": "assets/artworks/numemon.png",
+            },
+        ],
+    )
+
+    downloaded = download_artwork_for_species("numemon", tmp_path, manifest_path)
+
+    assert downloaded == numemon_target
+    assert numemon_target.exists()
+    assert not agumon_target.exists()
 
 
 def test_downloaded_artwork_keeps_internal_white_pixels_opaque(tmp_path):

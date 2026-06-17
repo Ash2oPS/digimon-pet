@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Any
-from urllib.request import urlretrieve
+from urllib.request import urlopen
 
 from PySide6.QtGui import QColor, QImage
 
@@ -11,6 +11,7 @@ from digimon_pet.paths import PROJECT_ROOT
 
 DEFAULT_ARTWORK_DOWNLOAD_MANIFEST_PATH = PROJECT_ROOT / "data" / "artwork_downloads.json"
 BACKGROUND_RGB_THRESHOLD = 245
+DEFAULT_DOWNLOAD_TIMEOUT_SECONDS = 8.0
 
 
 def download_missing_artworks(
@@ -24,21 +25,24 @@ def download_missing_artworks(
         target_path = _project_relative_path(project_root, entry.get("path"))
         if target_path.exists():
             continue
-        url = str(entry.get("url", "")).strip()
-        if not url:
-            continue
-        target_path.parent.mkdir(parents=True, exist_ok=True)
-        download_path = target_path.with_name(f"{target_path.name}.download")
-        try:
-            urlretrieve(url, download_path)
-            if not _write_transparent_artwork(download_path, target_path):
-                continue
-        except OSError:
-            continue
-        finally:
-            download_path.unlink(missing_ok=True)
-        count += 1
+        count += _download_artwork_entry(project_root, entry) is not None
     return count
+
+
+def download_artwork_for_species(
+    species_id: str,
+    project_root: Path = PROJECT_ROOT,
+    manifest_path: Path = DEFAULT_ARTWORK_DOWNLOAD_MANIFEST_PATH,
+) -> Path | None:
+    if not manifest_path.exists():
+        return None
+    entry = _artwork_entry_for_species(species_id, manifest_path)
+    if entry is None:
+        return None
+    target_path = _project_relative_path(project_root, entry.get("path"))
+    if target_path.exists():
+        return target_path
+    return _download_artwork_entry(project_root, entry)
 
 
 def resolve_artwork_path(
@@ -54,6 +58,34 @@ def resolve_artwork_path(
         target_path = _project_relative_path(project_root, entry.get("path"))
         return target_path if target_path.exists() else None
     return None
+
+
+def _artwork_entry_for_species(species_id: str, manifest_path: Path) -> dict[str, Any] | None:
+    for entry in _load_artwork_entries(manifest_path):
+        if str(entry.get("species_id", "")) == species_id:
+            return entry
+    return None
+
+
+def _download_artwork_entry(project_root: Path, entry: dict[str, Any]) -> Path | None:
+    target_path = _project_relative_path(project_root, entry.get("path"))
+    if target_path.exists():
+        return target_path
+    url = str(entry.get("url", "")).strip()
+    if not url:
+        return None
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    download_path = target_path.with_name(f"{target_path.name}.download")
+    try:
+        with urlopen(url, timeout=DEFAULT_DOWNLOAD_TIMEOUT_SECONDS) as response:
+            download_path.write_bytes(response.read())
+        if not _write_transparent_artwork(download_path, target_path):
+            return None
+    except OSError:
+        return None
+    finally:
+        download_path.unlink(missing_ok=True)
+    return target_path
 
 
 def _load_artwork_entries(path: Path) -> list[dict[str, Any]]:

@@ -1,23 +1,33 @@
 from __future__ import annotations
 
 from pathlib import Path
+import threading
 
-from PySide6.QtCore import QRect, Qt
+from PySide6.QtCore import QObject, QRect, Qt, Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QDialog, QGridLayout, QLabel, QVBoxLayout, QWidget
 
-from digimon_pet.app.artwork_runtime import download_missing_artworks, resolve_artwork_path
+from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolve_artwork_path
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
 
+class _ArtworkDownloadSignals(QObject):
+    finished = Signal(str)
+
+
 class StatsWindow(QDialog):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._manifest = load_runtime_manifest()
-        download_missing_artworks()
+        self._state: PetState | None = None
+        self._species: Species | None = None
+        self._artwork_downloads_in_progress: set[str] = set()
+        self._artwork_downloads_attempted: set[str] = set()
+        self._artwork_download_signals = _ArtworkDownloadSignals(self)
+        self._artwork_download_signals.finished.connect(self._handle_artwork_download_finished)
         self._labels: dict[str, QLabel] = {}
 
         self.setWindowTitle("Stats")
@@ -67,6 +77,8 @@ class StatsWindow(QDialog):
         layout.addStretch(1)
 
     def refresh(self, state: PetState, species: Species) -> None:
+        self._state = state
+        self._species = species
         self._name_label.setText(species.name)
         self._labels["age"].setText(f"{state.age_seconds / 3600:.1f} h")
         self._labels["hp"].setText(str(state.hp))
@@ -100,11 +112,33 @@ class StatsWindow(QDialog):
     def _artwork_pixmap_for_species(self, species: Species) -> QPixmap | None:
         path = resolve_artwork_path(species.id)
         if path is None:
+            self._queue_artwork_download(species.id)
             return None
         pixmap = QPixmap(str(path))
         if pixmap.isNull():
             return None
         return pixmap
+
+    def _queue_artwork_download(self, species_id: str) -> None:
+        if species_id in self._artwork_downloads_in_progress or species_id in self._artwork_downloads_attempted:
+            return
+        self._artwork_downloads_attempted.add(species_id)
+        self._artwork_downloads_in_progress.add(species_id)
+
+        def worker() -> None:
+            try:
+                download_artwork_for_species(species_id)
+            finally:
+                self._artwork_download_signals.finished.emit(species_id)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _handle_artwork_download_finished(self, species_id: str) -> None:
+        self._artwork_downloads_in_progress.discard(species_id)
+        if self._state is None or self._species is None:
+            return
+        if self._species.id == species_id:
+            self._set_sprite(self._state, self._species)
 
     def _sprite_pixmap_for_species(self, state: PetState, species: Species) -> QPixmap | None:
         animation = resolve_sprite_animation(state, species, self._manifest)

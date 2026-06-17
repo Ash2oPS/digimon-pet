@@ -21,7 +21,7 @@ def test_stats_window_prefers_official_artwork_over_runtime_sprite(tmp_path, mon
     artwork.save(str(artwork_path))
     sprite.save(str(sprite_path))
     monkeypatch.setattr(stats_window, "PROJECT_ROOT", tmp_path)
-    monkeypatch.setattr(stats_window, "download_missing_artworks", lambda: 0)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
     monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: artwork_path)
 
     window = StatsWindow()
@@ -42,3 +42,14 @@ def test_stats_window_prefers_official_artwork_over_runtime_sprite(tmp_path, mon
     assert pixmap is not None
     assert pixmap.width() == 44
     assert pixmap.height() == 66
+
+
+def test_stats_window_opens_without_synchronous_artwork_download(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(
+        stats_window,
+        "download_artwork_for_species",
+        lambda species_id: (_ for _ in ()).throw(AssertionError("stats should not block on artwork download")),
+    )
+
+    StatsWindow()
