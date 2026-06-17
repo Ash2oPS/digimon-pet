@@ -634,7 +634,12 @@ class PetWindow(QWidget):
 
     def _open_collection(self) -> None:
         self._state.mark_discovered()
-        self._collection_dialog = CollectionDialog(self._species, self._state.discovered_species_ids, self)
+        self._collection_dialog = CollectionDialog(
+            self._species,
+            self._state.discovered_species_ids,
+            self._digivolutions,
+            self,
+        )
         self._collection_dialog.show()
         self._collection_dialog.raise_()
         self._collection_dialog.activateWindow()

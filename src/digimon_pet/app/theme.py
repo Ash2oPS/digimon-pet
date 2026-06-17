@@ -18,7 +18,7 @@ APP_QSS = f"""
 QWidget {{
     background: {COLORS["surface"]};
     color: {COLORS["text"]};
-    font-family: Segoe UI;
+    font-family: "Segoe UI", Arial, sans-serif;
     font-size: 12px;
 }}
 
@@ -49,6 +49,35 @@ QLabel#StageHeader {{
     border-radius: 6px;
     padding: 5px 8px;
     font-weight: 700;
+}}
+
+QWidget#EvolutionNode {{
+    background: {COLORS["panel"]};
+    border: 1px solid #3a3938;
+    border-radius: 6px;
+}}
+
+QWidget#EvolutionNode[selected="true"] {{
+    background: {COLORS["panel_alt"]};
+    border-color: {COLORS["focus"]};
+}}
+
+QLabel#EvolutionNodeName {{
+    background: transparent;
+    font-size: 11px;
+    font-weight: 700;
+}}
+
+QLabel#TreeArrow {{
+    background: transparent;
+    color: {COLORS["focus"]};
+    font-weight: 700;
+}}
+
+QLabel#ConditionLabel {{
+    background: transparent;
+    color: {COLORS["muted"]};
+    font-size: 11px;
 }}
 
 QPushButton {{
