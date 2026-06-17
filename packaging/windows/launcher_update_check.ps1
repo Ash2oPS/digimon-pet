@@ -106,17 +106,43 @@ function Test-GitRepository {
     return $gitCheck.ExitCode -eq 0
 }
 
+function Get-UpdateBranch {
+    $currentBranch = Invoke-Git @("rev-parse", "--abbrev-ref", "HEAD")
+    if ($currentBranch.ExitCode -ne 0 -or [string]::IsNullOrWhiteSpace($currentBranch.Output)) {
+        return $null
+    }
+
+    $localBranch = $currentBranch.Output.Trim()
+    if ($localBranch -eq "HEAD") {
+        return $null
+    }
+
+    $upstream = Invoke-Git @("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
+    if ($upstream.ExitCode -eq 0 -and -not [string]::IsNullOrWhiteSpace($upstream.Output)) {
+        return [pscustomobject]@{
+            LocalBranch = $localBranch
+            RemoteBranch = $upstream.Output.Trim()
+        }
+    }
+
+    $originBranch = "origin/$($currentBranch.Output.Trim())"
+    $originCheck = Invoke-Git @("rev-parse", "--verify", "--quiet", $originBranch)
+    if ($originCheck.ExitCode -ne 0) {
+        return $null
+    }
+
+    return [pscustomobject]@{
+        LocalBranch = $localBranch
+        RemoteBranch = $originBranch
+    }
+}
+
 try {
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
         exit 0
     }
 
     if (-not (Test-GitRepository)) {
-        exit 0
-    }
-
-    $upstream = Invoke-Git @("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
-    if ($upstream.ExitCode -ne 0) {
         exit 0
     }
 
@@ -149,7 +175,12 @@ try {
         exit 0
     }
 
-    $pending = Invoke-Git @("rev-list", "--count", "HEAD..@{u}")
+    $updateBranch = Get-UpdateBranch
+    if ($null -eq $updateBranch) {
+        exit 0
+    }
+
+    $pending = Invoke-Git @("rev-list", "--count", "HEAD..$($updateBranch.RemoteBranch)")
     if ($pending.ExitCode -ne 0) {
         exit 0
     }
@@ -169,7 +200,8 @@ try {
         exit 0
     }
 
-    $pull = Invoke-Git @("pull", "--ff-only")
+    $localBranch = $updateBranch.LocalBranch
+    $pull = Invoke-Git @("pull", "--ff-only", "origin", $localBranch)
     if ($pull.ExitCode -ne 0) {
         Show-Notice "La mise a jour Git a echoue. Le jeu va demarrer avec la version locale.`n`n$($pull.Output)" "Mise a jour impossible"
         exit 0
