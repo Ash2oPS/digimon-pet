@@ -584,13 +584,45 @@ def test_collection_dialog_groups_species_by_growth_stage():
     assert headers == ["Baby1", "Baby2", "Rookie", "Champion", "Ultimate"]
 
 
-def test_context_menu_only_shows_collection_and_close_outside_debug():
+def test_stats_window_opens_and_refreshes_live_values():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    window._state.age_seconds = 5400
+    window._state.hp = 777
+    window._state.mp = 888
+    window._state.offense = 111
+    window._state.defense = 222
+    window._state.speed = 333
+    window._state.brains = 444
+
+    window._open_stats()
+
+    species = window._species[window._state.species_id]
+    assert window._stats_window is not None
+    assert window._stats_window.windowTitle() == "Stats"
+    assert window._stats_window._name_label.text() == species.name
+    assert window._stats_window._labels["age"].text() == "1.5 h"
+    assert window._stats_window._labels["hp"].text() == "777"
+    assert window._stats_window._labels["mp"].text() == "888"
+    assert window._stats_window._labels["offense"].text() == "111"
+    assert window._stats_window._labels["defense"].text() == "222"
+    assert window._stats_window._labels["speed"].text() == "333"
+    assert window._stats_window._labels["brains"].text() == "444"
+
+    window._state.hp = 999
+    window._refresh()
+
+    assert window._stats_window._labels["hp"].text() == "999"
+
+
+def test_context_menu_only_shows_stats_collection_and_close_outside_debug():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=False)
     menu = window._build_context_menu()
 
-    assert [action.text() for action in menu.actions() if not action.isSeparator()] == ["Collection", "Close"]
+    assert [action.text() for action in menu.actions() if not action.isSeparator()] == ["Stats", "Collection", "Close"]
 
 
 def test_context_menu_shows_toggle_debug_when_launched_in_debug():
@@ -600,6 +632,7 @@ def test_context_menu_shows_toggle_debug_when_launched_in_debug():
     menu = window._build_context_menu()
 
     assert [action.text() for action in menu.actions() if not action.isSeparator()] == [
+        "Stats",
         "Collection",
         "Toggle Debug",
         "Close",

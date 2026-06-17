@@ -11,6 +11,7 @@ from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.pet_widget import PetWidget
+from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
@@ -57,6 +58,7 @@ class PetWindow(QWidget):
         self._was_dragging = False
         self._positioned_once = False
         self._collection_dialog: CollectionDialog | None = None
+        self._stats_window: StatsWindow | None = None
         self._secondary_event_kind: str | None = None
         self._secondary_event_ttl_seconds = 0
         self._secondary_event_seconds_remaining = self._next_secondary_event_delay()
@@ -105,6 +107,10 @@ class PetWindow(QWidget):
     def _build_context_menu(self) -> QMenu:
         menu = QMenu(self)
         menu.setStyleSheet(APP_QSS)
+
+        stats_action = QAction("Stats", self)
+        stats_action.triggered.connect(self._open_stats)
+        menu.addAction(stats_action)
 
         collection_action = QAction("Collection", self)
         collection_action.triggered.connect(self._open_collection)
@@ -518,6 +524,8 @@ class PetWindow(QWidget):
         self._pet_widget.set_pet(self._state, species)
         next_event = next_lifecycle_event(self._state, self._lifecycle_schedule)
         self._debug_panel.refresh(self._state, species, next_event)
+        if self._stats_window is not None:
+            self._stats_window.refresh(self._state, species)
 
     def _set_lifecycle_schedule(self, schedule: EvolutionSchedule) -> None:
         self._lifecycle_schedule = schedule
@@ -577,6 +585,14 @@ class PetWindow(QWidget):
         self._collection_dialog.show()
         self._collection_dialog.raise_()
         self._collection_dialog.activateWindow()
+
+    def _open_stats(self) -> None:
+        if self._stats_window is None:
+            self._stats_window = StatsWindow(self)
+        self._stats_window.refresh(self._state, self._species[self._state.species_id])
+        self._stats_window.show()
+        self._stats_window.raise_()
+        self._stats_window.activateWindow()
 
     def toggle_debug(self) -> None:
         self._toggle_debug()
