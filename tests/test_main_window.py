@@ -7,6 +7,7 @@ from PySide6.QtCore import QEvent, QPoint, QPointF, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
+from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
@@ -16,7 +17,15 @@ from digimon_pet.storage import save_store
 
 
 @pytest.fixture(autouse=True)
-def default_initial_baby_choice(monkeypatch):
+def default_initial_baby_choice(tmp_path, monkeypatch):
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    monkeypatch.setattr(save_store, "LEGACY_SAVE_PATH", tmp_path / ".local" / "pet_save.json")
+    monkeypatch.setattr(debug_settings, "DEBUG_SETTINGS_PATH", tmp_path / "debug_settings.json")
+    monkeypatch.setattr(
+        debug_settings,
+        "LEGACY_DEBUG_SETTINGS_PATH",
+        tmp_path / ".local" / "debug_settings.json",
+    )
     monkeypatch.setattr(
         "digimon_pet.app.main_window.QInputDialog.getItem",
         lambda *args, **kwargs: ("Botamon", True),
@@ -462,6 +471,22 @@ def test_drag_release_allows_future_context_menu():
     window.mouseReleaseEvent(event)
 
     assert not window._was_dragging
+
+
+def test_macos_overlay_path_does_not_call_windows_styles(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(desktop_platform, "is_windows", lambda: False)
+    monkeypatch.setattr(desktop_platform, "is_macos", lambda: True)
+    monkeypatch.setattr(
+        PetWindow,
+        "_apply_windows_overlay_styles",
+        lambda self: (_ for _ in ()).throw(AssertionError("windows overlay should not run")),
+    )
+
+    window = PetWindow(overlay=True, debug=False)
+    window._apply_platform_overlay_styles()
+
+    assert window.windowFlags() & Qt.WindowType.WindowStaysOnTopHint
 
 
 def test_tick_persists_advanced_age(tmp_path, monkeypatch):

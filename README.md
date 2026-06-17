@@ -1,13 +1,23 @@
 # Digimon Pet
 
-Small Windows desktop virtual pet scaffold inspired by Digimon World 1.
+Small desktop virtual pet scaffold inspired by Digimon World 1.
 
 ## Setup
+
+Windows:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
+```
+
+macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -e ".[dev]"
 ```
 
 ## Run
@@ -18,7 +28,7 @@ Overlay desktop pet:
 python -m digimon_pet
 ```
 
-The app also appears in the Windows background task tray. Use the tray icon menu to show/hide the pet, open the debug panel, or quit.
+The app also appears in the Windows task tray or macOS menu bar. Use that menu to show/hide the pet, open the debug panel, or quit.
 
 By default, the pet starts near the bottom-right corner of the primary screen. Drag it with the left mouse button to move it manually, including across monitors. Right-click the pet to open care actions and the collection.
 
@@ -39,6 +49,32 @@ python -m digimon_pet --normal --debug
 ```powershell
 python -m pytest -v
 ```
+
+On macOS, use `python3 -m pytest -v`.
+
+## Saves
+
+User saves and debug settings are stored in the OS user data folder:
+
+```text
+Windows: %APPDATA%\Digimon Pet\
+macOS: ~/Library/Application Support/Digimon Pet/
+```
+
+Older project-local saves in `.local/` are copied to the user data folder on first launch if no newer user save exists.
+
+## macOS App Build
+
+Builds must be produced on macOS with the target Python architecture:
+
+```bash
+python3 -m pip install -e ".[build]"
+pyinstaller packaging/macos/digimon_pet.spec --noconfirm
+```
+
+For maximum compatibility, build once with arm64 Python and once with x86_64 Python, then rename the outputs to `Digimon Pet-arm64.app` and `Digimon Pet-x86_64.app`.
+
+The local `.app` is not signed or notarized. Gatekeeper may require opening it manually from Finder or System Settings before first launch.
 
 ## Assets
 

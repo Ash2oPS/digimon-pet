@@ -16,6 +16,9 @@ dependencies = [
 dev = [
     "pytest>=8.0",
 ]
+build = [
+    "pyinstaller>=6",
+]
 
 [project.scripts]
 digimon-pet = "digimon_pet.main:main"
@@ -26,4 +29,3 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-

@@ -6,6 +6,7 @@ import sys
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
+from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.app.tray import create_app_icon, create_tray_icon
 
@@ -19,6 +20,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--smoke-ms", type=int, default=0, help="Auto-close after this many ms.")
     args = parser.parse_args(argv)
 
+    desktop_platform.configure_process_for_desktop_app()
     app = QApplication(sys.argv[:1])
     app.setWindowIcon(create_app_icon())
     app.setQuitOnLastWindowClosed(False)
@@ -30,7 +32,8 @@ def main(argv: list[str] | None = None) -> int:
         QTimer.singleShot(args.smoke_ms, app.quit)
 
     exit_code = app.exec()
-    tray.hide()
+    if tray is not None:
+        tray.hide()
     return exit_code
 
 

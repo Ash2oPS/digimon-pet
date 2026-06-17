@@ -7,11 +7,13 @@ from pathlib import Path
 from typing import Any
 
 from digimon_pet.domain.models import GrowthStage, PetState
-from digimon_pet.paths import DATA_DIR, SAVE_PATH, ensure_save_dir
+from digimon_pet.paths import DATA_DIR, LEGACY_SAVE_PATH, SAVE_PATH, ensure_save_dir
 
 
 def load_pet_state(path: Path | None = None) -> PetState:
     save_path = path or SAVE_PATH
+    if path is None:
+        _migrate_legacy_save(save_path)
     if not save_path.exists():
         _create_default_save(save_path)
 
@@ -33,10 +35,17 @@ def save_pet_state(state: PetState, path: Path | None = None) -> None:
 
 
 def _create_default_save(path: Path) -> None:
-    ensure_save_dir()
+    ensure_save_dir(path.parent)
     source = DATA_DIR / "default_save.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, path)
+
+
+def _migrate_legacy_save(target_path: Path) -> None:
+    if target_path.exists() or not LEGACY_SAVE_PATH.exists():
+        return
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(LEGACY_SAVE_PATH, target_path)
 
 
 def _state_from_dict(raw: dict[str, Any]) -> PetState:

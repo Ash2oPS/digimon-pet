@@ -8,7 +8,10 @@ from digimon_pet.app.theme import APP_QSS
 from digimon_pet.paths import ASSETS_DIR
 
 
-def create_tray_icon(app: QApplication, window: PetWindow) -> QSystemTrayIcon:
+def create_tray_icon(app: QApplication, window: PetWindow) -> QSystemTrayIcon | None:
+    if not QSystemTrayIcon.isSystemTrayAvailable():
+        window.show()
+        return None
     tray = QSystemTrayIcon(create_app_icon(), app)
     tray.setToolTip("Digimon Pet")
     tray.setContextMenu(_create_menu(app, window))

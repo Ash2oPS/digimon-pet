@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 import copy
-import ctypes
 import random
-import sys
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QAction, QMouseEvent
 from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QVBoxLayout, QWidget
 
+from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.pet_widget import PetWidget
@@ -42,7 +41,7 @@ class PetWindow(QWidget):
         self._auto_rebirth_random = self._debug_settings.auto_rebirth_random
         self._auto_lifecycle_events = self._debug_settings.auto_lifecycle_events
         self._rng = random.Random()
-        self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
+        self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists() and not save_store.LEGACY_SAVE_PATH.exists()
         self._state = load_pet_state()
         self._pending_lifecycle_kind: str | None = None
         self._lifecycle_animating = False
@@ -150,7 +149,7 @@ class PetWindow(QWidget):
             self._move_to_bottom_right()
             self._positioned_once = True
         if self._overlay:
-            self._apply_windows_overlay_styles()
+            self._apply_platform_overlay_styles()
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton:
@@ -191,9 +190,15 @@ class PetWindow(QWidget):
         super().moveEvent(event)
         self._update_pet_orientation()
 
-    def _apply_windows_overlay_styles(self) -> None:
-        if sys.platform != "win32":
+    def _apply_platform_overlay_styles(self) -> None:
+        if desktop_platform.is_windows():
+            self._apply_windows_overlay_styles()
             return
+        if desktop_platform.is_macos():
+            self._apply_macos_overlay_styles()
+
+    def _apply_windows_overlay_styles(self) -> None:
+        import ctypes
 
         hwnd = int(self.winId())
         user32 = ctypes.windll.user32
@@ -233,6 +238,12 @@ class PetWindow(QWidget):
             0,
             swp_nomove | swp_nosize | swp_noactivate | swp_framechanged,
         )
+
+    def _apply_macos_overlay_styles(self) -> None:
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint, True)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
+        self.setWindowFlag(Qt.WindowType.Tool, True)
+        self.raise_()
 
     def _handle_action(self, name: str) -> None:
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:

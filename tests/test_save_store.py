@@ -1,4 +1,5 @@
 from digimon_pet.domain.models import GrowthStage, PetState
+from digimon_pet.storage import save_store
 from digimon_pet.storage import load_pet_state, save_pet_state
 
 
@@ -90,3 +91,59 @@ def test_load_creates_default_save_when_missing(tmp_path):
     assert loaded.generation_stat_bonuses == {}
     assert loaded.pending_rebirth_stat_bonuses == {}
     assert path.exists()
+
+
+def test_load_migrates_legacy_project_save_when_default_target_missing(tmp_path, monkeypatch):
+    save_path = tmp_path / "user-data" / "pet_save.json"
+    legacy_path = tmp_path / ".local" / "pet_save.json"
+    legacy_path.parent.mkdir(parents=True)
+    legacy_path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie",
+  "age_seconds": 42
+}
+""".strip(),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    monkeypatch.setattr(save_store, "LEGACY_SAVE_PATH", legacy_path)
+
+    loaded = load_pet_state()
+
+    assert loaded.species_id == "agumon"
+    assert loaded.age_seconds == 42
+    assert save_path.read_text(encoding="utf-8") == legacy_path.read_text(encoding="utf-8")
+
+
+def test_load_does_not_replace_existing_user_save_with_legacy_save(tmp_path, monkeypatch):
+    save_path = tmp_path / "user-data" / "pet_save.json"
+    legacy_path = tmp_path / ".local" / "pet_save.json"
+    save_path.parent.mkdir(parents=True)
+    legacy_path.parent.mkdir(parents=True)
+    save_path.write_text(
+        """
+{
+  "species_id": "koromon",
+  "stage": "baby_2"
+}
+""".strip(),
+        encoding="utf-8",
+    )
+    legacy_path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie"
+}
+""".strip(),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    monkeypatch.setattr(save_store, "LEGACY_SAVE_PATH", legacy_path)
+
+    loaded = load_pet_state()
+
+    assert loaded.species_id == "koromon"
+    assert "koromon" in save_path.read_text(encoding="utf-8")
