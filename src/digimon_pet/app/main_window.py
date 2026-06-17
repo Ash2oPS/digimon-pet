@@ -100,36 +100,25 @@ class PetWindow(QWidget):
             event.ignore()
             return
 
+        self._build_context_menu().exec(event.globalPos())
+
+    def _build_context_menu(self) -> QMenu:
         menu = QMenu(self)
         menu.setStyleSheet(APP_QSS)
-        if self._state.needs_rebirth_choice:
-            for baby_id in BABY_1_CHOICES:
-                species = self._species[baby_id]
-                action = QAction(f"Rebirth as {species.name}", self)
-                action.triggered.connect(lambda checked=False, name=baby_id: self._choose_rebirth(name))
-                menu.addAction(action)
-            menu.addSeparator()
-        for label, action_name in [
-            ("Feed", "feed"),
-            ("Train", "train"),
-            ("Battle", "battle"),
-            ("Sleep", "sleep"),
-            ("Wake", "wake"),
-            ("Clean", "clean"),
-            ("Scold", "scold"),
-        ]:
-            action = QAction(label, self)
-            action.triggered.connect(lambda checked=False, name=action_name: self._handle_action(name))
-            menu.addAction(action)
-        menu.addSeparator()
+
         collection_action = QAction("Collection", self)
         collection_action.triggered.connect(self._open_collection)
         menu.addAction(collection_action)
-        menu.addSeparator()
-        debug_action = QAction("Toggle Debug", self)
-        debug_action.triggered.connect(self._toggle_debug)
-        menu.addAction(debug_action)
-        menu.exec(event.globalPos())
+
+        if self._debug:
+            debug_action = QAction("Toggle Debug", self)
+            debug_action.triggered.connect(self._toggle_debug)
+            menu.addAction(debug_action)
+
+        close_action = QAction("Close", self)
+        close_action.triggered.connect(QApplication.quit)
+        menu.addAction(close_action)
+        return menu
 
     def _configure_window(self) -> None:
         self.setWindowTitle("Digimon Pet")

@@ -585,6 +585,27 @@ def test_collection_dialog_groups_species_by_growth_stage():
     assert headers == ["Baby1", "Baby2", "Rookie", "Champion", "Ultimate"]
 
 
+def test_context_menu_only_shows_collection_and_close_outside_debug():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._build_context_menu()
+
+    assert [action.text() for action in menu.actions() if not action.isSeparator()] == ["Collection", "Close"]
+
+
+def test_context_menu_shows_toggle_debug_when_launched_in_debug():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    menu = window._build_context_menu()
+
+    assert [action.text() for action in menu.actions() if not action.isSeparator()] == [
+        "Collection",
+        "Toggle Debug",
+        "Close",
+    ]
+
 def test_drag_release_allows_future_context_menu():
     app = QApplication.instance() or QApplication([])
     window = PetWindow(overlay=True, debug=False)
