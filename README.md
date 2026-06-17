@@ -22,6 +22,15 @@ python3 -m pip install -e ".[dev]"
 
 ## Run
 
+Double-click launcher files:
+
+```text
+Windows: Digimon Pet.bat
+macOS: Digimon Pet.command
+```
+
+These launchers create `.venv` if needed, install the app dependencies, and start the pet in normal overlay mode without `--debug`.
+
 Overlay desktop pet:
 
 ```powershell
