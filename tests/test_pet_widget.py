@@ -146,6 +146,19 @@ def test_death_event_bubble_uses_skull_icon():
     assert skull_pixel.blue() > 180
 
 
+def test_secondary_event_prompt_renders_without_lifecycle_effect():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_secondary_event_prompt("meat")
+
+    image = _render_widget(widget)
+    icon_center = widget.event_prompt_rect().center()
+
+    assert widget.event_prompt_kind() == "secondary_meat"
+    assert widget._effect_name is None
+    assert image.pixelColor(icon_center).alpha() > 0
+
+
 def test_clearing_lifecycle_pending_hides_event_bubble():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()

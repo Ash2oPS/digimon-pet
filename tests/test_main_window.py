@@ -327,6 +327,92 @@ def test_auto_lifecycle_resolves_without_pending_animation(tmp_path, monkeypatch
     assert window._state.species_id == "koromon"
 
 
+def test_secondary_event_appears_after_random_delay_without_pausing_age(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.age_seconds = 0
+    window._debug_time_scale = 5
+    window._secondary_event_seconds_remaining = 1
+
+    window._tick()
+
+    assert window._state.age_seconds == 5
+    assert window._secondary_event_kind in {"meat", "dumbbell"}
+    assert window._secondary_event_ttl_seconds == 30
+    assert window._pet_widget.event_prompt_kind().startswith("secondary_")
+    assert window._pet_widget._effect_name is None
+
+
+def test_secondary_event_expires_after_thirty_seconds(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._show_secondary_event("meat")
+
+    for _index in range(30):
+        window._tick()
+
+    assert window._secondary_event_kind is None
+    assert window._pet_widget.event_prompt_kind() is None
+
+
+def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._show_secondary_event("dumbbell")
+    bubble_center = window._pet_widget.event_prompt_rect().center()
+    bubble_point = QPointF(bubble_center)
+    press = QMouseEvent(
+        QEvent.Type.MouseButtonPress,
+        bubble_point,
+        bubble_point,
+        bubble_point,
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.LeftButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+    release = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        bubble_point,
+        bubble_point,
+        bubble_point,
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.NoButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+
+    window.mousePressEvent(press)
+    window.mouseReleaseEvent(release)
+
+    assert window._state.hp == 400
+    assert window._state.offense == 40
+    assert window._secondary_event_kind is None
+    assert window._pet_widget.event_prompt_kind() is None
+
+
+def test_secondary_event_does_not_override_pending_lifecycle(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._secondary_event_seconds_remaining = 1
+
+    window._tick()
+
+    assert window._pending_lifecycle_kind == "evolution"
+    assert window._secondary_event_kind is None
+    assert window._pet_widget.event_prompt_kind() == "evolution"
+
 def test_new_badge_appears_for_new_evolution_species(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -531,3 +617,16 @@ def test_tick_persists_advanced_age(tmp_path, monkeypatch):
     loaded = load_pet_state(save_path)
 
     assert loaded.age_seconds == 127
+
+class _FixedSecondaryEventRng:
+    def __init__(self, stats: list[str]) -> None:
+        self._stats = stats
+
+    def sample(self, population, count):
+        return self._stats[:count]
+
+    def choice(self, population):
+        return population[0]
+
+    def randint(self, minimum: int, maximum: int) -> int:
+        return minimum

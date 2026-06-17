@@ -27,6 +27,12 @@ from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
 
+SECONDARY_EVENT_MIN_SECONDS = 240
+SECONDARY_EVENT_MAX_SECONDS = 360
+SECONDARY_EVENT_TTL_SECONDS = 30
+SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
+BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
+
 
 class PetWindow(QWidget):
     def __init__(self, overlay: bool, debug: bool, parent: QWidget | None = None) -> None:
@@ -51,6 +57,9 @@ class PetWindow(QWidget):
         self._was_dragging = False
         self._positioned_once = False
         self._collection_dialog: CollectionDialog | None = None
+        self._secondary_event_kind: str | None = None
+        self._secondary_event_ttl_seconds = 0
+        self._secondary_event_seconds_remaining = self._next_secondary_event_delay()
 
         self._configure_window()
 
@@ -182,6 +191,15 @@ class PetWindow(QWidget):
                 self._confirm_pending_lifecycle()
                 event.accept()
                 return
+            if (
+                self._secondary_event_kind is not None
+                and not self._was_dragging
+                and self._pet_widget.is_event_prompt_at(event.position().toPoint())
+            ):
+                self._drag_offset = None
+                self._claim_secondary_event()
+                event.accept()
+                return
             self._drag_offset = None
             self._was_dragging = False
             self._keep_inside_screen()
@@ -271,6 +289,7 @@ class PetWindow(QWidget):
             if self._state.current_action not in {"sleep", "idle"}:
                 self._state.current_action = "idle"
             self._queue_or_advance_lifecycle()
+        self._tick_secondary_event()
         self._save_and_refresh()
 
     def _move_pet(self) -> None:
@@ -350,6 +369,7 @@ class PetWindow(QWidget):
         if kind is None:
             return
         self._pending_lifecycle_kind = kind
+        self._clear_secondary_event(schedule_next=True)
         self._pet_widget.set_lifecycle_pending(kind)
         self._refresh()
 
@@ -454,6 +474,48 @@ class PetWindow(QWidget):
     def _trigger_new_badge_if_needed(self, discovered_before: set[str]) -> None:
         if self._state.species_id not in discovered_before:
             self._pet_widget.trigger_new_badge()
+
+    def _tick_secondary_event(self) -> None:
+        if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
+            if self._secondary_event_kind is not None:
+                self._clear_secondary_event(schedule_next=True)
+            return
+        if self._secondary_event_kind is not None:
+            self._secondary_event_ttl_seconds -= 1
+            if self._secondary_event_ttl_seconds <= 0:
+                self._clear_secondary_event(schedule_next=True)
+            return
+        self._secondary_event_seconds_remaining -= 1
+        if self._secondary_event_seconds_remaining <= 0:
+            self._show_secondary_event()
+
+    def _show_secondary_event(self, kind: str | None = None) -> None:
+        if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
+            return
+        self._secondary_event_kind = kind or self._rng.choice(SECONDARY_EVENT_KINDS)
+        self._secondary_event_ttl_seconds = SECONDARY_EVENT_TTL_SECONDS
+        self._secondary_event_seconds_remaining = 0
+        self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
+
+    def _claim_secondary_event(self) -> None:
+        if self._secondary_event_kind is None:
+            return
+        for stat_name in self._rng.sample(BONUS_STATS, 2):
+            increment = 100 if stat_name in {"hp", "mp"} else 10
+            setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
+        self._state.clamp()
+        self._clear_secondary_event(schedule_next=True)
+        self._save_and_refresh()
+
+    def _clear_secondary_event(self, *, schedule_next: bool = False) -> None:
+        self._secondary_event_kind = None
+        self._secondary_event_ttl_seconds = 0
+        if schedule_next:
+            self._secondary_event_seconds_remaining = self._next_secondary_event_delay()
+        self._pet_widget.set_secondary_event_prompt(None)
+
+    def _next_secondary_event_delay(self) -> int:
+        return self._rng.randint(SECONDARY_EVENT_MIN_SECONDS, SECONDARY_EVENT_MAX_SECONDS)
 
     def _save_and_refresh(self) -> None:
         save_pet_state(self._state)

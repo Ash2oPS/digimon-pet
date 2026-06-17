@@ -24,6 +24,7 @@ LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
 RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
+SECONDARY_EVENT_PROMPTS = {"meat", "dumbbell"}
 
 
 class PetWidget(QWidget):
@@ -46,6 +47,7 @@ class PetWidget(QWidget):
         self._effect_revealed = False
         self._effect_timer = QTimer(self)
         self._effect_timer.timeout.connect(self._advance_effect)
+        self._secondary_event_kind: str | None = None
         self._new_badge_elapsed_ms = 0
         self._new_badge_timer = QTimer(self)
         self._new_badge_timer.timeout.connect(self._advance_new_badge)
@@ -109,11 +111,21 @@ class PetWidget(QWidget):
         self._new_badge_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
+    def set_secondary_event_prompt(self, kind: str | None) -> None:
+        if kind is not None and kind not in SECONDARY_EVENT_PROMPTS:
+            raise ValueError(f"Unknown secondary event prompt: {kind}")
+        if self._secondary_event_kind == kind:
+            return
+        self._secondary_event_kind = kind
+        self.update()
+
     def event_prompt_kind(self) -> str | None:
         if self._effect_name == "pending_evolution":
             return "evolution"
         if self._effect_name == "pending_death":
             return "death"
+        if self._secondary_event_kind is not None:
+            return f"secondary_{self._secondary_event_kind}"
         return None
 
     def event_prompt_rect(self) -> QRect:
@@ -374,8 +386,12 @@ class PetWidget(QWidget):
 
         if kind == "evolution":
             self._draw_evolution_prompt_icon(painter, rect.center())
-        else:
+        elif kind == "death":
             self._draw_death_prompt_icon(painter, rect.center())
+        elif kind == "secondary_meat":
+            self._draw_meat_prompt_icon(painter, rect.center())
+        elif kind == "secondary_dumbbell":
+            self._draw_dumbbell_prompt_icon(painter, rect.center())
         painter.restore()
 
     def _draw_evolution_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
@@ -416,6 +432,28 @@ class PetWidget(QWidget):
         painter.setPen(QPen(outline, 1, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
         for x in (-4, 0, 4):
             painter.drawLine(center.x() + x, center.y() + 7, center.x() + x, center.y() + 11)
+
+    def _draw_meat_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
+        outline = QColor(65, 43, 24)
+        painter.setPen(QPen(outline, 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.setBrush(QColor(224, 84, 58))
+        painter.drawEllipse(QPoint(center.x() - 2, center.y() + 1), 9, 7)
+        painter.setBrush(QColor(248, 246, 224))
+        painter.drawEllipse(QPoint(center.x() + 8, center.y() - 6), 4, 4)
+        painter.drawEllipse(QPoint(center.x() + 10, center.y() - 1), 4, 4)
+        painter.setPen(QPen(outline, 3, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawLine(center.x() + 4, center.y() - 2, center.x() + 10, center.y() - 5)
+
+    def _draw_dumbbell_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
+        outline = QColor(65, 43, 24)
+        painter.setPen(QPen(outline, 3, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawLine(center.x() - 9, center.y() + 5, center.x() + 9, center.y() - 5)
+        painter.setPen(QPen(outline, 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.setBrush(QColor(122, 151, 176))
+        painter.drawRoundedRect(QRect(center.x() - 15, center.y() + 2, 7, 8), 2, 2)
+        painter.drawRoundedRect(QRect(center.x() - 10, center.y() - 1, 5, 8), 2, 2)
+        painter.drawRoundedRect(QRect(center.x() + 8, center.y() - 10, 7, 8), 2, 2)
+        painter.drawRoundedRect(QRect(center.x() + 5, center.y() - 7, 5, 8), 2, 2)
 
     def _draw_new_badge(self, painter: QPainter) -> None:
         if self._new_badge_elapsed_ms <= 0:
