@@ -108,13 +108,20 @@ def _choose_valid_natural_evolution(
     digivolutions: dict[str, Any],
     rng: random.Random,
 ) -> Species | None:
-    candidates = [
-        transition
-        for transition in digivolutions.get("natural_evolutions", [])
-        if transition.get("source_species_id") == state.species_id
-        and transition.get("target_species_id") in species
-        and _matches_known_requirements(state, transition.get("requirements", {}))
-    ]
+    candidates = []
+    for transition in digivolutions.get("natural_evolutions", []):
+        target_id = str(transition.get("target_species_id", ""))
+        target = species.get(target_id)
+        if (
+            transition.get("source_species_id") == state.species_id
+            and target is not None
+            and _matches_known_requirements(
+                state,
+                transition.get("requirements", {}),
+                target=target,
+            )
+        ):
+            candidates.append(transition)
     if not candidates:
         return None
     selected = rng.choice(candidates)
@@ -223,11 +230,16 @@ def _matches_special_trigger(state: PetState, trigger: str) -> bool:
     return False
 
 
-def _matches_known_requirements(state: PetState, requirements: dict[str, Any]) -> bool:
+def _matches_known_requirements(
+    state: PetState,
+    requirements: dict[str, Any],
+    *,
+    target: Species | None = None,
+) -> bool:
     groups = requirements.get("groups", {})
     base_matches = 0
 
-    if _matches_stats(state, groups.get("stats")):
+    if _matches_stats(state, groups.get("stats"), target=target):
         base_matches += 1
     if _matches_weight(state, groups.get("weight")):
         base_matches += 1
@@ -238,10 +250,19 @@ def _matches_known_requirements(state: PetState, requirements: dict[str, Any]) -
     return base_matches >= 3 or (base_matches >= 2 and bonus_matches)
 
 
-def _matches_stats(state: PetState, rule: dict[str, Any] | None) -> bool:
+def _matches_stats(
+    state: PetState,
+    rule: dict[str, Any] | None,
+    *,
+    target: Species | None = None,
+) -> bool:
     if not rule:
         return False
-    return all(getattr(state, stat_name, 0) >= int(required) for stat_name, required in rule.items())
+    matching_stats = sum(getattr(state, stat_name, 0) >= int(required) for stat_name, required in rule.items())
+    required_matches = len(rule)
+    if state.stage == GrowthStage.ROOKIE and target is not None and target.stage == GrowthStage.CHAMPION:
+        required_matches = min(3, required_matches)
+    return matching_stats >= required_matches
 
 
 def _matches_weight(state: PetState, rule: dict[str, Any] | None) -> bool:

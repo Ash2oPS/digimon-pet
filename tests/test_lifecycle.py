@@ -1,5 +1,7 @@
 import random
 
+import pytest
+
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
@@ -310,6 +312,54 @@ def test_random_valid_rookie_evolution_is_used_when_available():
                         "weight": {"min": 0, "max": 10},
                         "care_mistakes": {"max": 1},
                         "bonus": {"any_of": [{"type": "discipline", "min": 90}]},
+                    }
+                },
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:greymon"
+    assert state.species_id == "greymon"
+    assert state.stage == GrowthStage.CHAMPION
+
+
+@pytest.mark.parametrize(
+    ("stat_count", "matching_stat_count"),
+    [(1, 1), (2, 2), (3, 3), (4, 3), (5, 3), (6, 3)],
+)
+def test_rookie_champion_evolution_uses_capped_matching_stat_requirement(stat_count, matching_stat_count):
+    schedule = EvolutionSchedule(rookie_seconds=10800)
+    stat_names = ["hp", "mp", "offense", "defense", "speed", "brains"]
+    required_stats = {stat_name: 100 for stat_name in stat_names[:stat_count]}
+    matched_stats = {
+        stat_name: 100 if index < matching_stat_count else 0
+        for index, stat_name in enumerate(stat_names)
+    }
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        hp=matched_stats["hp"],
+        mp=matched_stats["mp"],
+        offense=matched_stats["offense"],
+        defense=matched_stats["defense"],
+        speed=matched_stats["speed"],
+        brains=matched_stats["brains"],
+        weight=30,
+        care_mistakes=0,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "agumon",
+                "target_species_id": "greymon",
+                "requirements": {
+                    "groups": {
+                        "stats": required_stats,
+                        "weight": {"min": 25, "max": 35},
+                        "care_mistakes": {"max": 1},
                     }
                 },
             }
