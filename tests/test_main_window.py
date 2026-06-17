@@ -318,6 +318,8 @@ def test_new_badge_does_not_appear_for_known_evolution_species(tmp_path, monkeyp
     window._state.stage = GrowthStage.BABY
     window._state.age_seconds = window._lifecycle_schedule.baby_seconds
     window._state.discovered_species_ids = ["botamon", "koromon"]
+    window._pet_widget._new_badge_elapsed_ms = 0
+    window._pet_widget._new_badge_timer.stop()
 
     window._queue_or_advance_lifecycle()
 
