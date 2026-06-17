@@ -98,6 +98,54 @@ def test_pending_lifecycle_event_renders_clickable_bubble():
     assert image.pixelColor(bubble_center).alpha() > 0
 
 
+def test_event_bubble_switches_side_with_pet_screen_position():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("evolution")
+
+    right_screen_rect = widget.event_prompt_rect()
+    widget.set_flipped_x(True)
+    left_screen_rect = widget.event_prompt_rect()
+
+    assert right_screen_rect.center().x() < widget.width() // 2
+    assert left_screen_rect.center().x() > widget.width() // 2
+    assert widget.is_event_prompt_at(left_screen_rect.center())
+    assert not widget.is_event_prompt_at(right_screen_rect.center())
+
+
+def test_event_bubble_tail_points_toward_pet_body():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("evolution")
+
+    left_image = _render_widget(widget)
+    left_rect = widget.event_prompt_rect()
+
+    widget.set_flipped_x(True)
+    right_image = _render_widget(widget)
+    right_rect = widget.event_prompt_rect()
+
+    assert left_image.pixelColor(left_rect.right() + 2, left_rect.bottom() + 3).alpha() > 0
+    assert left_image.pixelColor(left_rect.left() - 2, left_rect.bottom() + 3).alpha() == 0
+    assert right_image.pixelColor(right_rect.left() - 2, right_rect.bottom() + 3).alpha() > 0
+    assert right_image.pixelColor(right_rect.right() + 2, right_rect.bottom() + 3).alpha() == 0
+
+
+def test_death_event_bubble_uses_skull_icon():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("death")
+
+    image = _render_widget(widget)
+
+    icon_center = widget.event_prompt_rect().center()
+    skull_pixel = image.pixelColor(icon_center)
+
+    assert skull_pixel.red() > 200
+    assert skull_pixel.green() > 200
+    assert skull_pixel.blue() > 180
+
+
 def test_clearing_lifecycle_pending_hides_event_bubble():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
@@ -163,3 +211,12 @@ def test_new_badge_renders_above_pet():
         for x in range(30, 98)
         for y in range(2, 28)
     )
+
+
+def _render_widget(widget: PetWidget) -> QImage:
+    image = QImage(widget.size(), QImage.Format.Format_ARGB32)
+    image.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(image)
+    widget.render(painter, QPoint(0, 0))
+    painter.end()
+    return image

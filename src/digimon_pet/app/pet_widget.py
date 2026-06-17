@@ -20,7 +20,8 @@ RESOLUTION_DURATION_MS = 1450
 EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
-EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
+LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
+RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
 
@@ -116,10 +117,10 @@ class PetWidget(QWidget):
         return None
 
     def event_prompt_rect(self) -> QRect:
-        return QRect(EVENT_PROMPT_RECT)
+        return QRect(RIGHT_EVENT_PROMPT_RECT if self._flipped_x else LEFT_EVENT_PROMPT_RECT)
 
     def is_event_prompt_at(self, point: QPoint) -> bool:
-        return self.event_prompt_kind() is not None and EVENT_PROMPT_RECT.contains(point)
+        return self.event_prompt_kind() is not None and self.event_prompt_rect().contains(point)
 
     def is_pet_body_at(self, point: QPoint) -> bool:
         return SPRITE_TARGET_RECT.contains(point)
@@ -349,7 +350,7 @@ class PetWidget(QWidget):
         if kind is None:
             return
         pulse = _smooth_pulse(self._effect_elapsed_ms, 1200)
-        rect = QRect(EVENT_PROMPT_RECT)
+        rect = self.event_prompt_rect()
         rect.translate(0, -round(2 * pulse))
 
         painter.save()
@@ -357,9 +358,14 @@ class PetWidget(QWidget):
         path = QPainterPath()
         path.addRoundedRect(rect, 10, 10)
         tail = QPainterPath()
-        tail.moveTo(rect.left() + 8, rect.bottom() - 6)
-        tail.lineTo(rect.left() - 3, rect.bottom() + 7)
-        tail.lineTo(rect.left() + 15, rect.bottom() - 2)
+        if self._flipped_x:
+            tail.moveTo(rect.left() + 8, rect.bottom() - 6)
+            tail.lineTo(rect.left() - 3, rect.bottom() + 7)
+            tail.lineTo(rect.left() + 15, rect.bottom() - 2)
+        else:
+            tail.moveTo(rect.right() - 8, rect.bottom() - 6)
+            tail.lineTo(rect.right() + 3, rect.bottom() + 7)
+            tail.lineTo(rect.right() - 15, rect.bottom() - 2)
         tail.closeSubpath()
         path = path.united(tail)
         painter.setPen(QPen(QColor(65, 43, 24, 220), 2))
@@ -388,15 +394,28 @@ class PetWidget(QWidget):
         painter.drawPath(star)
 
     def _draw_death_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
-        painter.setPen(QPen(QColor(65, 43, 24), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
-        painter.setBrush(QColor(255, 84, 91))
-        painter.drawEllipse(center, 10, 10)
-        painter.setBrush(QColor(65, 43, 24))
+        outline = QColor(65, 43, 24)
+        skull = QPainterPath()
+        skull.addEllipse(QPoint(center.x(), center.y() - 3), 10, 9)
+        skull.addRoundedRect(QRect(center.x() - 7, center.y() + 2, 14, 10), 3, 3)
+        painter.setPen(QPen(outline, 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.setBrush(QColor(248, 246, 224))
+        painter.drawPath(skull)
+
+        painter.setBrush(outline)
         painter.setPen(Qt.PenStyle.NoPen)
-        painter.drawEllipse(QPoint(center.x() - 4, center.y() - 2), 2, 2)
-        painter.drawEllipse(QPoint(center.x() + 4, center.y() - 2), 2, 2)
-        painter.setPen(QPen(QColor(65, 43, 24), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
-        painter.drawLine(center.x() - 4, center.y() + 5, center.x() + 4, center.y() + 5)
+        painter.drawEllipse(QPoint(center.x() - 4, center.y() - 2), 2, 3)
+        painter.drawEllipse(QPoint(center.x() + 4, center.y() - 2), 2, 3)
+        nose = QPainterPath()
+        nose.moveTo(center.x(), center.y() + 1)
+        nose.lineTo(center.x() - 2, center.y() + 5)
+        nose.lineTo(center.x() + 2, center.y() + 5)
+        nose.closeSubpath()
+        painter.drawPath(nose)
+
+        painter.setPen(QPen(outline, 1, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        for x in (-4, 0, 4):
+            painter.drawLine(center.x() + x, center.y() + 7, center.x() + x, center.y() + 11)
 
     def _draw_new_badge(self, painter: QPainter) -> None:
         if self._new_badge_elapsed_ms <= 0:
