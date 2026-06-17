@@ -284,6 +284,12 @@ class EvolutionGraphWidget(QWidget):
         self._species = species
         self._graph_species = graph_species
         self._links = links
+        self._drawable_links = [
+            link
+            for link in links
+            if link.source_species_id is not None
+            and _stage_index(species[link.target_species_id].stage) > _stage_index(species[link.source_species_id].stage)
+        ]
         self._discovered_species_ids = discovered_species_ids
         self._selected_species_id = selected_species_id
         self._manifest = manifest
@@ -297,9 +303,7 @@ class EvolutionGraphWidget(QWidget):
         painter.setPen(QPen(QColor(COLORS["focus"]), 1))
         painter.setBrush(QColor(COLORS["focus"]))
 
-        for link in self._links:
-            if link.source_species_id is None:
-                continue
+        for link in self._drawable_links:
             source = self._nodes.get(link.source_species_id)
             target = self._nodes.get(link.target_species_id)
             if source is None or target is None:
@@ -308,7 +312,15 @@ class EvolutionGraphWidget(QWidget):
             target_rect = target.geometry()
             start = QPointF(source_rect.center().x(), source_rect.bottom())
             end = QPointF(target_rect.center().x(), target_rect.top())
-            painter.drawLine(start, end)
+            bend_y = start.y() + max(14, (end.y() - start.y()) * 0.45)
+            path_points = [
+                start,
+                QPointF(start.x(), bend_y),
+                QPointF(end.x(), bend_y),
+                end,
+            ]
+            for point_index in range(len(path_points) - 1):
+                painter.drawLine(path_points[point_index], path_points[point_index + 1])
             painter.drawPolygon(
                 QPolygonF(
                     [
@@ -462,3 +474,7 @@ def _node_tooltip(species: Species, discovered: bool, requirements: list[str]) -
     if not requirements:
         return species.name
     return "\n".join([species.name, "Requirements:", *requirements])
+
+
+def _stage_index(stage: GrowthStage) -> int:
+    return STAGE_ORDER.index(stage)

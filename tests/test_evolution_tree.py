@@ -6,8 +6,8 @@ from PySide6.QtCore import QEvent, QPointF, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
-from digimon_pet.app.collection_dialog import CollectionDialog, CollectionTile, EvolutionNode, EvolutionTreeDialog
-from digimon_pet.domain.evolution_tree import build_evolution_links, family_species_ids, graph_species_ids
+from digimon_pet.app.collection_dialog import CollectionDialog, CollectionTile, EvolutionGraphWidget, EvolutionNode, EvolutionTreeDialog
+from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, family_species_ids, graph_species_ids
 from digimon_pet.domain.models import GrowthStage, Species
 
 
@@ -228,3 +228,20 @@ def test_evolution_tree_groups_nodes_by_growth_stage_from_top_to_bottom():
     ]
 
     assert headers == ["Baby1", "Baby2", "Rookie", "Champion"]
+
+
+def test_evolution_graph_only_draws_links_to_later_growth_stages():
+    app = QApplication.instance() or QApplication([])
+    species = {
+        "patamon": _species("patamon", "Patamon", GrowthStage.ROOKIE),
+        "angemon": _species("angemon", "Angemon", GrowthStage.CHAMPION),
+        "devimon": _species("devimon", "Devimon", GrowthStage.CHAMPION),
+    }
+    links = [
+        EvolutionLink("patamon", "angemon", "natural", "Natural requirements"),
+        EvolutionLink("angemon", "devimon", "special", "lose a life"),
+    ]
+
+    graph = EvolutionGraphWidget(species, set(species), links, set(species), "patamon", {})
+
+    assert [(link.source_species_id, link.target_species_id) for link in graph._drawable_links] == [("patamon", "angemon")]
