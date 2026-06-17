@@ -115,6 +115,33 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     assert window._state.needs_rebirth_choice is False
     assert loaded.species_id == "punimon"
 
+def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    legacy_path = tmp_path / ".local" / "pet_save.json"
+    legacy_path.parent.mkdir(parents=True)
+    legacy_path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie"
+}
+""".strip(),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    monkeypatch.setattr(save_store, "LEGACY_SAVE_PATH", legacy_path)
+    monkeypatch.setattr(
+        "digimon_pet.app.main_window.QInputDialog.getItem",
+        lambda *args, **kwargs: ("Punimon", True),
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+    loaded = load_pet_state(save_path)
+
+    assert window._state.species_id == "punimon"
+    assert window._state.stage == GrowthStage.BABY
+    assert loaded.species_id == "punimon"
 
 def test_tick_uses_debug_time_scale():
     app = QApplication.instance() or QApplication([])

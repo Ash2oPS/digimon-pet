@@ -41,7 +41,7 @@ class PetWindow(QWidget):
         self._auto_rebirth_random = self._debug_settings.auto_rebirth_random
         self._auto_lifecycle_events = self._debug_settings.auto_lifecycle_events
         self._rng = random.Random()
-        self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists() and not save_store.LEGACY_SAVE_PATH.exists()
+        self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
         self._state = load_pet_state()
         self._pending_lifecycle_kind: str | None = None
         self._lifecycle_animating = False
