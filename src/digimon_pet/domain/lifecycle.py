@@ -27,11 +27,11 @@ BABY_1_CHOICES = tuple(BABY_1_TO_BABY_2)
 
 @dataclass
 class EvolutionSchedule:
-    baby_seconds: int = 30 * 60
-    baby_2_seconds: int = 60 * 60
-    rookie_seconds: int = 3 * 60 * 60
-    champion_seconds: int = 5 * 60 * 60
-    ultimate_seconds: int = 5 * 60 * 60
+    baby_seconds: int = 10 * 60
+    baby_2_seconds: int = 30 * 60
+    rookie_seconds: int = 80 * 60
+    champion_seconds: int = 2 * 60 * 60
+    ultimate_seconds: int = 2 * 60 * 60
 
     def threshold_for(self, stage: GrowthStage) -> int:
         return {

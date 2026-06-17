@@ -32,6 +32,16 @@ def species_map():
     }
 
 
+def test_default_evolution_schedule_matches_target_stage_durations():
+    schedule = EvolutionSchedule()
+
+    assert schedule.baby_seconds == 10 * 60
+    assert schedule.baby_2_seconds == 30 * 60
+    assert schedule.rookie_seconds == 80 * 60
+    assert schedule.champion_seconds == 2 * 60 * 60
+    assert schedule.ultimate_seconds == 2 * 60 * 60
+
+
 def test_baby_line_evolves_forced_and_resets_stage_state():
     schedule = EvolutionSchedule(baby_seconds=1800, baby_2_seconds=3600)
     state = PetState(
