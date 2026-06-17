@@ -121,14 +121,14 @@ try {
     }
 
     $splash = New-SplashForm
-    $fetchResult = $null
+    $script:launcherFetchResult = $null
     $timer = New-Object System.Windows.Forms.Timer
     $timer.Interval = 100
 
     $splash.Add_Shown({
         $script:fetchProcess = [System.ComponentModel.BackgroundWorker]::new()
         $script:fetchProcess.DoWork += {
-            $script:fetchResult = Invoke-Git @("fetch", "--quiet", "--prune")
+            $script:launcherFetchResult = Invoke-Git @("fetch", "--quiet", "--prune")
         }
         $script:fetchProcess.RunWorkerCompleted += {
             $timer.Stop()
@@ -144,6 +144,7 @@ try {
     $timer.Start()
     [void] $splash.ShowDialog()
 
+    $fetchResult = $script:launcherFetchResult
     if ($null -eq $fetchResult -or $fetchResult.ExitCode -ne 0) {
         exit 0
     }
