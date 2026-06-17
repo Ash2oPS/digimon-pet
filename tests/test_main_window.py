@@ -115,6 +115,7 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     assert window._state.needs_rebirth_choice is False
     assert loaded.species_id == "punimon"
 
+
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"
@@ -142,6 +143,7 @@ def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, mon
     assert window._state.species_id == "punimon"
     assert window._state.stage == GrowthStage.BABY
     assert loaded.species_id == "punimon"
+
 
 def test_tick_uses_debug_time_scale():
     app = QApplication.instance() or QApplication([])
@@ -414,6 +416,7 @@ def test_secondary_event_does_not_override_pending_lifecycle(tmp_path, monkeypat
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() == "evolution"
 
+
 def test_evolution_does_not_trigger_stat_gain_text(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -430,6 +433,7 @@ def test_evolution_does_not_trigger_stat_gain_text(tmp_path, monkeypatch):
     window._queue_or_advance_lifecycle()
 
     assert window._pet_widget._stat_gain_labels == []
+
 
 def test_new_badge_appears_for_new_evolution_species(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
@@ -539,7 +543,8 @@ def test_pet_tooltip_shows_current_stats():
     window._state.brains = 444
     window._refresh()
 
-    assert window._pet_widget.toolTip() == "HP: 777\nMP: 888\nOFF: 111\nDEF: 222\nSPD: 333\nINT: 444"
+    species = window._species[window._state.species_id]
+    assert window._pet_widget.toolTip() == f"{species.name}\nHP: 777\nMP: 888\nOFF: 111\nDEF: 222\nSPD: 333\nINT: 444"
     assert window._pet_widget.testAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
 
 
@@ -638,6 +643,7 @@ def test_context_menu_shows_toggle_debug_when_launched_in_debug():
         "Close",
     ]
 
+
 def test_drag_release_allows_future_context_menu():
     app = QApplication.instance() or QApplication([])
     window = PetWindow(overlay=True, debug=False)
@@ -689,6 +695,7 @@ def test_tick_persists_advanced_age(tmp_path, monkeypatch):
     loaded = load_pet_state(save_path)
 
     assert loaded.age_seconds == 127
+
 
 class _FixedSecondaryEventRng:
     def __init__(self, stats: list[str]) -> None:
