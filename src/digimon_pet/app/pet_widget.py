@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QColor, QImage, QPainter, QPixmap, QTransform
+from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap, QTransform
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
@@ -16,7 +16,8 @@ SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
 SHADOW_OFFSET = QPoint(6, 6)
 SHADOW_COLOR = QColor(0, 0, 0, 95)
 EFFECT_INTERVAL_MS = 33
-RESOLUTION_DURATION_MS = 2200
+RESOLUTION_DURATION_MS = 1450
+EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
@@ -38,6 +39,8 @@ class PetWidget(QWidget):
         self._effect_name: str | None = None
         self._effect_elapsed_ms = 0
         self._effect_finished: Callable[[], None] | None = None
+        self._effect_reveal: Callable[[], None] | None = None
+        self._effect_revealed = False
         self._effect_timer = QTimer(self)
         self._effect_timer.timeout.connect(self._advance_effect)
         self.setFixedSize(128, 128)
@@ -70,6 +73,8 @@ class PetWidget(QWidget):
         self._effect_name = effect_name
         self._effect_elapsed_ms = 0
         self._effect_finished = None
+        self._effect_reveal = None
+        self._effect_revealed = False
         if effect_name is None:
             self._effect_timer.stop()
             self._configure_animation_timer(self._animation)
@@ -78,10 +83,17 @@ class PetWidget(QWidget):
             self._effect_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
-    def start_lifecycle_resolution(self, kind: str, finished: Callable[[], None]) -> None:
+    def start_lifecycle_resolution(
+        self,
+        kind: str,
+        finished: Callable[[], None],
+        reveal: Callable[[], None] | None = None,
+    ) -> None:
         self._effect_name = kind
         self._effect_elapsed_ms = 0
         self._effect_finished = finished
+        self._effect_reveal = reveal
+        self._effect_revealed = False
         self._animation_timer.stop()
         self._effect_timer.start(EFFECT_INTERVAL_MS)
         self.update()
@@ -149,11 +161,21 @@ class PetWidget(QWidget):
 
     def _advance_effect(self) -> None:
         self._effect_elapsed_ms += EFFECT_INTERVAL_MS
+        if (
+            self._effect_name == "evolution"
+            and not self._effect_revealed
+            and self._effect_elapsed_ms >= EVOLUTION_REVEAL_MS
+        ):
+            self._effect_revealed = True
+            if self._effect_reveal is not None:
+                self._effect_reveal()
         if self._effect_name in RESOLUTION_EFFECTS and self._effect_elapsed_ms >= self._effect_duration_ms():
             finished = self._effect_finished
             self._effect_name = None
             self._effect_elapsed_ms = 0
             self._effect_finished = None
+            self._effect_reveal = None
+            self._effect_revealed = False
             self._effect_timer.stop()
             self._configure_animation_timer(self._animation)
             if finished is not None:
@@ -204,6 +226,15 @@ class PetWidget(QWidget):
         if self._effect_name not in RESOLUTION_EFFECTS:
             return SPRITE_TARGET_RECT
         progress = min(1.0, self._effect_elapsed_ms / self._effect_duration_ms())
+        if self._effect_name == "evolution":
+            reveal = EVOLUTION_REVEAL_MS / RESOLUTION_DURATION_MS
+            if progress < reveal:
+                charge = progress / reveal
+                scale = 1.0 + 0.24 * _ease_out_cubic(charge) + 0.035 * math.sin(charge * math.pi * 8)
+            else:
+                settle = (progress - reveal) / (1.0 - reveal)
+                scale = 1.0 + 0.18 * (1.0 - _ease_out_cubic(settle)) + 0.03 * math.sin(settle * math.pi * 5) * (1.0 - settle)
+            return _scaled_rect(SPRITE_TARGET_RECT, scale, scale)
         wave = math.sin(progress * math.pi * 3)
         scale = 1.0 + (0.18 * math.sin(progress * math.pi)) + (0.04 * wave)
         return _scaled_rect(SPRITE_TARGET_RECT, scale, 1.0 + (scale - 1.0) * 0.75)
@@ -217,7 +248,10 @@ class PetWidget(QWidget):
             return QColor(255, 28, 44, alpha)
         if self._effect_name == "evolution":
             progress = min(1.0, self._effect_elapsed_ms / self._effect_duration_ms())
-            alpha = round(230 * math.sin(progress * math.pi))
+            reveal = EVOLUTION_REVEAL_MS / RESOLUTION_DURATION_MS
+            distance_from_reveal = abs(progress - reveal)
+            flash = max(0.0, 1.0 - distance_from_reveal / 0.28)
+            alpha = round(40 + 215 * flash)
             return QColor(255, 255, 255, alpha)
         if self._effect_name == "death":
             progress = min(1.0, self._effect_elapsed_ms / self._effect_duration_ms())
@@ -232,16 +266,29 @@ class PetWidget(QWidget):
         if self._effect_name == "death":
             self._draw_death_particles(painter, progress)
             return
+        self._draw_evolution_particles(painter, progress)
+
+    def _draw_evolution_particles(self, painter: QPainter, progress: float) -> None:
         center = SPRITE_TARGET_RECT.center()
+        reveal = EVOLUTION_REVEAL_MS / RESOLUTION_DURATION_MS
+        burst = _ease_out_cubic(min(1.0, progress / reveal))
+        settle = 0.0 if progress < reveal else (progress - reveal) / (1.0 - reveal)
         base_color = QColor(255, 255, 255)
+        ring_alpha = max(0, round(210 * (1.0 - settle) * max(0.0, 1.0 - abs(progress - reveal) / 0.34)))
+        if ring_alpha:
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            painter.setPen(QPen(QColor(255, 255, 255, ring_alpha), 2))
+            radius_x = round(16 + 46 * burst)
+            radius_y = round(11 + 33 * burst)
+            painter.drawEllipse(center, radius_x, radius_y)
         painter.setPen(Qt.PenStyle.NoPen)
-        for index in range(18):
-            angle = (math.tau / 18) * index + progress * math.tau * 0.45
-            distance = 10 + 42 * progress + 5 * math.sin(progress * math.pi * 4 + index)
-            radius = 2 + round(2 * math.sin(progress * math.pi))
+        for index in range(26):
+            angle = (math.tau / 26) * index + progress * math.tau * 1.25
+            distance = 8 + 48 * burst + 5 * math.sin(progress * math.pi * 6 + index)
+            radius = 2 + round(2 * max(0.0, 1.0 - settle))
             x = round(center.x() + math.cos(angle) * distance)
             y = round(center.y() + math.sin(angle) * distance * 0.75)
-            alpha = max(0, round(210 * math.sin(progress * math.pi)))
+            alpha = max(0, round(235 * (1.0 - settle) * math.sin(min(1.0, progress / reveal) * math.pi)))
             color = QColor(base_color)
             color.setAlpha(alpha)
             painter.setBrush(color)
@@ -299,6 +346,11 @@ def _stats_tooltip(state: PetState) -> str:
 def _smooth_pulse(elapsed_ms: int, period_ms: int) -> float:
     phase = (elapsed_ms % period_ms) / period_ms
     return 0.5 - 0.5 * math.cos(math.tau * phase)
+
+
+def _ease_out_cubic(value: float) -> float:
+    clamped = max(0.0, min(1.0, value))
+    return 1.0 - math.pow(1.0 - clamped, 3)
 
 
 def _scaled_rect(rect: QRect, x_scale: float, y_scale: float) -> QRect:

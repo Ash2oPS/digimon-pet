@@ -101,3 +101,16 @@ def test_death_resolution_hides_sprite_immediately_and_emits_particles():
         for x in range(image.width())
         for y in range(image.height())
     )
+
+
+def test_evolution_resolution_calls_reveal_before_finish():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    events = []
+    widget.start_lifecycle_resolution("evolution", lambda: events.append("finished"), lambda: events.append("revealed"))
+
+    for _index in range(24):
+        widget._advance_effect()
+
+    assert events == ["revealed"]
+    assert widget._effect_name == "evolution"

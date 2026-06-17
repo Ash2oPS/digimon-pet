@@ -170,6 +170,27 @@ def test_lifecycle_resolution_reveals_evolved_species_after_animation(tmp_path, 
     assert window._state.age_seconds == 0
 
 
+def test_lifecycle_resolution_reveals_evolved_species_before_animation_finishes(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._queue_or_advance_lifecycle()
+    window._confirm_pending_lifecycle()
+
+    for _index in range(24):
+        window._pet_widget._advance_effect()
+
+    assert window._lifecycle_animating is True
+    assert window._lifecycle_resolved_during_animation is True
+    assert window._state.species_id == "koromon"
+    assert window._pet_widget._effect_name == "evolution"
+
+
 def test_death_pending_uses_red_pulse(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")

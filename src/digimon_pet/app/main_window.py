@@ -44,6 +44,7 @@ class PetWindow(QWidget):
         self._state = load_pet_state()
         self._pending_lifecycle_kind: str | None = None
         self._lifecycle_animating = False
+        self._lifecycle_resolved_during_animation = False
         self._direction = QPoint(3, 0)
         self._drag_offset: QPoint | None = None
         self._was_dragging = False
@@ -354,15 +355,25 @@ class PetWindow(QWidget):
         kind = self._pending_lifecycle_kind
         self._pending_lifecycle_kind = None
         self._lifecycle_animating = True
-        self._pet_widget.start_lifecycle_resolution(kind, self._finish_lifecycle_resolution)
+        self._lifecycle_resolved_during_animation = False
+        reveal = self._reveal_lifecycle_resolution if kind == "evolution" else None
+        self._pet_widget.start_lifecycle_resolution(kind, self._finish_lifecycle_resolution, reveal)
 
     def _finish_lifecycle_resolution(self) -> None:
-        self._resolve_lifecycle_now()
+        if not self._lifecycle_resolved_during_animation:
+            self._resolve_lifecycle_now(clear_effect=False)
         self._lifecycle_animating = False
+        self._lifecycle_resolved_during_animation = False
         self._save_and_refresh()
 
-    def _resolve_lifecycle_now(self) -> None:
-        self._pet_widget.set_lifecycle_pending(None)
+    def _reveal_lifecycle_resolution(self) -> None:
+        self._resolve_lifecycle_now(clear_effect=False)
+        self._lifecycle_resolved_during_animation = True
+        self._save_and_refresh()
+
+    def _resolve_lifecycle_now(self, *, clear_effect: bool = True) -> None:
+        if clear_effect:
+            self._pet_widget.set_lifecycle_pending(None)
         event = advance_lifecycle(
             self._state,
             self._species,
