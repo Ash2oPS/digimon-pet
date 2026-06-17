@@ -17,6 +17,10 @@ STAT_LABELS = {
     "brains": "INT",
 }
 
+BABY_TREE_SPECIAL_TARGETS = {"kunemon"}
+BABY_TREE_STAGES = {GrowthStage.BABY, GrowthStage.BABY_2}
+
+
 @dataclass(frozen=True)
 class EvolutionLink:
     source_species_id: str | None
@@ -66,7 +70,7 @@ def graph_species_ids(selected_species_id: str, species: dict[str, Species], lin
     family_ids = family_species_ids(selected_species_id, links)
     graph_ids = set(family_ids)
     for link in links:
-        if link.source_species_id is None and _global_link_applies_to_family(link, family_ids, species):
+        if link.source_species_id is None and _global_link_applies_to_selected_tree(link, selected_species_id, species):
             graph_ids.add(link.target_species_id)
     return graph_ids
 
@@ -77,7 +81,7 @@ def graph_links(selected_species_id: str, species: dict[str, Species], links: li
     visible_links: list[EvolutionLink] = []
     for link in links:
         if link.source_species_id is None:
-            if link.target_species_id in graph_ids and _global_link_applies_to_family(link, family_ids, species):
+            if link.target_species_id in graph_ids and _global_link_applies_to_selected_tree(link, selected_species_id, species):
                 visible_links.append(link)
             continue
         if link.source_species_id in family_ids and link.target_species_id in family_ids:
@@ -158,18 +162,15 @@ def _broad_special_source(selector: dict[str, Any]) -> tuple[GrowthStage | None,
     return source_stage, excluded_ids
 
 
-def _global_link_applies_to_family(
+def _global_link_applies_to_selected_tree(
     link: EvolutionLink,
-    family_ids: set[str],
+    selected_species_id: str,
     species: dict[str, Species],
 ) -> bool:
-    if link.source_stage is None:
-        return True
-    return any(
-        species_id not in link.excluded_source_species_ids and species[species_id].stage == link.source_stage
-        for species_id in family_ids
-        if species_id in species
-    )
+    selected = species.get(selected_species_id)
+    if selected is None:
+        return False
+    return link.target_species_id in BABY_TREE_SPECIAL_TARGETS and selected.stage in BABY_TREE_STAGES
 
 
 def _describe_natural_requirements(requirements: dict[str, Any]) -> str:

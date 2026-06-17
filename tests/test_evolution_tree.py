@@ -21,11 +21,13 @@ def _species_map() -> dict[str, Species]:
         "koromon": _species("koromon", "Koromon", GrowthStage.BABY_2),
         "agumon": _species("agumon", "Agumon", GrowthStage.ROOKIE),
         "gabumon": _species("gabumon", "Gabumon", GrowthStage.ROOKIE),
+        "kunemon": _species("kunemon", "Kunemon", GrowthStage.ROOKIE),
         "greymon": _species("greymon", "Greymon", GrowthStage.CHAMPION),
         "angemon": _species("angemon", "Angemon", GrowthStage.CHAMPION),
         "devimon": _species("devimon", "Devimon", GrowthStage.CHAMPION),
         "numemon": _species("numemon", "Numemon", GrowthStage.CHAMPION),
         "sukamon": _species("sukamon", "Sukamon", GrowthStage.CHAMPION),
+        "vademon": _species("vademon", "Vademon", GrowthStage.ULTIMATE),
     }
 
 
@@ -54,6 +56,16 @@ def _digivolutions() -> dict:
                 "target_species_id": "sukamon",
                 "source_selector": {"scope": "any"},
                 "trigger": "full Virus Bar",
+            },
+            {
+                "target_species_id": "kunemon",
+                "source_selector": {"stage": "in_training"},
+                "trigger": "sleep in Kunemon's bed",
+            },
+            {
+                "target_species_id": "vademon",
+                "source_selector": {"stage": "champion"},
+                "trigger": "praise or scold with evolution counter at least 240h",
             },
             {
                 "target_species_id": "devimon",
@@ -95,22 +107,32 @@ def test_build_evolution_links_include_baby_natural_and_supported_special_paths(
     assert family_species_ids("greymon", links) == {"botamon", "koromon", "agumon", "greymon"}
 
 
-def test_broad_special_evolutions_are_orphan_nodes_without_connecting_families():
+def test_broad_special_evolutions_are_hidden_from_non_baby_family_trees():
     links = build_evolution_links(_species_map(), _digivolutions())
-    broad_specials = {link.target_species_id: link for link in links if link.target_species_id in {"numemon", "sukamon"}}
+    broad_specials = {
+        link.target_species_id: link
+        for link in links
+        if link.target_species_id in {"kunemon", "numemon", "sukamon", "vademon"}
+    }
 
+    assert broad_specials["kunemon"].source_species_id is None
     assert broad_specials["numemon"].source_species_id is None
     assert broad_specials["sukamon"].source_species_id is None
+    assert broad_specials["vademon"].source_species_id is None
 
     polluted_links = build_evolution_links(_species_map(), _cross_family_digivolutions())
 
     assert family_species_ids("agumon", polluted_links) == {"botamon", "koromon", "agumon"}
-    assert graph_species_ids("agumon", _species_map(), polluted_links) == {
-        "botamon",
-        "koromon",
-        "agumon",
-        "numemon",
-    }
+    assert graph_species_ids("agumon", _species_map(), polluted_links) == {"botamon", "koromon", "agumon"}
+    assert graph_species_ids("patamon", _species_map(), links).isdisjoint({"kunemon", "numemon", "sukamon", "vademon"})
+    assert graph_species_ids("numemon", _species_map(), links) == {"numemon"}
+
+
+def test_kunemon_is_visible_in_baby_1_and_baby_2_trees():
+    links = build_evolution_links(_species_map(), _digivolutions())
+
+    assert "kunemon" in graph_species_ids("botamon", _species_map(), links)
+    assert "kunemon" in graph_species_ids("koromon", _species_map(), links)
 
 
 def test_family_uses_selected_ancestors_and_descendants_without_sibling_branches():
