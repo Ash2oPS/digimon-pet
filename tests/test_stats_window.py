@@ -12,7 +12,7 @@ from digimon_pet.domain.models import GrowthStage, PetState, Species
 
 def test_stats_window_prefers_official_artwork_over_runtime_sprite(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
-    artwork_path = tmp_path / "assets" / "artworks" / "agumon.jpg"
+    artwork_path = tmp_path / "assets" / "artworks" / "agumon.png"
     sprite_path = tmp_path / "assets" / "sprite_sources" / "dmc" / "agumon.png"
     artwork_path.parent.mkdir(parents=True)
     sprite_path.parent.mkdir(parents=True)

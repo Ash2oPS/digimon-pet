@@ -147,4 +147,4 @@ Official artwork downloads for the stats window are declared in `data/artwork_do
 assets/artworks/
 ```
 
-The stats window uses the local official artwork when present and falls back to the runtime sprite otherwise.
+The source URLs are official Digimon Web JPGs. The app stores local PNG copies with the edge-connected white background made transparent. The stats window uses the local transparent artwork when present and falls back to the runtime sprite otherwise.
