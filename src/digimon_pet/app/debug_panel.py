@@ -27,6 +27,7 @@ class DebugPanel(QWidget):
         time_scale_changed: Callable[[int], None] | None = None,
         stat_changed: Callable[[str, int], None] | None = None,
         auto_rebirth_changed: Callable[[bool], None] | None = None,
+        auto_lifecycle_changed: Callable[[bool], None] | None = None,
         reset_stats_requested: Callable[[], None] | None = None,
         reset_collection_requested: Callable[[], None] | None = None,
     ) -> None:
@@ -38,6 +39,7 @@ class DebugPanel(QWidget):
         self._time_scale_changed = time_scale_changed
         self._stat_changed = stat_changed
         self._auto_rebirth_changed = auto_rebirth_changed
+        self._auto_lifecycle_changed = auto_lifecycle_changed
         self._reset_stats_requested = reset_stats_requested
         self._reset_collection_requested = reset_collection_requested
         self._updating_schedule = False
@@ -144,6 +146,9 @@ class DebugPanel(QWidget):
         self._auto_rebirth_checkbox = QCheckBox("Auto-pick random Baby1 on death")
         self._auto_rebirth_checkbox.toggled.connect(self._emit_auto_rebirth_changed)
         automation_layout.addWidget(self._auto_rebirth_checkbox)
+        self._auto_lifecycle_checkbox = QCheckBox("Auto-resolve evolution and death")
+        self._auto_lifecycle_checkbox.toggled.connect(self._emit_auto_lifecycle_changed)
+        automation_layout.addWidget(self._auto_lifecycle_checkbox)
         content_layout.addWidget(automation_group)
 
         reset_group = QGroupBox("Reset")
@@ -188,6 +193,9 @@ class DebugPanel(QWidget):
 
     def set_auto_rebirth_enabled(self, enabled: bool) -> None:
         self._auto_rebirth_checkbox.setChecked(enabled)
+
+    def set_auto_lifecycle_enabled(self, enabled: bool) -> None:
+        self._auto_lifecycle_checkbox.setChecked(enabled)
 
     def _section_grid(self, parent_layout: QVBoxLayout, title: str) -> QGridLayout:
         group = QGroupBox(title)
@@ -265,6 +273,10 @@ class DebugPanel(QWidget):
     def _emit_auto_rebirth_changed(self, enabled: bool) -> None:
         if self._auto_rebirth_changed is not None:
             self._auto_rebirth_changed(enabled)
+
+    def _emit_auto_lifecycle_changed(self, enabled: bool) -> None:
+        if self._auto_lifecycle_changed is not None:
+            self._auto_lifecycle_changed(enabled)
 
     def _emit_reset_stats_requested(self) -> None:
         if self._reset_stats_requested is not None:

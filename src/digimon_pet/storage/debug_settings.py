@@ -12,10 +12,12 @@ from digimon_pet.paths import DEBUG_SETTINGS_PATH
 class DebugSettings:
     time_scale: int = 1
     auto_rebirth_random: bool = False
+    auto_lifecycle_events: bool = False
 
     def clamp(self) -> None:
         self.time_scale = max(1, min(3600, int(self.time_scale)))
         self.auto_rebirth_random = bool(self.auto_rebirth_random)
+        self.auto_lifecycle_events = bool(self.auto_lifecycle_events)
 
 
 def load_debug_settings(path: Path | None = None) -> DebugSettings:
@@ -45,6 +47,7 @@ def _settings_from_dict(raw: dict[str, Any]) -> DebugSettings:
     settings = DebugSettings(
         time_scale=int(raw.get("time_scale", 1)),
         auto_rebirth_random=bool(raw.get("auto_rebirth_random", False)),
+        auto_lifecycle_events=bool(raw.get("auto_lifecycle_events", False)),
     )
     settings.clamp()
     return settings

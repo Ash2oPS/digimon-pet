@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import ctypes
 import random
 import sys
@@ -38,8 +39,11 @@ class PetWindow(QWidget):
         self._debug_settings = debug_settings.load_debug_settings()
         self._debug_time_scale = self._debug_settings.time_scale
         self._auto_rebirth_random = self._debug_settings.auto_rebirth_random
+        self._auto_lifecycle_events = self._debug_settings.auto_lifecycle_events
         self._rng = random.Random()
         self._state = load_pet_state()
+        self._pending_lifecycle_kind: str | None = None
+        self._lifecycle_animating = False
         self._direction = QPoint(3, 0)
         self._drag_offset: QPoint | None = None
         self._was_dragging = False
@@ -58,6 +62,7 @@ class PetWindow(QWidget):
             time_scale_changed=self._set_debug_time_scale,
             stat_changed=self._set_pet_stat,
             auto_rebirth_changed=self._set_auto_rebirth_random,
+            auto_lifecycle_changed=self._set_auto_lifecycle_events,
             reset_stats_requested=self._reset_stat_progression,
             reset_collection_requested=self._reset_collection_progression,
         )
@@ -65,6 +70,7 @@ class PetWindow(QWidget):
         self._debug_panel.set_schedule_values(self._lifecycle_schedule)
         self._debug_panel._time_scale_input.setValue(self._debug_time_scale)
         self._debug_panel.set_auto_rebirth_enabled(self._auto_rebirth_random)
+        self._debug_panel.set_auto_lifecycle_enabled(self._auto_lifecycle_events)
 
         self._tick_timer = QTimer(self)
         self._tick_timer.timeout.connect(self._tick)
@@ -159,6 +165,11 @@ class PetWindow(QWidget):
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton and self._drag_offset is not None:
+            if self._pending_lifecycle_kind is not None and not self._was_dragging:
+                self._drag_offset = None
+                self._confirm_pending_lifecycle()
+                event.accept()
+                return
             self._drag_offset = None
             self._was_dragging = False
             self._keep_inside_screen()
@@ -214,6 +225,8 @@ class PetWindow(QWidget):
         )
 
     def _handle_action(self, name: str) -> None:
+        if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
+            return
         actions = {
             "feed": feed,
             "train": train,
@@ -225,14 +238,15 @@ class PetWindow(QWidget):
         }
         action = actions[name]
         action(self._state)
-        self._advance_lifecycle()
+        self._queue_or_advance_lifecycle()
         self._save_and_refresh()
 
     def _tick(self) -> None:
-        apply_tick(self._state, 1, debug_multiplier=self._debug_time_scale)
-        if self._state.current_action not in {"sleep", "idle"}:
-            self._state.current_action = "idle"
-        self._advance_lifecycle()
+        if self._pending_lifecycle_kind is None and not self._lifecycle_animating:
+            apply_tick(self._state, 1, debug_multiplier=self._debug_time_scale)
+            if self._state.current_action not in {"sleep", "idle"}:
+                self._state.current_action = "idle"
+            self._queue_or_advance_lifecycle()
         self._save_and_refresh()
 
     def _move_pet(self) -> None:
@@ -298,7 +312,57 @@ class PetWindow(QWidget):
             bounds = bounds.united(screen.availableGeometry())
         return bounds
 
-    def _advance_lifecycle(self) -> None:
+    def _queue_or_advance_lifecycle(self) -> None:
+        if self._state.needs_rebirth_choice or self._pending_lifecycle_kind is not None:
+            return
+        threshold = self._lifecycle_schedule.threshold_for(self._state.stage)
+        if self._state.age_seconds < threshold:
+            return
+        self._state.age_seconds = threshold
+        if self._auto_lifecycle_events:
+            self._resolve_lifecycle_now()
+            return
+        kind = self._preview_lifecycle_kind()
+        if kind is None:
+            return
+        self._pending_lifecycle_kind = kind
+        self._pet_widget.set_lifecycle_pending(kind)
+        self._refresh()
+
+    def _preview_lifecycle_kind(self) -> str | None:
+        rng_state = self._rng.getstate()
+        preview = copy.deepcopy(self._state)
+        event = advance_lifecycle(
+            preview,
+            self._species,
+            self._digivolutions,
+            self._lifecycle_schedule,
+            self._rng,
+        )
+        self._rng.setstate(rng_state)
+        if event is None:
+            return None
+        if event.startswith("evolved:"):
+            return "evolution"
+        if event.startswith("died:"):
+            return "death"
+        return None
+
+    def _confirm_pending_lifecycle(self) -> None:
+        if self._pending_lifecycle_kind is None or self._lifecycle_animating:
+            return
+        kind = self._pending_lifecycle_kind
+        self._pending_lifecycle_kind = None
+        self._lifecycle_animating = True
+        self._pet_widget.start_lifecycle_resolution(kind, self._finish_lifecycle_resolution)
+
+    def _finish_lifecycle_resolution(self) -> None:
+        self._resolve_lifecycle_now()
+        self._lifecycle_animating = False
+        self._save_and_refresh()
+
+    def _resolve_lifecycle_now(self) -> None:
+        self._pet_widget.set_lifecycle_pending(None)
         event = advance_lifecycle(
             self._state,
             self._species,
@@ -311,6 +375,9 @@ class PetWindow(QWidget):
                 choose_rebirth(self._state, self._rng.choice(BABY_1_CHOICES), self._species)
                 return
             self._prompt_rebirth_choice()
+
+    def _advance_lifecycle(self) -> None:
+        self._queue_or_advance_lifecycle()
 
     def _prompt_rebirth_choice(self) -> None:
         labels = [self._species[baby_id].name for baby_id in BABY_1_CHOICES]
@@ -353,9 +420,18 @@ class PetWindow(QWidget):
         self._auto_rebirth_random = bool(enabled)
         self._save_debug_settings()
 
+    def _set_auto_lifecycle_events(self, enabled: bool) -> None:
+        self._auto_lifecycle_events = bool(enabled)
+        if self._auto_lifecycle_events and self._pending_lifecycle_kind is not None:
+            self._pending_lifecycle_kind = None
+            self._resolve_lifecycle_now()
+            self._save_and_refresh()
+        self._save_debug_settings()
+
     def _save_debug_settings(self) -> None:
         self._debug_settings.time_scale = self._debug_time_scale
         self._debug_settings.auto_rebirth_random = self._auto_rebirth_random
+        self._debug_settings.auto_lifecycle_events = self._auto_lifecycle_events
         debug_settings.save_debug_settings(self._debug_settings)
 
     def _set_pet_stat(self, name: str, value: int) -> None:

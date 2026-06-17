@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+import math
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
@@ -13,6 +15,10 @@ from digimon_pet.paths import PROJECT_ROOT
 SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
 SHADOW_OFFSET = QPoint(6, 6)
 SHADOW_COLOR = QColor(0, 0, 0, 95)
+EFFECT_INTERVAL_MS = 33
+RESOLUTION_DURATION_MS = 2200
+PENDING_EFFECTS = {"pending_evolution", "pending_death"}
+RESOLUTION_EFFECTS = {"evolution", "death"}
 
 
 class PetWidget(QWidget):
@@ -28,6 +34,11 @@ class PetWidget(QWidget):
         self._manifest = load_or_build_runtime_manifest()
         self._animation_timer = QTimer(self)
         self._animation_timer.timeout.connect(self._advance_frame)
+        self._effect_name: str | None = None
+        self._effect_elapsed_ms = 0
+        self._effect_finished: Callable[[], None] | None = None
+        self._effect_timer = QTimer(self)
+        self._effect_timer.timeout.connect(self._advance_effect)
         self.setFixedSize(128, 128)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
@@ -43,6 +54,35 @@ class PetWidget(QWidget):
             self._pixmap = self._load_pixmap(animation)
             self._frame_rects = self._build_frame_rects(self._pixmap, animation)
             self._configure_animation_timer(animation)
+        if self._effect_name in PENDING_EFFECTS | RESOLUTION_EFFECTS:
+            self._animation_timer.stop()
+        self.update()
+
+    def set_lifecycle_pending(self, kind: str | None) -> None:
+        effect_name = {
+            None: None,
+            "evolution": "pending_evolution",
+            "death": "pending_death",
+        }[kind]
+        if self._effect_name == effect_name:
+            return
+        self._effect_name = effect_name
+        self._effect_elapsed_ms = 0
+        self._effect_finished = None
+        if effect_name is None:
+            self._effect_timer.stop()
+            self._configure_animation_timer(self._animation)
+        else:
+            self._animation_timer.stop()
+            self._effect_timer.start(EFFECT_INTERVAL_MS)
+        self.update()
+
+    def start_lifecycle_resolution(self, kind: str, finished: Callable[[], None]) -> None:
+        self._effect_name = kind
+        self._effect_elapsed_ms = 0
+        self._effect_finished = finished
+        self._animation_timer.stop()
+        self._effect_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
     def set_flipped_x(self, flipped: bool) -> None:
@@ -63,9 +103,10 @@ class PetWidget(QWidget):
             else:
                 source_pixmap = self._sprite_pixmap(self._pixmap, None)
             self._draw_sprite_shadow(painter, source_pixmap)
-            painter.drawPixmap(SPRITE_TARGET_RECT, source_pixmap)
+            self._draw_effect_sprite(painter, source_pixmap)
         else:
             self._draw_placeholder(painter)
+        self._draw_effect_particles(painter)
 
     def _load_pixmap(self, animation: SpriteAnimation | None) -> QPixmap | None:
         if animation is None:
@@ -91,6 +132,8 @@ class PetWidget(QWidget):
 
     def _configure_animation_timer(self, animation: SpriteAnimation | None) -> None:
         self._animation_timer.stop()
+        if self._effect_name in PENDING_EFFECTS | RESOLUTION_EFFECTS:
+            return
         if animation is None or animation.frame_count <= 1:
             return
         self._animation_timer.start(max(16, round(1000 / animation.fps)))
@@ -99,6 +142,21 @@ class PetWidget(QWidget):
         if not self._frame_rects:
             return
         self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
+        self.update()
+
+    def _advance_effect(self) -> None:
+        self._effect_elapsed_ms += EFFECT_INTERVAL_MS
+        if self._effect_name in RESOLUTION_EFFECTS and self._effect_elapsed_ms >= RESOLUTION_DURATION_MS:
+            finished = self._effect_finished
+            self._effect_name = None
+            self._effect_elapsed_ms = 0
+            self._effect_finished = None
+            self._effect_timer.stop()
+            self._configure_animation_timer(self._animation)
+            if finished is not None:
+                finished()
+            self.update()
+            return
         self.update()
 
     def _sprite_pixmap(self, pixmap: QPixmap, source: QRect | None) -> QPixmap:
@@ -118,6 +176,68 @@ class PetWidget(QWidget):
         shadow_painter.end()
 
         painter.drawImage(SPRITE_TARGET_RECT.translated(self._shadow_offset()), shadow)
+
+    def _draw_effect_sprite(self, painter: QPainter, source_pixmap: QPixmap) -> None:
+        target = self._effect_target_rect()
+        painter.drawPixmap(target, source_pixmap)
+        overlay = self._effect_overlay_color()
+        if overlay.alpha() <= 0:
+            return
+        tinted = QImage(source_pixmap.size(), QImage.Format.Format_ARGB32_Premultiplied)
+        tinted.fill(Qt.GlobalColor.transparent)
+        tint_painter = QPainter(tinted)
+        tint_painter.drawPixmap(0, 0, source_pixmap)
+        tint_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
+        tint_painter.fillRect(tinted.rect(), overlay)
+        tint_painter.end()
+        painter.drawImage(target, tinted)
+
+    def _effect_target_rect(self) -> QRect:
+        if self._effect_name not in RESOLUTION_EFFECTS:
+            return SPRITE_TARGET_RECT
+        progress = min(1.0, self._effect_elapsed_ms / RESOLUTION_DURATION_MS)
+        wave = math.sin(progress * math.pi * 3)
+        scale = 1.0 + (0.18 * math.sin(progress * math.pi)) + (0.04 * wave)
+        width = round(SPRITE_TARGET_RECT.width() * scale)
+        height = round(SPRITE_TARGET_RECT.height() * (1.0 + (scale - 1.0) * 0.75))
+        center = SPRITE_TARGET_RECT.center()
+        return QRect(center.x() - width // 2, center.y() - height // 2, width, height)
+
+    def _effect_overlay_color(self) -> QColor:
+        if self._effect_name == "pending_evolution":
+            alpha = 55 + round(70 * _smooth_pulse(self._effect_elapsed_ms, 1800))
+            return QColor(255, 255, 255, alpha)
+        if self._effect_name == "pending_death":
+            alpha = 50 + round(75 * _smooth_pulse(self._effect_elapsed_ms, 1800))
+            return QColor(255, 28, 44, alpha)
+        if self._effect_name == "evolution":
+            progress = min(1.0, self._effect_elapsed_ms / RESOLUTION_DURATION_MS)
+            alpha = round(230 * math.sin(progress * math.pi))
+            return QColor(255, 255, 255, alpha)
+        if self._effect_name == "death":
+            progress = min(1.0, self._effect_elapsed_ms / RESOLUTION_DURATION_MS)
+            alpha = round(210 * math.sin(progress * math.pi))
+            return QColor(255, 22, 42, alpha)
+        return QColor(255, 255, 255, 0)
+
+    def _draw_effect_particles(self, painter: QPainter) -> None:
+        if self._effect_name not in RESOLUTION_EFFECTS:
+            return
+        progress = min(1.0, self._effect_elapsed_ms / RESOLUTION_DURATION_MS)
+        center = SPRITE_TARGET_RECT.center()
+        base_color = QColor(255, 255, 255) if self._effect_name == "evolution" else QColor(255, 36, 52)
+        painter.setPen(Qt.PenStyle.NoPen)
+        for index in range(18):
+            angle = (math.tau / 18) * index + progress * math.tau * 0.45
+            distance = 10 + 42 * progress + 5 * math.sin(progress * math.pi * 4 + index)
+            radius = 2 + round(2 * math.sin(progress * math.pi))
+            x = round(center.x() + math.cos(angle) * distance)
+            y = round(center.y() + math.sin(angle) * distance * 0.75)
+            alpha = max(0, round(210 * math.sin(progress * math.pi)))
+            color = QColor(base_color)
+            color.setAlpha(alpha)
+            painter.setBrush(color)
+            painter.drawEllipse(QPoint(x, y), radius, radius)
 
     def _shadow_offset(self) -> QPoint:
         if self._flipped_x:
@@ -146,3 +266,8 @@ def _stats_tooltip(state: PetState) -> str:
             f"INT: {state.brains}",
         ]
     )
+
+
+def _smooth_pulse(elapsed_ms: int, period_ms: int) -> float:
+    phase = (elapsed_ms % period_ms) / period_ms
+    return 0.5 - 0.5 * math.cos(math.tau * phase)

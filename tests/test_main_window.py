@@ -49,6 +49,15 @@ def test_debug_panel_updates_auto_rebirth_toggle():
     assert window._auto_rebirth_random is True
 
 
+def test_debug_panel_updates_auto_lifecycle_toggle():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._debug_panel._auto_lifecycle_checkbox.setChecked(True)
+
+    assert window._auto_lifecycle_events is True
+
+
 def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     settings_path = tmp_path / "debug_settings.json"
@@ -57,13 +66,16 @@ def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
     first = PetWindow(overlay=True, debug=True)
     first._debug_panel._time_scale_input.setValue(9)
     first._debug_panel._auto_rebirth_checkbox.setChecked(True)
+    first._debug_panel._auto_lifecycle_checkbox.setChecked(True)
 
     second = PetWindow(overlay=True, debug=True)
 
     assert second._debug_time_scale == 9
     assert second._auto_rebirth_random is True
+    assert second._auto_lifecycle_events is True
     assert second._debug_panel._time_scale_input.value() == 9
     assert second._debug_panel._auto_rebirth_checkbox.isChecked()
+    assert second._debug_panel._auto_lifecycle_checkbox.isChecked()
 
 
 def test_tick_uses_debug_time_scale():
@@ -76,6 +88,118 @@ def test_tick_uses_debug_time_scale():
     window._tick()
 
     assert window._state.age_seconds == 5
+
+
+def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds - 1
+    window._debug_time_scale = 10
+
+    window._tick()
+    queued_age = window._state.age_seconds
+    window._tick()
+
+    assert window._pending_lifecycle_kind == "evolution"
+    assert queued_age == window._lifecycle_schedule.baby_seconds
+    assert window._state.age_seconds == queued_age
+    assert window._state.species_id == "botamon"
+    assert window._pet_widget._effect_name == "pending_evolution"
+
+
+def test_click_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._queue_or_advance_lifecycle()
+    press = QMouseEvent(
+        QEvent.Type.MouseButtonPress,
+        QPointF(16, 16),
+        QPointF(16, 16),
+        QPointF(16, 16),
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.LeftButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+    release = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        QPointF(16, 16),
+        QPointF(16, 16),
+        QPointF(16, 16),
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.NoButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+
+    window.mousePressEvent(press)
+    window.mouseReleaseEvent(release)
+
+    assert window._pending_lifecycle_kind is None
+    assert window._lifecycle_animating is True
+    assert window._pet_widget._effect_name == "evolution"
+
+
+def test_lifecycle_resolution_reveals_evolved_species_after_animation(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+    window._queue_or_advance_lifecycle()
+    window._confirm_pending_lifecycle()
+
+    for _index in range(70):
+        window._pet_widget._advance_effect()
+
+    assert window._lifecycle_animating is False
+    assert window._state.species_id == "koromon"
+    assert window._state.stage == GrowthStage.BABY_2
+    assert window._state.age_seconds == 0
+
+
+def test_death_pending_uses_red_pulse(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+    window._queue_or_advance_lifecycle()
+
+    assert window._pending_lifecycle_kind == "death"
+    assert window._pet_widget._effect_name == "pending_death"
+
+
+def test_auto_lifecycle_resolves_without_pending_animation(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+
+    window._queue_or_advance_lifecycle()
+
+    assert window._pending_lifecycle_kind is None
+    assert window._pet_widget._effect_name is None
+    assert window._state.species_id == "koromon"
 
 
 def test_debug_panel_updates_pet_stat():
@@ -144,6 +268,7 @@ def test_auto_rebirth_chooses_random_baby_on_death():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
     window._auto_rebirth_random = True
     window._state.species_id = "metalgreymon"
     window._state.stage = GrowthStage.ULTIMATE
