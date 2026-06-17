@@ -3,8 +3,12 @@ set -u
 
 cd "$(dirname "$0")" || exit 1
 VENV_PY=".venv/bin/python"
+DIGIMON_PET_SILENT="${DIGIMON_PET_SILENT:-0}"
 
 pause_on_error() {
+    if [ "$DIGIMON_PET_SILENT" = "1" ]; then
+        return
+    fi
     echo
     printf "Press Enter to close this window..."
     read _answer

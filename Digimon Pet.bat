@@ -14,7 +14,7 @@ if not exist "%VENV_PY%" (
 
     if %ERRORLEVEL% NEQ 0 (
         echo Failed to create the Python virtual environment.
-        pause
+        if not "%DIGIMON_PET_SILENT%"=="1" pause
         exit /b %ERRORLEVEL%
     )
 )
@@ -24,7 +24,7 @@ if %ERRORLEVEL% NEQ 0 (
     "%VENV_PY%" -m pip install -e .
     if %ERRORLEVEL% NEQ 0 (
         echo Failed to install Digimon Pet dependencies.
-        pause
+        if not "%DIGIMON_PET_SILENT%"=="1" pause
         exit /b %ERRORLEVEL%
     )
 )
@@ -32,6 +32,6 @@ if %ERRORLEVEL% NEQ 0 (
 "%VENV_PY%" -m digimon_pet --overlay %*
 if %ERRORLEVEL% NEQ 0 (
     echo Digimon Pet exited with an error.
-    pause
+    if not "%DIGIMON_PET_SILENT%"=="1" pause
     exit /b %ERRORLEVEL%
 )

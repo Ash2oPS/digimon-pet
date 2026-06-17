@@ -1,0 +1,9 @@
+#!/bin/sh
+set -u
+
+PROJECT_ROOT="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
+cd "$PROJECT_ROOT" || exit 1
+
+mkdir -p .local
+export DIGIMON_PET_SILENT=1
+exec ./Digimon\ Pet.command > .local/launcher-macos.log 2>&1
