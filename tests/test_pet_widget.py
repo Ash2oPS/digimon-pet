@@ -65,3 +65,39 @@ def test_pet_widget_flips_sprite_and_shadow_when_on_left_side():
     assert original_side_pixel.alpha() == 0
     assert mirrored_shadow_pixel.alpha() > 0
     assert mirrored_shadow_pixel.red() < 10
+
+
+def test_pending_lifecycle_effect_pulses_sprite_scale():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("evolution")
+    widget._effect_elapsed_ms = 900
+
+    target = widget._effect_target_rect()
+
+    assert target.width() > SPRITE_TARGET_RECT.width()
+    assert target.height() > SPRITE_TARGET_RECT.height()
+
+
+def test_death_resolution_hides_sprite_immediately_and_emits_particles():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
+    widget._pixmap.fill(QColor("#00ff00"))
+    widget.start_lifecycle_resolution("death", lambda: None)
+    widget._effect_elapsed_ms = 120
+
+    image = QImage(widget.size(), QImage.Format.Format_ARGB32)
+    image.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(image)
+    widget.render(painter, QPoint(0, 0))
+    painter.end()
+
+    center_pixel = image.pixelColor(SPRITE_TARGET_RECT.center())
+
+    assert center_pixel.green() < 50
+    assert any(
+        image.pixelColor(x, y).red() > 150
+        for x in range(image.width())
+        for y in range(image.height())
+    )
