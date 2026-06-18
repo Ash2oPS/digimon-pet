@@ -3,7 +3,9 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
-from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import QEvent, QPointF, Qt
+from PySide6.QtGui import QMouseEvent
+from PySide6.QtWidgets import QApplication, QPushButton
 
 from digimon_pet.app.inventory_window import InventoryItem, InventorySlotWidget, InventoryWindow
 from digimon_pet.app.main_window import PetWindow
@@ -52,8 +54,47 @@ def test_inventory_window_can_render_future_items():
     assert slots[0].item == InventoryItem(id="meat", name="Meat", quantity=3)
     assert slots[0].toolTip() == "Meat x3"
     assert slots[0].property("empty") is False
+    assert slots[0].property("selected") is True
     assert slots[1].item is None
     assert slots[1].property("empty") is True
+
+
+def test_inventory_window_selects_items_on_click_and_uses_selected_item():
+    app = QApplication.instance() or QApplication([])
+    used: list[str] = []
+    window = InventoryWindow(slot_count=4, item_used=used.append)
+    window.set_items(
+        [
+            InventoryItem(id="meat", name="Meat", quantity=3),
+            InventoryItem(id="disk", name="Champion Disk", quantity=1),
+        ]
+    )
+    slots = window.findChildren(InventorySlotWidget)
+    use_button = window.findChild(QPushButton)
+
+    _left_click(slots[1])
+    assert slots[0].property("selected") is False
+    assert slots[1].property("selected") is True
+    assert window._details_name.text() == "Champion Disk"
+    assert use_button is not None
+    assert use_button.isEnabled()
+
+    use_button.click()
+
+    assert used == ["disk"]
+
+
+def test_inventory_window_clears_selection_when_empty_slot_is_clicked():
+    app = QApplication.instance() or QApplication([])
+    window = InventoryWindow(slot_count=4)
+    window.set_items([InventoryItem(id="meat", name="Meat", quantity=3)])
+    slots = window.findChildren(InventorySlotWidget)
+
+    _left_click(slots[1])
+
+    assert slots[0].property("selected") is False
+    assert window._details_name.text() == "Aucun objet"
+    assert window.findChild(QPushButton).isEnabled() is False
 
 
 def test_pet_window_opens_inventory_window():
@@ -90,3 +131,16 @@ def test_pet_window_uses_monzaemon_head_from_inventory():
 
     assert window._state.species_id == "monzaemon"
     assert window._state.inventory == {}
+
+
+def _left_click(widget: InventorySlotWidget) -> None:
+    event = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        QPointF(8, 8),
+        QPointF(8, 8),
+        QPointF(8, 8),
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.NoButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+    widget.mouseReleaseEvent(event)
