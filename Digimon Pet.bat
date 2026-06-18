@@ -96,6 +96,14 @@ call :try_python python
 if defined PYTHON_EXE exit /b 0
 call :try_python python3
 if defined PYTHON_EXE exit /b 0
+call :try_python "%LocalAppData%\Programs\Python\Launcher\py.exe" -3.12
+if defined PYTHON_EXE exit /b 0
+call :try_python "%LocalAppData%\Programs\Python\Launcher\py.exe" -3.11
+if defined PYTHON_EXE exit /b 0
+call :try_python "%ProgramFiles%\Python Launcher\py.exe" -3.12
+if defined PYTHON_EXE exit /b 0
+call :try_python "%ProgramFiles%\Python Launcher\py.exe" -3.11
+if defined PYTHON_EXE exit /b 0
 call :try_python "%LocalAppData%\Programs\Python\Python312\python.exe"
 if defined PYTHON_EXE exit /b 0
 call :try_python "%LocalAppData%\Programs\Python\Python311\python.exe"
@@ -122,14 +130,14 @@ if not exist "%_PY_CMD%" (
 )
 
 > "%_PY_PROBE%" echo import sys
->> "%_PY_PROBE%" echo if sys.version_info[0] != 3: sys.exit^(1^)
+>> "%_PY_PROBE%" echo if sys.version_info[0] not in [3]: sys.exit^(1^)
 >> "%_PY_PROBE%" echo if sys.version_info[1] not in [11, 12, 13, 14, 15]: sys.exit^(1^)
 >> "%_PY_PROBE%" echo print^(sys.executable^)
 
 if "%_PY_ARG%"=="" (
-    for /f "usebackq delims=" %%P in (`"%_PY_CMD%" "%_PY_PROBE%" 2^>nul`) do set "PYTHON_EXE=%%P"
+    for /f "delims=" %%P in ('cmd /d /c ""%_PY_CMD%" "%_PY_PROBE%" 2^>nul"') do set "PYTHON_EXE=%%P"
 ) else (
-    for /f "usebackq delims=" %%P in (`"%_PY_CMD%" "%_PY_ARG%" "%_PY_PROBE%" 2^>nul`) do set "PYTHON_EXE=%%P"
+    for /f "delims=" %%P in ('cmd /d /c ""%_PY_CMD%" %_PY_ARG% "%_PY_PROBE%" 2^>nul"') do set "PYTHON_EXE=%%P"
 )
 del "%_PY_PROBE%" >nul 2>nul
 if defined PYTHON_EXE exit /b 0
@@ -157,8 +165,9 @@ exit /b %ERRORLEVEL%
 
 :install_python_local
 if exist "%LOCAL_PY%" exit /b 0
-if not exist ".local" mkdir ".local"
-if errorlevel 1 exit /b 1
+if not exist ".local" (
+    mkdir ".local" || exit /b 1
+)
 
 if not exist "%PYTHON_INSTALLER%" (
     powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '%PYTHON_INSTALLER_URL%' -OutFile '%PYTHON_INSTALLER%'"

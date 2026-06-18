@@ -71,9 +71,18 @@ def test_windows_batch_avoids_shell_redirection_chars_in_python_version_check():
     try_python_block = launcher[launcher.rindex(":try_python") : launcher.rindex(":install_python")]
 
     assert "digimon_pet_python_probe_%RANDOM%.py" in try_python_block
-    assert 'echo if sys.version_info[0] != 3: sys.exit^(1^)' in try_python_block
+    assert 'echo if sys.version_info[0] not in [3]: sys.exit^(1^)' in try_python_block
     assert 'echo print^(sys.executable^)' in try_python_block
+    assert "!=" not in try_python_block
     assert ' -c "' not in try_python_block
+
+
+def test_windows_batch_wraps_quoted_python_probe_commands_for_for_f():
+    launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+    try_python_block = launcher[launcher.rindex(":try_python") : launcher.rindex(":install_python")]
+
+    assert "cmd /d /c" in try_python_block
+    assert '"%_PY_CMD%" %_PY_ARG% "%_PY_PROBE%"' in try_python_block
 
 
 def test_windows_batch_forces_winget_python_install_when_package_is_registered_but_missing():
@@ -103,6 +112,26 @@ def test_windows_batch_has_repo_local_python_fallback_after_winget():
     assert "python.org/ftp/python/" in launcher
     assert "TargetDir=" in launcher
     assert "Include_pip=1" in launcher
+
+
+def test_windows_batch_checks_absolute_python_launcher_after_install():
+    launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+    find_python_block = launcher[launcher.rindex(":find_python") : launcher.rindex(":try_python")]
+
+    assert 'call :try_python "%LocalAppData%\\Programs\\Python\\Launcher\\py.exe" -3.12' in find_python_block
+    assert 'call :try_python "%LocalAppData%\\Programs\\Python\\Launcher\\py.exe" -3.11' in find_python_block
+    assert find_python_block.index('call :try_python "%LocalAppData%\\Programs\\Python\\Launcher\\py.exe" -3.12') < find_python_block.index(
+        'call :try_python "%LocalAppData%\\Programs\\Python\\Python312\\python.exe"'
+    )
+
+
+def test_windows_local_python_install_ignores_stale_winget_errorlevel():
+    launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+    local_install_block = launcher[launcher.rindex(":install_python_local") :]
+
+    assert 'if not exist ".local" (' in local_install_block
+    assert 'mkdir ".local" || exit /b 1' in local_install_block
+    assert 'if not exist ".local" mkdir ".local"\nif errorlevel 1 exit /b 1' not in local_install_block
 
 
 def test_windows_launcher_stashes_local_changes_before_pull():
