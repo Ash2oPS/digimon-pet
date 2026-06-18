@@ -689,6 +689,54 @@ def test_radial_menu_selects_arc_away_from_screen_edges():
     assert menu.arc_direction_for(QPoint(200, 100), screen) == RadialArcDirection.BOTTOM_RIGHT
 
 
+def test_radial_menu_orders_actions_visually_for_each_arc():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._ensure_radial_menu()
+    center = QPoint(100, 100)
+
+    top_left = menu._positions_for(RadialArcDirection.TOP_LEFT, center)
+    top_right = menu._positions_for(RadialArcDirection.TOP_RIGHT, center)
+    bottom_left = menu._positions_for(RadialArcDirection.BOTTOM_LEFT, center)
+    bottom_right = menu._positions_for(RadialArcDirection.BOTTOM_RIGHT, center)
+
+    assert [position.y() for position in top_left] == sorted(
+        (position.y() for position in top_left),
+        reverse=True,
+    )
+    assert [position.y() for position in top_right] == sorted(
+        (position.y() for position in top_right),
+        reverse=True,
+    )
+    assert [position.y() for position in bottom_left] == sorted(
+        position.y() for position in bottom_left
+    )
+    assert [position.y() for position in bottom_right] == sorted(
+        position.y() for position in bottom_right
+    )
+
+
+def test_radial_menu_leaves_more_space_between_buttons():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._ensure_radial_menu()
+    positions = menu._positions_for(RadialArcDirection.TOP_LEFT, QPoint(100, 100))
+    centers = [
+        position + QPoint(menu._BUTTON_SIZE // 2, menu._BUTTON_SIZE // 2)
+        for position in positions
+    ]
+
+    gaps = [
+        round(((left.x() - right.x()) ** 2 + (left.y() - right.y()) ** 2) ** 0.5)
+        - menu._BUTTON_SIZE
+        for left, right in zip(centers, centers[1:])
+    ]
+
+    assert min(gaps) >= 20
+
+
 def test_inventory_button_closes_menu_without_opening_panel():
     app = QApplication.instance() or QApplication([])
 
