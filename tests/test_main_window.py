@@ -689,7 +689,7 @@ def test_radial_menu_selects_arc_away_from_screen_edges():
     assert menu.arc_direction_for(QPoint(200, 100), screen) == RadialArcDirection.BOTTOM_RIGHT
 
 
-def test_radial_menu_orders_actions_visually_for_each_arc():
+def test_radial_menu_orders_actions_visually_reversed_for_each_arc():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=False)
@@ -702,18 +702,18 @@ def test_radial_menu_orders_actions_visually_for_each_arc():
     bottom_right = menu._positions_for(RadialArcDirection.BOTTOM_RIGHT, center)
 
     assert [position.y() for position in top_left] == sorted(
-        (position.y() for position in top_left),
-        reverse=True,
+        position.y() for position in top_left
     )
     assert [position.y() for position in top_right] == sorted(
-        (position.y() for position in top_right),
-        reverse=True,
+        position.y() for position in top_right
     )
     assert [position.y() for position in bottom_left] == sorted(
-        position.y() for position in bottom_left
+        (position.y() for position in bottom_left),
+        reverse=True,
     )
     assert [position.y() for position in bottom_right] == sorted(
-        position.y() for position in bottom_right
+        (position.y() for position in bottom_right),
+        reverse=True,
     )
 
 

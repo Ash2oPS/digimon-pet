@@ -156,10 +156,10 @@ class RadialPetMenu(QWidget):
 
     def _positions_for(self, direction: RadialArcDirection, center: QPoint) -> list[QPoint]:
         angle_sequences = {
-            RadialArcDirection.TOP_LEFT: (150, 190, 230, 270),
-            RadialArcDirection.TOP_RIGHT: (30, 350, 310, 270),
-            RadialArcDirection.BOTTOM_LEFT: (210, 170, 130, 90),
-            RadialArcDirection.BOTTOM_RIGHT: (330, 10, 50, 90),
+            RadialArcDirection.TOP_LEFT: (270, 230, 190, 150),
+            RadialArcDirection.TOP_RIGHT: (270, 310, 350, 30),
+            RadialArcDirection.BOTTOM_LEFT: (90, 130, 170, 210),
+            RadialArcDirection.BOTTOM_RIGHT: (90, 50, 10, 330),
         }
         center_point = center + QPoint(self._BUTTON_SIZE // 2, self._BUTTON_SIZE // 2)
         positions: list[QPoint] = []
