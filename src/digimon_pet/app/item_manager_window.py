@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QListWidget,
     QPlainTextEdit,
+    QProgressBar,
     QPushButton,
     QFileDialog,
     QSpinBox,
@@ -159,6 +160,11 @@ class ItemManagerWindow(QWidget):
         self._icon_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._weight_input = QSpinBox(self)
         self._weight_input.setRange(0, 999999)
+        self._drop_chance_bar = QProgressBar(self)
+        self._drop_chance_bar.setRange(0, 100)
+        self._drop_chance_bar.setTextVisible(False)
+        self._drop_chance_label = QLabel(self)
+        self._drop_chance_label.setObjectName("Muted")
 
         form.addRow("ID", self._id_input)
         form.addRow("Name", self._name_input)
@@ -176,6 +182,12 @@ class ItemManagerWindow(QWidget):
         form.addRow("Icon Path", icon_path_row)
         form.addRow("Sprite Preview", self._icon_preview)
         form.addRow("Secondary Weight", self._weight_input)
+        drop_chance_row = QHBoxLayout()
+        drop_chance_row.setContentsMargins(0, 0, 0, 0)
+        drop_chance_row.setSpacing(8)
+        drop_chance_row.addWidget(self._drop_chance_bar, 1)
+        drop_chance_row.addWidget(self._drop_chance_label)
+        form.addRow("Drop Chance", drop_chance_row)
         right_side.addLayout(form)
 
         validation_label = QLabel("Validation", self)
@@ -214,6 +226,7 @@ class ItemManagerWindow(QWidget):
         self._name_input.textChanged.connect(self._autocomplete_id_from_name)
         self._icon_path_input.textChanged.connect(self._refresh_icon_preview)
         self._browse_icon_button.clicked.connect(self._browse_icon_path)
+        self._weight_input.valueChanged.connect(self._refresh_drop_chance)
         self._item_list.currentRowChanged.connect(self._load_selected_item)
         if self._item_list.count() > 0:
             self._item_list.setCurrentRow(0)
@@ -311,6 +324,8 @@ class ItemManagerWindow(QWidget):
             self._icon_path_input,
             self._browse_icon_button,
             self._weight_input,
+            self._drop_chance_bar,
+            self._drop_chance_label,
         ):
             widget.setEnabled(has_item)
         self._apply_button.setEnabled(has_item)
@@ -367,6 +382,7 @@ class ItemManagerWindow(QWidget):
         self._loading_item = False
         self._id_autocomplete_enabled = True
         self._update_editor_enabled_state()
+        self._refresh_drop_chance()
 
     def _clear_editor_fields(self) -> None:
         self._id_input.clear()
@@ -380,6 +396,7 @@ class ItemManagerWindow(QWidget):
         self._icon_preview.clear()
         self._icon_preview.setText("No sprite")
         self._weight_input.setValue(0)
+        self._refresh_drop_chance()
 
     def add_item(self) -> None:
         item_id = self._next_new_item_id()
@@ -464,6 +481,7 @@ class ItemManagerWindow(QWidget):
         self._replace_item_in_pools(item.id, new_item_id)
         self._set_secondary_event_weight(new_item_id, self._weight_input.value())
         self._refresh_item_list(selected_id=selected_key)
+        self._refresh_drop_chance()
         return True
 
     def _replace_item_preserving_order(self, item_key: str, edited_item: ItemDefinition) -> str:
@@ -516,6 +534,40 @@ class ItemManagerWindow(QWidget):
         else:
             entries.append(ItemPoolEntry(item_id=item_id, weight=weight))
         self._set_catalog_pools({**self._catalog.pools, "secondary_event": tuple(entries)})
+
+    def _refresh_drop_chance(self) -> None:
+        if not hasattr(self, "_drop_chance_bar"):
+            return
+
+        percent = self._current_drop_chance_percent()
+        self._drop_chance_bar.setValue(percent)
+        self._drop_chance_label.setText(f"{percent}% drop chance")
+
+    def _current_drop_chance_percent(self) -> int:
+        item_key = self._selected_item_key()
+        item = self._catalog.items.get(item_key or "")
+        if item is None:
+            return 0
+
+        edited_weight = self._weight_input.value()
+        selected_item_id = item.id
+        total_weight = 0
+        selected_weight = edited_weight
+        selected_entry_found = False
+
+        for entry in self._catalog.pools.get("secondary_event", ()):
+            if entry.item_id == selected_item_id:
+                total_weight += edited_weight
+                selected_entry_found = True
+            else:
+                total_weight += entry.weight
+
+        if not selected_entry_found:
+            total_weight += edited_weight
+
+        if selected_weight <= 0 or total_weight <= 0:
+            return 0
+        return max(0, min(100, round((selected_weight / total_weight) * 100)))
 
     def _set_catalog_items(self, items: dict[str, ItemDefinition]) -> None:
         object.__setattr__(self._catalog, "items", items)

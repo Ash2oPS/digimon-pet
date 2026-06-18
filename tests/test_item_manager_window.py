@@ -270,6 +270,29 @@ def test_item_manager_updates_secondary_event_weight(tmp_path):
     assert raw["pools"]["secondary_event"][0]["weight"] == 42
 
 
+def test_item_manager_shows_secondary_event_drop_chance():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(two_item_catalog(), species_map(), Path.cwd())
+
+    assert window._drop_chance_bar.value() == 33
+    assert "33%" in window._drop_chance_label.text()
+
+    window._item_list.setCurrentRow(1)
+
+    assert window._drop_chance_bar.value() == 67
+    assert "67%" in window._drop_chance_label.text()
+
+
+def test_item_manager_updates_drop_chance_while_editing_weight():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(two_item_catalog(), species_map(), Path.cwd())
+
+    window._weight_input.setValue(4)
+
+    assert window._drop_chance_bar.value() == 67
+    assert "67%" in window._drop_chance_label.text()
+
+
 def test_item_manager_edits_evolution_conditions(tmp_path):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "items.json"

@@ -131,6 +131,19 @@ QSpinBox:focus {{
     border-color: {COLORS["focus"]};
 }}
 
+QProgressBar {{
+    background: #111113;
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    height: 12px;
+    text-align: center;
+}}
+
+QProgressBar::chunk {{
+    background: {COLORS["accent"]};
+    border-radius: 4px;
+}}
+
 QComboBox {{
     background: #111113;
     color: {COLORS["text"]};
