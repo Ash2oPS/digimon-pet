@@ -122,11 +122,105 @@ def choose_weighted_item(
     pool_name: str,
     rng: random.Random,
 ) -> str | None:
-    entries = tuple(
-        entry
-        for entry in catalog.pools.get(pool_name, ())
-        if entry.weight > 0 and entry.item_id in catalog.items
+    normal_entries, evolution_entries = _eligible_pool_entries_by_type(catalog, pool_name)
+    if normal_entries and evolution_entries:
+        if rng.randint(1, 100) <= 10:
+            return evolution_entries[rng.randint(1, len(evolution_entries)) - 1].item_id
+        return _choose_weighted_entry(normal_entries, rng)
+
+    entries = normal_entries or evolution_entries
+    if evolution_entries and not normal_entries:
+        return evolution_entries[rng.randint(1, len(evolution_entries)) - 1].item_id
+    return _choose_weighted_entry(entries, rng)
+
+
+def item_drop_chance_percent(
+    catalog: ItemCatalog,
+    pool_name: str,
+    item_id: str,
+    *,
+    edited_weight: int | None = None,
+) -> int:
+    normal_entries, evolution_entries = _eligible_pool_entries_by_type(
+        catalog,
+        pool_name,
+        item_id=item_id,
+        edited_weight=edited_weight,
     )
+    item = catalog.items.get(item_id)
+    if item is None:
+        return 0
+
+    if item.type == ItemType.EVOLUTION:
+        if not any(entry.item_id == item_id for entry in evolution_entries):
+            return 0
+        category_percent = 10 if normal_entries else 100
+        return round(category_percent / len(evolution_entries))
+
+    selected_weight = next(
+        (entry.weight for entry in normal_entries if entry.item_id == item_id),
+        0,
+    )
+    total_normal_weight = sum(entry.weight for entry in normal_entries)
+    if selected_weight <= 0 or total_normal_weight <= 0:
+        return 0
+    category_percent = 90 if evolution_entries else 100
+    return max(0, min(100, round(category_percent * selected_weight / total_normal_weight)))
+
+
+def _eligible_pool_entries_by_type(
+    catalog: ItemCatalog,
+    pool_name: str,
+    *,
+    item_id: str | None = None,
+    edited_weight: int | None = None,
+) -> tuple[tuple[ItemPoolEntry, ...], tuple[ItemPoolEntry, ...]]:
+    normal_entries: list[ItemPoolEntry] = []
+    evolution_entries: list[ItemPoolEntry] = []
+    selected_entry_found = False
+    selected_item = catalog.items.get(item_id or "")
+
+    for entry in catalog.pools.get(pool_name, ()):
+        definition = catalog.items.get(entry.item_id)
+        if definition is None:
+            continue
+
+        weight = (
+            edited_weight
+            if entry.item_id == item_id and edited_weight is not None
+            else entry.weight
+        )
+        if entry.item_id == item_id:
+            selected_entry_found = True
+        if weight <= 0:
+            continue
+
+        edited_entry = ItemPoolEntry(item_id=entry.item_id, weight=weight)
+        if definition.type == ItemType.EVOLUTION:
+            evolution_entries.append(edited_entry)
+        else:
+            normal_entries.append(edited_entry)
+
+    if (
+        item_id
+        and edited_weight is not None
+        and edited_weight > 0
+        and not selected_entry_found
+        and selected_item is not None
+    ):
+        edited_entry = ItemPoolEntry(item_id=item_id, weight=edited_weight)
+        if selected_item.type == ItemType.EVOLUTION:
+            evolution_entries.append(edited_entry)
+        else:
+            normal_entries.append(edited_entry)
+
+    return tuple(normal_entries), tuple(evolution_entries)
+
+
+def _choose_weighted_entry(
+    entries: tuple[ItemPoolEntry, ...],
+    rng: random.Random,
+) -> str | None:
     total = sum(entry.weight for entry in entries)
     if total <= 0:
         return None

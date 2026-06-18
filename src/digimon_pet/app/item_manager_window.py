@@ -29,6 +29,7 @@ from digimon_pet.domain.items import (
     ItemDefinition,
     ItemPoolEntry,
     ItemType,
+    item_drop_chance_percent,
     item_catalog_to_dict,
 )
 from digimon_pet.domain.models import GrowthStage, Species
@@ -548,26 +549,12 @@ class ItemManagerWindow(QWidget):
         item = self._catalog.items.get(item_key or "")
         if item is None:
             return 0
-
-        edited_weight = self._weight_input.value()
-        selected_item_id = item.id
-        total_weight = 0
-        selected_weight = edited_weight
-        selected_entry_found = False
-
-        for entry in self._catalog.pools.get("secondary_event", ()):
-            if entry.item_id == selected_item_id:
-                total_weight += edited_weight
-                selected_entry_found = True
-            else:
-                total_weight += entry.weight
-
-        if not selected_entry_found:
-            total_weight += edited_weight
-
-        if selected_weight <= 0 or total_weight <= 0:
-            return 0
-        return max(0, min(100, round((selected_weight / total_weight) * 100)))
+        return item_drop_chance_percent(
+            self._catalog,
+            "secondary_event",
+            item.id,
+            edited_weight=self._weight_input.value(),
+        )
 
     def _set_catalog_items(self, items: dict[str, ItemDefinition]) -> None:
         object.__setattr__(self._catalog, "items", items)

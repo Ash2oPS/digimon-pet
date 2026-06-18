@@ -67,6 +67,51 @@ def two_item_catalog() -> ItemCatalog:
     )
 
 
+def mixed_drop_catalog() -> ItemCatalog:
+    normal_a = ItemDefinition(
+        id="normal_a",
+        name="Normal A",
+        description="First normal item.",
+        type=ItemType.MISC,
+    )
+    normal_b = ItemDefinition(
+        id="normal_b",
+        name="Normal B",
+        description="Second normal item.",
+        type=ItemType.MISC,
+    )
+    evo_a = ItemDefinition(
+        id="evo_a",
+        name="Evolution A",
+        description="First evolution item.",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(target_species_id="monzaemon"),
+    )
+    evo_b = ItemDefinition(
+        id="evo_b",
+        name="Evolution B",
+        description="Second evolution item.",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(target_species_id="monzaemon"),
+    )
+    return ItemCatalog(
+        items={
+            normal_a.id: normal_a,
+            normal_b.id: normal_b,
+            evo_a.id: evo_a,
+            evo_b.id: evo_b,
+        },
+        pools={
+            "secondary_event": (
+                ItemPoolEntry(item_id=normal_a.id, weight=2),
+                ItemPoolEntry(item_id=normal_b.id, weight=7),
+                ItemPoolEntry(item_id=evo_a.id, weight=99),
+                ItemPoolEntry(item_id=evo_b.id, weight=1),
+            )
+        },
+    )
+
+
 def test_validate_item_catalog_rejects_duplicate_ids():
     item = valid_catalog().items["monzaemon_head"]
 
@@ -291,6 +336,24 @@ def test_item_manager_updates_drop_chance_while_editing_weight():
 
     assert window._drop_chance_bar.value() == 67
     assert "67%" in window._drop_chance_label.text()
+
+
+def test_item_manager_drop_chance_reserves_ten_percent_for_evolution_items():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(mixed_drop_catalog(), species_map(), Path.cwd())
+
+    assert window._drop_chance_bar.value() == 20
+    assert "20%" in window._drop_chance_label.text()
+
+    window._item_list.setCurrentRow(1)
+
+    assert window._drop_chance_bar.value() == 70
+    assert "70%" in window._drop_chance_label.text()
+
+    window._item_list.setCurrentRow(2)
+
+    assert window._drop_chance_bar.value() == 5
+    assert "5%" in window._drop_chance_label.text()
 
 
 def test_item_manager_edits_evolution_conditions(tmp_path):
