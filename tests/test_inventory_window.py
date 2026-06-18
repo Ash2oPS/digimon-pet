@@ -107,12 +107,12 @@ def test_pet_window_opens_inventory_window():
     assert window._inventory_window.windowTitle() == "Inventaire"
 
 
-def test_pet_window_grants_monzaemon_head_on_launch():
+def test_pet_window_does_not_grant_monzaemon_head_on_launch():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=False)
 
-    assert window._state.inventory[MONZAEMON_HEAD_ID] == 1
+    assert MONZAEMON_HEAD_ID not in window._state.inventory
 
 
 def test_pet_window_queues_monzaemon_head_evolution_from_inventory():

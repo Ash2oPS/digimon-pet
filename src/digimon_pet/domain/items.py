@@ -37,17 +37,6 @@ EVOLUTION_ITEMS: dict[str, EvolutionItemDefinition] = {
     )
 }
 
-STARTING_ITEMS: dict[str, int] = {
-    MONZAEMON_HEAD_ID: 1,
-}
-
-
-def grant_starting_items(state: PetState) -> None:
-    for item_id, quantity in STARTING_ITEMS.items():
-        state.inventory[item_id] = max(state.inventory.get(item_id, 0), quantity)
-    state.clamp()
-
-
 def use_item(
     state: PetState,
     item_id: str,

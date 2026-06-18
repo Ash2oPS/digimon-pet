@@ -3,7 +3,6 @@ import random
 from digimon_pet.domain.items import (
     MONZAEMON_HEAD_ID,
     EvolutionItemDefinition,
-    grant_starting_items,
     use_evolution_item,
     use_item,
 )
@@ -16,22 +15,6 @@ def species_map() -> dict[str, Species]:
         "numemon": Species("numemon", "Numemon", GrowthStage.CHAMPION),
         "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
     }
-
-
-def test_grant_starting_items_forces_one_monzaemon_head():
-    state = PetState("botamon", GrowthStage.BABY)
-
-    grant_starting_items(state)
-
-    assert state.inventory[MONZAEMON_HEAD_ID] == 1
-
-
-def test_grant_starting_items_does_not_stack_monzaemon_head_above_existing_count():
-    state = PetState("botamon", GrowthStage.BABY, inventory={MONZAEMON_HEAD_ID: 3})
-
-    grant_starting_items(state)
-
-    assert state.inventory[MONZAEMON_HEAD_ID] == 3
 
 
 def test_monzaemon_head_evolves_numemon_and_consumes_item():

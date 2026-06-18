@@ -27,7 +27,7 @@ from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import EVOLUTION_ITEMS, can_use_item, grant_starting_items, use_item
+from digimon_pet.domain.items import EVOLUTION_ITEMS, can_use_item, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -98,8 +98,6 @@ class PetWindow(QWidget):
         self._rng = random.Random()
         self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
         self._state = load_pet_state()
-        grant_starting_items(self._state)
-        save_pet_state(self._state)
         self._pending_lifecycle_kind: str | None = None
         self._pending_inventory_item_id: str | None = None
         self._lifecycle_animating = False
