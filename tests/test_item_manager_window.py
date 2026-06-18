@@ -4,7 +4,7 @@ from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtWidgets import QApplication, QFileDialog
+from PySide6.QtWidgets import QApplication, QFileDialog, QPushButton
 
 from digimon_pet.app.item_manager_window import ItemManagerWindow, validate_item_catalog
 from digimon_pet.domain.items import (
@@ -186,6 +186,15 @@ def test_item_manager_window_can_open_with_catalog():
     assert window._item_list.count() == 1
 
 
+def test_item_manager_has_no_apply_button():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    button_labels = {button.text() for button in window.findChildren(QPushButton)}
+
+    assert "Apply" not in button_labels
+
+
 def test_item_manager_blocks_save_when_validation_fails(tmp_path):
     app = QApplication.instance() or QApplication([])
     item = ItemDefinition(
@@ -233,11 +242,16 @@ def test_item_manager_applies_field_edits_before_save(tmp_path):
     window._name_input.setText("Edited Head")
     window._description_input.setPlainText("Edited description.")
 
+    item = window._catalog.items["edited_head"]
+    assert window._selected_item_key() == "edited_head"
+    assert item.name == "Edited Head"
+    assert item.description == "Edited description."
+
     assert window.save_catalog() is True
     raw = json.loads(save_path.read_text(encoding="utf-8"))
-    item = raw["items"][0]
-    assert item["name"] == "Edited Head"
-    assert item["description"] == "Edited description."
+    raw_item = raw["items"][0]
+    assert raw_item["name"] == "Edited Head"
+    assert raw_item["description"] == "Edited description."
 
 
 def test_item_manager_adds_new_item_with_unique_id():

@@ -211,10 +211,6 @@ class ItemManagerWindow(QWidget):
         self._delete_button.clicked.connect(self.delete_selected_item)
         button_row.addWidget(self._delete_button)
 
-        self._apply_button = QPushButton("Apply", self)
-        self._apply_button.clicked.connect(self.apply_current_item)
-        button_row.addWidget(self._apply_button)
-
         self._save_button = QPushButton("Save", self)
         self._save_button.clicked.connect(self.save_catalog)
         button_row.addWidget(self._save_button)
@@ -224,10 +220,19 @@ class ItemManagerWindow(QWidget):
         layout.addLayout(body, 1)
 
         self._id_input.textEdited.connect(self._disable_id_autocomplete)
+        self._id_input.textChanged.connect(self._sync_current_item_edits)
         self._name_input.textChanged.connect(self._autocomplete_id_from_name)
+        self._name_input.textChanged.connect(self._sync_current_item_edits)
+        self._description_input.textChanged.connect(self._sync_current_item_edits)
+        self._type_input.currentTextChanged.connect(self._sync_current_item_edits)
+        self._target_species_input.currentTextChanged.connect(self._sync_current_item_edits)
+        self._required_species_input.currentTextChanged.connect(self._sync_current_item_edits)
+        self._required_stages_input.textChanged.connect(self._sync_current_item_edits)
         self._icon_path_input.textChanged.connect(self._refresh_icon_preview)
+        self._icon_path_input.textChanged.connect(self._sync_current_item_edits)
         self._browse_icon_button.clicked.connect(self._browse_icon_path)
         self._weight_input.valueChanged.connect(self._refresh_drop_chance)
+        self._weight_input.valueChanged.connect(self._sync_current_item_edits)
         self._item_list.currentRowChanged.connect(self._load_selected_item)
         if self._item_list.count() > 0:
             self._item_list.setCurrentRow(0)
@@ -329,7 +334,6 @@ class ItemManagerWindow(QWidget):
             self._drop_chance_label,
         ):
             widget.setEnabled(has_item)
-        self._apply_button.setEnabled(has_item)
         self._delete_button.setEnabled(has_item)
         self._save_button.setEnabled(True)
 
@@ -441,12 +445,7 @@ class ItemManagerWindow(QWidget):
             self._update_editor_enabled_state()
         self._validate_current_catalog()
 
-    def apply_current_item(self) -> bool:
-        applied = self._apply_current_item_edits()
-        self._validate_current_catalog()
-        return applied
-
-    def _apply_current_item_edits(self) -> bool:
+    def _sync_current_item_edits(self) -> bool:
         item_key = self._selected_item_key()
         item = self._catalog.items.get(item_key or "")
         if item_key is None or item is None or self._loading_item:
@@ -483,6 +482,7 @@ class ItemManagerWindow(QWidget):
         self._set_secondary_event_weight(new_item_id, self._weight_input.value())
         self._refresh_item_list(selected_id=selected_key)
         self._refresh_drop_chance()
+        self._validate_current_catalog()
         return True
 
     def _replace_item_preserving_order(self, item_key: str, edited_item: ItemDefinition) -> str:
@@ -563,7 +563,9 @@ class ItemManagerWindow(QWidget):
         object.__setattr__(self._catalog, "pools", pools)
 
     def save_catalog(self) -> bool:
-        if self._selected_item_key() is not None and not self._apply_current_item_edits():
+        duplicate_item_id = self._duplicate_editor_item_id()
+        if duplicate_item_id is not None:
+            self._validation_output.setPlainText(f"Duplicate item id: {duplicate_item_id}")
             return False
         errors = validate_item_catalog(
             list(self._catalog.items.values()),
@@ -578,6 +580,15 @@ class ItemManagerWindow(QWidget):
         raw = json.dumps(item_catalog_to_dict(self._catalog), indent=2, ensure_ascii=False)
         self._save_path.write_text(raw + "\n", encoding="utf-8")
         return True
+
+    def _duplicate_editor_item_id(self) -> str | None:
+        item_key = self._selected_item_key()
+        if item_key is None:
+            return None
+        item_id = self._id_input.text().strip()
+        if item_id in self._catalog.items and item_id != item_key:
+            return item_id
+        return None
 
 
 def _split_csv(raw: str) -> list[str]:
