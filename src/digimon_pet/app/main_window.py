@@ -29,7 +29,7 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_dw1_digivolutions, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import ItemType, can_use_item, choose_weighted_item, use_item
+from digimon_pet.domain.items import ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -53,6 +53,10 @@ SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
+
+
+def _item_has_instant_death_effect(item) -> bool:
+    return any(effect.type == ItemEffectType.INSTANT_DEATH for effect in item.effects)
 
 
 class BabyChoiceDialog(QDialog):
@@ -767,6 +771,13 @@ class PetWindow(QWidget):
             return
         definition = self._item_catalog.items.get(item_id)
         if definition is not None and definition.type == ItemType.CONSUMABLE:
+            if _item_has_instant_death_effect(definition):
+                self._pending_inventory_item_id = item_id
+                self._pending_lifecycle_kind = "death"
+                self._clear_secondary_event(schedule_next=True)
+                self._pet_widget.set_lifecycle_pending("death")
+                self._refresh()
+                return
             result = use_item(self._state, item_id, self._species, self._rng, self._item_catalog)
             if result.used:
                 if result.stat_gains:

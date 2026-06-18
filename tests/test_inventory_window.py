@@ -201,6 +201,49 @@ def test_pet_window_consumable_item_applies_stat_effect_immediately():
     assert window._pet_widget._stat_gain_labels == ["+25 OFF"]
 
 
+def test_pet_window_instant_death_item_queues_death_before_consuming_item():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            inventory={"digigun": 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+
+    window._use_inventory_item("digigun")
+
+    assert window._state.species_id == "agumon"
+    assert window._state.inventory == {"digigun": 1}
+    assert window._pending_inventory_item_id == "digigun"
+    assert window._pending_lifecycle_kind == "death"
+    assert window._pet_widget.event_prompt_kind() == "death"
+
+
+def test_pet_window_resolves_queued_instant_death_item():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            inventory={"digigun": 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+    window._auto_rebirth_random = True
+
+    window._use_inventory_item("digigun")
+    window._confirm_pending_lifecycle()
+    window._finish_lifecycle_resolution()
+
+    assert window._state.inventory == {}
+    assert window._pending_inventory_item_id is None
+    assert window._pending_lifecycle_kind is None
+    assert window._state.needs_rebirth_choice is False
+    assert window._state.stage == GrowthStage.BABY
+
+
 def _left_click(widget: InventorySlotWidget) -> None:
     event = QMouseEvent(
         QEvent.Type.MouseButtonRelease,
