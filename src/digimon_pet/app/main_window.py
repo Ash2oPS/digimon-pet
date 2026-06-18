@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
+from digimon_pet.app.inventory_window import InventoryWindow
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.stats_window import StatsWindow
@@ -104,6 +105,7 @@ class PetWindow(QWidget):
         self._positioned_once = False
         self._collection_dialog: CollectionDialog | None = None
         self._stats_window: StatsWindow | None = None
+        self._inventory_window: InventoryWindow | None = None
         self._radial_menu: RadialPetMenu | None = None
         self._resume_move_after_radial_menu = False
         self._secondary_event_kind: str | None = None
@@ -157,6 +159,7 @@ class PetWindow(QWidget):
             self._radial_menu = RadialPetMenu(
                 open_stats=self._open_stats,
                 open_collection=self._open_collection,
+                open_inventory=self._open_inventory,
                 close_app=QApplication.quit,
                 closed=self._radial_menu_closed,
                 parent=None,
@@ -663,6 +666,13 @@ class PetWindow(QWidget):
         self._stats_window.show()
         self._stats_window.raise_()
         self._stats_window.activateWindow()
+
+    def _open_inventory(self) -> None:
+        if self._inventory_window is None:
+            self._inventory_window = InventoryWindow(parent=self)
+        self._inventory_window.show()
+        self._inventory_window.raise_()
+        self._inventory_window.activateWindow()
 
     def toggle_debug(self) -> None:
         self._toggle_debug()

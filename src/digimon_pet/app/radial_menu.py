@@ -37,6 +37,7 @@ class RadialPetMenu(QWidget):
         *,
         open_stats: Callable[[], None],
         open_collection: Callable[[], None],
+        open_inventory: Callable[[], None],
         close_app: Callable[[], None],
         closed: Callable[[], None] | None = None,
         parent: QWidget | None = None,
@@ -56,7 +57,7 @@ class RadialPetMenu(QWidget):
         self._actions = {
             "stats": open_stats,
             "collection": open_collection,
-            "inventory": lambda: None,
+            "inventory": open_inventory,
             "close": close_app,
         }
 
