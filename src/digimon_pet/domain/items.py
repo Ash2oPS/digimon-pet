@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
-from digimon_pet.domain.lifecycle import force_evolve_to
+from digimon_pet.domain.lifecycle import force_death, force_evolve_to
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 
 
@@ -17,6 +17,18 @@ class ItemType(StrEnum):
     CONSUMABLE = "consumable"
     KEY_ITEM = "key_item"
     MISC = "misc"
+
+
+class ItemEffectType(StrEnum):
+    STAT_DELTA = "stat_delta"
+    INSTANT_DEATH = "instant_death"
+
+
+@dataclass(frozen=True)
+class ItemEffect:
+    type: ItemEffectType
+    stat: str | None = None
+    amount: int = 0
 
 
 @dataclass(frozen=True)
@@ -34,6 +46,7 @@ class ItemDefinition:
     type: ItemType
     icon_path: str | None = None
     evolution: EvolutionItemEffect | None = None
+    effects: tuple[ItemEffect, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -53,6 +66,7 @@ class ItemUseResult:
     used: bool
     event: str | None = None
     reason: str | None = None
+    stat_gains: dict[str, int] | None = None
 
 
 EVOLUTION_ITEMS: dict[str, ItemDefinition] = {
@@ -99,7 +113,11 @@ def use_item(
     item = _find_item(item_id, catalog)
     if item is None:
         return ItemUseResult(used=False, reason="unknown_item")
-    return use_evolution_item(state, item, species, rng)
+    if item.type == ItemType.EVOLUTION:
+        return use_evolution_item(state, item, species, rng)
+    if item.type == ItemType.CONSUMABLE:
+        return use_consumable_item(state, item, rng)
+    return ItemUseResult(used=False, reason="not_usable")
 
 
 def can_use_item(
@@ -111,6 +129,12 @@ def can_use_item(
     item = _find_item(item_id, catalog)
     if item is None:
         return ItemUseResult(used=False, reason="unknown_item")
+    if item.type == ItemType.CONSUMABLE:
+        if state.inventory.get(item.id, 0) <= 0:
+            return ItemUseResult(used=False, reason="missing_item")
+        if not item.effects:
+            return ItemUseResult(used=False, reason="not_usable")
+        return ItemUseResult(used=True)
     reason = _evolution_item_blocking_reason(state, item, species)
     if reason is not None:
         return ItemUseResult(used=False, reason=reason)
@@ -256,6 +280,45 @@ def use_evolution_item(
     return ItemUseResult(used=True, event=event)
 
 
+def use_consumable_item(
+    state: PetState,
+    item: ItemDefinition,
+    rng: random.Random,
+) -> ItemUseResult:
+    reason = _consumable_item_blocking_reason(state, item)
+    if reason is not None:
+        return ItemUseResult(used=False, reason=reason)
+
+    stat_gains: dict[str, int] = {}
+    event: str | None = None
+    for effect in item.effects:
+        if effect.type == ItemEffectType.STAT_DELTA:
+            if effect.stat is None or not hasattr(state, effect.stat):
+                return ItemUseResult(used=False, reason="invalid_effect")
+            amount = int(effect.amount)
+            setattr(state, effect.stat, getattr(state, effect.stat) + amount)
+            stat_gains[effect.stat] = stat_gains.get(effect.stat, 0) + amount
+        elif effect.type == ItemEffectType.INSTANT_DEATH:
+            event = force_death(state, rng)
+
+    state.clamp()
+    _consume_item(state, item.id)
+    return ItemUseResult(used=True, event=event, stat_gains=stat_gains)
+
+
+def _consumable_item_blocking_reason(
+    state: PetState,
+    item: ItemDefinition,
+) -> str | None:
+    if item.type != ItemType.CONSUMABLE:
+        return "not_usable"
+    if state.inventory.get(item.id, 0) <= 0:
+        return "missing_item"
+    if not item.effects:
+        return "not_usable"
+    return None
+
+
 def _evolution_item_blocking_reason(
     state: PetState,
     item: ItemDefinition,
@@ -300,6 +363,15 @@ def _item_from_dict(raw: dict[str, Any]) -> ItemDefinition:
         type=ItemType(str(raw["type"])),
         icon_path=_optional_str(raw.get("icon_path")),
         evolution=_evolution_effect_from_dict(evolution) if evolution else None,
+        effects=tuple(_item_effect_from_dict(effect) for effect in raw.get("effects", ())),
+    )
+
+
+def _item_effect_from_dict(raw: dict[str, Any]) -> ItemEffect:
+    return ItemEffect(
+        type=ItemEffectType(str(raw["type"])),
+        stat=_optional_str(raw.get("stat")),
+        amount=int(raw.get("amount", 0)),
     )
 
 
@@ -326,6 +398,17 @@ def _item_to_dict(item: ItemDefinition) -> dict[str, Any]:
         raw["icon_path"] = item.icon_path
     if item.evolution is not None:
         raw["evolution"] = _evolution_effect_to_dict(item.evolution)
+    if item.effects:
+        raw["effects"] = [_item_effect_to_dict(effect) for effect in item.effects]
+    return raw
+
+
+def _item_effect_to_dict(effect: ItemEffect) -> dict[str, Any]:
+    raw: dict[str, Any] = {"type": effect.type.value}
+    if effect.stat is not None:
+        raw["stat"] = effect.stat
+    if effect.amount:
+        raw["amount"] = effect.amount
     return raw
 
 

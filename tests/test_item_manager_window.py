@@ -9,9 +9,11 @@ from PySide6.QtWidgets import QApplication, QFileDialog, QPushButton
 from digimon_pet.app.item_manager_window import ItemManagerWindow, validate_item_catalog
 from digimon_pet.domain.items import (
     EvolutionItemEffect,
+    ItemEffect,
     ItemCatalog,
     ItemDefinition,
     ItemPoolEntry,
+    ItemEffectType,
     ItemType,
 )
 from digimon_pet.domain.models import GrowthStage, Species
@@ -284,6 +286,31 @@ def test_item_manager_duplicates_selected_item_with_incremented_id_and_name():
         ItemPoolEntry(item_id="monzaemon_head_3", weight=1),
     )
     assert window._selected_item_key() == "monzaemon_head_3"
+
+
+def test_item_manager_preserves_consumable_effects_when_editing_and_duplicating():
+    app = QApplication.instance() or QApplication([])
+    item = ItemDefinition(
+        id="digimeat",
+        name="DigiMeat",
+        description="Increases Off by 25.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.STAT_DELTA, stat="offense", amount=25),),
+    )
+    window = ItemManagerWindow(
+        ItemCatalog(items={item.id: item}, pools={"secondary_event": ()}),
+        species_map(),
+        Path.cwd(),
+    )
+
+    window._name_input.setText("DigiMeat+")
+
+    edited_item = window._catalog.items["digimeat"]
+    assert edited_item.effects == item.effects
+
+    window.duplicate_selected_item()
+
+    assert window._catalog.items["digimeat_2"].effects == item.effects
 
 
 def test_item_manager_add_from_empty_catalog_loads_new_item():

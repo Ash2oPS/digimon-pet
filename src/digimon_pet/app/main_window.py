@@ -29,7 +29,7 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_dw1_digivolutions, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import can_use_item, choose_weighted_item, use_item
+from digimon_pet.domain.items import ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -764,6 +764,21 @@ class PetWindow(QWidget):
         result = can_use_item(self._state, item_id, self._species, self._item_catalog)
         if not result.used:
             self._refresh()
+            return
+        definition = self._item_catalog.items.get(item_id)
+        if definition is not None and definition.type == ItemType.CONSUMABLE:
+            result = use_item(self._state, item_id, self._species, self._rng, self._item_catalog)
+            if result.used:
+                if result.stat_gains:
+                    self._pet_widget.trigger_stat_gain_text(result.stat_gains)
+                if result.event == "died:choice_required":
+                    if self._auto_rebirth_random:
+                        choose_rebirth(self._state, self._rng.choice(BABY_1_CHOICES), self._species)
+                    else:
+                        self._prompt_rebirth_choice()
+                self._save_and_refresh()
+            else:
+                self._refresh()
             return
         self._pending_inventory_item_id = item_id
         self._pending_lifecycle_kind = "evolution"

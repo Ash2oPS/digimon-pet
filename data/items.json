@@ -3,7 +3,7 @@
     {
       "id": "monzaemon_head",
       "name": "Monzaemon's Head",
-      "description": "Forces Numemon to evolve into Monzaemon.",
+      "description": "Makes Numemon digivolve into Monzaemon.",
       "type": "evolution",
       "icon_path": "assets/items/monzaemon_head.png",
       "evolution": {
@@ -31,49 +31,219 @@
       "name": "DigiGun",
       "description": "Instantly kills your Digimon.",
       "type": "consumable",
-      "icon_path": "assets/items/gun.png"
+      "icon_path": "assets/items/gun.png",
+      "effects": [
+        {
+          "type": "instant_death"
+        }
+      ]
     },
     {
       "id": "digimeat",
       "name": "DigiMeat",
       "description": "Increases Off by 25.",
       "type": "consumable",
-      "icon_path": "assets/items/meat-icon.png"
+      "icon_path": "assets/items/meat-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "offense",
+          "amount": 25
+        }
+      ]
     },
     {
       "id": "digimushroom",
       "name": "DigiMushroom",
       "description": "Increases Spd by 25.",
       "type": "consumable",
-      "icon_path": "assets/items/digimushrm-icon.png"
+      "icon_path": "assets/items/digimushrm-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "speed",
+          "amount": 25
+        }
+      ]
     },
     {
       "id": "digifish",
       "name": "DigiFish",
-      "description": "A fish item for your Digimon.",
+      "description": "Increases Int by 25.",
       "type": "consumable",
-      "icon_path": "assets/items/digianchovy-icon.png"
+      "icon_path": "assets/items/digianchovy-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "brains",
+          "amount": 25
+        }
+      ]
     },
     {
       "id": "digiberry",
       "name": "DigiBerry",
-      "description": "A berry item for your Digimon.",
+      "description": "Increases Def by 25.",
       "type": "consumable",
-      "icon_path": "assets/items/big-berry-icon.png"
+      "icon_path": "assets/items/big-berry-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "defense",
+          "amount": 25
+        }
+      ]
     },
     {
       "id": "digiveggie",
       "name": "DigiVeggie",
-      "description": "A veggie item for your Digimon.",
+      "description": "Increases HP by 250.",
       "type": "consumable",
-      "icon_path": "assets/items/super-veggy-icon.png"
+      "icon_path": "assets/items/super-veggy-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "hp",
+          "amount": 250
+        }
+      ]
     },
     {
       "id": "digiweed",
       "name": "DigiWeed",
-      "description": "A weed item for your Digimon.",
+      "description": "Increases MP by 250.",
       "type": "consumable",
-      "icon_path": "assets/items/spiny-green-icon.png"
+      "icon_path": "assets/items/spiny-green-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "mp",
+          "amount": 250
+        }
+      ]
+    },
+    {
+      "id": "sunglasses",
+      "name": "Sunglasses",
+      "description": "Makes any Rookie Digimon digivolve into Nanimon.",
+      "type": "evolution",
+      "icon_path": "assets/items/sunglasses-icon.png",
+      "evolution": {
+        "target_species_id": "nanimon",
+        "required_species_ids": [],
+        "required_stages": [
+          "rookie"
+        ]
+      }
+    },
+    {
+      "id": "fatal_bone",
+      "name": "Fatal Bone",
+      "description": "Makes MetalGreymon digivolve into SkullGreymon.",
+      "type": "evolution",
+      "icon_path": "assets/items/fatal-bone-icon.png",
+      "evolution": {
+        "target_species_id": "skullgreymon",
+        "required_species_ids": [
+          "metalgreymon"
+        ],
+        "required_stages": []
+      }
+    },
+    {
+      "id": "black_wings",
+      "name": "Black Wings",
+      "description": "Makes Angemon digivolve into Devimon.",
+      "type": "evolution",
+      "icon_path": "assets/items/black-wing-icon.png",
+      "evolution": {
+        "target_species_id": "devimon",
+        "required_species_ids": [
+          "angemon"
+        ],
+        "required_stages": []
+      }
+    },
+    {
+      "id": "green_thing",
+      "name": "Green Thing",
+      "description": "Increases HP and MP by 500 and Off, Def, Spd and Int by 50",
+      "type": "consumable",
+      "icon_path": "assets/items/chain-melon-icon.png",
+      "effects": [
+        {
+          "type": "stat_delta",
+          "stat": "hp",
+          "amount": 500
+        },
+        {
+          "type": "stat_delta",
+          "stat": "mp",
+          "amount": 500
+        },
+        {
+          "type": "stat_delta",
+          "stat": "offense",
+          "amount": 50
+        },
+        {
+          "type": "stat_delta",
+          "stat": "defense",
+          "amount": 50
+        },
+        {
+          "type": "stat_delta",
+          "stat": "speed",
+          "amount": 50
+        },
+        {
+          "type": "stat_delta",
+          "stat": "brains",
+          "amount": 50
+        }
+      ]
+    },
+    {
+      "id": "golden_banana",
+      "name": "Golden Banana",
+      "description": "Makes Sukamon digivolve into Etemon.",
+      "type": "evolution",
+      "icon_path": "assets/items/gold-banana-icon.png",
+      "evolution": {
+        "target_species_id": "etemon",
+        "required_species_ids": [
+          "sukamon"
+        ],
+        "required_stages": []
+      }
+    },
+    {
+      "id": "grey_claws",
+      "name": "Grey Claws",
+      "description": "Makes Agumon digivolve into Greymon.",
+      "type": "evolution",
+      "icon_path": "assets/items/grey-claws-icon.png",
+      "evolution": {
+        "target_species_id": "greymon",
+        "required_species_ids": [
+          "agumon"
+        ],
+        "required_stages": []
+      }
+    },
+    {
+      "id": "metal_parts",
+      "name": "Metal Parts",
+      "description": "Makes Greymon digivolve into MetalGreymon.",
+      "type": "evolution",
+      "icon_path": "assets/items/metal-part-icon.png",
+      "evolution": {
+        "target_species_id": "metalgreymon",
+        "required_species_ids": [
+          "greymon"
+        ],
+        "required_stages": []
+      }
     }
   ],
   "pools": {
@@ -88,31 +258,59 @@
       },
       {
         "item_id": "digigun",
-        "weight": 1
+        "weight": 2
       },
       {
         "item_id": "digimeat",
-        "weight": 2
+        "weight": 4
       },
       {
         "item_id": "digimushroom",
-        "weight": 2
+        "weight": 4
       },
       {
         "item_id": "digifish",
-        "weight": 2
+        "weight": 4
       },
       {
         "item_id": "digiberry",
-        "weight": 2
+        "weight": 4
       },
       {
         "item_id": "digiveggie",
-        "weight": 2
+        "weight": 4
       },
       {
         "item_id": "digiweed",
-        "weight": 2
+        "weight": 4
+      },
+      {
+        "item_id": "sunglasses",
+        "weight": 1
+      },
+      {
+        "item_id": "fatal_bone",
+        "weight": 1
+      },
+      {
+        "item_id": "black_wings",
+        "weight": 1
+      },
+      {
+        "item_id": "green_thing",
+        "weight": 1
+      },
+      {
+        "item_id": "golden_banana",
+        "weight": 1
+      },
+      {
+        "item_id": "grey_claws",
+        "weight": 1
+      },
+      {
+        "item_id": "metal_parts",
+        "weight": 1
       }
     ]
   }

@@ -180,6 +180,27 @@ def test_pet_window_golden_poop_evolves_any_digimon_to_sukamon():
     assert window._state.inventory == {}
 
 
+def test_pet_window_consumable_item_applies_stat_effect_immediately():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            offense=30,
+            inventory={"digimeat": 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+
+    window._use_inventory_item("digimeat")
+
+    assert window._state.offense == 55
+    assert window._state.inventory == {}
+    assert window._pending_inventory_item_id is None
+    assert window._pending_lifecycle_kind is None
+    assert window._pet_widget._stat_gain_labels == ["+25OFF"]
+
+
 def _left_click(widget: InventorySlotWidget) -> None:
     event = QMouseEvent(
         QEvent.Type.MouseButtonRelease,

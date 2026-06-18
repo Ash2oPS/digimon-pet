@@ -1,5 +1,5 @@
 from digimon_pet.data import load_evolution_rules, load_item_catalog, load_species
-from digimon_pet.domain.items import ItemType
+from digimon_pet.domain.items import ItemEffectType, ItemType
 from digimon_pet.domain.models import GrowthStage
 
 
@@ -66,6 +66,36 @@ def test_load_item_catalog_contains_food_items_added_from_manager():
         assert item.name == name
         assert item.type == ItemType.CONSUMABLE
         assert item.icon_path == icon_path
+
+
+def test_load_item_catalog_contains_consumable_effects():
+    catalog = load_item_catalog()
+
+    expected_effects = {
+        "digigun": ((ItemEffectType.INSTANT_DEATH, None, 0),),
+        "digimeat": ((ItemEffectType.STAT_DELTA, "offense", 25),),
+        "digimushroom": ((ItemEffectType.STAT_DELTA, "speed", 25),),
+        "digifish": ((ItemEffectType.STAT_DELTA, "brains", 25),),
+        "digiberry": ((ItemEffectType.STAT_DELTA, "defense", 25),),
+        "digiveggie": ((ItemEffectType.STAT_DELTA, "hp", 250),),
+        "digiweed": ((ItemEffectType.STAT_DELTA, "mp", 250),),
+    }
+
+    for item_id, effects in expected_effects.items():
+        assert tuple(
+            (effect.type, effect.stat, effect.amount)
+            for effect in catalog.items[item_id].effects
+        ) == effects
+
+    green_effects = catalog.items["green_thing"].effects
+    assert tuple((effect.stat, effect.amount) for effect in green_effects) == (
+        ("hp", 500),
+        ("mp", 500),
+        ("offense", 50),
+        ("defense", 50),
+        ("speed", 50),
+        ("brains", 50),
+    )
 
 
 def test_load_item_catalog_contains_secondary_event_pool():
