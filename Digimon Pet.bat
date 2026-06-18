@@ -93,7 +93,11 @@ exit /b 1
 set "_PY_CMD=%~1"
 set "_PY_ARG=%~2"
 if not exist "%_PY_CMD%" (
-    if "%_PY_CMD%"=="%_PY_CMD:\=%" where "%_PY_CMD%" >nul 2>nul || exit /b 1
+    if "%_PY_CMD%"=="%_PY_CMD:\=%" (
+        where "%_PY_CMD%" >nul 2>nul || exit /b 1
+    ) else (
+        exit /b 1
+    )
 )
 
 if "%_PY_ARG%"=="" (
@@ -110,6 +114,9 @@ if errorlevel 1 exit /b 1
 
 winget install --id Python.Python.3.12 --source winget --scope user --silent --accept-package-agreements --accept-source-agreements
 if errorlevel 1 (
-    winget install --id Python.Python.3.12 --source winget --silent --accept-package-agreements --accept-source-agreements
+    winget install --id Python.Python.3.12 --source winget --scope user --silent --accept-package-agreements --accept-source-agreements --force
+)
+if errorlevel 1 (
+    winget install --id Python.Python.3.12 --source winget --silent --accept-package-agreements --accept-source-agreements --force
 )
 exit /b %ERRORLEVEL%

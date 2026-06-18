@@ -54,6 +54,22 @@ def test_windows_batch_bootstraps_python_without_stale_errorlevel_expansion():
     assert "if %ERRORLEVEL% NEQ 0" not in launcher
 
 
+def test_windows_batch_skips_missing_absolute_python_paths_before_execution():
+    launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+    try_python_block = launcher[launcher.rindex(":try_python") : launcher.rindex(":install_python")]
+
+    assert 'if "%_PY_CMD%"=="%_PY_CMD:\\=%" (' in launcher
+    assert ") else (" in try_python_block
+    assert "exit /b 1" in try_python_block
+
+
+def test_windows_batch_forces_winget_python_install_when_package_is_registered_but_missing():
+    launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+
+    assert "winget install --id Python.Python.3.12" in launcher
+    assert "--force" in launcher[launcher.index(":install_python") :]
+
+
 def test_windows_launcher_stashes_local_changes_before_pull():
     script = (ROOT / "packaging" / "windows" / "launcher_update_check.ps1").read_text(encoding="utf-8")
 
