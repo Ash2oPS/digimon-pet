@@ -10,6 +10,7 @@ from PySide6.QtWidgets import QApplication, QLabel
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
 from digimon_pet.app.radial_menu import RadialArcDirection
+from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import debug_settings
@@ -98,6 +99,35 @@ def test_item_manager_opens_only_in_debug_mode():
     assert debug_window._item_manager_window is not None
     assert debug_window._item_manager_window.isWindow() is True
     assert normal_window._item_manager_window is None
+
+
+def test_debug_panel_item_manager_button_opens_window():
+    app = QApplication.instance() or QApplication([])
+    window = PetWindow(overlay=True, debug=True)
+
+    window._debug_panel._item_manager_button.click()
+
+    assert window._item_manager_window is not None
+    assert window._item_manager_window.isVisible()
+
+
+def test_debug_panel_item_manager_button_positions_window_near_debug_panel():
+    app = QApplication.instance() or QApplication([])
+    window = PetWindow(overlay=True, debug=True)
+    window.setGeometry(20, 20, 128, 128)
+    window._debug_panel.setGeometry(240, 80, 460, 680)
+    window._debug_panel.show()
+
+    window._debug_panel._item_manager_button.click()
+
+    assert window._item_manager_window is not None
+    screen = QApplication.primaryScreen().availableGeometry()
+    expected = offset_window_position(
+        window._debug_panel.frameGeometry(),
+        window._item_manager_window.size(),
+        screen,
+    )
+    assert window._item_manager_window.pos() == expected
 
 
 def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):

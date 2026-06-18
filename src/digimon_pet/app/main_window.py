@@ -736,21 +736,22 @@ class PetWindow(QWidget):
                 self._item_catalog,
                 self._species,
                 PROJECT_ROOT,
-                parent=self,
+                parent=None,
             )
-        self._position_secondary_window(self._item_manager_window)
+        anchor = self._debug_panel if self._debug_panel.isVisible() else self
+        self._position_secondary_window(self._item_manager_window, anchor)
         self._item_manager_window.show()
         self._item_manager_window.raise_()
         self._item_manager_window.activateWindow()
 
-    def _position_secondary_window(self, window: QWidget) -> None:
+    def _position_secondary_window(self, window: QWidget, anchor: QWidget | None = None) -> None:
         window.adjustSize()
-        window_size = window.size().expandedTo(window.minimumSize()).expandedTo(window.sizeHint())
-        pet_geometry = self.frameGeometry()
-        screen = QGuiApplication.screenAt(pet_geometry.center()) or QApplication.primaryScreen()
+        window_size = window.size().expandedTo(window.minimumSize())
+        anchor_geometry = (anchor or self).frameGeometry()
+        screen = QGuiApplication.screenAt(anchor_geometry.center()) or QApplication.primaryScreen()
         if screen is None:
             return
-        window.move(offset_window_position(pet_geometry, window_size, screen.availableGeometry()))
+        window.move(offset_window_position(anchor_geometry, window_size, screen.availableGeometry()))
 
     def _use_inventory_item(self, item_id: str) -> None:
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
