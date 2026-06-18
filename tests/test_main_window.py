@@ -78,6 +78,27 @@ def test_debug_panel_updates_auto_lifecycle_toggle():
     assert window._auto_lifecycle_events is True
 
 
+def test_debug_panel_has_item_manager_button():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+
+    assert window._debug_panel._item_manager_button.text() == "Item Manager"
+
+
+def test_item_manager_opens_only_in_debug_mode():
+    app = QApplication.instance() or QApplication([])
+
+    debug_window = PetWindow(overlay=True, debug=True)
+    normal_window = PetWindow(overlay=True, debug=False)
+
+    debug_window._open_item_manager()
+    normal_window._open_item_manager()
+
+    assert debug_window._item_manager_window is not None
+    assert normal_window._item_manager_window is None
+
+
 def test_debug_settings_are_saved_and_loaded(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     settings_path = tmp_path / "debug_settings.json"

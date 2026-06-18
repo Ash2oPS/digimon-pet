@@ -20,6 +20,7 @@ from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.inventory_window import InventoryItem, InventoryWindow
+from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.stats_window import StatsWindow
@@ -111,6 +112,7 @@ class PetWindow(QWidget):
         self._collection_dialog: CollectionDialog | None = None
         self._stats_window: StatsWindow | None = None
         self._inventory_window: InventoryWindow | None = None
+        self._item_manager_window: ItemManagerWindow | None = None
         self._radial_menu: RadialPetMenu | None = None
         self._resume_move_after_radial_menu = False
         self._secondary_event_kind: str | None = None
@@ -132,6 +134,7 @@ class PetWindow(QWidget):
             auto_lifecycle_changed=self._set_auto_lifecycle_events,
             reset_stats_requested=self._reset_stat_progression,
             reset_collection_requested=self._reset_collection_progression,
+            item_manager_requested=self._open_item_manager,
         )
         self._debug_panel.setStyleSheet(APP_QSS)
         self._debug_panel.set_schedule_values(self._lifecycle_schedule)
@@ -707,6 +710,21 @@ class PetWindow(QWidget):
         self._inventory_window.show()
         self._inventory_window.raise_()
         self._inventory_window.activateWindow()
+
+    def _open_item_manager(self) -> None:
+        if not self._debug:
+            return
+        if self._item_manager_window is None:
+            self._item_manager_window = ItemManagerWindow(
+                self._item_catalog,
+                self._species,
+                PROJECT_ROOT,
+                parent=self,
+            )
+        self._position_secondary_window(self._item_manager_window)
+        self._item_manager_window.show()
+        self._item_manager_window.raise_()
+        self._item_manager_window.activateWindow()
 
     def _position_secondary_window(self, window: QWidget) -> None:
         window.adjustSize()

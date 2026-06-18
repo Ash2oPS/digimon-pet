@@ -30,6 +30,7 @@ class DebugPanel(QWidget):
         auto_lifecycle_changed: Callable[[bool], None] | None = None,
         reset_stats_requested: Callable[[], None] | None = None,
         reset_collection_requested: Callable[[], None] | None = None,
+        item_manager_requested: Callable[[], None] | None = None,
     ) -> None:
         super().__init__(parent)
         self._labels: dict[str, QLabel] = {}
@@ -42,6 +43,7 @@ class DebugPanel(QWidget):
         self._auto_lifecycle_changed = auto_lifecycle_changed
         self._reset_stats_requested = reset_stats_requested
         self._reset_collection_requested = reset_collection_requested
+        self._item_manager_requested = item_manager_requested
         self._updating_schedule = False
         self._updating_stats = False
         self.setWindowTitle("Digimon Pet Debug")
@@ -162,6 +164,14 @@ class DebugPanel(QWidget):
         reset_layout.addWidget(self._reset_stats_button)
         reset_layout.addWidget(self._reset_collection_button)
         content_layout.addWidget(reset_group)
+
+        tools_group = QGroupBox("Tools")
+        tools_layout = QVBoxLayout(tools_group)
+        tools_layout.setContentsMargins(12, 14, 12, 12)
+        self._item_manager_button = QPushButton("Item Manager")
+        self._item_manager_button.clicked.connect(self._emit_item_manager_requested)
+        tools_layout.addWidget(self._item_manager_button)
+        content_layout.addWidget(tools_group)
 
         editor_grid = self._section_grid(content_layout, "Edit Stats")
 
@@ -285,6 +295,10 @@ class DebugPanel(QWidget):
     def _emit_reset_collection_requested(self) -> None:
         if self._reset_collection_requested is not None:
             self._reset_collection_requested()
+
+    def _emit_item_manager_requested(self) -> None:
+        if self._item_manager_requested is not None:
+            self._item_manager_requested()
 
     def _set_stat_values(self, state: PetState) -> None:
         self._updating_stats = True
