@@ -88,6 +88,7 @@ class PetWidget(QWidget):
         self._new_badge_timer.timeout.connect(self._advance_new_badge)
         self._stat_gain_elapsed_ms = 0
         self._stat_gain_labels: list[str] = []
+        self._stat_gain_item_icon_path: str | None = None
         self._stat_gain_timer = QTimer(self)
         self._stat_gain_timer.timeout.connect(self._advance_stat_gain_text)
         self.setFixedSize(128, 128)
@@ -150,17 +151,24 @@ class PetWidget(QWidget):
         self._new_badge_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
-    def trigger_stat_gain_text(self, gains: dict[str, int], *, item_gains: int = 0) -> None:
+    def trigger_stat_gain_text(
+        self,
+        gains: dict[str, int],
+        *,
+        item_gains: int = 0,
+        item_gain_icon_path: str | None = None,
+    ) -> None:
         labels = [
             f"+{int(amount)}{STAT_LABELS[stat_name]}"
             for stat_name, amount in gains.items()
             if stat_name in STAT_LABELS and int(amount) > 0
         ]
         if item_gains > 0:
-            labels.append(f"+{int(item_gains)}?")
+            labels.append(f"+{int(item_gains)}")
         if not labels:
             return
         self._stat_gain_labels = labels
+        self._stat_gain_item_icon_path = item_gain_icon_path
         self._stat_gain_elapsed_ms = 1
         self._stat_gain_timer.start(EFFECT_INTERVAL_MS)
         self.update()
@@ -292,6 +300,7 @@ class PetWidget(QWidget):
         if self._stat_gain_elapsed_ms >= STAT_GAIN_TEXT_DURATION_MS:
             self._stat_gain_elapsed_ms = 0
             self._stat_gain_labels = []
+            self._stat_gain_item_icon_path = None
             self._stat_gain_timer.stop()
         self.update()
 
@@ -578,22 +587,73 @@ class PetWidget(QWidget):
         rows = [" ".join(self._stat_gain_labels[index : index + 2]) for index in range(0, len(self._stat_gain_labels), 2)]
         for row_index, text in enumerate(rows[:3]):
             y = 14 + row_index * 13 - y_offset
-            self._draw_outlined_pixel_text(
-                painter,
-                y,
-                text,
-                QColor(0, 42, 84, alpha),
-                QColor(70, 178, 255, alpha),
-            )
+            if self._stat_gain_item_icon_path and row_index == len(rows[:3]) - 1 and text.endswith("+1"):
+                self._draw_item_gain_row(painter, y, text, alpha)
+            else:
+                self._draw_outlined_pixel_text(
+                    painter,
+                    y,
+                    text,
+                    QColor(0, 42, 84, alpha),
+                    QColor(70, 178, 255, alpha),
+                )
         painter.restore()
 
     def _draw_outlined_pixel_text(self, painter: QPainter, y: int, text: str, outline: QColor, fill: QColor) -> None:
         scale = 2
         width = _pixel_text_width(text, scale)
         x = max(0, (self.width() - width) // 2)
+        self._draw_outlined_pixel_text_at(painter, x, y, text, outline, fill)
+
+    def _draw_outlined_pixel_text_at(
+        self,
+        painter: QPainter,
+        x: int,
+        y: int,
+        text: str,
+        outline: QColor,
+        fill: QColor,
+    ) -> None:
+        scale = 2
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             _draw_pixel_text(painter, text, x + dx, y + dy, scale, outline)
         _draw_pixel_text(painter, text, x, y, scale, fill)
+
+    def _draw_item_gain_row(self, painter: QPainter, y: int, text: str, alpha: int) -> None:
+        scale = 2
+        text_width = _pixel_text_width(text, scale)
+        icon_size = 12
+        gap = 4
+        row_width = text_width + gap + icon_size
+        x = max(0, (self.width() - row_width) // 2)
+        self._draw_outlined_pixel_text_at(
+            painter,
+            x,
+            y,
+            text,
+            QColor(0, 42, 84, alpha),
+            QColor(70, 178, 255, alpha),
+        )
+        pixmap = self._stat_gain_item_pixmap()
+        if pixmap is None:
+            return
+        painter.save()
+        painter.setOpacity(alpha / 255)
+        painter.drawPixmap(
+            QRect(x + text_width + gap, y - 2, icon_size, icon_size),
+            pixmap,
+            pixmap.rect(),
+        )
+        painter.restore()
+
+    def _stat_gain_item_pixmap(self) -> QPixmap | None:
+        if not self._stat_gain_item_icon_path:
+            return None
+        path = Path(self._stat_gain_item_icon_path)
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        pixmap = QPixmap(str(path))
+        return None if pixmap.isNull() else pixmap
 
     def _effect_duration_ms(self) -> int:
         if self._effect_name == "death":

@@ -265,6 +265,20 @@ def test_stat_gain_text_renders_in_blue():
     )
 
 
+def test_item_gain_text_keeps_icon_separate_from_label():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+
+    widget.trigger_stat_gain_text(
+        {},
+        item_gains=1,
+        item_gain_icon_path="assets/items/monzaemon_head.png",
+    )
+
+    assert widget._stat_gain_labels == ["+1"]
+    assert widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
+
+
 def _render_widget(widget: PetWidget) -> QImage:
     image = QImage(widget.size(), QImage.Format.Format_ARGB32)
     image.fill(Qt.GlobalColor.transparent)

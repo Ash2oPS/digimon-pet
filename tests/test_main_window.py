@@ -530,7 +530,8 @@ def test_secondary_item_event_boosts_stats_and_grants_weighted_item(tmp_path, mo
     assert window._state.hp == 400
     assert window._state.offense == 40
     assert window._state.inventory["monzaemon_head"] == 1
-    assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF", "+1?"]
+    assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF", "+1"]
+    assert window._pet_widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
 
 
 def test_passive_ultimate_growth_doubles_every_third_minute(tmp_path, monkeypatch):
