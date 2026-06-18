@@ -46,6 +46,34 @@
       "description": "Increases Spd by 25.",
       "type": "consumable",
       "icon_path": "assets/items/digimushrm-icon.png"
+    },
+    {
+      "id": "digifish",
+      "name": "DigiFish",
+      "description": "A fish item for your Digimon.",
+      "type": "consumable",
+      "icon_path": "assets/items/digianchovy-icon.png"
+    },
+    {
+      "id": "digiberry",
+      "name": "DigiBerry",
+      "description": "A berry item for your Digimon.",
+      "type": "consumable",
+      "icon_path": "assets/items/big-berry-icon.png"
+    },
+    {
+      "id": "digiveggie",
+      "name": "DigiVeggie",
+      "description": "A veggie item for your Digimon.",
+      "type": "consumable",
+      "icon_path": "assets/items/super-veggy-icon.png"
+    },
+    {
+      "id": "digiweed",
+      "name": "DigiWeed",
+      "description": "A weed item for your Digimon.",
+      "type": "consumable",
+      "icon_path": "assets/items/spiny-green-icon.png"
     }
   ],
   "pools": {
@@ -68,6 +96,22 @@
       },
       {
         "item_id": "digimushroom",
+        "weight": 2
+      },
+      {
+        "item_id": "digifish",
+        "weight": 2
+      },
+      {
+        "item_id": "digiberry",
+        "weight": 2
+      },
+      {
+        "item_id": "digiveggie",
+        "weight": 2
+      },
+      {
+        "item_id": "digiweed",
         "weight": 2
       }
     ]

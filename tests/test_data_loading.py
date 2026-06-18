@@ -51,6 +51,23 @@ def test_load_item_catalog_contains_golden_poop_any_digimon_evolution():
     assert item.evolution.required_stages == ()
 
 
+def test_load_item_catalog_contains_food_items_added_from_manager():
+    catalog = load_item_catalog()
+
+    expected_items = {
+        "digifish": ("DigiFish", "assets/items/digianchovy-icon.png"),
+        "digiberry": ("DigiBerry", "assets/items/big-berry-icon.png"),
+        "digiveggie": ("DigiVeggie", "assets/items/super-veggy-icon.png"),
+        "digiweed": ("DigiWeed", "assets/items/spiny-green-icon.png"),
+    }
+
+    for item_id, (name, icon_path) in expected_items.items():
+        item = catalog.items[item_id]
+        assert item.name == name
+        assert item.type == ItemType.CONSUMABLE
+        assert item.icon_path == icon_path
+
+
 def test_load_item_catalog_contains_secondary_event_pool():
     catalog = load_item_catalog()
 
