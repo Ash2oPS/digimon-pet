@@ -28,9 +28,10 @@ def _create_menu(app: QApplication, window: PetWindow) -> QMenu:
     toggle_pet.triggered.connect(lambda: window.setVisible(not window.isVisible()))
     menu.addAction(toggle_pet)
 
-    toggle_debug = QAction("Toggle Debug", menu)
-    toggle_debug.triggered.connect(window.toggle_debug)
-    menu.addAction(toggle_debug)
+    if getattr(window, "_debug", False):
+        toggle_debug = QAction("Toggle Debug", menu)
+        toggle_debug.triggered.connect(window.toggle_debug)
+        menu.addAction(toggle_debug)
 
     menu.addSeparator()
 
