@@ -196,6 +196,24 @@ QDialogButtonBox QPushButton {{
     min-width: 72px;
 }}
 
+QToolButton#BabyChoiceCard {{
+    background: {COLORS["panel"]};
+    border: 1px solid #3a3938;
+    border-radius: 6px;
+    padding: 8px 6px;
+    font-size: 11px;
+    font-weight: 700;
+}}
+
+QToolButton#BabyChoiceCard:hover {{
+    border-color: {COLORS["accent"]};
+}}
+
+QToolButton#BabyChoiceCard:checked {{
+    background: {COLORS["panel_alt"]};
+    border-color: {COLORS["focus"]};
+}}
+
 QToolTip {{
     background: {COLORS["panel"]};
     color: {COLORS["text"]};

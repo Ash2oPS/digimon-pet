@@ -11,6 +11,7 @@ from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.window_positioning import offset_window_position
+from digimon_pet.data import load_species
 from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import debug_settings
@@ -31,7 +32,7 @@ def default_initial_baby_choice(tmp_path, monkeypatch):
     monkeypatch.setattr(
         PetWindow,
         "_get_baby_choice",
-        lambda self, labels: ("Botamon", True),
+        lambda self, baby_ids: ("botamon", True),
     )
 
 
@@ -157,7 +158,7 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     monkeypatch.setattr(
         PetWindow,
         "_get_baby_choice",
-        lambda self, labels: ("Punimon", True),
+        lambda self, baby_ids: ("punimon", True),
     )
 
     window = PetWindow(overlay=True, debug=True)
@@ -171,13 +172,20 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     assert loaded.species_id == "punimon"
 
 
-def test_baby_choice_dialog_returns_selected_label():
+def test_baby_choice_dialog_returns_selected_baby_id():
     app = QApplication.instance() or QApplication([])
-    dialog = BabyChoiceDialog(["Botamon", "Punimon"])
+    species = load_species()
+    dialog = BabyChoiceDialog(
+        ["botamon", "punimon"],
+        species,
+        ["botamon"],
+    )
 
-    dialog._list.setCurrentRow(1)
+    dialog._buttons["punimon"].click()
 
-    assert dialog.selected_label() == "Punimon"
+    assert dialog.selected_baby_id() == "punimon"
+    assert dialog._buttons["botamon"].text() == "Botamon"
+    assert dialog._buttons["punimon"].text() == "???"
 
 
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
@@ -199,7 +207,7 @@ def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, mon
     monkeypatch.setattr(
         PetWindow,
         "_get_baby_choice",
-        lambda self, labels: ("Punimon", True),
+        lambda self, baby_ids: ("punimon", True),
     )
 
     window = PetWindow(overlay=True, debug=True)

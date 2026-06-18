@@ -28,7 +28,7 @@ def default_initial_baby_choice(tmp_path, monkeypatch):
     monkeypatch.setattr(
         PetWindow,
         "_get_baby_choice",
-        lambda self, labels: ("Botamon", True),
+        lambda self, baby_ids: ("botamon", True),
     )
 
 

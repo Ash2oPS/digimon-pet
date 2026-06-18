@@ -3,15 +3,17 @@ from __future__ import annotations
 import copy
 import random
 from collections.abc import Sequence
+from pathlib import Path
 
-from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QGuiApplication, QMouseEvent
+from PySide6.QtCore import QPoint, QRect, QSize, Qt, QTimer
+from PySide6.QtGui import QColor, QGuiApplication, QIcon, QImage, QMouseEvent, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
     QDialog,
     QDialogButtonBox,
+    QGridLayout,
     QLabel,
-    QListWidget,
+    QToolButton,
     QVBoxLayout,
     QWidget,
 )
@@ -23,6 +25,7 @@ from digimon_pet.app.inventory_window import InventoryItem, InventoryWindow
 from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
+from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.window_positioning import offset_window_position
@@ -37,7 +40,7 @@ from digimon_pet.domain.lifecycle import (
     choose_rebirth,
     next_lifecycle_event,
 )
-from digimon_pet.domain.models import GrowthStage, PetState
+from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
@@ -59,26 +62,109 @@ def _item_has_instant_death_effect(item) -> bool:
     return any(effect.type == ItemEffectType.INSTANT_DEATH for effect in item.effects)
 
 
+def _baby_choice_pixmap(species: Species, manifest: dict, discovered: bool) -> QPixmap:
+    pixmap = _pixmap_for_species(species, manifest)
+    if pixmap is not None:
+        display = pixmap if discovered else _silhouette(pixmap)
+        return display.scaled(58, 58, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.FastTransformation)
+    return _unknown_baby_pixmap()
+
+
+def _pixmap_for_species(species: Species, manifest: dict) -> QPixmap | None:
+    state = PetState(species_id=species.id, stage=species.stage)
+    animation = resolve_sprite_animation(state, species, manifest)
+    if animation is None:
+        return None
+    path = PROJECT_ROOT / Path(animation.path)
+    if not path.exists():
+        return None
+    pixmap = QPixmap(str(path))
+    if pixmap.isNull():
+        return None
+    frame = _first_frame_rect(pixmap, animation)
+    return pixmap.copy(frame) if frame is not None else pixmap
+
+
+def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | None:
+    if animation.frame_count <= 1:
+        return None
+    frame_width = animation.frame_width or pixmap.width() // animation.frame_count
+    frame_height = animation.frame_height or pixmap.height()
+    if frame_width <= 0 or frame_height <= 0:
+        return None
+    return QRect(0, 0, frame_width, frame_height)
+
+
+def _silhouette(pixmap: QPixmap) -> QPixmap:
+    image = pixmap.toImage().convertToFormat(QImage.Format.Format_ARGB32)
+    for y in range(image.height()):
+        for x in range(image.width()):
+            color = image.pixelColor(x, y)
+            if color.alpha() > 0:
+                image.setPixelColor(x, y, QColor(5, 5, 6, color.alpha()))
+    return QPixmap.fromImage(image)
+
+
+def _unknown_baby_pixmap() -> QPixmap:
+    pixmap = QPixmap(58, 58)
+    pixmap.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(pixmap)
+    painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+    painter.setPen(Qt.PenStyle.NoPen)
+    painter.setBrush(QColor("#050506"))
+    painter.drawEllipse(QRect(10, 10, 38, 38))
+    painter.setPen(QColor("#ffd166"))
+    painter.setFont(painter.font())
+    painter.drawText(QRect(10, 8, 38, 42), Qt.AlignmentFlag.AlignCenter, "?")
+    painter.end()
+    return pixmap
+
+
 class BabyChoiceDialog(QDialog):
-    def __init__(self, labels: Sequence[str], parent: QWidget | None = None) -> None:
+    def __init__(
+        self,
+        baby_ids: Sequence[str],
+        species: dict[str, Species],
+        discovered_species_ids: Sequence[str],
+        parent: QWidget | None = None,
+    ) -> None:
         super().__init__(parent)
         self.setWindowTitle("Choose Baby Digimon")
         self.setStyleSheet(APP_QSS)
-        self.setMinimumWidth(220)
+        self.setMinimumWidth(500)
+        self._selected_baby_id = baby_ids[0] if baby_ids else ""
+        self._buttons: dict[str, QToolButton] = {}
+        self._manifest = load_runtime_manifest()
+        discovered = set(discovered_species_ids)
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(14, 14, 14, 14)
-        layout.setSpacing(10)
+        layout.setSpacing(12)
 
         title = QLabel("Baby1:")
         title.setObjectName("Title")
         layout.addWidget(title)
 
-        self._list = QListWidget(self)
-        self._list.addItems(list(labels))
-        self._list.setCurrentRow(0)
-        self._list.itemDoubleClicked.connect(self.accept)
-        layout.addWidget(self._list)
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(12)
+        grid.setVerticalSpacing(12)
+        for index, baby_id in enumerate(baby_ids):
+            baby_species = species[baby_id]
+            is_discovered = baby_id in discovered
+            button = QToolButton(self)
+            button.setObjectName("BabyChoiceCard")
+            button.setCheckable(True)
+            button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
+            button.setIcon(QIcon(_baby_choice_pixmap(baby_species, self._manifest, is_discovered)))
+            button.setIconSize(QSize(58, 58))
+            button.setText(baby_species.name if is_discovered else "???")
+            button.setFixedSize(96, 108)
+            button.clicked.connect(lambda checked=False, selected_id=baby_id: self._select_baby(selected_id))
+            self._buttons[baby_id] = button
+            grid.addWidget(button, index // 4, index % 4)
+        layout.addLayout(grid)
+        if self._selected_baby_id:
+            self._select_baby(self._selected_baby_id)
 
         buttons = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
@@ -88,9 +174,13 @@ class BabyChoiceDialog(QDialog):
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
 
-    def selected_label(self) -> str:
-        item = self._list.currentItem()
-        return item.text() if item is not None else ""
+    def _select_baby(self, baby_id: str) -> None:
+        self._selected_baby_id = baby_id
+        for button_id, button in self._buttons.items():
+            button.setChecked(button_id == baby_id)
+
+    def selected_baby_id(self) -> str:
+        return self._selected_baby_id
 
 
 class PetWindow(QWidget):
@@ -551,17 +641,15 @@ class PetWindow(QWidget):
         self._save_and_refresh()
 
     def _prompt_baby_choice(self) -> str | None:
-        labels = [self._species[baby_id].name for baby_id in BABY_1_CHOICES]
-        selected, accepted = self._get_baby_choice(labels)
+        selected, accepted = self._get_baby_choice(list(BABY_1_CHOICES))
         if not accepted:
             return None
-        by_label = {self._species[baby_id].name: baby_id for baby_id in BABY_1_CHOICES}
-        return by_label[selected]
+        return selected if selected in BABY_1_CHOICES else None
 
-    def _get_baby_choice(self, labels: list[str]) -> tuple[str, bool]:
-        dialog = BabyChoiceDialog(labels, self)
+    def _get_baby_choice(self, baby_ids: list[str]) -> tuple[str, bool]:
+        dialog = BabyChoiceDialog(baby_ids, self._species, self._state.discovered_species_ids, self)
         accepted = dialog.exec() == QDialog.DialogCode.Accepted
-        return dialog.selected_label(), accepted
+        return dialog.selected_baby_id(), accepted
 
     def _choose_rebirth(self, baby_id: str) -> None:
         discovered_before = set(self._state.discovered_species_ids)
