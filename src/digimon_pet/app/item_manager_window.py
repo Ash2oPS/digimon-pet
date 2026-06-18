@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
     QListWidget,
     QPlainTextEdit,
     QPushButton,
+    QFileDialog,
     QSpinBox,
     QVBoxLayout,
     QWidget,
@@ -151,6 +152,7 @@ class ItemManagerWindow(QWidget):
         self._required_species_input.addItems(sorted(species))
         self._required_stages_input = QLineEdit(self)
         self._icon_path_input = QLineEdit(self)
+        self._browse_icon_button = QPushButton("Browse", self)
         self._icon_preview = QLabel(self)
         self._icon_preview.setObjectName("IconPreview")
         self._icon_preview.setFixedSize(72, 72)
@@ -165,7 +167,13 @@ class ItemManagerWindow(QWidget):
         form.addRow("Evolution Target", self._target_species_input)
         form.addRow("Required Species", self._required_species_input)
         form.addRow("Required Stages", self._required_stages_input)
-        form.addRow("Icon Path", self._icon_path_input)
+        icon_path_row = QHBoxLayout()
+        icon_path_row.setContentsMargins(0, 0, 0, 0)
+        icon_path_row.setSpacing(8)
+        icon_path_row.addWidget(self._icon_path_input, 1)
+        icon_path_row.addWidget(self._browse_icon_button)
+
+        form.addRow("Icon Path", icon_path_row)
         form.addRow("Sprite Preview", self._icon_preview)
         form.addRow("Secondary Weight", self._weight_input)
         right_side.addLayout(form)
@@ -205,6 +213,7 @@ class ItemManagerWindow(QWidget):
         self._id_input.textEdited.connect(self._disable_id_autocomplete)
         self._name_input.textChanged.connect(self._autocomplete_id_from_name)
         self._icon_path_input.textChanged.connect(self._refresh_icon_preview)
+        self._browse_icon_button.clicked.connect(self._browse_icon_path)
         self._item_list.currentRowChanged.connect(self._load_selected_item)
         if self._item_list.count() > 0:
             self._item_list.setCurrentRow(0)
@@ -277,6 +286,18 @@ class ItemManagerWindow(QWidget):
             )
         )
 
+    def _browse_icon_path(self) -> None:
+        items_dir = self._project_root / "assets" / "items"
+        selected_path, _selected_filter = QFileDialog.getOpenFileName(
+            self,
+            "Choose Item Sprite",
+            str(items_dir),
+            "Images (*.png *.jpg *.jpeg *.bmp *.gif);;All Files (*)",
+        )
+        if not selected_path:
+            return
+        self._icon_path_input.setText(_project_relative_path(Path(selected_path), self._project_root))
+
     def _update_editor_enabled_state(self) -> None:
         has_item = self._selected_item_key() is not None
         for widget in (
@@ -288,6 +309,7 @@ class ItemManagerWindow(QWidget):
             self._required_species_input,
             self._required_stages_input,
             self._icon_path_input,
+            self._browse_icon_button,
             self._weight_input,
         ):
             widget.setEnabled(has_item)
@@ -527,6 +549,13 @@ def _item_id_from_name(name: str) -> str:
     item_id = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
     item_id = re.sub(r"_+", "_", item_id)
     return item_id or "new_item"
+
+
+def _project_relative_path(path: Path, project_root: Path) -> str:
+    try:
+        return path.resolve().relative_to(project_root.resolve()).as_posix()
+    except ValueError:
+        return path.as_posix()
 
 
 def _parse_growth_stage(raw: str) -> GrowthStage | str:

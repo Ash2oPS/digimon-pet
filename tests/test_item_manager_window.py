@@ -4,7 +4,7 @@ from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QFileDialog
 
 from digimon_pet.app.item_manager_window import ItemManagerWindow, validate_item_catalog
 from digimon_pet.domain.items import (
@@ -324,6 +324,28 @@ def test_item_manager_uses_required_species_dropdown(tmp_path):
     assert window.save_catalog() is True
     raw = json.loads(save_path.read_text(encoding="utf-8"))
     assert raw["items"][0]["evolution"]["required_species_ids"] == ["agumon"]
+
+
+def test_item_manager_icon_path_browse_opens_items_folder(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    project_root = tmp_path
+    items_dir = project_root / "assets" / "items"
+    items_dir.mkdir(parents=True)
+    selected_icon = items_dir / "gun.png"
+    selected_icon.write_bytes(b"not a real png")
+    opened_directories = []
+
+    def fake_get_open_file_name(parent, title, directory, file_filter):
+        opened_directories.append(Path(directory))
+        return str(selected_icon), file_filter
+
+    monkeypatch.setattr(QFileDialog, "getOpenFileName", fake_get_open_file_name)
+    window = ItemManagerWindow(valid_catalog(), species_map(), project_root)
+
+    window._browse_icon_path()
+
+    assert opened_directories == [items_dir]
+    assert window._icon_path_input.text() == "assets/items/gun.png"
 
 
 def test_item_manager_rejects_duplicate_id_without_rewriting_pools(tmp_path):
