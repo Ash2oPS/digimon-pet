@@ -198,7 +198,7 @@ def test_pet_window_consumable_item_applies_stat_effect_immediately():
     assert window._state.inventory == {}
     assert window._pending_inventory_item_id is None
     assert window._pending_lifecycle_kind is None
-    assert window._pet_widget._stat_gain_labels == ["+25OFF"]
+    assert window._pet_widget._stat_gain_labels == ["+25 OFF"]
 
 
 def _left_click(widget: InventorySlotWidget) -> None:

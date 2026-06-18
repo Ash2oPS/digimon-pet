@@ -159,16 +159,15 @@ class PetWidget(QWidget):
         item_gain_icon_path: str | None = None,
     ) -> None:
         labels = [
-            f"+{int(amount)}{STAT_LABELS[stat_name]}"
+            f"+{int(amount)} {STAT_LABELS[stat_name]}"
             for stat_name, amount in gains.items()
             if stat_name in STAT_LABELS and int(amount) > 0
         ]
-        if item_gains > 0:
-            labels.append(f"+{int(item_gains)}")
-        if not labels:
+        item_icon_path = item_gain_icon_path if item_gains > 0 else None
+        if not labels and item_icon_path is None:
             return
         self._stat_gain_labels = labels
-        self._stat_gain_item_icon_path = item_gain_icon_path
+        self._stat_gain_item_icon_path = item_icon_path
         self._stat_gain_elapsed_ms = 1
         self._stat_gain_timer.start(EFFECT_INTERVAL_MS)
         self.update()
@@ -576,7 +575,7 @@ class PetWidget(QWidget):
             painter.drawLine(start[0], start[1], end[0], end[1])
 
     def _draw_stat_gain_text(self, painter: QPainter) -> None:
-        if self._stat_gain_elapsed_ms <= 0 or not self._stat_gain_labels:
+        if self._stat_gain_elapsed_ms <= 0:
             return
         progress = min(1.0, self._stat_gain_elapsed_ms / STAT_GAIN_TEXT_DURATION_MS)
         fade = 1.0 if progress < 0.72 else max(0.0, 1.0 - (progress - 0.72) / 0.28)
@@ -584,19 +583,21 @@ class PetWidget(QWidget):
         alpha = round(255 * fade)
 
         painter.save()
+        has_item_icon = self._stat_gain_item_icon_path is not None
+        if has_item_icon:
+            self._draw_item_gain_icon(painter, 8 - y_offset, alpha)
+
         rows = [" ".join(self._stat_gain_labels[index : index + 2]) for index in range(0, len(self._stat_gain_labels), 2)]
+        first_text_y = 38 if has_item_icon else 14
         for row_index, text in enumerate(rows[:3]):
-            y = 14 + row_index * 13 - y_offset
-            if self._stat_gain_item_icon_path and row_index == len(rows[:3]) - 1 and text.endswith("+1"):
-                self._draw_item_gain_row(painter, y, text, alpha)
-            else:
-                self._draw_outlined_pixel_text(
-                    painter,
-                    y,
-                    text,
-                    QColor(0, 42, 84, alpha),
-                    QColor(70, 178, 255, alpha),
-                )
+            y = first_text_y + row_index * 13 - y_offset
+            self._draw_outlined_pixel_text(
+                painter,
+                y,
+                text,
+                QColor(0, 42, 84, alpha),
+                QColor(70, 178, 255, alpha),
+            )
         painter.restore()
 
     def _draw_outlined_pixel_text(self, painter: QPainter, y: int, text: str, outline: QColor, fill: QColor) -> None:
@@ -619,28 +620,16 @@ class PetWidget(QWidget):
             _draw_pixel_text(painter, text, x + dx, y + dy, scale, outline)
         _draw_pixel_text(painter, text, x, y, scale, fill)
 
-    def _draw_item_gain_row(self, painter: QPainter, y: int, text: str, alpha: int) -> None:
-        scale = 2
-        text_width = _pixel_text_width(text, scale)
-        icon_size = 12
-        gap = 4
-        row_width = text_width + gap + icon_size
-        x = max(0, (self.width() - row_width) // 2)
-        self._draw_outlined_pixel_text_at(
-            painter,
-            x,
-            y,
-            text,
-            QColor(0, 42, 84, alpha),
-            QColor(70, 178, 255, alpha),
-        )
+    def _draw_item_gain_icon(self, painter: QPainter, y: int, alpha: int) -> None:
         pixmap = self._stat_gain_item_pixmap()
         if pixmap is None:
             return
+        icon_size = 24
+        x = max(0, (self.width() - icon_size) // 2)
         painter.save()
         painter.setOpacity(alpha / 255)
         painter.drawPixmap(
-            QRect(x + text_width + gap, y - 2, icon_size, icon_size),
+            QRect(x, y, icon_size, icon_size),
             pixmap,
             pixmap.rect(),
         )

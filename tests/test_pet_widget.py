@@ -256,7 +256,7 @@ def test_stat_gain_text_renders_in_blue():
     image = _render_widget(widget)
 
     assert widget._stat_gain_elapsed_ms > 0
-    assert widget._stat_gain_labels == ["+100HP", "+10OFF"]
+    assert widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
     assert any(
         pixel.blue() > 150 and pixel.red() < 120
         for x in range(12, 116)
@@ -275,7 +275,7 @@ def test_item_gain_text_keeps_icon_separate_from_label():
         item_gain_icon_path="assets/items/monzaemon_head.png",
     )
 
-    assert widget._stat_gain_labels == ["+1"]
+    assert widget._stat_gain_labels == []
     assert widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
 
 

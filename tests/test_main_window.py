@@ -485,7 +485,7 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
     assert window._state.offense == 40
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() is None
-    assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF"]
+    assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
 
 
 def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch):
@@ -501,7 +501,7 @@ def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch
 
     assert window._state.hp == 420
     assert window._state.offense == 42
-    assert window._pet_widget._stat_gain_labels == ["+120HP", "+12OFF"]
+    assert window._pet_widget._stat_gain_labels == ["+120 HP", "+12 OFF"]
 
 
 def test_one_in_three_secondary_events_is_item(tmp_path, monkeypatch):
@@ -530,7 +530,7 @@ def test_secondary_item_event_boosts_stats_and_grants_weighted_item(tmp_path, mo
     assert window._state.hp == 400
     assert window._state.offense == 40
     assert window._state.inventory["monzaemon_head"] == 1
-    assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF", "+1"]
+    assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
     assert window._pet_widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
 
 
