@@ -43,6 +43,30 @@ def valid_catalog() -> ItemCatalog:
     )
 
 
+def two_item_catalog() -> ItemCatalog:
+    first = ItemDefinition(
+        id="a",
+        name="A",
+        description="First item.",
+        type=ItemType.MISC,
+    )
+    second = ItemDefinition(
+        id="b",
+        name="B",
+        description="Second item.",
+        type=ItemType.MISC,
+    )
+    return ItemCatalog(
+        items={first.id: first, second.id: second},
+        pools={
+            "secondary_event": (
+                ItemPoolEntry(item_id=first.id, weight=1),
+                ItemPoolEntry(item_id=second.id, weight=2),
+            )
+        },
+    )
+
+
 def test_validate_item_catalog_rejects_duplicate_ids():
     item = valid_catalog().items["monzaemon_head"]
 
@@ -183,6 +207,19 @@ def test_item_manager_adds_new_item_with_unique_id():
     assert window._item_list.count() == 3
 
 
+def test_item_manager_add_from_empty_catalog_loads_new_item():
+    app = QApplication.instance() or QApplication([])
+    catalog = ItemCatalog(items={}, pools={"secondary_event": ()})
+    window = ItemManagerWindow(catalog, species_map(), Path.cwd())
+
+    window.add_item()
+
+    assert window._selected_item_key() == "new_item"
+    assert window._id_input.text() == "new_item"
+    assert window._name_input.text() == "New Item"
+    assert window._save_button.isEnabled() is True
+
+
 def test_item_manager_deletes_selected_item_and_pool_entries():
     app = QApplication.instance() or QApplication([])
     window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
@@ -195,6 +232,24 @@ def test_item_manager_deletes_selected_item_and_pool_entries():
         for entry in window._catalog.pools.get("secondary_event", ())
     )
     assert window._item_list.count() == 0
+
+
+def test_item_manager_saves_empty_catalog_after_deleting_last_item(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    window.delete_selected_item()
+
+    assert window._save_button.isEnabled() is True
+    assert window.save_catalog() is True
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    assert raw["items"] == []
 
 
 def test_item_manager_updates_secondary_event_weight(tmp_path):
@@ -233,3 +288,24 @@ def test_item_manager_edits_evolution_conditions(tmp_path):
     evolution = raw["items"][0]["evolution"]
     assert evolution["required_species_ids"] == ["numemon", "agumon"]
     assert evolution["required_stages"] == ["champion", "ultimate"]
+
+
+def test_item_manager_rejects_duplicate_id_without_rewriting_pools(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    catalog = two_item_catalog()
+    window = ItemManagerWindow(catalog, species_map(), Path.cwd(), save_path=save_path)
+
+    window._id_input.setText("b")
+    window._weight_input.setValue(99)
+
+    assert window.save_catalog() is False
+    assert tuple(catalog.items) == ("a", "b")
+    assert catalog.items["a"].id == "a"
+    assert catalog.items["b"].id == "b"
+    assert catalog.pools["secondary_event"] == (
+        ItemPoolEntry(item_id="a", weight=1),
+        ItemPoolEntry(item_id="b", weight=2),
+    )
+    assert "Duplicate item id: b" in window._validation_output.toPlainText()
+    assert not save_path.exists()

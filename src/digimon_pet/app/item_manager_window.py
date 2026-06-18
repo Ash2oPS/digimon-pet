@@ -242,7 +242,7 @@ class ItemManagerWindow(QWidget):
             widget.setEnabled(has_item)
         self._apply_button.setEnabled(has_item)
         self._delete_button.setEnabled(has_item)
-        self._save_button.setEnabled(has_item)
+        self._save_button.setEnabled(True)
 
     def _validate_current_catalog(self) -> None:
         errors = validate_item_catalog(
@@ -318,6 +318,7 @@ class ItemManagerWindow(QWidget):
         self._set_secondary_event_weight(item_id, 0)
         self._refresh_item_list(selected_id=item_id)
         self._item_list.setCurrentRow(self._row_for_item_key(item_id))
+        self._load_selected_item(self._item_list.currentRow())
         self._validate_current_catalog()
 
     def _next_new_item_id(self) -> str:
@@ -357,6 +358,10 @@ class ItemManagerWindow(QWidget):
             return False
 
         new_item_id = self._id_input.text().strip()
+        if new_item_id in self._catalog.items and new_item_id != item_key:
+            self._validation_output.setPlainText(f"Duplicate item id: {new_item_id}")
+            return False
+
         item_type = ItemType(self._type_input.currentText())
         evolution = None
         if item_type == ItemType.EVOLUTION:
@@ -441,7 +446,8 @@ class ItemManagerWindow(QWidget):
         object.__setattr__(self._catalog, "pools", pools)
 
     def save_catalog(self) -> bool:
-        self._apply_current_item_edits()
+        if self._selected_item_key() is not None and not self._apply_current_item_edits():
+            return False
         errors = validate_item_catalog(
             list(self._catalog.items.values()),
             self._catalog.pools,
