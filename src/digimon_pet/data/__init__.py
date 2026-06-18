@@ -1,3 +1,13 @@
-from digimon_pet.data.loaders import load_dw1_digivolutions, load_evolution_rules, load_species
+from digimon_pet.data.loaders import (
+    load_dw1_digivolutions,
+    load_evolution_rules,
+    load_item_catalog,
+    load_species,
+)
 
-__all__ = ["load_dw1_digivolutions", "load_evolution_rules", "load_species"]
+__all__ = [
+    "load_dw1_digivolutions",
+    "load_evolution_rules",
+    "load_item_catalog",
+    "load_species",
+]

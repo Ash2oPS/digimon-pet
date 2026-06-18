@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "id": "monzaemon_head",
+      "name": "Monzaemon's Head",
+      "description": "Forces Numemon to evolve into Monzaemon.",
+      "type": "evolution",
+      "icon_path": "assets/items/monzaemon_head.png",
+      "evolution": {
+        "target_species_id": "monzaemon",
+        "required_species_ids": ["numemon"],
+        "required_stages": []
+      }
+    }
+  ],
+  "pools": {
+    "secondary_event": [
+      {"item_id": "monzaemon_head", "weight": 1}
+    ]
+  }
+}

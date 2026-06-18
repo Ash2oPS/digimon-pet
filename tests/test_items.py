@@ -2,7 +2,9 @@ import random
 
 from digimon_pet.domain.items import (
     MONZAEMON_HEAD_ID,
-    EvolutionItemDefinition,
+    EvolutionItemEffect,
+    ItemDefinition,
+    ItemType,
     use_evolution_item,
     use_item,
 )
@@ -50,11 +52,15 @@ def test_monzaemon_head_does_not_consume_item_for_other_species():
 
 
 def test_evolution_item_definition_can_require_a_growth_stage():
-    item = EvolutionItemDefinition(
+    item = ItemDefinition(
         id="champion_disk",
         name="Champion Disk",
-        target_species_id="monzaemon",
-        required_stages=(GrowthStage.CHAMPION,),
+        description="Forces a champion-stage evolution.",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(
+            target_species_id="monzaemon",
+            required_stages=(GrowthStage.CHAMPION,),
+        ),
     )
     state = PetState(
         "agumon",

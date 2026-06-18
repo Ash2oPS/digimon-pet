@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from digimon_pet.domain.items import ItemCatalog, item_catalog_from_dict
 from digimon_pet.domain.models import EvolutionRule, GrowthStage, Species
 from digimon_pet.paths import DATA_DIR
 
@@ -21,6 +22,10 @@ def load_evolution_rules(path: Path | None = None) -> list[EvolutionRule]:
 
 def load_dw1_digivolutions(path: Path | None = None) -> dict[str, Any]:
     return dict(_read_json(path or DATA_DIR / "dw1_digivolutions.json"))
+
+
+def load_item_catalog(path: Path | None = None) -> ItemCatalog:
+    return item_catalog_from_dict(_read_json(path or DATA_DIR / "items.json"))
 
 
 def _read_json(path: Path) -> Any:
