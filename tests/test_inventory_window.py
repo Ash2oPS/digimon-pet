@@ -161,6 +161,25 @@ def test_pet_window_resolves_queued_monzaemon_head_evolution():
     assert window._state.inventory == {}
 
 
+def test_pet_window_golden_poop_evolves_any_digimon_to_sukamon():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            inventory={"golden_poop": 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+
+    window._use_inventory_item("golden_poop")
+    window._resolve_lifecycle_now()
+
+    assert window._state.species_id == "sukamon"
+    assert window._state.stage == GrowthStage.CHAMPION
+    assert window._state.inventory == {}
+
+
 def _left_click(widget: InventorySlotWidget) -> None:
     event = QMouseEvent(
         QEvent.Type.MouseButtonRelease,

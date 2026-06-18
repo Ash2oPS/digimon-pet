@@ -19,6 +19,7 @@ def species_map() -> dict[str, Species]:
         "agumon": Species("agumon", "Agumon", GrowthStage.ROOKIE),
         "numemon": Species("numemon", "Numemon", GrowthStage.CHAMPION),
         "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
+        "sukamon": Species("sukamon", "Sukamon", GrowthStage.CHAMPION),
     }
 
 
@@ -76,6 +77,29 @@ def test_evolution_item_definition_can_require_a_growth_stage():
     assert result.used is False
     assert result.reason == "wrong_stage"
     assert state.inventory == {"champion_disk": 1}
+
+
+def test_evolution_item_without_requirements_evolves_any_digimon():
+    item = ItemDefinition(
+        id="golden_poop",
+        name="Golden Poop",
+        description="Makes any Digimon digivolve into Sukamon.",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(target_species_id="sukamon"),
+    )
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        inventory={"golden_poop": 1},
+    )
+
+    result = use_evolution_item(state, item, species_map(), random.Random(1))
+
+    assert result.used is True
+    assert result.event == "evolved:sukamon"
+    assert state.species_id == "sukamon"
+    assert state.stage == GrowthStage.CHAMPION
+    assert state.inventory == {}
 
 
 def test_weighted_item_choice_ignores_zero_weight_entries():

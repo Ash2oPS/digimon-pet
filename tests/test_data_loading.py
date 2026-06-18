@@ -36,6 +36,21 @@ def test_load_item_catalog_contains_monzaemon_head():
     assert item.evolution.required_stages == ()
 
 
+def test_load_item_catalog_contains_golden_poop_any_digimon_evolution():
+    catalog = load_item_catalog()
+
+    item = catalog.items["golden_poop"]
+
+    assert item.name == "Golden Poop"
+    assert item.description == "Makes any Digimon digivolve into Sukamon."
+    assert item.type == ItemType.EVOLUTION
+    assert item.icon_path == "assets/items/golden_poop.png"
+    assert item.evolution is not None
+    assert item.evolution.target_species_id == "sukamon"
+    assert item.evolution.required_species_ids == ()
+    assert item.evolution.required_stages == ()
+
+
 def test_load_item_catalog_contains_secondary_event_pool():
     catalog = load_item_catalog()
 

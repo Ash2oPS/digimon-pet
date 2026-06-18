@@ -22,6 +22,7 @@ def species_map() -> dict[str, Species]:
         "agumon": Species("agumon", "Agumon", GrowthStage.ROOKIE),
         "numemon": Species("numemon", "Numemon", GrowthStage.CHAMPION),
         "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
+        "sukamon": Species("sukamon", "Sukamon", GrowthStage.CHAMPION),
     }
 
 
@@ -447,6 +448,25 @@ def test_item_manager_auto_fills_evolution_description_for_required_stage():
 
     assert window._description_input.toPlainText() == "Makes any Rookie Digimon digivolve into Monzaemon."
     assert window._catalog.items["rookie_disk"].description == "Makes any Rookie Digimon digivolve into Monzaemon."
+
+
+def test_item_manager_auto_fills_evolution_description_for_any_digimon():
+    app = QApplication.instance() or QApplication([])
+    item = ItemDefinition(
+        id="golden_poop",
+        name="Golden Poop",
+        description="",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(target_species_id="sukamon"),
+    )
+    window = ItemManagerWindow(
+        ItemCatalog(items={item.id: item}, pools={"secondary_event": ()}),
+        species_map(),
+        Path.cwd(),
+    )
+
+    assert window._description_input.toPlainText() == "Makes any Digimon digivolve into Sukamon."
+    assert window._catalog.items["golden_poop"].description == "Makes any Digimon digivolve into Sukamon."
 
 
 def test_item_manager_previews_icon_path():

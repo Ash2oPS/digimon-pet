@@ -8,14 +8,68 @@
       "icon_path": "assets/items/monzaemon_head.png",
       "evolution": {
         "target_species_id": "monzaemon",
-        "required_species_ids": ["numemon"],
+        "required_species_ids": [
+          "numemon"
+        ],
         "required_stages": []
       }
+    },
+    {
+      "id": "golden_poop",
+      "name": "Golden Poop",
+      "description": "Makes any Digimon digivolve into Sukamon.",
+      "type": "evolution",
+      "icon_path": "assets/items/golden_poop.png",
+      "evolution": {
+        "target_species_id": "sukamon",
+        "required_species_ids": [],
+        "required_stages": []
+      }
+    },
+    {
+      "id": "digigun",
+      "name": "DigiGun",
+      "description": "Instantly kills your Digimon.",
+      "type": "consumable",
+      "icon_path": "assets/items/gun.png"
+    },
+    {
+      "id": "digimeat",
+      "name": "DigiMeat",
+      "description": "Increases Off by 25.",
+      "type": "consumable",
+      "icon_path": "assets/items/meat-icon.png"
+    },
+    {
+      "id": "digimushroom",
+      "name": "DigiMushroom",
+      "description": "Increases Spd by 25.",
+      "type": "consumable",
+      "icon_path": "assets/items/digimushrm-icon.png"
     }
   ],
   "pools": {
     "secondary_event": [
-      {"item_id": "monzaemon_head", "weight": 1}
+      {
+        "item_id": "monzaemon_head",
+        "weight": 1
+      },
+      {
+        "item_id": "golden_poop",
+        "weight": 1
+      },
+      {
+        "item_id": "digigun",
+        "weight": 1
+      },
+      {
+        "item_id": "digimeat",
+        "weight": 2
+      },
+      {
+        "item_id": "digimushroom",
+        "weight": 2
+      }
     ]
   }
 }
