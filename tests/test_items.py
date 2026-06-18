@@ -3,8 +3,11 @@ import random
 from digimon_pet.domain.items import (
     MONZAEMON_HEAD_ID,
     EvolutionItemEffect,
+    ItemCatalog,
     ItemDefinition,
+    ItemPoolEntry,
     ItemType,
+    choose_weighted_item,
     use_evolution_item,
     use_item,
 )
@@ -73,3 +76,46 @@ def test_evolution_item_definition_can_require_a_growth_stage():
     assert result.used is False
     assert result.reason == "wrong_stage"
     assert state.inventory == {"champion_disk": 1}
+
+
+def test_weighted_item_choice_ignores_zero_weight_entries():
+    catalog = ItemCatalog(
+        items={
+            "rare": ItemDefinition(
+                id="rare",
+                name="Rare",
+                description="Rare item.",
+                type=ItemType.MISC,
+            ),
+            "common": ItemDefinition(
+                id="common",
+                name="Common",
+                description="Common item.",
+                type=ItemType.MISC,
+            ),
+        },
+        pools={
+            "test": (
+                ItemPoolEntry(item_id="rare", weight=0),
+                ItemPoolEntry(item_id="common", weight=10),
+            )
+        },
+    )
+
+    assert choose_weighted_item(catalog, "test", random.Random(1)) == "common"
+
+
+def test_weighted_item_choice_rejects_empty_effective_pool():
+    catalog = ItemCatalog(
+        items={
+            "rare": ItemDefinition(
+                id="rare",
+                name="Rare",
+                description="Rare item.",
+                type=ItemType.MISC,
+            ),
+        },
+        pools={"test": (ItemPoolEntry(item_id="rare", weight=0),)},
+    )
+
+    assert choose_weighted_item(catalog, "test", random.Random(1)) is None

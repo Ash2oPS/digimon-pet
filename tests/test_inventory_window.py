@@ -115,6 +115,14 @@ def test_pet_window_does_not_grant_monzaemon_head_on_launch():
     assert MONZAEMON_HEAD_ID not in window._state.inventory
 
 
+def test_pet_window_inventory_skips_unknown_item_ids():
+    app = QApplication.instance() or QApplication([])
+    window = PetWindow(overlay=True, debug=False)
+    window._state.inventory = {MONZAEMON_HEAD_ID: 1, "deleted_item": 2}
+
+    assert [item.id for item in window._inventory_items()] == [MONZAEMON_HEAD_ID]
+
+
 def test_pet_window_queues_monzaemon_head_evolution_from_inventory():
     app = QApplication.instance() or QApplication([])
     save_store.save_pet_state(

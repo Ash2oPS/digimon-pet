@@ -25,10 +25,10 @@ from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.window_positioning import offset_window_position
-from digimon_pet.data import load_dw1_digivolutions, load_species
+from digimon_pet.data import load_dw1_digivolutions, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import EVOLUTION_ITEMS, can_use_item, use_item
+from digimon_pet.domain.items import can_use_item, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -91,6 +91,7 @@ class PetWindow(QWidget):
         self._debug = debug
         self._species = load_species()
         self._digivolutions = load_dw1_digivolutions()
+        self._item_catalog = load_item_catalog()
         self._lifecycle_schedule = EvolutionSchedule()
         self._debug_settings = debug_settings.load_debug_settings()
         self._debug_time_scale = self._debug_settings.time_scale
@@ -519,7 +520,7 @@ class PetWindow(QWidget):
             return None
         item_id = self._pending_inventory_item_id
         self._pending_inventory_item_id = None
-        result = use_item(self._state, item_id, self._species, self._rng)
+        result = use_item(self._state, item_id, self._species, self._rng, self._item_catalog)
         return result.event if result.used else None
 
     def _advance_lifecycle(self) -> None:
@@ -719,7 +720,7 @@ class PetWindow(QWidget):
     def _use_inventory_item(self, item_id: str) -> None:
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
             return
-        result = can_use_item(self._state, item_id, self._species)
+        result = can_use_item(self._state, item_id, self._species, self._item_catalog)
         if not result.used:
             self._refresh()
             return
@@ -737,16 +738,19 @@ class PetWindow(QWidget):
     def _inventory_items(self) -> list[InventoryItem]:
         items: list[InventoryItem] = []
         for item_id, quantity in self._state.inventory.items():
-            definition = EVOLUTION_ITEMS.get(item_id)
+            definition = self._item_catalog.items.get(item_id)
+            if definition is None:
+                continue
             icon_path = None
-            if definition is not None and definition.icon_path is not None:
+            if definition.icon_path is not None:
                 icon_path = str(PROJECT_ROOT / definition.icon_path)
             items.append(
                 InventoryItem(
                     id=item_id,
-                    name=definition.name if definition is not None else item_id,
+                    name=definition.name,
                     quantity=quantity,
                     icon_path=icon_path,
+                    description=definition.description,
                 )
             )
         return items

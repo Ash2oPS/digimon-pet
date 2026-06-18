@@ -94,8 +94,9 @@ def use_item(
     item_id: str,
     species: dict[str, Species],
     rng: random.Random,
+    catalog: ItemCatalog | None = None,
 ) -> ItemUseResult:
-    item = EVOLUTION_ITEMS.get(item_id)
+    item = _find_item(item_id, catalog)
     if item is None:
         return ItemUseResult(used=False, reason="unknown_item")
     return use_evolution_item(state, item, species, rng)
@@ -105,14 +106,38 @@ def can_use_item(
     state: PetState,
     item_id: str,
     species: dict[str, Species],
+    catalog: ItemCatalog | None = None,
 ) -> ItemUseResult:
-    item = EVOLUTION_ITEMS.get(item_id)
+    item = _find_item(item_id, catalog)
     if item is None:
         return ItemUseResult(used=False, reason="unknown_item")
     reason = _evolution_item_blocking_reason(state, item, species)
     if reason is not None:
         return ItemUseResult(used=False, reason=reason)
     return ItemUseResult(used=True)
+
+
+def choose_weighted_item(
+    catalog: ItemCatalog,
+    pool_name: str,
+    rng: random.Random,
+) -> str | None:
+    entries = tuple(
+        entry
+        for entry in catalog.pools.get(pool_name, ())
+        if entry.weight > 0 and entry.item_id in catalog.items
+    )
+    total = sum(entry.weight for entry in entries)
+    if total <= 0:
+        return None
+
+    choice = rng.randint(1, total)
+    current = 0
+    for entry in entries:
+        current += entry.weight
+        if choice <= current:
+            return entry.item_id
+    return None
 
 
 def use_evolution_item(
@@ -164,6 +189,12 @@ def _consume_item(state: PetState, item_id: str) -> None:
         state.inventory.pop(item_id, None)
     else:
         state.inventory[item_id] = quantity
+
+
+def _find_item(item_id: str, catalog: ItemCatalog | None = None) -> ItemDefinition | None:
+    if catalog is not None:
+        return catalog.items.get(item_id)
+    return EVOLUTION_ITEMS.get(item_id)
 
 
 def _item_from_dict(raw: dict[str, Any]) -> ItemDefinition:
