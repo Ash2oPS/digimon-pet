@@ -400,7 +400,7 @@ def test_secondary_event_appears_after_random_delay_without_pausing_age(tmp_path
     window._tick()
 
     assert window._state.age_seconds == 5
-    assert window._secondary_event_kind in {"meat", "dumbbell"}
+    assert window._secondary_event_kind in {"meat", "dumbbell", "item"}
     assert window._secondary_event_ttl_seconds == 30
     assert window._pet_widget.event_prompt_kind().startswith("secondary_")
     assert window._pet_widget._effect_name is None
@@ -472,6 +472,35 @@ def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch
     assert window._state.hp == 420
     assert window._state.offense == 42
     assert window._pet_widget._stat_gain_labels == ["+120HP", "+12OFF"]
+
+
+def test_one_in_three_secondary_events_is_item(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _SecondaryItemEventRng(["hp", "offense"])
+
+    window._show_secondary_event()
+
+    assert window._secondary_event_kind == "item"
+    assert window._pet_widget.event_prompt_kind() == "secondary_item"
+
+
+def test_secondary_item_event_boosts_stats_and_grants_weighted_item(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _SecondaryItemEventRng(["hp", "offense"])
+    window._show_secondary_event("item")
+
+    window._claim_secondary_event()
+
+    assert window._state.hp == 400
+    assert window._state.offense == 40
+    assert window._state.inventory["monzaemon_head"] == 1
+    assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF", "+1?"]
 
 
 def test_passive_ultimate_growth_doubles_every_third_minute(tmp_path, monkeypatch):
@@ -696,7 +725,7 @@ def test_stats_window_opens_and_refreshes_live_values():
     assert window._stats_window is not None
     assert window._stats_window.windowTitle() == "Stats"
     assert window._stats_window._name_label.text() == species.name
-    assert window._stats_window._labels["age"].text() == "1.5 h"
+    assert window._stats_window._labels["age"].text() == "1 h 30 min"
     assert window._stats_window._labels["hp"].text() == "777"
     assert window._stats_window._labels["mp"].text() == "888"
     assert window._stats_window._labels["offense"].text() == "111"
@@ -906,3 +935,10 @@ class _FixedChoiceRng(_FixedSecondaryEventRng):
 
     def choice(self, population):
         return self._choice_value
+
+
+class _SecondaryItemEventRng(_FixedSecondaryEventRng):
+    def randint(self, minimum: int, maximum: int) -> int:
+        if minimum == 1 and maximum == 3:
+            return 1
+        return minimum

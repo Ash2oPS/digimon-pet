@@ -26,7 +26,7 @@ LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
 RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
-SECONDARY_EVENT_PROMPTS = {"meat", "dumbbell"}
+SECONDARY_EVENT_PROMPTS = {"meat", "dumbbell", "item"}
 STAT_LABELS = {
     "hp": "HP",
     "mp": "MP",
@@ -47,6 +47,7 @@ PIXEL_GLYPHS = {
     "7": ("111", "001", "010", "010", "010"),
     "8": ("111", "101", "111", "101", "111"),
     "9": ("111", "101", "111", "001", "111"),
+    "?": ("111", "001", "011", "000", "010"),
     "D": ("110", "101", "101", "101", "110"),
     "E": ("111", "100", "110", "100", "111"),
     "F": ("111", "100", "110", "100", "100"),
@@ -149,12 +150,14 @@ class PetWidget(QWidget):
         self._new_badge_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
-    def trigger_stat_gain_text(self, gains: dict[str, int]) -> None:
+    def trigger_stat_gain_text(self, gains: dict[str, int], *, item_gains: int = 0) -> None:
         labels = [
             f"+{int(amount)}{STAT_LABELS[stat_name]}"
             for stat_name, amount in gains.items()
             if stat_name in STAT_LABELS and int(amount) > 0
         ]
+        if item_gains > 0:
+            labels.append(f"+{int(item_gains)}?")
         if not labels:
             return
         self._stat_gain_labels = labels
@@ -452,6 +455,8 @@ class PetWidget(QWidget):
             self._draw_meat_prompt_icon(painter, rect.center())
         elif kind == "secondary_dumbbell":
             self._draw_dumbbell_prompt_icon(painter, rect.center())
+        elif kind == "secondary_item":
+            self._draw_item_prompt_icon(painter, rect.center())
         painter.restore()
 
     def _draw_evolution_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
@@ -514,6 +519,14 @@ class PetWidget(QWidget):
         painter.drawRoundedRect(QRect(center.x() - 10, center.y() - 1, 5, 8), 2, 2)
         painter.drawRoundedRect(QRect(center.x() + 8, center.y() - 10, 7, 8), 2, 2)
         painter.drawRoundedRect(QRect(center.x() + 5, center.y() - 7, 5, 8), 2, 2)
+
+    def _draw_item_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
+        outline = QColor(65, 43, 24)
+        painter.setPen(QPen(outline, 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.setBrush(QColor(255, 211, 52))
+        painter.drawRoundedRect(QRect(center.x() - 10, center.y() - 10, 20, 20), 5, 5)
+        painter.setPen(QPen(outline, 3, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawText(QRect(center.x() - 8, center.y() - 10, 16, 20), Qt.AlignmentFlag.AlignCenter, "?")
 
     def _draw_new_badge(self, painter: QPainter) -> None:
         if self._new_badge_elapsed_ms <= 0:

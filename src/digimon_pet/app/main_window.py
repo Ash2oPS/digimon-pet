@@ -29,7 +29,7 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_dw1_digivolutions, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import can_use_item, use_item
+from digimon_pet.domain.items import can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -47,6 +47,10 @@ SECONDARY_EVENT_MIN_SECONDS = 240
 SECONDARY_EVENT_MAX_SECONDS = 360
 SECONDARY_EVENT_TTL_SECONDS = 30
 SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
+SECONDARY_EVENT_ITEM_KIND = "item"
+SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
+SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
+SECONDARY_EVENT_ITEM_POOL = "secondary_event"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 
@@ -582,10 +586,15 @@ class PetWindow(QWidget):
     def _show_secondary_event(self, kind: str | None = None) -> None:
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
             return
-        self._secondary_event_kind = kind or self._rng.choice(SECONDARY_EVENT_KINDS)
+        self._secondary_event_kind = kind or self._choose_secondary_event_kind()
         self._secondary_event_ttl_seconds = SECONDARY_EVENT_TTL_SECONDS
         self._secondary_event_seconds_remaining = 0
         self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
+
+    def _choose_secondary_event_kind(self) -> str:
+        if self._rng.randint(1, SECONDARY_EVENT_ITEM_CHANCE_SIDES) == SECONDARY_EVENT_ITEM_CHANCE_ROLL:
+            return SECONDARY_EVENT_ITEM_KIND
+        return self._rng.choice(SECONDARY_EVENT_KINDS)
 
     def _claim_secondary_event(self) -> None:
         if self._secondary_event_kind is None:
@@ -595,10 +604,18 @@ class PetWindow(QWidget):
             increment = self._secondary_event_stat_increment(stat_name)
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
             gains[stat_name] = increment
+        item_gain = self._grant_secondary_event_item() if self._secondary_event_kind == SECONDARY_EVENT_ITEM_KIND else None
         self._state.clamp()
-        self._pet_widget.trigger_stat_gain_text(gains)
+        self._pet_widget.trigger_stat_gain_text(gains, item_gains=1 if item_gain is not None else 0)
         self._clear_secondary_event(schedule_next=True)
         self._save_and_refresh()
+
+    def _grant_secondary_event_item(self) -> str | None:
+        item_id = choose_weighted_item(self._item_catalog, SECONDARY_EVENT_ITEM_POOL, self._rng)
+        if item_id is None:
+            return None
+        self._state.inventory[item_id] = self._state.inventory.get(item_id, 0) + 1
+        return item_id
 
     def _clear_secondary_event(self, *, schedule_next: bool = False) -> None:
         self._secondary_event_kind = None
