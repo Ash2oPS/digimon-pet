@@ -69,6 +69,27 @@ def test_save_load_persists_inventory(tmp_path):
     assert loaded.inventory == {"monzaemon_head": 1}
 
 
+def test_load_migrates_legacy_item_ids(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "numemon",
+  "stage": "champion",
+  "inventory": {
+    "gun": 1,
+    "digigun": 2
+  }
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.inventory == {"digigun": 3}
+
+
 def test_load_legacy_save_marks_current_species_discovered(tmp_path):
     path = tmp_path / "pet_save.json"
     path.write_text(

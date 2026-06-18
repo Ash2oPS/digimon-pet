@@ -10,6 +10,9 @@ from digimon_pet.domain.models import GrowthStage, PetState
 from digimon_pet.paths import DATA_DIR, DEBUG_SAVE_PATH, LEGACY_SAVE_PATH, SAVE_PATH as NORMAL_SAVE_PATH, ensure_save_dir
 
 SAVE_PATH = NORMAL_SAVE_PATH
+LEGACY_ITEM_ID_ALIASES = {
+    "gun": "digigun",
+}
 
 
 def configure_save_path(*, debug: bool) -> None:
@@ -103,8 +106,10 @@ def _stat_bonuses_from_raw(raw: Any) -> dict[str, int]:
 def _inventory_from_raw(raw: Any) -> dict[str, int]:
     if not isinstance(raw, dict):
         return {}
-    return {
-        str(key): int(value)
-        for key, value in raw.items()
-        if str(key).strip() and int(value) > 0
-    }
+    inventory: dict[str, int] = {}
+    for key, value in raw.items():
+        item_id = LEGACY_ITEM_ID_ALIASES.get(str(key), str(key))
+        quantity = int(value)
+        if item_id.strip() and quantity > 0:
+            inventory[item_id] = inventory.get(item_id, 0) + quantity
+    return inventory
