@@ -392,6 +392,7 @@ class ItemManagerWindow(QWidget):
         self._loading_item = False
         self._id_autocomplete_enabled = True
         self._update_editor_enabled_state()
+        self._sync_current_item_edits()
         self._refresh_drop_chance()
 
     def _clear_editor_fields(self) -> None:
@@ -502,6 +503,7 @@ class ItemManagerWindow(QWidget):
 
         item_type = ItemType(self._type_input.currentText())
         evolution = None
+        description = self._description_input.toPlainText()
         if item_type == ItemType.EVOLUTION:
             required_species_id = self._required_species_input.currentText().strip()
             evolution = EvolutionItemEffect(
@@ -512,11 +514,13 @@ class ItemManagerWindow(QWidget):
                     for value in _split_csv(self._required_stages_input.text())
                 ),
             )
+            description = _evolution_item_description(evolution, self._species)
+            self._set_description_text(description)
 
         edited_item = ItemDefinition(
             id=new_item_id,
             name=self._name_input.text(),
-            description=self._description_input.toPlainText(),
+            description=description,
             type=item_type,
             icon_path=self._icon_path_input.text().strip() or None,
             evolution=evolution,
@@ -640,6 +644,13 @@ class ItemManagerWindow(QWidget):
             return item_id
         return None
 
+    def _set_description_text(self, description: str) -> None:
+        if self._description_input.toPlainText() == description:
+            return
+        self._description_input.blockSignals(True)
+        self._description_input.setPlainText(description)
+        self._description_input.blockSignals(False)
+
 
 def _split_csv(raw: str) -> list[str]:
     return [value.strip() for value in raw.split(",") if value.strip()]
@@ -657,6 +668,47 @@ def _duplicate_base_id(item_id: str) -> str:
 
 def _duplicate_base_name(name: str) -> str:
     return re.sub(r"\s+\d+$", "", name)
+
+
+def _evolution_item_description(
+    evolution: EvolutionItemEffect,
+    species: dict[str, Species],
+) -> str:
+    source = _evolution_source_label(evolution, species)
+    target = _species_label(evolution.target_species_id, species)
+    return f"Makes {source} digivolve into {target}."
+
+
+def _evolution_source_label(
+    evolution: EvolutionItemEffect,
+    species: dict[str, Species],
+) -> str:
+    if evolution.required_species_ids:
+        return _join_labels(
+            [_species_label(species_id, species) for species_id in evolution.required_species_ids]
+        )
+    if evolution.required_stages:
+        stage_labels = [_stage_label(stage) for stage in evolution.required_stages]
+        return f"any {_join_labels(stage_labels)} Digimon"
+    return "any Digimon"
+
+
+def _species_label(species_id: str, species: dict[str, Species]) -> str:
+    definition = species.get(species_id)
+    return definition.name if definition is not None else species_id
+
+
+def _stage_label(stage: GrowthStage | str) -> str:
+    value = stage.value if isinstance(stage, GrowthStage) else str(stage)
+    return value.replace("_", " ").title()
+
+
+def _join_labels(labels: list[str]) -> str:
+    if not labels:
+        return ""
+    if len(labels) == 1:
+        return labels[0]
+    return f"{', '.join(labels[:-1])} or {labels[-1]}"
 
 
 def _project_relative_path(path: Path, project_root: Path) -> str:

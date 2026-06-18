@@ -233,7 +233,7 @@ def test_item_manager_applies_field_edits_before_save(tmp_path):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "items.json"
     window = ItemManagerWindow(
-        valid_catalog(),
+        two_item_catalog(),
         species_map(),
         Path.cwd(),
         save_path=save_path,
@@ -407,6 +407,46 @@ def test_item_manager_edits_evolution_conditions(tmp_path):
     evolution = raw["items"][0]["evolution"]
     assert evolution["required_species_ids"] == ["agumon"]
     assert evolution["required_stages"] == ["champion", "ultimate"]
+    assert raw["items"][0]["description"] == "Makes Agumon digivolve into Monzaemon."
+
+
+def test_item_manager_auto_fills_evolution_description_for_required_species(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    assert window._description_input.toPlainText() == "Makes Numemon digivolve into Monzaemon."
+
+    assert window.save_catalog() is True
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    assert raw["items"][0]["description"] == "Makes Numemon digivolve into Monzaemon."
+
+
+def test_item_manager_auto_fills_evolution_description_for_required_stage():
+    app = QApplication.instance() or QApplication([])
+    item = ItemDefinition(
+        id="rookie_disk",
+        name="Rookie Disk",
+        description="",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(
+            target_species_id="monzaemon",
+            required_stages=(GrowthStage.ROOKIE,),
+        ),
+    )
+    window = ItemManagerWindow(
+        ItemCatalog(items={item.id: item}, pools={"secondary_event": ()}),
+        species_map(),
+        Path.cwd(),
+    )
+
+    assert window._description_input.toPlainText() == "Makes any Rookie Digimon digivolve into Monzaemon."
+    assert window._catalog.items["rookie_disk"].description == "Makes any Rookie Digimon digivolve into Monzaemon."
 
 
 def test_item_manager_previews_icon_path():
