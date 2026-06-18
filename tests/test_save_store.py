@@ -55,6 +55,20 @@ def test_save_load_persists_generation_and_pending_rebirth_stat_bonuses(tmp_path
     assert loaded.pending_rebirth_stat_bonuses == {"hp": 45, "speed": 7}
 
 
+def test_save_load_persists_inventory(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        inventory={"monzaemon_head": 1, "empty": 0},
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.inventory == {"monzaemon_head": 1}
+
+
 def test_load_legacy_save_marks_current_species_discovered(tmp_path):
     path = tmp_path / "pet_save.json"
     path.write_text(
@@ -72,6 +86,7 @@ def test_load_legacy_save_marks_current_species_discovered(tmp_path):
     assert loaded.discovered_species_ids == ["agumon"]
     assert loaded.generation_stat_bonuses == {}
     assert loaded.pending_rebirth_stat_bonuses == {}
+    assert loaded.inventory == {}
 
 
 def test_load_creates_default_save_when_missing(tmp_path):
@@ -90,6 +105,7 @@ def test_load_creates_default_save_when_missing(tmp_path):
     assert loaded.discovered_species_ids == ["botamon"]
     assert loaded.generation_stat_bonuses == {}
     assert loaded.pending_rebirth_stat_bonuses == {}
+    assert loaded.inventory == {}
     assert path.exists()
 
 

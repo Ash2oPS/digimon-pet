@@ -46,6 +46,7 @@ class PetState:
     discovered_species_ids: list[str] = field(default_factory=list)
     generation_stat_bonuses: dict[str, int] = field(default_factory=dict)
     pending_rebirth_stat_bonuses: dict[str, int] = field(default_factory=dict)
+    inventory: dict[str, int] = field(default_factory=dict)
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -67,6 +68,7 @@ class PetState:
         self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
         self.generation_stat_bonuses = _clean_stat_bonuses(self.generation_stat_bonuses)
         self.pending_rebirth_stat_bonuses = _clean_stat_bonuses(self.pending_rebirth_stat_bonuses)
+        self.inventory = _clean_inventory(self.inventory)
 
     def mark_discovered(self, species_id: str | None = None) -> None:
         target_id = species_id or self.species_id
@@ -104,4 +106,12 @@ def _clean_stat_bonuses(bonuses: dict[str, int]) -> dict[str, int]:
         str(stat_name): max(0, int(value))
         for stat_name, value in bonuses.items()
         if str(stat_name) in valid_stats
+    }
+
+
+def _clean_inventory(inventory: dict[str, int]) -> dict[str, int]:
+    return {
+        str(item_id): int(quantity)
+        for item_id, quantity in inventory.items()
+        if str(item_id).strip() and int(quantity) > 0
     }

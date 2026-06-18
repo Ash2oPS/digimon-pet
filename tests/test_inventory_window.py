@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QApplication
 
 from digimon_pet.app.inventory_window import InventoryItem, InventorySlotWidget, InventoryWindow
 from digimon_pet.app.main_window import PetWindow
+from digimon_pet.domain.items import MONZAEMON_HEAD_ID
+from digimon_pet.domain.models import GrowthStage, PetState
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import save_store
 
@@ -62,3 +64,29 @@ def test_pet_window_opens_inventory_window():
 
     assert window._inventory_window is not None
     assert window._inventory_window.windowTitle() == "Inventaire"
+
+
+def test_pet_window_grants_monzaemon_head_on_launch():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+
+    assert window._state.inventory[MONZAEMON_HEAD_ID] == 1
+
+
+def test_pet_window_uses_monzaemon_head_from_inventory():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "numemon",
+            GrowthStage.CHAMPION,
+            inventory={MONZAEMON_HEAD_ID: 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+    window._open_inventory()
+
+    window._use_inventory_item(MONZAEMON_HEAD_ID)
+
+    assert window._state.species_id == "monzaemon"
+    assert window._state.inventory == {}

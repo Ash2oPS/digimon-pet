@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
-from digimon_pet.app.inventory_window import InventoryWindow
+from digimon_pet.app.inventory_window import InventoryItem, InventoryWindow
 from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.stats_window import StatsWindow
@@ -27,6 +27,7 @@ from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
+from digimon_pet.domain.items import EVOLUTION_ITEMS, grant_starting_items, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -35,6 +36,7 @@ from digimon_pet.domain.lifecycle import (
     next_lifecycle_event,
 )
 from digimon_pet.domain.models import PetState
+from digimon_pet.paths import PROJECT_ROOT
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
@@ -96,6 +98,8 @@ class PetWindow(QWidget):
         self._rng = random.Random()
         self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
         self._state = load_pet_state()
+        grant_starting_items(self._state)
+        save_pet_state(self._state)
         self._pending_lifecycle_kind: str | None = None
         self._lifecycle_animating = False
         self._lifecycle_resolved_during_animation = False
@@ -594,6 +598,7 @@ class PetWindow(QWidget):
         self._debug_panel.refresh(self._state, species, next_event)
         if self._stats_window is not None:
             self._stats_window.refresh(self._state, species)
+        self._refresh_inventory_window()
 
     def _set_lifecycle_schedule(self, schedule: EvolutionSchedule) -> None:
         self._lifecycle_schedule = schedule
@@ -669,10 +674,40 @@ class PetWindow(QWidget):
 
     def _open_inventory(self) -> None:
         if self._inventory_window is None:
-            self._inventory_window = InventoryWindow(parent=self)
+            self._inventory_window = InventoryWindow(item_used=self._use_inventory_item, parent=self)
+        self._refresh_inventory_window()
         self._inventory_window.show()
         self._inventory_window.raise_()
         self._inventory_window.activateWindow()
+
+    def _use_inventory_item(self, item_id: str) -> None:
+        discovered_before = set(self._state.discovered_species_ids)
+        result = use_item(self._state, item_id, self._species, self._rng)
+        if result.used and result.event is not None and result.event.startswith("evolved:"):
+            self._trigger_new_badge_if_needed(discovered_before)
+        self._save_and_refresh()
+
+    def _refresh_inventory_window(self) -> None:
+        if self._inventory_window is None:
+            return
+        self._inventory_window.set_items(self._inventory_items())
+
+    def _inventory_items(self) -> list[InventoryItem]:
+        items: list[InventoryItem] = []
+        for item_id, quantity in self._state.inventory.items():
+            definition = EVOLUTION_ITEMS.get(item_id)
+            icon_path = None
+            if definition is not None and definition.icon_path is not None:
+                icon_path = str(PROJECT_ROOT / definition.icon_path)
+            items.append(
+                InventoryItem(
+                    id=item_id,
+                    name=definition.name if definition is not None else item_id,
+                    quantity=quantity,
+                    icon_path=icon_path,
+                )
+            )
+        return items
 
     def toggle_debug(self) -> None:
         self._toggle_debug()

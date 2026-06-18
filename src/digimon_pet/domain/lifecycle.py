@@ -324,6 +324,10 @@ def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
     return f"evolved:{target.id}"
 
 
+def force_evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
+    return _evolve_to(state, target, rng)
+
+
 def _boost_evolution_stats(state: PetState, rng: random.Random) -> None:
     boosted_stats = set(rng.sample(INHERITED_STAT_NAMES, 2))
     for stat_name in INHERITED_STAT_NAMES:

@@ -81,6 +81,7 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         discovered_species_ids=_species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"])),
         generation_stat_bonuses=_stat_bonuses_from_raw(raw.get("generation_stat_bonuses")),
         pending_rebirth_stat_bonuses=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_bonuses")),
+        inventory=_inventory_from_raw(raw.get("inventory")),
     )
     state.mark_discovered()
     state.clamp()
@@ -97,3 +98,13 @@ def _stat_bonuses_from_raw(raw: Any) -> dict[str, int]:
     if not isinstance(raw, dict):
         return {}
     return {str(key): int(value) for key, value in raw.items()}
+
+
+def _inventory_from_raw(raw: Any) -> dict[str, int]:
+    if not isinstance(raw, dict):
+        return {}
+    return {
+        str(key): int(value)
+        for key, value in raw.items()
+        if str(key).strip() and int(value) > 0
+    }

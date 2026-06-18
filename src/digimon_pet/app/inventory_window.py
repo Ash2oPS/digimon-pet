@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -25,10 +26,12 @@ class InventoryWindow(QDialog):
     def __init__(
         self,
         slot_count: int = _DEFAULT_SLOT_COUNT,
+        item_used: Callable[[str], None] | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self._slots: list[InventorySlotWidget] = []
+        self._item_used = item_used
 
         self.setWindowTitle("Inventaire")
         self.setMinimumSize(430, 320)
@@ -50,7 +53,7 @@ class InventoryWindow(QDialog):
         grid.setVerticalSpacing(8)
 
         for index in range(slot_count):
-            slot = InventorySlotWidget(grid_host)
+            slot = InventorySlotWidget(self._use_item, grid_host)
             self._slots.append(slot)
             grid.addWidget(slot, index // self._COLUMNS, index % self._COLUMNS)
 
@@ -61,13 +64,22 @@ class InventoryWindow(QDialog):
         for index, slot in enumerate(self._slots):
             slot.set_item(items[index] if index < len(items) else None)
 
+    def _use_item(self, item_id: str) -> None:
+        if self._item_used is not None:
+            self._item_used(item_id)
+
 
 class InventorySlotWidget(QWidget):
     _SIZE = QSize(58, 58)
 
-    def __init__(self, parent: QWidget | None = None) -> None:
+    def __init__(
+        self,
+        item_used: Callable[[str], None] | None = None,
+        parent: QWidget | None = None,
+    ) -> None:
         super().__init__(parent)
         self.item: InventoryItem | None = None
+        self._item_used = item_used
         self.setObjectName("InventorySlot")
         self.setFixedSize(self._SIZE)
         self.setProperty("empty", True)
@@ -116,6 +128,14 @@ class InventorySlotWidget(QWidget):
                 Qt.TransformationMode.SmoothTransformation,
             )
         )
+
+    def mouseDoubleClickEvent(self, event) -> None:  # noqa: N802
+        if event.button() == Qt.MouseButton.LeftButton and self.item is not None:
+            if self._item_used is not None:
+                self._item_used(self.item.id)
+            event.accept()
+            return
+        super().mouseDoubleClickEvent(event)
 
 
 def _item_tooltip(item: InventoryItem) -> str:
