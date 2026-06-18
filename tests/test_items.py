@@ -297,10 +297,10 @@ def mixed_drop_catalog() -> ItemCatalog:
     )
 
 
-def test_weighted_item_choice_reserves_ten_percent_for_evolution_items():
+def test_weighted_item_choice_reserves_fifteen_percent_for_evolution_items():
     catalog = mixed_drop_catalog()
 
-    assert choose_weighted_item(catalog, "test", FixedRandom([10, 1])) == "evo_a"
-    assert choose_weighted_item(catalog, "test", FixedRandom([10, 2])) == "evo_b"
-    assert choose_weighted_item(catalog, "test", FixedRandom([11, 2])) == "normal_a"
+    assert choose_weighted_item(catalog, "test", FixedRandom([15, 1])) == "evo_a"
+    assert choose_weighted_item(catalog, "test", FixedRandom([15, 2])) == "evo_b"
+    assert choose_weighted_item(catalog, "test", FixedRandom([16, 2])) == "normal_a"
     assert choose_weighted_item(catalog, "test", FixedRandom([100, 9])) == "normal_b"

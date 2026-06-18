@@ -10,6 +10,8 @@ from digimon_pet.domain.models import GrowthStage, PetState, Species
 
 
 MONZAEMON_HEAD_ID = "monzaemon_head"
+EVOLUTION_ITEM_POOL_PERCENT = 15
+NORMAL_ITEM_POOL_PERCENT_WITH_EVOLUTIONS = 100 - EVOLUTION_ITEM_POOL_PERCENT
 
 
 class ItemType(StrEnum):
@@ -148,7 +150,7 @@ def choose_weighted_item(
 ) -> str | None:
     normal_entries, evolution_entries = _eligible_pool_entries_by_type(catalog, pool_name)
     if normal_entries and evolution_entries:
-        if rng.randint(1, 100) <= 10:
+        if rng.randint(1, 100) <= EVOLUTION_ITEM_POOL_PERCENT:
             return evolution_entries[rng.randint(1, len(evolution_entries)) - 1].item_id
         return _choose_weighted_entry(normal_entries, rng)
 
@@ -178,7 +180,7 @@ def item_drop_chance_percent(
     if item.type == ItemType.EVOLUTION:
         if not any(entry.item_id == item_id for entry in evolution_entries):
             return 0
-        category_percent = 10 if normal_entries else 100
+        category_percent = EVOLUTION_ITEM_POOL_PERCENT if normal_entries else 100
         return round(category_percent / len(evolution_entries))
 
     selected_weight = next(
@@ -188,7 +190,7 @@ def item_drop_chance_percent(
     total_normal_weight = sum(entry.weight for entry in normal_entries)
     if selected_weight <= 0 or total_normal_weight <= 0:
         return 0
-    category_percent = 90 if evolution_entries else 100
+    category_percent = NORMAL_ITEM_POOL_PERCENT_WITH_EVOLUTIONS if evolution_entries else 100
     return max(0, min(100, round(category_percent * selected_weight / total_normal_weight)))
 
 

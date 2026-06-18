@@ -399,22 +399,22 @@ def test_item_manager_updates_drop_chance_while_editing_weight():
     assert "67%" in window._drop_chance_label.text()
 
 
-def test_item_manager_drop_chance_reserves_ten_percent_for_evolution_items():
+def test_item_manager_drop_chance_reserves_fifteen_percent_for_evolution_items():
     app = QApplication.instance() or QApplication([])
     window = ItemManagerWindow(mixed_drop_catalog(), species_map(), Path.cwd())
 
-    assert window._drop_chance_bar.value() == 20
-    assert "20%" in window._drop_chance_label.text()
+    assert window._drop_chance_bar.value() == 19
+    assert "19%" in window._drop_chance_label.text()
 
     window._item_list.setCurrentRow(1)
 
-    assert window._drop_chance_bar.value() == 70
-    assert "70%" in window._drop_chance_label.text()
+    assert window._drop_chance_bar.value() == 66
+    assert "66%" in window._drop_chance_label.text()
 
     window._item_list.setCurrentRow(2)
 
-    assert window._drop_chance_bar.value() == 5
-    assert "5%" in window._drop_chance_label.text()
+    assert window._drop_chance_bar.value() == 8
+    assert "8%" in window._drop_chance_label.text()
 
 
 def test_item_manager_edits_evolution_conditions(tmp_path):
