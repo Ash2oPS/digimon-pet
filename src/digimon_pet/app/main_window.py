@@ -35,7 +35,7 @@ from digimon_pet.domain.lifecycle import (
     choose_rebirth,
     next_lifecycle_event,
 )
-from digimon_pet.domain.models import PetState
+from digimon_pet.domain.models import GrowthStage, PetState
 from digimon_pet.paths import PROJECT_ROOT
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
@@ -355,12 +355,20 @@ class PetWindow(QWidget):
         self._save_and_refresh()
 
     def _apply_passive_stat_growth(self, previous_age_seconds: int) -> None:
-        elapsed_minutes = self._state.age_seconds // 60 - max(0, previous_age_seconds) // 60
-        for _index in range(max(0, elapsed_minutes)):
+        previous_minutes = max(0, previous_age_seconds) // 60
+        elapsed_minutes = self._state.age_seconds // 60 - previous_minutes
+        for index in range(max(0, elapsed_minutes)):
             stat_name = self._rng.choice(PASSIVE_GROWTH_STATS)
-            increment = 10 if stat_name in {"hp", "mp"} else 1
+            current_minute = previous_minutes + index + 1
+            increment = self._passive_stat_increment(stat_name, current_minute)
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
         self._state.clamp()
+
+    def _passive_stat_increment(self, stat_name: str, current_minute: int) -> int:
+        increment = 10 if stat_name in {"hp", "mp"} else 1
+        if self._state.stage == GrowthStage.ULTIMATE and current_minute % 3 == 0:
+            return increment * 2
+        return increment
 
     def _move_pet(self) -> None:
         if not self._overlay:
@@ -581,7 +589,7 @@ class PetWindow(QWidget):
             return
         gains: dict[str, int] = {}
         for stat_name in self._rng.sample(BONUS_STATS, 2):
-            increment = 100 if stat_name in {"hp", "mp"} else 10
+            increment = self._secondary_event_stat_increment(stat_name)
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
             gains[stat_name] = increment
         self._state.clamp()
@@ -598,6 +606,11 @@ class PetWindow(QWidget):
 
     def _next_secondary_event_delay(self) -> int:
         return self._rng.randint(SECONDARY_EVENT_MIN_SECONDS, SECONDARY_EVENT_MAX_SECONDS)
+
+    def _secondary_event_stat_increment(self, stat_name: str) -> int:
+        if self._state.stage == GrowthStage.ULTIMATE:
+            return 120 if stat_name in {"hp", "mp"} else 12
+        return 100 if stat_name in {"hp", "mp"} else 10
 
     def _save_and_refresh(self) -> None:
         save_pet_state(self._state)

@@ -436,6 +436,36 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
     assert window._pet_widget._stat_gain_labels == ["+100HP", "+10OFF"]
 
 
+def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.stage = GrowthStage.ULTIMATE
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._show_secondary_event("dumbbell")
+
+    window._claim_secondary_event()
+
+    assert window._state.hp == 420
+    assert window._state.offense == 42
+    assert window._pet_widget._stat_gain_labels == ["+120HP", "+12OFF"]
+
+
+def test_passive_ultimate_growth_doubles_every_third_minute(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = 3 * 60
+    window._rng = _FixedChoiceRng("hp")
+
+    window._apply_passive_stat_growth(previous_age_seconds=0)
+
+    assert window._state.hp == 340
+
+
 def test_secondary_event_does_not_override_pending_lifecycle(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
