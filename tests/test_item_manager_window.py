@@ -266,6 +266,25 @@ def test_item_manager_adds_new_item_with_unique_id():
     assert window._item_list.count() == 3
 
 
+def test_item_manager_duplicates_selected_item_with_incremented_id_and_name():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    window.duplicate_selected_item()
+    window.duplicate_selected_item()
+
+    assert "monzaemon_head_2" in window._catalog.items
+    assert "monzaemon_head_3" in window._catalog.items
+    assert window._catalog.items["monzaemon_head_2"].name == "Monzaemon's Head 2"
+    assert window._catalog.items["monzaemon_head_3"].name == "Monzaemon's Head 3"
+    assert window._catalog.items["monzaemon_head_2"].evolution == window._catalog.items["monzaemon_head"].evolution
+    assert window._catalog.pools["secondary_event"][-2:] == (
+        ItemPoolEntry(item_id="monzaemon_head_2", weight=1),
+        ItemPoolEntry(item_id="monzaemon_head_3", weight=1),
+    )
+    assert window._selected_item_key() == "monzaemon_head_3"
+
+
 def test_item_manager_add_from_empty_catalog_loads_new_item():
     app = QApplication.instance() or QApplication([])
     catalog = ItemCatalog(items={}, pools={"secondary_event": ()})

@@ -207,6 +207,10 @@ class ItemManagerWindow(QWidget):
         self._add_button.clicked.connect(self.add_item)
         button_row.addWidget(self._add_button)
 
+        self._duplicate_button = QPushButton("Duplicate", self)
+        self._duplicate_button.clicked.connect(self.duplicate_selected_item)
+        button_row.addWidget(self._duplicate_button)
+
         self._delete_button = QPushButton("Delete", self)
         self._delete_button.clicked.connect(self.delete_selected_item)
         button_row.addWidget(self._delete_button)
@@ -334,6 +338,7 @@ class ItemManagerWindow(QWidget):
             self._drop_chance_label,
         ):
             widget.setEnabled(has_item)
+        self._duplicate_button.setEnabled(has_item)
         self._delete_button.setEnabled(has_item)
         self._save_button.setEnabled(True)
 
@@ -427,6 +432,45 @@ class ItemManagerWindow(QWidget):
         while f"new_item_{index}" in self._catalog.items:
             index += 1
         return f"new_item_{index}"
+
+    def duplicate_selected_item(self) -> None:
+        item_key = self._selected_item_key()
+        item = self._catalog.items.get(item_key or "")
+        if item_key is None or item is None:
+            return
+
+        base_item_id = _duplicate_base_id(item.id)
+        base_name = _duplicate_base_name(item.name)
+        item_id = self._next_duplicate_item_id(base_item_id)
+        duplicate = ItemDefinition(
+            id=item_id,
+            name=self._next_duplicate_item_name(base_name, base_item_id, item_id),
+            description=item.description,
+            type=item.type,
+            icon_path=item.icon_path,
+            evolution=item.evolution,
+        )
+        self._catalog.items[item_id] = duplicate
+        self._set_secondary_event_weight(item_id, self._secondary_event_weight_for_item(item.id))
+        self._refresh_item_list(selected_id=item_id)
+        self._item_list.setCurrentRow(self._row_for_item_key(item_id))
+        self._load_selected_item(self._item_list.currentRow())
+        self._validate_current_catalog()
+
+    def _next_duplicate_item_id(self, source_item_id: str) -> str:
+        index = 2
+        while f"{source_item_id}_{index}" in self._catalog.items:
+            index += 1
+        return f"{source_item_id}_{index}"
+
+    def _next_duplicate_item_name(
+        self,
+        source_name: str,
+        source_item_id: str,
+        duplicate_item_id: str,
+    ) -> str:
+        suffix = duplicate_item_id.removeprefix(f"{source_item_id}_")
+        return f"{source_name} {suffix}"
 
     def delete_selected_item(self) -> None:
         item_key = self._selected_item_key()
@@ -536,6 +580,12 @@ class ItemManagerWindow(QWidget):
             entries.append(ItemPoolEntry(item_id=item_id, weight=weight))
         self._set_catalog_pools({**self._catalog.pools, "secondary_event": tuple(entries)})
 
+    def _secondary_event_weight_for_item(self, item_id: str) -> int:
+        for entry in self._catalog.pools.get("secondary_event", ()):
+            if entry.item_id == item_id:
+                return entry.weight
+        return 0
+
     def _refresh_drop_chance(self) -> None:
         if not hasattr(self, "_drop_chance_bar"):
             return
@@ -599,6 +649,14 @@ def _item_id_from_name(name: str) -> str:
     item_id = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
     item_id = re.sub(r"_+", "_", item_id)
     return item_id or "new_item"
+
+
+def _duplicate_base_id(item_id: str) -> str:
+    return re.sub(r"_\d+$", "", item_id)
+
+
+def _duplicate_base_name(name: str) -> str:
+    return re.sub(r"\s+\d+$", "", name)
 
 
 def _project_relative_path(path: Path, project_root: Path) -> str:
