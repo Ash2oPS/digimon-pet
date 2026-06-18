@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
@@ -107,6 +108,7 @@ class ItemManagerWindow(QWidget):
         self._project_root = project_root
         self._save_path = save_path or project_root / "data" / "items.json"
         self._loading_item = False
+        self._id_autocomplete_enabled = True
 
         self.setWindowTitle("Item Manager")
         self.setMinimumSize(820, 560)
@@ -144,9 +146,15 @@ class ItemManagerWindow(QWidget):
         self._type_input.addItems([item_type.value for item_type in ItemType])
         self._target_species_input = QComboBox(self)
         self._target_species_input.addItems(sorted(species))
-        self._required_species_input = QLineEdit(self)
+        self._required_species_input = QComboBox(self)
+        self._required_species_input.addItem("")
+        self._required_species_input.addItems(sorted(species))
         self._required_stages_input = QLineEdit(self)
         self._icon_path_input = QLineEdit(self)
+        self._icon_preview = QLabel(self)
+        self._icon_preview.setObjectName("IconPreview")
+        self._icon_preview.setFixedSize(72, 72)
+        self._icon_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._weight_input = QSpinBox(self)
         self._weight_input.setRange(0, 999999)
 
@@ -158,6 +166,7 @@ class ItemManagerWindow(QWidget):
         form.addRow("Required Species", self._required_species_input)
         form.addRow("Required Stages", self._required_stages_input)
         form.addRow("Icon Path", self._icon_path_input)
+        form.addRow("Sprite Preview", self._icon_preview)
         form.addRow("Secondary Weight", self._weight_input)
         right_side.addLayout(form)
 
@@ -193,6 +202,9 @@ class ItemManagerWindow(QWidget):
         body.addLayout(right_side, 2)
         layout.addLayout(body, 1)
 
+        self._id_input.textEdited.connect(self._disable_id_autocomplete)
+        self._name_input.textChanged.connect(self._autocomplete_id_from_name)
+        self._icon_path_input.textChanged.connect(self._refresh_icon_preview)
         self._item_list.currentRowChanged.connect(self._load_selected_item)
         if self._item_list.count() > 0:
             self._item_list.setCurrentRow(0)
@@ -225,6 +237,45 @@ class ItemManagerWindow(QWidget):
             return None
         key = current.data(Qt.ItemDataRole.UserRole)
         return str(key) if key is not None else None
+
+    def _disable_id_autocomplete(self) -> None:
+        self._id_autocomplete_enabled = False
+
+    def _autocomplete_id_from_name(self, name: str) -> None:
+        if self._loading_item or not self._id_autocomplete_enabled:
+            return
+        self._id_input.setText(_item_id_from_name(name))
+
+    def _refresh_icon_preview(self) -> None:
+        icon_path = self._icon_path_input.text().strip()
+        if not icon_path:
+            self._icon_preview.clear()
+            self._icon_preview.setText("No sprite")
+            return
+
+        path = Path(icon_path)
+        if not path.is_absolute():
+            path = self._project_root / path
+        if not path.exists():
+            self._icon_preview.clear()
+            self._icon_preview.setText("Missing")
+            return
+
+        pixmap = QPixmap(str(path))
+        if pixmap.isNull():
+            self._icon_preview.clear()
+            self._icon_preview.setText("Invalid")
+            return
+
+        self._icon_preview.setText("")
+        self._icon_preview.setPixmap(
+            pixmap.scaled(
+                64,
+                64,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+        )
 
     def _update_editor_enabled_state(self) -> None:
         has_item = self._selected_item_key() is not None
@@ -268,13 +319,14 @@ class ItemManagerWindow(QWidget):
         self._description_input.setPlainText(item.description)
         self._type_input.setCurrentText(item.type.value)
         self._icon_path_input.setText(item.icon_path or "")
+        self._refresh_icon_preview()
 
         target_species_id = item.evolution.target_species_id if item.evolution else ""
         target_index = self._target_species_input.findText(target_species_id)
         self._target_species_input.setCurrentIndex(target_index)
-        self._required_species_input.setText(
-            ", ".join(item.evolution.required_species_ids) if item.evolution else ""
-        )
+        required_species_id = item.evolution.required_species_ids[0] if item.evolution and item.evolution.required_species_ids else ""
+        required_species_index = self._required_species_input.findText(required_species_id)
+        self._required_species_input.setCurrentIndex(required_species_index)
         self._required_stages_input.setText(
             ", ".join(
                 str(stage.value if isinstance(stage, GrowthStage) else stage)
@@ -291,6 +343,7 @@ class ItemManagerWindow(QWidget):
                 break
         self._weight_input.setValue(weight)
         self._loading_item = False
+        self._id_autocomplete_enabled = True
         self._update_editor_enabled_state()
 
     def _clear_editor_fields(self) -> None:
@@ -299,9 +352,11 @@ class ItemManagerWindow(QWidget):
         self._description_input.clear()
         self._type_input.setCurrentIndex(0)
         self._target_species_input.setCurrentIndex(-1)
-        self._required_species_input.clear()
+        self._required_species_input.setCurrentIndex(0)
         self._required_stages_input.clear()
         self._icon_path_input.clear()
+        self._icon_preview.clear()
+        self._icon_preview.setText("No sprite")
         self._weight_input.setValue(0)
 
     def add_item(self) -> None:
@@ -365,9 +420,10 @@ class ItemManagerWindow(QWidget):
         item_type = ItemType(self._type_input.currentText())
         evolution = None
         if item_type == ItemType.EVOLUTION:
+            required_species_id = self._required_species_input.currentText().strip()
             evolution = EvolutionItemEffect(
                 target_species_id=self._target_species_input.currentText().strip(),
-                required_species_ids=tuple(_split_csv(self._required_species_input.text())),
+                required_species_ids=(required_species_id,) if required_species_id else (),
                 required_stages=tuple(
                     _parse_growth_stage(value)
                     for value in _split_csv(self._required_stages_input.text())
@@ -465,6 +521,12 @@ class ItemManagerWindow(QWidget):
 
 def _split_csv(raw: str) -> list[str]:
     return [value.strip() for value in raw.split(",") if value.strip()]
+
+
+def _item_id_from_name(name: str) -> str:
+    item_id = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+    item_id = re.sub(r"_+", "_", item_id)
+    return item_id or "new_item"
 
 
 def _parse_growth_stage(raw: str) -> GrowthStage | str:

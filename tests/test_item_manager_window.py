@@ -280,14 +280,50 @@ def test_item_manager_edits_evolution_conditions(tmp_path):
         save_path=save_path,
     )
 
-    window._required_species_input.setText("numemon, agumon")
+    window._required_species_input.setCurrentText("agumon")
     window._required_stages_input.setText("champion, ultimate")
 
     assert window.save_catalog() is True
     raw = json.loads(save_path.read_text(encoding="utf-8"))
     evolution = raw["items"][0]["evolution"]
-    assert evolution["required_species_ids"] == ["numemon", "agumon"]
+    assert evolution["required_species_ids"] == ["agumon"]
     assert evolution["required_stages"] == ["champion", "ultimate"]
+
+
+def test_item_manager_previews_icon_path():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    assert window._icon_preview.pixmap() is not None
+    assert not window._icon_preview.pixmap().isNull()
+
+
+def test_item_manager_autocompletes_id_from_name():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    window.add_item()
+    window._name_input.setText("Special Evolution Disk")
+
+    assert window._id_input.text() == "special_evolution_disk"
+
+
+def test_item_manager_uses_required_species_dropdown(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    assert window._required_species_input.findText("agumon") >= 0
+    window._required_species_input.setCurrentText("agumon")
+
+    assert window.save_catalog() is True
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    assert raw["items"][0]["evolution"]["required_species_ids"] == ["agumon"]
 
 
 def test_item_manager_rejects_duplicate_id_without_rewriting_pools(tmp_path):
