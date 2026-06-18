@@ -15,10 +15,11 @@ from PySide6.QtWidgets import (
 
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.domain.items import ItemCatalog, ItemDefinition, ItemPoolEntry, ItemType
-from digimon_pet.domain.models import Species
+from digimon_pet.domain.models import GrowthStage, Species
 
 
 ITEM_ID_PATTERN = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
+GROWTH_STAGE_VALUES = {stage.value for stage in GrowthStage}
 
 
 def validate_item_catalog(
@@ -40,7 +41,7 @@ def validate_item_catalog(
             errors.append(f"Duplicate item id: {item.id}")
         seen_ids.add(item.id)
 
-        if not item.name:
+        if not item.name.strip():
             errors.append(f"{item.id} name is required")
 
         if item.icon_path and not (project_root / item.icon_path).exists():
@@ -58,6 +59,13 @@ def validate_item_catalog(
             for species_id in item.evolution.required_species_ids:
                 if species_id not in species:
                     errors.append(f"{item.id} requires unknown species: {species_id}")
+
+            for stage in item.evolution.required_stages:
+                if (
+                    not isinstance(stage, GrowthStage)
+                    and str(stage) not in GROWTH_STAGE_VALUES
+                ):
+                    errors.append(f"{item.id} requires unknown stage: {stage}")
 
     item_ids = {item.id for item in items}
     for pool_name, entries in pools.items():

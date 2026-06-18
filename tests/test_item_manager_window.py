@@ -63,6 +63,36 @@ def test_validate_item_catalog_rejects_unknown_evolution_target():
     assert "bad_disk targets unknown species: missingmon" in errors
 
 
+def test_validate_item_catalog_rejects_unknown_required_stage():
+    item = ItemDefinition(
+        id="bad_disk",
+        name="Bad Disk",
+        description="Invalid required stage.",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(
+            target_species_id="monzaemon",
+            required_stages=("not_a_stage",),
+        ),
+    )
+
+    errors = validate_item_catalog([item], {}, species_map(), Path.cwd())
+
+    assert "bad_disk requires unknown stage: not_a_stage" in errors
+
+
+def test_validate_item_catalog_rejects_blank_name():
+    item = ItemDefinition(
+        id="blank_item",
+        name="   ",
+        description="Blank item name.",
+        type=ItemType.MISC,
+    )
+
+    errors = validate_item_catalog([item], {}, species_map(), Path.cwd())
+
+    assert "blank_item name is required" in errors
+
+
 def test_validate_item_catalog_rejects_negative_weights():
     catalog = valid_catalog()
 
