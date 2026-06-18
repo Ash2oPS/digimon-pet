@@ -156,17 +156,6 @@ def _requirement_distance(state: PetState, requirements: dict[str, Any]) -> int:
     if isinstance(stats, dict):
         score += sum(abs(getattr(state, stat_name, 0) - int(required)) for stat_name, required in stats.items())
 
-    weight = groups.get("weight")
-    if isinstance(weight, dict):
-        if "target" in weight:
-            score += abs(state.weight - int(weight["target"]))
-        else:
-            score += _range_distance(state.weight, weight.get("min"), weight.get("max"))
-
-    care_mistakes = groups.get("care_mistakes")
-    if isinstance(care_mistakes, dict):
-        score += _range_distance(state.care_mistakes, care_mistakes.get("min"), care_mistakes.get("max"))
-
     return score
 
 
@@ -205,26 +194,12 @@ def _matches_special_trigger(state: PetState, trigger: str) -> bool:
     lowered = trigger.lower()
     if "full virus bar" in lowered:
         return False
-    if "0 happiness" in lowered and "0 discipline" in lowered:
-        return state.happiness == 0 and state.discipline == 0
-    if "discipline <= 50" in lowered:
-        return state.discipline <= 50
-    if "lose a life" in lowered:
-        return state.care_mistakes >= 10
-    if "wake up with 100 discipline" in lowered:
-        return state.discipline >= 100 and state.happiness >= 100 and state.fatigue == 0
-    if "100 discipline" in lowered and ">=50 won battles" in lowered:
-        return state.discipline >= 100 and state.won_battles >= 50
-    if "100 discipline" in lowered and ">=500 defense" in lowered:
-        return state.discipline >= 100 and state.defense >= 500
     if "praise or scold" in lowered and "evolution counter at least 240h" in lowered:
         return state.stage == GrowthStage.CHAMPION and state.current_action in {"happy", "angry"}
     if "monzaemon suit" in lowered:
         return False
     if "guardromon" in lowered:
         return state.species_id == "mamemon"
-    if "scold or praise" in lowered:
-        return state.discipline >= 80 or state.happiness >= 80
     if "sleep in kunemon" in lowered:
         return False
     return False
@@ -237,17 +212,7 @@ def _matches_known_requirements(
     target: Species | None = None,
 ) -> bool:
     groups = requirements.get("groups", {})
-    base_matches = 0
-
-    if _matches_stats(state, groups.get("stats"), target=target):
-        base_matches += 1
-    if _matches_weight(state, groups.get("weight")):
-        base_matches += 1
-    if _matches_care_mistakes(state, groups.get("care_mistakes")):
-        base_matches += 1
-
-    bonus_matches = _matches_bonus(state, groups.get("bonus"))
-    return base_matches >= 3 or (base_matches >= 2 and bonus_matches)
+    return _matches_stats(state, groups.get("stats"), target=target)
 
 
 def _matches_stats(
@@ -263,57 +228,6 @@ def _matches_stats(
     if state.stage == GrowthStage.ROOKIE and target is not None and target.stage == GrowthStage.CHAMPION:
         required_matches = min(3, required_matches)
     return matching_stats >= required_matches
-
-
-def _matches_weight(state: PetState, rule: dict[str, Any] | None) -> bool:
-    if not rule:
-        return False
-    return int(rule.get("min", 0)) <= state.weight <= int(rule.get("max", 9999))
-
-
-def _range_distance(value: int, minimum: Any, maximum: Any) -> int:
-    if minimum is not None and value < int(minimum):
-        return int(minimum) - value
-    if maximum is not None and value > int(maximum):
-        return value - int(maximum)
-    return 0
-
-
-def _matches_care_mistakes(state: PetState, rule: dict[str, Any] | None) -> bool:
-    if not rule:
-        return False
-    if "min" in rule and state.care_mistakes < int(rule["min"]):
-        return False
-    if "max" in rule and state.care_mistakes > int(rule["max"]):
-        return False
-    return True
-
-
-def _matches_bonus(state: PetState, rule: dict[str, Any] | None) -> bool:
-    if not rule:
-        return False
-    return any(_matches_bonus_condition(state, item) for item in rule.get("any_of", []))
-
-
-def _matches_bonus_condition(state: PetState, condition: dict[str, Any]) -> bool:
-    condition_type = condition.get("type")
-    if condition_type == "current_digimon":
-        return condition.get("species_id") == state.species_id
-    if condition_type == "discipline":
-        return state.discipline >= int(condition.get("min", 0))
-    if condition_type == "happiness":
-        return state.happiness >= int(condition.get("min", 0))
-    if condition_type == "won_battles":
-        if "min" in condition and state.won_battles < int(condition["min"]):
-            return False
-        if "max" in condition and state.won_battles > int(condition["max"]):
-            return False
-        return True
-    if condition_type == "techniques_mastered":
-        return state.techniques_mastered >= int(condition.get("min", 0))
-    if condition_type == "internal_flags":
-        return False
-    return False
 
 
 def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:

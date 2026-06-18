@@ -82,8 +82,6 @@ class EvolutionRule:
     source_species_id: str
     target_species_id: str
     min_age_seconds: int
-    max_care_mistakes: int | None = None
-    min_discipline: int | None = None
     min_training_count: int | None = None
     priority: int = 0
 

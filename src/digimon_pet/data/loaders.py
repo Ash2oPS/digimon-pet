@@ -47,8 +47,6 @@ def _rule_from_dict(raw: dict[str, Any]) -> EvolutionRule:
         source_species_id=str(raw["source_species_id"]),
         target_species_id=str(raw["target_species_id"]),
         min_age_seconds=int(raw["min_age_seconds"]),
-        max_care_mistakes=_optional_int(raw.get("max_care_mistakes")),
-        min_discipline=_optional_int(raw.get("min_discipline")),
         min_training_count=_optional_int(raw.get("min_training_count")),
         priority=int(raw.get("priority", 0)),
     )

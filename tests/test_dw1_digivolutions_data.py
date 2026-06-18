@@ -19,7 +19,7 @@ def test_dw1_digivolutions_has_expected_sources_and_counts():
     assert data["sources"]["anaiadnamedlaura_tumblr"] == "https://anaiadnamedlaura.tumblr.com/digivolution"
     assert len(data["digimon"]) == 65
     assert len(data["natural_evolutions"]) == 113
-    assert len(data["special_evolutions"]) == 16
+    assert len(data["special_evolutions"]) == 7
 
 
 def test_dw1_digivolutions_contains_known_natural_paths():
@@ -28,19 +28,36 @@ def test_dw1_digivolutions_contains_known_natural_paths():
 
     agumon_to_greymon = transitions["agumon__to__greymon"]
     assert agumon_to_greymon["requirements"]["groups"]["stats"]["offense"] == 100
-    assert agumon_to_greymon["requirements"]["groups"]["care_mistakes"]["max"] == 1
-    assert agumon_to_greymon["requirements"]["groups"]["weight"] == {
-        "target": 30,
-        "min": 25,
-        "max": 35,
-    }
 
     greymon_to_metalgreymon = transitions["greymon__to__metalgreymon"]
     assert greymon_to_metalgreymon["requirements"]["groups"]["stats"]["hp"] == 4000
-    assert {
-        "type": "discipline",
-        "min": 95,
-    } in greymon_to_metalgreymon["requirements"]["groups"]["bonus"]["any_of"]
+
+
+def test_dw1_digivolutions_only_use_stat_requirements_for_natural_paths():
+    data = load_dw1_digivolutions()
+
+    for transition in data["natural_evolutions"]:
+        groups = transition["requirements"]["groups"]
+
+        assert set(groups) <= {"stats"}
+
+
+def test_dw1_digivolutions_special_paths_do_not_use_removed_care_conditions():
+    data = load_dw1_digivolutions()
+    removed_trigger_terms = (
+        "0 happiness",
+        "0 discipline",
+        "discipline <=",
+        "100 discipline",
+        ">=50 won battles",
+        "lose a life",
+        "scold or praise",
+    )
+
+    for transition in data["special_evolutions"]:
+        trigger = transition["trigger"].lower()
+
+        assert not any(term in trigger for term in removed_trigger_terms)
 
 
 def test_dw1_digivolutions_contains_special_paths():

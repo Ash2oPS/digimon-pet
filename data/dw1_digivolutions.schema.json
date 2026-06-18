@@ -219,14 +219,13 @@
       "required": ["mode", "required_group_count", "alternate", "available_base_group_count", "has_bonus_group", "groups"],
       "properties": {
         "mode": {
-          "const": "natural_3_groups_or_2_plus_bonus"
+          "const": "stats_only"
         },
         "required_group_count": {
-          "const": 3
+          "const": 1
         },
         "alternate": {
-          "type": "object",
-          "required": ["base_group_count", "requires_bonus"]
+          "type": "null"
         },
         "available_base_group_count": {
           "type": "integer",

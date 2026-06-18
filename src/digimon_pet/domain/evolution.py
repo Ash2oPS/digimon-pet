@@ -23,11 +23,6 @@ def choose_evolution(
 def _matches_rule(state: PetState, rule: EvolutionRule) -> bool:
     if state.age_seconds < rule.min_age_seconds:
         return False
-    if rule.max_care_mistakes is not None and state.care_mistakes > rule.max_care_mistakes:
-        return False
-    if rule.min_discipline is not None and state.discipline < rule.min_discipline:
-        return False
     if rule.min_training_count is not None and state.training_count < rule.min_training_count:
         return False
     return True
-
