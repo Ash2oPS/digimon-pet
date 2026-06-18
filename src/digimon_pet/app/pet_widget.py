@@ -438,6 +438,11 @@ class PetWidget(QWidget):
 
         painter.save()
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        if kind == "secondary_item":
+            self._draw_item_prompt_icon(painter, rect.center())
+            painter.restore()
+            return
+
         path = QPainterPath()
         path.addRoundedRect(rect, 10, 10)
         tail = QPainterPath()
@@ -463,8 +468,6 @@ class PetWidget(QWidget):
             self._draw_meat_prompt_icon(painter, rect.center())
         elif kind == "secondary_dumbbell":
             self._draw_dumbbell_prompt_icon(painter, rect.center())
-        elif kind == "secondary_item":
-            self._draw_item_prompt_icon(painter, rect.center())
         painter.restore()
 
     def _draw_evolution_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
@@ -529,12 +532,15 @@ class PetWidget(QWidget):
         painter.drawRoundedRect(QRect(center.x() + 5, center.y() - 7, 5, 8), 2, 2)
 
     def _draw_item_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
-        outline = QColor(65, 43, 24)
-        painter.setPen(QPen(outline, 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
-        painter.setBrush(QColor(255, 211, 52))
-        painter.drawRoundedRect(QRect(center.x() - 10, center.y() - 10, 20, 20), 5, 5)
-        painter.setPen(QPen(outline, 3, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
-        painter.drawText(QRect(center.x() - 8, center.y() - 10, 16, 20), Qt.AlignmentFlag.AlignCenter, "?")
+        scale = 5
+        text = "?"
+        width = _pixel_text_width(text, scale)
+        height = 5 * scale
+        x = center.x() - width // 2
+        y = center.y() - height // 2
+        for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2)]:
+            _draw_pixel_text(painter, text, x + dx, y + dy, scale, QColor(65, 43, 24, 235))
+        _draw_pixel_text(painter, text, x, y, scale, QColor(255, 250, 214))
 
     def _draw_new_badge(self, painter: QPainter) -> None:
         if self._new_badge_elapsed_ms <= 0:
