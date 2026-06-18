@@ -113,3 +113,37 @@ def test_item_manager_window_can_open_with_catalog():
 
     assert window.windowTitle() == "Item Manager"
     assert window._item_list.count() == 1
+
+
+def test_item_manager_blocks_save_when_validation_fails(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    item = ItemDefinition(
+        id="bad_disk",
+        name="Bad Disk",
+        description="Invalid evolution target.",
+        type=ItemType.EVOLUTION,
+        evolution=EvolutionItemEffect(target_species_id="missingmon"),
+    )
+    catalog = ItemCatalog(
+        items={item.id: item},
+        pools={"secondary_event": (ItemPoolEntry(item_id=item.id, weight=1),)},
+    )
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(catalog, species_map(), Path.cwd(), save_path=save_path)
+
+    assert window.save_catalog() is False
+    assert not save_path.exists()
+
+
+def test_item_manager_saves_valid_catalog(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    assert window.save_catalog() is True
+    assert '"monzaemon_head"' in save_path.read_text(encoding="utf-8")
