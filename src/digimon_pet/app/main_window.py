@@ -24,6 +24,7 @@ from digimon_pet.app.pet_widget import PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
+from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
@@ -683,6 +684,7 @@ class PetWindow(QWidget):
             self._digivolutions,
             self,
         )
+        self._position_secondary_window(self._collection_dialog)
         self._collection_dialog.show()
         self._collection_dialog.raise_()
         self._collection_dialog.activateWindow()
@@ -691,6 +693,7 @@ class PetWindow(QWidget):
         if self._stats_window is None:
             self._stats_window = StatsWindow(self)
         self._stats_window.refresh(self._state, self._species[self._state.species_id])
+        self._position_secondary_window(self._stats_window)
         self._stats_window.show()
         self._stats_window.raise_()
         self._stats_window.activateWindow()
@@ -699,9 +702,19 @@ class PetWindow(QWidget):
         if self._inventory_window is None:
             self._inventory_window = InventoryWindow(item_used=self._use_inventory_item, parent=self)
         self._refresh_inventory_window()
+        self._position_secondary_window(self._inventory_window)
         self._inventory_window.show()
         self._inventory_window.raise_()
         self._inventory_window.activateWindow()
+
+    def _position_secondary_window(self, window: QWidget) -> None:
+        window.adjustSize()
+        window_size = window.size().expandedTo(window.minimumSize()).expandedTo(window.sizeHint())
+        pet_geometry = self.frameGeometry()
+        screen = QGuiApplication.screenAt(pet_geometry.center()) or QApplication.primaryScreen()
+        if screen is None:
+            return
+        window.move(offset_window_position(pet_geometry, window_size, screen.availableGeometry()))
 
     def _use_inventory_item(self, item_id: str) -> None:
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
