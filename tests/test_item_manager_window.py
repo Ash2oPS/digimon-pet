@@ -1,4 +1,5 @@
 import os
+import json
 from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -18,6 +19,7 @@ from digimon_pet.domain.models import GrowthStage, Species
 
 def species_map() -> dict[str, Species]:
     return {
+        "agumon": Species("agumon", "Agumon", GrowthStage.ROOKIE),
         "numemon": Species("numemon", "Numemon", GrowthStage.CHAMPION),
         "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
     }
@@ -147,3 +149,87 @@ def test_item_manager_saves_valid_catalog(tmp_path):
 
     assert window.save_catalog() is True
     assert '"monzaemon_head"' in save_path.read_text(encoding="utf-8")
+
+
+def test_item_manager_applies_field_edits_before_save(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    window._name_input.setText("Edited Head")
+    window._description_input.setPlainText("Edited description.")
+
+    assert window.save_catalog() is True
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    item = raw["items"][0]
+    assert item["name"] == "Edited Head"
+    assert item["description"] == "Edited description."
+
+
+def test_item_manager_adds_new_item_with_unique_id():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    window.add_item()
+    window.add_item()
+
+    assert "new_item" in window._catalog.items
+    assert "new_item_2" in window._catalog.items
+    assert window._item_list.count() == 3
+
+
+def test_item_manager_deletes_selected_item_and_pool_entries():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    window.delete_selected_item()
+
+    assert window._catalog.items == {}
+    assert all(
+        entry.item_id != "monzaemon_head"
+        for entry in window._catalog.pools.get("secondary_event", ())
+    )
+    assert window._item_list.count() == 0
+
+
+def test_item_manager_updates_secondary_event_weight(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    window._weight_input.setValue(42)
+
+    assert window.save_catalog() is True
+    assert window._catalog.pools["secondary_event"][0].weight == 42
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    assert raw["pools"]["secondary_event"][0]["weight"] == 42
+
+
+def test_item_manager_edits_evolution_conditions(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    window = ItemManagerWindow(
+        valid_catalog(),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    window._required_species_input.setText("numemon, agumon")
+    window._required_stages_input.setText("champion, ultimate")
+
+    assert window.save_catalog() is True
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    evolution = raw["items"][0]["evolution"]
+    assert evolution["required_species_ids"] == ["numemon", "agumon"]
+    assert evolution["required_stages"] == ["champion", "ultimate"]
