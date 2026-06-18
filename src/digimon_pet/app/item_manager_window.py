@@ -152,7 +152,9 @@ class ItemManagerWindow(QWidget):
         self._required_species_input = QComboBox(self)
         self._required_species_input.addItem("")
         self._required_species_input.addItems(sorted(species))
-        self._required_stages_input = QLineEdit(self)
+        self._required_stages_input = QComboBox(self)
+        self._required_stages_input.addItem("")
+        self._required_stages_input.addItems([stage.value for stage in GrowthStage])
         self._icon_path_input = QLineEdit(self)
         self._browse_icon_button = QPushButton("Browse", self)
         self._icon_preview = QLabel(self)
@@ -231,7 +233,7 @@ class ItemManagerWindow(QWidget):
         self._type_input.currentTextChanged.connect(self._sync_current_item_edits)
         self._target_species_input.currentTextChanged.connect(self._sync_current_item_edits)
         self._required_species_input.currentTextChanged.connect(self._sync_current_item_edits)
-        self._required_stages_input.textChanged.connect(self._sync_current_item_edits)
+        self._required_stages_input.currentTextChanged.connect(self._sync_current_item_edits)
         self._icon_path_input.textChanged.connect(self._refresh_icon_preview)
         self._icon_path_input.textChanged.connect(self._sync_current_item_edits)
         self._browse_icon_button.clicked.connect(self._browse_icon_path)
@@ -374,14 +376,10 @@ class ItemManagerWindow(QWidget):
         required_species_id = item.evolution.required_species_ids[0] if item.evolution and item.evolution.required_species_ids else ""
         required_species_index = self._required_species_input.findText(required_species_id)
         self._required_species_input.setCurrentIndex(required_species_index)
-        self._required_stages_input.setText(
-            ", ".join(
-                str(stage.value if isinstance(stage, GrowthStage) else stage)
-                for stage in item.evolution.required_stages
-            )
-            if item.evolution
-            else ""
-        )
+        required_stage = item.evolution.required_stages[0] if item.evolution and item.evolution.required_stages else ""
+        required_stage_value = required_stage.value if isinstance(required_stage, GrowthStage) else str(required_stage)
+        required_stage_index = self._required_stages_input.findText(required_stage_value)
+        self._required_stages_input.setCurrentIndex(required_stage_index if required_stage_index >= 0 else 0)
 
         weight = 0
         for entry in self._catalog.pools.get("secondary_event", ()):
@@ -402,7 +400,7 @@ class ItemManagerWindow(QWidget):
         self._type_input.setCurrentIndex(0)
         self._target_species_input.setCurrentIndex(-1)
         self._required_species_input.setCurrentIndex(0)
-        self._required_stages_input.clear()
+        self._required_stages_input.setCurrentIndex(0)
         self._icon_path_input.clear()
         self._icon_preview.clear()
         self._icon_preview.setText("No sprite")
@@ -509,9 +507,10 @@ class ItemManagerWindow(QWidget):
             evolution = EvolutionItemEffect(
                 target_species_id=self._target_species_input.currentText().strip(),
                 required_species_ids=(required_species_id,) if required_species_id else (),
-                required_stages=tuple(
-                    _parse_growth_stage(value)
-                    for value in _split_csv(self._required_stages_input.text())
+                required_stages=(
+                    (_parse_growth_stage(self._required_stages_input.currentText()),)
+                    if self._required_stages_input.currentText().strip()
+                    else ()
                 ),
             )
             description = _evolution_item_description(evolution, self._species)

@@ -401,14 +401,24 @@ def test_item_manager_edits_evolution_conditions(tmp_path):
     )
 
     window._required_species_input.setCurrentText("agumon")
-    window._required_stages_input.setText("champion, ultimate")
+    window._required_stages_input.setCurrentText("champion")
 
     assert window.save_catalog() is True
     raw = json.loads(save_path.read_text(encoding="utf-8"))
     evolution = raw["items"][0]["evolution"]
     assert evolution["required_species_ids"] == ["agumon"]
-    assert evolution["required_stages"] == ["champion", "ultimate"]
+    assert evolution["required_stages"] == ["champion"]
     assert raw["items"][0]["description"] == "Makes Agumon digivolve into Monzaemon."
+
+
+def test_item_manager_uses_required_stages_dropdown():
+    app = QApplication.instance() or QApplication([])
+    window = ItemManagerWindow(valid_catalog(), species_map(), Path.cwd())
+
+    assert window._required_stages_input.findText("") >= 0
+    assert window._required_stages_input.findText("rookie") >= 0
+    assert window._required_stages_input.findText("champion") >= 0
+    assert window._required_stages_input.isEditable() is False
 
 
 def test_item_manager_auto_fills_evolution_description_for_required_species(tmp_path):
