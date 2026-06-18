@@ -65,9 +65,14 @@ def test_windows_batch_skips_missing_absolute_python_paths_before_execution():
 
 def test_windows_batch_forces_winget_python_install_when_package_is_registered_but_missing():
     launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+    missing_python_block = launcher[launcher.index("if not defined PYTHON_EXE (") : launcher.index('"%PYTHON_EXE%" -m venv .venv')]
 
     assert "winget install --id Python.Python.3.12" in launcher
-    assert "--force" in launcher[launcher.index(":install_python") :]
+    assert "call :install_python_force" in missing_python_block
+    assert missing_python_block.index("call :install_python") < missing_python_block.index(
+        "call :install_python_force"
+    )
+    assert "--force" in launcher[launcher.index(":install_python_force") :]
 
 
 def test_windows_launcher_stashes_local_changes_before_pull():

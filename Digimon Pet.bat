@@ -24,6 +24,12 @@ if not exist "%VENV_PY%" (
     )
 
     if not defined PYTHON_EXE (
+        echo Python still was not found. Forcing Python 3.12 repair with winget...
+        call :install_python_force
+        call :find_python
+    )
+
+    if not defined PYTHON_EXE (
         echo Python 3.11+ is required but could not be found or installed.
         echo Install Python from https://www.python.org/downloads/windows/ and enable "Add python.exe to PATH".
         if not "%DIGIMON_PET_SILENT%"=="1" pause
@@ -114,8 +120,15 @@ if errorlevel 1 exit /b 1
 
 winget install --id Python.Python.3.12 --source winget --scope user --silent --accept-package-agreements --accept-source-agreements
 if errorlevel 1 (
-    winget install --id Python.Python.3.12 --source winget --scope user --silent --accept-package-agreements --accept-source-agreements --force
+    winget install --id Python.Python.3.12 --source winget --silent --accept-package-agreements --accept-source-agreements
 )
+exit /b %ERRORLEVEL%
+
+:install_python_force
+where winget >nul 2>nul
+if errorlevel 1 exit /b 1
+
+winget install --id Python.Python.3.12 --source winget --scope user --silent --accept-package-agreements --accept-source-agreements --force
 if errorlevel 1 (
     winget install --id Python.Python.3.12 --source winget --silent --accept-package-agreements --accept-source-agreements --force
 )
