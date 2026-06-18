@@ -115,7 +115,7 @@ def test_pet_window_grants_monzaemon_head_on_launch():
     assert window._state.inventory[MONZAEMON_HEAD_ID] == 1
 
 
-def test_pet_window_uses_monzaemon_head_from_inventory():
+def test_pet_window_queues_monzaemon_head_evolution_from_inventory():
     app = QApplication.instance() or QApplication([])
     save_store.save_pet_state(
         PetState(
@@ -128,6 +128,26 @@ def test_pet_window_uses_monzaemon_head_from_inventory():
     window._open_inventory()
 
     window._use_inventory_item(MONZAEMON_HEAD_ID)
+
+    assert window._state.species_id == "numemon"
+    assert window._state.inventory == {MONZAEMON_HEAD_ID: 1}
+    assert window._pending_lifecycle_kind == "evolution"
+    assert window._pet_widget.event_prompt_kind() == "evolution"
+
+
+def test_pet_window_resolves_queued_monzaemon_head_evolution():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "numemon",
+            GrowthStage.CHAMPION,
+            inventory={MONZAEMON_HEAD_ID: 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+
+    window._use_inventory_item(MONZAEMON_HEAD_ID)
+    window._resolve_lifecycle_now()
 
     assert window._state.species_id == "monzaemon"
     assert window._state.inventory == {}

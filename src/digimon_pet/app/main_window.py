@@ -27,7 +27,7 @@ from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import EVOLUTION_ITEMS, grant_starting_items, use_item
+from digimon_pet.domain.items import EVOLUTION_ITEMS, can_use_item, grant_starting_items, use_item
 from digimon_pet.domain.lifecycle import (
     BABY_1_CHOICES,
     EvolutionSchedule,
@@ -101,6 +101,7 @@ class PetWindow(QWidget):
         grant_starting_items(self._state)
         save_pet_state(self._state)
         self._pending_lifecycle_kind: str | None = None
+        self._pending_inventory_item_id: str | None = None
         self._lifecycle_animating = False
         self._lifecycle_resolved_during_animation = False
         self._direction = QPoint(3, 0)
@@ -487,13 +488,16 @@ class PetWindow(QWidget):
         if clear_effect:
             self._pet_widget.set_lifecycle_pending(None)
         discovered_before = set(self._state.discovered_species_ids)
-        event = advance_lifecycle(
-            self._state,
-            self._species,
-            self._digivolutions,
-            self._lifecycle_schedule,
-            self._rng,
-        )
+        if self._pending_inventory_item_id is not None:
+            event = self._resolve_pending_inventory_item()
+        else:
+            event = advance_lifecycle(
+                self._state,
+                self._species,
+                self._digivolutions,
+                self._lifecycle_schedule,
+                self._rng,
+            )
         if event is not None and event.startswith("evolved:"):
             self._trigger_new_badge_if_needed(discovered_before)
         if event == "died:choice_required":
@@ -502,6 +506,14 @@ class PetWindow(QWidget):
                 self._trigger_new_badge_if_needed(discovered_before)
                 return
             self._prompt_rebirth_choice()
+
+    def _resolve_pending_inventory_item(self) -> str | None:
+        if self._pending_inventory_item_id is None:
+            return None
+        item_id = self._pending_inventory_item_id
+        self._pending_inventory_item_id = None
+        result = use_item(self._state, item_id, self._species, self._rng)
+        return result.event if result.used else None
 
     def _advance_lifecycle(self) -> None:
         self._queue_or_advance_lifecycle()
@@ -681,11 +693,17 @@ class PetWindow(QWidget):
         self._inventory_window.activateWindow()
 
     def _use_inventory_item(self, item_id: str) -> None:
-        discovered_before = set(self._state.discovered_species_ids)
-        result = use_item(self._state, item_id, self._species, self._rng)
-        if result.used and result.event is not None and result.event.startswith("evolved:"):
-            self._trigger_new_badge_if_needed(discovered_before)
-        self._save_and_refresh()
+        if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
+            return
+        result = can_use_item(self._state, item_id, self._species)
+        if not result.used:
+            self._refresh()
+            return
+        self._pending_inventory_item_id = item_id
+        self._pending_lifecycle_kind = "evolution"
+        self._clear_secondary_event(schedule_next=True)
+        self._pet_widget.set_lifecycle_pending("evolution")
+        self._refresh()
 
     def _refresh_inventory_window(self) -> None:
         if self._inventory_window is None:
