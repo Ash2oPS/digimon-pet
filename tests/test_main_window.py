@@ -3,12 +3,13 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
-from PySide6.QtCore import QEvent, QPoint, QPointF, Qt
+from PySide6.QtCore import QEvent, QPoint, QPointF, QRect, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
+from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import debug_settings
@@ -657,27 +658,47 @@ def test_stats_window_opens_and_refreshes_live_values():
     assert window._stats_window._labels["hp"].text() == "999"
 
 
-def test_context_menu_only_shows_stats_collection_and_close_outside_debug():
+def test_radial_menu_shows_stats_collection_inventory_and_close():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=False)
-    menu = window._build_context_menu()
+    menu = window._ensure_radial_menu()
 
-    assert [action.text() for action in menu.actions() if not action.isSeparator()] == ["Stats", "Collection", "Close"]
+    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventaire", "Close"]
 
 
-def test_context_menu_shows_toggle_debug_when_launched_in_debug():
+def test_radial_menu_keeps_same_pet_actions_in_debug():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=True)
-    menu = window._build_context_menu()
+    menu = window._ensure_radial_menu()
 
-    assert [action.text() for action in menu.actions() if not action.isSeparator()] == [
-        "Stats",
-        "Collection",
-        "Toggle Debug",
-        "Close",
-    ]
+    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventaire", "Close"]
+
+
+def test_radial_menu_selects_arc_away_from_screen_edges():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._ensure_radial_menu()
+    screen = QRect(0, 0, 800, 600)
+
+    assert menu.arc_direction_for(QPoint(600, 500), screen) == RadialArcDirection.TOP_LEFT
+    assert menu.arc_direction_for(QPoint(200, 500), screen) == RadialArcDirection.TOP_RIGHT
+    assert menu.arc_direction_for(QPoint(600, 100), screen) == RadialArcDirection.BOTTOM_LEFT
+    assert menu.arc_direction_for(QPoint(200, 100), screen) == RadialArcDirection.BOTTOM_RIGHT
+
+
+def test_inventory_button_closes_menu_without_opening_panel():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._ensure_radial_menu()
+    menu.show()
+
+    menu.button_for_action("inventory").click()
+
+    assert not menu.isVisible()
 
 
 def test_drag_release_allows_future_context_menu():

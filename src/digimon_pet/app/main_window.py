@@ -5,14 +5,13 @@ import random
 from collections.abc import Sequence
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QAction, QMouseEvent
+from PySide6.QtGui import QGuiApplication, QMouseEvent
 from PySide6.QtWidgets import (
     QApplication,
     QDialog,
     QDialogButtonBox,
     QLabel,
     QListWidget,
-    QMenu,
     QVBoxLayout,
     QWidget,
 )
@@ -21,6 +20,7 @@ from digimon_pet import platform as desktop_platform
 from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.pet_widget import PetWidget
+from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
@@ -104,6 +104,8 @@ class PetWindow(QWidget):
         self._positioned_once = False
         self._collection_dialog: CollectionDialog | None = None
         self._stats_window: StatsWindow | None = None
+        self._radial_menu: RadialPetMenu | None = None
+        self._resume_move_after_radial_menu = False
         self._secondary_event_kind: str | None = None
         self._secondary_event_ttl_seconds = 0
         self._secondary_event_seconds_remaining = self._next_secondary_event_delay()
@@ -147,29 +149,39 @@ class PetWindow(QWidget):
             event.ignore()
             return
 
-        self._build_context_menu().exec(event.globalPos())
+        self._show_radial_menu()
+        event.accept()
 
-    def _build_context_menu(self) -> QMenu:
-        menu = QMenu(self)
-        menu.setStyleSheet(APP_QSS)
+    def _ensure_radial_menu(self) -> RadialPetMenu:
+        if self._radial_menu is None:
+            self._radial_menu = RadialPetMenu(
+                open_stats=self._open_stats,
+                open_collection=self._open_collection,
+                close_app=QApplication.quit,
+                closed=self._radial_menu_closed,
+                parent=None,
+            )
+        return self._radial_menu
 
-        stats_action = QAction("Stats", self)
-        stats_action.triggered.connect(self._open_stats)
-        menu.addAction(stats_action)
+    def _show_radial_menu(self) -> None:
+        menu = self._ensure_radial_menu()
+        if menu.isVisible():
+            menu.hide()
+        self._resume_move_after_radial_menu = self._move_timer.isActive()
+        self._move_timer.stop()
+        pet_center = self.frameGeometry().center()
+        screen = QGuiApplication.screenAt(pet_center)
+        screen_geometry = (
+            screen.availableGeometry()
+            if screen is not None
+            else QApplication.primaryScreen().availableGeometry()
+        )
+        menu.show_for_pet(self.frameGeometry(), screen_geometry)
 
-        collection_action = QAction("Collection", self)
-        collection_action.triggered.connect(self._open_collection)
-        menu.addAction(collection_action)
-
-        if self._debug:
-            debug_action = QAction("Toggle Debug", self)
-            debug_action.triggered.connect(self._toggle_debug)
-            menu.addAction(debug_action)
-
-        close_action = QAction("Close", self)
-        close_action.triggered.connect(QApplication.quit)
-        menu.addAction(close_action)
-        return menu
+    def _radial_menu_closed(self) -> None:
+        if self._resume_move_after_radial_menu and not self._move_timer.isActive():
+            self._move_timer.start()
+        self._resume_move_after_radial_menu = False
 
     def _configure_window(self) -> None:
         self.setWindowTitle("Digimon Pet")
