@@ -130,6 +130,18 @@ def test_load_creates_default_save_when_missing(tmp_path):
     assert path.exists()
 
 
+def test_load_replaces_corrupt_save_with_default_and_keeps_backup(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text("", encoding="utf-8")
+
+    loaded = load_pet_state(path)
+
+    assert loaded.species_id == "botamon"
+    assert loaded.stage == GrowthStage.BABY
+    assert path.read_text(encoding="utf-8").strip().startswith("{")
+    assert path.with_suffix(".json.corrupt").exists()
+
+
 def test_load_migrates_legacy_project_save_when_default_target_missing(tmp_path, monkeypatch):
     save_path = tmp_path / "user-data" / "pet_save.json"
     legacy_path = tmp_path / ".local" / "pet_save.json"

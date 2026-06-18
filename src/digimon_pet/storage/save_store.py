@@ -27,9 +27,16 @@ def load_pet_state(path: Path | None = None) -> PetState:
     if not save_path.exists():
         _create_default_save(save_path)
 
-    with save_path.open("r", encoding="utf-8") as handle:
-        raw = json.load(handle)
-    return _state_from_dict(raw)
+    try:
+        with save_path.open("r", encoding="utf-8") as handle:
+            raw = json.load(handle)
+        return _state_from_dict(raw)
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        _backup_corrupt_save(save_path)
+        _create_default_save(save_path)
+        with save_path.open("r", encoding="utf-8") as handle:
+            raw = json.load(handle)
+        return _state_from_dict(raw)
 
 
 def save_pet_state(state: PetState, path: Path | None = None) -> None:
@@ -49,6 +56,13 @@ def _create_default_save(path: Path) -> None:
     source = DATA_DIR / "default_save.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, path)
+
+
+def _backup_corrupt_save(path: Path) -> None:
+    backup_path = path.with_suffix(f"{path.suffix}.corrupt")
+    if backup_path.exists():
+        backup_path.unlink()
+    shutil.move(str(path), str(backup_path))
 
 
 def _migrate_legacy_save(target_path: Path) -> None:
