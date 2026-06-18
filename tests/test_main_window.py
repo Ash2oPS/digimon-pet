@@ -96,6 +96,7 @@ def test_item_manager_opens_only_in_debug_mode():
     normal_window._open_item_manager()
 
     assert debug_window._item_manager_window is not None
+    assert debug_window._item_manager_window.isWindow() is True
     assert normal_window._item_manager_window is None
 
 

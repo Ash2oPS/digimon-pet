@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
@@ -99,6 +100,7 @@ class ItemManagerWindow(QWidget):
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
+        self.setWindowFlag(Qt.WindowType.Window, True)
         self._catalog = catalog
         self._species = species
         self._project_root = project_root
