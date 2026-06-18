@@ -667,6 +667,18 @@ def test_radial_menu_shows_stats_collection_inventory_and_close():
     assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventaire", "Close"]
 
 
+def test_radial_menu_buttons_do_not_take_focus_on_open():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._ensure_radial_menu()
+
+    assert all(
+        button.focusPolicy() == Qt.FocusPolicy.NoFocus
+        for button in menu.action_buttons()
+    )
+
+
 def test_radial_menu_keeps_same_pet_actions_in_debug():
     app = QApplication.instance() or QApplication([])
 

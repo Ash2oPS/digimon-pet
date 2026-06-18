@@ -73,6 +73,7 @@ class RadialPetMenu(QWidget):
             button.setIconSize(QSize(24, 24))
             button.setFixedSize(self._BUTTON_SIZE, self._BUTTON_SIZE)
             button.setCursor(Qt.CursorShape.PointingHandCursor)
+            button.setFocusPolicy(Qt.FocusPolicy.NoFocus)
             button.setObjectName("RadialMenuButton")
             button.setStyleSheet(_RADIAL_BUTTON_QSS)
             button.clicked.connect(lambda checked=False, key=action: self._trigger(key))
@@ -228,9 +229,5 @@ QPushButton#RadialMenuButton:hover {{
 
 QPushButton#RadialMenuButton:pressed {{
     background: {COLORS["accent_pressed"]};
-}}
-
-QPushButton#RadialMenuButton:focus {{
-    border-color: {COLORS["text"]};
 }}
 """
