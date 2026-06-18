@@ -29,7 +29,7 @@ class RadialArcDirection(Enum):
 class RadialPetMenu(QWidget):
     _SIZE = 320
     _BUTTON_SIZE = 48
-    _RADIUS = 112
+    _RADIUS = 136
     _ANIMATION_MS = 180
 
     def __init__(
@@ -155,15 +155,9 @@ class RadialPetMenu(QWidget):
         self._animations.start()
 
     def _positions_for(self, direction: RadialArcDirection, center: QPoint) -> list[QPoint]:
-        angle_sequences = {
-            RadialArcDirection.TOP_LEFT: (270, 230, 190, 150),
-            RadialArcDirection.TOP_RIGHT: (270, 310, 350, 30),
-            RadialArcDirection.BOTTOM_LEFT: (90, 130, 170, 210),
-            RadialArcDirection.BOTTOM_RIGHT: (90, 50, 10, 330),
-        }
         center_point = center + QPoint(self._BUTTON_SIZE // 2, self._BUTTON_SIZE // 2)
         positions: list[QPoint] = []
-        for angle in angle_sequences[direction]:
+        for angle in self._angles_for(direction, len(self._actions)):
             radians = math.radians(angle)
             target_center = center_point + QPoint(
                 round(math.cos(radians) * self._RADIUS),
@@ -173,6 +167,21 @@ class RadialPetMenu(QWidget):
                 target_center - QPoint(self._BUTTON_SIZE // 2, self._BUTTON_SIZE // 2)
             )
         return positions
+
+    def _angles_for(self, direction: RadialArcDirection, count: int) -> list[float]:
+        if count <= 0:
+            return []
+        arc_ranges = {
+            RadialArcDirection.TOP_LEFT: (270.0, 180.0),
+            RadialArcDirection.TOP_RIGHT: (270.0, 360.0),
+            RadialArcDirection.BOTTOM_LEFT: (90.0, 180.0),
+            RadialArcDirection.BOTTOM_RIGHT: (90.0, 0.0),
+        }
+        start, end = arc_ranges[direction]
+        if count == 1:
+            return [start]
+        step = (end - start) / (count - 1)
+        return [start + step * index for index in range(count)]
 
 
 def _icon_for(action: str) -> QIcon:

@@ -689,32 +689,51 @@ def test_radial_menu_selects_arc_away_from_screen_edges():
     assert menu.arc_direction_for(QPoint(200, 100), screen) == RadialArcDirection.BOTTOM_RIGHT
 
 
-def test_radial_menu_orders_actions_visually_reversed_for_each_arc():
+def test_radial_menu_uses_quarter_circle_angles_for_each_arc():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=False)
     menu = window._ensure_radial_menu()
-    center = QPoint(100, 100)
 
-    top_left = menu._positions_for(RadialArcDirection.TOP_LEFT, center)
-    top_right = menu._positions_for(RadialArcDirection.TOP_RIGHT, center)
-    bottom_left = menu._positions_for(RadialArcDirection.BOTTOM_LEFT, center)
-    bottom_right = menu._positions_for(RadialArcDirection.BOTTOM_RIGHT, center)
+    assert menu._angles_for(RadialArcDirection.TOP_LEFT, 4) == [
+        270.0,
+        240.0,
+        210.0,
+        180.0,
+    ]
+    assert menu._angles_for(RadialArcDirection.TOP_RIGHT, 4) == [
+        270.0,
+        300.0,
+        330.0,
+        360.0,
+    ]
+    assert menu._angles_for(RadialArcDirection.BOTTOM_LEFT, 4) == [
+        90.0,
+        120.0,
+        150.0,
+        180.0,
+    ]
+    assert menu._angles_for(RadialArcDirection.BOTTOM_RIGHT, 4) == [
+        90.0,
+        60.0,
+        30.0,
+        0.0,
+    ]
 
-    assert [position.y() for position in top_left] == sorted(
-        position.y() for position in top_left
-    )
-    assert [position.y() for position in top_right] == sorted(
-        position.y() for position in top_right
-    )
-    assert [position.y() for position in bottom_left] == sorted(
-        (position.y() for position in bottom_left),
-        reverse=True,
-    )
-    assert [position.y() for position in bottom_right] == sorted(
-        (position.y() for position in bottom_right),
-        reverse=True,
-    )
+
+def test_radial_menu_spaces_angles_equally_for_any_button_count():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    menu = window._ensure_radial_menu()
+
+    assert menu._angles_for(RadialArcDirection.BOTTOM_LEFT, 5) == [
+        90.0,
+        112.5,
+        135.0,
+        157.5,
+        180.0,
+    ]
 
 
 def test_radial_menu_leaves_more_space_between_buttons():
