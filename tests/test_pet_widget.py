@@ -169,7 +169,7 @@ def test_secondary_event_prompt_renders_without_lifecycle_effect():
     assert image.pixelColor(icon_center).alpha() > 0
 
 
-def test_secondary_item_prompt_uses_standalone_question_mark():
+def test_secondary_item_prompt_uses_dialog_bubble_with_question_mark():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
     widget.set_secondary_event_prompt("item")
@@ -180,8 +180,10 @@ def test_secondary_item_prompt_uses_standalone_question_mark():
 
     assert widget.event_prompt_kind() == "secondary_item"
     assert image.pixelColor(icon_center).alpha() > 0
-    assert image.pixelColor(prompt_rect.left() + 3, prompt_rect.top() + 3).alpha() == 0
-    assert image.pixelColor(prompt_rect.right() - 3, prompt_rect.bottom() - 3).alpha() == 0
+    assert image.pixelColor(prompt_rect.left() + 3, prompt_rect.top() + 3).alpha() > 0
+    assert image.pixelColor(prompt_rect.right() - 3, prompt_rect.bottom() - 3).alpha() > 0
+    assert image.pixelColor(icon_center).red() > 220
+    assert image.pixelColor(icon_center).green() > 220
 
 
 def test_clearing_lifecycle_pending_hides_event_bubble():

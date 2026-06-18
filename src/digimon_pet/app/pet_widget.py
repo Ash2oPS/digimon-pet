@@ -438,11 +438,6 @@ class PetWidget(QWidget):
 
         painter.save()
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        if kind == "secondary_item":
-            self._draw_item_prompt_icon(painter, rect.center())
-            painter.restore()
-            return
-
         path = QPainterPath()
         path.addRoundedRect(rect, 10, 10)
         tail = QPainterPath()
@@ -468,6 +463,8 @@ class PetWidget(QWidget):
             self._draw_meat_prompt_icon(painter, rect.center())
         elif kind == "secondary_dumbbell":
             self._draw_dumbbell_prompt_icon(painter, rect.center())
+        elif kind == "secondary_item":
+            self._draw_item_prompt_icon(painter, rect.center())
         painter.restore()
 
     def _draw_evolution_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
