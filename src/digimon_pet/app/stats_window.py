@@ -80,7 +80,7 @@ class StatsWindow(QDialog):
         self._state = state
         self._species = species
         self._name_label.setText(species.name)
-        self._labels["age"].setText(f"{state.age_seconds / 3600:.1f} h")
+        self._labels["age"].setText(_format_age(state.age_seconds))
         self._labels["hp"].setText(str(state.hp))
         self._labels["mp"].setText(str(state.mp))
         self._labels["offense"].setText(str(state.offense))
@@ -162,3 +162,9 @@ def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | No
     if frame_width <= 0 or frame_height <= 0:
         return None
     return QRect(0, 0, frame_width, frame_height)
+
+
+def _format_age(age_seconds: int) -> str:
+    total_minutes = max(0, age_seconds) // 60
+    hours, minutes = divmod(total_minutes, 60)
+    return f"{hours} h {minutes:02d} min"

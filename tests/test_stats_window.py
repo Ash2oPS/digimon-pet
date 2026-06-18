@@ -6,8 +6,13 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QApplication
 
 from digimon_pet.app import stats_window
-from digimon_pet.app.stats_window import StatsWindow
+from digimon_pet.app.stats_window import StatsWindow, _format_age
 from digimon_pet.domain.models import GrowthStage, PetState, Species
+
+
+def test_stats_window_age_display_does_not_round_up_before_next_hour():
+    assert _format_age((2 * 60 * 60) - 1) == "1 h 59 min"
+    assert _format_age(2 * 60 * 60) == "2 h 00 min"
 
 
 def test_stats_window_prefers_official_artwork_over_runtime_sprite(tmp_path, monkeypatch):
