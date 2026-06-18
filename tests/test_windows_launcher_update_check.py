@@ -43,6 +43,17 @@ def test_windows_vbs_runs_update_check_before_batch_launcher():
     assert launcher.index(update_check) < launcher.index(batch_launcher)
 
 
+def test_windows_batch_bootstraps_python_without_stale_errorlevel_expansion():
+    launcher = (ROOT / "Digimon Pet.bat").read_text(encoding="utf-8")
+
+    assert "call :find_python" in launcher
+    assert "call :try_python py -3.12" in launcher
+    assert "call :try_python python" in launcher
+    assert "winget install --id Python.Python.3.12" in launcher
+    assert "if %ERRORLEVEL% EQU 0" not in launcher
+    assert "if %ERRORLEVEL% NEQ 0" not in launcher
+
+
 def test_windows_launcher_stashes_local_changes_before_pull():
     script = (ROOT / "packaging" / "windows" / "launcher_update_check.ps1").read_text(encoding="utf-8")
 
