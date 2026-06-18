@@ -137,6 +137,52 @@ function Get-UpdateBranch {
     }
 }
 
+function Save-LocalChangesForUpdate {
+    $status = Invoke-Git @("status", "--porcelain")
+    if ($status.ExitCode -ne 0 -or [string]::IsNullOrWhiteSpace($status.Output)) {
+        return [pscustomobject]@{
+            CanContinue = $true
+            Stashed = $false
+        }
+    }
+
+    $shouldStash = Ask-YesNo "Des changements locaux non commit sont presents.`n`nL'updater doit les mettre de cote temporairement pour appliquer la mise a jour, puis les restaurer apres.`n`nContinuer ?" "Changements locaux detectes"
+    if (-not $shouldStash) {
+        return [pscustomobject]@{
+            CanContinue = $false
+            Stashed = $false
+        }
+    }
+
+    $stashMessage = "Digimon Pet auto-stash before update $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+    $stash = Invoke-Git @("stash", "push", "-u", "-m", $stashMessage)
+    if ($stash.ExitCode -ne 0) {
+        Show-Notice "Impossible de mettre les changements locaux de cote. La mise a jour est annulee.`n`n$($stash.Output)" "Mise a jour annulee"
+        return [pscustomobject]@{
+            CanContinue = $false
+            Stashed = $false
+        }
+    }
+
+    return [pscustomobject]@{
+        CanContinue = $true
+        Stashed = $true
+    }
+}
+
+function Restore-LocalChangesAfterUpdate {
+    param([bool] $Stashed)
+
+    if (-not $Stashed) {
+        return
+    }
+
+    $restore = Invoke-Git @("stash", "pop")
+    if ($restore.ExitCode -ne 0) {
+        Show-Notice "La mise a jour est installee, mais les changements locaux n'ont pas pu etre restaures automatiquement.`n`nOuvrez Git/SourceTree pour resoudre le stash ou les conflits avant de modifier le projet.`n`n$($restore.Output)" "Changements locaux a verifier"
+    }
+}
+
 try {
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
         exit 0
@@ -200,13 +246,20 @@ try {
         exit 0
     }
 
+    $localChanges = Save-LocalChangesForUpdate
+    if (-not $localChanges.CanContinue) {
+        exit 0
+    }
+
     $localBranch = $updateBranch.LocalBranch
     $pull = Invoke-Git @("pull", "--ff-only", "origin", $localBranch)
     if ($pull.ExitCode -ne 0) {
+        Restore-LocalChangesAfterUpdate $localChanges.Stashed
         Show-Notice "La mise a jour Git a echoue. Le jeu va demarrer avec la version locale.`n`n$($pull.Output)" "Mise a jour impossible"
         exit 0
     }
 
+    Restore-LocalChangesAfterUpdate $localChanges.Stashed
     exit 10
 }
 catch {

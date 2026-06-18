@@ -5,7 +5,7 @@ cd /d "%~dp0"
 set "VENV_PY=.venv\Scripts\python.exe"
 set "UPDATE_CHECK=packaging\windows\launcher_update_check.ps1"
 
-if exist "%UPDATE_CHECK%" (
+if exist "%UPDATE_CHECK%" if not "%DIGIMON_PET_UPDATE_CHECKED%"=="1" (
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%UPDATE_CHECK%"
     set "UPDATE_EXIT_CODE=%ERRORLEVEL%"
     if "%UPDATE_EXIT_CODE%"=="10" (

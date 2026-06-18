@@ -1,6 +1,6 @@
 Option Explicit
 
-Dim shell, fso, scriptDir, logPath, command, args, i, exitCode
+Dim shell, fso, scriptDir, logPath, command, args, i, exitCode, updateCheckPath, updateCommand, updateExitCode
 
 Set shell = CreateObject("WScript.Shell")
 Set fso = CreateObject("Scripting.FileSystemObject")
@@ -14,6 +14,13 @@ If Not fso.FolderExists(fso.BuildPath(scriptDir, ".local")) Then
 End If
 
 logPath = fso.BuildPath(scriptDir, ".local\launcher-windows.log")
+
+updateCheckPath = fso.BuildPath(scriptDir, "packaging\windows\launcher_update_check.ps1")
+If fso.FileExists(updateCheckPath) Then
+    updateCommand = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File " & Quote(updateCheckPath)
+    updateExitCode = shell.Run(updateCommand, 0, True)
+    shell.Environment("PROCESS")("DIGIMON_PET_UPDATE_CHECKED") = "1"
+End If
 
 args = ""
 For i = 0 To WScript.Arguments.Count - 1

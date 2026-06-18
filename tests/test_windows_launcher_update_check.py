@@ -31,3 +31,25 @@ def test_windows_launcher_falls_back_to_origin_branch_without_upstream():
     assert '"origin/$($currentBranch.Output.Trim())"' in script
     assert 'Invoke-Git @("rev-list", "--count", "HEAD..$($updateBranch.RemoteBranch)")' in script
     assert 'Invoke-Git @("pull", "--ff-only", "origin", $localBranch)' in script
+
+
+def test_windows_vbs_runs_update_check_before_batch_launcher():
+    launcher = (ROOT / "Digimon Pet.vbs").read_text(encoding="utf-8")
+
+    update_check = 'fso.BuildPath(scriptDir, "packaging\\windows\\launcher_update_check.ps1")'
+    batch_launcher = 'fso.BuildPath(scriptDir, "Digimon Pet.bat")'
+    assert update_check in launcher
+    assert 'DIGIMON_PET_UPDATE_CHECKED' in launcher
+    assert launcher.index(update_check) < launcher.index(batch_launcher)
+
+
+def test_windows_launcher_stashes_local_changes_before_pull():
+    script = (ROOT / "packaging" / "windows" / "launcher_update_check.ps1").read_text(encoding="utf-8")
+
+    assert "Save-LocalChangesForUpdate" in script
+    assert 'Invoke-Git @("status", "--porcelain")' in script
+    assert 'Invoke-Git @("stash", "push", "-u", "-m", $stashMessage)' in script
+    assert 'Invoke-Git @("stash", "pop")' in script
+    assert script.index('Invoke-Git @("stash", "push", "-u", "-m", $stashMessage)') < script.index(
+        'Invoke-Git @("pull", "--ff-only", "origin", $localBranch)'
+    )
