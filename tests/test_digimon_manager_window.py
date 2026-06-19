@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 
 from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
+from digimon_pet.domain.items import ItemCatalog, ItemDefinition, ItemType
 from tests.test_digimon_catalog import write_catalog_files
 
 
@@ -16,11 +17,24 @@ def make_window(tmp_path: Path) -> DigimonManagerWindow:
     app = QApplication.instance() or QApplication([])
     species_path, digivolutions_path = write_catalog_files(tmp_path)
     catalog = load_digimon_catalog(species_path, digivolutions_path)
+    item_catalog = ItemCatalog(
+        items={
+            "digimeat": ItemDefinition(
+                id="digimeat",
+                name="DigiMeat",
+                description="Food.",
+                type=ItemType.CONSUMABLE,
+            )
+        },
+        pools={"secondary_event": ()},
+    )
     return DigimonManagerWindow(
         catalog,
         tmp_path,
         species_path=species_path,
         digivolutions_path=digivolutions_path,
+        item_catalog=item_catalog,
+        item_save_path=tmp_path / "items.json",
     )
 
 
@@ -71,6 +85,17 @@ def test_digimon_manager_window_opens_with_catalog(tmp_path):
 
     assert window.windowTitle() == "Digimon Manager"
     assert window._species_table.rowCount() == 3
+
+
+def test_digimon_manager_has_global_items_tab_with_embedded_item_manager(tmp_path):
+    window = make_window(tmp_path)
+
+    tab_labels = [window._main_tabs.tabText(index) for index in range(window._main_tabs.count())]
+
+    assert tab_labels == ["Digimon", "Items"]
+    assert window._item_manager_window is not None
+    assert window._item_manager_window.isWindow() is False
+    assert window._item_manager_window._item_list.count() == 1
 
 
 def test_species_table_shows_idle_frame_thumbnail_column(tmp_path):

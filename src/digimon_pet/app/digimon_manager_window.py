@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
 )
 
 from digimon_pet.app.artwork_runtime import resolve_artwork_path
+from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.domain.digimon_catalog import (
     SPRITE_SLOT_NAMES,
@@ -38,7 +39,8 @@ from digimon_pet.domain.digimon_catalog import (
     duplicate_species,
     validate_digimon_catalog,
 )
-from digimon_pet.domain.models import GrowthStage
+from digimon_pet.domain.items import ItemCatalog
+from digimon_pet.domain.models import GrowthStage, Species
 
 
 class RuntimeSpritePreview(QWidget):
@@ -124,6 +126,8 @@ class DigimonManagerWindow(QWidget):
         species_path: Path | None = None,
         digivolutions_path: Path | None = None,
         sprite_manifest_path: Path | None = None,
+        item_catalog: ItemCatalog | None = None,
+        item_save_path: Path | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
@@ -133,6 +137,9 @@ class DigimonManagerWindow(QWidget):
         self._species_path = species_path or project_root / "data" / "species.json"
         self._digivolutions_path = digivolutions_path or project_root / "data" / "dw1_digivolutions.json"
         self._sprite_manifest_path = sprite_manifest_path or project_root / "data" / "dw1_sprite_manifest.json"
+        self._item_catalog = item_catalog
+        self._item_save_path = item_save_path or project_root / "data" / "items.json"
+        self._item_manager_window: ItemManagerWindow | None = None
         self._runtime_sprite_entries = self._load_runtime_sprite_entries()
         self._validation_errors_by_species: dict[str, list[str]] = {}
         self._validation_warnings_by_species: dict[str, list[str]] = {}
@@ -166,6 +173,14 @@ class DigimonManagerWindow(QWidget):
         header.addWidget(self._status_label)
         root.addLayout(header)
 
+        self._main_tabs = QTabWidget(self)
+        root.addWidget(self._main_tabs, 1)
+
+        self._digimon_tab = QWidget(self)
+        digimon_layout = QVBoxLayout(self._digimon_tab)
+        digimon_layout.setContentsMargins(0, 0, 0, 0)
+        digimon_layout.setSpacing(10)
+
         filter_row = QHBoxLayout()
         filter_row.setSpacing(8)
         self._search_input = QLineEdit(self)
@@ -181,10 +196,10 @@ class DigimonManagerWindow(QWidget):
         filter_row.addWidget(self._search_input, 1)
         filter_row.addWidget(self._stage_filter)
         filter_row.addWidget(self._status_filter)
-        root.addLayout(filter_row)
+        digimon_layout.addLayout(filter_row)
 
-        splitter = QSplitter(Qt.Orientation.Horizontal, self)
-        root.addWidget(splitter, 1)
+        splitter = QSplitter(Qt.Orientation.Horizontal, self._digimon_tab)
+        digimon_layout.addWidget(splitter, 1)
 
         left = QWidget(splitter)
         left_layout = QVBoxLayout(left)
@@ -251,6 +266,17 @@ class DigimonManagerWindow(QWidget):
         splitter.addWidget(left)
         splitter.addWidget(right)
         splitter.setSizes([640, 480])
+        self._main_tabs.addTab(self._digimon_tab, "Digimon")
+        if self._item_catalog is not None:
+            self._item_manager_window = ItemManagerWindow(
+                self._item_catalog,
+                self._species_map_for_items(),
+                self._project_root,
+                save_path=self._item_save_path,
+                embedded=True,
+                parent=self,
+            )
+            self._main_tabs.addTab(self._item_manager_window, "Items")
 
     def _build_sprite_tab(self) -> QWidget:
         tab = QWidget(self)
@@ -364,6 +390,23 @@ class DigimonManagerWindow(QWidget):
         self._natural_remove_button.clicked.connect(self.remove_selected_natural_evolution)
         self._special_add_button.clicked.connect(self.add_special_evolution)
         self._special_remove_button.clicked.connect(self.remove_selected_special_evolution)
+
+    def _species_map_for_items(self) -> dict[str, Species]:
+        species_map = {}
+        for row in self._catalog.species_rows:
+            species_id = str(row.get("id", ""))
+            stage = str(row.get("stage", GrowthStage.ROOKIE.value))
+            try:
+                growth_stage = GrowthStage(stage)
+            except ValueError:
+                growth_stage = GrowthStage.ROOKIE
+            species_map[species_id] = Species(
+                id=species_id,
+                name=str(row.get("name", species_id)),
+                stage=growth_stage,
+                sprite_slots=dict(row.get("sprite_slots", {})) if isinstance(row.get("sprite_slots", {}), dict) else {},
+            )
+        return species_map
 
     def _refresh_species_options(self) -> None:
         options = [(str(row.get("name", row.get("id", ""))), str(row.get("id", ""))) for row in self._catalog.species_rows]

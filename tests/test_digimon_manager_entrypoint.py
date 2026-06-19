@@ -25,8 +25,11 @@ def test_digimon_manager_entrypoint_opens_without_debug_mode(monkeypatch, tmp_pa
         '{"natural_evolutions": [], "special_evolutions": [], "indexes": {}}\n',
         encoding="utf-8",
     )
+    (data_dir / "items.json").write_text('{"items": [], "pools": {}}\n', encoding="utf-8")
     monkeypatch.setattr(digimon_manager, "DigimonManagerWindow", FakeWindow)
     monkeypatch.setattr(QApplication, "exec", lambda self: 0)
 
     assert digimon_manager.main() == 0
     assert "shown" in windows
+    kwargs = windows[0][1]
+    assert kwargs["item_save_path"] == data_dir / "items.json"

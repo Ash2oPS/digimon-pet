@@ -102,10 +102,12 @@ class ItemManagerWindow(QWidget):
         species: dict[str, Species],
         project_root: Path,
         save_path: Path | None = None,
+        embedded: bool = False,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
-        self.setWindowFlag(Qt.WindowType.Window, True)
+        if not embedded:
+            self.setWindowFlag(Qt.WindowType.Window, True)
         self._catalog = catalog
         self._species = species
         self._project_root = project_root
