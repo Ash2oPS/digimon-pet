@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+from math import cos, pi, sin
 from pathlib import Path
 
 from typing import Any
 
 from PySide6.QtCore import QPointF, QRect, QSize, Qt, Signal
 from PySide6.QtGui import QColor, QFont, QImage, QPainter, QPen, QPixmap, QPolygonF
-from PySide6.QtWidgets import QDialog, QGridLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QDialog, QGridLayout, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
 
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS, COLORS
@@ -122,9 +123,23 @@ class CollectionStageSection(QWidget):
         layout.setSpacing(6)
 
         discovered_count = sum(1 for item in species if item.id in discovered_species_ids)
-        header = QLabel(f"{label}  {discovered_count}/{len(species)}")
+        header_panel = QWidget(self)
+        header_panel.setObjectName("StageHeaderPanel")
+        header_layout = QHBoxLayout(header_panel)
+        header_layout.setContentsMargins(8, 5, 8, 5)
+        header_layout.setSpacing(6)
+
+        header = QLabel(f"{label}  {discovered_count}/{len(species)}", header_panel)
         header.setObjectName("StageHeader")
-        layout.addWidget(header)
+        header_layout.addWidget(header)
+        header_layout.addStretch(1)
+
+        if discovered_count == len(species):
+            star = StarMarker(header_panel)
+            star.setToolTip("Section complete")
+            header_layout.addWidget(star)
+
+        layout.addWidget(header_panel)
 
         grid_host = QWidget(self)
         grid = QGridLayout(grid_host)
@@ -143,6 +158,27 @@ class CollectionStageSection(QWidget):
             grid.addWidget(tile, index // 5, index % 5)
 
         layout.addWidget(grid_host)
+
+
+class StarMarker(QWidget):
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.setObjectName("StageCompleteStar")
+        self.setFixedSize(QSize(12, 12))
+
+    def paintEvent(self, event) -> None:  # noqa: N802
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setBrush(QColor(COLORS["focus"]))
+
+        center = QPointF(self.width() / 2, self.height() / 2)
+        points = []
+        for index in range(10):
+            radius = 5.5 if index % 2 == 0 else 2.4
+            angle = -pi / 2 + index * pi / 5
+            points.append(QPointF(center.x() + cos(angle) * radius, center.y() + sin(angle) * radius))
+        painter.drawPolygon(QPolygonF(points))
 
 
 class CollectionTile(QWidget):

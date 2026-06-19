@@ -42,13 +42,20 @@ QWidget#DebugHeader {{
     border-bottom: 1px solid #343337;
 }}
 
-QLabel#StageHeader {{
-    color: {COLORS["focus"]};
+QWidget#StageHeaderPanel {{
     background: {COLORS["panel"]};
     border: 1px solid #3a3938;
     border-radius: 6px;
-    padding: 5px 8px;
+}}
+
+QLabel#StageHeader {{
+    color: {COLORS["focus"]};
+    background: transparent;
     font-weight: 700;
+}}
+
+QWidget#StageCompleteStar {{
+    background: transparent;
 }}
 
 QWidget#EvolutionNode {{

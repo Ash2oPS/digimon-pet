@@ -6,7 +6,14 @@ from PySide6.QtCore import QEvent, QPointF, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel
 
-from digimon_pet.app.collection_dialog import CollectionDialog, CollectionTile, EvolutionGraphWidget, EvolutionNode, EvolutionTreeDialog
+from digimon_pet.app.collection_dialog import (
+    CollectionDialog,
+    CollectionTile,
+    EvolutionGraphWidget,
+    EvolutionNode,
+    EvolutionTreeDialog,
+    StarMarker,
+)
 from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, family_species_ids, graph_species_ids
 from digimon_pet.domain.models import GrowthStage, Species
 
@@ -192,6 +199,16 @@ def test_collection_tile_click_opens_tree_only_for_discovered_species():
         tile.mouseReleaseEvent(event)
 
     assert opened == ["agumon"]
+
+
+def test_collection_stage_section_shows_star_only_when_stage_is_complete():
+    app = QApplication.instance() or QApplication([])
+    dialog = CollectionDialog(_species_map(), ["botamon"], _digivolutions())
+
+    stars = dialog.findChildren(StarMarker)
+
+    assert len(stars) == 1
+    assert stars[0].toolTip() == "Section complete"
 
 
 def test_evolution_tree_hides_unknown_species_and_their_conditions():
