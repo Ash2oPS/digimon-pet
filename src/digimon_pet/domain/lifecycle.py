@@ -299,6 +299,8 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     state.current_action = fresh.current_action
     state.needs_rebirth_choice = False
     state.pending_rebirth_stat_bonuses = {}
+    state.bakemon_lineage_used = False
+    state.bakemon_generation_cooldown = max(0, state.bakemon_generation_cooldown - 1)
     state.clamp()
     return f"reborn:{target.id}"
 

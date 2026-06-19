@@ -650,6 +650,8 @@ class PetWindow(QWidget):
         return event
 
     def _roll_natural_death_evolution(self) -> bool:
+        if self._state.bakemon_lineage_used or self._state.bakemon_generation_cooldown > 0:
+            return False
         return (
             NATURAL_DEATH_EVOLUTION_TARGET_ID in self._species
             and self._rng.random() < NATURAL_DEATH_EVOLUTION_CHANCE
@@ -673,6 +675,8 @@ class PetWindow(QWidget):
         discovered_before = set(self._state.discovered_species_ids)
         force_evolve_to(self._state, target, self._rng)
         self._state.pending_rebirth_stat_bonuses = {}
+        self._state.bakemon_lineage_used = True
+        self._state.bakemon_generation_cooldown = 4
         self._trigger_new_badge_if_needed(discovered_before)
         self._lifecycle_resolved_during_animation = True
         self._save_and_refresh()

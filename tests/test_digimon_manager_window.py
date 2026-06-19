@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox, QScrollArea
 
 from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
-from digimon_pet.domain.items import ItemCatalog, ItemDefinition, ItemType
+from digimon_pet.domain.items import EvolutionItemEffect, ItemCatalog, ItemDefinition, ItemType, item_catalog_to_dict
 from tests.test_digimon_catalog import write_catalog_files
 
 
@@ -121,6 +121,47 @@ def test_validation_summary_shows_error_and_warning_counts(tmp_path):
 
     assert "0 errors" in window._validation_summary_label.text()
     assert "warnings" in window._validation_summary_label.text()
+
+
+def test_validation_loads_existing_items_when_item_catalog_not_provided(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    species_path, digivolutions_path = write_catalog_files(tmp_path)
+    catalog = load_digimon_catalog(species_path, digivolutions_path)
+    catalog.species_rows.extend(
+        [
+            {"id": "angemon", "name": "Angemon", "stage": "champion", "sprite_slots": {}},
+            {"id": "devimon", "name": "Devimon", "stage": "champion", "sprite_slots": {}},
+        ]
+    )
+    item_path = tmp_path / "items.json"
+    item_catalog = ItemCatalog(
+        items={
+            "black_wings": ItemDefinition(
+                id="black_wings",
+                name="Black Wings",
+                description="Makes Angemon digivolve into Devimon.",
+                type=ItemType.EVOLUTION,
+                evolution=EvolutionItemEffect(
+                    target_species_id="devimon",
+                    required_species_ids=("angemon",),
+                ),
+            )
+        },
+        pools={},
+    )
+    item_path.write_text(json.dumps(item_catalog_to_dict(item_catalog)), encoding="utf-8")
+
+    window = DigimonManagerWindow(
+        catalog,
+        tmp_path,
+        species_path=species_path,
+        digivolutions_path=digivolutions_path,
+        item_save_path=item_path,
+    )
+
+    output = window._validation_output.toPlainText()
+    assert "devimon has no incoming natural evolution" not in output
+    assert "angemon has no outgoing natural evolution" not in output
 
 
 def test_primary_actions_have_icons_and_tooltips(tmp_path):

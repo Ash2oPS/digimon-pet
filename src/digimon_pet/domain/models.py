@@ -46,6 +46,8 @@ class PetState:
     discovered_species_ids: list[str] = field(default_factory=list)
     generation_stat_bonuses: dict[str, int] = field(default_factory=dict)
     pending_rebirth_stat_bonuses: dict[str, int] = field(default_factory=dict)
+    bakemon_lineage_used: bool = False
+    bakemon_generation_cooldown: int = 0
     inventory: dict[str, int] = field(default_factory=dict)
 
     def clamp(self) -> None:
@@ -68,6 +70,8 @@ class PetState:
         self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
         self.generation_stat_bonuses = _clean_stat_bonuses(self.generation_stat_bonuses)
         self.pending_rebirth_stat_bonuses = _clean_stat_bonuses(self.pending_rebirth_stat_bonuses)
+        self.bakemon_lineage_used = bool(self.bakemon_lineage_used)
+        self.bakemon_generation_cooldown = max(0, int(self.bakemon_generation_cooldown))
         self.inventory = _clean_inventory(self.inventory)
 
     def mark_discovered(self, species_id: str | None = None) -> None:

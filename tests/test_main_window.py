@@ -768,6 +768,71 @@ def test_pet_tooltip_shows_current_stats():
     assert window._pet_widget.testAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
 
 
+def test_natural_death_skips_bakemon_roll_after_bakemon_in_current_lineage(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._auto_rebirth_random = True
+    monkeypatch.setattr(
+        window._rng,
+        "random",
+        lambda: (_ for _ in ()).throw(AssertionError("Bakemon should not roll twice in one lineage")),
+    )
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+    window._state.bakemon_lineage_used = True
+
+    window._advance_lifecycle()
+
+    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.species_id != "bakemon"
+
+
+def test_natural_death_skips_bakemon_roll_during_generation_cooldown(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._auto_rebirth_random = True
+    monkeypatch.setattr(
+        window._rng,
+        "random",
+        lambda: (_ for _ in ()).throw(AssertionError("Bakemon should not roll during cooldown")),
+    )
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+    window._state.bakemon_generation_cooldown = 1
+
+    window._advance_lifecycle()
+
+    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.species_id != "bakemon"
+
+
+def test_bakemon_death_evolution_sets_lineage_and_generation_cooldown(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    monkeypatch.setattr(window, "_roll_natural_death_evolution", lambda: True)
+    window._auto_lifecycle_events = True
+    window._auto_rebirth_random = True
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+
+    window._advance_lifecycle()
+
+    assert window._state.species_id == "bakemon"
+    assert window._state.bakemon_lineage_used is True
+    assert window._state.bakemon_generation_cooldown == 4
+
+
 def test_auto_rebirth_chooses_random_baby_on_death():
     app = QApplication.instance() or QApplication([])
 

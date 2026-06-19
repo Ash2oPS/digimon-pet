@@ -55,6 +55,22 @@ def test_save_load_persists_generation_and_pending_rebirth_stat_bonuses(tmp_path
     assert loaded.pending_rebirth_stat_bonuses == {"hp": 45, "speed": 7}
 
 
+def test_save_load_persists_bakemon_lineage_limits(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="bakemon",
+        stage=GrowthStage.CHAMPION,
+        bakemon_lineage_used=True,
+        bakemon_generation_cooldown=4,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.bakemon_lineage_used is True
+    assert loaded.bakemon_generation_cooldown == 4
+
+
 def test_save_load_persists_inventory(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(

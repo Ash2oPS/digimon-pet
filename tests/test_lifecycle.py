@@ -505,6 +505,21 @@ def test_numemon_does_not_auto_evolve_to_monzaemon_without_toy_town_suit():
     assert state.needs_rebirth_choice is True
 
 
+def test_rebirth_resets_bakemon_lineage_and_decrements_cooldown():
+    state = PetState(
+        species_id="bakemon",
+        stage=GrowthStage.CHAMPION,
+        needs_rebirth_choice=True,
+        bakemon_lineage_used=True,
+        bakemon_generation_cooldown=4,
+    )
+
+    choose_rebirth(state, "botamon", species_map())
+
+    assert state.bakemon_lineage_used is False
+    assert state.bakemon_generation_cooldown == 3
+
+
 def test_rebirth_choice_resets_pet_to_selected_baby_1():
     state = PetState(
         species_id="numemon",

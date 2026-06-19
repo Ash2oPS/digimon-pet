@@ -98,6 +98,8 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         discovered_species_ids=_species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"])),
         generation_stat_bonuses=_stat_bonuses_from_raw(raw.get("generation_stat_bonuses")),
         pending_rebirth_stat_bonuses=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_bonuses")),
+        bakemon_lineage_used=bool(raw.get("bakemon_lineage_used", False)),
+        bakemon_generation_cooldown=int(raw.get("bakemon_generation_cooldown", 0)),
         inventory=_inventory_from_raw(raw.get("inventory")),
     )
     state.mark_discovered()

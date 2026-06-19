@@ -33,6 +33,7 @@ from PySide6.QtWidgets import (
 from digimon_pet.app.artwork_runtime import resolve_artwork_path
 from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.theme import APP_QSS
+from digimon_pet.data import load_item_catalog
 from digimon_pet.domain.digimon_catalog import (
     SPRITE_SLOT_NAMES,
     DigimonCatalog,
@@ -1075,12 +1076,22 @@ class DigimonManagerWindow(QWidget):
             self._refresh_evolution_tables()
             self._refresh_validation()
 
+    def _current_item_catalog(self) -> ItemCatalog | None:
+        if self._item_catalog is not None:
+            return self._item_catalog
+        if not self._item_save_path.exists():
+            return None
+        try:
+            return load_item_catalog(self._item_save_path)
+        except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError):
+            return None
+
     def _refresh_validation(self) -> None:
         result = validate_digimon_catalog(
             self._catalog,
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
-            item_catalog=self._item_catalog,
+            item_catalog=self._current_item_catalog(),
         )
         self._set_validation_indexes(result.errors, result.warnings)
         self._validation_summary_label.setText(
@@ -1110,7 +1121,7 @@ class DigimonManagerWindow(QWidget):
             self._catalog,
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
-            item_catalog=self._item_catalog,
+            item_catalog=self._current_item_catalog(),
         )
         self._set_validation_indexes(result.errors, result.warnings)
         self._refresh_selected_validation()
@@ -1133,7 +1144,7 @@ class DigimonManagerWindow(QWidget):
             self._catalog,
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
-            item_catalog=self._item_catalog,
+            item_catalog=self._current_item_catalog(),
         )
         self._refresh_validation()
         if result.has_errors:
