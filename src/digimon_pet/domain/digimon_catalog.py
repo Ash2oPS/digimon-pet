@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from digimon_pet.domain.items import ItemCatalog
 from digimon_pet.domain.models import GrowthStage
 
 
@@ -154,6 +155,7 @@ def validate_digimon_catalog(
     project_root: Path,
     *,
     sprite_manifest_path: Path | None = None,
+    item_catalog: ItemCatalog | None = None,
 ) -> DigimonValidationResult:
     errors: list[str] = []
     warnings: list[str] = []
@@ -182,7 +184,7 @@ def validate_digimon_catalog(
         _validate_natural_evolution(row, species_ids, errors)
     for row in catalog.special_evolutions:
         _validate_special_evolution(row, species_ids, errors, warnings)
-    _validate_link_shape(catalog, species_ids, warnings)
+    _validate_link_shape(catalog, species_ids, warnings, item_catalog)
     return DigimonValidationResult(errors=errors, warnings=warnings)
 
 
@@ -287,9 +289,29 @@ def _validate_link_shape(
     catalog: DigimonCatalog,
     species_ids: set[str],
     warnings: list[str],
+    item_catalog: ItemCatalog | None,
 ) -> None:
     incoming = {str(row.get("target_species_id", "")) for row in catalog.natural_evolutions}
     outgoing = {str(row.get("source_species_id", "")) for row in catalog.natural_evolutions}
+    incoming.update(str(row.get("target_species_id", "")) for row in catalog.special_evolutions)
+    for row in catalog.special_evolutions:
+        selector = row.get("source_selector", {})
+        if not isinstance(selector, dict):
+            continue
+        outgoing.update(str(source_id) for source_id in selector.get("species_ids", ()))
+        selected_stage = str(selector.get("stage", "")).strip()
+        if selected_stage:
+            outgoing.update(
+                str(species.get("id", "")).strip()
+                for species in catalog.species_rows
+                if str(species.get("stage", "")).strip() == selected_stage
+            )
+    if item_catalog is not None:
+        for item in item_catalog.items.values():
+            if item.evolution is None:
+                continue
+            incoming.add(item.evolution.target_species_id)
+            outgoing.update(item.evolution.required_species_ids)
     for row in catalog.species_rows:
         species_id = str(row.get("id", "")).strip()
         stage = str(row.get("stage", "")).strip()

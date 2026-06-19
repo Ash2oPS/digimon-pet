@@ -884,6 +884,7 @@ class DigimonManagerWindow(QWidget):
             self._catalog,
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
+            item_catalog=self._item_catalog,
         )
         self._set_validation_indexes(result.errors, result.warnings)
         lines: list[str] = []
@@ -900,6 +901,7 @@ class DigimonManagerWindow(QWidget):
             self._catalog,
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
+            item_catalog=self._item_catalog,
         )
         self._set_validation_indexes(result.errors, result.warnings)
 
@@ -921,6 +923,7 @@ class DigimonManagerWindow(QWidget):
             self._catalog,
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
+            item_catalog=self._item_catalog,
         )
         self._refresh_validation()
         if result.has_errors:

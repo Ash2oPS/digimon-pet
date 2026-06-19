@@ -11,6 +11,7 @@ from digimon_pet.domain.digimon_catalog import (
     rebuild_indexes_by_source,
     validate_digimon_catalog,
 )
+from digimon_pet.domain.items import EvolutionItemEffect, ItemCatalog, ItemDefinition, ItemType
 
 
 def write_catalog_files(tmp_path: Path) -> tuple[Path, Path]:
@@ -250,3 +251,45 @@ def test_validate_catalog_accepts_runtime_manifest_sprite_as_present(tmp_path):
     result = validate_digimon_catalog(catalog, tmp_path, sprite_manifest_path=manifest_path)
 
     assert "koromon missing sprite file for idle: assets/sprites/koromon/idle.png" not in result.warnings
+
+
+def test_validate_catalog_counts_special_and_item_evolutions_as_obtainable(tmp_path):
+    species_path, digivolutions_path = write_catalog_files(tmp_path)
+    catalog = load_digimon_catalog(species_path, digivolutions_path)
+    catalog.species_rows.extend(
+        [
+            {"id": "angemon", "name": "Angemon", "stage": "champion", "sprite_slots": {}},
+            {"id": "devimon", "name": "Devimon", "stage": "champion", "sprite_slots": {}},
+            {"id": "numemon", "name": "Numemon", "stage": "champion", "sprite_slots": {}},
+        ]
+    )
+    catalog.special_evolutions.append(
+        {
+            "id": "special__to__numemon",
+            "type": "special",
+            "target_species_id": "numemon",
+            "source_selector": {"stage": "rookie"},
+            "trigger": "after 96h on Rookie level without natural evolution",
+        }
+    )
+    item_catalog = ItemCatalog(
+        items={
+            "black_wings": ItemDefinition(
+                id="black_wings",
+                name="Black Wings",
+                description="Makes Angemon digivolve into Devimon.",
+                type=ItemType.EVOLUTION,
+                evolution=EvolutionItemEffect(
+                    target_species_id="devimon",
+                    required_species_ids=("angemon",),
+                ),
+            )
+        },
+        pools={},
+    )
+
+    result = validate_digimon_catalog(catalog, tmp_path, item_catalog=item_catalog)
+
+    assert "devimon has no incoming natural evolution" not in result.warnings
+    assert "numemon has no incoming natural evolution" not in result.warnings
+    assert "angemon has no outgoing natural evolution" not in result.warnings
