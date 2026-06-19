@@ -280,4 +280,75 @@ QMenu::item {{
 QMenu::item:selected {{
     background: {COLORS["accent_pressed"]};
 }}
+
+QLineEdit,
+QPlainTextEdit {{
+    background: #111113;
+    color: {COLORS["text"]};
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    padding: 4px 8px;
+    selection-background-color: {COLORS["accent_pressed"]};
+}}
+
+QLineEdit:hover,
+QPlainTextEdit:hover {{
+    border-color: {COLORS["accent"]};
+}}
+
+QLineEdit:focus,
+QPlainTextEdit:focus {{
+    border-color: {COLORS["focus"]};
+}}
+
+QTableWidget {{
+    background: #111113;
+    color: {COLORS["text"]};
+    border: 1px solid #3a3938;
+    border-radius: 6px;
+    gridline-color: #2f2e31;
+    selection-background-color: {COLORS["accent_pressed"]};
+    selection-color: {COLORS["text"]};
+    outline: 0;
+}}
+
+QHeaderView::section {{
+    background: {COLORS["panel"]};
+    color: {COLORS["muted"]};
+    border: none;
+    border-bottom: 1px solid #3a3938;
+    padding: 6px 8px;
+    font-weight: 700;
+}}
+
+QTableWidget::item {{
+    padding: 5px 8px;
+}}
+
+QTableWidget::item:hover {{
+    background: {COLORS["panel_alt"]};
+}}
+
+QTabWidget::pane {{
+    border: 1px solid #343337;
+    border-radius: 6px;
+    background: {COLORS["panel"]};
+}}
+
+QTabBar::tab {{
+    background: #111113;
+    color: {COLORS["muted"]};
+    border: 1px solid #343337;
+    border-bottom: none;
+    padding: 6px 10px;
+    margin-right: 2px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}}
+
+QTabBar::tab:selected {{
+    background: {COLORS["panel_alt"]};
+    color: {COLORS["text"]};
+    border-color: {COLORS["focus"]};
+}}
 """
