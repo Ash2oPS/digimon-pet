@@ -7,9 +7,43 @@ from digimon_pet import platform as desktop_platform
 
 
 def project_root() -> Path:
-    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
-        return Path(sys._MEIPASS)
+    if getattr(sys, "frozen", False):
+        for root in _frozen_resource_roots():
+            if (root / "data" / "default_save.json").exists() and (root / "assets").exists():
+                return root
+        if hasattr(sys, "_MEIPASS"):
+            return Path(sys._MEIPASS)
     return Path(__file__).resolve().parents[2]
+
+
+def _frozen_resource_roots() -> list[Path]:
+    roots: list[Path] = []
+    if hasattr(sys, "_MEIPASS"):
+        roots.append(Path(sys._MEIPASS))
+
+    executable = Path(sys.executable).resolve()
+    if _is_macos_app_executable(executable):
+        roots.append(executable.parent)
+        for parent in executable.parents:
+            roots.append(parent)
+            if parent.name == "Contents":
+                roots.append(parent / "Resources")
+
+    unique_roots: list[Path] = []
+    seen: set[Path] = set()
+    for root in roots:
+        if root not in seen:
+            seen.add(root)
+            unique_roots.append(root)
+    return unique_roots
+
+
+def _is_macos_app_executable(executable: Path) -> bool:
+    return (
+        executable.parent.name == "MacOS"
+        and executable.parent.parent.name == "Contents"
+        and executable.parent.parent.parent.suffix == ".app"
+    )
 
 
 PROJECT_ROOT = project_root()

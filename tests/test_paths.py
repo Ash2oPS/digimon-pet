@@ -34,3 +34,20 @@ def test_project_root_uses_pyinstaller_meipass_when_frozen(tmp_path, monkeypatch
     monkeypatch.setattr(sys, "_MEIPASS", str(tmp_path), raising=False)
 
     assert paths.project_root() == tmp_path
+
+
+def test_project_root_finds_macos_bundle_resources(tmp_path, monkeypatch):
+    bundle_root = tmp_path / "Digimon Pet.app"
+    resources = bundle_root / "Contents" / "Resources"
+    executable = bundle_root / "Contents" / "MacOS" / "Digimon Pet"
+    (resources / "data").mkdir(parents=True)
+    (resources / "assets").mkdir()
+    (executable.parent).mkdir(parents=True)
+    (resources / "data" / "default_save.json").write_text("{}", encoding="utf-8")
+    executable.write_text("", encoding="utf-8")
+
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "_MEIPASS", str(tmp_path / "missing_meipass"), raising=False)
+    monkeypatch.setattr(sys, "executable", str(executable), raising=False)
+
+    assert paths.project_root() == resources
