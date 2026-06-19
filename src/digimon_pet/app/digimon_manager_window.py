@@ -120,6 +120,11 @@ class RuntimeSpritePreview(QWidget):
         return QRect((self.width() - width) // 2, (self.height() - height) // 2, width, height)
 
 
+class NoWheelComboBox(QComboBox):
+    def wheelEvent(self, event) -> None:  # noqa: N802
+        event.ignore()
+
+
 class DigimonManagerWindow(QWidget):
     def __init__(
         self,
@@ -189,10 +194,10 @@ class DigimonManagerWindow(QWidget):
         self._search_input = QLineEdit(self)
         self._search_input.setObjectName("SearchInput")
         self._search_input.setPlaceholderText("Search id or name")
-        self._stage_filter = QComboBox(self)
+        self._stage_filter = NoWheelComboBox(self)
         self._stage_filter.addItem("All stages", "")
         self._stage_filter.addItems([stage.value for stage in GrowthStage])
-        self._status_filter = QComboBox(self)
+        self._status_filter = NoWheelComboBox(self)
         self._status_filter.addItem("All data", "")
         self._status_filter.addItem("Missing sprites", "missing_sprites")
         self._status_filter.addItem("Referenced", "referenced")
@@ -287,7 +292,7 @@ class DigimonManagerWindow(QWidget):
         form.setSpacing(8)
         self._id_input = QLineEdit(self)
         self._name_input = QLineEdit(self)
-        self._stage_input = QComboBox(self)
+        self._stage_input = NoWheelComboBox(self)
         self._stage_input.addItems([stage.value for stage in GrowthStage])
         form.addRow("ID", self._id_input)
         form.addRow("Name", self._name_input)
@@ -296,7 +301,7 @@ class DigimonManagerWindow(QWidget):
         right_layout.addWidget(detail_panel)
 
         self._tabs = QTabWidget(self)
-        self._tabs.setMinimumHeight(360)
+        self._tabs.setMinimumHeight(300)
         self._tabs.addTab(self._build_sprite_tab(), "Sprites")
         self._tabs.addTab(self._build_evolution_tab(), "Evolutions")
         right_layout.addWidget(self._tabs, 1)
@@ -420,8 +425,8 @@ class DigimonManagerWindow(QWidget):
     def _build_evolution_tab(self) -> QWidget:
         tab = QWidget(self)
         layout = QVBoxLayout(tab)
-        layout.setContentsMargins(8, 8, 8, 8)
-        layout.setSpacing(8)
+        layout.setContentsMargins(6, 6, 6, 6)
+        layout.setSpacing(5)
 
         self._natural_table = QTableWidget(0, 4, tab)
         self._natural_table.setHorizontalHeaderLabels(["Kind", "Source", "Target", "Stats"])
@@ -430,12 +435,15 @@ class DigimonManagerWindow(QWidget):
         self._natural_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self._natural_table.verticalHeader().setVisible(False)
         self._natural_table.horizontalHeader().setStretchLastSection(True)
+        self._natural_table.setMaximumHeight(96)
+        self._natural_table.setMinimumHeight(76)
         layout.addWidget(QLabel("Natural Evolutions", tab))
-        layout.addWidget(self._natural_table, 1)
+        layout.addWidget(self._natural_table)
 
         natural_controls = QHBoxLayout()
-        self._natural_source_input = QComboBox(tab)
-        self._natural_target_input = QComboBox(tab)
+        natural_controls.setSpacing(6)
+        self._natural_source_input = NoWheelComboBox(tab)
+        self._natural_target_input = NoWheelComboBox(tab)
         self._natural_add_button = QPushButton("Add Natural", tab)
         self._natural_remove_button = QPushButton("Remove Natural", tab)
         natural_controls.addWidget(self._natural_source_input)
@@ -453,12 +461,15 @@ class DigimonManagerWindow(QWidget):
         self._special_table.horizontalHeader().setStretchLastSection(True)
         self._special_table.setColumnWidth(0, 100)
         self._special_table.setColumnWidth(1, 140)
+        self._special_table.setMaximumHeight(96)
+        self._special_table.setMinimumHeight(76)
         layout.addWidget(QLabel("Special Evolutions", tab))
-        layout.addWidget(self._special_table, 1)
+        layout.addWidget(self._special_table)
 
         special_controls = QHBoxLayout()
-        self._special_target_input = QComboBox(tab)
-        self._special_selector_input = QComboBox(tab)
+        special_controls.setSpacing(6)
+        self._special_target_input = NoWheelComboBox(tab)
+        self._special_selector_input = NoWheelComboBox(tab)
         self._special_selector_input.addItem("Any source", "any")
         self._special_selector_input.addItem("Selected source", "selected")
         self._special_trigger_input = QLineEdit(tab)

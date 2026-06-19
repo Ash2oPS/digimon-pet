@@ -173,7 +173,31 @@ def test_validation_lives_in_right_panel_tab_to_preserve_editor_space(tmp_path):
     tab_labels = [window._tabs.tabText(index) for index in range(window._tabs.count())]
 
     assert tab_labels == ["Sprites", "Evolutions", "Validation"]
-    assert window._tabs.minimumHeight() >= 360
+    assert 280 <= window._tabs.minimumHeight() <= 320
+
+
+def test_combo_boxes_ignore_mouse_wheel_changes(tmp_path):
+    window = make_window(tmp_path)
+    window._stage_input.setCurrentIndex(0)
+
+    class FakeWheelEvent:
+        ignored = False
+
+        def ignore(self):
+            self.ignored = True
+
+    event = FakeWheelEvent()
+    window._stage_input.wheelEvent(event)
+
+    assert window._stage_input.currentIndex() == 0
+    assert event.ignored is True
+
+
+def test_evolution_editor_uses_compact_tables_to_keep_controls_visible(tmp_path):
+    window = make_window(tmp_path)
+
+    assert window._natural_table.maximumHeight() <= 96
+    assert window._special_table.maximumHeight() <= 96
 
 
 def test_editing_species_fields_updates_catalog_and_dirty_state(tmp_path):
