@@ -409,6 +409,69 @@ def test_death_pending_uses_red_pulse(tmp_path, monkeypatch):
     assert window._pet_widget._effect_name == "pending_death"
 
 
+def test_natural_death_can_chain_into_bakemon_evolution_without_rebirth_choice(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    def fail_baby_choice(self, baby_ids):
+        raise AssertionError("Bakemon death evolution should not ask for a baby choice")
+
+    window = PetWindow(overlay=True, debug=True)
+    monkeypatch.setattr(PetWindow, "_get_baby_choice", fail_baby_choice)
+    monkeypatch.setattr(window, "_roll_natural_death_evolution", lambda: True)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+    window._state.discovered_species_ids = ["metalgreymon"]
+
+    window._queue_or_advance_lifecycle()
+    window._confirm_pending_lifecycle()
+    for _index in range(28):
+        window._pet_widget._advance_effect()
+
+    assert window._lifecycle_animating is True
+    assert window._pet_widget._effect_name == "evolution"
+    assert window._state.species_id == "metalgreymon"
+    assert window._state.needs_rebirth_choice is True
+
+    for _index in range(24):
+        window._pet_widget._advance_effect()
+
+    assert window._state.species_id == "bakemon"
+    assert window._state.stage == GrowthStage.CHAMPION
+    assert window._state.needs_rebirth_choice is False
+    assert window._state.pending_rebirth_stat_bonuses == {}
+    assert "bakemon" in window._state.discovered_species_ids
+    assert window._pet_widget._new_badge_elapsed_ms > 0
+
+
+def test_sudden_death_item_does_not_chain_into_bakemon(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=False)
+    window._auto_rebirth_random = True
+    monkeypatch.setattr(
+        window,
+        "_roll_natural_death_evolution",
+        lambda: (_ for _ in ()).throw(AssertionError("Sudden death should not roll Bakemon")),
+    )
+    window._state.species_id = "agumon"
+    window._state.stage = GrowthStage.ROOKIE
+    window._state.inventory = {"digigun": 1}
+
+    window._use_inventory_item("digigun")
+    window._confirm_pending_lifecycle()
+    for _index in range(28):
+        window._pet_widget._advance_effect()
+
+    assert window._pet_widget._effect_name is None
+    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.species_id != "bakemon"
+    assert window._state.needs_rebirth_choice is False
+
+
 def test_auto_lifecycle_resolves_without_pending_animation(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -711,6 +774,7 @@ def test_auto_rebirth_chooses_random_baby_on_death():
     window = PetWindow(overlay=True, debug=True)
     window._auto_lifecycle_events = True
     window._auto_rebirth_random = True
+    window._roll_natural_death_evolution = lambda: False
     window._state.species_id = "metalgreymon"
     window._state.stage = GrowthStage.ULTIMATE
     window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
@@ -720,6 +784,24 @@ def test_auto_rebirth_chooses_random_baby_on_death():
     assert window._state.needs_rebirth_choice is False
     assert window._state.species_id in BABY_1_CHOICES
     assert window._state.stage == GrowthStage.BABY
+
+
+def test_auto_rebirth_respects_successful_bakemon_death_evolution():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._auto_rebirth_random = True
+    window._roll_natural_death_evolution = lambda: True
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+
+    window._advance_lifecycle()
+
+    assert window._state.needs_rebirth_choice is False
+    assert window._state.species_id == "bakemon"
+    assert window._state.stage == GrowthStage.CHAMPION
 
 
 def test_collection_dialog_opens_from_window():

@@ -38,6 +38,7 @@ from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
     advance_lifecycle,
     choose_rebirth,
+    force_evolve_to,
     next_lifecycle_event,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
@@ -56,6 +57,8 @@ SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
+NATURAL_DEATH_EVOLUTION_TARGET_ID = "bakemon"
+NATURAL_DEATH_EVOLUTION_CHANCE = 0.1
 
 
 def _item_has_instant_death_effect(item) -> bool:
@@ -202,6 +205,7 @@ class PetWindow(QWidget):
         self._pending_lifecycle_kind: str | None = None
         self._pending_inventory_item_id: str | None = None
         self._lifecycle_animating = False
+        self._lifecycle_animating_kind: str | None = None
         self._lifecycle_resolved_during_animation = False
         self._direction = QPoint(3, 0)
         self._drag_offset: QPoint | None = None
@@ -542,7 +546,9 @@ class PetWindow(QWidget):
             return
         self._state.age_seconds = threshold
         if self._auto_lifecycle_events:
-            self._resolve_lifecycle_now()
+            event = self._resolve_lifecycle_now(allow_natural_death_evolution=True)
+            if event == self._natural_death_evolution_event():
+                self._reveal_death_evolution_resolution()
             return
         kind = self._preview_lifecycle_kind()
         if kind is None:
@@ -577,14 +583,33 @@ class PetWindow(QWidget):
         kind = self._pending_lifecycle_kind
         self._pending_lifecycle_kind = None
         self._lifecycle_animating = True
+        self._lifecycle_animating_kind = kind
         self._lifecycle_resolved_during_animation = False
         reveal = self._reveal_lifecycle_resolution if kind == "evolution" else None
         self._pet_widget.start_lifecycle_resolution(kind, self._finish_lifecycle_resolution, reveal)
 
     def _finish_lifecycle_resolution(self) -> None:
+        kind = self._lifecycle_animating_kind
+        if kind == "death_evolution":
+            if not self._lifecycle_resolved_during_animation:
+                self._reveal_death_evolution_resolution()
+            self._lifecycle_animating = False
+            self._lifecycle_animating_kind = None
+            self._lifecycle_resolved_during_animation = False
+            self._save_and_refresh()
+            return
+
+        event = None
         if not self._lifecycle_resolved_during_animation:
-            self._resolve_lifecycle_now(clear_effect=False)
+            event = self._resolve_lifecycle_now(
+                clear_effect=False,
+                allow_natural_death_evolution=kind == "death" and self._pending_inventory_item_id is None,
+            )
+        if event == self._natural_death_evolution_event():
+            self._start_death_evolution_animation()
+            return
         self._lifecycle_animating = False
+        self._lifecycle_animating_kind = None
         self._lifecycle_resolved_during_animation = False
         self._save_and_refresh()
 
@@ -593,7 +618,12 @@ class PetWindow(QWidget):
         self._lifecycle_resolved_during_animation = True
         self._save_and_refresh()
 
-    def _resolve_lifecycle_now(self, *, clear_effect: bool = True) -> None:
+    def _resolve_lifecycle_now(
+        self,
+        *,
+        clear_effect: bool = True,
+        allow_natural_death_evolution: bool = False,
+    ) -> str | None:
         if clear_effect:
             self._pet_widget.set_lifecycle_pending(None)
         discovered_before = set(self._state.discovered_species_ids)
@@ -610,11 +640,42 @@ class PetWindow(QWidget):
         if event is not None and event.startswith("evolved:"):
             self._trigger_new_badge_if_needed(discovered_before)
         if event == "died:choice_required":
+            if allow_natural_death_evolution and self._roll_natural_death_evolution():
+                return self._natural_death_evolution_event()
             if self._auto_rebirth_random:
                 choose_rebirth(self._state, self._rng.choice(BABY_1_CHOICES), self._species)
                 self._trigger_new_badge_if_needed(discovered_before)
-                return
+                return event
             self._prompt_rebirth_choice()
+        return event
+
+    def _roll_natural_death_evolution(self) -> bool:
+        return (
+            NATURAL_DEATH_EVOLUTION_TARGET_ID in self._species
+            and self._rng.random() < NATURAL_DEATH_EVOLUTION_CHANCE
+        )
+
+    def _natural_death_evolution_event(self) -> str:
+        return f"death_evolution:{NATURAL_DEATH_EVOLUTION_TARGET_ID}"
+
+    def _start_death_evolution_animation(self) -> None:
+        self._lifecycle_animating = True
+        self._lifecycle_animating_kind = "death_evolution"
+        self._lifecycle_resolved_during_animation = False
+        self._pet_widget.start_lifecycle_resolution(
+            "evolution",
+            self._finish_lifecycle_resolution,
+            self._reveal_death_evolution_resolution,
+        )
+
+    def _reveal_death_evolution_resolution(self) -> None:
+        target = self._species[NATURAL_DEATH_EVOLUTION_TARGET_ID]
+        discovered_before = set(self._state.discovered_species_ids)
+        force_evolve_to(self._state, target, self._rng)
+        self._state.pending_rebirth_stat_bonuses = {}
+        self._trigger_new_badge_if_needed(discovered_before)
+        self._lifecycle_resolved_during_animation = True
+        self._save_and_refresh()
 
     def _resolve_pending_inventory_item(self) -> str | None:
         if self._pending_inventory_item_id is None:
