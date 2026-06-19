@@ -84,6 +84,13 @@ def test_species_table_shows_idle_frame_thumbnail_column(tmp_path):
     assert window._species_table.rowHeight(0) >= 40
 
 
+def test_species_table_status_surfaces_validation_warnings(tmp_path):
+    window = make_window(tmp_path)
+
+    assert "warning" in window._species_table.item(0, 4).text()
+    assert "koromon missing sprite file for idle" in window._species_table.item(0, 4).toolTip()
+
+
 def test_selecting_species_populates_detail_fields(tmp_path):
     window = make_window(tmp_path)
 

@@ -134,6 +134,8 @@ class DigimonManagerWindow(QWidget):
         self._digivolutions_path = digivolutions_path or project_root / "data" / "dw1_digivolutions.json"
         self._sprite_manifest_path = sprite_manifest_path or project_root / "data" / "dw1_sprite_manifest.json"
         self._runtime_sprite_entries = self._load_runtime_sprite_entries()
+        self._validation_errors_by_species: dict[str, list[str]] = {}
+        self._validation_warnings_by_species: dict[str, list[str]] = {}
         self._dirty = False
         self._loading = False
         self._selected_id: str | None = None
@@ -381,6 +383,7 @@ class DigimonManagerWindow(QWidget):
             combo.blockSignals(False)
 
     def _refresh_table(self) -> None:
+        self._refresh_validation_indexes()
         selected_id = self._selected_id
         self._species_table.blockSignals(True)
         self._species_table.setRowCount(0)
@@ -406,6 +409,10 @@ class DigimonManagerWindow(QWidget):
                     if thumbnail is not None:
                         item.setData(Qt.ItemDataRole.DecorationRole, thumbnail)
                         item.setIcon(QIcon(thumbnail))
+                if column == 4:
+                    tooltip = self._species_status_tooltip(species_id)
+                    if tooltip:
+                        item.setToolTip(tooltip)
                 self._species_table.setItem(row, column, item)
         self._species_table.blockSignals(False)
         self._select_species_id(selected_id)
@@ -427,12 +434,25 @@ class DigimonManagerWindow(QWidget):
         return True
 
     def _species_status(self, row: dict[str, object]) -> str:
+        species_id = str(row.get("id", ""))
         parts = []
+        error_count = len(self._validation_errors_by_species.get(species_id, []))
+        warning_count = len(self._validation_warnings_by_species.get(species_id, []))
+        if error_count:
+            parts.append(f"{error_count} error{'s' if error_count != 1 else ''}")
+        if warning_count:
+            parts.append(f"{warning_count} warning{'s' if warning_count != 1 else ''}")
         if self._has_missing_sprites(row):
             parts.append("Missing sprites")
-        if self._is_referenced(str(row.get("id", ""))):
+        if self._is_referenced(species_id):
             parts.append("Referenced")
         return ", ".join(parts) if parts else "Ready"
+
+    def _species_status_tooltip(self, species_id: str) -> str:
+        messages = []
+        messages.extend(self._validation_errors_by_species.get(species_id, []))
+        messages.extend(self._validation_warnings_by_species.get(species_id, []))
+        return "\n".join(messages)
 
     def _has_missing_sprites(self, row: dict[str, object]) -> bool:
         if self._runtime_sprite_path_for(str(row.get("id", ""))) is not None:
@@ -822,6 +842,7 @@ class DigimonManagerWindow(QWidget):
             self._project_root,
             sprite_manifest_path=self._sprite_manifest_path,
         )
+        self._set_validation_indexes(result.errors, result.warnings)
         lines: list[str] = []
         if result.errors:
             lines.append("Errors:")
@@ -830,6 +851,27 @@ class DigimonManagerWindow(QWidget):
             lines.append("Warnings:")
             lines.extend(f"- {warning}" for warning in result.warnings)
         self._validation_output.setPlainText("\n".join(lines) if lines else "No validation issues.")
+
+    def _refresh_validation_indexes(self) -> None:
+        result = validate_digimon_catalog(
+            self._catalog,
+            self._project_root,
+            sprite_manifest_path=self._sprite_manifest_path,
+        )
+        self._set_validation_indexes(result.errors, result.warnings)
+
+    def _set_validation_indexes(self, errors: list[str], warnings: list[str]) -> None:
+        self._validation_errors_by_species = self._messages_by_species(errors)
+        self._validation_warnings_by_species = self._messages_by_species(warnings)
+
+    def _messages_by_species(self, messages: list[str]) -> dict[str, list[str]]:
+        species_ids = set(self._catalog.species_by_id())
+        by_species: dict[str, list[str]] = {}
+        for message in messages:
+            species_id = _message_species_id(message, species_ids)
+            if species_id is not None:
+                by_species.setdefault(species_id, []).append(message)
+        return by_species
 
     def save_catalog(self) -> bool:
         result = validate_digimon_catalog(
@@ -943,3 +985,13 @@ def _first_frame_thumbnail(path: Path, *, frame_count: int) -> QPixmap | None:
         Qt.AspectRatioMode.KeepAspectRatio,
         Qt.TransformationMode.FastTransformation,
     )
+
+
+def _message_species_id(message: str, species_ids: set[str]) -> str | None:
+    first_token = message.split(" ", 1)[0].strip()
+    if first_token in species_ids:
+        return first_token
+    for species_id in species_ids:
+        if f": {species_id}" in message or f" {species_id} " in message:
+            return species_id
+    return None
