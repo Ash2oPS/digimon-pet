@@ -10,6 +10,7 @@ from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
+    QFrame,
     QGridLayout,
     QHBoxLayout,
     QHeaderView,
@@ -249,6 +250,38 @@ class DigimonManagerWindow(QWidget):
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(10)
 
+        selected_header = QFrame(right)
+        selected_header.setObjectName("SelectedDigimonHeader")
+        selected_header_layout = QHBoxLayout(selected_header)
+        selected_header_layout.setContentsMargins(10, 10, 10, 10)
+        selected_header_layout.setSpacing(10)
+        self._selected_sprite_label = QLabel(selected_header)
+        self._selected_sprite_label.setObjectName("SelectedDigimonSprite")
+        self._selected_sprite_label.setFixedSize(48, 48)
+        self._selected_sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        selected_header_layout.addWidget(self._selected_sprite_label)
+        selected_text_layout = QVBoxLayout()
+        selected_text_layout.setSpacing(3)
+        self._selected_title_label = QLabel("No Digimon selected", selected_header)
+        self._selected_title_label.setObjectName("SelectedDigimonTitle")
+        self._selected_subtitle_label = QLabel("", selected_header)
+        self._selected_subtitle_label.setObjectName("Muted")
+        self._selected_status_label = QLabel("Select a row to edit", selected_header)
+        self._selected_status_label.setObjectName("SelectedDigimonStatus")
+        selected_text_layout.addWidget(self._selected_title_label)
+        selected_text_layout.addWidget(self._selected_subtitle_label)
+        selected_text_layout.addWidget(self._selected_status_label)
+        selected_header_layout.addLayout(selected_text_layout, 1)
+        right_layout.addWidget(selected_header)
+
+        detail_panel = QFrame(right)
+        detail_panel.setObjectName("EditorSection")
+        detail_layout = QVBoxLayout(detail_panel)
+        detail_layout.setContentsMargins(10, 10, 10, 10)
+        detail_layout.setSpacing(8)
+        detail_title = QLabel("Details", detail_panel)
+        detail_title.setObjectName("SectionTitle")
+        detail_layout.addWidget(detail_title)
         form = QFormLayout()
         form.setContentsMargins(0, 0, 0, 0)
         form.setSpacing(8)
@@ -259,7 +292,8 @@ class DigimonManagerWindow(QWidget):
         form.addRow("ID", self._id_input)
         form.addRow("Name", self._name_input)
         form.addRow("Stage", self._stage_input)
-        right_layout.addLayout(form)
+        detail_layout.addLayout(form)
+        right_layout.addWidget(detail_panel)
 
         self._tabs = QTabWidget(self)
         self._tabs.addTab(self._build_sprite_tab(), "Sprites")
@@ -272,6 +306,11 @@ class DigimonManagerWindow(QWidget):
         self._validation_summary_label = QLabel("0 errors · 0 warnings", self)
         self._validation_summary_label.setObjectName("ValidationSummary")
         right_layout.addWidget(self._validation_summary_label)
+        self._selected_validation_output = QPlainTextEdit(self)
+        self._selected_validation_output.setObjectName("SelectedValidationOutput")
+        self._selected_validation_output.setReadOnly(True)
+        self._selected_validation_output.setMaximumHeight(62)
+        right_layout.addWidget(self._selected_validation_output)
         self._validation_output = QPlainTextEdit(self)
         self._validation_output.setReadOnly(True)
         self._validation_output.setMaximumHeight(130)
@@ -604,6 +643,7 @@ class DigimonManagerWindow(QWidget):
         self._refresh_sprite_preview()
         self._refresh_artwork_preview()
         self._refresh_evolution_tables()
+        self._refresh_selected_context()
 
     def _clear_editor(self) -> None:
         self._id_input.clear()
@@ -611,8 +651,11 @@ class DigimonManagerWindow(QWidget):
         self._stage_input.setCurrentIndex(0)
         for input_widget in self._sprite_inputs.values():
             input_widget.clear()
-        self._sprite_preview.setText("No sprite")
-        self._sprite_preview.clear()
+        self._selected_title_label.setText("No Digimon selected")
+        self._selected_subtitle_label.setText("")
+        self._selected_status_label.setText("Select a row to edit")
+        self._selected_sprite_label.clear()
+        self._selected_validation_output.setPlainText("No Digimon selected.")
 
     def _sync_species_edits(self) -> None:
         if self._loading:
@@ -638,6 +681,60 @@ class DigimonManagerWindow(QWidget):
         self._refresh_table()
         self._refresh_evolution_tables()
         self._refresh_validation()
+        self._refresh_selected_context()
+
+    def _refresh_selected_context(self) -> None:
+        species_id = self._selected_id or ""
+        row_data = self._catalog.species_by_id().get(species_id)
+        if row_data is None:
+            self._clear_editor()
+            return
+        name = str(row_data.get("name", species_id)).strip() or species_id
+        stage = str(row_data.get("stage", "")).strip()
+        self._selected_title_label.setText(name)
+        self._selected_subtitle_label.setText(f"{species_id} · {stage}" if stage else species_id)
+        self._selected_status_label.setText(self._species_status(row_data))
+        self._selected_status_label.setProperty("state", self._selected_status_state(species_id, row_data))
+        self._selected_status_label.style().unpolish(self._selected_status_label)
+        self._selected_status_label.style().polish(self._selected_status_label)
+        thumbnail = self._species_thumbnail(species_id, row_data)
+        if thumbnail is None:
+            self._selected_sprite_label.clear()
+            self._selected_sprite_label.setText("No sprite")
+        else:
+            self._selected_sprite_label.setText("")
+            self._selected_sprite_label.setPixmap(thumbnail.scaled(
+                42,
+                42,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.FastTransformation,
+            ))
+        self._refresh_selected_validation()
+
+    def _selected_status_state(self, species_id: str, row: dict[str, object]) -> str:
+        if self._validation_errors_by_species.get(species_id):
+            return "error"
+        if self._validation_warnings_by_species.get(species_id):
+            return "warning"
+        if self._has_missing_sprites(row):
+            return "warning"
+        return "ok"
+
+    def _refresh_selected_validation(self) -> None:
+        species_id = self._selected_id or ""
+        if not species_id:
+            self._selected_validation_output.setPlainText("No Digimon selected.")
+            return
+        lines: list[str] = []
+        errors = self._validation_errors_by_species.get(species_id, [])
+        warnings = self._validation_warnings_by_species.get(species_id, [])
+        if errors:
+            lines.append("Selected Digimon errors:")
+            lines.extend(f"- {error}" for error in errors)
+        if warnings:
+            lines.append("Selected Digimon warnings:")
+            lines.extend(f"- {warning}" for warning in warnings)
+        self._selected_validation_output.setPlainText("\n".join(lines) if lines else "No issues for selected Digimon.")
 
     def _replace_species_references(self, old_id: str, new_id: str) -> None:
         for row in self._catalog.natural_evolutions:
@@ -949,6 +1046,7 @@ class DigimonManagerWindow(QWidget):
             lines.append("Warnings:")
             lines.extend(f"- {warning}" for warning in result.warnings)
         self._validation_output.setPlainText("\n".join(lines) if lines else "No validation issues.")
+        self._refresh_selected_context()
 
     def _refresh_validation_indexes(self) -> None:
         result = validate_digimon_catalog(
@@ -958,6 +1056,7 @@ class DigimonManagerWindow(QWidget):
             item_catalog=self._item_catalog,
         )
         self._set_validation_indexes(result.errors, result.warnings)
+        self._refresh_selected_validation()
 
     def _set_validation_indexes(self, errors: list[str], warnings: list[str]) -> None:
         self._validation_errors_by_species = self._messages_by_species(errors)

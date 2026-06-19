@@ -148,6 +148,25 @@ def test_selecting_species_populates_detail_fields(tmp_path):
     assert window._stage_input.currentText() == "rookie"
 
 
+def test_right_panel_header_tracks_selected_species(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(1)
+
+    assert window._selected_title_label.text() == "Agumon"
+    assert window._selected_subtitle_label.text() == "agumon · rookie"
+    assert "Referenced" in window._selected_status_label.text()
+
+
+def test_selected_validation_focuses_current_species(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(1)
+
+    assert "agumon missing sprite file for idle" in window._selected_validation_output.toPlainText()
+    assert "koromon missing sprite file for idle" not in window._selected_validation_output.toPlainText()
+
+
 def test_editing_species_fields_updates_catalog_and_dirty_state(tmp_path):
     window = make_window(tmp_path)
 

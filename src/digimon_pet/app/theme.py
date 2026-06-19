@@ -37,6 +37,63 @@ QLabel#DebugValue {{
     font-weight: 600;
 }}
 
+QLabel#SectionTitle {{
+    color: {COLORS["focus"]};
+    background: transparent;
+    font-weight: 700;
+}}
+
+QFrame#SelectedDigimonHeader {{
+    background: #202023;
+    border: 1px solid #3a3938;
+    border-radius: 6px;
+}}
+
+QLabel#SelectedDigimonSprite {{
+    background: #111113;
+    border: 1px solid #343337;
+    border-radius: 5px;
+    color: {COLORS["muted"]};
+    font-size: 10px;
+}}
+
+QLabel#SelectedDigimonTitle {{
+    background: transparent;
+    color: {COLORS["text"]};
+    font-size: 16px;
+    font-weight: 700;
+}}
+
+QLabel#SelectedDigimonStatus {{
+    background: #111113;
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    padding: 4px 7px;
+    color: {COLORS["muted"]};
+    font-weight: 700;
+}}
+
+QLabel#SelectedDigimonStatus[state="ok"] {{
+    color: #9fd18b;
+    border-color: #40583d;
+}}
+
+QLabel#SelectedDigimonStatus[state="warning"] {{
+    color: {COLORS["focus"]};
+    border-color: #725f2b;
+}}
+
+QLabel#SelectedDigimonStatus[state="error"] {{
+    color: {COLORS["danger"]};
+    border-color: #704247;
+}}
+
+QFrame#EditorSection {{
+    background: #1d1d20;
+    border: 1px solid #343337;
+    border-radius: 6px;
+}}
+
 QWidget#DebugHeader {{
     background: {COLORS["panel"]};
     border-bottom: 1px solid #343337;
@@ -381,6 +438,12 @@ QLabel#ValidationSummary[state="warning"] {{
 QLabel#ValidationSummary[state="error"] {{
     color: {COLORS["danger"]};
     border-color: #704247;
+}}
+
+QPlainTextEdit#SelectedValidationOutput {{
+    background: #151517;
+    border-color: #3a3938;
+    color: {COLORS["text"]};
 }}
 
 QTabWidget::pane {{
