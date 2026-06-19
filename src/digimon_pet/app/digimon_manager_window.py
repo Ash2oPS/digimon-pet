@@ -5,8 +5,8 @@ import re
 from pathlib import Path
 from typing import Any
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import QRect, Qt, QTimer
+from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
@@ -26,10 +26,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from digimon_pet.app.artwork_runtime import resolve_artwork_path
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.domain.digimon_catalog import (
     SPRITE_SLOT_NAMES,
-    VALID_STAT_NAMES,
     DigimonCatalog,
     add_species,
     delete_species,
@@ -39,6 +39,80 @@ from digimon_pet.domain.digimon_catalog import (
     validate_digimon_catalog,
 )
 from digimon_pet.domain.models import GrowthStage
+
+
+class RuntimeSpritePreview(QWidget):
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._pixmap: QPixmap | None = None
+        self._frame_count = 1
+        self._fps = 6
+        self._frame_index = 0
+        self._status_text = "No runtime sprite"
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self._advance_frame)
+        self.setObjectName("RuntimeSpritePreview")
+        self.setMinimumSize(220, 220)
+
+    def set_sprite(self, path: Path | None, *, frame_count: int = 1, fps: int = 6) -> None:
+        self._timer.stop()
+        self._frame_index = 0
+        self._frame_count = max(1, int(frame_count or 1))
+        self._fps = max(1, int(fps or 6))
+        if path is None or not path.exists():
+            self._pixmap = None
+            self._status_text = "No runtime sprite"
+            self.update()
+            return
+        pixmap = QPixmap(str(path))
+        if pixmap.isNull():
+            self._pixmap = None
+            self._status_text = "Invalid runtime sprite"
+            self.update()
+            return
+        self._pixmap = pixmap
+        self._status_text = ""
+        if self._frame_count > 1:
+            self._timer.start(max(40, round(1000 / self._fps)))
+        self.update()
+
+    def _advance_frame(self) -> None:
+        if self._frame_count <= 1:
+            return
+        self._frame_index = (self._frame_index + 1) % self._frame_count
+        self.update()
+
+    def paintEvent(self, event) -> None:  # noqa: N802
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, False)
+        painter.fillRect(self.rect(), QColor("#111113"))
+        if self._pixmap is None or self._pixmap.isNull():
+            painter.setPen(QColor("#b8b1a4"))
+            painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, self._status_text)
+            return
+        source = self._source_rect()
+        target = self._target_rect(source)
+        painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, False)
+        painter.drawPixmap(target, self._pixmap, source)
+
+    def _source_rect(self) -> QRect:
+        if self._pixmap is None or self._pixmap.isNull():
+            return QRect()
+        frame_width = max(1, self._pixmap.width() // self._frame_count)
+        frame_height = self._pixmap.height()
+        frame_index = min(self._frame_index, self._frame_count - 1)
+        return QRect(frame_index * frame_width, 0, frame_width, frame_height)
+
+    def _target_rect(self, source: QRect) -> QRect:
+        if source.width() <= 0 or source.height() <= 0:
+            return QRect()
+        margin = 16
+        max_width = max(1, self.width() - margin * 2)
+        max_height = max(1, self.height() - margin * 2)
+        scale = max(1, min(max_width // source.width(), max_height // source.height()))
+        width = source.width() * scale
+        height = source.height() * scale
+        return QRect((self.width() - width) // 2, (self.height() - height) // 2, width, height)
 
 
 class DigimonManagerWindow(QWidget):
@@ -59,7 +133,7 @@ class DigimonManagerWindow(QWidget):
         self._species_path = species_path or project_root / "data" / "species.json"
         self._digivolutions_path = digivolutions_path or project_root / "data" / "dw1_digivolutions.json"
         self._sprite_manifest_path = sprite_manifest_path or project_root / "data" / "dw1_sprite_manifest.json"
-        self._runtime_sprite_paths = self._load_runtime_sprite_paths()
+        self._runtime_sprite_entries = self._load_runtime_sprite_entries()
         self._dirty = False
         self._loading = False
         self._selected_id: str | None = None
@@ -191,11 +265,22 @@ class DigimonManagerWindow(QWidget):
             grid.addWidget(label, row, 0)
             grid.addWidget(input_widget, row, 1)
         layout.addLayout(grid)
-        self._sprite_preview = QLabel("No sprite", tab)
-        self._sprite_preview.setObjectName("SpritePreview")
-        self._sprite_preview.setFixedSize(112, 112)
-        self._sprite_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self._sprite_preview)
+        preview_row = QHBoxLayout()
+        preview_row.setSpacing(12)
+        self._runtime_sprite_preview = RuntimeSpritePreview(tab)
+        preview_row.addWidget(self._runtime_sprite_preview, 1)
+        artwork_panel = QVBoxLayout()
+        artwork_panel.setSpacing(6)
+        artwork_title = QLabel("Artwork", tab)
+        artwork_title.setObjectName("Muted")
+        self._artwork_preview = QLabel("No artwork", tab)
+        self._artwork_preview.setObjectName("ArtworkPreview")
+        self._artwork_preview.setMinimumSize(220, 220)
+        self._artwork_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        artwork_panel.addWidget(artwork_title)
+        artwork_panel.addWidget(self._artwork_preview, 1)
+        preview_row.addLayout(artwork_panel, 1)
+        layout.addLayout(preview_row, 1)
         layout.addStretch(1)
         return tab
 
@@ -401,6 +486,7 @@ class DigimonManagerWindow(QWidget):
             input_widget.setText(str(sprite_slots.get(slot_name, "")))
         self._loading = False
         self._refresh_sprite_preview()
+        self._refresh_artwork_preview()
         self._refresh_evolution_tables()
 
     def _clear_editor(self) -> None:
@@ -458,36 +544,42 @@ class DigimonManagerWindow(QWidget):
                 ]
 
     def _refresh_sprite_preview(self) -> None:
+        runtime_entry = self._runtime_sprite_entry_for(self._selected_id or "")
+        if runtime_entry is not None:
+            path = self._project_path(str(runtime_entry.get("asset_path", "")))
+            metadata = runtime_entry.get("metadata", {})
+            if not isinstance(metadata, dict):
+                metadata = {}
+            self._runtime_sprite_preview.set_sprite(
+                path,
+                frame_count=int(metadata.get("frame_count", 1)),
+                fps=int(metadata.get("fps", 6)),
+            )
+            return
         idle_path = self._sprite_inputs["idle"].text().strip()
-        runtime_path = self._runtime_sprite_path_for(self._selected_id or "")
-        if runtime_path is not None and (not idle_path or not self._project_path_exists(idle_path)):
-            self._set_sprite_preview(runtime_path)
-            return
-        self._set_sprite_preview(idle_path)
+        path = self._project_path(idle_path) if idle_path else None
+        self._runtime_sprite_preview.set_sprite(path, frame_count=1, fps=6)
 
-    def _set_sprite_preview(self, raw_path: str) -> None:
-        idle_path = raw_path.strip()
-        if not idle_path:
-            self._sprite_preview.clear()
-            self._sprite_preview.setText("No sprite")
+    def _refresh_artwork_preview(self) -> None:
+        species_id = self._selected_id or ""
+        artwork_path = resolve_artwork_path(species_id, self._project_root)
+        if artwork_path is None:
+            fallback = self._project_root / "assets" / "artworks" / f"{species_id}.png"
+            artwork_path = fallback if fallback.exists() else None
+        if artwork_path is None:
+            self._artwork_preview.clear()
+            self._artwork_preview.setText("No artwork")
             return
-        path = Path(idle_path)
-        if not path.is_absolute():
-            path = self._project_root / path
-        if not path.exists():
-            self._sprite_preview.clear()
-            self._sprite_preview.setText("Missing sprite")
-            return
-        pixmap = QPixmap(str(path))
+        pixmap = QPixmap(str(artwork_path))
         if pixmap.isNull():
-            self._sprite_preview.clear()
-            self._sprite_preview.setText("Invalid image")
+            self._artwork_preview.clear()
+            self._artwork_preview.setText("Invalid artwork")
             return
-        self._sprite_preview.setText("")
-        self._sprite_preview.setPixmap(
+        self._artwork_preview.setText("")
+        self._artwork_preview.setPixmap(
             pixmap.scaled(
-                96,
-                96,
+                210,
+                210,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation,
             )
@@ -745,7 +837,7 @@ class DigimonManagerWindow(QWidget):
         self._dirty = True
         self._status_label.setText("Unsaved changes")
 
-    def _load_runtime_sprite_paths(self) -> dict[str, str]:
+    def _load_runtime_sprite_entries(self) -> dict[str, dict[str, Any]]:
         if not self._sprite_manifest_path.exists():
             return {}
         try:
@@ -755,25 +847,35 @@ class DigimonManagerWindow(QWidget):
         entries = raw.get("entries", {}) if isinstance(raw, dict) else {}
         if not isinstance(entries, dict):
             return {}
-        paths: dict[str, str] = {}
+        runtime_entries: dict[str, dict[str, Any]] = {}
         for species_id, entry in entries.items():
             if isinstance(entry, dict):
                 asset_path = str(entry.get("asset_path", "")).strip()
                 if asset_path:
-                    paths[str(species_id)] = asset_path
-        return paths
+                    runtime_entries[str(species_id)] = entry
+        return runtime_entries
 
     def _runtime_sprite_path_for(self, species_id: str) -> str | None:
-        raw_path = self._runtime_sprite_paths.get(species_id)
+        entry = self._runtime_sprite_entry_for(species_id)
+        raw_path = str(entry.get("asset_path", "")) if entry else ""
         if raw_path and self._project_path_exists(raw_path):
             return raw_path
         return None
 
+    def _runtime_sprite_entry_for(self, species_id: str) -> dict[str, Any] | None:
+        entry = self._runtime_sprite_entries.get(species_id)
+        if entry and self._project_path_exists(str(entry.get("asset_path", ""))):
+            return entry
+        return None
+
     def _project_path_exists(self, raw_path: str) -> bool:
+        return self._project_path(raw_path).exists()
+
+    def _project_path(self, raw_path: str) -> Path:
         path = Path(raw_path)
         if not path.is_absolute():
             path = self._project_root / path
-        return path.exists()
+        return path
 
 
 def _join_or_none(values: list[str]) -> str:

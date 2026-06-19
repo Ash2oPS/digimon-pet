@@ -26,7 +26,18 @@ def make_window(tmp_path: Path) -> DigimonManagerWindow:
 def make_window_with_runtime_sprite(tmp_path: Path) -> DigimonManagerWindow:
     sprite_path = tmp_path / "assets" / "sprite_sources" / "digital_monster_color" / "Koromon.png"
     sprite_path.parent.mkdir(parents=True)
-    sprite_path.write_bytes(b"not a real png")
+    from PySide6.QtGui import QColor, QImage
+
+    sprite_image = QImage(26, 13, QImage.Format.Format_ARGB32)
+    sprite_image.fill(QColor("transparent"))
+    sprite_image.setPixelColor(1, 1, QColor("red"))
+    sprite_image.setPixelColor(14, 1, QColor("blue"))
+    sprite_image.save(str(sprite_path))
+    artwork_path = tmp_path / "assets" / "artworks" / "koromon.png"
+    artwork_path.parent.mkdir(parents=True)
+    artwork_image = QImage(64, 64, QImage.Format.Format_ARGB32)
+    artwork_image.fill(QColor("green"))
+    artwork_image.save(str(artwork_path))
     manifest_path = tmp_path / "data" / "dw1_sprite_manifest.json"
     manifest_path.parent.mkdir()
     manifest_path.write_text(
@@ -34,7 +45,8 @@ def make_window_with_runtime_sprite(tmp_path: Path) -> DigimonManagerWindow:
             {
                 "entries": {
                     "koromon": {
-                        "asset_path": "assets/sprite_sources/digital_monster_color/Koromon.png"
+                        "asset_path": "assets/sprite_sources/digital_monster_color/Koromon.png",
+                        "metadata": {"frame_count": 2, "fps": 8},
                     }
                 }
             }
@@ -94,11 +106,11 @@ def test_sprite_path_preview_handles_existing_and_missing_paths(tmp_path):
     window._species_table.selectRow(1)
     window._sprite_inputs["idle"].setText("assets/sprites/agumon/idle.png")
 
-    assert window._sprite_preview.text() == "Invalid image"
+    assert window._runtime_sprite_preview._status_text == "Invalid runtime sprite"
 
     window._sprite_inputs["idle"].setText("assets/sprites/agumon/missing.png")
 
-    assert window._sprite_preview.text() == "Missing sprite"
+    assert window._runtime_sprite_preview._status_text == "No runtime sprite"
 
 
 def test_runtime_manifest_sprite_prevents_missing_status_and_preview(tmp_path):
@@ -107,7 +119,20 @@ def test_runtime_manifest_sprite_prevents_missing_status_and_preview(tmp_path):
     window._species_table.selectRow(0)
 
     assert "Missing sprites" not in window._species_table.item(0, 3).text()
-    assert window._sprite_preview.text() == "Invalid image"
+    assert window._runtime_sprite_preview._pixmap is not None
+    assert window._runtime_sprite_preview._frame_count == 2
+    assert window._artwork_preview.pixmap() is not None
+
+
+def test_runtime_sprite_preview_advances_frames(tmp_path):
+    window = make_window_with_runtime_sprite(tmp_path)
+
+    window._species_table.selectRow(0)
+    assert window._runtime_sprite_preview._frame_index == 0
+
+    window._runtime_sprite_preview._advance_frame()
+
+    assert window._runtime_sprite_preview._frame_index == 1
 
 
 def test_save_refuses_validation_errors_and_does_not_write_files(tmp_path):
