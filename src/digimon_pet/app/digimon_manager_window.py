@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPlainTextEdit,
     QPushButton,
+    QScrollArea,
     QSpinBox,
     QSplitter,
     QStyle,
@@ -206,10 +207,13 @@ class DigimonManagerWindow(QWidget):
         filter_row.addWidget(self._status_filter)
         digimon_layout.addLayout(filter_row)
 
-        splitter = QSplitter(Qt.Orientation.Horizontal, self._digimon_tab)
-        digimon_layout.addWidget(splitter, 1)
+        self._content_splitter = QSplitter(Qt.Orientation.Horizontal, self._digimon_tab)
+        self._content_splitter.setChildrenCollapsible(False)
+        digimon_layout.addWidget(self._content_splitter, 1)
 
-        left = QWidget(splitter)
+        self._species_panel = QWidget(self._content_splitter)
+        self._species_panel.setMinimumWidth(520)
+        left = self._species_panel
         left_layout = QVBoxLayout(left)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(8)
@@ -250,12 +254,17 @@ class DigimonManagerWindow(QWidget):
         self._configure_action_buttons()
         left_layout.addLayout(action_row)
 
-        right = QWidget(splitter)
-        right_layout = QVBoxLayout(right)
+        self._right_scroll_area = QScrollArea(self._content_splitter)
+        self._right_scroll_area.setWidgetResizable(True)
+        self._right_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self._right_scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self._right_editor_content = QWidget()
+        self._right_editor_content.setMinimumWidth(560)
+        right_layout = QVBoxLayout(self._right_editor_content)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(10)
 
-        selected_header = QFrame(right)
+        selected_header = QFrame(self._right_editor_content)
         selected_header.setObjectName("SelectedDigimonHeader")
         selected_header_layout = QHBoxLayout(selected_header)
         selected_header_layout.setContentsMargins(10, 10, 10, 10)
@@ -279,7 +288,7 @@ class DigimonManagerWindow(QWidget):
         selected_header_layout.addLayout(selected_text_layout, 1)
         right_layout.addWidget(selected_header)
 
-        detail_panel = QFrame(right)
+        detail_panel = QFrame(self._right_editor_content)
         detail_panel.setObjectName("EditorSection")
         detail_layout = QVBoxLayout(detail_panel)
         detail_layout.setContentsMargins(10, 10, 10, 10)
@@ -309,7 +318,7 @@ class DigimonManagerWindow(QWidget):
         validation_title = QLabel("Validation", self)
         validation_title.setObjectName("Title")
         right_layout.addWidget(validation_title)
-        self._validation_summary_label = QLabel("0 errors · 0 warnings", self)
+        self._validation_summary_label = QLabel("0 errors - 0 warnings", self)
         self._validation_summary_label.setObjectName("ValidationSummary")
         right_layout.addWidget(self._validation_summary_label)
         self._selected_validation_output = QPlainTextEdit(self)
@@ -323,9 +332,12 @@ class DigimonManagerWindow(QWidget):
         right_layout.addWidget(self._validation_output)
         self._move_validation_to_tab(right_layout, validation_title)
 
-        splitter.addWidget(left)
-        splitter.addWidget(right)
-        splitter.setSizes([640, 480])
+        self._right_scroll_area.setWidget(self._right_editor_content)
+        self._content_splitter.addWidget(left)
+        self._content_splitter.addWidget(self._right_scroll_area)
+        self._content_splitter.setStretchFactor(0, 5)
+        self._content_splitter.setStretchFactor(1, 6)
+        self._content_splitter.setSizes([560, 720])
         self._main_tabs.addTab(self._digimon_tab, "Digimon")
         if self._item_catalog is not None:
             self._item_manager_window = ItemManagerWindow(
@@ -737,7 +749,7 @@ class DigimonManagerWindow(QWidget):
         name = str(row_data.get("name", species_id)).strip() or species_id
         stage = str(row_data.get("stage", "")).strip()
         self._selected_title_label.setText(name)
-        self._selected_subtitle_label.setText(f"{species_id} · {stage}" if stage else species_id)
+        self._selected_subtitle_label.setText(f"{species_id} - {stage}" if stage else species_id)
         self._selected_status_label.setText(self._species_status(row_data))
         self._selected_status_label.setProperty("state", self._selected_status_state(species_id, row_data))
         self._selected_status_label.style().unpolish(self._selected_status_label)
@@ -1072,7 +1084,7 @@ class DigimonManagerWindow(QWidget):
         )
         self._set_validation_indexes(result.errors, result.warnings)
         self._validation_summary_label.setText(
-            f"{len(result.errors)} error{'s' if len(result.errors) != 1 else ''} · "
+            f"{len(result.errors)} error{'s' if len(result.errors) != 1 else ''} - "
             f"{len(result.warnings)} warning{'s' if len(result.warnings) != 1 else ''}"
         )
         if result.errors:
@@ -1239,3 +1251,5 @@ def _message_species_id(message: str, species_ids: set[str]) -> str | None:
         if f": {species_id}" in message or f" {species_id} " in message:
             return species_id
     return None
+
+

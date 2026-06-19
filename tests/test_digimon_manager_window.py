@@ -5,7 +5,7 @@ from pathlib import Path
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMessageBox
+from PySide6.QtWidgets import QApplication, QMessageBox, QScrollArea
 
 from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
@@ -154,7 +154,7 @@ def test_right_panel_header_tracks_selected_species(tmp_path):
     window._species_table.selectRow(1)
 
     assert window._selected_title_label.text() == "Agumon"
-    assert window._selected_subtitle_label.text() == "agumon · rookie"
+    assert window._selected_subtitle_label.text() == "agumon - rookie"
     assert "Referenced" in window._selected_status_label.text()
 
 
@@ -199,6 +199,27 @@ def test_evolution_editor_uses_compact_tables_to_keep_controls_visible(tmp_path)
     assert window._natural_table.maximumHeight() <= 96
     assert window._special_table.maximumHeight() <= 96
 
+
+def test_splitter_protects_species_table_width(tmp_path):
+    window = make_window(tmp_path)
+    window.resize(1280, 760)
+    window.show()
+    QApplication.processEvents()
+
+    left_width, right_width = window._content_splitter.sizes()
+
+    assert window._species_panel.minimumWidth() >= 520
+    assert left_width >= 520
+    assert right_width >= 560
+    assert left_width / (left_width + right_width) >= 0.42
+
+
+def test_right_editor_uses_scroll_area_for_short_windows(tmp_path):
+    window = make_window(tmp_path)
+
+    assert isinstance(window._right_scroll_area, QScrollArea)
+    assert window._right_scroll_area.widgetResizable() is True
+    assert window._right_editor_content.minimumWidth() >= 560
 
 def test_editing_species_fields_updates_catalog_and_dirty_state(tmp_path):
     window = make_window(tmp_path)
@@ -320,3 +341,5 @@ def test_delete_confirmation_receives_impact_summary(tmp_path, monkeypatch):
     assert "Natural as target: koromon__to__agumon" in messages[0]
     assert "Special references: special__to__greymon" in messages[0]
     assert "agumon" not in window._catalog.species_by_id()
+
+
