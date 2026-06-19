@@ -318,6 +318,8 @@ class DigimonManagerWindow(QWidget):
         self._special_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self._special_table.verticalHeader().setVisible(False)
         self._special_table.horizontalHeader().setStretchLastSection(True)
+        self._special_table.setColumnWidth(0, 100)
+        self._special_table.setColumnWidth(1, 140)
         layout.addWidget(QLabel("Special Evolutions", tab))
         layout.addWidget(self._special_table, 1)
 
@@ -644,7 +646,15 @@ class DigimonManagerWindow(QWidget):
         if str(row.get("target_species_id", "")) == species_id:
             return True
         selector = row.get("source_selector", {})
-        return isinstance(selector, dict) and species_id in {str(value) for value in selector.get("species_ids", [])}
+        if not isinstance(selector, dict):
+            return False
+        if selector.get("scope") == "any":
+            return True
+        if species_id in {str(value) for value in selector.get("species_ids", [])}:
+            return True
+        selector_stage = _app_stage_from_dw1_stage(str(selector.get("stage", "")))
+        species = self._catalog.species_by_id().get(species_id)
+        return species is not None and selector_stage == str(species.get("stage", ""))
 
     def add_species(self) -> None:
         species_id = add_species(self._catalog)
@@ -885,3 +895,11 @@ def _join_or_none(values: list[str]) -> str:
 def species_id_from_name(name: str) -> str:
     species_id = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
     return re.sub(r"_+", "_", species_id) or "new_digimon"
+
+
+def _app_stage_from_dw1_stage(stage: str) -> str:
+    if stage == "fresh":
+        return GrowthStage.BABY.value
+    if stage == "in_training":
+        return GrowthStage.BABY_2.value
+    return stage

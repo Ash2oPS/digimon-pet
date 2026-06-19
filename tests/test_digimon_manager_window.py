@@ -135,6 +135,32 @@ def test_runtime_sprite_preview_advances_frames(tmp_path):
     assert window._runtime_sprite_preview._frame_index == 1
 
 
+def test_stage_selector_special_evolution_appears_for_matching_species(tmp_path):
+    window = make_window(tmp_path)
+    window._catalog.special_evolutions = [
+        {
+            "id": "special__to__kunemon",
+            "type": "special",
+            "target_species_id": "agumon",
+            "source_selector": {"stage": "in_training"},
+            "trigger": "sleep in Kunemon's bed",
+        }
+    ]
+    window._refresh_evolution_tables()
+
+    window._species_table.selectRow(0)
+
+    assert window._selected_species_id() == "koromon"
+    assert window._special_table.rowCount() == 1
+    assert window._special_table.item(0, 1).text() == "stage: in_training"
+
+    window._species_table.selectRow(1)
+
+    assert window._selected_species_id() == "agumon"
+    assert window._special_table.rowCount() == 1
+    assert window._special_table.item(0, 0).text() == "agumon"
+
+
 def test_save_refuses_validation_errors_and_does_not_write_files(tmp_path):
     window = make_window(tmp_path)
     original = window._species_path.read_text(encoding="utf-8")
