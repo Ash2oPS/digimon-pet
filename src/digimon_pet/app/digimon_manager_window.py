@@ -296,6 +296,7 @@ class DigimonManagerWindow(QWidget):
         right_layout.addWidget(detail_panel)
 
         self._tabs = QTabWidget(self)
+        self._tabs.setMinimumHeight(360)
         self._tabs.addTab(self._build_sprite_tab(), "Sprites")
         self._tabs.addTab(self._build_evolution_tab(), "Evolutions")
         right_layout.addWidget(self._tabs, 1)
@@ -315,6 +316,7 @@ class DigimonManagerWindow(QWidget):
         self._validation_output.setReadOnly(True)
         self._validation_output.setMaximumHeight(130)
         right_layout.addWidget(self._validation_output)
+        self._move_validation_to_tab(right_layout, validation_title)
 
         splitter.addWidget(left)
         splitter.addWidget(right)
@@ -346,6 +348,38 @@ class DigimonManagerWindow(QWidget):
             button.setToolTip(tooltip)
         self._delete_button.setObjectName("DangerButton")
         self._save_button.setObjectName("PrimaryButton")
+
+    def _move_validation_to_tab(self, right_layout: QVBoxLayout, validation_title: QLabel) -> None:
+        for widget in (
+            validation_title,
+            self._validation_summary_label,
+            self._selected_validation_output,
+            self._validation_output,
+        ):
+            right_layout.removeWidget(widget)
+
+        tab = QWidget(self)
+        layout = QVBoxLayout(tab)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
+        validation_title.setParent(tab)
+        validation_title.setObjectName("SectionTitle")
+        layout.addWidget(validation_title)
+        layout.addWidget(self._validation_summary_label)
+        selected_title = QLabel("Selected Digimon", tab)
+        selected_title.setObjectName("SectionTitle")
+        layout.addWidget(selected_title)
+        self._selected_validation_output.setParent(tab)
+        self._selected_validation_output.setMinimumHeight(84)
+        self._selected_validation_output.setMaximumHeight(112)
+        layout.addWidget(self._selected_validation_output)
+        global_title = QLabel("Global Validation", tab)
+        global_title.setObjectName("SectionTitle")
+        layout.addWidget(global_title)
+        self._validation_output.setParent(tab)
+        self._validation_output.setMaximumHeight(16777215)
+        layout.addWidget(self._validation_output, 1)
+        self._tabs.addTab(tab, "Validation")
 
     def _build_sprite_tab(self) -> QWidget:
         tab = QWidget(self)

@@ -167,6 +167,15 @@ def test_selected_validation_focuses_current_species(tmp_path):
     assert "koromon missing sprite file for idle" not in window._selected_validation_output.toPlainText()
 
 
+def test_validation_lives_in_right_panel_tab_to_preserve_editor_space(tmp_path):
+    window = make_window(tmp_path)
+
+    tab_labels = [window._tabs.tabText(index) for index in range(window._tabs.count())]
+
+    assert tab_labels == ["Sprites", "Evolutions", "Validation"]
+    assert window._tabs.minimumHeight() >= 360
+
+
 def test_editing_species_fields_updates_catalog_and_dirty_state(tmp_path):
     window = make_window(tmp_path)
 
