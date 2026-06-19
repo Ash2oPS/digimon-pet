@@ -23,6 +23,36 @@ def make_window(tmp_path: Path) -> DigimonManagerWindow:
     )
 
 
+def make_window_with_runtime_sprite(tmp_path: Path) -> DigimonManagerWindow:
+    sprite_path = tmp_path / "assets" / "sprite_sources" / "digital_monster_color" / "Koromon.png"
+    sprite_path.parent.mkdir(parents=True)
+    sprite_path.write_bytes(b"not a real png")
+    manifest_path = tmp_path / "data" / "dw1_sprite_manifest.json"
+    manifest_path.parent.mkdir()
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "entries": {
+                    "koromon": {
+                        "asset_path": "assets/sprite_sources/digital_monster_color/Koromon.png"
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    app = QApplication.instance() or QApplication([])
+    species_path, digivolutions_path = write_catalog_files(tmp_path)
+    catalog = load_digimon_catalog(species_path, digivolutions_path)
+    return DigimonManagerWindow(
+        catalog,
+        tmp_path,
+        species_path=species_path,
+        digivolutions_path=digivolutions_path,
+        sprite_manifest_path=manifest_path,
+    )
+
+
 def test_digimon_manager_window_opens_with_catalog(tmp_path):
     window = make_window(tmp_path)
 
@@ -69,6 +99,15 @@ def test_sprite_path_preview_handles_existing_and_missing_paths(tmp_path):
     window._sprite_inputs["idle"].setText("assets/sprites/agumon/missing.png")
 
     assert window._sprite_preview.text() == "Missing sprite"
+
+
+def test_runtime_manifest_sprite_prevents_missing_status_and_preview(tmp_path):
+    window = make_window_with_runtime_sprite(tmp_path)
+
+    window._species_table.selectRow(0)
+
+    assert "Missing sprites" not in window._species_table.item(0, 3).text()
+    assert window._sprite_preview.text() == "Invalid image"
 
 
 def test_save_refuses_validation_errors_and_does_not_write_files(tmp_path):

@@ -224,3 +224,29 @@ def test_validate_catalog_reports_missing_sprite_paths_as_warnings(tmp_path):
     assert result.errors == []
     assert "koromon missing sprite file for idle: assets/sprites/koromon/idle.png" in result.warnings
     assert result.has_errors is False
+
+
+def test_validate_catalog_accepts_runtime_manifest_sprite_as_present(tmp_path):
+    species_path, digivolutions_path = write_catalog_files(tmp_path)
+    sprite_path = tmp_path / "assets" / "sprite_sources" / "digital_monster_color" / "Koromon.png"
+    sprite_path.parent.mkdir(parents=True)
+    sprite_path.write_bytes(b"not a real png")
+    manifest_path = tmp_path / "data" / "dw1_sprite_manifest.json"
+    manifest_path.parent.mkdir()
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "entries": {
+                    "koromon": {
+                        "asset_path": "assets/sprite_sources/digital_monster_color/Koromon.png"
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    catalog = load_digimon_catalog(species_path, digivolutions_path)
+
+    result = validate_digimon_catalog(catalog, tmp_path, sprite_manifest_path=manifest_path)
+
+    assert "koromon missing sprite file for idle: assets/sprites/koromon/idle.png" not in result.warnings

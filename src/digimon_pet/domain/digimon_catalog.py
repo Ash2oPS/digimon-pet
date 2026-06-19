@@ -149,10 +149,16 @@ def rebuild_indexes_by_source(catalog: DigimonCatalog) -> dict[str, list[str]]:
     return {source_id: sorted(ids) for source_id, ids in sorted(by_source.items())}
 
 
-def validate_digimon_catalog(catalog: DigimonCatalog, project_root: Path) -> DigimonValidationResult:
+def validate_digimon_catalog(
+    catalog: DigimonCatalog,
+    project_root: Path,
+    *,
+    sprite_manifest_path: Path | None = None,
+) -> DigimonValidationResult:
     errors: list[str] = []
     warnings: list[str] = []
     seen_ids: set[str] = set()
+    runtime_sprite_paths = _runtime_sprite_paths(project_root, sprite_manifest_path)
 
     for row in catalog.species_rows:
         species_id = str(row.get("id", "")).strip()
@@ -169,7 +175,7 @@ def validate_digimon_catalog(catalog: DigimonCatalog, project_root: Path) -> Dig
             errors.append(f"{species_id} name is required")
         if stage not in VALID_STAGE_VALUES:
             errors.append(f"{species_id} has invalid stage: {stage}")
-        _validate_sprite_slots(row, project_root, warnings)
+        _validate_sprite_slots(row, project_root, warnings, runtime_sprite_paths)
 
     species_ids = {str(row.get("id", "")).strip() for row in catalog.species_rows}
     for row in catalog.natural_evolutions:
@@ -180,8 +186,15 @@ def validate_digimon_catalog(catalog: DigimonCatalog, project_root: Path) -> Dig
     return DigimonValidationResult(errors=errors, warnings=warnings)
 
 
-def _validate_sprite_slots(row: dict[str, Any], project_root: Path, warnings: list[str]) -> None:
+def _validate_sprite_slots(
+    row: dict[str, Any],
+    project_root: Path,
+    warnings: list[str],
+    runtime_sprite_paths: dict[str, str],
+) -> None:
     species_id = str(row.get("id", "")).strip()
+    if _runtime_sprite_exists(project_root, runtime_sprite_paths.get(species_id)):
+        return
     sprite_slots = row.get("sprite_slots", {})
     if not isinstance(sprite_slots, dict):
         warnings.append(f"{species_id} sprite slots are invalid")
@@ -194,6 +207,35 @@ def _validate_sprite_slots(row: dict[str, Any], project_root: Path, warnings: li
             path = project_root / path
         if not path.exists():
             warnings.append(f"{species_id} missing sprite file for {slot_name}: {sprite_path}")
+
+
+def _runtime_sprite_paths(project_root: Path, sprite_manifest_path: Path | None) -> dict[str, str]:
+    path = sprite_manifest_path or project_root / "data" / "dw1_sprite_manifest.json"
+    if not path.exists():
+        return {}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    entries = raw.get("entries", {}) if isinstance(raw, dict) else {}
+    if not isinstance(entries, dict):
+        return {}
+    paths: dict[str, str] = {}
+    for species_id, entry in entries.items():
+        if isinstance(entry, dict):
+            asset_path = str(entry.get("asset_path", "")).strip()
+            if asset_path:
+                paths[str(species_id)] = asset_path
+    return paths
+
+
+def _runtime_sprite_exists(project_root: Path, raw_path: str | None) -> bool:
+    if not raw_path:
+        return False
+    path = Path(raw_path)
+    if not path.is_absolute():
+        path = project_root / path
+    return path.exists()
 
 
 def _validate_natural_evolution(row: dict[str, Any], species_ids: set[str], errors: list[str]) -> None:

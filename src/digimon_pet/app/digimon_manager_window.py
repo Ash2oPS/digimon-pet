@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+from typing import Any
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
@@ -48,6 +49,7 @@ class DigimonManagerWindow(QWidget):
         *,
         species_path: Path | None = None,
         digivolutions_path: Path | None = None,
+        sprite_manifest_path: Path | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
@@ -56,6 +58,8 @@ class DigimonManagerWindow(QWidget):
         self._project_root = project_root
         self._species_path = species_path or project_root / "data" / "species.json"
         self._digivolutions_path = digivolutions_path or project_root / "data" / "dw1_digivolutions.json"
+        self._sprite_manifest_path = sprite_manifest_path or project_root / "data" / "dw1_sprite_manifest.json"
+        self._runtime_sprite_paths = self._load_runtime_sprite_paths()
         self._dirty = False
         self._loading = False
         self._selected_id: str | None = None
@@ -335,6 +339,8 @@ class DigimonManagerWindow(QWidget):
         return ", ".join(parts) if parts else "Ready"
 
     def _has_missing_sprites(self, row: dict[str, object]) -> bool:
+        if self._runtime_sprite_path_for(str(row.get("id", ""))) is not None:
+            return False
         sprite_slots = row.get("sprite_slots", {})
         if not isinstance(sprite_slots, dict):
             return False
@@ -453,6 +459,14 @@ class DigimonManagerWindow(QWidget):
 
     def _refresh_sprite_preview(self) -> None:
         idle_path = self._sprite_inputs["idle"].text().strip()
+        runtime_path = self._runtime_sprite_path_for(self._selected_id or "")
+        if runtime_path is not None and (not idle_path or not self._project_path_exists(idle_path)):
+            self._set_sprite_preview(runtime_path)
+            return
+        self._set_sprite_preview(idle_path)
+
+    def _set_sprite_preview(self, raw_path: str) -> None:
+        idle_path = raw_path.strip()
         if not idle_path:
             self._sprite_preview.clear()
             self._sprite_preview.setText("No sprite")
@@ -692,7 +706,11 @@ class DigimonManagerWindow(QWidget):
             self._refresh_validation()
 
     def _refresh_validation(self) -> None:
-        result = validate_digimon_catalog(self._catalog, self._project_root)
+        result = validate_digimon_catalog(
+            self._catalog,
+            self._project_root,
+            sprite_manifest_path=self._sprite_manifest_path,
+        )
         lines: list[str] = []
         if result.errors:
             lines.append("Errors:")
@@ -703,7 +721,11 @@ class DigimonManagerWindow(QWidget):
         self._validation_output.setPlainText("\n".join(lines) if lines else "No validation issues.")
 
     def save_catalog(self) -> bool:
-        result = validate_digimon_catalog(self._catalog, self._project_root)
+        result = validate_digimon_catalog(
+            self._catalog,
+            self._project_root,
+            sprite_manifest_path=self._sprite_manifest_path,
+        )
         self._refresh_validation()
         if result.has_errors:
             return False
@@ -722,6 +744,36 @@ class DigimonManagerWindow(QWidget):
     def _mark_dirty(self) -> None:
         self._dirty = True
         self._status_label.setText("Unsaved changes")
+
+    def _load_runtime_sprite_paths(self) -> dict[str, str]:
+        if not self._sprite_manifest_path.exists():
+            return {}
+        try:
+            raw = json.loads(self._sprite_manifest_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return {}
+        entries = raw.get("entries", {}) if isinstance(raw, dict) else {}
+        if not isinstance(entries, dict):
+            return {}
+        paths: dict[str, str] = {}
+        for species_id, entry in entries.items():
+            if isinstance(entry, dict):
+                asset_path = str(entry.get("asset_path", "")).strip()
+                if asset_path:
+                    paths[str(species_id)] = asset_path
+        return paths
+
+    def _runtime_sprite_path_for(self, species_id: str) -> str | None:
+        raw_path = self._runtime_sprite_paths.get(species_id)
+        if raw_path and self._project_path_exists(raw_path):
+            return raw_path
+        return None
+
+    def _project_path_exists(self, raw_path: str) -> bool:
+        path = Path(raw_path)
+        if not path.is_absolute():
+            path = self._project_root / path
+        return path.exists()
 
 
 def _join_or_none(values: list[str]) -> str:
