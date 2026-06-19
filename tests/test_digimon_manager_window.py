@@ -4,6 +4,7 @@ from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMessageBox
 
 from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
@@ -72,6 +73,17 @@ def test_digimon_manager_window_opens_with_catalog(tmp_path):
     assert window._species_table.rowCount() == 3
 
 
+def test_species_table_shows_idle_frame_thumbnail_column(tmp_path):
+    window = make_window_with_runtime_sprite(tmp_path)
+
+    thumbnail = window._species_table.item(0, 0).data(Qt.ItemDataRole.DecorationRole)
+
+    assert window._species_table.columnCount() == 5
+    assert thumbnail is not None
+    assert window._species_table.columnWidth(0) >= 44
+    assert window._species_table.rowHeight(0) >= 40
+
+
 def test_selecting_species_populates_detail_fields(tmp_path):
     window = make_window(tmp_path)
 
@@ -118,7 +130,7 @@ def test_runtime_manifest_sprite_prevents_missing_status_and_preview(tmp_path):
 
     window._species_table.selectRow(0)
 
-    assert "Missing sprites" not in window._species_table.item(0, 3).text()
+    assert "Missing sprites" not in window._species_table.item(0, 4).text()
     assert window._runtime_sprite_preview._pixmap is not None
     assert window._runtime_sprite_preview._frame_count == 2
     assert window._artwork_preview.pixmap() is not None

@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from PySide6.QtCore import QRect, Qt, QTimer
-from PySide6.QtGui import QColor, QPainter, QPixmap
+from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
@@ -188,14 +188,16 @@ class DigimonManagerWindow(QWidget):
         left_layout = QVBoxLayout(left)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(8)
-        self._species_table = QTableWidget(0, 4, left)
+        self._species_table = QTableWidget(0, 5, left)
         self._species_table.setObjectName("DigimonTable")
-        self._species_table.setHorizontalHeaderLabels(["Name", "ID", "Stage", "Status"])
+        self._species_table.setHorizontalHeaderLabels(["", "Name", "ID", "Stage", "Status"])
         self._species_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._species_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
         self._species_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self._species_table.verticalHeader().setVisible(False)
         self._species_table.horizontalHeader().setStretchLastSection(True)
+        self._species_table.setIconSize(QRect(0, 0, 34, 34).size())
+        self._species_table.setColumnWidth(0, 46)
         left_layout.addWidget(self._species_table, 1)
 
         action_row = QHBoxLayout()
@@ -388,7 +390,9 @@ class DigimonManagerWindow(QWidget):
                 continue
             row = self._species_table.rowCount()
             self._species_table.insertRow(row)
+            self._species_table.setRowHeight(row, 42)
             values = [
+                "",
                 str(row_data.get("name", "")),
                 species_id,
                 str(row_data.get("stage", "")),
@@ -397,6 +401,11 @@ class DigimonManagerWindow(QWidget):
             for column, value in enumerate(values):
                 item = QTableWidgetItem(value)
                 item.setData(Qt.ItemDataRole.UserRole, species_id)
+                if column == 0:
+                    thumbnail = self._species_thumbnail(species_id, row_data)
+                    if thumbnail is not None:
+                        item.setData(Qt.ItemDataRole.DecorationRole, thumbnail)
+                        item.setIcon(QIcon(thumbnail))
                 self._species_table.setItem(row, column, item)
         self._species_table.blockSignals(False)
         self._select_species_id(selected_id)
@@ -457,7 +466,7 @@ class DigimonManagerWindow(QWidget):
         if not species_id:
             return
         for row in range(self._species_table.rowCount()):
-            item = self._species_table.item(row, 1)
+            item = self._species_table.item(row, 0)
             if item and item.data(Qt.ItemDataRole.UserRole) == species_id:
                 self._species_table.selectRow(row)
                 return
@@ -872,6 +881,23 @@ class DigimonManagerWindow(QWidget):
             return raw_path
         return None
 
+    def _species_thumbnail(self, species_id: str, row_data: dict[str, object]) -> QPixmap | None:
+        runtime_entry = self._runtime_sprite_entry_for(species_id)
+        if runtime_entry is not None:
+            metadata = runtime_entry.get("metadata", {})
+            if not isinstance(metadata, dict):
+                metadata = {}
+            return _first_frame_thumbnail(
+                self._project_path(str(runtime_entry.get("asset_path", ""))),
+                frame_count=max(1, int(metadata.get("frame_count", 1))),
+            )
+        sprite_slots = row_data.get("sprite_slots", {})
+        if isinstance(sprite_slots, dict):
+            idle_path = str(sprite_slots.get("idle", "")).strip()
+            if idle_path and self._project_path_exists(idle_path):
+                return _first_frame_thumbnail(self._project_path(idle_path), frame_count=1)
+        return None
+
     def _runtime_sprite_entry_for(self, species_id: str) -> dict[str, Any] | None:
         entry = self._runtime_sprite_entries.get(species_id)
         if entry and self._project_path_exists(str(entry.get("asset_path", ""))):
@@ -903,3 +929,17 @@ def _app_stage_from_dw1_stage(stage: str) -> str:
     if stage == "in_training":
         return GrowthStage.BABY_2.value
     return stage
+
+
+def _first_frame_thumbnail(path: Path, *, frame_count: int) -> QPixmap | None:
+    pixmap = QPixmap(str(path))
+    if pixmap.isNull():
+        return None
+    frame_width = max(1, pixmap.width() // max(1, frame_count))
+    frame = pixmap.copy(QRect(0, 0, frame_width, pixmap.height()))
+    return frame.scaled(
+        34,
+        34,
+        Qt.AspectRatioMode.KeepAspectRatio,
+        Qt.TransformationMode.FastTransformation,
+    )
