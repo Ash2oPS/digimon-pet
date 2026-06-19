@@ -5,13 +5,14 @@ import re
 from pathlib import Path
 from typing import Any
 
-from PySide6.QtCore import QRect, Qt, QTimer
+from PySide6.QtCore import QSize, QRect, Qt, QTimer
 from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
     QGridLayout,
     QHBoxLayout,
+    QHeaderView,
     QLabel,
     QLineEdit,
     QMessageBox,
@@ -19,6 +20,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSpinBox,
     QSplitter,
+    QStyle,
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
@@ -215,6 +217,14 @@ class DigimonManagerWindow(QWidget):
         self._species_table.horizontalHeader().setStretchLastSection(True)
         self._species_table.setIconSize(QRect(0, 0, 34, 34).size())
         self._species_table.setColumnWidth(0, 46)
+        self._species_table.setColumnWidth(1, 130)
+        self._species_table.setColumnWidth(2, 115)
+        self._species_table.setColumnWidth(3, 90)
+        self._species_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Fixed)
+        self._species_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Interactive)
+        self._species_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Interactive)
+        self._species_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Interactive)
+        self._species_table.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeMode.Stretch)
         left_layout.addWidget(self._species_table, 1)
 
         action_row = QHBoxLayout()
@@ -231,6 +241,7 @@ class DigimonManagerWindow(QWidget):
             self._save_button,
         ):
             action_row.addWidget(button)
+        self._configure_action_buttons()
         left_layout.addLayout(action_row)
 
         right = QWidget(splitter)
@@ -258,6 +269,9 @@ class DigimonManagerWindow(QWidget):
         validation_title = QLabel("Validation", self)
         validation_title.setObjectName("Title")
         right_layout.addWidget(validation_title)
+        self._validation_summary_label = QLabel("0 errors · 0 warnings", self)
+        self._validation_summary_label.setObjectName("ValidationSummary")
+        right_layout.addWidget(self._validation_summary_label)
         self._validation_output = QPlainTextEdit(self)
         self._validation_output.setReadOnly(True)
         self._validation_output.setMaximumHeight(130)
@@ -277,6 +291,22 @@ class DigimonManagerWindow(QWidget):
                 parent=self,
             )
             self._main_tabs.addTab(self._item_manager_window, "Items")
+
+    def _configure_action_buttons(self) -> None:
+        icon_size = QSize(15, 15)
+        button_specs = [
+            (self._add_button, QStyle.StandardPixmap.SP_FileDialogNewFolder, "Add a new Digimon"),
+            (self._duplicate_button, QStyle.StandardPixmap.SP_FileDialogDetailedView, "Duplicate selected Digimon"),
+            (self._delete_button, QStyle.StandardPixmap.SP_TrashIcon, "Delete selected Digimon"),
+            (self._validate_button, QStyle.StandardPixmap.SP_DialogApplyButton, "Run validation"),
+            (self._save_button, QStyle.StandardPixmap.SP_DialogSaveButton, "Save species and evolution data"),
+        ]
+        for button, icon_id, tooltip in button_specs:
+            button.setIcon(self.style().standardIcon(icon_id))
+            button.setIconSize(icon_size)
+            button.setToolTip(tooltip)
+        self._delete_button.setObjectName("DangerButton")
+        self._save_button.setObjectName("PrimaryButton")
 
     def _build_sprite_tab(self) -> QWidget:
         tab = QWidget(self)
@@ -456,6 +486,7 @@ class DigimonManagerWindow(QWidget):
                     tooltip = self._species_status_tooltip(species_id)
                     if tooltip:
                         item.setToolTip(tooltip)
+                    item.setForeground(QColor(self._species_status_color(species_id, row_data)))
                 self._species_table.setItem(row, column, item)
         self._species_table.blockSignals(False)
         self._select_species_id(selected_id)
@@ -496,6 +527,17 @@ class DigimonManagerWindow(QWidget):
         messages.extend(self._validation_errors_by_species.get(species_id, []))
         messages.extend(self._validation_warnings_by_species.get(species_id, []))
         return "\n".join(messages)
+
+    def _species_status_color(self, species_id: str, row: dict[str, object]) -> str:
+        if self._validation_errors_by_species.get(species_id):
+            return "#d95f5f"
+        if self._validation_warnings_by_species.get(species_id):
+            return "#ffd166"
+        if self._has_missing_sprites(row):
+            return "#f08a3c"
+        if self._is_referenced(species_id):
+            return "#9fd18b"
+        return "#b8b1a4"
 
     def _has_missing_sprites(self, row: dict[str, object]) -> bool:
         if self._runtime_sprite_path_for(str(row.get("id", ""))) is not None:
@@ -887,6 +929,18 @@ class DigimonManagerWindow(QWidget):
             item_catalog=self._item_catalog,
         )
         self._set_validation_indexes(result.errors, result.warnings)
+        self._validation_summary_label.setText(
+            f"{len(result.errors)} error{'s' if len(result.errors) != 1 else ''} · "
+            f"{len(result.warnings)} warning{'s' if len(result.warnings) != 1 else ''}"
+        )
+        if result.errors:
+            self._validation_summary_label.setProperty("state", "error")
+        elif result.warnings:
+            self._validation_summary_label.setProperty("state", "warning")
+        else:
+            self._validation_summary_label.setProperty("state", "ok")
+        self._validation_summary_label.style().unpolish(self._validation_summary_label)
+        self._validation_summary_label.style().polish(self._validation_summary_label)
         lines: list[str] = []
         if result.errors:
             lines.append("Errors:")

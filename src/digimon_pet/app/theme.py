@@ -105,6 +105,24 @@ QPushButton:disabled {{
     background: #1d1d20;
 }}
 
+QPushButton#PrimaryButton {{
+    background: #2f3f2e;
+    border-color: #5f8f59;
+}}
+
+QPushButton#PrimaryButton:hover {{
+    border-color: #9fd18b;
+}}
+
+QPushButton#DangerButton {{
+    background: #352426;
+    border-color: #704247;
+}}
+
+QPushButton#DangerButton:hover {{
+    border-color: {COLORS["danger"]};
+}}
+
 QGroupBox {{
     background: {COLORS["panel"]};
     border: 1px solid #343337;
@@ -329,11 +347,40 @@ QHeaderView::section {{
 }}
 
 QTableWidget::item {{
-    padding: 5px 8px;
+    padding: 6px 8px;
 }}
 
 QTableWidget::item:hover {{
     background: {COLORS["panel_alt"]};
+}}
+
+QTableWidget::item:selected {{
+    background: #303035;
+    color: {COLORS["text"]};
+}}
+
+QLabel#ValidationSummary {{
+    background: #111113;
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    padding: 5px 8px;
+    color: {COLORS["muted"]};
+    font-weight: 700;
+}}
+
+QLabel#ValidationSummary[state="ok"] {{
+    color: #9fd18b;
+    border-color: #40583d;
+}}
+
+QLabel#ValidationSummary[state="warning"] {{
+    color: {COLORS["focus"]};
+    border-color: #725f2b;
+}}
+
+QLabel#ValidationSummary[state="error"] {{
+    color: {COLORS["danger"]};
+    border-color: #704247;
 }}
 
 QTabWidget::pane {{

@@ -116,6 +116,27 @@ def test_species_table_status_surfaces_validation_warnings(tmp_path):
     assert "koromon missing sprite file for idle" in window._species_table.item(0, 4).toolTip()
 
 
+def test_validation_summary_shows_error_and_warning_counts(tmp_path):
+    window = make_window(tmp_path)
+
+    assert "0 errors" in window._validation_summary_label.text()
+    assert "warnings" in window._validation_summary_label.text()
+
+
+def test_primary_actions_have_icons_and_tooltips(tmp_path):
+    window = make_window(tmp_path)
+
+    for button in (
+        window._add_button,
+        window._duplicate_button,
+        window._delete_button,
+        window._validate_button,
+        window._save_button,
+    ):
+        assert not button.icon().isNull()
+        assert button.toolTip()
+
+
 def test_selecting_species_populates_detail_fields(tmp_path):
     window = make_window(tmp_path)
 
