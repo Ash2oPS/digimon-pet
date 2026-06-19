@@ -2,7 +2,6 @@ import random
 
 import pytest
 
-from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
     advance_lifecycle,
@@ -149,81 +148,51 @@ def test_baby_2_can_evolve_to_valid_dw1_rookie_candidate():
     assert state.stage == GrowthStage.ROOKIE
 
 
-def test_each_baby_2_uses_closest_dw1_rookie_candidate():
+def test_baby_2_randomly_chooses_between_valid_dw1_rookie_candidates():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
-    cases = [
-        (
-            PetState(
-                species_id="koromon",
-                stage=GrowthStage.BABY_2,
-                age_seconds=3600,
-                hp=999,
-                mp=999,
-                offense=999,
-                defense=1,
-                speed=1,
-                brains=1,
-                weight=15,
-            ),
-            "gabumon",
-        ),
-        (
-            PetState(
-                species_id="tsunomon",
-                stage=GrowthStage.BABY_2,
-                age_seconds=3600,
-                hp=999,
-                mp=10,
-                offense=999,
-                defense=1,
-                speed=999,
-                brains=1,
-                weight=15,
-            ),
-            "penguinmon",
-        ),
-        (
-            PetState(
-                species_id="tokomon",
-                stage=GrowthStage.BABY_2,
-                age_seconds=3600,
-                hp=10,
-                mp=999,
-                offense=1,
-                defense=999,
-                speed=999,
-                brains=1,
-                weight=15,
-            ),
-            "patamon",
-        ),
-        (
-            PetState(
-                species_id="tanemon",
-                stage=GrowthStage.BABY_2,
-                age_seconds=3600,
-                hp=999,
-                mp=10,
-                defense=999,
-                speed=1,
-                brains=1,
-                weight=15,
-            ),
-            "palmon",
-        ),
-    ]
+    species = species_map()
+    del species["kunemon"]
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "agumon",
+                "requirements": {"groups": {"stats": {"hp": 10, "mp": 10, "offense": 1}}},
+            },
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "gabumon",
+                "requirements": {"groups": {"stats": {"defense": 1, "speed": 1, "brains": 1}}},
+            },
+        ]
+    }
+    results = set()
 
-    for state, expected_species_id in cases:
-        event = advance_lifecycle(
-            state,
-            load_species(),
-            load_dw1_digivolutions(),
-            schedule,
-            random.Random(0),
+    for seed in range(10):
+        state = PetState(
+            species_id="koromon",
+            stage=GrowthStage.BABY_2,
+            age_seconds=3600,
+            hp=999,
+            mp=999,
+            offense=999,
+            defense=999,
+            speed=999,
+            brains=999,
         )
 
-        assert event == f"evolved:{expected_species_id}"
-        assert state.species_id == expected_species_id
+        event = advance_lifecycle(
+            state,
+            species,
+            digivolutions,
+            schedule,
+            random.Random(seed),
+        )
+
+        assert event == f"evolved:{state.species_id}"
+        results.add(state.species_id)
+
+    assert results == {"agumon", "gabumon"}
 
 
 def test_baby_2_has_ten_percent_chance_to_evolve_to_kunemon():

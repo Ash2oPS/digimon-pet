@@ -82,7 +82,7 @@ def advance_lifecycle(
     if state.stage == GrowthStage.BABY_2:
         if "kunemon" in species and rng.random() < 0.1:
             return _evolve_to(state, species["kunemon"], rng)
-        target = _choose_closest_natural_evolution(state, species, digivolutions, rng)
+        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
             return _evolve_to(state, target, rng)
         target_id = BABY_2_TO_ROOKIE.get(state.species_id, "agumon")
@@ -126,37 +126,6 @@ def _choose_valid_natural_evolution(
         return None
     selected = rng.choice(candidates)
     return species[str(selected["target_species_id"])]
-
-
-def _choose_closest_natural_evolution(
-    state: PetState,
-    species: dict[str, Species],
-    digivolutions: dict[str, Any],
-    rng: random.Random,
-) -> Species | None:
-    scored_candidates = [
-        (_requirement_distance(state, transition.get("requirements", {})), transition)
-        for transition in digivolutions.get("natural_evolutions", [])
-        if transition.get("source_species_id") == state.species_id
-        and transition.get("target_species_id") in species
-    ]
-    if not scored_candidates:
-        return None
-    best_score = min(score for score, _transition in scored_candidates)
-    best_candidates = [transition for score, transition in scored_candidates if score == best_score]
-    selected = rng.choice(best_candidates)
-    return species[str(selected["target_species_id"])]
-
-
-def _requirement_distance(state: PetState, requirements: dict[str, Any]) -> int:
-    groups = requirements.get("groups", {})
-    score = 0
-
-    stats = groups.get("stats")
-    if isinstance(stats, dict):
-        score += sum(abs(getattr(state, stat_name, 0) - int(required)) for stat_name, required in stats.items())
-
-    return score
 
 
 def _choose_valid_special_evolution(
