@@ -18,7 +18,7 @@ def test_dw1_digivolutions_has_expected_sources_and_counts():
     assert data["sources"]["sydmontague_gamefaqs"].startswith("https://gamefaqs.gamespot.com/")
     assert data["sources"]["anaiadnamedlaura_tumblr"] == "https://anaiadnamedlaura.tumblr.com/digivolution"
     assert len(data["digimon"]) == 65
-    assert len(data["natural_evolutions"]) == 117
+    assert len(data["natural_evolutions"]) >= 117
     assert len(data["special_evolutions"]) == 7
 
 

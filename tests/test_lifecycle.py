@@ -2,6 +2,7 @@ import random
 
 import pytest
 
+from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
     advance_lifecycle,
@@ -66,6 +67,50 @@ def test_baby_line_evolves_forced_and_resets_stage_state():
     assert state.current_action == "idle"
 
 
+def test_catalog_baby_uses_declared_natural_evolution_before_builtin_fallback():
+    schedule = EvolutionSchedule(baby_seconds=1800)
+    species = species_map()
+    species["custombaby"] = Species("custombaby", "CustomBaby", GrowthStage.BABY)
+    species["customtraining"] = Species("customtraining", "CustomTraining", GrowthStage.BABY_2)
+    state = PetState(
+        species_id="custombaby",
+        stage=GrowthStage.BABY,
+        age_seconds=1800,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "custombaby",
+                "target_species_id": "customtraining",
+                "requirements": {"groups": {"stats": {}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species, digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:customtraining"
+    assert state.species_id == "customtraining"
+    assert state.stage == GrowthStage.BABY_2
+
+
+def test_catalog_baby_without_declared_evolution_does_not_use_builtin_line():
+    schedule = EvolutionSchedule(baby_seconds=1800)
+    species = species_map()
+    species["custombaby"] = Species("custombaby", "CustomBaby", GrowthStage.BABY)
+    state = PetState(
+        species_id="custombaby",
+        stage=GrowthStage.BABY,
+        age_seconds=1800,
+    )
+
+    event = advance_lifecycle(state, species, {"natural_evolutions": []}, schedule, random.Random(1))
+
+    assert event is None
+    assert state.species_id == "custombaby"
+    assert state.stage == GrowthStage.BABY
+
+
 def test_evolution_boosts_two_random_stats_more_than_the_others():
     schedule = EvolutionSchedule(baby_seconds=1800)
     state = PetState(
@@ -105,6 +150,50 @@ def test_baby_2_evolves_to_default_rookie_line_without_dw1_data():
     assert state.species_id == "agumon"
     assert state.stage == GrowthStage.ROOKIE
     assert state.age_seconds == 0
+
+
+def test_catalog_baby_2_uses_declared_rookie_evolution_without_builtin_mapping():
+    schedule = EvolutionSchedule(baby_2_seconds=3600)
+    species = species_map()
+    species["customtraining"] = Species("customtraining", "CustomTraining", GrowthStage.BABY_2)
+    species["customrookie"] = Species("customrookie", "CustomRookie", GrowthStage.ROOKIE)
+    state = PetState(
+        species_id="customtraining",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "customtraining",
+                "target_species_id": "customrookie",
+                "requirements": {"groups": {"stats": {}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species, digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:customrookie"
+    assert state.species_id == "customrookie"
+    assert state.stage == GrowthStage.ROOKIE
+
+
+def test_catalog_baby_2_without_matching_evolution_does_not_use_builtin_line():
+    schedule = EvolutionSchedule(baby_2_seconds=3600)
+    species = species_map()
+    species["customtraining"] = Species("customtraining", "CustomTraining", GrowthStage.BABY_2)
+    state = PetState(
+        species_id="customtraining",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+    )
+
+    event = advance_lifecycle(state, species, {"natural_evolutions": []}, schedule, random.Random(1))
+
+    assert event is None
+    assert state.species_id == "customtraining"
+    assert state.stage == GrowthStage.BABY_2
 
 
 def test_baby_2_can_evolve_to_valid_dw1_rookie_candidate():
@@ -218,21 +307,88 @@ def test_each_baby_1_uses_its_dw1_baby_2_line():
         "punimon": "tsunomon",
         "poyomon": "tokomon",
         "yuramon": "tanemon",
-        "zerimon": "gummymon",
     }
-    species = species_map()
-    species["zerimon"] = Species("zerimon", "Zerimon", GrowthStage.BABY)
-    species["gummymon"] = Species("gummymon", "Gummymon", GrowthStage.BABY_2)
 
     for baby_1, baby_2 in expected.items():
         state = PetState(species_id=baby_1, stage=GrowthStage.BABY, age_seconds=1800)
 
-        advance_lifecycle(state, species, {}, schedule, random.Random(1))
+        advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
 
         assert state.species_id == baby_2
 
 
-def test_gummymon_evolves_to_terriermon_from_default_baby_mapping():
+def test_terriermon_line_evolves_from_loaded_catalog_data():
+    species = load_species()
+    digivolutions = load_dw1_digivolutions()
+
+    state = PetState(species_id="zerimon", stage=GrowthStage.BABY, age_seconds=1800)
+    event = advance_lifecycle(
+        state,
+        species,
+        digivolutions,
+        EvolutionSchedule(baby_seconds=1800),
+        random.Random(1),
+    )
+    assert event == "evolved:gummymon"
+    assert state.stage == GrowthStage.BABY_2
+
+    state = PetState(
+        species_id="gummymon",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+        speed=500,
+    )
+    event = advance_lifecycle(
+        state,
+        species,
+        digivolutions,
+        EvolutionSchedule(baby_2_seconds=3600),
+        random.Random(1),
+    )
+    assert event == "evolved:terriermon"
+    assert state.stage == GrowthStage.ROOKIE
+
+    state = PetState(
+        species_id="terriermon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        hp=2000,
+        mp=3000,
+        offense=250,
+        speed=400,
+    )
+    event = advance_lifecycle(
+        state,
+        species,
+        digivolutions,
+        EvolutionSchedule(rookie_seconds=10800),
+        random.Random(1),
+    )
+    assert event == "evolved:galgomon"
+    assert state.stage == GrowthStage.CHAMPION
+
+    state = PetState(
+        species_id="galgomon",
+        stage=GrowthStage.CHAMPION,
+        age_seconds=18000,
+        hp=5000,
+        mp=7500,
+        offense=6000,
+        defense=4000,
+        speed=6000,
+    )
+    event = advance_lifecycle(
+        state,
+        species,
+        digivolutions,
+        EvolutionSchedule(champion_seconds=18000),
+        random.Random(1),
+    )
+    assert event == "evolved:rapidmon"
+    assert state.stage == GrowthStage.ULTIMATE
+
+
+def test_gummymon_without_loaded_catalog_data_does_not_need_runtime_mapping():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
     species = species_map()
     species["gummymon"] = Species("gummymon", "Gummymon", GrowthStage.BABY_2)
@@ -241,9 +397,9 @@ def test_gummymon_evolves_to_terriermon_from_default_baby_mapping():
 
     event = advance_lifecycle(state, species, {}, schedule, random.Random(1))
 
-    assert event == "evolved:terriermon"
-    assert state.species_id == "terriermon"
-    assert state.stage == GrowthStage.ROOKIE
+    assert event is None
+    assert state.species_id == "gummymon"
+    assert state.stage == GrowthStage.BABY_2
 
 
 def test_rookie_falls_back_to_numemon_when_no_known_conditions_match():
@@ -436,6 +592,35 @@ def test_champion_dies_when_no_known_ultimate_conditions_match():
         "speed": 7,
         "hp": 15,
     }
+
+
+def test_catalog_champion_uses_declared_ultimate_evolution_for_added_species():
+    schedule = EvolutionSchedule(champion_seconds=18000)
+    species = species_map()
+    species["customchampion"] = Species("customchampion", "CustomChampion", GrowthStage.CHAMPION)
+    species["customultimate"] = Species("customultimate", "CustomUltimate", GrowthStage.ULTIMATE)
+    state = PetState(
+        species_id="customchampion",
+        stage=GrowthStage.CHAMPION,
+        age_seconds=18000,
+        hp=500,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "customchampion",
+                "target_species_id": "customultimate",
+                "requirements": {"groups": {"stats": {"hp": 500}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species, digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:customultimate"
+    assert state.species_id == "customultimate"
+    assert state.stage == GrowthStage.ULTIMATE
+    assert state.needs_rebirth_choice is False
 
 
 def test_champion_does_not_auto_evolve_to_vademon_without_praise_or_scold_action():

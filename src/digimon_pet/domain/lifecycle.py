@@ -15,14 +15,12 @@ BABY_1_TO_BABY_2 = {
     "punimon": "tsunomon",
     "poyomon": "tokomon",
     "yuramon": "tanemon",
-    "zerimon": "gummymon",
 }
 BABY_2_TO_ROOKIE = {
     "koromon": "agumon",
     "tsunomon": "gabumon",
     "tokomon": "patamon",
     "tanemon": "palmon",
-    "gummymon": "terriermon",
 }
 BABY_1_CHOICES = tuple(BABY_1_TO_BABY_2)
 
@@ -83,16 +81,19 @@ def advance_lifecycle(
         return None
 
     if state.stage == GrowthStage.BABY:
-        target_id = BABY_1_TO_BABY_2.get(state.species_id, "koromon")
-        return _evolve_to(state, species[target_id], rng)
-    if state.stage == GrowthStage.BABY_2:
-        if "kunemon" in species and rng.random() < 0.1:
-            return _evolve_to(state, species["kunemon"], rng)
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
             return _evolve_to(state, target, rng)
-        target_id = BABY_2_TO_ROOKIE.get(state.species_id, "agumon")
-        return _evolve_to(state, species[target_id], rng)
+        target = _mapped_fallback_species(state.species_id, BABY_1_TO_BABY_2, species)
+        return _evolve_to(state, target, rng) if target is not None else None
+    if state.stage == GrowthStage.BABY_2:
+        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        if target is not None:
+            return _evolve_to(state, target, rng)
+        if "kunemon" in species and rng.random() < 0.1:
+            return _evolve_to(state, species["kunemon"], rng)
+        target = _mapped_fallback_species(state.species_id, BABY_2_TO_ROOKIE, species)
+        return _evolve_to(state, target, rng) if target is not None else None
     if state.stage == GrowthStage.ROOKIE:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
@@ -132,6 +133,17 @@ def _choose_valid_natural_evolution(
         return None
     selected = rng.choice(candidates)
     return species[str(selected["target_species_id"])]
+
+
+def _mapped_fallback_species(
+    source_species_id: str,
+    mapping: dict[str, str],
+    species: dict[str, Species],
+) -> Species | None:
+    target_id = mapping.get(source_species_id)
+    if target_id is None:
+        return None
+    return species.get(target_id)
 
 
 def _choose_valid_special_evolution(
@@ -205,7 +217,9 @@ def _matches_stats(
     *,
     target: Species | None = None,
 ) -> bool:
-    if not rule:
+    if rule == {}:
+        return True
+    if rule is None:
         return False
     matching_stats = sum(getattr(state, stat_name, 0) >= int(required) for stat_name, required in rule.items())
     required_matches = len(rule)
