@@ -8,6 +8,7 @@ from typing import Any
 from PySide6.QtCore import QSize, QRect, Qt, QTimer
 from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (
+    QApplication,
     QComboBox,
     QFormLayout,
     QFrame,
@@ -30,10 +31,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from digimon_pet.app.artwork_runtime import resolve_artwork_path
+from digimon_pet.app.artwork_runtime import discover_and_download_artwork_for_species, resolve_artwork_path
 from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_item_catalog
+from digimon_pet.data.pendulum_sprite_import import import_pendulum_color_sprite
 from digimon_pet.domain.digimon_catalog import (
     SPRITE_SLOT_NAMES,
     DigimonCatalog,
@@ -404,6 +406,21 @@ class DigimonManagerWindow(QWidget):
         layout = QVBoxLayout(tab)
         layout.setContentsMargins(8, 8, 8, 8)
         layout.setSpacing(10)
+        import_row = QHBoxLayout()
+        import_row.setSpacing(8)
+        self._import_sprite_button = QPushButton("Fetch sprite", tab)
+        self._import_sprite_button.setObjectName("PrimaryButton")
+        self._import_sprite_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowDown))
+        self._import_sprite_button.setToolTip("Fetch a Pendulum Color spritesheet by the selected Digimon name")
+        self._import_artwork_button = QPushButton("Fetch artwork", tab)
+        self._import_artwork_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogOpenButton))
+        self._import_artwork_button.setToolTip("Fetch artwork by the selected Digimon name")
+        self._visual_import_status = QLabel("Fetch visuals from the selected name", tab)
+        self._visual_import_status.setObjectName("VisualImportStatus")
+        import_row.addWidget(self._import_sprite_button)
+        import_row.addWidget(self._import_artwork_button)
+        import_row.addWidget(self._visual_import_status, 1)
+        layout.addLayout(import_row)
         grid = QGridLayout()
         grid.setHorizontalSpacing(8)
         grid.setVerticalSpacing(8)
@@ -513,6 +530,8 @@ class DigimonManagerWindow(QWidget):
         self._delete_button.clicked.connect(self.delete_selected_species)
         self._validate_button.clicked.connect(self._refresh_validation)
         self._save_button.clicked.connect(self.save_catalog)
+        self._import_sprite_button.clicked.connect(self.import_selected_sprite)
+        self._import_artwork_button.clicked.connect(self.import_selected_artwork)
         self._natural_add_button.clicked.connect(self.add_natural_evolution)
         self._natural_remove_button.clicked.connect(self.remove_selected_natural_evolution)
         self._special_add_button.clicked.connect(self.add_special_evolution)
@@ -698,6 +717,7 @@ class DigimonManagerWindow(QWidget):
         for slot_name, input_widget in self._sprite_inputs.items():
             input_widget.setText(str(sprite_slots.get(slot_name, "")))
         self._loading = False
+        self._set_visual_import_status("Fetch visuals from the selected name", "neutral")
         self._refresh_sprite_preview()
         self._refresh_artwork_preview()
         self._refresh_evolution_tables()
@@ -714,6 +734,7 @@ class DigimonManagerWindow(QWidget):
         self._selected_status_label.setText("Select a row to edit")
         self._selected_sprite_label.clear()
         self._selected_validation_output.setPlainText("No Digimon selected.")
+        self._set_visual_import_status("Select a Digimon before fetching visuals.", "neutral")
 
     def _sync_species_edits(self) -> None:
         if self._loading:
@@ -740,6 +761,80 @@ class DigimonManagerWindow(QWidget):
         self._refresh_evolution_tables()
         self._refresh_validation()
         self._refresh_selected_context()
+
+    def import_selected_sprite(self) -> None:
+        identity = self._selected_import_identity()
+        if identity is None:
+            self._set_visual_import_status("Select a Digimon with a name first.", "error")
+            return
+        species_id, name = identity
+        self._run_visual_import(
+            self._import_sprite_button,
+            f"Fetching sprite for {name}...",
+            lambda: import_pendulum_color_sprite(species_id, name, self._project_root),
+            self._handle_sprite_import_result,
+        )
+
+    def import_selected_artwork(self) -> None:
+        identity = self._selected_import_identity()
+        if identity is None:
+            self._set_visual_import_status("Select a Digimon with a name first.", "error")
+            return
+        species_id, name = identity
+        self._run_visual_import(
+            self._import_artwork_button,
+            f"Fetching artwork for {name}...",
+            lambda: discover_and_download_artwork_for_species(species_id, name, self._project_root),
+            self._handle_artwork_import_result,
+        )
+
+    def _selected_import_identity(self) -> tuple[str, str] | None:
+        species_id = self._id_input.text().strip() or self._selected_id or ""
+        name = self._name_input.text().strip()
+        if not species_id or not name:
+            return None
+        return species_id, name
+
+    def _run_visual_import(self, button: QPushButton, pending_text: str, action, on_result) -> None:
+        self._set_visual_import_status(pending_text, "pending")
+        button.setEnabled(False)
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        QApplication.processEvents()
+        try:
+            result = action()
+        except OSError as exc:
+            self._set_visual_import_status(f"Network error: {exc}", "error")
+            return
+        finally:
+            QApplication.restoreOverrideCursor()
+            button.setEnabled(True)
+        on_result(result)
+
+    def _handle_sprite_import_result(self, result) -> None:
+        if result is None:
+            self._set_visual_import_status("No Pendulum Color sprite found for this name.", "error")
+            return
+        self._runtime_sprite_entries = self._load_runtime_sprite_entries()
+        self._refresh_sprite_preview()
+        self._refresh_table()
+        self._refresh_validation()
+        self._set_visual_import_status(
+            f"Sprite imported from {result.source_name}: {result.frame_count} frames.",
+            "ok",
+        )
+
+    def _handle_artwork_import_result(self, result: Path | None) -> None:
+        if result is None:
+            self._set_visual_import_status("No artwork found for this name.", "error")
+            return
+        self._refresh_artwork_preview()
+        self._set_visual_import_status("Artwork imported and preview refreshed.", "ok")
+
+    def _set_visual_import_status(self, text: str, state: str) -> None:
+        self._visual_import_status.setText(text)
+        self._visual_import_status.setProperty("state", state)
+        self._visual_import_status.style().unpolish(self._visual_import_status)
+        self._visual_import_status.style().polish(self._visual_import_status)
 
     def _refresh_selected_context(self) -> None:
         species_id = self._selected_id or ""
@@ -1262,5 +1357,3 @@ def _message_species_id(message: str, species_ids: set[str]) -> str | None:
         if f": {species_id}" in message or f" {species_id} " in message:
             return species_id
     return None
-
-

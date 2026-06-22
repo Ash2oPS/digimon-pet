@@ -440,6 +440,30 @@ QLabel#ValidationSummary[state="error"] {{
     border-color: #704247;
 }}
 
+QLabel#VisualImportStatus {{
+    background: #111113;
+    border: 1px solid #3a3938;
+    border-radius: 5px;
+    padding: 5px 8px;
+    color: {COLORS["muted"]};
+    font-weight: 700;
+}}
+
+QLabel#VisualImportStatus[state="pending"] {{
+    color: {COLORS["focus"]};
+    border-color: #725f2b;
+}}
+
+QLabel#VisualImportStatus[state="ok"] {{
+    color: #9fd18b;
+    border-color: #40583d;
+}}
+
+QLabel#VisualImportStatus[state="error"] {{
+    color: {COLORS["danger"]};
+    border-color: #704247;
+}}
+
 QPlainTextEdit#SelectedValidationOutput {{
     background: #151517;
     border-color: #3a3938;

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
-from urllib.request import urlopen
+from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 from PySide6.QtGui import QColor, QImage
 
@@ -12,6 +14,8 @@ from digimon_pet.paths import PROJECT_ROOT
 DEFAULT_ARTWORK_DOWNLOAD_MANIFEST_PATH = PROJECT_ROOT / "data" / "artwork_downloads.json"
 BACKGROUND_RGB_THRESHOLD = 245
 DEFAULT_DOWNLOAD_TIMEOUT_SECONDS = 8.0
+WIKIMON_FRANCE_API_URL = "https://wikimon-france.fandom.com/fr/api.php"
+WIKIMON_FRANCE_PAGE_BASE_URL = "https://wikimon-france.fandom.com/fr/wiki/"
 
 
 def download_missing_artworks(
@@ -45,6 +49,29 @@ def download_artwork_for_species(
     return _download_artwork_entry(project_root, entry)
 
 
+def discover_and_download_artwork_for_species(
+    species_id: str,
+    name: str,
+    project_root: Path = PROJECT_ROOT,
+    manifest_path: Path = DEFAULT_ARTWORK_DOWNLOAD_MANIFEST_PATH,
+    *,
+    timeout_seconds: float = DEFAULT_DOWNLOAD_TIMEOUT_SECONDS,
+) -> Path | None:
+    clean_species_id = species_id.strip()
+    clean_name = name.strip()
+    if not clean_species_id or not clean_name:
+        return None
+    entry = _discover_wikimon_france_artwork_entry(
+        clean_species_id,
+        clean_name,
+        timeout_seconds=timeout_seconds,
+    )
+    if entry is None:
+        return None
+    _upsert_artwork_manifest_entry(manifest_path, entry)
+    return _download_artwork_entry(project_root, entry)
+
+
 def resolve_artwork_path(
     species_id: str,
     project_root: Path = PROJECT_ROOT,
@@ -67,6 +94,97 @@ def _artwork_entry_for_species(species_id: str, manifest_path: Path) -> dict[str
     return None
 
 
+def _discover_wikimon_france_artwork_entry(
+    species_id: str,
+    name: str,
+    *,
+    timeout_seconds: float,
+) -> dict[str, Any] | None:
+    for title in _wikimon_title_candidates(name):
+        api_url = (
+            f"{WIKIMON_FRANCE_API_URL}?action=query&titles={quote(title)}"
+            "&prop=pageimages&format=json&pithumbsize=800"
+        )
+        try:
+            with urlopen(_web_request(api_url), timeout=timeout_seconds) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        page = _first_found_wikimon_page(payload)
+        if page is None:
+            continue
+        thumbnail = page.get("thumbnail", {})
+        if not isinstance(thumbnail, dict):
+            continue
+        source_url = _normalize_fandom_image_url(str(thumbnail.get("source", "")))
+        if not source_url:
+            continue
+        page_title = str(page.get("title") or title)
+        return {
+            "species_id": species_id,
+            "name": name,
+            "official_name": page_title,
+            "source_page": WIKIMON_FRANCE_PAGE_BASE_URL + quote(page_title.replace(" ", "_")),
+            "url": source_url,
+            "path": f"assets/artworks/{species_id}.png",
+        }
+    return None
+
+
+def _wikimon_title_candidates(name: str) -> list[str]:
+    candidates = [
+        name,
+        _split_camel_case(name),
+        name.replace("-", " "),
+        name.replace("_", " "),
+    ]
+    seen: set[str] = set()
+    unique: list[str] = []
+    for candidate in candidates:
+        normalized = re.sub(r"\s+", " ", candidate).strip()
+        key = normalized.casefold()
+        if normalized and key not in seen:
+            unique.append(normalized)
+            seen.add(key)
+    return unique
+
+
+def _split_camel_case(value: str) -> str:
+    spaced = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", value)
+    return re.sub(r"\s+", " ", spaced).strip()
+
+
+def _first_found_wikimon_page(payload: dict[str, Any]) -> dict[str, Any] | None:
+    pages = payload.get("query", {}).get("pages", {})
+    if not isinstance(pages, dict):
+        return None
+    for page in pages.values():
+        if isinstance(page, dict) and "missing" not in page:
+            return page
+    return None
+
+
+def _normalize_fandom_image_url(url: str) -> str:
+    if not url.startswith("https://static.wikia.nocookie.net/wikimon-france/"):
+        return ""
+    return re.sub(r"/scale-to-width-down/\d+", "", url)
+
+
+def _web_request(url: str) -> Request:
+    return Request(url, headers={"User-Agent": "Mozilla/5.0"})
+
+
+def _upsert_artwork_manifest_entry(manifest_path: Path, entry: dict[str, Any]) -> None:
+    entries = _load_artwork_entries(manifest_path) if manifest_path.exists() else []
+    by_species_id = {str(item.get("species_id", "")): item for item in entries}
+    by_species_id[str(entry["species_id"])] = entry
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(
+        json.dumps(list(by_species_id.values()), indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
 def _download_artwork_entry(project_root: Path, entry: dict[str, Any]) -> Path | None:
     target_path = _project_relative_path(project_root, entry.get("path"))
     if target_path.exists():
@@ -77,7 +195,7 @@ def _download_artwork_entry(project_root: Path, entry: dict[str, Any]) -> Path |
     target_path.parent.mkdir(parents=True, exist_ok=True)
     download_path = target_path.with_name(f"{target_path.name}.download")
     try:
-        with urlopen(url, timeout=DEFAULT_DOWNLOAD_TIMEOUT_SECONDS) as response:
+        with urlopen(_web_request(url), timeout=DEFAULT_DOWNLOAD_TIMEOUT_SECONDS) as response:
             download_path.write_bytes(response.read())
         if not _write_transparent_artwork(download_path, target_path):
             return None

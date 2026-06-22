@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+from types import SimpleNamespace
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -176,6 +177,58 @@ def test_primary_actions_have_icons_and_tooltips(tmp_path):
     ):
         assert not button.icon().isNull()
         assert button.toolTip()
+
+
+def test_visual_import_buttons_have_icons_and_status(tmp_path):
+    window = make_window(tmp_path)
+
+    assert window._import_sprite_button.text() == "Fetch sprite"
+    assert not window._import_sprite_button.icon().isNull()
+    assert window._import_sprite_button.toolTip()
+    assert window._import_artwork_button.text() == "Fetch artwork"
+    assert not window._import_artwork_button.icon().isNull()
+    assert window._import_artwork_button.toolTip()
+    assert window._visual_import_status.text()
+
+
+def test_fetch_sprite_uses_selected_digimon_name_and_refreshes_runtime(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    calls = []
+
+    def fake_import(species_id, name, project_root):
+        calls.append((species_id, name, project_root))
+        return SimpleNamespace(source_name="Test Pendulum", frame_count=12)
+
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.import_pendulum_color_sprite", fake_import)
+    monkeypatch.setattr(window, "_load_runtime_sprite_entries", lambda: {"agumon": {"asset_path": "sprite.png"}})
+    window._species_table.selectRow(1)
+
+    window.import_selected_sprite()
+
+    assert calls == [("agumon", "Agumon", tmp_path)]
+    assert "Sprite imported" in window._visual_import_status.text()
+    assert window._runtime_sprite_entries == {"agumon": {"asset_path": "sprite.png"}}
+
+
+def test_fetch_artwork_uses_selected_digimon_name_and_refreshes_preview(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    calls = []
+    refreshed = []
+
+    def fake_import(species_id, name, project_root):
+        calls.append((species_id, name, project_root))
+        return tmp_path / "assets" / "artworks" / f"{species_id}.png"
+
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.discover_and_download_artwork_for_species", fake_import)
+    monkeypatch.setattr(window, "_refresh_artwork_preview", lambda: refreshed.append(True))
+    window._species_table.selectRow(1)
+    refreshed.clear()
+
+    window.import_selected_artwork()
+
+    assert calls == [("agumon", "Agumon", tmp_path)]
+    assert refreshed == [True]
+    assert "Artwork imported" in window._visual_import_status.text()
 
 
 def test_selecting_species_populates_detail_fields(tmp_path):
@@ -382,5 +435,3 @@ def test_delete_confirmation_receives_impact_summary(tmp_path, monkeypatch):
     assert "Natural as target: koromon__to__agumon" in messages[0]
     assert "Special references: special__to__greymon" in messages[0]
     assert "agumon" not in window._catalog.species_by_id()
-
-

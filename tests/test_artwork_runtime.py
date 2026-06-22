@@ -2,7 +2,13 @@ import json
 
 from PySide6.QtGui import QColor, QImage
 
-from digimon_pet.app.artwork_runtime import download_artwork_for_species, download_missing_artworks, resolve_artwork_path
+from digimon_pet.app import artwork_runtime
+from digimon_pet.app.artwork_runtime import (
+    discover_and_download_artwork_for_species,
+    download_artwork_for_species,
+    download_missing_artworks,
+    resolve_artwork_path,
+)
 from digimon_pet.data.sprite_pipeline import load_roster
 
 
@@ -96,6 +102,70 @@ def test_download_artwork_for_species_fetches_only_requested_species(tmp_path):
     assert downloaded == numemon_target
     assert numemon_target.exists()
     assert not agumon_target.exists()
+
+
+def test_discover_and_download_artwork_for_species_uses_wikimon_api(tmp_path, monkeypatch):
+    manifest_path = tmp_path / "data" / "artwork_downloads.json"
+    source_png = tmp_path / "remote" / "weregarurumon.png"
+    source_png.parent.mkdir(parents=True)
+    _save_test_artwork(source_png)
+    image_bytes = source_png.read_bytes()
+    api_payload = json.dumps(
+        {
+            "query": {
+                "pages": {
+                    "553": {
+                        "pageid": 553,
+                        "title": "Were Garurumon",
+                        "thumbnail": {
+                            "source": (
+                                "https://static.wikia.nocookie.net/wikimon-france/images/1/1f/"
+                                "Were_Garurumon.png/revision/latest/scale-to-width-down/335"
+                                "?cb=20220628133119&path-prefix=fr"
+                            )
+                        },
+                    }
+                }
+            }
+        }
+    ).encode("utf-8")
+
+    class FakeResponse:
+        def __init__(self, payload):
+            self._payload = payload
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, traceback):
+            return False
+
+        def read(self):
+            return self._payload
+
+    def fake_urlopen(url, timeout):
+        raw_url = getattr(url, "full_url", str(url))
+        if raw_url.startswith(artwork_runtime.WIKIMON_FRANCE_API_URL):
+            return FakeResponse(api_payload)
+        return FakeResponse(image_bytes)
+
+    monkeypatch.setattr(artwork_runtime, "urlopen", fake_urlopen)
+
+    result = discover_and_download_artwork_for_species(
+        "weregarurumon",
+        "WereGarurumon",
+        tmp_path,
+        manifest_path,
+    )
+
+    assert result == tmp_path / "assets" / "artworks" / "weregarurumon.png"
+    assert result.exists()
+    entries = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert entries[0]["source_page"] == "https://wikimon-france.fandom.com/fr/wiki/Were_Garurumon"
+    assert entries[0]["url"] == (
+        "https://static.wikia.nocookie.net/wikimon-france/images/1/1f/"
+        "Were_Garurumon.png/revision/latest?cb=20220628133119&path-prefix=fr"
+    )
 
 
 def test_downloaded_artwork_keeps_internal_white_pixels_opaque(tmp_path):
