@@ -255,6 +255,21 @@ def test_download_manifest_import_adds_digital_monster_color_vertical_sheet(tmp_
     assert runtime["entries"]["testmon"]["source_id"] == "digital_monster_color"
 
 
+def test_wikimon_white_background_keeps_internal_white_pixels():
+    image = QImage(5, 5, QImage.Format.Format_ARGB32)
+    image.fill(QColor("white"))
+    for y in range(1, 4):
+        for x in range(1, 4):
+            image.setPixelColor(x, y, QColor("black"))
+    image.setPixelColor(2, 2, QColor("white"))
+
+    result = pendulum_sprite_import._transparent_white_background(image)
+
+    assert result.pixelColor(0, 0).alpha() == 0
+    assert result.pixelColor(4, 4).alpha() == 0
+    assert result.pixelColor(2, 2) == QColor("white")
+
+
 def _save_test_sheet(path):
     image = QImage(240, 48, QImage.Format.Format_ARGB32)
     image.fill(QColor(255, 0, 255))

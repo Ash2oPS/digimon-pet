@@ -806,13 +806,31 @@ def _transparent_white_background(image: QImage) -> QImage:
     converted = image.convertToFormat(QImage.Format.Format_ARGB32)
     width = converted.width()
     height = converted.height()
-    for y in range(height):
-        for x in range(width):
-            color = converted.pixelColor(x, y)
-            if color.alpha() > 0 and color.red() >= 245 and color.green() >= 245 and color.blue() >= 245:
-                color.setAlpha(0)
-                converted.setPixelColor(x, y, color)
+    queue: deque[tuple[int, int]] = deque()
+    for x in range(width):
+        queue.append((x, 0))
+        queue.append((x, height - 1))
+    for y in range(1, height - 1):
+        queue.append((0, y))
+        queue.append((width - 1, y))
+
+    visited: set[tuple[int, int]] = set()
+    while queue:
+        x, y = queue.popleft()
+        if (x, y) in visited or not (0 <= x < width and 0 <= y < height):
+            continue
+        visited.add((x, y))
+        color = converted.pixelColor(x, y)
+        if not _is_near_white(color):
+            continue
+        color.setAlpha(0)
+        converted.setPixelColor(x, y, color)
+        queue.extend(((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)))
     return converted
+
+
+def _is_near_white(color: QColor) -> bool:
+    return color.alpha() > 0 and color.red() >= 245 and color.green() >= 245 and color.blue() >= 245
 
 
 def _asset_slug(value: str) -> str:
