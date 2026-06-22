@@ -103,6 +103,35 @@ def test_inventory_window_shows_count_and_filters_items_by_type():
     assert slots[1].item is None
 
 
+def test_inventory_window_compacts_unused_empty_storage_slots():
+    app = QApplication.instance() or QApplication([])
+    window = InventoryWindow(slot_count=12)
+
+    window.set_items(
+        [
+            InventoryItem(id="meat", name="Meat", quantity=3),
+            InventoryItem(id="fish", name="DigiFish", quantity=1),
+        ]
+    )
+    slots = window.findChildren(InventorySlotWidget)
+
+    assert slots[0].isHidden() is False
+    assert slots[1].isHidden() is False
+    assert slots[5].isHidden() is False
+    assert slots[6].isHidden() is True
+
+
+def test_inventory_slot_cards_show_name_and_type_chip():
+    app = QApplication.instance() or QApplication([])
+    window = InventoryWindow(slot_count=4)
+
+    window.set_items([InventoryItem(id="fish", name="DigiFish", item_type="consumable")])
+    slots = window.findChildren(InventorySlotWidget)
+
+    assert slots[0]._name_label.text() == "DigiFish"
+    assert slots[0]._type_label.text() == "STAT"
+
+
 def test_inventory_window_disables_unusable_selected_item_with_reason():
     app = QApplication.instance() or QApplication([])
     window = InventoryWindow(slot_count=4)

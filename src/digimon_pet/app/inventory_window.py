@@ -39,7 +39,9 @@ class InventoryItem:
 
 class InventoryWindow(QDialog):
     _DEFAULT_SLOT_COUNT = 24
-    _COLUMNS = 5
+    _COLUMNS = 4
+    _GHOST_SLOT_COUNT = 4
+    _MIN_VISIBLE_SLOT_COUNT = 6
 
     def __init__(
         self,
@@ -65,7 +67,7 @@ class InventoryWindow(QDialog):
 
         header = QHBoxLayout()
         header.setContentsMargins(0, 0, 0, 0)
-        title = QLabel("Inventaire", self)
+        title = QLabel("DIGIVICE STORAGE", self)
         title.setObjectName("Title")
         header.addWidget(title)
         header.addStretch(1)
@@ -104,9 +106,12 @@ class InventoryWindow(QDialog):
         scroll_area = QScrollArea(self)
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        scroll_area.setMinimumHeight(278)
+        scroll_area.setMaximumHeight(304)
 
         grid_host = QWidget(self)
         grid_host.setObjectName("InventoryGrid")
+        grid_host.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         grid = QGridLayout(grid_host)
         grid.setContentsMargins(14, 14, 14, 14)
         grid.setHorizontalSpacing(12)
@@ -122,10 +127,15 @@ class InventoryWindow(QDialog):
 
         details = QFrame(self)
         details.setObjectName("InventoryDetails")
-        details.setFixedWidth(220)
+        details.setFixedWidth(240)
         details_layout = QVBoxLayout(details)
         details_layout.setContentsMargins(12, 12, 12, 12)
         details_layout.setSpacing(8)
+
+        scan_title = QLabel("ITEM SCAN", details)
+        scan_title.setObjectName("InventoryScanTitle")
+        scan_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        details_layout.addWidget(scan_title)
 
         self._details_icon = QLabel(details)
         self._details_icon.setObjectName("InventoryDetailsIcon")
@@ -185,8 +195,10 @@ class InventoryWindow(QDialog):
 
     def _render_slots(self) -> None:
         visible_items = [item for item in self._items if _matches_filter(item, self._active_filter)]
+        visible_slot_count = _visible_slot_count(len(visible_items), self._slot_count)
         for index, slot in enumerate(self._slots):
             slot.set_item(visible_items[index] if index < len(visible_items) else None)
+            slot.setVisible(index < visible_slot_count)
         if self._selected_item_id not in {item.id for item in visible_items}:
             self._selected_item_id = visible_items[0].id if visible_items else None
         self._refresh_selection()
@@ -269,7 +281,7 @@ class InventoryWindow(QDialog):
 
 
 class InventorySlotWidget(QWidget):
-    _SIZE = QSize(78, 78)
+    _SIZE = QSize(104, 112)
 
     def __init__(
         self,
@@ -282,6 +294,7 @@ class InventorySlotWidget(QWidget):
         self._item_selected = item_selected
         self._item_used = item_used
         self.setObjectName("InventorySlot")
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self.setFixedSize(self._SIZE)
         self.setProperty("empty", True)
         self.setProperty("selected", False)
@@ -292,13 +305,26 @@ class InventorySlotWidget(QWidget):
         self.setCursor(Qt.CursorShape.ArrowCursor)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(7, 7, 7, 7)
-        layout.setSpacing(2)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(4)
+
+        self._type_label = QLabel("", self)
+        self._type_label.setObjectName("InventorySlotType")
+        self._type_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._type_label.setFixedHeight(17)
+        layout.addWidget(self._type_label)
 
         self._icon_label = QLabel(self)
         self._icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._icon_label.setFixedHeight(48)
+        self._icon_label.setFixedHeight(44)
         layout.addWidget(self._icon_label)
+
+        self._name_label = QLabel("", self)
+        self._name_label.setObjectName("InventorySlotName")
+        self._name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._name_label.setWordWrap(True)
+        self._name_label.setFixedHeight(28)
+        layout.addWidget(self._name_label)
 
         self._quantity_label = QLabel("", self)
         self._quantity_label.setObjectName("InventoryQuantity")
@@ -317,22 +343,30 @@ class InventorySlotWidget(QWidget):
 
         if item is None:
             self._icon_label.clear()
+            self._name_label.clear()
+            self._type_label.clear()
+            self._type_label.setVisible(False)
             self._quantity_label.clear()
             self._quantity_label.setVisible(False)
             self.setToolTip("Emplacement vide")
             return
 
         self.setToolTip(_item_tooltip(item))
+        self._name_label.setText(_short_item_name(item.name))
+        self._type_label.setText(_slot_type_label(item))
+        self._type_label.setVisible(True)
         self._quantity_label.setText(str(item.quantity) if item.quantity > 1 else "")
         self._quantity_label.setVisible(item.quantity > 1)
         pixmap = _item_pixmap(item)
         if pixmap is None:
+            self._icon_label.setPixmap(QPixmap())
             self._icon_label.setText(item.name[:2].upper())
             return
+        self._icon_label.setText("")
         self._icon_label.setPixmap(
             pixmap.scaled(
-                48,
-                48,
+                44,
+                44,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation,
             )
@@ -384,6 +418,32 @@ def _filter_label(filter_id: str) -> str:
         "evolution": "Evolution",
         "special": "Speciaux",
     }.get(filter_id, "Tous")
+
+
+def _visible_slot_count(item_count: int, slot_count: int) -> int:
+    if slot_count <= 0:
+        return 0
+    if item_count <= 0:
+        return min(slot_count, InventoryWindow._MIN_VISIBLE_SLOT_COUNT)
+    return min(
+        slot_count,
+        max(item_count + InventoryWindow._GHOST_SLOT_COUNT, InventoryWindow._MIN_VISIBLE_SLOT_COUNT),
+    )
+
+
+def _slot_type_label(item: InventoryItem) -> str:
+    if item.dangerous:
+        return "DANGER"
+    return {
+        "consumable": "STAT",
+        "evolution": "EVO",
+        "key_item": "KEY",
+        "misc": "DATA",
+    }.get(item.item_type, "DATA")
+
+
+def _short_item_name(name: str) -> str:
+    return name if len(name) <= 16 else f"{name[:14]}.."
 
 
 def _item_type_label(item: InventoryItem) -> str:
@@ -449,21 +509,21 @@ QToolButton#InventoryFilter:checked {{
 }}
 
 QWidget#InventoryGrid {{
-    background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["line"]};
-    border-top-color: {COLORS["accent_soft"]};
-    border-radius: 9px;
+    background: {COLORS["surface"]};
+    border: 1px solid {COLORS["line_soft"]};
+    border-top-color: {COLORS["accent"]};
+    border-radius: 10px;
 }}
 
 QWidget#InventorySlot {{
-    background: {COLORS["surface"]};
-    border: 1px solid {COLORS["line_soft"]};
-    border-radius: 8px;
+    background: {COLORS["panel"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 9px;
 }}
 
 QWidget#InventorySlot:hover {{
     border-color: {COLORS["accent"]};
-    background: {COLORS["panel"]};
+    background: {COLORS["panel_alt"]};
 }}
 
 QWidget#InventorySlot:focus {{
@@ -472,7 +532,12 @@ QWidget#InventorySlot:focus {{
 
 QWidget#InventorySlot[empty="false"] {{
     background: {COLORS["panel_alt"]};
-    border-color: {COLORS["line"]};
+    border-color: {COLORS["accent_soft"]};
+}}
+
+QWidget#InventorySlot[empty="true"] {{
+    background: #0b111b;
+    border: 1px dashed {COLORS["line"]};
 }}
 
 QWidget#InventorySlot[usable="false"] {{
@@ -489,11 +554,34 @@ QWidget#InventorySlot[selected="true"] {{
     border-color: {COLORS["focus"]};
 }}
 
+QLabel#InventorySlotType {{
+    background: #0a2230;
+    border: 1px solid {COLORS["accent_soft"]};
+    border-radius: 5px;
+    color: {COLORS["accent"]};
+    font-size: 9px;
+    font-weight: 900;
+    padding: 1px 4px;
+}}
+
+QLabel#InventorySlotName {{
+    color: {COLORS["text"]};
+    font-size: 10px;
+    font-weight: 800;
+}}
+
 QFrame#InventoryDetails {{
     background: {COLORS["panel"]};
     border: 1px solid {COLORS["line"]};
     border-top-color: {COLORS["accent"]};
     border-radius: 9px;
+}}
+
+QLabel#InventoryScanTitle {{
+    color: {COLORS["accent"]};
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0px;
 }}
 
 QLabel#InventoryDetailsIcon {{
