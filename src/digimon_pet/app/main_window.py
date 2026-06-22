@@ -59,10 +59,56 @@ BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 NATURAL_DEATH_EVOLUTION_TARGET_ID = "bakemon"
 NATURAL_DEATH_EVOLUTION_CHANCE = 0.1
+ITEM_STAT_LABELS = {
+    "hp": "HP",
+    "mp": "MP",
+    "offense": "OFF",
+    "defense": "DEF",
+    "speed": "SPD",
+    "brains": "INT",
+}
 
 
 def _item_has_instant_death_effect(item) -> bool:
     return any(effect.type == ItemEffectType.INSTANT_DEATH for effect in item.effects)
+
+
+def _inventory_effect_text(item, species: dict[str, Species]) -> str:
+    if item.type == ItemType.EVOLUTION and item.evolution is not None:
+        target = species.get(item.evolution.target_species_id)
+        target_name = target.name if target is not None else item.evolution.target_species_id
+        return f"Evolution vers {target_name}."
+
+    parts: list[str] = []
+    for effect in item.effects:
+        if effect.type == ItemEffectType.STAT_DELTA and effect.stat is not None:
+            label = ITEM_STAT_LABELS.get(effect.stat, effect.stat.upper())
+            sign = "+" if effect.amount >= 0 else ""
+            parts.append(f"{sign}{effect.amount} {label}")
+        elif effect.type == ItemEffectType.INSTANT_DEATH:
+            parts.append("Declenche une mort.")
+    return ", ".join(parts)
+
+
+def _inventory_unavailable_reason(item, reason: str | None, species: dict[str, Species]) -> str:
+    if reason is None:
+        return ""
+    if reason == "wrong_species" and item.evolution is not None:
+        names = [
+            species[species_id].name if species_id in species else species_id
+            for species_id in item.evolution.required_species_ids
+        ]
+        return f"Requiert {', '.join(names)}."
+    if reason == "wrong_stage" and item.evolution is not None:
+        stages = [stage.value.title() for stage in item.evolution.required_stages]
+        return f"Requiert le stade {', '.join(stages)}."
+    return {
+        "missing_item": "Objet absent.",
+        "not_usable": "Objet non utilisable.",
+        "unknown_item": "Objet inconnu.",
+        "unknown_target": "Evolution cible inconnue.",
+        "invalid_effect": "Effet invalide.",
+    }.get(reason, "Objet indisponible.")
 
 
 def _baby_choice_pixmap(species: Species, manifest: dict, discovered: bool) -> QPixmap:
@@ -993,6 +1039,7 @@ class PetWindow(QWidget):
             icon_path = None
             if definition.icon_path is not None:
                 icon_path = str(PROJECT_ROOT / definition.icon_path)
+            use_result = can_use_item(self._state, item_id, self._species, self._item_catalog)
             items.append(
                 InventoryItem(
                     id=item_id,
@@ -1000,6 +1047,11 @@ class PetWindow(QWidget):
                     quantity=quantity,
                     icon_path=icon_path,
                     description=definition.description,
+                    item_type=definition.type.value,
+                    usable=use_result.used,
+                    unavailable_reason=_inventory_unavailable_reason(definition, use_result.reason, self._species),
+                    effect_text=_inventory_effect_text(definition, self._species),
+                    dangerous=_item_has_instant_death_effect(definition),
                 )
             )
         return items
