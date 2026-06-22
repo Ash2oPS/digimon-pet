@@ -170,12 +170,17 @@ class BabyChoiceDialog(QDialog):
             self._select_baby(self._selected_baby_id)
 
         buttons = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
+            QDialogButtonBox.StandardButton.Ok,
             self,
         )
         buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
+
+    def reject(self) -> None:
+        return
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        event.ignore()
 
     def _select_baby(self, baby_id: str) -> None:
         self._selected_baby_id = baby_id

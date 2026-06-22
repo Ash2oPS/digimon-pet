@@ -5,7 +5,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 import pytest
 from PySide6.QtCore import QEvent, QPoint, QPointF, QRect, Qt
 from PySide6.QtGui import QMouseEvent
-from PySide6.QtWidgets import QApplication, QLabel
+from PySide6.QtWidgets import QApplication, QLabel, QDialogButtonBox
 
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
@@ -186,6 +186,36 @@ def test_baby_choice_dialog_returns_selected_baby_id():
     assert dialog.selected_baby_id() == "punimon"
     assert dialog._buttons["botamon"].text() == "Botamon"
     assert dialog._buttons["punimon"].text() == "???"
+
+
+def test_baby_choice_dialog_has_no_cancel_button():
+    app = QApplication.instance() or QApplication([])
+    species = load_species()
+    dialog = BabyChoiceDialog(
+        ["botamon", "punimon"],
+        species,
+        ["botamon"],
+    )
+    buttons = dialog.findChild(QDialogButtonBox)
+
+    assert buttons is not None
+    assert buttons.button(QDialogButtonBox.StandardButton.Ok) is not None
+    assert buttons.button(QDialogButtonBox.StandardButton.Cancel) is None
+
+
+def test_baby_choice_dialog_cannot_be_rejected_without_choice():
+    app = QApplication.instance() or QApplication([])
+    species = load_species()
+    dialog = BabyChoiceDialog(
+        ["botamon", "punimon"],
+        species,
+        ["botamon"],
+    )
+
+    dialog.show()
+    dialog.reject()
+
+    assert dialog.isVisible()
 
 
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
