@@ -181,7 +181,16 @@ def _matches_known_requirements(
     target: Species | None = None,
 ) -> bool:
     groups = requirements.get("groups", {})
-    return _matches_stats(state, groups.get("stats"), target=target)
+    if not isinstance(groups, dict):
+        return False
+    checks = []
+    if "stats" in groups:
+        checks.append(_matches_stats(state, groups.get("stats"), target=target))
+    if "weight" in groups:
+        checks.append(_matches_range(state.weight, groups.get("weight")))
+    if "care_mistakes" in groups:
+        checks.append(_matches_range(state.care_mistakes, groups.get("care_mistakes")))
+    return bool(checks) and all(checks)
 
 
 def _matches_stats(
@@ -197,6 +206,16 @@ def _matches_stats(
     if state.stage == GrowthStage.ROOKIE and target is not None and target.stage == GrowthStage.CHAMPION:
         required_matches = min(3, required_matches)
     return matching_stats >= required_matches
+
+
+def _matches_range(value: int, rule: object) -> bool:
+    if not isinstance(rule, dict):
+        return False
+    if "min" in rule and value < int(rule["min"]):
+        return False
+    if "max" in rule and value > int(rule["max"]):
+        return False
+    return "min" in rule or "max" in rule
 
 
 def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:

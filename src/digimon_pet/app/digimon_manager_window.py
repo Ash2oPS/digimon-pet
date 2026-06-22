@@ -50,6 +50,16 @@ from digimon_pet.domain.items import ItemCatalog
 from digimon_pet.domain.models import GrowthStage, Species
 
 
+NATURAL_STAT_FIELDS = (
+    ("hp", "HP"),
+    ("mp", "MP"),
+    ("offense", "Offense"),
+    ("defense", "Defense"),
+    ("speed", "Speed"),
+    ("brains", "Brains"),
+)
+
+
 class RuntimeSpritePreview(QWidget):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -465,7 +475,7 @@ class DigimonManagerWindow(QWidget):
         )
         self._natural_table = QTableWidget(0, 4, natural_section)
         self._natural_table.setObjectName("EvolutionTable")
-        self._natural_table.setHorizontalHeaderLabels(["Direction", "Source", "Target", "Stats"])
+        self._natural_table.setHorizontalHeaderLabels(["Direction", "Source", "Target", "Conditions"])
         self._configure_evolution_table(self._natural_table)
         self._natural_table.setColumnWidth(0, 82)
         self._natural_table.setColumnWidth(1, 140)
@@ -491,6 +501,70 @@ class DigimonManagerWindow(QWidget):
         natural_controls.setColumnStretch(0, 1)
         natural_controls.setColumnStretch(1, 1)
         natural_layout.addLayout(natural_controls)
+
+        conditions_panel = QFrame(natural_section)
+        conditions_panel.setObjectName("EvolutionConditionsPanel")
+        conditions_layout = QVBoxLayout(conditions_panel)
+        conditions_layout.setContentsMargins(8, 8, 8, 8)
+        conditions_layout.setSpacing(6)
+        conditions_title = QLabel("Natural conditions", conditions_panel)
+        conditions_title.setObjectName("SectionTitle")
+        conditions_hint = QLabel("Blank fields are ignored. Filled conditions must all match for this natural evolution.", conditions_panel)
+        conditions_hint.setObjectName("Muted")
+        conditions_hint.setWordWrap(True)
+        conditions_layout.addWidget(conditions_title)
+        conditions_layout.addWidget(conditions_hint)
+
+        self._natural_stat_inputs: dict[str, QLineEdit] = {}
+        stats_grid = QGridLayout()
+        stats_grid.setContentsMargins(0, 0, 0, 0)
+        stats_grid.setHorizontalSpacing(8)
+        stats_grid.setVerticalSpacing(4)
+        for index, (stat_id, label_text) in enumerate(NATURAL_STAT_FIELDS):
+            input_widget = QLineEdit(conditions_panel)
+            input_widget.setPlaceholderText("min")
+            input_widget.setInputMask("9999")
+            self._natural_stat_inputs[stat_id] = input_widget
+            column = index % 3
+            row = (index // 3) * 2
+            stats_grid.addWidget(self._field_label(label_text, conditions_panel), row, column)
+            stats_grid.addWidget(input_widget, row + 1, column)
+        conditions_layout.addLayout(stats_grid)
+
+        other_grid = QGridLayout()
+        other_grid.setContentsMargins(0, 0, 0, 0)
+        other_grid.setHorizontalSpacing(8)
+        other_grid.setVerticalSpacing(4)
+        self._natural_weight_min_input = QLineEdit(conditions_panel)
+        self._natural_weight_min_input.setPlaceholderText("min")
+        self._natural_weight_min_input.setInputMask("999")
+        self._natural_weight_max_input = QLineEdit(conditions_panel)
+        self._natural_weight_max_input.setPlaceholderText("max")
+        self._natural_weight_max_input.setInputMask("999")
+        self._natural_care_min_input = QLineEdit(conditions_panel)
+        self._natural_care_min_input.setPlaceholderText("min")
+        self._natural_care_min_input.setInputMask("999")
+        self._natural_care_max_input = QLineEdit(conditions_panel)
+        self._natural_care_max_input.setPlaceholderText("max")
+        self._natural_care_max_input.setInputMask("999")
+        other_grid.addWidget(self._field_label("Weight", conditions_panel), 0, 0)
+        other_grid.addWidget(self._natural_weight_min_input, 1, 0)
+        other_grid.addWidget(self._natural_weight_max_input, 1, 1)
+        other_grid.addWidget(self._field_label("Care mistakes", conditions_panel), 0, 2)
+        other_grid.addWidget(self._natural_care_min_input, 1, 2)
+        other_grid.addWidget(self._natural_care_max_input, 1, 3)
+        conditions_layout.addLayout(other_grid)
+
+        conditions_actions = QHBoxLayout()
+        conditions_actions.setContentsMargins(0, 0, 0, 0)
+        self._natural_save_conditions_button = QPushButton("Save conditions", conditions_panel)
+        self._natural_save_conditions_button.setObjectName("PrimaryButton")
+        self._natural_clear_conditions_button = QPushButton("Clear", conditions_panel)
+        conditions_actions.addStretch(1)
+        conditions_actions.addWidget(self._natural_save_conditions_button)
+        conditions_actions.addWidget(self._natural_clear_conditions_button)
+        conditions_layout.addLayout(conditions_actions)
+        natural_layout.addWidget(conditions_panel)
         layout.addWidget(natural_section)
 
         special_section, special_layout = self._evolution_section(
@@ -584,6 +658,8 @@ class DigimonManagerWindow(QWidget):
         self._import_artwork_button.clicked.connect(self.import_selected_artwork)
         self._natural_add_button.clicked.connect(self.add_natural_evolution)
         self._natural_remove_button.clicked.connect(self.remove_selected_natural_evolution)
+        self._natural_save_conditions_button.clicked.connect(self.save_selected_natural_conditions)
+        self._natural_clear_conditions_button.clicked.connect(self.clear_natural_condition_inputs)
         self._special_add_button.clicked.connect(self.add_special_evolution)
         self._special_remove_button.clicked.connect(self.remove_selected_special_evolution)
         self._natural_source_input.currentIndexChanged.connect(self._refresh_evolution_actions)
@@ -592,6 +668,7 @@ class DigimonManagerWindow(QWidget):
         self._special_selector_input.currentIndexChanged.connect(self._refresh_evolution_actions)
         self._special_trigger_input.textChanged.connect(self._refresh_evolution_actions)
         self._natural_table.itemSelectionChanged.connect(self._refresh_evolution_actions)
+        self._natural_table.itemSelectionChanged.connect(self._load_selected_natural_conditions)
         self._special_table.itemSelectionChanged.connect(self._refresh_evolution_actions)
 
     def _species_map_for_items(self) -> dict[str, Species]:
@@ -635,6 +712,8 @@ class DigimonManagerWindow(QWidget):
             self._refresh_evolution_actions()
             return
         self._set_combo_data(self._natural_source_input, species_id)
+        if self._natural_target_input.currentData() == species_id:
+            self._select_first_combo_value_except(self._natural_target_input, species_id)
         if self._special_selector_input.currentData() == "selected":
             self._refresh_evolution_actions()
             return
@@ -645,6 +724,12 @@ class DigimonManagerWindow(QWidget):
         if index >= 0 and combo.currentIndex() != index:
             combo.setCurrentIndex(index)
 
+    def _select_first_combo_value_except(self, combo: QComboBox, excluded_value: str) -> None:
+        for index in range(combo.count()):
+            if str(combo.itemData(index) or "") != excluded_value:
+                combo.setCurrentIndex(index)
+                return
+
     def _refresh_evolution_actions(self) -> None:
         if not hasattr(self, "_natural_add_button"):
             return
@@ -653,7 +738,9 @@ class DigimonManagerWindow(QWidget):
         natural_duplicate = self._natural_evolution_exists(natural_source, natural_target)
         can_add_natural = bool(natural_source and natural_target and natural_source != natural_target and not natural_duplicate)
         self._natural_add_button.setEnabled(can_add_natural)
-        self._natural_remove_button.setEnabled(self._selected_evolution_index(self._natural_table) is not None)
+        selected_natural_index = self._selected_evolution_index(self._natural_table)
+        self._natural_remove_button.setEnabled(selected_natural_index is not None)
+        self._natural_save_conditions_button.setEnabled(selected_natural_index is not None)
         if natural_source == natural_target and natural_source:
             natural_tip = "Source and target must be different."
         elif natural_duplicate:
@@ -881,6 +968,7 @@ class DigimonManagerWindow(QWidget):
         self._selected_sprite_label.clear()
         self._selected_validation_output.setPlainText("No Digimon selected.")
         self._set_visual_import_status("Select a Digimon before fetching visuals.", "neutral")
+        self.clear_natural_condition_inputs()
         self._refresh_evolution_actions()
 
     def _sync_species_edits(self) -> None:
@@ -1112,7 +1200,7 @@ class DigimonManagerWindow(QWidget):
                 "Outgoing" if source == species_id else "Incoming",
                 self._species_label(source),
                 self._species_label(target),
-                self._stats_summary(row_data),
+                self._conditions_summary(row_data),
             ]
             for column, value in enumerate(values):
                 item = QTableWidgetItem(value)
@@ -1154,11 +1242,119 @@ class DigimonManagerWindow(QWidget):
                 table.selectRow(row)
                 return
 
-    def _stats_summary(self, row: dict[str, object]) -> str:
-        stats = row.get("requirements", {}).get("groups", {}).get("stats", {})  # type: ignore[union-attr]
-        if not isinstance(stats, dict) or not stats:
-            return "No stats"
-        return ", ".join(f"{stat} {value}" for stat, value in stats.items())
+    def _load_selected_natural_conditions(self) -> None:
+        index = self._selected_evolution_index(self._natural_table)
+        if index is None or not (0 <= index < len(self._catalog.natural_evolutions)):
+            self.clear_natural_condition_inputs()
+            return
+        self._set_natural_condition_inputs(self._catalog.natural_evolutions[index])
+
+    def clear_natural_condition_inputs(self) -> None:
+        for input_widget in self._natural_stat_inputs.values():
+            input_widget.clear()
+        self._natural_weight_min_input.clear()
+        self._natural_weight_max_input.clear()
+        self._natural_care_min_input.clear()
+        self._natural_care_max_input.clear()
+
+    def _set_natural_condition_inputs(self, row: dict[str, object]) -> None:
+        self.clear_natural_condition_inputs()
+        groups = self._natural_requirement_groups(row)
+        stats = groups.get("stats", {})
+        if isinstance(stats, dict):
+            for stat_name, input_widget in self._natural_stat_inputs.items():
+                value = stats.get(stat_name)
+                if value not in (None, ""):
+                    input_widget.setText(str(value))
+        weight = groups.get("weight", {})
+        if isinstance(weight, dict):
+            if weight.get("min") not in (None, ""):
+                self._natural_weight_min_input.setText(str(weight.get("min")))
+            if weight.get("max") not in (None, ""):
+                self._natural_weight_max_input.setText(str(weight.get("max")))
+        care_mistakes = groups.get("care_mistakes", {})
+        if isinstance(care_mistakes, dict):
+            if care_mistakes.get("min") not in (None, ""):
+                self._natural_care_min_input.setText(str(care_mistakes.get("min")))
+            if care_mistakes.get("max") not in (None, ""):
+                self._natural_care_max_input.setText(str(care_mistakes.get("max")))
+
+    def _natural_requirement_groups(self, row: dict[str, object]) -> dict[str, object]:
+        requirements = row.get("requirements", {})
+        if not isinstance(requirements, dict):
+            return {}
+        groups = requirements.get("groups", {})
+        return groups if isinstance(groups, dict) else {}
+
+    def _natural_conditions_from_inputs(self) -> dict[str, object]:
+        groups: dict[str, object] = {}
+        stats = {
+            stat_name: value
+            for stat_name, input_widget in self._natural_stat_inputs.items()
+            if (value := self._int_input_value(input_widget)) is not None
+        }
+        if stats:
+            groups["stats"] = stats
+        weight_min = self._int_input_value(self._natural_weight_min_input)
+        weight_max = self._int_input_value(self._natural_weight_max_input)
+        weight = {}
+        if weight_min is not None:
+            weight["min"] = weight_min
+        if weight_max is not None:
+            weight["max"] = weight_max
+        if weight:
+            groups["weight"] = weight
+        care_min = self._int_input_value(self._natural_care_min_input)
+        care_max = self._int_input_value(self._natural_care_max_input)
+        care_mistakes = {}
+        if care_min is not None:
+            care_mistakes["min"] = care_min
+        if care_max is not None:
+            care_mistakes["max"] = care_max
+        if care_mistakes:
+            groups["care_mistakes"] = care_mistakes
+        return {"mode": "stats_only", "groups": groups}
+
+    def _int_input_value(self, input_widget: QLineEdit) -> int | None:
+        text = input_widget.text().strip()
+        return int(text) if text else None
+
+    def save_selected_natural_conditions(self) -> None:
+        index = self._selected_evolution_index(self._natural_table)
+        if index is None or not (0 <= index < len(self._catalog.natural_evolutions)):
+            return
+        self._catalog.natural_evolutions[index]["requirements"] = self._natural_conditions_from_inputs()
+        self._mark_dirty()
+        self._refresh_table()
+        self._refresh_evolution_tables()
+        self._select_evolution_row(self._natural_table, index)
+        self._refresh_validation()
+
+    def _conditions_summary(self, row: dict[str, object]) -> str:
+        groups = self._natural_requirement_groups(row)
+        parts: list[str] = []
+        stats = groups.get("stats", {})
+        if isinstance(stats, dict):
+            parts.extend(f"{stat} {value}" for stat, value in stats.items())
+        weight = groups.get("weight", {})
+        if isinstance(weight, dict):
+            parts.append(self._range_summary("weight", weight))
+        care_mistakes = groups.get("care_mistakes", {})
+        if isinstance(care_mistakes, dict):
+            parts.append(self._range_summary("mistakes", care_mistakes))
+        parts = [part for part in parts if part]
+        return ", ".join(parts) if parts else "No conditions"
+
+    def _range_summary(self, label: str, values: dict[str, object]) -> str:
+        minimum = values.get("min")
+        maximum = values.get("max")
+        if minimum not in (None, "") and maximum not in (None, ""):
+            return f"{label} {minimum}-{maximum}"
+        if minimum not in (None, ""):
+            return f"{label} >= {minimum}"
+        if maximum not in (None, ""):
+            return f"{label} <= {maximum}"
+        return ""
 
     def _selector_summary(self, row: dict[str, object]) -> str:
         selector = row.get("source_selector", {})
@@ -1284,7 +1480,7 @@ class DigimonManagerWindow(QWidget):
             "target_species_id": target_id,
             "target_stage": str(target.get("stage", "")),
             "chart_order": 1,
-            "requirements": {"mode": "stats_only", "groups": {"stats": {}}},
+            "requirements": self._natural_conditions_from_inputs(),
         }
         self._catalog.natural_evolutions.append(row)
         index = len(self._catalog.natural_evolutions) - 1

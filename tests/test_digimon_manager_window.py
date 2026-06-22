@@ -423,6 +423,52 @@ def test_add_natural_evolution_blocks_duplicate_and_selects_created_row(tmp_path
     assert window._natural_table.selectedItems()[0].data(Qt.ItemDataRole.UserRole) == len(window._catalog.natural_evolutions) - 1
 
 
+def test_add_natural_evolution_uses_entered_conditions(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(0)
+    window._set_combo_data(window._natural_source_input, "koromon")
+    window._set_combo_data(window._natural_target_input, "greymon")
+    window._natural_stat_inputs["hp"].setText("250")
+    window._natural_stat_inputs["offense"].setText("50")
+    window._natural_weight_min_input.setText("10")
+    window._natural_weight_max_input.setText("20")
+    window._natural_care_max_input.setText("1")
+
+    window.add_natural_evolution()
+
+    assert window._catalog.natural_evolutions[-1]["requirements"] == {
+        "mode": "stats_only",
+        "groups": {
+            "stats": {"hp": 250, "offense": 50},
+            "weight": {"min": 10, "max": 20},
+            "care_mistakes": {"max": 1},
+        },
+    }
+    assert "hp 250" in window._natural_table.selectedItems()[3].text()
+
+
+def test_selected_natural_evolution_conditions_can_be_edited(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(1)
+    window._natural_table.selectRow(1)
+
+    assert window._natural_stat_inputs["offense"].text().strip() == "100"
+
+    window._natural_stat_inputs["offense"].setText("350")
+    window._natural_weight_min_input.setText("25")
+    window._natural_weight_max_input.setText("35")
+    window._natural_care_max_input.setText("0")
+    window.save_selected_natural_conditions()
+
+    row = window._catalog.natural_evolutions[1]
+    assert row["requirements"]["groups"]["stats"] == {"offense": 350}
+    assert row["requirements"]["groups"]["weight"] == {"min": 25, "max": 35}
+    assert row["requirements"]["groups"]["care_mistakes"] == {"max": 0}
+    assert "weight 25-35" in window._natural_table.selectedItems()[3].text()
+
+
 def test_add_special_evolution_requires_trigger_and_blocks_duplicate(tmp_path):
     window = make_window(tmp_path)
 

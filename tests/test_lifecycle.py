@@ -261,6 +261,50 @@ def test_rookie_falls_back_to_numemon_when_no_known_conditions_match():
     assert state.age_seconds == 0
 
 
+def test_natural_evolution_requires_matching_weight_and_care_conditions():
+    schedule = EvolutionSchedule(rookie_seconds=10800)
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "agumon",
+                "target_species_id": "greymon",
+                "requirements": {
+                    "groups": {
+                        "stats": {"offense": 100},
+                        "weight": {"min": 25, "max": 35},
+                        "care_mistakes": {"max": 1},
+                    }
+                },
+            }
+        ]
+    }
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        offense=100,
+        weight=40,
+        care_mistakes=0,
+    )
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:numemon"
+
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        age_seconds=10800,
+        offense=100,
+        weight=30,
+        care_mistakes=1,
+    )
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:greymon"
+
+
 def test_random_valid_rookie_evolution_is_used_when_available():
     schedule = EvolutionSchedule(rookie_seconds=10800)
     state = PetState(
