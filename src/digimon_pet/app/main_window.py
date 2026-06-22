@@ -196,9 +196,9 @@ class PetWindow(QWidget):
         self._item_catalog = load_item_catalog()
         self._lifecycle_schedule = EvolutionSchedule()
         self._debug_settings = debug_settings.load_debug_settings()
-        self._debug_time_scale = self._debug_settings.time_scale
-        self._auto_rebirth_random = self._debug_settings.auto_rebirth_random
-        self._auto_lifecycle_events = self._debug_settings.auto_lifecycle_events
+        self._debug_time_scale = self._debug_settings.time_scale if self._debug else 1
+        self._auto_rebirth_random = self._debug_settings.auto_rebirth_random if self._debug else False
+        self._auto_lifecycle_events = self._debug_settings.auto_lifecycle_events if self._debug else False
         self._rng = random.Random()
         self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
         self._state = load_pet_state()
@@ -828,6 +828,8 @@ class PetWindow(QWidget):
         self._save_debug_settings()
 
     def _save_debug_settings(self) -> None:
+        if not self._debug:
+            return
         self._debug_settings.time_scale = self._debug_time_scale
         self._debug_settings.auto_rebirth_random = self._auto_rebirth_random
         self._debug_settings.auto_lifecycle_events = self._auto_lifecycle_events

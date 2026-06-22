@@ -230,6 +230,22 @@ def test_tick_uses_debug_time_scale():
     assert window._state.age_seconds == 5
 
 
+def test_normal_mode_ignores_saved_debug_time_scale(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    debug_settings.save_debug_settings(
+        debug_settings.DebugSettings(time_scale=1000),
+        tmp_path / "debug_settings.json",
+    )
+
+    window = PetWindow(overlay=True, debug=False)
+    window._state.age_seconds = 0
+
+    window._tick()
+
+    assert window._debug_time_scale == 1
+    assert window._state.age_seconds == 1
+
+
 def test_tick_increases_random_hp_or_mp_by_ten_each_elapsed_minute():
     app = QApplication.instance() or QApplication([])
 
