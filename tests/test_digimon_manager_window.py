@@ -358,6 +358,20 @@ def test_runtime_manifest_sprite_prevents_missing_status_and_preview(tmp_path):
     assert window._artwork_preview.pixmap() is not None
 
 
+def test_evolution_species_selectors_are_searchable_and_show_sprite_icons(tmp_path):
+    window = make_window_with_runtime_sprite(tmp_path)
+
+    koromon_index = window._natural_source_input.findData("koromon")
+
+    assert window._natural_source_input.isEditable() is True
+    assert window._natural_source_input.lineEdit().placeholderText() == "Search Digimon"
+    assert window._natural_source_input.completer().filterMode() == Qt.MatchFlag.MatchContains
+    assert koromon_index >= 0
+    assert window._natural_source_input.itemIcon(koromon_index).isNull() is False
+    assert window._natural_target_input.isEditable() is True
+    assert window._special_target_input.isEditable() is True
+
+
 def test_runtime_sprite_preview_advances_frames(tmp_path):
     window = make_window_with_runtime_sprite(tmp_path)
 

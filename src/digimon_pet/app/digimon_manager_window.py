@@ -10,6 +10,7 @@ from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
+    QCompleter,
     QFormLayout,
     QFrame,
     QGridLayout,
@@ -137,6 +138,20 @@ class RuntimeSpritePreview(QWidget):
 class NoWheelComboBox(QComboBox):
     def wheelEvent(self, event) -> None:  # noqa: N802
         event.ignore()
+
+
+class SpeciesComboBox(NoWheelComboBox):
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.setEditable(True)
+        self.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.setIconSize(QSize(24, 24))
+        self.setMaxVisibleItems(12)
+        self.lineEdit().setPlaceholderText("Search Digimon")
+        completer = self.completer()
+        completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        completer.setFilterMode(Qt.MatchFlag.MatchContains)
+        completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
 
 
 class DigimonManagerWindow(QWidget):
@@ -486,8 +501,8 @@ class DigimonManagerWindow(QWidget):
         natural_controls.setContentsMargins(0, 0, 0, 0)
         natural_controls.setHorizontalSpacing(8)
         natural_controls.setVerticalSpacing(4)
-        self._natural_source_input = NoWheelComboBox(natural_section)
-        self._natural_target_input = NoWheelComboBox(natural_section)
+        self._natural_source_input = SpeciesComboBox(natural_section)
+        self._natural_target_input = SpeciesComboBox(natural_section)
         self._natural_add_button = QPushButton("Add", natural_section)
         self._natural_add_button.setObjectName("PrimaryButton")
         self._natural_remove_button = QPushButton("Remove selected", natural_section)
@@ -584,7 +599,7 @@ class DigimonManagerWindow(QWidget):
         special_controls.setContentsMargins(0, 0, 0, 0)
         special_controls.setHorizontalSpacing(8)
         special_controls.setVerticalSpacing(4)
-        self._special_target_input = NoWheelComboBox(special_section)
+        self._special_target_input = SpeciesComboBox(special_section)
         self._special_selector_input = NoWheelComboBox(special_section)
         self._special_selector_input.addItem("Any source", "any")
         self._special_selector_input.addItem("Selected Digimon only", "selected")
@@ -689,7 +704,14 @@ class DigimonManagerWindow(QWidget):
         return species_map
 
     def _refresh_species_options(self) -> None:
-        options = [(str(row.get("name", row.get("id", ""))), str(row.get("id", ""))) for row in self._catalog.species_rows]
+        options = [
+            (
+                str(row.get("name", row.get("id", ""))),
+                str(row.get("id", "")),
+                row,
+            )
+            for row in self._catalog.species_rows
+        ]
         for combo in (
             self._natural_source_input,
             self._natural_target_input,
@@ -698,8 +720,13 @@ class DigimonManagerWindow(QWidget):
             current = combo.currentData()
             combo.blockSignals(True)
             combo.clear()
-            for name, species_id in options:
-                combo.addItem(f"{name} ({species_id})", species_id)
+            for name, species_id, row_data in options:
+                label = f"{name} ({species_id})"
+                thumbnail = self._species_thumbnail(species_id, row_data)
+                if thumbnail is not None:
+                    combo.addItem(QIcon(thumbnail), label, species_id)
+                else:
+                    combo.addItem(label, species_id)
             index = combo.findData(current)
             if index >= 0:
                 combo.setCurrentIndex(index)
