@@ -25,6 +25,10 @@ BABY_2_TO_ROOKIE = {
 BABY_1_CHOICES = tuple(BABY_1_TO_BABY_2)
 
 
+def baby_1_choices(species: dict[str, Species]) -> tuple[str, ...]:
+    return tuple(species_id for species_id, item in species.items() if item.stage == GrowthStage.BABY)
+
+
 @dataclass
 class EvolutionSchedule:
     baby_seconds: int = 10 * 60
@@ -259,9 +263,9 @@ def _roll_rebirth_stat_bonuses(state: PetState, rng: random.Random) -> dict[str,
 
 
 def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species]) -> str:
-    if baby_1_id not in BABY_1_CHOICES:
+    target = species.get(baby_1_id)
+    if target is None or target.stage != GrowthStage.BABY:
         raise ValueError(f"Unsupported Baby1 choice: {baby_1_id}")
-    target = species[baby_1_id]
     fresh = PetState(species_id=target.id, stage=target.stage)
     state.species_id = fresh.species_id
     state.stage = fresh.stage

@@ -34,9 +34,9 @@ from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
 from digimon_pet.domain.items import ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
-    BABY_1_CHOICES,
     EvolutionSchedule,
     advance_lifecycle,
+    baby_1_choices,
     choose_rebirth,
     force_evolve_to,
     next_lifecycle_event,
@@ -695,7 +695,7 @@ class PetWindow(QWidget):
             if allow_natural_death_evolution and self._roll_natural_death_evolution():
                 return self._natural_death_evolution_event()
             if self._auto_rebirth_random:
-                choose_rebirth(self._state, self._rng.choice(BABY_1_CHOICES), self._species)
+                choose_rebirth(self._state, self._rng.choice(self._baby_1_choice_ids()), self._species)
                 self._trigger_new_badge_if_needed(discovered_before)
                 return event
             self._prompt_rebirth_choice()
@@ -758,10 +758,14 @@ class PetWindow(QWidget):
         self._save_and_refresh()
 
     def _prompt_baby_choice(self) -> str | None:
-        selected, accepted = self._get_baby_choice(list(BABY_1_CHOICES))
+        baby_ids = self._baby_1_choice_ids()
+        selected, accepted = self._get_baby_choice(baby_ids)
         if not accepted:
             return None
-        return selected if selected in BABY_1_CHOICES else None
+        return selected if selected in baby_ids else None
+
+    def _baby_1_choice_ids(self) -> list[str]:
+        return list(baby_1_choices(self._species))
 
     def _get_baby_choice(self, baby_ids: list[str]) -> tuple[str, bool]:
         dialog = BabyChoiceDialog(baby_ids, self._species, self._state.discovered_species_ids, self)
@@ -1012,7 +1016,7 @@ class PetWindow(QWidget):
                     self._pet_widget.trigger_stat_gain_text(result.stat_gains)
                 if result.event == "died:choice_required":
                     if self._auto_rebirth_random:
-                        choose_rebirth(self._state, self._rng.choice(BABY_1_CHOICES), self._species)
+                        choose_rebirth(self._state, self._rng.choice(self._baby_1_choice_ids()), self._species)
                     else:
                         self._prompt_rebirth_choice()
                 self._save_and_refresh()

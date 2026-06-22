@@ -12,7 +12,6 @@ from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_species
-from digimon_pet.domain.lifecycle import BABY_1_CHOICES
 from digimon_pet.domain.models import GrowthStage
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state
@@ -170,6 +169,27 @@ def test_first_launch_prompts_for_clean_baby_choice(tmp_path, monkeypatch):
     assert window._state.hp == 300
     assert window._state.needs_rebirth_choice is False
     assert loaded.species_id == "punimon"
+
+
+def test_baby_choice_prompt_uses_all_catalog_baby_1_species(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    window = PetWindow(overlay=True, debug=True)
+    window._species = dict(window._species)
+    window._species["snowbotamon"] = window._species["botamon"].__class__(
+        "snowbotamon",
+        "SnowBotamon",
+        GrowthStage.BABY,
+    )
+    captured_baby_ids = []
+
+    def choose_snowbotamon(baby_ids):
+        captured_baby_ids.extend(baby_ids)
+        return "snowbotamon", True
+
+    monkeypatch.setattr(window, "_get_baby_choice", choose_snowbotamon)
+
+    assert window._prompt_baby_choice() == "snowbotamon"
+    assert "snowbotamon" in captured_baby_ids
 
 
 def test_baby_choice_dialog_returns_selected_baby_id():
@@ -513,7 +533,7 @@ def test_sudden_death_item_does_not_chain_into_bakemon(tmp_path, monkeypatch):
         window._pet_widget._advance_effect()
 
     assert window._pet_widget._effect_name is None
-    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.stage == GrowthStage.BABY
     assert window._state.species_id != "bakemon"
     assert window._state.needs_rebirth_choice is False
 
@@ -884,7 +904,7 @@ def test_natural_death_skips_bakemon_roll_after_bakemon_in_current_lineage(tmp_p
 
     window._advance_lifecycle()
 
-    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.stage == GrowthStage.BABY
     assert window._state.species_id != "bakemon"
 
 
@@ -907,7 +927,7 @@ def test_natural_death_skips_bakemon_roll_during_generation_cooldown(tmp_path, m
 
     window._advance_lifecycle()
 
-    assert window._state.species_id in BABY_1_CHOICES
+    assert window._state.stage == GrowthStage.BABY
     assert window._state.species_id != "bakemon"
 
 
@@ -944,7 +964,6 @@ def test_auto_rebirth_chooses_random_baby_on_death():
     window._advance_lifecycle()
 
     assert window._state.needs_rebirth_choice is False
-    assert window._state.species_id in BABY_1_CHOICES
     assert window._state.stage == GrowthStage.BABY
 
 

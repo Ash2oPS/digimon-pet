@@ -5,6 +5,7 @@ import pytest
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
     advance_lifecycle,
+    baby_1_choices,
     choose_rebirth,
     next_lifecycle_event,
 )
@@ -550,6 +551,25 @@ def test_rebirth_choice_resets_pet_to_selected_baby_1():
 
     assert event == "reborn:yuramon"
     assert state == PetState(species_id="yuramon", stage=GrowthStage.BABY)
+
+
+def test_baby_1_choices_include_every_catalog_baby():
+    species = species_map()
+    species["snowbotamon"] = Species("snowbotamon", "SnowBotamon", GrowthStage.BABY)
+
+    assert baby_1_choices(species) == ("botamon", "punimon", "poyomon", "yuramon", "snowbotamon")
+
+
+def test_rebirth_choice_accepts_catalog_baby_1_not_in_default_mapping():
+    species = species_map()
+    species["snowbotamon"] = Species("snowbotamon", "SnowBotamon", GrowthStage.BABY)
+    state = PetState(species_id="numemon", stage=GrowthStage.CHAMPION, needs_rebirth_choice=True)
+
+    event = choose_rebirth(state, "snowbotamon", species)
+
+    assert event == "reborn:snowbotamon"
+    assert state.species_id == "snowbotamon"
+    assert state.stage == GrowthStage.BABY
 
 
 def test_rebirth_choice_applies_pending_generation_stat_bonuses():
