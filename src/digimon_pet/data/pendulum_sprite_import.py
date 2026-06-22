@@ -3,14 +3,14 @@ from __future__ import annotations
 import json
 import re
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
-from PySide6.QtCore import QRect, Qt
-from PySide6.QtGui import QColor, QImage, QPainter
+from PySide6.QtCore import QBuffer, QByteArray, QIODevice, QRect, Qt
+from PySide6.QtGui import QColor, QImage, QImageReader, QPainter
 
 from digimon_pet.data.sprite_pipeline import (
     DEFAULT_MANIFEST_PATH,
@@ -28,6 +28,9 @@ PENDULUM_COLOR_MANIFEST_PATH = Path("assets/sprite_sources/digimon_pendulum_colo
 WIKIMON_VIRTUAL_PETS_SOURCE_ID = "wikimon_virtual_pets"
 WIKIMON_VIRTUAL_PETS_MANIFEST_PATH = Path("assets/sprite_sources/wikimon_virtual_pets/manifest.json")
 WIKIMON_BASE_URL = "https://wikimon.net"
+DOWNLOAD_MANIFEST_PROVIDER_ID = "sprite_download_manifest"
+DOWNLOAD_MANIFEST_PATH = Path("data/sprite_downloads.json")
+DOWNLOAD_MANIFEST_SOURCE_IDS = frozenset({"digital_monster_color", "xros_loader_toy"})
 DEFAULT_PENDULUM_TIMEOUT_SECONDS = 10.0
 
 
@@ -56,6 +59,15 @@ class ImportedPendulumSprite:
 
 
 @dataclass(frozen=True)
+class AnimationSheet:
+    image: QImage
+    frame_count: int
+    fps: int
+    frame_width: int
+    frame_height: int
+
+
+@dataclass(frozen=True)
 class SpriteImportOption:
     provider_id: str
     label: str
@@ -69,6 +81,7 @@ class SpriteImportOption:
     row_index: int | None = None
     matched_name: str = ""
     source_name: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 VIRUS_BUSTERS = PendulumSheetSource(
@@ -119,6 +132,8 @@ def discover_sprite_import_options(
     name: str,
     project_root: Path = PROJECT_ROOT,
     *,
+    download_manifest_path: Path | None = None,
+    source_config_path: Path | None = None,
     timeout_seconds: float = DEFAULT_PENDULUM_TIMEOUT_SECONDS,
 ) -> list[SpriteImportOption]:
     clean_species_id = species_id.strip()
@@ -143,6 +158,15 @@ def discover_sprite_import_options(
                 source_name=pendulum_source.name,
             )
         )
+    options.extend(
+        _discover_download_manifest_options(
+            clean_species_id,
+            clean_name,
+            project_root,
+            download_manifest_path=download_manifest_path,
+            source_config_path=source_config_path,
+        )
+    )
     options.extend(_discover_wikimon_virtual_pet_options(clean_species_id, clean_name, timeout_seconds=timeout_seconds))
     return options
 
@@ -181,6 +205,17 @@ def import_sprite_option(
             report_path=report_path,
             timeout_seconds=timeout_seconds,
         )
+    if option.provider_id == DOWNLOAD_MANIFEST_PROVIDER_ID:
+        return _import_download_manifest_sprite(
+            option,
+            project_root,
+            source_manifest_path=source_manifest_path,
+            roster_path=roster_path,
+            source_config_path=source_config_path,
+            runtime_manifest_path=runtime_manifest_path,
+            report_path=report_path,
+            timeout_seconds=timeout_seconds,
+        )
     return None
 
 
@@ -199,8 +234,19 @@ def sprite_import_option_preview_image(
         row = _extract_sprite_row(sheet, source, option.row_index)
         return row.copy(QRect(0, 0, 64, 64))
     if option.provider_id == WIKIMON_VIRTUAL_PETS_SOURCE_ID and option.image_url:
-        image = _load_remote_image(option.image_url, timeout_seconds=timeout_seconds)
-        return _transparent_white_background(image) if not image.isNull() else image
+        animation = _load_remote_animation_sheet(option.image_url, timeout_seconds=timeout_seconds)
+        if animation.image.isNull():
+            return QImage()
+        return _transparent_white_background(animation.image.copy(QRect(0, 0, animation.frame_width, animation.frame_height)))
+    if option.provider_id == DOWNLOAD_MANIFEST_PROVIDER_ID and option.image_url:
+        animation = _load_remote_animation_sheet(
+            option.image_url,
+            frame_count=int(option.metadata.get("frame_count") or option.frame_count or 1),
+            fps=int(option.metadata.get("fps") or option.fps or 6),
+            metadata=option.metadata,
+            timeout_seconds=timeout_seconds,
+        )
+        return animation.image.copy(QRect(0, 0, animation.frame_width, animation.frame_height)) if not animation.image.isNull() else QImage()
     return QImage()
 
 
@@ -293,6 +339,69 @@ def _sheet_source_for_option(option: SpriteImportOption) -> PendulumSheetSource 
         if source.url == option.source_url and source.name == option.source_name:
             return source
     return None
+
+
+def _discover_download_manifest_options(
+    species_id: str,
+    name: str,
+    project_root: Path,
+    *,
+    download_manifest_path: Path | None,
+    source_config_path: Path | None,
+) -> list[SpriteImportOption]:
+    manifest_path = _resolve_project_path(project_root, download_manifest_path or DOWNLOAD_MANIFEST_PATH)
+    entries = _load_download_manifest(manifest_path)
+    if not entries:
+        return []
+    sources = _source_config_by_id(_resolve_project_path(project_root, source_config_path or _project_default(DEFAULT_SOURCE_CONFIG_PATH)))
+    target_names = {normalize_name(name), normalize_name(species_id)}
+    options: list[SpriteImportOption] = []
+    for entry in entries:
+        source_id = str(entry.get("source_id", ""))
+        if source_id not in DOWNLOAD_MANIFEST_SOURCE_IDS or not _download_entry_matches(entry, target_names):
+            continue
+        source_config = sources.get(source_id, {})
+        source_name = str(source_config.get("name") or source_id.replace("_", " ").title())
+        entry_name = str(entry.get("name") or name)
+        frame_count = _positive_int(entry.get("frame_count"), 1)
+        fps = _positive_int(entry.get("fps"), 6)
+        path = str(entry.get("path") or "")
+        options.append(
+            SpriteImportOption(
+                provider_id=DOWNLOAD_MANIFEST_PROVIDER_ID,
+                label=f"{source_name} ({frame_count} frames)",
+                detail=Path(path).name if path else str(entry.get("url") or ""),
+                species_id=species_id,
+                name=name,
+                source_url=str(entry.get("url") or ""),
+                image_url=str(entry.get("url") or ""),
+                frame_count=frame_count,
+                fps=fps,
+                matched_name=entry_name,
+                source_name=source_name,
+                metadata=dict(entry),
+            )
+        )
+    return options
+
+
+def _download_entry_matches(entry: dict[str, Any], target_names: set[str]) -> bool:
+    candidates = [
+        str(entry.get("species_id", "")),
+        str(entry.get("name", "")),
+        Path(str(entry.get("path", ""))).stem,
+    ]
+    return any(normalize_name(candidate) in target_names for candidate in candidates if candidate.strip())
+
+
+def _load_download_manifest(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    return [item for item in raw if isinstance(item, dict)] if isinstance(raw, list) else []
 
 
 def _discover_wikimon_virtual_pet_options(
@@ -401,13 +510,148 @@ def _project_default(path: Path) -> Path:
     return path.relative_to(PROJECT_ROOT)
 
 
+def _resolve_project_path(project_root: Path, path: Path) -> Path:
+    return path if path.is_absolute() else project_root / path
+
+
 def _load_remote_image(url: str, *, timeout_seconds: float) -> QImage:
-    request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urlopen(request, timeout=timeout_seconds) as response:
-        payload = response.read()
+    payload = _load_remote_bytes(url, timeout_seconds=timeout_seconds)
     image = QImage()
     image.loadFromData(payload)
     return image.convertToFormat(QImage.Format.Format_ARGB32) if not image.isNull() else image
+
+
+def _load_remote_animation_sheet(
+    url: str,
+    *,
+    frame_count: int = 1,
+    fps: int = 6,
+    metadata: dict[str, Any] | None = None,
+    timeout_seconds: float,
+) -> AnimationSheet:
+    payload = _load_remote_bytes(url, timeout_seconds=timeout_seconds)
+    frames, delays = _decode_animation_frames(payload)
+    if len(frames) > 1:
+        effective_fps = _fps_from_delays(delays, fps)
+        return _pack_frames(frames, effective_fps)
+    image = frames[0] if frames else QImage()
+    if image.isNull():
+        return AnimationSheet(QImage(), 0, fps, 0, 0)
+    return _spritesheet_to_animation_sheet(image, frame_count=frame_count, fps=fps, metadata=metadata or {})
+
+
+def _load_remote_bytes(url: str, *, timeout_seconds: float) -> bytes:
+    request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urlopen(request, timeout=timeout_seconds) as response:
+        return response.read()
+
+
+def _decode_animation_frames(payload: bytes) -> tuple[list[QImage], list[int]]:
+    data = QByteArray(payload)
+    buffer = QBuffer()
+    buffer.setData(data)
+    if not buffer.open(QIODevice.OpenModeFlag.ReadOnly):
+        return [], []
+    reader = QImageReader(buffer)
+    frames: list[QImage] = []
+    delays: list[int] = []
+    try:
+        image_count = reader.imageCount()
+        total = image_count if image_count > 0 else 1
+        for _ in range(total):
+            image = reader.read()
+            if image.isNull():
+                break
+            frames.append(image.convertToFormat(QImage.Format.Format_ARGB32))
+            delay = reader.nextImageDelay()
+            if delay > 0:
+                delays.append(delay)
+    finally:
+        buffer.close()
+    return frames, delays
+
+
+def _spritesheet_to_animation_sheet(
+    image: QImage,
+    *,
+    frame_count: int,
+    fps: int,
+    metadata: dict[str, Any],
+) -> AnimationSheet:
+    frame_count = max(1, frame_count)
+    columns = _positive_int(metadata.get("columns"), 0)
+    frame_width = _positive_int(metadata.get("frame_width"), 0)
+    frame_height = _positive_int(metadata.get("frame_height"), 0)
+    if frame_width and frame_height:
+        columns = columns or max(1, image.width() // frame_width)
+        return _copy_sheet_cells(image, frame_count, fps, frame_width, frame_height, columns)
+    if frame_count > 1 and image.width() % frame_count == 0:
+        frame_width = image.width() // frame_count
+        return AnimationSheet(image, frame_count, fps, frame_width, image.height())
+    if frame_count > 1 and image.height() % frame_count == 0:
+        frame_height = image.height() // frame_count
+        return _copy_sheet_cells(image, frame_count, fps, image.width(), frame_height, 1)
+    if frame_count > 1 and columns > 1:
+        rows = (frame_count + columns - 1) // columns
+        if image.width() % columns == 0 and image.height() % rows == 0:
+            return _copy_sheet_cells(image, frame_count, fps, image.width() // columns, image.height() // rows, columns)
+    return AnimationSheet(image, 1, fps, image.width(), image.height())
+
+
+def _copy_sheet_cells(
+    image: QImage,
+    frame_count: int,
+    fps: int,
+    frame_width: int,
+    frame_height: int,
+    columns: int,
+) -> AnimationSheet:
+    output = QImage(frame_count * frame_width, frame_height, QImage.Format.Format_ARGB32)
+    output.fill(QColor(0, 0, 0, 0))
+    painter = QPainter(output)
+    try:
+        for index in range(frame_count):
+            source_x = (index % columns) * frame_width
+            source_y = (index // columns) * frame_height
+            frame = image.copy(QRect(source_x, source_y, frame_width, frame_height))
+            painter.drawImage(index * frame_width, 0, frame)
+    finally:
+        painter.end()
+    return AnimationSheet(output, frame_count, fps, frame_width, frame_height)
+
+
+def _pack_frames(frames: list[QImage], fps: int) -> AnimationSheet:
+    frame_width = max((frame.width() for frame in frames), default=0)
+    frame_height = max((frame.height() for frame in frames), default=0)
+    if not frame_width or not frame_height:
+        return AnimationSheet(QImage(), 0, fps, 0, 0)
+    output = QImage(len(frames) * frame_width, frame_height, QImage.Format.Format_ARGB32)
+    output.fill(QColor(0, 0, 0, 0))
+    painter = QPainter(output)
+    try:
+        for index, frame in enumerate(frames):
+            x = index * frame_width + (frame_width - frame.width()) // 2
+            y = frame_height - frame.height()
+            painter.drawImage(x, y, frame)
+    finally:
+        painter.end()
+    return AnimationSheet(output, len(frames), fps, frame_width, frame_height)
+
+
+def _fps_from_delays(delays: list[int], fallback: int) -> int:
+    positive = [delay for delay in delays if delay > 0]
+    if not positive:
+        return fallback
+    average = sum(positive) / len(positive)
+    return max(1, round(1000 / average))
+
+
+def _positive_int(value: Any, fallback: int) -> int:
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return fallback
+    return parsed if parsed > 0 else fallback
 
 
 def _load_remote_text(url: str, *, timeout_seconds: float) -> str:
@@ -427,10 +671,10 @@ def _import_wikimon_virtual_pet_sprite(
     report_path: Path | None,
     timeout_seconds: float,
 ) -> ImportedPendulumSprite | None:
-    image = _load_remote_image(option.image_url, timeout_seconds=timeout_seconds)
-    if image.isNull():
+    animation = _load_remote_animation_sheet(option.image_url, fps=option.fps, timeout_seconds=timeout_seconds)
+    if animation.image.isNull():
         return None
-    image = _transparent_white_background(image)
+    image = _transparent_white_background(animation.image)
     filename = f"{_asset_slug(option.name)}_{_asset_slug(option.label)}.png"
     target_relative = Path("assets") / "sprite_sources" / WIKIMON_VIRTUAL_PETS_SOURCE_ID / filename
     target_path = project_root / target_relative
@@ -443,7 +687,9 @@ def _import_wikimon_virtual_pet_sprite(
         manifest_path,
         {
             "fps": option.fps,
-            "frame_count": 1,
+            "frame_count": animation.frame_count,
+            "frame_width": animation.frame_width,
+            "frame_height": animation.frame_height,
             "name": option.name,
             "path": target_relative.as_posix(),
             "source_page": option.source_url,
@@ -477,8 +723,82 @@ def _import_wikimon_virtual_pet_sprite(
         source_name=f"Wikimon Virtual Pets - {option.label}",
         path=target_path,
         relative_path=target_relative.as_posix(),
-        frame_count=1,
+        frame_count=animation.frame_count,
         fps=option.fps,
+    )
+
+
+def _import_download_manifest_sprite(
+    option: SpriteImportOption,
+    project_root: Path,
+    *,
+    source_manifest_path: Path | None,
+    roster_path: Path | None,
+    source_config_path: Path | None,
+    runtime_manifest_path: Path | None,
+    report_path: Path | None,
+    timeout_seconds: float,
+) -> ImportedPendulumSprite | None:
+    entry = option.metadata
+    source_id = str(entry.get("source_id") or "")
+    if source_id not in DOWNLOAD_MANIFEST_SOURCE_IDS:
+        return None
+    target_relative = Path(str(entry.get("path") or ""))
+    if not target_relative.as_posix():
+        return None
+    animation = _load_remote_animation_sheet(
+        str(entry.get("url") or option.image_url),
+        frame_count=_positive_int(entry.get("frame_count"), option.frame_count),
+        fps=_positive_int(entry.get("fps"), option.fps),
+        metadata=entry,
+        timeout_seconds=timeout_seconds,
+    )
+    if animation.image.isNull():
+        return None
+
+    target_path = project_root / target_relative
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    if not animation.image.save(str(target_path), "PNG"):
+        return None
+
+    effective_source_config_path = project_root / (source_config_path or _project_default(DEFAULT_SOURCE_CONFIG_PATH))
+    manifest_path = (
+        project_root / source_manifest_path
+        if source_manifest_path is not None
+        else _source_manifest_path(effective_source_config_path, project_root, source_id)
+    )
+    name = str(entry.get("name") or option.name)
+    _upsert_source_manifest_entry(
+        manifest_path,
+        {
+            "fps": animation.fps,
+            "frame_count": animation.frame_count,
+            "frame_width": animation.frame_width,
+            "frame_height": animation.frame_height,
+            "name": name,
+            "path": target_relative.as_posix(),
+            "source_url": str(entry.get("url") or option.image_url),
+        },
+    )
+    effective_roster_path = project_root / (roster_path or _project_default(DEFAULT_ROSTER_PATH))
+    effective_runtime_manifest_path = project_root / (runtime_manifest_path or _project_default(DEFAULT_MANIFEST_PATH))
+    effective_report_path = project_root / (report_path or _project_default(DEFAULT_REPORT_PATH))
+    _upsert_roster_entry(effective_roster_path, option.species_id, option.name, name, source_id)
+    build_sprite_manifest(
+        project_root,
+        roster_path=effective_roster_path,
+        source_config_path=effective_source_config_path,
+        output_path=effective_runtime_manifest_path,
+        report_path=effective_report_path,
+    )
+    return ImportedPendulumSprite(
+        species_id=option.species_id,
+        name=name,
+        source_name=option.source_name,
+        path=target_path,
+        relative_path=target_relative.as_posix(),
+        frame_count=animation.frame_count,
+        fps=animation.fps,
     )
 
 
@@ -516,6 +836,18 @@ def _load_source_config(path: Path) -> list[dict[str, Any]]:
     except json.JSONDecodeError:
         return []
     return [item for item in raw if isinstance(item, dict)] if isinstance(raw, list) else []
+
+
+def _source_config_by_id(path: Path) -> dict[str, dict[str, Any]]:
+    return {str(entry.get("id", "")): entry for entry in _load_source_config(path)}
+
+
+def _source_manifest_path(source_config_path: Path, project_root: Path, source_id: str) -> Path:
+    source_config = _source_config_by_id(source_config_path).get(source_id, {})
+    manifest = str(source_config.get("manifest") or "")
+    if manifest:
+        return _resolve_project_path(project_root, Path(manifest))
+    return project_root / "assets" / "sprite_sources" / source_id / "manifest.json"
 
 
 def _extract_sprite_row(sheet: QImage, source: PendulumSheetSource, row_index: int) -> QImage:

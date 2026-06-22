@@ -5,6 +5,7 @@ from PySide6.QtGui import QColor, QImage
 
 from digimon_pet.data import pendulum_sprite_import
 from digimon_pet.data.pendulum_sprite_import import (
+    AnimationSheet,
     PendulumSheetSource,
     SpriteImportOption,
     discover_sprite_import_options,
@@ -151,7 +152,11 @@ def test_wikimon_import_becomes_preferred_sprite_when_lower_priority_source_exis
     )
     imported_image = QImage(16, 16, QImage.Format.Format_ARGB32)
     imported_image.fill(QColor("red"))
-    monkeypatch.setattr(pendulum_sprite_import, "_load_remote_image", lambda url, timeout_seconds: imported_image)
+    monkeypatch.setattr(
+        pendulum_sprite_import,
+        "_load_remote_animation_sheet",
+        lambda url, fps=6, timeout_seconds=10, **kwargs: AnimationSheet(imported_image, 1, fps, 16, 16),
+    )
     option = SpriteImportOption(
         provider_id="wikimon_virtual_pets",
         label="D-3 -25th COLOR EVOLUTION-",
@@ -186,6 +191,70 @@ def test_wikimon_import_becomes_preferred_sprite_when_lower_priority_source_exis
     assert entry["asset_path"] == "assets/sprite_sources/wikimon_virtual_pets/ninjamon_d_3_25th_color_evolution.png"
 
 
+def test_download_manifest_import_adds_digital_monster_color_vertical_sheet(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    _write_json(
+        tmp_path / "data" / "sprite_sources.json",
+        [
+            {
+                "id": "digital_monster_color",
+                "name": "Digital Monster COLOR",
+                "priority": 1,
+                "manifest": "assets/sprite_sources/digital_monster_color/manifest.json",
+            }
+        ],
+    )
+    _write_json(tmp_path / "data" / "dw1_roster.json", [])
+    remote_path = tmp_path / "remote" / "Testmon.png"
+    _save_vertical_sheet(remote_path)
+    _write_json(
+        tmp_path / "data" / "sprite_downloads.json",
+        [
+            {
+                "species_id": "testmon",
+                "name": "Testmon",
+                "source_id": "digital_monster_color",
+                "url": remote_path.as_uri(),
+                "path": "assets/sprite_sources/digital_monster_color/Testmon.png",
+                "frame_count": 3,
+                "fps": 8,
+            }
+        ],
+    )
+
+    options = discover_sprite_import_options(
+        "testmon",
+        "Testmon",
+        tmp_path,
+        download_manifest_path=Path("data/sprite_downloads.json"),
+        source_config_path=Path("data/sprite_sources.json"),
+    )
+    result = import_sprite_option(
+        options[0],
+        tmp_path,
+        source_config_path=Path("data/sprite_sources.json"),
+        roster_path=Path("data/dw1_roster.json"),
+        runtime_manifest_path=Path("data/dw1_sprite_manifest.json"),
+        report_path=Path("data/dw1_sprite_report.md"),
+    )
+
+    assert options[0].label == "Digital Monster COLOR (3 frames)"
+    assert result is not None
+    assert result.frame_count == 3
+    output = QImage(str(result.path))
+    assert output.width() == 48
+    assert output.height() == 16
+    assert output.pixelColor(0, 0) == QColor("red")
+    assert output.pixelColor(16, 0) == QColor("green")
+    assert output.pixelColor(32, 0) == QColor("blue")
+    manifest = json.loads((tmp_path / "assets" / "sprite_sources" / "digital_monster_color" / "manifest.json").read_text())
+    assert manifest["sprites"][0]["frame_width"] == 16
+    assert manifest["sprites"][0]["frame_height"] == 16
+    runtime = json.loads((tmp_path / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8"))
+    assert runtime["entries"]["testmon"]["source_id"] == "digital_monster_color"
+
+
 def _save_test_sheet(path):
     image = QImage(240, 48, QImage.Format.Format_ARGB32)
     image.fill(QColor(255, 0, 255))
@@ -197,6 +266,17 @@ def _save_test_sheet(path):
                 image.setPixelColor(x + xx, y + yy, QColor(8, 4, 33))
         image.setPixelColor(x + 2, y + 2, QColor(10 + frame, 20, 30))
         image.setPixelColor(x + 3, y + 2, QColor(200, 210, 255))
+    image.save(str(path))
+
+
+def _save_vertical_sheet(path):
+    path.parent.mkdir(parents=True)
+    image = QImage(16, 48, QImage.Format.Format_ARGB32)
+    image.fill(QColor(0, 0, 0, 0))
+    for index, color in enumerate((QColor("red"), QColor("green"), QColor("blue"))):
+        for y in range(16):
+            for x in range(16):
+                image.setPixelColor(x, index * 16 + y, color)
     image.save(str(path))
 
 
