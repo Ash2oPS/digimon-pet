@@ -502,5 +502,45 @@
     "source_page": "https://wikimon-france.fandom.com/fr/wiki/Vademon",
     "url": "https://static.wikia.nocookie.net/wikimon-france/images/6/6f/Vademon.png/revision/latest?cb=20210213162636&path-prefix=fr",
     "path": "assets/artworks/vademon.png"
+  },
+  {
+    "species_id": "terriermon",
+    "name": "Terriermon",
+    "official_name": "Terriermon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Terriermon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/9/9e/Terriermon.png/revision/latest?cb=20220628153659&path-prefix=fr",
+    "path": "assets/artworks/terriermon.png"
+  },
+  {
+    "species_id": "gummymon",
+    "name": "Gummymon",
+    "official_name": "Gummymon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Gummymon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/2/21/Gummymon.png/revision/latest?cb=20201229212216&path-prefix=fr",
+    "path": "assets/artworks/gummymon.png"
+  },
+  {
+    "species_id": "zerimon",
+    "name": "Zerimon",
+    "official_name": "Zerimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Zerimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/3/3c/Zerimon.png/revision/latest?cb=20220725151148&path-prefix=fr",
+    "path": "assets/artworks/zerimon.png"
+  },
+  {
+    "species_id": "rapidmon",
+    "name": "Rapidmon Perfect",
+    "official_name": "Rapidmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Rapidmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/b/bf/Rapidmon_%283%29.png/revision/latest?cb=20161001144738&path-prefix=fr",
+    "path": "assets/artworks/rapidmon.png"
+  },
+  {
+    "species_id": "galgomon",
+    "name": "Galgomon",
+    "official_name": "Galgomon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Galgomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/0/00/Galgomon.png/revision/latest?cb=20220522185826&path-prefix=fr",
+    "path": "assets/artworks/galgomon.png"
   }
 ]

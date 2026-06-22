@@ -218,14 +218,32 @@ def test_each_baby_1_uses_its_dw1_baby_2_line():
         "punimon": "tsunomon",
         "poyomon": "tokomon",
         "yuramon": "tanemon",
+        "zerimon": "gummymon",
     }
+    species = species_map()
+    species["zerimon"] = Species("zerimon", "Zerimon", GrowthStage.BABY)
+    species["gummymon"] = Species("gummymon", "Gummymon", GrowthStage.BABY_2)
 
     for baby_1, baby_2 in expected.items():
         state = PetState(species_id=baby_1, stage=GrowthStage.BABY, age_seconds=1800)
 
-        advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
+        advance_lifecycle(state, species, {}, schedule, random.Random(1))
 
         assert state.species_id == baby_2
+
+
+def test_gummymon_evolves_to_terriermon_from_default_baby_mapping():
+    schedule = EvolutionSchedule(baby_2_seconds=3600)
+    species = species_map()
+    species["gummymon"] = Species("gummymon", "Gummymon", GrowthStage.BABY_2)
+    species["terriermon"] = Species("terriermon", "Terriermon", GrowthStage.ROOKIE)
+    state = PetState(species_id="gummymon", stage=GrowthStage.BABY_2, age_seconds=3600)
+
+    event = advance_lifecycle(state, species, {}, schedule, random.Random(1))
+
+    assert event == "evolved:terriermon"
+    assert state.species_id == "terriermon"
+    assert state.stage == GrowthStage.ROOKIE
 
 
 def test_rookie_falls_back_to_numemon_when_no_known_conditions_match():

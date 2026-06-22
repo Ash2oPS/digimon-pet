@@ -15,12 +15,14 @@ BABY_1_TO_BABY_2 = {
     "punimon": "tsunomon",
     "poyomon": "tokomon",
     "yuramon": "tanemon",
+    "zerimon": "gummymon",
 }
 BABY_2_TO_ROOKIE = {
     "koromon": "agumon",
     "tsunomon": "gabumon",
     "tokomon": "patamon",
     "tanemon": "palmon",
+    "gummymon": "terriermon",
 }
 BABY_1_CHOICES = tuple(BABY_1_TO_BABY_2)
 

@@ -12,6 +12,17 @@ def test_load_species_contains_initial_line():
     assert species["agumon"].sprite_slots["idle"].endswith("agumon/idle.png")
 
 
+def test_load_species_contains_terriermon_line_with_expected_stages():
+    species = load_species()
+
+    assert species["zerimon"].stage == GrowthStage.BABY
+    assert species["gummymon"].stage == GrowthStage.BABY_2
+    assert species["terriermon"].stage == GrowthStage.ROOKIE
+    assert species["galgomon"].stage == GrowthStage.CHAMPION
+    assert species["rapidmon"].stage == GrowthStage.ULTIMATE
+    assert species["rapidmon"].name == "Rapidmon Perfect"
+
+
 def test_load_evolution_rules_contains_baby_to_rookie_path():
     rules = load_evolution_rules()
 

@@ -742,5 +742,35 @@
       "eat": "assets/sprites/weregarurumon/eat.png",
       "train": "assets/sprites/weregarurumon/train.png"
     }
+  },
+  {
+    "id": "terriermon",
+    "name": "Terriermon",
+    "stage": "rookie",
+    "sprite_slots": {}
+  },
+  {
+    "id": "gummymon",
+    "name": "Gummymon",
+    "stage": "baby_2",
+    "sprite_slots": {}
+  },
+  {
+    "id": "zerimon",
+    "name": "Zerimon",
+    "stage": "baby",
+    "sprite_slots": {}
+  },
+  {
+    "id": "rapidmon",
+    "name": "Rapidmon Perfect",
+    "stage": "ultimate",
+    "sprite_slots": {}
+  },
+  {
+    "id": "galgomon",
+    "name": "Galgomon",
+    "stage": "champion",
+    "sprite_slots": {}
   }
 ]

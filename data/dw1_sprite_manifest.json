@@ -235,6 +235,21 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "gabumon"
     },
+    "galgomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/galgomon_vital_bracelet_digital_monster.png",
+      "matched_name": "Galgomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 1,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/Galgomon"
+      },
+      "name": "Galgomon",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
+      "species_id": "galgomon"
+    },
     "garurumon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Garurumon.png",
@@ -273,6 +288,21 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "greymon"
+    },
+    "gummymon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/gummymon_vital_bracelet_digital_monster.png",
+      "matched_name": "Gummymon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 1,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/Gummymon"
+      },
+      "name": "Gummymon",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
+      "species_id": "gummymon"
     },
     "herculeskabuterimon": {
       "aliases_used": [],
@@ -638,6 +668,21 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "punimon"
     },
+    "rapidmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/rapidmon_perfect_vital_bracelet_digital_monster.png",
+      "matched_name": "Rapidmon Perfect",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 1,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/Rapidmon_Perfect"
+      },
+      "name": "Rapidmon Perfect",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
+      "species_id": "rapidmon"
+    },
     "seadramon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Seadramon.png",
@@ -702,6 +747,21 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "tanemon"
+    },
+    "terriermon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/terriermon_vital_bracelet_digital_monster.png",
+      "matched_name": "Terriermon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 1,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/Terriermon"
+      },
+      "name": "Terriermon",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
+      "species_id": "terriermon"
     },
     "tokomon": {
       "aliases_used": [],
@@ -819,6 +879,21 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "yuramon"
+    },
+    "zerimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/zerimon_vital_bracelet_digital_monster.png",
+      "matched_name": "Zerimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 1,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/Zerimon"
+      },
+      "name": "Zerimon",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
+      "species_id": "zerimon"
     }
   },
   "missing": [],
@@ -837,6 +912,11 @@
       "id": "xros_loader_toy",
       "name": "Digimon Xros Loader Toy",
       "priority": 3
+    },
+    {
+      "id": "wikimon_virtual_pets",
+      "name": "Wikimon Virtual Pets",
+      "priority": 4
     }
   ]
 }

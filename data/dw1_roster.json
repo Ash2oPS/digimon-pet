@@ -64,5 +64,10 @@
   {"id": "vademon", "name": "Vademon"},
   {"id": "panjyamon", "name": "Panjyamon", "promo_japan": true},
   {"id": "gigadramon", "name": "Gigadramon", "promo_japan": true},
-  {"id": "metaletemon", "name": "MetalEtemon", "promo_japan": true}
+  {"id": "metaletemon", "name": "MetalEtemon", "promo_japan": true},
+  {"id": "terriermon", "name": "Terriermon"},
+  {"id": "gummymon", "name": "Gummymon"},
+  {"id": "zerimon", "name": "Zerimon"},
+  {"id": "galgomon", "name": "Galgomon"},
+  {"id": "rapidmon", "name": "Rapidmon Perfect"}
 ]

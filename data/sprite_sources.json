@@ -19,5 +19,11 @@
     "priority": 3,
     "root": "assets/sprite_sources/xros_loader_toy",
     "manifest": "assets/sprite_sources/xros_loader_toy/manifest.json"
+  },
+  {
+    "id": "wikimon_virtual_pets",
+    "name": "Wikimon Virtual Pets",
+    "priority": 4,
+    "manifest": "assets/sprite_sources/wikimon_virtual_pets/manifest.json"
   }
 ]

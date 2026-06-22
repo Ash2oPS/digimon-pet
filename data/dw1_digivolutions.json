@@ -4925,6 +4925,85 @@
         "sydmontague_gamefaqs",
         "sydmontague_extracted_sheet"
       ]
+    },
+    {
+      "id": "zerimon__to__gummymon",
+      "type": "natural",
+      "source_species_id": "zerimon",
+      "target_species_id": "gummymon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "groups": {
+          "stats": {}
+        }
+      },
+      "source_name": "Zerimon",
+      "target_name": "Gummymon"
+    },
+    {
+      "id": "gummymon__to__terriermon",
+      "type": "natural",
+      "source_species_id": "gummymon",
+      "target_species_id": "terriermon",
+      "target_stage": "rookie",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "groups": {
+          "stats": {
+            "hp": 300,
+            "mp": 300,
+            "speed": 500
+          }
+        }
+      },
+      "source_name": "Gummymon",
+      "target_name": "Terriermon"
+    },
+    {
+      "id": "terriermon__to__galgomon",
+      "type": "natural",
+      "source_species_id": "terriermon",
+      "target_species_id": "galgomon",
+      "target_stage": "champion",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "groups": {
+          "stats": {
+            "hp": 2000,
+            "mp": 3000,
+            "offense": 250,
+            "speed": 400
+          }
+        }
+      },
+      "source_name": "Terriermon",
+      "target_name": "Galgomon"
+    },
+    {
+      "id": "galgomon__to__rapidmon",
+      "type": "natural",
+      "source_species_id": "galgomon",
+      "target_species_id": "rapidmon",
+      "target_stage": "ultimate",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "groups": {
+          "stats": {
+            "hp": 5000,
+            "mp": 7500,
+            "offense": 6000,
+            "defense": 4000,
+            "speed": 6000
+          }
+        }
+      },
+      "source_name": "Galgomon",
+      "target_name": "Rapidmon Perfect"
     }
   ],
   "special_evolutions": [
@@ -5128,6 +5207,9 @@
         "gabumon__to__ogremon",
         "gabumon__to__tyrannomon"
       ],
+      "galgomon": [
+        "galgomon__to__rapidmon"
+      ],
       "garurumon": [
         "garurumon__to__megaseadramon",
         "garurumon__to__skullgreymon",
@@ -5136,6 +5218,9 @@
       "greymon": [
         "greymon__to__metalgreymon",
         "greymon__to__skullgreymon"
+      ],
+      "gummymon": [
+        "gummymon__to__terriermon"
       ],
       "kabuterimon": [
         "kabuterimon__to__herculeskabuterimon",
@@ -5235,6 +5320,9 @@
         "tanemon__to__betamon",
         "tanemon__to__palmon"
       ],
+      "terriermon": [
+        "terriermon__to__galgomon"
+      ],
       "tokomon": [
         "tokomon__to__biyomon",
         "tokomon__to__patamon"
@@ -5260,6 +5348,9 @@
       ],
       "yuramon": [
         "yuramon__to__tanemon"
+      ],
+      "zerimon": [
+        "zerimon__to__gummymon"
       ]
     }
   }

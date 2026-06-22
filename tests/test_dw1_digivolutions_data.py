@@ -18,7 +18,7 @@ def test_dw1_digivolutions_has_expected_sources_and_counts():
     assert data["sources"]["sydmontague_gamefaqs"].startswith("https://gamefaqs.gamespot.com/")
     assert data["sources"]["anaiadnamedlaura_tumblr"] == "https://anaiadnamedlaura.tumblr.com/digivolution"
     assert len(data["digimon"]) == 65
-    assert len(data["natural_evolutions"]) == 113
+    assert len(data["natural_evolutions"]) == 117
     assert len(data["special_evolutions"]) == 7
 
 
@@ -31,6 +31,27 @@ def test_dw1_digivolutions_contains_known_natural_paths():
 
     greymon_to_metalgreymon = transitions["greymon__to__metalgreymon"]
     assert greymon_to_metalgreymon["requirements"]["groups"]["stats"]["hp"] == 4000
+
+
+def test_dw1_digivolutions_contains_complete_terriermon_line():
+    data = load_dw1_digivolutions()
+    transitions = {item["id"]: item for item in data["natural_evolutions"]}
+
+    expected = [
+        ("zerimon__to__gummymon", "zerimon", "gummymon", "in_training"),
+        ("gummymon__to__terriermon", "gummymon", "terriermon", "rookie"),
+        ("terriermon__to__galgomon", "terriermon", "galgomon", "champion"),
+        ("galgomon__to__rapidmon", "galgomon", "rapidmon", "ultimate"),
+    ]
+
+    for transition_id, source_id, target_id, target_stage in expected:
+        transition = transitions[transition_id]
+        assert transition["source_species_id"] == source_id
+        assert transition["target_species_id"] == target_id
+        assert transition["target_stage"] == target_stage
+        assert transition_id in data["indexes"]["by_source"][source_id]
+
+    assert transitions["galgomon__to__rapidmon"]["target_name"] == "Rapidmon Perfect"
 
 
 def test_dw1_digivolutions_only_use_stat_requirements_for_natural_paths():
@@ -96,3 +117,31 @@ def test_species_contains_all_normal_dw1_evolution_targets_and_sources():
         required.update(transition.get("source_selector", {}).get("species_ids", []))
 
     assert required <= species_ids
+
+
+def test_terriermon_line_has_runtime_assets_and_roster_entries():
+    line_ids = {"zerimon", "gummymon", "terriermon", "galgomon", "rapidmon"}
+
+    roster = json.loads((ROOT / "data" / "dw1_roster.json").read_text(encoding="utf-8"))
+    roster_ids = {item["id"] for item in roster}
+    assert line_ids <= roster_ids
+    assert "new_digimon" not in roster_ids
+
+    sprite_manifest = json.loads(
+        (ROOT / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8")
+    )
+    sprite_entries = sprite_manifest["entries"]
+    assert line_ids <= set(sprite_entries)
+    assert "new_digimon" not in sprite_entries
+    for species_id in line_ids:
+        assert (ROOT / sprite_entries[species_id]["asset_path"]).exists()
+
+    artworks = json.loads((ROOT / "data" / "artwork_downloads.json").read_text(encoding="utf-8"))
+    artwork_paths = {
+        item["species_id"]: item["path"]
+        for item in artworks
+        if item.get("species_id") in line_ids
+    }
+    assert line_ids <= set(artwork_paths)
+    for species_id, artwork_path in artwork_paths.items():
+        assert (ROOT / artwork_path).exists(), species_id
