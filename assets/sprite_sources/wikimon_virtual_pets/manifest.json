@@ -97,6 +97,16 @@
       "path": "assets/sprite_sources/wikimon_virtual_pets/gabumon_digital_monster_color.png",
       "source_page": "https://wikimon.net/Gabumon",
       "source_label": "Digital Monster COLOR"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Veemon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/veemon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Veemon",
+      "source_label": "Vital Bracelet Digital Monster"
     }
   ]
 }

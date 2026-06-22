@@ -928,6 +928,23 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "vademon"
     },
+    "veemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/veemon_vital_bracelet_digital_monster.png",
+      "matched_name": "Veemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 1,
+        "frame_height": 80,
+        "frame_width": 80,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/Veemon"
+      },
+      "name": "Veemon",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
+      "species_id": "veemon"
+    },
     "vegiemon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Vegimon.png",

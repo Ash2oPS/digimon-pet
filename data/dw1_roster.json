@@ -70,5 +70,6 @@
   {"id": "zerimon", "name": "Zerimon"},
   {"id": "galgomon", "name": "Galgomon", "preferred_source_id": "wikimon_virtual_pets"},
   {"id": "rapidmon", "name": "Rapidmon Perfect"},
-  {"id": "angewomon", "name": "Angewomon"}
+  {"id": "angewomon", "name": "Angewomon"},
+  {"id": "veemon", "name": "Veemon", "preferred_source_id": "wikimon_virtual_pets"}
 ]

@@ -70,6 +70,7 @@
 - Galgomon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/galgomon_vital_bracelet_digital_monster.png); aliases: -
 - Rapidmon Perfect: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/rapidmon_perfect_vital_bracelet_digital_monster.png); aliases: -
 - Angewomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Angewomon.png); aliases: -
+- Veemon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/veemon_vital_bracelet_digital_monster.png); aliases: -
 
 ## Missing
 - None
