@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from digimon_pet.app.formatting import format_age
 from digimon_pet.domain.lifecycle import EvolutionSchedule, LifecycleEventPreview
 from digimon_pet.domain.models import PetState, Species
 
@@ -28,6 +29,7 @@ class DebugPanel(QWidget):
         stat_changed: Callable[[str, int], None] | None = None,
         auto_rebirth_changed: Callable[[bool], None] | None = None,
         auto_lifecycle_changed: Callable[[bool], None] | None = None,
+        reset_pet_requested: Callable[[], None] | None = None,
         reset_stats_requested: Callable[[], None] | None = None,
         reset_collection_requested: Callable[[], None] | None = None,
         item_manager_requested: Callable[[], None] | None = None,
@@ -41,6 +43,7 @@ class DebugPanel(QWidget):
         self._stat_changed = stat_changed
         self._auto_rebirth_changed = auto_rebirth_changed
         self._auto_lifecycle_changed = auto_lifecycle_changed
+        self._reset_pet_requested = reset_pet_requested
         self._reset_stats_requested = reset_stats_requested
         self._reset_collection_requested = reset_collection_requested
         self._item_manager_requested = item_manager_requested
@@ -157,10 +160,13 @@ class DebugPanel(QWidget):
         reset_layout = QVBoxLayout(reset_group)
         reset_layout.setContentsMargins(12, 14, 12, 12)
         reset_layout.setSpacing(8)
+        self._reset_pet_button = QPushButton("Reset Age & Care")
+        self._reset_pet_button.clicked.connect(self._emit_reset_pet_requested)
         self._reset_stats_button = QPushButton("Reset Stats")
         self._reset_stats_button.clicked.connect(self._emit_reset_stats_requested)
         self._reset_collection_button = QPushButton("Reset Collection")
         self._reset_collection_button.clicked.connect(self._emit_reset_collection_requested)
+        reset_layout.addWidget(self._reset_pet_button)
         reset_layout.addWidget(self._reset_stats_button)
         reset_layout.addWidget(self._reset_collection_button)
         content_layout.addWidget(reset_group)
@@ -243,7 +249,7 @@ class DebugPanel(QWidget):
     def refresh(self, state: PetState, species: Species, next_event: LifecycleEventPreview) -> None:
         self._labels["species"].setText(species.name)
         self._labels["stage"].setText(state.stage.value)
-        self._labels["age"].setText(f"{state.age_seconds}s")
+        self._labels["age"].setText(format_age(state.age_seconds))
         self._labels["next"].setText(next_event.label)
         self._labels["remaining"].setText(f"{next_event.remaining_seconds}s")
         self._labels["hunger"].setText(str(state.hunger))
@@ -287,6 +293,10 @@ class DebugPanel(QWidget):
     def _emit_auto_lifecycle_changed(self, enabled: bool) -> None:
         if self._auto_lifecycle_changed is not None:
             self._auto_lifecycle_changed(enabled)
+
+    def _emit_reset_pet_requested(self) -> None:
+        if self._reset_pet_requested is not None:
+            self._reset_pet_requested()
 
     def _emit_reset_stats_requested(self) -> None:
         if self._reset_stats_requested is not None:

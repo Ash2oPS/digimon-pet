@@ -7,6 +7,7 @@ from PySide6.QtCore import QObject, QRect, Qt, Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QDialog, QGridLayout, QLabel, QVBoxLayout, QWidget
 
+from digimon_pet.app.formatting import format_age
 from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolve_artwork_path
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
@@ -80,7 +81,7 @@ class StatsWindow(QDialog):
         self._state = state
         self._species = species
         self._name_label.setText(species.name)
-        self._labels["age"].setText(_format_age(state.age_seconds))
+        self._labels["age"].setText(format_age(state.age_seconds))
         self._labels["hp"].setText(str(state.hp))
         self._labels["mp"].setText(str(state.mp))
         self._labels["offense"].setText(str(state.offense))
@@ -162,9 +163,3 @@ def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | No
     if frame_width <= 0 or frame_height <= 0:
         return None
     return QRect(0, 0, frame_width, frame_height)
-
-
-def _format_age(age_seconds: int) -> str:
-    total_minutes = max(0, age_seconds) // 60
-    hours, minutes = divmod(total_minutes, 60)
-    return f"{hours} h {minutes:02d} min"
