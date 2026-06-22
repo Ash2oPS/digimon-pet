@@ -134,9 +134,16 @@ def test_official_artwork_manifest_covers_dw1_roster():
 
     assert set(by_species_id) == expected_ids
     for species_id, entry in by_species_id.items():
-        assert entry["url"].startswith("https://www.digimon.net/cimages/digimon/")
-        assert entry["url"].endswith(".jpg")
-        assert entry["source_page"].startswith("https://www.digimon.net/reference_en/detail.php?directory_name=")
+        if species_id >= "elecmon":
+            assert entry["url"].startswith("https://static.wikia.nocookie.net/wikimon-france/")
+            assert "/revision/latest" in entry["url"]
+            assert entry["source_page"].startswith("https://wikimon-france.fandom.com/fr/wiki/")
+        else:
+            assert entry["url"].startswith("https://www.digimon.net/cimages/digimon/")
+            assert entry["url"].endswith(".jpg")
+            assert entry["source_page"].startswith(
+                "https://www.digimon.net/reference_en/detail.php?directory_name="
+            )
         assert entry["path"] == f"assets/artworks/{species_id}.png"
 
 
