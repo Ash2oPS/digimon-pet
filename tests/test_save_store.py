@@ -3,6 +3,46 @@ from digimon_pet.storage import save_store
 from digimon_pet.storage import load_pet_state, save_pet_state
 
 
+def test_save_writes_protected_payload_without_plain_state_fields(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="koromon",
+        stage=GrowthStage.BABY_2,
+        hp=456,
+    )
+
+    save_pet_state(state, path)
+
+    raw_save = path.read_text(encoding="utf-8")
+    assert "koromon" not in raw_save
+    assert "species_id" not in raw_save
+    assert "456" not in raw_save
+    assert load_pet_state(path) == state
+
+
+def test_load_encrypts_legacy_plain_json_save_immediately(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie",
+  "age_seconds": 42
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    raw_save = path.read_text(encoding="utf-8")
+    assert loaded.species_id == "agumon"
+    assert loaded.age_seconds == 42
+    assert "agumon" not in raw_save
+    assert "species_id" not in raw_save
+    assert load_pet_state(path).species_id == "agumon"
+
+
 def test_save_load_roundtrip(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(
@@ -179,7 +219,8 @@ def test_load_migrates_legacy_project_save_when_default_target_missing(tmp_path,
 
     assert loaded.species_id == "agumon"
     assert loaded.age_seconds == 42
-    assert save_path.read_text(encoding="utf-8") == legacy_path.read_text(encoding="utf-8")
+    assert "agumon" not in save_path.read_text(encoding="utf-8")
+    assert load_pet_state(save_path).species_id == "agumon"
 
 
 def test_load_does_not_replace_existing_user_save_with_legacy_save(tmp_path, monkeypatch):
@@ -211,7 +252,8 @@ def test_load_does_not_replace_existing_user_save_with_legacy_save(tmp_path, mon
     loaded = load_pet_state()
 
     assert loaded.species_id == "koromon"
-    assert "koromon" in save_path.read_text(encoding="utf-8")
+    assert "koromon" not in save_path.read_text(encoding="utf-8")
+    assert load_pet_state(save_path).species_id == "koromon"
 
 
 def test_configure_save_path_uses_normal_user_save_by_default(tmp_path, monkeypatch):

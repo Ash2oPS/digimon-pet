@@ -6,10 +6,15 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from cryptography.fernet import Fernet, InvalidToken
+
 from digimon_pet.domain.models import GrowthStage, PetState
 from digimon_pet.paths import DATA_DIR, DEBUG_SAVE_PATH, LEGACY_SAVE_PATH, SAVE_PATH as NORMAL_SAVE_PATH, ensure_save_dir
 
 SAVE_PATH = NORMAL_SAVE_PATH
+SAVE_FORMAT = "digimon_pet_save"
+SAVE_VERSION = 2
+SAVE_ENCRYPTION_KEY = b"eximblQjtHVliMbw7pDdX4ijX4iIn5YoFcri3OikiEA="
 LEGACY_ITEM_ID_ALIASES = {
     "gun": "digigun",
 }
@@ -28,15 +33,19 @@ def load_pet_state(path: Path | None = None) -> PetState:
         _create_default_save(save_path)
 
     try:
-        with save_path.open("r", encoding="utf-8") as handle:
-            raw = json.load(handle)
-        return _state_from_dict(raw)
+        raw, was_legacy_plain_json = _read_save_payload(save_path)
+        state = _state_from_dict(raw)
+        if was_legacy_plain_json:
+            save_pet_state(state, save_path)
+        return state
     except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         _backup_corrupt_save(save_path)
         _create_default_save(save_path)
-        with save_path.open("r", encoding="utf-8") as handle:
-            raw = json.load(handle)
-        return _state_from_dict(raw)
+        raw, was_legacy_plain_json = _read_save_payload(save_path)
+        state = _state_from_dict(raw)
+        if was_legacy_plain_json:
+            save_pet_state(state, save_path)
+        return state
 
 
 def save_pet_state(state: PetState, path: Path | None = None) -> None:
@@ -44,11 +53,52 @@ def save_pet_state(state: PetState, path: Path | None = None) -> None:
     save_path.parent.mkdir(parents=True, exist_ok=True)
     state.mark_discovered()
     state.clamp()
+    envelope = _encrypt_save_payload(_state_to_payload(state))
+    with save_path.open("w", encoding="utf-8") as handle:
+        json.dump(envelope, handle, indent=2)
+        handle.write("\n")
+
+
+def _state_to_payload(state: PetState) -> dict[str, Any]:
     payload = asdict(state)
     payload["stage"] = state.stage.value
-    with save_path.open("w", encoding="utf-8") as handle:
-        json.dump(payload, handle, indent=2)
-        handle.write("\n")
+    return payload
+
+
+def _read_save_payload(path: Path) -> tuple[dict[str, Any], bool]:
+    with path.open("r", encoding="utf-8") as handle:
+        raw = json.load(handle)
+    if not isinstance(raw, dict):
+        raise ValueError("Save file must contain a JSON object.")
+    if _is_encrypted_save(raw):
+        return _decrypt_save_payload(raw), False
+    return raw, True
+
+
+def _is_encrypted_save(raw: dict[str, Any]) -> bool:
+    return raw.get("format") == SAVE_FORMAT and raw.get("version") == SAVE_VERSION and "payload" in raw
+
+
+def _encrypt_save_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    plaintext = json.dumps(payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    encrypted_payload = Fernet(SAVE_ENCRYPTION_KEY).encrypt(plaintext).decode("ascii")
+    return {
+        "format": SAVE_FORMAT,
+        "version": SAVE_VERSION,
+        "payload": encrypted_payload,
+    }
+
+
+def _decrypt_save_payload(envelope: dict[str, Any]) -> dict[str, Any]:
+    try:
+        encrypted_payload = str(envelope["payload"]).encode("ascii")
+        plaintext = Fernet(SAVE_ENCRYPTION_KEY).decrypt(encrypted_payload)
+        payload = json.loads(plaintext.decode("utf-8"))
+    except (InvalidToken, UnicodeDecodeError) as exc:
+        raise ValueError("Save payload could not be decrypted.") from exc
+    if not isinstance(payload, dict):
+        raise ValueError("Decrypted save payload must contain a JSON object.")
+    return payload
 
 
 def _create_default_save(path: Path) -> None:
