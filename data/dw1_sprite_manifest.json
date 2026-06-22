@@ -21,9 +21,10 @@
     {
       "available_source_ids": [
         "digital_monster_color",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "wikimon_virtual_pets"
       ],
-      "chosen_source_id": "digimon_pendulum_color",
+      "chosen_source_id": "wikimon_virtual_pets",
       "name": "Gabumon",
       "species_id": "gabumon"
     },
@@ -149,7 +150,9 @@
       "matched_name": "Betamon",
       "metadata": {
         "fps": 6,
-        "frame_count": 1,
+        "frame_count": 2,
+        "frame_height": 48,
+        "frame_width": 48,
         "source_label": "Digital Monster COLOR",
         "source_page": "https://wikimon.net/Betamon"
       },
@@ -303,15 +306,19 @@
     },
     "gabumon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Gabumon.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/gabumon_digital_monster_color.png",
       "matched_name": "Gabumon",
       "metadata": {
         "fps": 6,
-        "frame_count": 12
+        "frame_count": 2,
+        "frame_height": 48,
+        "frame_width": 48,
+        "source_label": "Digital Monster COLOR",
+        "source_page": "https://wikimon.net/Gabumon"
       },
       "name": "Gabumon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
       "species_id": "gabumon"
     },
     "galgomon": {
@@ -321,6 +328,8 @@
       "metadata": {
         "fps": 6,
         "frame_count": 1,
+        "frame_height": 80,
+        "frame_width": 80,
         "source_label": "Vital Bracelet Digital Monster",
         "source_page": "https://wikimon.net/Galgomon"
       },
@@ -517,12 +526,14 @@
     },
     "megaseadramon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/megaseadramon_vital_bracelet_digital_monster.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/megaseadramon_digivice_ic.png",
       "matched_name": "MegaSeadramon",
       "metadata": {
         "fps": 6,
         "frame_count": 1,
-        "source_label": "Vital Bracelet Digital Monster",
+        "frame_height": 52,
+        "frame_width": 52,
+        "source_label": "Digivice iC",
         "source_page": "https://wikimon.net/MegaSeadramon"
       },
       "name": "MegaSeadramon",
@@ -842,6 +853,8 @@
       "metadata": {
         "fps": 6,
         "frame_count": 1,
+        "frame_height": 80,
+        "frame_width": 80,
         "source_label": "Vital Bracelet Digital Monster",
         "source_page": "https://wikimon.net/Terriermon"
       },
@@ -930,7 +943,7 @@
     },
     "weregarurumon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Were Garurumon.png",
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/WereGarurumon.png",
       "matched_name": "WereGarurumon",
       "metadata": {
         "fps": 6,

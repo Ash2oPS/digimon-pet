@@ -12,7 +12,7 @@
 - Agumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Agumon.png); aliases: -
 - Betamon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/betamon_digital_monster_color.png); aliases: -
 - Elecmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Elecmon.png); aliases: -
-- Gabumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Gabumon.png); aliases: -
+- Gabumon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/gabumon_digital_monster_color.png); aliases: -
 - Kunemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kunemon.png); aliases: -
 - Palmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Palmon.png); aliases: -
 - Patamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Patamon.png); aliases: -
@@ -55,8 +55,8 @@
 - Machinedramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mugendramon.png); aliases: -
 - Mamemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mamemon.png); aliases: -
 - Megadramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Megadramon.png); aliases: -
-- MegaSeadramon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/megaseadramon_vital_bracelet_digital_monster.png); aliases: -
-- WereGarurumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Were Garurumon.png); aliases: -
+- MegaSeadramon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/megaseadramon_digivice_ic.png); aliases: -
+- WereGarurumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/WereGarurumon.png); aliases: -
 - MetalGreymon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Metal Greymon.png); aliases: -
 - MetalMamemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Metal Mamemon.png); aliases: -
 - Monzaemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mozaemon.png); aliases: -
@@ -77,7 +77,7 @@
 ## Conflicts
 - Agumon: chose digital_monster_color from digital_monster_color, digimon_pendulum_color
 - Betamon: chose wikimon_virtual_pets from digital_monster_color, wikimon_virtual_pets
-- Gabumon: chose digimon_pendulum_color from digital_monster_color, digimon_pendulum_color
+- Gabumon: chose wikimon_virtual_pets from digital_monster_color, digimon_pendulum_color, wikimon_virtual_pets
 - Ninjamon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets
 - HerculesKabuterimon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets
 - MegaSeadramon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets

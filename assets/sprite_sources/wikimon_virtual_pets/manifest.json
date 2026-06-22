@@ -3,6 +3,8 @@
     {
       "fps": 6,
       "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
       "name": "Terriermon",
       "path": "assets/sprite_sources/wikimon_virtual_pets/terriermon_vital_bracelet_digital_monster.png",
       "source_page": "https://wikimon.net/Terriermon",
@@ -27,6 +29,8 @@
     {
       "fps": 6,
       "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
       "name": "Galgomon",
       "path": "assets/sprite_sources/wikimon_virtual_pets/galgomon_vital_bracelet_digital_monster.png",
       "source_page": "https://wikimon.net/Galgomon",
@@ -50,7 +54,9 @@
     },
     {
       "fps": 6,
-      "frame_count": 1,
+      "frame_count": 2,
+      "frame_width": 48,
+      "frame_height": 48,
       "name": "Betamon",
       "path": "assets/sprite_sources/wikimon_virtual_pets/betamon_digital_monster_color.png",
       "source_page": "https://wikimon.net/Betamon",
@@ -67,10 +73,12 @@
     {
       "fps": 6,
       "frame_count": 1,
+      "frame_width": 52,
+      "frame_height": 52,
       "name": "MegaSeadramon",
-      "path": "assets/sprite_sources/wikimon_virtual_pets/megaseadramon_vital_bracelet_digital_monster.png",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/megaseadramon_digivice_ic.png",
       "source_page": "https://wikimon.net/MegaSeadramon",
-      "source_label": "Vital Bracelet Digital Monster"
+      "source_label": "Digivice iC"
     },
     {
       "fps": 6,
@@ -79,6 +87,16 @@
       "path": "assets/sprite_sources/wikimon_virtual_pets/phoenixmon_vital_bracelet_be.png",
       "source_page": "https://wikimon.net/Phoenixmon",
       "source_label": "Vital Bracelet BE"
+    },
+    {
+      "fps": 6,
+      "frame_count": 2,
+      "frame_width": 48,
+      "frame_height": 48,
+      "name": "Gabumon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/gabumon_digital_monster_color.png",
+      "source_page": "https://wikimon.net/Gabumon",
+      "source_label": "Digital Monster COLOR"
     }
   ]
 }
