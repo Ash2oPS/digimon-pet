@@ -420,21 +420,21 @@ def _item_pixmap(item: InventoryItem) -> QPixmap | None:
 
 _INVENTORY_QSS = f"""
 QLabel#InventoryCount {{
-    background: #111113;
-    border: 1px solid #343337;
-    border-radius: 5px;
-    color: {COLORS["muted"]};
-    font-weight: 700;
-    padding: 4px 8px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["accent_soft"]};
+    border-radius: 7px;
+    color: {COLORS["focus"]};
+    font-weight: 800;
+    padding: 5px 9px;
 }}
 
 QToolButton#InventoryFilter {{
-    background: #141416;
-    border: 1px solid #343337;
-    border-radius: 5px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 7px;
     color: {COLORS["muted"]};
-    font-weight: 700;
-    padding: 5px 10px;
+    font-weight: 800;
+    padding: 7px 12px;
 }}
 
 QToolButton#InventoryFilter:hover {{
@@ -443,26 +443,27 @@ QToolButton#InventoryFilter:hover {{
 }}
 
 QToolButton#InventoryFilter:checked {{
-    background: {COLORS["panel_alt"]};
+    background: {COLORS["panel_hot"]};
     border-color: {COLORS["focus"]};
-    color: {COLORS["text"]};
+    color: {COLORS["focus"]};
 }}
 
 QWidget#InventoryGrid {{
-    background: #121214;
-    border: 1px solid #343337;
-    border-radius: 6px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line"]};
+    border-top-color: {COLORS["accent_soft"]};
+    border-radius: 9px;
 }}
 
 QWidget#InventorySlot {{
-    background: #18181b;
-    border: 1px solid #343337;
-    border-radius: 6px;
+    background: {COLORS["surface"]};
+    border: 1px solid {COLORS["line_soft"]};
+    border-radius: 8px;
 }}
 
 QWidget#InventorySlot:hover {{
     border-color: {COLORS["accent"]};
-    background: #1d1d20;
+    background: {COLORS["panel"]};
 }}
 
 QWidget#InventorySlot:focus {{
@@ -470,36 +471,38 @@ QWidget#InventorySlot:focus {{
 }}
 
 QWidget#InventorySlot[empty="false"] {{
-    background: {COLORS["panel"]};
+    background: {COLORS["panel_alt"]};
+    border-color: {COLORS["line"]};
 }}
 
 QWidget#InventorySlot[usable="false"] {{
-    background: #1a1a1c;
-    border-color: #49443a;
+    background: #101722;
+    border-color: {COLORS["focus_soft"]};
 }}
 
 QWidget#InventorySlot[dangerous="true"] {{
-    border-color: #704247;
+    border-color: {COLORS["danger"]};
 }}
 
 QWidget#InventorySlot[selected="true"] {{
-    background: #303035;
+    background: {COLORS["panel_hot"]};
     border-color: {COLORS["focus"]};
 }}
 
 QFrame#InventoryDetails {{
     background: {COLORS["panel"]};
-    border: 1px solid #3a3938;
-    border-radius: 6px;
+    border: 1px solid {COLORS["line"]};
+    border-top-color: {COLORS["accent"]};
+    border-radius: 9px;
 }}
 
 QLabel#InventoryDetailsIcon {{
-    background: #111113;
-    border: 1px solid #3a3938;
-    border-radius: 6px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["accent_soft"]};
+    border-radius: 8px;
     color: {COLORS["focus"]};
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 800;
 }}
 
 QLabel#InventoryDetailsName {{
@@ -510,17 +513,17 @@ QLabel#InventoryDetailsName {{
 }}
 
 QLabel#InventoryStatus {{
-    background: #111113;
-    border: 1px solid #3a3938;
-    border-radius: 5px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 7px;
     color: {COLORS["muted"]};
-    font-weight: 700;
-    padding: 4px 7px;
+    font-weight: 800;
+    padding: 5px 8px;
 }}
 
 QLabel#InventoryStatus[state="ready"] {{
-    color: #9fd18b;
-    border-color: #40583d;
+    color: {COLORS["success"]};
+    border-color: #2f7a48;
 }}
 
 QLabel#InventoryStatus[state="evolution"] {{
@@ -530,7 +533,7 @@ QLabel#InventoryStatus[state="evolution"] {{
 
 QLabel#InventoryStatus[state="danger"] {{
     color: {COLORS["danger"]};
-    border-color: #704247;
+    border-color: {COLORS["danger_soft"]};
 }}
 
 QLabel#InventoryStatus[state="blocked"] {{
@@ -539,12 +542,12 @@ QLabel#InventoryStatus[state="blocked"] {{
 }}
 
 QLabel#InventoryEffect {{
-    background: #171719;
-    border: 1px solid #343337;
-    border-radius: 5px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["accent_soft"]};
+    border-radius: 7px;
     color: {COLORS["focus"]};
-    font-weight: 700;
-    padding: 6px 8px;
+    font-weight: 800;
+    padding: 7px 9px;
 }}
 
 QLabel#InventoryDetailsDescription {{
@@ -553,12 +556,12 @@ QLabel#InventoryDetailsDescription {{
 }}
 
 QLabel#InventoryQuantity {{
-    background: #111113;
-    border: 1px solid #4b4435;
-    border-radius: 5px;
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["focus_soft"]};
+    border-radius: 6px;
     color: {COLORS["focus"]};
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 900;
     padding: 1px 5px;
 }}
 """
