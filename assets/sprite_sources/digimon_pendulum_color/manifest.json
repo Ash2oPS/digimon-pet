@@ -1,0 +1,34 @@
+{
+  "sprites": [
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "HerculesKabuterimon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Herkule Kabuterimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "MegaSeadramon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Mega Seadramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "WereGarurumon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Were Garurumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Phoenixmon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Hououmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Ninjamon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Ignamon.png"
+    }
+  ]
+}

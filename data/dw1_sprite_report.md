@@ -56,6 +56,7 @@
 - Mamemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mamemon.png); aliases: -
 - Megadramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Megadramon.png); aliases: -
 - MegaSeadramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Mega Seadramon.png); aliases: -
+- WereGarurumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Were Garurumon.png); aliases: -
 - MetalGreymon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Metal Greymon.png); aliases: -
 - MetalMamemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Metal Mamemon.png); aliases: -
 - Monzaemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mozaemon.png); aliases: -

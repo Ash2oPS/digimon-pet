@@ -54,6 +54,7 @@
   {"id": "mamemon", "name": "Mamemon"},
   {"id": "megadramon", "name": "Megadramon"},
   {"id": "megaseadramon", "name": "MegaSeadramon", "aliases": ["Mega Seadramon"]},
+  {"id": "weregarurumon", "name": "WereGarurumon", "aliases": ["Were Garurumon"]},
   {"id": "metalgreymon", "name": "MetalGreymon", "aliases": ["Metal Greymon", "Metal Greymon (Virus)"]},
   {"id": "metalmamemon", "name": "MetalMamemon"},
   {"id": "monzaemon", "name": "Monzaemon"},

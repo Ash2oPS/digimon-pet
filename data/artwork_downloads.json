@@ -440,6 +440,14 @@
     "path": "assets/artworks/megaseadramon.png"
   },
   {
+    "species_id": "weregarurumon",
+    "name": "WereGarurumon",
+    "official_name": "WereGarurumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Were_Garurumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/1f/Were_Garurumon.png/revision/latest?cb=20220628133119&path-prefix=fr",
+    "path": "assets/artworks/weregarurumon.png"
+  },
+  {
     "species_id": "metalgreymon",
     "name": "MetalGreymon",
     "official_name": "Metal Greymon",

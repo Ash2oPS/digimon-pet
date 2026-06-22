@@ -781,6 +781,19 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "vegiemon"
     },
+    "weregarurumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Were Garurumon.png",
+      "matched_name": "WereGarurumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 13
+      },
+      "name": "WereGarurumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "weregarurumon"
+    },
     "whamon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Whamon.png",
