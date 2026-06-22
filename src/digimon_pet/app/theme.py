@@ -94,6 +94,12 @@ QFrame#EditorSection {{
     border-radius: 6px;
 }}
 
+QFrame#EvolutionEditorSection {{
+    background: #1d1d20;
+    border: 1px solid #343337;
+    border-radius: 6px;
+}}
+
 QWidget#DebugHeader {{
     background: {COLORS["panel"]};
     border-bottom: 1px solid #343337;

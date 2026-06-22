@@ -455,64 +455,114 @@ class DigimonManagerWindow(QWidget):
     def _build_evolution_tab(self) -> QWidget:
         tab = QWidget(self)
         layout = QVBoxLayout(tab)
-        layout.setContentsMargins(6, 6, 6, 6)
-        layout.setSpacing(5)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
 
-        self._natural_table = QTableWidget(0, 4, tab)
-        self._natural_table.setHorizontalHeaderLabels(["Kind", "Source", "Target", "Stats"])
-        self._natural_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
-        self._natural_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
-        self._natural_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
-        self._natural_table.verticalHeader().setVisible(False)
-        self._natural_table.horizontalHeader().setStretchLastSection(True)
-        self._natural_table.setMaximumHeight(96)
-        self._natural_table.setMinimumHeight(76)
-        layout.addWidget(QLabel("Natural Evolutions", tab))
-        layout.addWidget(self._natural_table)
+        natural_section, natural_layout = self._evolution_section(
+            tab,
+            "Natural Evolutions",
+            "Pick a source and a target. The selected Digimon is used as source by default.",
+        )
+        self._natural_table = QTableWidget(0, 4, natural_section)
+        self._natural_table.setObjectName("EvolutionTable")
+        self._natural_table.setHorizontalHeaderLabels(["Direction", "Source", "Target", "Stats"])
+        self._configure_evolution_table(self._natural_table)
+        self._natural_table.setColumnWidth(0, 82)
+        self._natural_table.setColumnWidth(1, 140)
+        self._natural_table.setColumnWidth(2, 140)
+        natural_layout.addWidget(self._natural_table)
 
-        natural_controls = QHBoxLayout()
-        natural_controls.setSpacing(6)
-        self._natural_source_input = NoWheelComboBox(tab)
-        self._natural_target_input = NoWheelComboBox(tab)
-        self._natural_add_button = QPushButton("Add Natural", tab)
-        self._natural_remove_button = QPushButton("Remove Natural", tab)
-        natural_controls.addWidget(self._natural_source_input)
-        natural_controls.addWidget(self._natural_target_input)
-        natural_controls.addWidget(self._natural_add_button)
-        natural_controls.addWidget(self._natural_remove_button)
-        layout.addLayout(natural_controls)
+        natural_controls = QGridLayout()
+        natural_controls.setContentsMargins(0, 0, 0, 0)
+        natural_controls.setHorizontalSpacing(8)
+        natural_controls.setVerticalSpacing(4)
+        self._natural_source_input = NoWheelComboBox(natural_section)
+        self._natural_target_input = NoWheelComboBox(natural_section)
+        self._natural_add_button = QPushButton("Add", natural_section)
+        self._natural_add_button.setObjectName("PrimaryButton")
+        self._natural_remove_button = QPushButton("Remove selected", natural_section)
+        self._natural_remove_button.setObjectName("DangerButton")
+        natural_controls.addWidget(self._field_label("From", natural_section), 0, 0)
+        natural_controls.addWidget(self._field_label("To", natural_section), 0, 1)
+        natural_controls.addWidget(self._natural_source_input, 1, 0)
+        natural_controls.addWidget(self._natural_target_input, 1, 1)
+        natural_controls.addWidget(self._natural_add_button, 1, 2)
+        natural_controls.addWidget(self._natural_remove_button, 1, 3)
+        natural_controls.setColumnStretch(0, 1)
+        natural_controls.setColumnStretch(1, 1)
+        natural_layout.addLayout(natural_controls)
+        layout.addWidget(natural_section)
 
-        self._special_table = QTableWidget(0, 3, tab)
-        self._special_table.setHorizontalHeaderLabels(["Target", "Selector", "Trigger"])
-        self._special_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
-        self._special_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
-        self._special_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
-        self._special_table.verticalHeader().setVisible(False)
-        self._special_table.horizontalHeader().setStretchLastSection(True)
+        special_section, special_layout = self._evolution_section(
+            tab,
+            "Special Evolutions",
+            "Use this for event, item, or fallback evolutions with a clear trigger.",
+        )
+        self._special_table = QTableWidget(0, 3, special_section)
+        self._special_table.setObjectName("EvolutionTable")
+        self._special_table.setHorizontalHeaderLabels(["Target", "Source rule", "Trigger"])
+        self._configure_evolution_table(self._special_table)
         self._special_table.setColumnWidth(0, 100)
         self._special_table.setColumnWidth(1, 140)
-        self._special_table.setMaximumHeight(96)
-        self._special_table.setMinimumHeight(76)
-        layout.addWidget(QLabel("Special Evolutions", tab))
-        layout.addWidget(self._special_table)
+        special_layout.addWidget(self._special_table)
 
-        special_controls = QHBoxLayout()
-        special_controls.setSpacing(6)
-        self._special_target_input = NoWheelComboBox(tab)
-        self._special_selector_input = NoWheelComboBox(tab)
+        special_controls = QGridLayout()
+        special_controls.setContentsMargins(0, 0, 0, 0)
+        special_controls.setHorizontalSpacing(8)
+        special_controls.setVerticalSpacing(4)
+        self._special_target_input = NoWheelComboBox(special_section)
+        self._special_selector_input = NoWheelComboBox(special_section)
         self._special_selector_input.addItem("Any source", "any")
-        self._special_selector_input.addItem("Selected source", "selected")
-        self._special_trigger_input = QLineEdit(tab)
-        self._special_trigger_input.setPlaceholderText("Trigger")
-        self._special_add_button = QPushButton("Add Special", tab)
-        self._special_remove_button = QPushButton("Remove Special", tab)
-        special_controls.addWidget(self._special_target_input)
-        special_controls.addWidget(self._special_selector_input)
-        special_controls.addWidget(self._special_trigger_input, 1)
-        special_controls.addWidget(self._special_add_button)
-        special_controls.addWidget(self._special_remove_button)
-        layout.addLayout(special_controls)
+        self._special_selector_input.addItem("Selected Digimon only", "selected")
+        self._special_trigger_input = QLineEdit(special_section)
+        self._special_trigger_input.setPlaceholderText("ex: full Virus Bar")
+        self._special_add_button = QPushButton("Add", special_section)
+        self._special_add_button.setObjectName("PrimaryButton")
+        self._special_remove_button = QPushButton("Remove selected", special_section)
+        self._special_remove_button.setObjectName("DangerButton")
+        special_controls.addWidget(self._field_label("To", special_section), 0, 0)
+        special_controls.addWidget(self._field_label("Source rule", special_section), 0, 1)
+        special_controls.addWidget(self._field_label("Trigger", special_section), 0, 2)
+        special_controls.addWidget(self._special_target_input, 1, 0)
+        special_controls.addWidget(self._special_selector_input, 1, 1)
+        special_controls.addWidget(self._special_trigger_input, 1, 2)
+        special_controls.addWidget(self._special_add_button, 1, 3)
+        special_controls.addWidget(self._special_remove_button, 1, 4)
+        special_controls.setColumnStretch(0, 1)
+        special_controls.setColumnStretch(2, 1)
+        special_layout.addLayout(special_controls)
+        layout.addWidget(special_section)
+        layout.addStretch(1)
         return tab
+
+    def _evolution_section(self, parent: QWidget, title: str, hint: str) -> tuple[QFrame, QVBoxLayout]:
+        section = QFrame(parent)
+        section.setObjectName("EvolutionEditorSection")
+        layout = QVBoxLayout(section)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(7)
+        title_label = QLabel(title, section)
+        title_label.setObjectName("SectionTitle")
+        hint_label = QLabel(hint, section)
+        hint_label.setObjectName("Muted")
+        hint_label.setWordWrap(True)
+        layout.addWidget(title_label)
+        layout.addWidget(hint_label)
+        return section, layout
+
+    def _field_label(self, text: str, parent: QWidget) -> QLabel:
+        label = QLabel(text, parent)
+        label.setObjectName("Muted")
+        return label
+
+    def _configure_evolution_table(self, table: QTableWidget) -> None:
+        table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
+        table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        table.verticalHeader().setVisible(False)
+        table.horizontalHeader().setStretchLastSection(True)
+        table.setMaximumHeight(96)
+        table.setMinimumHeight(78)
 
     def _connect_signals(self) -> None:
         self._search_input.textChanged.connect(self._refresh_table)
@@ -536,6 +586,13 @@ class DigimonManagerWindow(QWidget):
         self._natural_remove_button.clicked.connect(self.remove_selected_natural_evolution)
         self._special_add_button.clicked.connect(self.add_special_evolution)
         self._special_remove_button.clicked.connect(self.remove_selected_special_evolution)
+        self._natural_source_input.currentIndexChanged.connect(self._refresh_evolution_actions)
+        self._natural_target_input.currentIndexChanged.connect(self._refresh_evolution_actions)
+        self._special_target_input.currentIndexChanged.connect(self._refresh_evolution_actions)
+        self._special_selector_input.currentIndexChanged.connect(self._refresh_evolution_actions)
+        self._special_trigger_input.textChanged.connect(self._refresh_evolution_actions)
+        self._natural_table.itemSelectionChanged.connect(self._refresh_evolution_actions)
+        self._special_table.itemSelectionChanged.connect(self._refresh_evolution_actions)
 
     def _species_map_for_items(self) -> dict[str, Species]:
         species_map = {}
@@ -570,6 +627,94 @@ class DigimonManagerWindow(QWidget):
             if index >= 0:
                 combo.setCurrentIndex(index)
             combo.blockSignals(False)
+        self._refresh_evolution_actions()
+
+    def _sync_evolution_inputs_to_selection(self) -> None:
+        species_id = self._selected_id or ""
+        if not species_id:
+            self._refresh_evolution_actions()
+            return
+        self._set_combo_data(self._natural_source_input, species_id)
+        if self._special_selector_input.currentData() == "selected":
+            self._refresh_evolution_actions()
+            return
+        self._refresh_evolution_actions()
+
+    def _set_combo_data(self, combo: QComboBox, value: str) -> None:
+        index = combo.findData(value)
+        if index >= 0 and combo.currentIndex() != index:
+            combo.setCurrentIndex(index)
+
+    def _refresh_evolution_actions(self) -> None:
+        if not hasattr(self, "_natural_add_button"):
+            return
+        natural_source = str(self._natural_source_input.currentData() or "")
+        natural_target = str(self._natural_target_input.currentData() or "")
+        natural_duplicate = self._natural_evolution_exists(natural_source, natural_target)
+        can_add_natural = bool(natural_source and natural_target and natural_source != natural_target and not natural_duplicate)
+        self._natural_add_button.setEnabled(can_add_natural)
+        self._natural_remove_button.setEnabled(self._selected_evolution_index(self._natural_table) is not None)
+        if natural_source == natural_target and natural_source:
+            natural_tip = "Source and target must be different."
+        elif natural_duplicate:
+            natural_tip = "This natural evolution already exists."
+        else:
+            natural_tip = "Add the selected natural evolution."
+        self._natural_add_button.setToolTip(natural_tip)
+
+        selected_id = self._selected_id or ""
+        special_target = str(self._special_target_input.currentData() or "")
+        selector_mode = str(self._special_selector_input.currentData() or "any")
+        special_trigger = self._special_trigger_input.text().strip()
+        special_selector = self._special_selector_from_mode(selector_mode, selected_id)
+        special_duplicate = self._special_evolution_exists(special_target, special_selector, special_trigger)
+        can_add_special = bool(
+            special_target
+            and special_trigger
+            and special_selector
+            and not special_duplicate
+        )
+        self._special_add_button.setEnabled(can_add_special)
+        self._special_remove_button.setEnabled(self._selected_evolution_index(self._special_table) is not None)
+        if selector_mode == "selected" and not selected_id:
+            special_tip = "Select a Digimon before using selected-source mode."
+        elif not special_trigger:
+            special_tip = "Enter a trigger before adding a special evolution."
+        elif special_duplicate:
+            special_tip = "This special evolution already exists."
+        else:
+            special_tip = "Add the selected special evolution."
+        self._special_add_button.setToolTip(special_tip)
+
+    def _selected_evolution_index(self, table: QTableWidget) -> int | None:
+        selected = table.selectedItems()
+        if not selected:
+            return None
+        value = selected[0].data(Qt.ItemDataRole.UserRole)
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+
+    def _natural_evolution_exists(self, source_id: str, target_id: str) -> bool:
+        return any(
+            str(row.get("source_species_id", "")) == source_id
+            and str(row.get("target_species_id", "")) == target_id
+            for row in self._catalog.natural_evolutions
+        )
+
+    def _special_evolution_exists(self, target_id: str, selector: dict[str, object], trigger: str) -> bool:
+        return any(
+            str(row.get("target_species_id", "")) == target_id
+            and row.get("source_selector", {}) == selector
+            and str(row.get("trigger", "")) == trigger
+            for row in self._catalog.special_evolutions
+        )
+
+    def _special_selector_from_mode(self, selector_mode: str, selected_id: str) -> dict[str, object]:
+        if selector_mode == "selected":
+            return {"species_ids": [selected_id]} if selected_id else {}
+        return {"scope": "any"}
 
     def _refresh_table(self) -> None:
         self._refresh_validation_indexes()
@@ -718,6 +863,7 @@ class DigimonManagerWindow(QWidget):
             input_widget.setText(str(sprite_slots.get(slot_name, "")))
         self._loading = False
         self._set_visual_import_status("Fetch visuals from the selected name", "neutral")
+        self._sync_evolution_inputs_to_selection()
         self._refresh_sprite_preview()
         self._refresh_artwork_preview()
         self._refresh_evolution_tables()
@@ -735,6 +881,7 @@ class DigimonManagerWindow(QWidget):
         self._selected_sprite_label.clear()
         self._selected_validation_output.setPlainText("No Digimon selected.")
         self._set_visual_import_status("Select a Digimon before fetching visuals.", "neutral")
+        self._refresh_evolution_actions()
 
     def _sync_species_edits(self) -> None:
         if self._loading:
@@ -963,13 +1110,15 @@ class DigimonManagerWindow(QWidget):
             self._natural_table.insertRow(row)
             values = [
                 "Outgoing" if source == species_id else "Incoming",
-                source,
-                target,
+                self._species_label(source),
+                self._species_label(target),
                 self._stats_summary(row_data),
             ]
             for column, value in enumerate(values):
                 item = QTableWidgetItem(value)
                 item.setData(Qt.ItemDataRole.UserRole, index)
+                if column in {1, 2}:
+                    item.setToolTip(source if column == 1 else target)
                 self._natural_table.setItem(row, column, item)
 
         self._special_table.setRowCount(0)
@@ -979,14 +1128,31 @@ class DigimonManagerWindow(QWidget):
             row = self._special_table.rowCount()
             self._special_table.insertRow(row)
             values = [
-                str(row_data.get("target_species_id", "")),
+                self._species_label(str(row_data.get("target_species_id", ""))),
                 self._selector_summary(row_data),
                 str(row_data.get("trigger", "")),
             ]
             for column, value in enumerate(values):
                 item = QTableWidgetItem(value)
                 item.setData(Qt.ItemDataRole.UserRole, index)
+                if column == 0:
+                    item.setToolTip(str(row_data.get("target_species_id", "")))
                 self._special_table.setItem(row, column, item)
+        self._refresh_evolution_actions()
+
+    def _species_label(self, species_id: str) -> str:
+        species = self._catalog.species_by_id().get(species_id)
+        if not species:
+            return species_id
+        name = str(species.get("name", species_id))
+        return f"{name} ({species_id})"
+
+    def _select_evolution_row(self, table: QTableWidget, catalog_index: int) -> None:
+        for row in range(table.rowCount()):
+            item = table.item(row, 0)
+            if item is not None and item.data(Qt.ItemDataRole.UserRole) == catalog_index:
+                table.selectRow(row)
+                return
 
     def _stats_summary(self, row: dict[str, object]) -> str:
         stats = row.get("requirements", {}).get("groups", {}).get("stats", {})  # type: ignore[union-attr]
@@ -1003,7 +1169,7 @@ class DigimonManagerWindow(QWidget):
         if "stage" in selector:
             return f"stage: {selector['stage']}"
         if "species_ids" in selector:
-            return ", ".join(str(value) for value in selector.get("species_ids", []))
+            return ", ".join(self._species_label(str(value)) for value in selector.get("species_ids", []))
         return ""
 
     def _special_touches_species(self, row: dict[str, object], species_id: str) -> bool:
@@ -1107,7 +1273,7 @@ class DigimonManagerWindow(QWidget):
     def add_natural_evolution(self) -> None:
         source_id = str(self._natural_source_input.currentData() or "")
         target_id = str(self._natural_target_input.currentData() or "")
-        if not source_id or not target_id:
+        if not source_id or not target_id or source_id == target_id or self._natural_evolution_exists(source_id, target_id):
             return
         species = self._catalog.species_by_id()
         target = species.get(target_id, {})
@@ -1121,16 +1287,17 @@ class DigimonManagerWindow(QWidget):
             "requirements": {"mode": "stats_only", "groups": {"stats": {}}},
         }
         self._catalog.natural_evolutions.append(row)
+        index = len(self._catalog.natural_evolutions) - 1
         self._mark_dirty()
         self._refresh_table()
         self._refresh_evolution_tables()
+        self._select_evolution_row(self._natural_table, index)
         self._refresh_validation()
 
     def remove_selected_natural_evolution(self) -> None:
-        selected = self._natural_table.selectedItems()
-        if not selected:
+        index = self._selected_evolution_index(self._natural_table)
+        if index is None:
             return
-        index = int(selected[0].data(Qt.ItemDataRole.UserRole))
         if 0 <= index < len(self._catalog.natural_evolutions):
             self._catalog.natural_evolutions.pop(index)
             self._mark_dirty()
@@ -1144,26 +1311,30 @@ class DigimonManagerWindow(QWidget):
             return
         selected_id = self._selected_id or ""
         selector_mode = str(self._special_selector_input.currentData() or "any")
-        selector = {"scope": "any"} if selector_mode == "any" else {"species_ids": [selected_id]}
+        selector = self._special_selector_from_mode(selector_mode, selected_id)
+        trigger = self._special_trigger_input.text().strip()
+        if not selector or not trigger or self._special_evolution_exists(target_id, selector, trigger):
+            return
         row = {
             "id": f"special__to__{target_id}",
             "type": "special",
             "target_species_id": target_id,
             "source_selector": selector,
-            "trigger": self._special_trigger_input.text().strip(),
+            "trigger": trigger,
             "notes": [],
         }
         self._catalog.special_evolutions.append(row)
+        index = len(self._catalog.special_evolutions) - 1
         self._mark_dirty()
         self._refresh_table()
         self._refresh_evolution_tables()
+        self._select_evolution_row(self._special_table, index)
         self._refresh_validation()
 
     def remove_selected_special_evolution(self) -> None:
-        selected = self._special_table.selectedItems()
-        if not selected:
+        index = self._selected_evolution_index(self._special_table)
+        if index is None:
             return
-        index = int(selected[0].data(Qt.ItemDataRole.UserRole))
         if 0 <= index < len(self._catalog.special_evolutions):
             self._catalog.special_evolutions.pop(index)
             self._mark_dirty()

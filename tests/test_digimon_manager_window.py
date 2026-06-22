@@ -290,8 +290,10 @@ def test_combo_boxes_ignore_mouse_wheel_changes(tmp_path):
 def test_evolution_editor_uses_compact_tables_to_keep_controls_visible(tmp_path):
     window = make_window(tmp_path)
 
-    assert window._natural_table.maximumHeight() <= 96
-    assert window._special_table.maximumHeight() <= 96
+    assert window._natural_table.maximumHeight() <= 108
+    assert window._special_table.maximumHeight() <= 108
+    assert window._natural_add_button.text() == "Add"
+    assert window._special_trigger_input.placeholderText() == "ex: full Virus Bar"
 
 
 def test_splitter_protects_species_table_width(tmp_path):
@@ -390,7 +392,61 @@ def test_stage_selector_special_evolution_appears_for_matching_species(tmp_path)
 
     assert window._selected_species_id() == "agumon"
     assert window._special_table.rowCount() == 1
-    assert window._special_table.item(0, 0).text() == "agumon"
+    assert window._special_table.item(0, 0).text() == "Agumon (agumon)"
+
+
+def test_evolution_editor_defaults_natural_source_to_selected_species(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(1)
+
+    assert window._natural_source_input.currentData() == "agumon"
+
+
+def test_add_natural_evolution_blocks_duplicate_and_selects_created_row(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(0)
+    window._set_combo_data(window._natural_source_input, "koromon")
+    window._set_combo_data(window._natural_target_input, "agumon")
+
+    before_count = len(window._catalog.natural_evolutions)
+    assert window._natural_add_button.isEnabled() is False
+    window.add_natural_evolution()
+    assert len(window._catalog.natural_evolutions) == before_count
+
+    window._set_combo_data(window._natural_target_input, "greymon")
+    assert window._natural_add_button.isEnabled() is True
+    window.add_natural_evolution()
+
+    assert window._catalog.natural_evolutions[-1]["id"] == "koromon__to__greymon"
+    assert window._natural_table.selectedItems()[0].data(Qt.ItemDataRole.UserRole) == len(window._catalog.natural_evolutions) - 1
+
+
+def test_add_special_evolution_requires_trigger_and_blocks_duplicate(tmp_path):
+    window = make_window(tmp_path)
+
+    window._species_table.selectRow(1)
+    window._set_combo_data(window._special_target_input, "greymon")
+    window._special_selector_input.setCurrentIndex(window._special_selector_input.findData("selected"))
+
+    before_count = len(window._catalog.special_evolutions)
+    assert window._special_add_button.isEnabled() is False
+    window.add_special_evolution()
+    assert len(window._catalog.special_evolutions) == before_count
+
+    window._special_trigger_input.setText("new event")
+    assert window._special_add_button.isEnabled() is True
+    window.add_special_evolution()
+
+    assert window._catalog.special_evolutions[-1]["source_selector"] == {"species_ids": ["agumon"]}
+    assert window._catalog.special_evolutions[-1]["trigger"] == "new event"
+    assert window._special_table.selectedItems()[0].data(Qt.ItemDataRole.UserRole) == len(window._catalog.special_evolutions) - 1
+
+    before_duplicate = len(window._catalog.special_evolutions)
+    assert window._special_add_button.isEnabled() is False
+    window.add_special_evolution()
+    assert len(window._catalog.special_evolutions) == before_duplicate
 
 
 def test_save_refuses_validation_errors_and_does_not_write_files(tmp_path):
