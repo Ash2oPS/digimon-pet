@@ -1,0 +1,10 @@
+{
+  "sprites": [
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Penguinmon",
+      "path": "assets/sprite_sources/xros_loader_toy/Penmon.png"
+    }
+  ]
+}

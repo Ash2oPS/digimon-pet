@@ -1,0 +1,346 @@
+{
+  "sprites": [
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Machinedramon",
+      "path": "assets/sprite_sources/digital_monster_color/Mugendramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Mamemon",
+      "path": "assets/sprite_sources/digital_monster_color/Mamemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Megadramon",
+      "path": "assets/sprite_sources/digital_monster_color/Megadramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "MetalGreymon",
+      "path": "assets/sprite_sources/digital_monster_color/Metal Greymon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "MetalMamemon",
+      "path": "assets/sprite_sources/digital_monster_color/Metal Mamemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Monzaemon",
+      "path": "assets/sprite_sources/digital_monster_color/Mozaemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Piximon",
+      "path": "assets/sprite_sources/digital_monster_color/Piccolomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "SkullGreymon",
+      "path": "assets/sprite_sources/digital_monster_color/Skull Greymon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Vademon",
+      "path": "assets/sprite_sources/digital_monster_color/Vademon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 11,
+      "name": "Botamon",
+      "path": "assets/sprite_sources/digital_monster_color/Botamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Poyomon",
+      "path": "assets/sprite_sources/digital_monster_color/Poyomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Punimon",
+      "path": "assets/sprite_sources/digital_monster_color/Punimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Yuramon",
+      "path": "assets/sprite_sources/digital_monster_color/Yuramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Koromon",
+      "path": "assets/sprite_sources/digital_monster_color/Koromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Tanemon",
+      "path": "assets/sprite_sources/digital_monster_color/Tanemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Tokomon",
+      "path": "assets/sprite_sources/digital_monster_color/Tokomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Tsunomon",
+      "path": "assets/sprite_sources/digital_monster_color/Tsunomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Agumon",
+      "path": "assets/sprite_sources/digital_monster_color/Agumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 10,
+      "name": "Betamon",
+      "path": "assets/sprite_sources/digital_monster_color/Betamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Elecmon",
+      "path": "assets/sprite_sources/digital_monster_color/Elecmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Gabumon",
+      "path": "assets/sprite_sources/digital_monster_color/Gabumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Kunemon",
+      "path": "assets/sprite_sources/digital_monster_color/Kunemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Palmon",
+      "path": "assets/sprite_sources/digital_monster_color/Palmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Patamon",
+      "path": "assets/sprite_sources/digital_monster_color/Patamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Biyomon",
+      "path": "assets/sprite_sources/digital_monster_color/Piyomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Airdramon",
+      "path": "assets/sprite_sources/digital_monster_color/Airdramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Angemon",
+      "path": "assets/sprite_sources/digital_monster_color/Angemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Bakemon",
+      "path": "assets/sprite_sources/digital_monster_color/Bakemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Birdramon",
+      "path": "assets/sprite_sources/digital_monster_color/Birdramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Centarumon",
+      "path": "assets/sprite_sources/digital_monster_color/Centalmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Coelamon",
+      "path": "assets/sprite_sources/digital_monster_color/Coelamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Devimon",
+      "path": "assets/sprite_sources/digital_monster_color/Devimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Drimogemon",
+      "path": "assets/sprite_sources/digital_monster_color/Drimogemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Frigimon",
+      "path": "assets/sprite_sources/digital_monster_color/Yukidarumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Garurumon",
+      "path": "assets/sprite_sources/digital_monster_color/Garurumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Greymon",
+      "path": "assets/sprite_sources/digital_monster_color/Greymon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Kabuterimon",
+      "path": "assets/sprite_sources/digital_monster_color/Kabuterimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Kokatorimon",
+      "path": "assets/sprite_sources/digital_monster_color/Cockatrimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Kuwagamon",
+      "path": "assets/sprite_sources/digital_monster_color/Kuwagamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Leomon",
+      "path": "assets/sprite_sources/digital_monster_color/Leomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Meramon",
+      "path": "assets/sprite_sources/digital_monster_color/Meramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Monochromon",
+      "path": "assets/sprite_sources/digital_monster_color/Monochromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Mojyamon",
+      "path": "assets/sprite_sources/digital_monster_color/Mojymon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Nanimon",
+      "path": "assets/sprite_sources/digital_monster_color/Nanimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Numemon",
+      "path": "assets/sprite_sources/digital_monster_color/Numemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Ogremon",
+      "path": "assets/sprite_sources/digital_monster_color/Orgemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Seadramon",
+      "path": "assets/sprite_sources/digital_monster_color/Seadramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Shellmon",
+      "path": "assets/sprite_sources/digital_monster_color/Shellmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Sukamon",
+      "path": "assets/sprite_sources/digital_monster_color/Scumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Tyrannomon",
+      "path": "assets/sprite_sources/digital_monster_color/Tyranomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 9,
+      "name": "Unimon",
+      "path": "assets/sprite_sources/digital_monster_color/Unimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Vegiemon",
+      "path": "assets/sprite_sources/digital_monster_color/Vegimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Whamon",
+      "path": "assets/sprite_sources/digital_monster_color/Whamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Andromon",
+      "path": "assets/sprite_sources/digital_monster_color/Andromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Digitamamon",
+      "path": "assets/sprite_sources/digital_monster_color/Digitamamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Etemon",
+      "path": "assets/sprite_sources/digital_monster_color/Etemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 13,
+      "name": "Giromon",
+      "path": "assets/sprite_sources/digital_monster_color/Giromon.png"
+    }
+  ]
+}

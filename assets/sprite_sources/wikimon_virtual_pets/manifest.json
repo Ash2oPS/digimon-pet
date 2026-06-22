@@ -1,0 +1,84 @@
+{
+  "sprites": [
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Terriermon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/terriermon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Terriermon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Gummymon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/gummymon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Gummymon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Zerimon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/zerimon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Zerimon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Galgomon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/galgomon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Galgomon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Rapidmon Perfect",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/rapidmon_perfect_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Rapidmon_Perfect",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Ninjamon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/ninjamon_d_3_25th_color_evolution.png",
+      "source_page": "https://wikimon.net/Ninjamon",
+      "source_label": "D-3 -25th COLOR EVOLUTION-"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Betamon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/betamon_digital_monster_color.png",
+      "source_page": "https://wikimon.net/Betamon",
+      "source_label": "Digital Monster COLOR"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "HerculesKabuterimon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/herculeskabuterimon_vital_bracelet_be.png",
+      "source_page": "https://wikimon.net/HerculesKabuterimon",
+      "source_label": "Vital Bracelet BE"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "MegaSeadramon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/megaseadramon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/MegaSeadramon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "name": "Phoenixmon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/phoenixmon_vital_bracelet_be.png",
+      "source_page": "https://wikimon.net/Phoenixmon",
+      "source_label": "Vital Bracelet BE"
+    }
+  ]
+}
