@@ -6,9 +6,11 @@ from types import SimpleNamespace
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QImage
 from PySide6.QtWidgets import QApplication, QMessageBox, QScrollArea
 
 from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
+from digimon_pet.data.pendulum_sprite_import import SpriteImportOption
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
 from digimon_pet.domain.items import EvolutionItemEffect, ItemCatalog, ItemDefinition, ItemType, item_catalog_to_dict
 from tests.test_digimon_catalog import write_catalog_files
@@ -194,20 +196,60 @@ def test_visual_import_buttons_have_icons_and_status(tmp_path):
 def test_fetch_sprite_uses_selected_digimon_name_and_refreshes_runtime(tmp_path, monkeypatch):
     window = make_window(tmp_path)
     calls = []
+    option = SpriteImportOption(
+        provider_id="wikimon_virtual_pets",
+        label="D-Ark",
+        detail="Terriermon vpet darc.gif",
+        species_id="agumon",
+        name="Agumon",
+        source_url="https://wikimon.net/Agumon",
+        image_url="https://wikimon.net/images/agumon.gif",
+        source_name="Wikimon Virtual Pets",
+    )
 
-    def fake_import(species_id, name, project_root):
-        calls.append((species_id, name, project_root))
+    def fake_discover(species_id, name, project_root):
+        calls.append(("discover", species_id, name, project_root))
+        return [option]
+
+    def fake_import(selected_option, project_root):
+        calls.append(("import", selected_option, project_root))
         return SimpleNamespace(source_name="Test Pendulum", frame_count=12)
 
-    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.import_pendulum_color_sprite", fake_import)
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.discover_sprite_import_options", fake_discover)
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.import_sprite_option", fake_import)
     monkeypatch.setattr(window, "_load_runtime_sprite_entries", lambda: {"agumon": {"asset_path": "sprite.png"}})
     window._species_table.selectRow(1)
 
     window.import_selected_sprite()
 
-    assert calls == [("agumon", "Agumon", tmp_path)]
+    assert calls == [
+        ("discover", "agumon", "Agumon", tmp_path),
+        ("import", option, tmp_path),
+    ]
     assert "Sprite imported" in window._visual_import_status.text()
     assert window._runtime_sprite_entries == {"agumon": {"asset_path": "sprite.png"}}
+
+
+def test_sprite_source_list_item_shows_preview_icon(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    option = SpriteImportOption(
+        provider_id="wikimon_virtual_pets",
+        label="D-Ark",
+        detail="Terriermon vpet darc.gif",
+        species_id="terriermon",
+        name="Terriermon",
+        source_url="https://wikimon.net/Terriermon",
+        image_url="https://wikimon.net/images/terriermon.gif",
+    )
+    preview = QImage(16, 16, QImage.Format_ARGB32)
+    preview.fill(QColor("red"))
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.sprite_import_option_preview_image", lambda selected: preview)
+
+    item = window._sprite_source_list_item(option)
+
+    assert not item.icon().isNull()
+    assert item.sizeHint().height() >= 60
+    assert item.data(Qt.ItemDataRole.UserRole) == option
 
 
 def test_fetch_artwork_uses_selected_digimon_name_and_refreshes_preview(tmp_path, monkeypatch):

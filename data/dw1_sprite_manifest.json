@@ -1,5 +1,69 @@
 {
-  "conflicts": [],
+  "conflicts": [
+    {
+      "available_source_ids": [
+        "digital_monster_color",
+        "digimon_pendulum_color"
+      ],
+      "chosen_source_id": "digital_monster_color",
+      "name": "Agumon",
+      "species_id": "agumon"
+    },
+    {
+      "available_source_ids": [
+        "digital_monster_color",
+        "wikimon_virtual_pets"
+      ],
+      "chosen_source_id": "wikimon_virtual_pets",
+      "name": "Betamon",
+      "species_id": "betamon"
+    },
+    {
+      "available_source_ids": [
+        "digital_monster_color",
+        "digimon_pendulum_color"
+      ],
+      "chosen_source_id": "digimon_pendulum_color",
+      "name": "Gabumon",
+      "species_id": "gabumon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "wikimon_virtual_pets"
+      ],
+      "chosen_source_id": "wikimon_virtual_pets",
+      "name": "Ninjamon",
+      "species_id": "ninjamon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "wikimon_virtual_pets"
+      ],
+      "chosen_source_id": "wikimon_virtual_pets",
+      "name": "HerculesKabuterimon",
+      "species_id": "herculeskabuterimon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "wikimon_virtual_pets"
+      ],
+      "chosen_source_id": "wikimon_virtual_pets",
+      "name": "MegaSeadramon",
+      "species_id": "megaseadramon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "wikimon_virtual_pets"
+      ],
+      "chosen_source_id": "wikimon_virtual_pets",
+      "name": "Phoenixmon",
+      "species_id": "phoenixmon"
+    }
+  ],
   "entries": {
     "agumon": {
       "aliases_used": [],
@@ -53,6 +117,19 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "angemon"
     },
+    "angewomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Angewomon.png",
+      "matched_name": "Angewomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 12
+      },
+      "name": "Angewomon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "angewomon"
+    },
     "bakemon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Bakemon.png",
@@ -68,15 +145,17 @@
     },
     "betamon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digital_monster_color/Betamon.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/betamon_digital_monster_color.png",
       "matched_name": "Betamon",
       "metadata": {
         "fps": 6,
-        "frame_count": 10
+        "frame_count": 1,
+        "source_label": "Digital Monster COLOR",
+        "source_page": "https://wikimon.net/Betamon"
       },
       "name": "Betamon",
-      "source_id": "digital_monster_color",
-      "source_name": "Digital Monster COLOR",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
       "species_id": "betamon"
     },
     "birdramon": {
@@ -224,15 +303,15 @@
     },
     "gabumon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digital_monster_color/Gabumon.png",
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Gabumon.png",
       "matched_name": "Gabumon",
       "metadata": {
         "fps": 6,
-        "frame_count": 9
+        "frame_count": 12
       },
       "name": "Gabumon",
-      "source_id": "digital_monster_color",
-      "source_name": "Digital Monster COLOR",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
       "species_id": "gabumon"
     },
     "galgomon": {
@@ -306,15 +385,17 @@
     },
     "herculeskabuterimon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Herkule Kabuterimon.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/herculeskabuterimon_vital_bracelet_be.png",
       "matched_name": "HerculesKabuterimon",
       "metadata": {
         "fps": 6,
-        "frame_count": 13
+        "frame_count": 1,
+        "source_label": "Vital Bracelet BE",
+        "source_page": "https://wikimon.net/HerculesKabuterimon"
       },
       "name": "HerculesKabuterimon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
       "species_id": "herculeskabuterimon"
     },
     "kabuterimon": {
@@ -436,15 +517,17 @@
     },
     "megaseadramon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Mega Seadramon.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/megaseadramon_vital_bracelet_digital_monster.png",
       "matched_name": "MegaSeadramon",
       "metadata": {
         "fps": 6,
-        "frame_count": 13
+        "frame_count": 1,
+        "source_label": "Vital Bracelet Digital Monster",
+        "source_page": "https://wikimon.net/MegaSeadramon"
       },
       "name": "MegaSeadramon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
       "species_id": "megaseadramon"
     },
     "meramon": {
@@ -540,15 +623,17 @@
     },
     "ninjamon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Ignamon.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/ninjamon_d_3_25th_color_evolution.png",
       "matched_name": "Ninjamon",
       "metadata": {
         "fps": 6,
-        "frame_count": 13
+        "frame_count": 1,
+        "source_label": "D-3 -25th COLOR EVOLUTION-",
+        "source_page": "https://wikimon.net/Ninjamon"
       },
       "name": "Ninjamon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
       "species_id": "ninjamon"
     },
     "numemon": {
@@ -618,15 +703,17 @@
     },
     "phoenixmon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/Hououmon.png",
+      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/phoenixmon_vital_bracelet_be.png",
       "matched_name": "Phoenixmon",
       "metadata": {
         "fps": 6,
-        "frame_count": 13
+        "frame_count": 1,
+        "source_label": "Vital Bracelet BE",
+        "source_page": "https://wikimon.net/Phoenixmon"
       },
       "name": "Phoenixmon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "wikimon_virtual_pets",
+      "source_name": "Wikimon Virtual Pets",
       "species_id": "phoenixmon"
     },
     "piximon": {

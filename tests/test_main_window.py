@@ -780,57 +780,6 @@ def test_debug_panel_updates_pet_stat():
     assert window._state.hp == 777
 
 
-def test_debug_panel_shows_readable_age():
-    app = QApplication.instance() or QApplication([])
-
-    window = PetWindow(overlay=True, debug=True)
-    window._state.age_seconds = 5400
-    window._refresh()
-
-    assert window._debug_panel._labels["age"].text() == "1 h 30 min"
-
-
-def test_debug_panel_resets_age_and_care_progression(tmp_path, monkeypatch):
-    app = QApplication.instance() or QApplication([])
-    save_path = tmp_path / "pet_save.json"
-    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
-
-    window = PetWindow(overlay=True, debug=True)
-    window._state.age_seconds = 5400
-    window._state.hunger = 90
-    window._state.fatigue = 80
-    window._state.discipline = 10
-    window._state.care_mistakes = 7
-    window._state.training_count = 8
-    window._state.weight = 42
-    window._state.happiness = 5
-    window._state.won_battles = 12
-    window._state.techniques_mastered = 4
-    window._state.is_sleeping = True
-    window._state.current_action = "training"
-    window._state.needs_rebirth_choice = True
-    window._pending_lifecycle_kind = "evolution"
-
-    window._debug_panel._reset_pet_button.click()
-    loaded = load_pet_state(save_path)
-
-    assert window._state.age_seconds == 0
-    assert window._state.hunger == 30
-    assert window._state.fatigue == 0
-    assert window._state.discipline == 50
-    assert window._state.care_mistakes == 0
-    assert window._state.training_count == 0
-    assert window._state.weight == 5
-    assert window._state.happiness == 50
-    assert window._state.won_battles == 0
-    assert window._state.techniques_mastered == 0
-    assert window._state.is_sleeping is False
-    assert window._state.current_action == "idle"
-    assert window._state.needs_rebirth_choice is False
-    assert window._pending_lifecycle_kind is None
-    assert loaded.age_seconds == 0
-
-
 def test_debug_panel_resets_saved_stat_progression():
     app = QApplication.instance() or QApplication([])
 

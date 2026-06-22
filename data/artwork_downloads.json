@@ -442,7 +442,7 @@
   {
     "species_id": "weregarurumon",
     "name": "WereGarurumon",
-    "official_name": "WereGarurumon",
+    "official_name": "Were Garurumon",
     "source_page": "https://wikimon-france.fandom.com/fr/wiki/Were_Garurumon",
     "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/1f/Were_Garurumon.png/revision/latest?cb=20220628133119&path-prefix=fr",
     "path": "assets/artworks/weregarurumon.png"
@@ -542,5 +542,13 @@
     "source_page": "https://wikimon-france.fandom.com/fr/wiki/Galgomon",
     "url": "https://static.wikia.nocookie.net/wikimon-france/images/0/00/Galgomon.png/revision/latest?cb=20220522185826&path-prefix=fr",
     "path": "assets/artworks/galgomon.png"
+  },
+  {
+    "species_id": "angewomon",
+    "name": "Angewomon",
+    "official_name": "Angewomon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Angewomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/1f/Angewomon_new.png/revision/latest?cb=20201201205009&path-prefix=fr",
+    "path": "assets/artworks/angewomon.png"
   }
 ]

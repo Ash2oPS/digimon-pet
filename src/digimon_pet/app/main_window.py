@@ -285,7 +285,6 @@ class PetWindow(QWidget):
             stat_changed=self._set_pet_stat,
             auto_rebirth_changed=self._set_auto_rebirth_random,
             auto_lifecycle_changed=self._set_auto_lifecycle_events,
-            reset_pet_requested=self._reset_age_and_care,
             reset_stats_requested=self._reset_stat_progression,
             reset_collection_requested=self._reset_collection_progression,
             item_manager_requested=self._open_item_manager,
@@ -896,27 +895,6 @@ class PetWindow(QWidget):
             return
         setattr(self._state, name, int(value))
         self._state.clamp()
-        self._save_and_refresh()
-
-    def _reset_age_and_care(self) -> None:
-        fresh = PetState(species_id=self._state.species_id, stage=self._state.stage)
-        self._state.age_seconds = fresh.age_seconds
-        self._state.hunger = fresh.hunger
-        self._state.fatigue = fresh.fatigue
-        self._state.discipline = fresh.discipline
-        self._state.care_mistakes = fresh.care_mistakes
-        self._state.training_count = fresh.training_count
-        self._state.weight = fresh.weight
-        self._state.happiness = fresh.happiness
-        self._state.won_battles = fresh.won_battles
-        self._state.techniques_mastered = fresh.techniques_mastered
-        self._state.is_sleeping = fresh.is_sleeping
-        self._state.current_action = fresh.current_action
-        self._state.needs_rebirth_choice = False
-        self._pending_lifecycle_kind = None
-        self._lifecycle_animating = False
-        self._lifecycle_animating_kind = None
-        self._lifecycle_resolved_during_animation = False
         self._save_and_refresh()
 
     def _reset_stat_progression(self) -> None:

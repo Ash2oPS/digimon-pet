@@ -2723,7 +2723,7 @@
       "source_name": "Frigimon",
       "target_species_id": "weregarurumon",
       "target_name": "WereGarurumon",
-      "target_stage": "undefined",
+      "target_stage": "ultimate",
       "chart_order": 3,
       "requirements": {
         "mode": "stats_only",
@@ -2973,7 +2973,7 @@
       "source_name": "Garurumon",
       "target_species_id": "weregarurumon",
       "target_name": "WereGarurumon",
-      "target_stage": "undefined",
+      "target_stage": "ultimate",
       "chart_order": 2,
       "requirements": {
         "mode": "stats_only",
@@ -3464,7 +3464,7 @@
       "source_name": "Leomon",
       "target_species_id": "weregarurumon",
       "target_name": "WereGarurumon",
-      "target_stage": "undefined",
+      "target_stage": "ultimate",
       "chart_order": 1,
       "requirements": {
         "mode": "stats_only",
@@ -3615,7 +3615,7 @@
       "source_name": "Mojyamon",
       "target_species_id": "weregarurumon",
       "target_name": "WereGarurumon",
-      "target_stage": "undefined",
+      "target_stage": "ultimate",
       "chart_order": 4,
       "requirements": {
         "mode": "stats_only",
@@ -5004,6 +5004,26 @@
       },
       "source_name": "Galgomon",
       "target_name": "Rapidmon Perfect"
+    },
+    {
+      "id": "angemon__to__angewomon",
+      "type": "natural",
+      "source_species_id": "angemon",
+      "target_species_id": "angewomon",
+      "target_stage": "ultimate",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "groups": {
+          "stats": {
+            "mp": 4000,
+            "speed": 300,
+            "brains": 400
+          }
+        }
+      },
+      "source_name": "Angemon",
+      "target_name": "Angewomon"
     }
   ],
   "special_evolutions": [
@@ -5149,6 +5169,7 @@
       ],
       "angemon": [
         "angemon__to__andromon",
+        "angemon__to__angewomon",
         "angemon__to__phoenixmon"
       ],
       "bakemon": [

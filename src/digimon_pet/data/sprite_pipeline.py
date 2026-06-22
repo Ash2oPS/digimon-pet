@@ -45,6 +45,7 @@ class RosterEntry:
     id: str
     name: str
     aliases: tuple[str, ...] = ()
+    preferred_source_id: str = ""
     promo_japan: bool = False
 
 
@@ -108,7 +109,7 @@ def resolve_roster_sprites(
             missing.append({"species_id": species.id, "name": species.name})
             continue
 
-        chosen_source, chosen_asset, matched_name = matches[0]
+        chosen_source, chosen_asset, matched_name = _choose_match_for_species(species, matches)
         alias_used = [] if normalize_name(matched_name) == normalize_name(species.name) else [matched_name]
         entries[species.id] = {
             "species_id": species.id,
@@ -185,6 +186,19 @@ def _matches_for_species(
     return matches
 
 
+def _choose_match_for_species(
+    species: RosterEntry,
+    matches: list[tuple[SpriteSource, SpriteAsset, str]],
+) -> tuple[SpriteSource, SpriteAsset, str]:
+    preferred_source_id = species.preferred_source_id.strip()
+    if preferred_source_id:
+        for match in matches:
+            source, _, _ = match
+            if source.id == preferred_source_id:
+                return match
+    return matches[0]
+
+
 def _load_source_assets(source: SpriteSource, project_root: Path) -> list[SpriteAsset]:
     if source.manifest and source.manifest.exists():
         return _load_manifest_assets(source, project_root)
@@ -254,6 +268,7 @@ def _roster_entry_from_dict(raw: dict[str, Any]) -> RosterEntry:
         id=str(raw["id"]),
         name=str(raw["name"]),
         aliases=tuple(str(alias) for alias in raw.get("aliases", [])),
+        preferred_source_id=str(raw.get("preferred_source_id", "")).strip(),
         promo_japan=bool(raw.get("promo_japan", False)),
     )
 

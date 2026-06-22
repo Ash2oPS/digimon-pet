@@ -77,6 +77,51 @@ def test_resolution_uses_source_priority_and_reports_conflicts(tmp_path):
     assert "Digimon Xros Loader Toy" in report
 
 
+def test_preferred_source_overrides_global_source_priority(tmp_path):
+    root = tmp_path
+    roster_path = root / "data" / "roster.json"
+    config_path = root / "data" / "sources.json"
+    output_path = root / "data" / "manifest.json"
+    report_path = root / "data" / "report.md"
+
+    _write_json(
+        roster_path,
+        [{"id": "ninjamon", "name": "Ninjamon", "preferred_source_id": "wikimon_virtual_pets"}],
+    )
+    _write_json(
+        config_path,
+        [
+            {
+                "id": "digimon_pendulum_color",
+                "name": "Digimon Pendulum COLOR",
+                "priority": 1,
+                "manifest": "assets/pendulum/manifest.json",
+            },
+            {
+                "id": "wikimon_virtual_pets",
+                "name": "Wikimon Virtual Pets",
+                "priority": 2,
+                "manifest": "assets/wikimon/manifest.json",
+            },
+        ],
+    )
+    _write_json(root / "assets" / "pendulum" / "manifest.json", [{"name": "Ninjamon", "path": "old.png"}])
+    _write_json(root / "assets" / "wikimon" / "manifest.json", [{"name": "Ninjamon", "path": "new.png"}])
+
+    result = build_sprite_manifest(root, roster_path, config_path, output_path, report_path)
+
+    assert result["entries"]["ninjamon"]["source_id"] == "wikimon_virtual_pets"
+    assert result["entries"]["ninjamon"]["asset_path"] == "assets/wikimon/new.png"
+    assert result["conflicts"] == [
+        {
+            "species_id": "ninjamon",
+            "name": "Ninjamon",
+            "chosen_source_id": "wikimon_virtual_pets",
+            "available_source_ids": ["digimon_pendulum_color", "wikimon_virtual_pets"],
+        }
+    ]
+
+
 def test_load_roster_excludes_japanese_promos_when_flagged(tmp_path):
     roster_path = tmp_path / "roster.json"
     _write_json(

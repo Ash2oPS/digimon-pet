@@ -772,5 +772,11 @@
     "name": "Galgomon",
     "stage": "champion",
     "sprite_slots": {}
+  },
+  {
+    "id": "angewomon",
+    "name": "Angewomon",
+    "stage": "ultimate",
+    "sprite_slots": {}
   }
 ]

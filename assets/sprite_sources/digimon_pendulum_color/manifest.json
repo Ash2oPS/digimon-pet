@@ -29,6 +29,24 @@
       "frame_count": 13,
       "name": "Ninjamon",
       "path": "assets/sprite_sources/digimon_pendulum_color/Ignamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "name": "Agumon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Agumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "name": "Angewomon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Angewomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "name": "Gabumon",
+      "path": "assets/sprite_sources/digimon_pendulum_color/Gabumon.png"
     }
   ]
 }

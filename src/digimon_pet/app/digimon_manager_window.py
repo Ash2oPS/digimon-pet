@@ -11,6 +11,8 @@ from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
     QCompleter,
+    QDialog,
+    QDialogButtonBox,
     QFormLayout,
     QFrame,
     QGridLayout,
@@ -18,6 +20,8 @@ from PySide6.QtWidgets import (
     QHeaderView,
     QLabel,
     QLineEdit,
+    QListWidget,
+    QListWidgetItem,
     QMessageBox,
     QPlainTextEdit,
     QPushButton,
@@ -36,7 +40,12 @@ from digimon_pet.app.artwork_runtime import discover_and_download_artwork_for_sp
 from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_item_catalog
-from digimon_pet.data.pendulum_sprite_import import import_pendulum_color_sprite
+from digimon_pet.data.pendulum_sprite_import import (
+    SpriteImportOption,
+    discover_sprite_import_options,
+    import_sprite_option,
+    sprite_import_option_preview_image,
+)
 from digimon_pet.domain.digimon_catalog import (
     SPRITE_SLOT_NAMES,
     DigimonCatalog,
@@ -1030,10 +1039,18 @@ class DigimonManagerWindow(QWidget):
             self._set_visual_import_status("Select a Digimon with a name first.", "error")
             return
         species_id, name = identity
+        options = self._discover_selected_sprite_options(species_id, name)
+        if not options:
+            self._set_visual_import_status("No sprite source found for this name.", "error")
+            return
+        option = options[0] if len(options) == 1 else self._choose_sprite_import_option(options)
+        if option is None:
+            self._set_visual_import_status("Sprite import cancelled.", "neutral")
+            return
         self._run_visual_import(
             self._import_sprite_button,
-            f"Fetching sprite for {name}...",
-            lambda: import_pendulum_color_sprite(species_id, name, self._project_root),
+            f"Importing {option.label}...",
+            lambda: import_sprite_option(option, self._project_root),
             self._handle_sprite_import_result,
         )
 
@@ -1056,6 +1073,56 @@ class DigimonManagerWindow(QWidget):
         if not species_id or not name:
             return None
         return species_id, name
+
+    def _discover_selected_sprite_options(self, species_id: str, name: str) -> list[SpriteImportOption]:
+        self._set_visual_import_status(f"Looking up sprites for {name}...", "pending")
+        self._import_sprite_button.setEnabled(False)
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        QApplication.processEvents()
+        try:
+            return discover_sprite_import_options(species_id, name, self._project_root)
+        except OSError as exc:
+            self._set_visual_import_status(f"Network error: {exc}", "error")
+            return []
+        finally:
+            QApplication.restoreOverrideCursor()
+            self._import_sprite_button.setEnabled(True)
+
+    def _choose_sprite_import_option(self, options: list[SpriteImportOption]) -> SpriteImportOption | None:
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Choose sprite source")
+        dialog.setModal(True)
+        dialog.setMinimumWidth(440)
+        layout = QVBoxLayout(dialog)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(8)
+        title = QLabel("Choose the sprite to import", dialog)
+        title.setObjectName("SectionTitle")
+        layout.addWidget(title)
+        list_widget = QListWidget(dialog)
+        list_widget.setObjectName("SpriteSourceList")
+        list_widget.setIconSize(QSize(52, 52))
+        for option in options:
+            list_widget.addItem(self._sprite_source_list_item(option))
+        list_widget.setCurrentRow(0)
+        layout.addWidget(list_widget, 1)
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, dialog)
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return None
+        selected = list_widget.currentItem()
+        return selected.data(Qt.ItemDataRole.UserRole) if selected is not None else None
+
+    def _sprite_source_list_item(self, option: SpriteImportOption) -> QListWidgetItem:
+        item = QListWidgetItem(f"{option.label}\n{option.detail}")
+        item.setData(Qt.ItemDataRole.UserRole, option)
+        item.setSizeHint(QSize(0, 68))
+        preview = sprite_import_option_preview_image(option)
+        if not preview.isNull():
+            item.setIcon(QIcon(QPixmap.fromImage(preview)))
+        return item
 
     def _run_visual_import(self, button: QPushButton, pending_text: str, action, on_result) -> None:
         self._set_visual_import_status(pending_text, "pending")
@@ -1081,7 +1148,7 @@ class DigimonManagerWindow(QWidget):
         self._refresh_table()
         self._refresh_validation()
         self._set_visual_import_status(
-            f"Sprite imported from {result.source_name}: {result.frame_count} frames.",
+            f"Sprite imported from {result.source_name}: {result.frame_count} frame{'s' if result.frame_count != 1 else ''}.",
             "ok",
         )
 
