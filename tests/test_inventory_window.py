@@ -9,8 +9,9 @@ from PySide6.QtWidgets import QApplication, QPushButton
 
 from digimon_pet.app.inventory_window import InventoryItem, InventorySlotWidget, InventoryWindow
 from digimon_pet.app.main_window import PetWindow
-from digimon_pet.domain.items import MONZAEMON_HEAD_ID
-from digimon_pet.domain.models import GrowthStage, PetState
+from digimon_pet.domain.fusions import FusionCatalog
+from digimon_pet.domain.items import INCUBATOR_ID, MONZAEMON_HEAD_ID
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import save_store
 
@@ -286,6 +287,78 @@ def test_pet_window_golden_poop_evolves_any_digimon_to_sukamon():
     assert window._state.species_id == "sukamon"
     assert window._state.stage == GrowthStage.CHAMPION
     assert window._state.inventory == {}
+
+
+def test_pet_window_inventory_renders_filled_incubators_as_special_items():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            filled_incubators=[
+                FilledIncubatorState(
+                    id="filled-1",
+                    species_id="greymon",
+                    stage=GrowthStage.CHAMPION,
+                )
+            ],
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+    window._fusion_catalog = FusionCatalog()
+
+    items = window._inventory_items()
+
+    assert items[-1].id == "filled_incubator:filled-1"
+    assert items[-1].name == "Incubator: Greymon"
+    assert items[-1].item_type == "misc"
+    assert items[-1].usable is False
+    assert items[-1].unavailable_reason == "No fusion recipe."
+
+
+def test_pet_window_filled_incubator_without_recipe_is_not_consumed():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            filled_incubators=[
+                FilledIncubatorState(
+                    id="filled-1",
+                    species_id="gabumon",
+                    stage=GrowthStage.ROOKIE,
+                )
+            ],
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+    window._fusion_catalog = FusionCatalog()
+
+    window._use_inventory_item("filled_incubator:filled-1")
+
+    assert window._state.species_id == "agumon"
+    assert [item.id for item in window._state.filled_incubators] == ["filled-1"]
+    assert window._pending_lifecycle_kind is None
+
+
+def test_pet_window_empty_incubator_queues_death_prompt_before_consuming_item():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            inventory={INCUBATOR_ID: 1},
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+
+    window._use_inventory_item(INCUBATOR_ID)
+
+    assert window._state.inventory == {INCUBATOR_ID: 1}
+    assert window._state.filled_incubators == []
+    assert window._pending_inventory_item_id == INCUBATOR_ID
+    assert window._pending_lifecycle_kind == "death"
+    assert window._pet_widget.event_prompt_kind() == "death"
 
 
 def test_pet_window_consumable_item_applies_stat_effect_immediately():

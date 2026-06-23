@@ -1,4 +1,4 @@
-from digimon_pet.data import load_evolution_rules, load_item_catalog, load_species
+from digimon_pet.data import load_evolution_rules, load_fusion_catalog, load_item_catalog, load_species
 from digimon_pet.domain.items import ItemEffectType, ItemType
 from digimon_pet.domain.models import GrowthStage
 
@@ -116,3 +116,9 @@ def test_load_item_catalog_contains_secondary_event_pool():
 
     assert entry.item_id == "monzaemon_head"
     assert entry.weight == 1
+
+
+def test_load_fusion_catalog_starts_empty():
+    catalog = load_fusion_catalog()
+
+    assert catalog.recipes == ()

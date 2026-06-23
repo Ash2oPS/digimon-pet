@@ -27,5 +27,6 @@
   "pending_rebirth_stat_bonuses": {},
   "bakemon_lineage_used": false,
   "bakemon_generation_cooldown": 0,
-  "inventory": {}
+  "inventory": {},
+  "filled_incubators": []
 }

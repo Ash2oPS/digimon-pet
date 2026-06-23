@@ -1,17 +1,22 @@
 from __future__ import annotations
 
 import random
+import uuid
 from dataclasses import dataclass
 from enum import StrEnum
+from collections.abc import Callable
 from typing import Any
 
 from digimon_pet.domain.lifecycle import force_death, force_evolve_to
-from digimon_pet.domain.models import GrowthStage, PetState, Species
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState, Species
 
 
 MONZAEMON_HEAD_ID = "monzaemon_head"
+INCUBATOR_ID = "incubator"
 EVOLUTION_ITEM_POOL_PERCENT = 15
 NORMAL_ITEM_POOL_PERCENT_WITH_EVOLUTIONS = 100 - EVOLUTION_ITEM_POOL_PERCENT
+INCUBATOR_ALLOWED_STAGES = {GrowthStage.ROOKIE, GrowthStage.CHAMPION, GrowthStage.ULTIMATE}
+INHERITED_STAT_NAMES = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
 class ItemType(StrEnum):
@@ -119,6 +124,8 @@ def use_item(
         return use_evolution_item(state, item, species, rng)
     if item.type == ItemType.CONSUMABLE:
         return use_consumable_item(state, item, rng)
+    if item.id == INCUBATOR_ID:
+        return incubate_current_digimon(state, item, rng)
     return ItemUseResult(used=False, reason="not_usable")
 
 
@@ -137,6 +144,8 @@ def can_use_item(
         if not item.effects:
             return ItemUseResult(used=False, reason="not_usable")
         return ItemUseResult(used=True)
+    if item.id == INCUBATOR_ID:
+        return _incubator_blocking_result(state, item)
     reason = _evolution_item_blocking_reason(state, item, species)
     if reason is not None:
         return ItemUseResult(used=False, reason=reason)
@@ -306,6 +315,62 @@ def use_consumable_item(
     state.clamp()
     _consume_item(state, item.id)
     return ItemUseResult(used=True, event=event, stat_gains=stat_gains)
+
+
+def incubate_current_digimon(
+    state: PetState,
+    item: ItemDefinition,
+    rng: random.Random,
+    *,
+    entry_id_factory: Callable[[], str] | None = None,
+) -> ItemUseResult:
+    blocked = _incubator_blocking_result(state, item)
+    if not blocked.used:
+        return blocked
+
+    state.filled_incubators.append(
+        FilledIncubatorState(
+            id=(entry_id_factory or _new_incubator_entry_id)(),
+            species_id=state.species_id,
+            stage=state.stage,
+            hp=state.hp,
+            mp=state.mp,
+            offense=state.offense,
+            defense=state.defense,
+            speed=state.speed,
+            brains=state.brains,
+        )
+    )
+    state.pending_rebirth_stat_bonuses = _roll_reduced_rebirth_stat_bonuses(state, rng)
+    state.needs_rebirth_choice = True
+    state.current_action = "idle"
+    state.is_sleeping = False
+    _consume_item(state, item.id)
+    state.clamp()
+    return ItemUseResult(used=True, event="died:choice_required")
+
+
+def _incubator_blocking_result(state: PetState, item: ItemDefinition) -> ItemUseResult:
+    if item.id != INCUBATOR_ID:
+        return ItemUseResult(used=False, reason="not_usable")
+    if state.inventory.get(item.id, 0) <= 0:
+        return ItemUseResult(used=False, reason="missing_item")
+    if state.stage not in INCUBATOR_ALLOWED_STAGES:
+        return ItemUseResult(used=False, reason="wrong_stage")
+    return ItemUseResult(used=True)
+
+
+def _roll_reduced_rebirth_stat_bonuses(state: PetState, rng: random.Random) -> dict[str, int]:
+    rates = (0.15, 0.10, 0.05)
+    selected_stats = rng.sample(INHERITED_STAT_NAMES, len(rates))
+    return {
+        stat_name: int(int(getattr(state, stat_name) * rate) * 0.5)
+        for stat_name, rate in zip(selected_stats, rates, strict=True)
+    }
+
+
+def _new_incubator_entry_id() -> str:
+    return uuid.uuid4().hex
 
 
 def _consumable_item_blocking_reason(

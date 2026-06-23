@@ -13,7 +13,8 @@ from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_species
-from digimon_pet.domain.models import GrowthStage, PetState
+from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
@@ -584,6 +585,40 @@ def test_sudden_death_item_does_not_chain_into_bakemon(tmp_path, monkeypatch):
     assert window._state.stage == GrowthStage.BABY
     assert window._state.species_id != "bakemon"
     assert window._state.needs_rebirth_choice is False
+
+
+def test_filled_incubator_fusion_consumes_entry_and_discovers_result():
+    app = QApplication.instance() or QApplication([])
+    save_store.save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            filled_incubators=[
+                FilledIncubatorState(
+                    id="filled-1",
+                    species_id="gabumon",
+                    stage=GrowthStage.ROOKIE,
+                )
+            ],
+        )
+    )
+    window = PetWindow(overlay=True, debug=False)
+    window._fusion_catalog = FusionCatalog(
+        recipes=(
+            FusionRecipe(
+                source_species_ids=("gabumon", "agumon"),
+                target_species_id="greymon",
+            ),
+        )
+    )
+
+    window._use_inventory_item("filled_incubator:filled-1")
+    window._resolve_lifecycle_now()
+
+    assert window._state.species_id == "greymon"
+    assert window._state.stage == GrowthStage.CHAMPION
+    assert window._state.filled_incubators == []
+    assert "greymon" in window._state.discovered_species_ids
 
 
 def test_auto_lifecycle_resolves_without_pending_animation(tmp_path, monkeypatch):

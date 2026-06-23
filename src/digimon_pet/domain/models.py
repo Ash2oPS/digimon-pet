@@ -20,6 +20,19 @@ class Species:
     sprite_slots: dict[str, str] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class FilledIncubatorState:
+    id: str
+    species_id: str
+    stage: GrowthStage
+    hp: int = 300
+    mp: int = 300
+    offense: int = 30
+    defense: int = 30
+    speed: int = 30
+    brains: int = 30
+
+
 @dataclass
 class PetState:
     species_id: str
@@ -49,6 +62,7 @@ class PetState:
     bakemon_lineage_used: bool = False
     bakemon_generation_cooldown: int = 0
     inventory: dict[str, int] = field(default_factory=dict)
+    filled_incubators: list[FilledIncubatorState] = field(default_factory=list)
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -73,6 +87,7 @@ class PetState:
         self.bakemon_lineage_used = bool(self.bakemon_lineage_used)
         self.bakemon_generation_cooldown = max(0, int(self.bakemon_generation_cooldown))
         self.inventory = _clean_inventory(self.inventory)
+        self.filled_incubators = _clean_filled_incubators(self.filled_incubators)
 
     def mark_discovered(self, species_id: str | None = None) -> None:
         target_id = species_id or self.species_id
@@ -117,3 +132,28 @@ def _clean_inventory(inventory: dict[str, int]) -> dict[str, int]:
         for item_id, quantity in inventory.items()
         if str(item_id).strip() and int(quantity) > 0
     }
+
+
+def _clean_filled_incubators(incubators: list[FilledIncubatorState]) -> list[FilledIncubatorState]:
+    cleaned: list[FilledIncubatorState] = []
+    seen_ids: set[str] = set()
+    for incubator in incubators:
+        incubator_id = str(incubator.id).strip()
+        species_id = str(incubator.species_id).strip()
+        if not incubator_id or not species_id or incubator_id in seen_ids:
+            continue
+        cleaned.append(
+            FilledIncubatorState(
+                id=incubator_id,
+                species_id=species_id,
+                stage=GrowthStage(str(incubator.stage)),
+                hp=_clamp_stat(int(incubator.hp)),
+                mp=_clamp_stat(int(incubator.mp)),
+                offense=_clamp_stat(int(incubator.offense)),
+                defense=_clamp_stat(int(incubator.defense)),
+                speed=_clamp_stat(int(incubator.speed)),
+                brains=_clamp_stat(int(incubator.brains)),
+            )
+        )
+        seen_ids.add(incubator_id)
+    return cleaned

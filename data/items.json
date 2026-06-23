@@ -244,6 +244,13 @@
         ],
         "required_stages": []
       }
+    },
+    {
+      "id": "incubator",
+      "name": "Incubator",
+      "description": "Incubates your Digimon. You hatch a new one.",
+      "type": "misc",
+      "icon_path": "assets/items/incubator.png"
     }
   ],
   "pools": {
@@ -311,6 +318,10 @@
       {
         "item_id": "metal_parts",
         "weight": 1
+      },
+      {
+        "item_id": "incubator",
+        "weight": 3
       }
     ]
   }

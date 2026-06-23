@@ -29,10 +29,11 @@ from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifes
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.window_positioning import offset_window_position
-from digimon_pet.data import load_dw1_digivolutions, load_item_catalog, load_species
+from digimon_pet.data import load_dw1_digivolutions, load_fusion_catalog, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
-from digimon_pet.domain.items import ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
+from digimon_pet.domain.fusions import find_fusion_target
+from digimon_pet.domain.items import INCUBATOR_ID, ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
     advance_lifecycle,
@@ -55,6 +56,7 @@ SECONDARY_EVENT_ITEM_KIND = "item"
 SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
 SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
+FILLED_INCUBATOR_ITEM_PREFIX = "filled_incubator:"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 NATURAL_DEATH_EVOLUTION_TARGET_ID = "bakemon"
@@ -71,6 +73,17 @@ ITEM_STAT_LABELS = {
 
 def _item_has_instant_death_effect(item) -> bool:
     return any(effect.type == ItemEffectType.INSTANT_DEATH for effect in item.effects)
+
+
+def _filled_incubator_id_from_item_id(item_id: str) -> str:
+    return item_id.removeprefix(FILLED_INCUBATOR_ITEM_PREFIX)
+
+
+def _incubator_icon_path(catalog) -> str | None:
+    item = catalog.items.get(INCUBATOR_ID)
+    if item is None or item.icon_path is None:
+        return None
+    return str(PROJECT_ROOT / item.icon_path)
 
 
 def _inventory_effect_text(item, species: dict[str, Species]) -> str:
@@ -245,6 +258,7 @@ class PetWindow(QWidget):
         self._species = load_species()
         self._digivolutions = load_dw1_digivolutions()
         self._item_catalog = load_item_catalog()
+        self._fusion_catalog = load_fusion_catalog()
         self._lifecycle_schedule = EvolutionSchedule()
         self._debug_settings = debug_settings.load_debug_settings()
         self._debug_time_scale = self._debug_settings.time_scale if self._debug else 1
@@ -738,8 +752,26 @@ class PetWindow(QWidget):
             return None
         item_id = self._pending_inventory_item_id
         self._pending_inventory_item_id = None
+        if item_id.startswith(FILLED_INCUBATOR_ITEM_PREFIX):
+            return self._resolve_filled_incubator_item(item_id)
         result = use_item(self._state, item_id, self._species, self._rng, self._item_catalog)
         return result.event if result.used else None
+
+    def _resolve_filled_incubator_item(self, item_id: str) -> str | None:
+        incubator_id = _filled_incubator_id_from_item_id(item_id)
+        incubator = self._filled_incubator_by_id(incubator_id)
+        if incubator is None:
+            return None
+        target_id = find_fusion_target(self._fusion_catalog, self._state.species_id, incubator.species_id)
+        target = self._species.get(target_id or "")
+        if target is None:
+            return None
+        self._state.filled_incubators = [
+            item for item in self._state.filled_incubators if item.id != incubator.id
+        ]
+        event = force_evolve_to(self._state, target, self._rng)
+        self._state.mark_discovered(target.id)
+        return event
 
     def _advance_lifecycle(self) -> None:
         self._queue_or_advance_lifecycle()
@@ -976,6 +1008,16 @@ class PetWindow(QWidget):
     def _use_inventory_item(self, item_id: str) -> None:
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
             return
+        if item_id.startswith(FILLED_INCUBATOR_ITEM_PREFIX):
+            if not self._can_use_filled_incubator(item_id):
+                self._refresh()
+                return
+            self._pending_inventory_item_id = item_id
+            self._pending_lifecycle_kind = "evolution"
+            self._clear_secondary_event(schedule_next=True)
+            self._pet_widget.set_lifecycle_pending("evolution")
+            self._refresh()
+            return
         result = can_use_item(self._state, item_id, self._species, self._item_catalog)
         if not result.used:
             self._refresh()
@@ -1001,6 +1043,13 @@ class PetWindow(QWidget):
                 self._save_and_refresh()
             else:
                 self._refresh()
+            return
+        if definition is not None and definition.id == INCUBATOR_ID:
+            self._pending_inventory_item_id = item_id
+            self._pending_lifecycle_kind = "death"
+            self._clear_secondary_event(schedule_next=True)
+            self._pet_widget.set_lifecycle_pending("death")
+            self._refresh()
             return
         self._pending_inventory_item_id = item_id
         self._pending_lifecycle_kind = "evolution"
@@ -1037,7 +1086,42 @@ class PetWindow(QWidget):
                     dangerous=_item_has_instant_death_effect(definition),
                 )
             )
+        items.extend(self._filled_incubator_inventory_items())
         return items
+
+    def _filled_incubator_inventory_items(self) -> list[InventoryItem]:
+        items: list[InventoryItem] = []
+        icon_path = _incubator_icon_path(self._item_catalog)
+        for incubator in self._state.filled_incubators:
+            species = self._species.get(incubator.species_id)
+            name = species.name if species is not None else incubator.species_id
+            item_id = f"{FILLED_INCUBATOR_ITEM_PREFIX}{incubator.id}"
+            can_fuse = self._can_use_filled_incubator(item_id)
+            items.append(
+                InventoryItem(
+                    id=item_id,
+                    name=f"Incubator: {name}",
+                    quantity=1,
+                    icon_path=icon_path,
+                    description=f"Contains {name}. Fuse it with the current Digimon.",
+                    item_type=ItemType.MISC.value,
+                    usable=can_fuse,
+                    unavailable_reason="" if can_fuse else "No fusion recipe.",
+                    effect_text="Fusion material.",
+                )
+            )
+        return items
+
+    def _can_use_filled_incubator(self, item_id: str) -> bool:
+        incubator_id = _filled_incubator_id_from_item_id(item_id)
+        incubator = self._filled_incubator_by_id(incubator_id)
+        if incubator is None:
+            return False
+        target_id = find_fusion_target(self._fusion_catalog, self._state.species_id, incubator.species_id)
+        return target_id in self._species
+
+    def _filled_incubator_by_id(self, incubator_id: str):
+        return next((item for item in self._state.filled_incubators if item.id == incubator_id), None)
 
     def toggle_debug(self) -> None:
         self._toggle_debug()

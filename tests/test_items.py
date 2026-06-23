@@ -1,6 +1,7 @@
 import random
 
 from digimon_pet.domain.items import (
+    INCUBATOR_ID,
     MONZAEMON_HEAD_ID,
     EvolutionItemEffect,
     ItemEffect,
@@ -10,6 +11,7 @@ from digimon_pet.domain.items import (
     ItemType,
     ItemEffectType,
     choose_weighted_item,
+    incubate_current_digimon,
     use_evolution_item,
     use_item,
 )
@@ -197,6 +199,63 @@ def test_consumable_instant_death_effect_requires_rebirth_choice_and_consumes_it
     assert result.event == "died:choice_required"
     assert state.needs_rebirth_choice is True
     assert state.inventory == {}
+
+
+def test_incubator_is_blocked_for_baby_stages():
+    item = ItemDefinition(
+        id=INCUBATOR_ID,
+        name="Incubator",
+        description="Stores a Digimon for fusion.",
+        type=ItemType.MISC,
+    )
+    for stage in (GrowthStage.BABY, GrowthStage.BABY_2):
+        state = PetState("botamon", stage, inventory={INCUBATOR_ID: 1})
+
+        result = incubate_current_digimon(state, item, random.Random(1), entry_id_factory=lambda: "filled")
+
+        assert result.used is False
+        assert result.reason == "wrong_stage"
+        assert state.inventory == {INCUBATOR_ID: 1}
+        assert state.filled_incubators == []
+
+
+def test_incubator_stores_current_digimon_consumes_item_and_starts_rebirth():
+    item = ItemDefinition(
+        id=INCUBATOR_ID,
+        name="Incubator",
+        description="Stores a Digimon for fusion.",
+        type=ItemType.MISC,
+    )
+    state = PetState(
+        "greymon",
+        GrowthStage.CHAMPION,
+        hp=1200,
+        mp=900,
+        offense=140,
+        defense=130,
+        speed=90,
+        brains=80,
+        inventory={INCUBATOR_ID: 1},
+    )
+
+    result = incubate_current_digimon(state, item, random.Random(1), entry_id_factory=lambda: "filled-1")
+
+    assert result.used is True
+    assert result.event == "died:choice_required"
+    assert state.inventory == {}
+    assert state.needs_rebirth_choice is True
+    assert len(state.filled_incubators) == 1
+    incubator = state.filled_incubators[0]
+    assert incubator.id == "filled-1"
+    assert incubator.species_id == "greymon"
+    assert incubator.stage == GrowthStage.CHAMPION
+    assert incubator.hp == 1200
+    assert incubator.mp == 900
+    assert incubator.offense == 140
+    assert incubator.defense == 130
+    assert incubator.speed == 90
+    assert incubator.brains == 80
+    assert state.pending_rebirth_stat_bonuses == {"mp": 67, "speed": 4, "hp": 30}
 
 
 def test_weighted_item_choice_ignores_zero_weight_entries():

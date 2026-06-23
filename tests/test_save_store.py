@@ -1,4 +1,4 @@
-from digimon_pet.domain.models import GrowthStage, PetState
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
 from digimon_pet.storage import save_store
 from digimon_pet.storage import load_pet_state, save_pet_state
 
@@ -123,6 +123,108 @@ def test_save_load_persists_inventory(tmp_path):
     loaded = load_pet_state(path)
 
     assert loaded.inventory == {"monzaemon_head": 1}
+
+
+def test_load_legacy_save_defaults_to_no_filled_incubators(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie"
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.filled_incubators == []
+
+
+def test_save_load_persists_filled_incubators(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        filled_incubators=[
+            FilledIncubatorState(
+                id="filled-1",
+                species_id="greymon",
+                stage=GrowthStage.CHAMPION,
+                hp=1200,
+                mp=900,
+                offense=140,
+                defense=130,
+                speed=90,
+                brains=80,
+            ),
+            FilledIncubatorState(
+                id="filled-2",
+                species_id="garurumon",
+                stage=GrowthStage.CHAMPION,
+                hp=1000,
+                mp=1100,
+                offense=120,
+                defense=100,
+                speed=150,
+                brains=90,
+            ),
+        ],
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.filled_incubators == state.filled_incubators
+
+
+def test_save_load_cleans_invalid_filled_incubators(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie",
+  "filled_incubators": [
+    {
+      "id": "",
+      "species_id": "greymon",
+      "stage": "champion",
+      "hp": 1200
+    },
+    {
+      "id": "valid",
+      "species_id": "greymon",
+      "stage": "champion",
+      "hp": 1200,
+      "mp": 900,
+      "offense": 140,
+      "defense": 130,
+      "speed": 90,
+      "brains": 80
+    }
+  ]
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.filled_incubators == [
+        FilledIncubatorState(
+            id="valid",
+            species_id="greymon",
+            stage=GrowthStage.CHAMPION,
+            hp=1200,
+            mp=900,
+            offense=140,
+            defense=130,
+            speed=90,
+            brains=80,
+        )
+    ]
 
 
 def test_load_migrates_legacy_item_ids(tmp_path):

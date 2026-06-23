@@ -3,13 +3,12 @@ from __future__ import annotations
 import json
 import os
 import shutil
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
 from cryptography.fernet import Fernet, InvalidToken
 
-from digimon_pet.domain.models import GrowthStage, PetState
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
 from digimon_pet.paths import DATA_DIR, DEBUG_SAVE_PATH, LEGACY_SAVE_PATH, SAVE_PATH as NORMAL_SAVE_PATH, ensure_save_dir
 
 SAVE_PATH = NORMAL_SAVE_PATH
@@ -67,9 +66,36 @@ def save_pet_state(state: PetState, path: Path | None = None) -> None:
 
 
 def _state_to_payload(state: PetState) -> dict[str, Any]:
-    payload = asdict(state)
-    payload["stage"] = state.stage.value
-    return payload
+    return {
+        "species_id": state.species_id,
+        "stage": state.stage.value,
+        "age_seconds": state.age_seconds,
+        "hunger": state.hunger,
+        "fatigue": state.fatigue,
+        "discipline": state.discipline,
+        "care_mistakes": state.care_mistakes,
+        "training_count": state.training_count,
+        "hp": state.hp,
+        "mp": state.mp,
+        "offense": state.offense,
+        "defense": state.defense,
+        "speed": state.speed,
+        "brains": state.brains,
+        "weight": state.weight,
+        "happiness": state.happiness,
+        "won_battles": state.won_battles,
+        "techniques_mastered": state.techniques_mastered,
+        "is_sleeping": state.is_sleeping,
+        "current_action": state.current_action,
+        "needs_rebirth_choice": state.needs_rebirth_choice,
+        "discovered_species_ids": list(state.discovered_species_ids),
+        "generation_stat_bonuses": dict(state.generation_stat_bonuses),
+        "pending_rebirth_stat_bonuses": dict(state.pending_rebirth_stat_bonuses),
+        "bakemon_lineage_used": state.bakemon_lineage_used,
+        "bakemon_generation_cooldown": state.bakemon_generation_cooldown,
+        "inventory": dict(state.inventory),
+        "filled_incubators": [_filled_incubator_to_dict(item) for item in state.filled_incubators],
+    }
 
 
 def _read_save_payload(path: Path) -> tuple[dict[str, Any], bool]:
@@ -158,6 +184,7 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         bakemon_lineage_used=bool(raw.get("bakemon_lineage_used", False)),
         bakemon_generation_cooldown=int(raw.get("bakemon_generation_cooldown", 0)),
         inventory=_inventory_from_raw(raw.get("inventory")),
+        filled_incubators=_filled_incubators_from_raw(raw.get("filled_incubators")),
     )
     state.mark_discovered()
     state.clamp()
@@ -186,3 +213,43 @@ def _inventory_from_raw(raw: Any) -> dict[str, int]:
         if item_id.strip() and quantity > 0:
             inventory[item_id] = inventory.get(item_id, 0) + quantity
     return inventory
+
+
+def _filled_incubators_from_raw(raw: Any) -> list[FilledIncubatorState]:
+    if not isinstance(raw, list):
+        return []
+    incubators: list[FilledIncubatorState] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        try:
+            incubators.append(
+                FilledIncubatorState(
+                    id=str(item["id"]),
+                    species_id=str(item["species_id"]),
+                    stage=GrowthStage(str(item["stage"])),
+                    hp=int(item.get("hp", 300)),
+                    mp=int(item.get("mp", 300)),
+                    offense=int(item.get("offense", 30)),
+                    defense=int(item.get("defense", 30)),
+                    speed=int(item.get("speed", 30)),
+                    brains=int(item.get("brains", 30)),
+                )
+            )
+        except (KeyError, TypeError, ValueError):
+            continue
+    return incubators
+
+
+def _filled_incubator_to_dict(item: FilledIncubatorState) -> dict[str, Any]:
+    return {
+        "id": item.id,
+        "species_id": item.species_id,
+        "stage": item.stage.value,
+        "hp": item.hp,
+        "mp": item.mp,
+        "offense": item.offense,
+        "defense": item.defense,
+        "speed": item.speed,
+        "brains": item.brains,
+    }

@@ -12,6 +12,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox, QScrollArea
 from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
 from digimon_pet.data.pendulum_sprite_import import SpriteImportOption
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
+from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
 from digimon_pet.domain.items import EvolutionItemEffect, ItemCatalog, ItemDefinition, ItemType, item_catalog_to_dict
 from tests.test_digimon_catalog import write_catalog_files
 
@@ -38,6 +39,8 @@ def make_window(tmp_path: Path) -> DigimonManagerWindow:
         digivolutions_path=digivolutions_path,
         item_catalog=item_catalog,
         item_save_path=tmp_path / "items.json",
+        fusion_catalog=FusionCatalog(),
+        fusion_save_path=tmp_path / "fusions.json",
     )
 
 
@@ -95,10 +98,60 @@ def test_digimon_manager_has_global_items_tab_with_embedded_item_manager(tmp_pat
 
     tab_labels = [window._main_tabs.tabText(index) for index in range(window._main_tabs.count())]
 
-    assert tab_labels == ["Digimon", "Items"]
+    assert tab_labels == ["Digimon", "Items", "Fusions"]
     assert window._item_manager_window is not None
     assert window._item_manager_window.isWindow() is False
     assert window._item_manager_window._item_list.count() == 1
+
+
+def test_digimon_manager_has_global_fusions_tab(tmp_path):
+    window = make_window(tmp_path)
+
+    assert window._fusion_manager_window is not None
+    assert window._fusion_manager_window.isWindow() is False
+    assert window._fusion_manager_window._recipe_list.count() == 0
+
+
+def test_fusion_manager_adds_edits_deletes_and_saves_recipe(tmp_path):
+    window = make_window(tmp_path)
+    manager = window._fusion_manager_window
+    assert manager is not None
+
+    manager.add_recipe()
+    manager._source_a_input.setCurrentText("koromon")
+    manager._source_b_input.setCurrentText("agumon")
+    manager._target_input.setCurrentText("greymon")
+    manager._notes_input.setPlainText("Jogress test")
+    manager.apply_selected_recipe()
+
+    assert manager._recipe_list.count() == 1
+    assert window.save_catalog() is True
+    raw = json.loads((tmp_path / "fusions.json").read_text(encoding="utf-8"))
+    assert raw == {
+        "fusions": [
+            {
+                "source_species_ids": ["koromon", "agumon"],
+                "target_species_id": "greymon",
+                "notes": "Jogress test",
+            }
+        ]
+    }
+
+    manager.delete_selected_recipe()
+    assert manager._recipe_list.count() == 0
+
+
+def test_fusion_manager_blocks_symmetric_duplicate_save(tmp_path):
+    window = make_window(tmp_path)
+    manager = window._fusion_manager_window
+    assert manager is not None
+    manager._catalog.recipes = (
+        FusionRecipe(("koromon", "agumon"), "greymon"),
+        FusionRecipe(("agumon", "koromon"), "greymon"),
+    )
+
+    assert window.save_catalog() is False
+    assert "Duplicate fusion recipe" in manager._validation_output.toPlainText()
 
 
 def test_species_table_shows_idle_frame_thumbnail_column(tmp_path):

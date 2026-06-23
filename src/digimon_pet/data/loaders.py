@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from digimon_pet.domain.fusions import FusionCatalog, fusion_catalog_from_dict
 from digimon_pet.domain.items import ItemCatalog, item_catalog_from_dict
 from digimon_pet.domain.models import EvolutionRule, GrowthStage, Species
 from digimon_pet.paths import DATA_DIR
@@ -26,6 +27,13 @@ def load_dw1_digivolutions(path: Path | None = None) -> dict[str, Any]:
 
 def load_item_catalog(path: Path | None = None) -> ItemCatalog:
     return item_catalog_from_dict(_read_json(path or DATA_DIR / "items.json"))
+
+
+def load_fusion_catalog(path: Path | None = None) -> FusionCatalog:
+    selected_path = path or DATA_DIR / "fusions.json"
+    if not selected_path.exists():
+        return FusionCatalog()
+    return fusion_catalog_from_dict(_read_json(selected_path))
 
 
 def _read_json(path: Path) -> Any:

@@ -56,6 +56,12 @@ from digimon_pet.domain.digimon_catalog import (
     duplicate_species,
     validate_digimon_catalog,
 )
+from digimon_pet.domain.fusions import (
+    FusionCatalog,
+    FusionRecipe,
+    fusion_catalog_to_dict,
+    validate_fusion_catalog,
+)
 from digimon_pet.domain.items import ItemCatalog
 from digimon_pet.domain.models import GrowthStage, Species
 
@@ -163,6 +169,208 @@ class SpeciesComboBox(NoWheelComboBox):
         completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
 
 
+class FusionManagerWindow(QWidget):
+    def __init__(
+        self,
+        catalog: FusionCatalog,
+        species_rows: list[dict[str, Any]],
+        project_root: Path,
+        *,
+        save_path: Path,
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self._catalog = catalog
+        self._species_rows = species_rows
+        self._project_root = project_root
+        self._save_path = save_path
+        self._selected_index: int | None = None
+        self._loading = False
+
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(10)
+
+        left = QVBoxLayout()
+        self._recipe_list = QListWidget(self)
+        left.addWidget(self._recipe_list, 1)
+        actions = QHBoxLayout()
+        self._add_button = QPushButton("Add", self)
+        self._duplicate_button = QPushButton("Duplicate", self)
+        self._delete_button = QPushButton("Delete", self)
+        actions.addWidget(self._add_button)
+        actions.addWidget(self._duplicate_button)
+        actions.addWidget(self._delete_button)
+        left.addLayout(actions)
+        layout.addLayout(left, 1)
+
+        right = QVBoxLayout()
+        form = QFormLayout()
+        self._source_a_input = SpeciesComboBox(self)
+        self._source_b_input = SpeciesComboBox(self)
+        self._target_input = SpeciesComboBox(self)
+        self._notes_input = QPlainTextEdit(self)
+        self._notes_input.setMaximumHeight(80)
+        for input_widget in (self._source_a_input, self._source_b_input, self._target_input):
+            self._populate_species_combo(input_widget)
+        form.addRow("Digimon A", self._source_a_input)
+        form.addRow("Digimon B", self._source_b_input)
+        form.addRow("Result", self._target_input)
+        form.addRow("Notes", self._notes_input)
+        right.addLayout(form)
+        self._apply_button = QPushButton("Apply Recipe", self)
+        right.addWidget(self._apply_button)
+        self._validation_output = QPlainTextEdit(self)
+        self._validation_output.setReadOnly(True)
+        self._validation_output.setMaximumHeight(160)
+        right.addWidget(self._validation_output, 1)
+        layout.addLayout(right, 2)
+
+        self._add_button.clicked.connect(self.add_recipe)
+        self._duplicate_button.clicked.connect(self.duplicate_selected_recipe)
+        self._delete_button.clicked.connect(self.delete_selected_recipe)
+        self._apply_button.clicked.connect(self.apply_selected_recipe)
+        self._recipe_list.currentRowChanged.connect(self._select_recipe)
+
+        self.refresh()
+
+    def refresh_species(self, species_rows: list[dict[str, Any]]) -> None:
+        self._species_rows = species_rows
+        current_values = (
+            self._source_a_input.currentText(),
+            self._source_b_input.currentText(),
+            self._target_input.currentText(),
+        )
+        for input_widget, value in zip(
+            (self._source_a_input, self._source_b_input, self._target_input),
+            current_values,
+            strict=True,
+        ):
+            input_widget.clear()
+            self._populate_species_combo(input_widget)
+            input_widget.setCurrentText(value)
+        self.refresh_validation()
+
+    def add_recipe(self) -> None:
+        species_ids = [str(row.get("id", "")) for row in self._species_rows if str(row.get("id", "")).strip()]
+        first = species_ids[0] if species_ids else ""
+        second = species_ids[1] if len(species_ids) > 1 else first
+        target = species_ids[2] if len(species_ids) > 2 else first
+        self._catalog.recipes = self._catalog.recipes + (
+            FusionRecipe((first, second), target),
+        )
+        self.refresh()
+        self._recipe_list.setCurrentRow(len(self._catalog.recipes) - 1)
+
+    def duplicate_selected_recipe(self) -> None:
+        if self._selected_index is None:
+            return
+        recipe = self._catalog.recipes[self._selected_index]
+        self._catalog.recipes = self._catalog.recipes + (recipe,)
+        self.refresh()
+        self._recipe_list.setCurrentRow(len(self._catalog.recipes) - 1)
+
+    def delete_selected_recipe(self) -> None:
+        if self._selected_index is None:
+            return
+        recipes = list(self._catalog.recipes)
+        recipes.pop(self._selected_index)
+        self._catalog.recipes = tuple(recipes)
+        self._selected_index = None
+        self.refresh()
+
+    def apply_selected_recipe(self) -> None:
+        if self._selected_index is None:
+            return
+        recipes = list(self._catalog.recipes)
+        recipes[self._selected_index] = FusionRecipe(
+            (
+                self._source_a_input.currentText().strip(),
+                self._source_b_input.currentText().strip(),
+            ),
+            self._target_input.currentText().strip(),
+            self._notes_input.toPlainText().strip(),
+        )
+        self._catalog.recipes = tuple(recipes)
+        self.refresh()
+        self._recipe_list.setCurrentRow(self._selected_index)
+
+    def save_catalog(self) -> bool:
+        result = self.refresh_validation()
+        if result.has_errors:
+            return False
+        self._save_path.parent.mkdir(parents=True, exist_ok=True)
+        self._save_path.write_text(
+            json.dumps(fusion_catalog_to_dict(self._catalog), indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        return True
+
+    def refresh(self) -> None:
+        selected_index = self._selected_index
+        self._recipe_list.clear()
+        for recipe in self._catalog.recipes:
+            self._recipe_list.addItem(_fusion_recipe_label(recipe))
+        if self._catalog.recipes:
+            self._recipe_list.setCurrentRow(
+                selected_index if selected_index is not None and selected_index < len(self._catalog.recipes) else 0
+            )
+        else:
+            self._clear_inputs()
+        self.refresh_validation()
+
+    def refresh_validation(self):
+        result = validate_fusion_catalog(self._catalog, self._species_map())
+        lines: list[str] = []
+        if result.errors:
+            lines.append("Errors:")
+            lines.extend(f"- {message}" for message in result.errors)
+        if result.warnings:
+            lines.append("Warnings:")
+            lines.extend(f"- {message}" for message in result.warnings)
+        self._validation_output.setPlainText("\n".join(lines) if lines else "No fusion issues.")
+        return result
+
+    def _select_recipe(self, index: int) -> None:
+        if not (0 <= index < len(self._catalog.recipes)):
+            self._selected_index = None
+            self._clear_inputs()
+            return
+        self._selected_index = index
+        recipe = self._catalog.recipes[index]
+        self._source_a_input.setCurrentText(recipe.source_species_ids[0])
+        self._source_b_input.setCurrentText(recipe.source_species_ids[1])
+        self._target_input.setCurrentText(recipe.target_species_id)
+        self._notes_input.setPlainText(recipe.notes)
+
+    def _clear_inputs(self) -> None:
+        self._source_a_input.setCurrentText("")
+        self._source_b_input.setCurrentText("")
+        self._target_input.setCurrentText("")
+        self._notes_input.clear()
+
+    def _populate_species_combo(self, input_widget: SpeciesComboBox) -> None:
+        for row in self._species_rows:
+            species_id = str(row.get("id", "")).strip()
+            if species_id:
+                input_widget.addItem(species_id)
+
+    def _species_map(self) -> dict[str, Species]:
+        species: dict[str, Species] = {}
+        for row in self._species_rows:
+            try:
+                species_id = str(row.get("id", "")).strip()
+                species[species_id] = Species(
+                    id=species_id,
+                    name=str(row.get("name", species_id)),
+                    stage=GrowthStage(str(row.get("stage", ""))),
+                    sprite_slots=dict(row.get("sprite_slots", {})) if isinstance(row.get("sprite_slots", {}), dict) else {},
+                )
+            except ValueError:
+                continue
+        return species
+
+
 class DigimonManagerWindow(QWidget):
     def __init__(
         self,
@@ -174,6 +382,8 @@ class DigimonManagerWindow(QWidget):
         sprite_manifest_path: Path | None = None,
         item_catalog: ItemCatalog | None = None,
         item_save_path: Path | None = None,
+        fusion_catalog: FusionCatalog | None = None,
+        fusion_save_path: Path | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
@@ -185,7 +395,10 @@ class DigimonManagerWindow(QWidget):
         self._sprite_manifest_path = sprite_manifest_path or project_root / "data" / "dw1_sprite_manifest.json"
         self._item_catalog = item_catalog
         self._item_save_path = item_save_path or project_root / "data" / "items.json"
+        self._fusion_catalog = fusion_catalog or FusionCatalog()
+        self._fusion_save_path = fusion_save_path or project_root / "data" / "fusions.json"
         self._item_manager_window: ItemManagerWindow | None = None
+        self._fusion_manager_window: FusionManagerWindow | None = None
         self._runtime_sprite_entries = self._load_runtime_sprite_entries()
         self._validation_errors_by_species: dict[str, list[str]] = {}
         self._validation_warnings_by_species: dict[str, list[str]] = {}
@@ -387,6 +600,14 @@ class DigimonManagerWindow(QWidget):
                 parent=self,
             )
             self._main_tabs.addTab(self._item_manager_window, "Items")
+        self._fusion_manager_window = FusionManagerWindow(
+            self._fusion_catalog,
+            self._catalog.species_rows,
+            self._project_root,
+            save_path=self._fusion_save_path,
+            parent=self,
+        )
+        self._main_tabs.addTab(self._fusion_manager_window, "Fusions")
 
     def _configure_action_buttons(self) -> None:
         icon_size = QSize(15, 15)
@@ -741,6 +962,8 @@ class DigimonManagerWindow(QWidget):
             if index >= 0:
                 combo.setCurrentIndex(index)
             combo.blockSignals(False)
+        if self._fusion_manager_window is not None:
+            self._fusion_manager_window.refresh_species(self._catalog.species_rows)
         self._refresh_evolution_actions()
 
     def _sync_evolution_inputs_to_selection(self) -> None:
@@ -1737,8 +1960,13 @@ class DigimonManagerWindow(QWidget):
             sprite_manifest_path=self._sprite_manifest_path,
             item_catalog=self._current_item_catalog(),
         )
+        fusion_result = (
+            self._fusion_manager_window.refresh_validation()
+            if self._fusion_manager_window is not None
+            else None
+        )
         self._refresh_validation()
-        if result.has_errors:
+        if result.has_errors or (fusion_result is not None and fusion_result.has_errors):
             self._status_label.setText("Save failed: validation errors")
             return False
         self._species_path.write_text(
@@ -1749,6 +1977,9 @@ class DigimonManagerWindow(QWidget):
             json.dumps(digimon_catalog_to_digivolutions(self._catalog), indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
+        if self._fusion_manager_window is not None and not self._fusion_manager_window.save_catalog():
+            self._status_label.setText("Save failed: validation errors")
+            return False
         self._dirty = False
         self._status_label.setText("Saved")
         return True
@@ -1854,3 +2085,7 @@ def _message_species_id(message: str, species_ids: set[str]) -> str | None:
         if f": {species_id}" in message or f" {species_id} " in message:
             return species_id
     return None
+
+
+def _fusion_recipe_label(recipe: FusionRecipe) -> str:
+    return f"{recipe.source_species_ids[0]} + {recipe.source_species_ids[1]} -> {recipe.target_species_id}"
