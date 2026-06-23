@@ -16803,6 +16803,498 @@
       "notes": [
         "Imported from PenC family:"
       ]
+    },
+    {
+      "id": "pitchmon__to__pukamon",
+      "type": "natural",
+      "source_species_id": "pitchmon",
+      "source_name": "Pitchmon",
+      "target_species_id": "pukamon",
+      "target_name": "Pukamon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "choromon__to__caprimon",
+      "type": "natural",
+      "source_species_id": "choromon",
+      "source_name": "Choromon",
+      "target_species_id": "caprimon",
+      "target_name": "Caprimon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "bubbmon__to__mochimon",
+      "type": "natural",
+      "source_species_id": "bubbmon",
+      "source_name": "Bubbmon",
+      "target_species_id": "mochimon",
+      "target_name": "Mochimon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "mokumon__to__petimeramon",
+      "type": "natural",
+      "source_species_id": "mokumon",
+      "source_name": "Mokumon",
+      "target_species_id": "petimeramon",
+      "target_name": "Peti Meramon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "fukamon__to__mococomon",
+      "type": "natural",
+      "source_species_id": "fukamon",
+      "source_name": "Fukamon",
+      "target_species_id": "mococomon",
+      "target_name": "Mococomon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "tomorimon__to__onibimon",
+      "type": "natural",
+      "source_species_id": "tomorimon",
+      "source_name": "Tomorimon",
+      "target_species_id": "onibimon",
+      "target_name": "Onibimon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "yukimibotamon__to__nyaromon",
+      "type": "natural",
+      "source_species_id": "yukimibotamon",
+      "source_name": "Yukimibotamon",
+      "target_species_id": "nyaromon",
+      "target_name": "Nyaromon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "nyokimon__to__pyocomon",
+      "type": "natural",
+      "source_species_id": "nyokimon",
+      "source_name": "Nyokimon",
+      "target_species_id": "pyocomon",
+      "target_name": "Pyocomon",
+      "target_stage": "in_training",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 0,
+        "has_bonus_group": false,
+        "groups": {}
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Added to complete isolated PenC/imported lineage coverage"
+      ]
+    },
+    {
+      "id": "gummymon__to__lopmon",
+      "type": "natural",
+      "source_species_id": "gummymon",
+      "source_name": "Gummymon",
+      "target_species_id": "lopmon",
+      "target_name": "Lopmon",
+      "target_stage": "rookie",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 700,
+            "defense": 70,
+            "brains": 70
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Lopmon completion using the existing Gummymon baby line"
+      ]
+    },
+    {
+      "id": "lopmon__to__turuiemon",
+      "type": "natural",
+      "source_species_id": "lopmon",
+      "source_name": "Lopmon",
+      "target_species_id": "turuiemon",
+      "target_name": "Turuiemon",
+      "target_stage": "champion",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 9000,
+            "offense": 900,
+            "speed": 1200
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Lopmon completion toward its martial Champion branch"
+      ]
+    },
+    {
+      "id": "tsunomon__to__gaomon",
+      "type": "natural",
+      "source_species_id": "tsunomon",
+      "source_name": "Tsunomon",
+      "target_species_id": "gaomon",
+      "target_name": "Gaomon",
+      "target_stage": "rookie",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 800,
+            "offense": 90,
+            "speed": 120
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Gaomon completion using the existing beast In-Training line"
+      ]
+    },
+    {
+      "id": "gaomon__to__galgomon",
+      "type": "natural",
+      "source_species_id": "gaomon",
+      "source_name": "Gaomon",
+      "target_species_id": "galgomon",
+      "target_name": "Galgomon",
+      "target_stage": "champion",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 9000,
+            "offense": 1200,
+            "speed": 1100
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Gaomon completion toward the nearest existing gauntlet fighter Champion"
+      ]
+    },
+    {
+      "id": "renamon__to__crescemon",
+      "type": "natural",
+      "source_species_id": "renamon",
+      "source_name": "Renamon",
+      "target_species_id": "crescemon",
+      "target_name": "Crescemon",
+      "target_stage": "champion",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 9000,
+            "speed": 1000,
+            "brains": 1200
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Crescemon completion through a mystic Rookie already in the roster"
+      ]
+    },
+    {
+      "id": "plotmon__to__blacktailmon",
+      "type": "natural",
+      "source_species_id": "plotmon",
+      "source_name": "Plotmon",
+      "target_species_id": "blacktailmon",
+      "target_name": "Black Tailmon",
+      "target_stage": "champion",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 7000,
+            "offense": 900,
+            "speed": 900
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Black Tailmon completion from the existing Plotmon cat branch"
+      ]
+    },
+    {
+      "id": "leomon__to__kaiserleomon",
+      "type": "natural",
+      "source_species_id": "leomon",
+      "source_name": "Leomon",
+      "target_species_id": "kaiserleomon",
+      "target_name": "Kaiser Leomon",
+      "target_stage": "ultimate",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 36000,
+            "offense": 4200,
+            "speed": 3600
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Kaiser Leomon completion from the existing Leomon branch"
+      ]
+    },
+    {
+      "id": "crescemon__to__dianamon",
+      "type": "natural",
+      "source_species_id": "crescemon",
+      "source_name": "Crescemon",
+      "target_species_id": "dianamon",
+      "target_name": "Dianamon",
+      "target_stage": "ultimate",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 42000,
+            "speed": 4200,
+            "brains": 4800
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Dianamon completion from Crescemon"
+      ]
+    },
+    {
+      "id": "turuiemon__to__antylamon",
+      "type": "natural",
+      "source_species_id": "turuiemon",
+      "source_name": "Turuiemon",
+      "target_species_id": "antylamon",
+      "target_name": "Antylamon",
+      "target_stage": "ultimate",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 32000,
+            "defense": 3600,
+            "speed": 4200
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Antylamon completion from Turuiemon"
+      ]
+    },
+    {
+      "id": "kunemon__to__nanimon",
+      "type": "natural",
+      "source_species_id": "kunemon",
+      "source_name": "Kunemon",
+      "target_species_id": "nanimon",
+      "target_name": "Nanimon",
+      "target_stage": "champion",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 6500,
+            "defense": 600,
+            "brains": 500
+          }
+        }
+      },
+      "sources": [
+        "manual_catalog_completion"
+      ],
+      "notes": [
+        "Nanimon completion from an oddball Rookie branch to avoid an unreachable Champion"
+      ]
     }
   ],
   "special_evolutions": [
@@ -17004,6 +17496,9 @@
       "botamon": [
         "botamon__to__koromon"
       ],
+      "bubbmon": [
+        "bubbmon__to__mochimon"
+      ],
       "candmon": [
         "candmon__to__devimon",
         "candmon__to__garurumon",
@@ -17019,6 +17514,9 @@
       "centarumon": [
         "centarumon__to__andromon",
         "centarumon__to__giromon"
+      ],
+      "choromon": [
+        "choromon__to__caprimon"
       ],
       "clockmon": [
         "clockmon__to__andromon",
@@ -17037,6 +17535,9 @@
         "commandramon__to__greymon",
         "commandramon__to__guardromon",
         "commandramon__to__hicommandramon"
+      ],
+      "crescemon": [
+        "crescemon__to__dianamon"
       ],
       "devimon": [
         "devimon__to__deathmeramon",
@@ -17088,6 +17589,9 @@
         "fujamon__to__kinkakumon",
         "fujamon__to__xiquemon"
       ],
+      "fukamon": [
+        "fukamon__to__mococomon"
+      ],
       "gabumon": [
         "gabumon__to__centarumon",
         "gabumon__to__drimogemon",
@@ -17121,6 +17625,9 @@
         "ganimon__to__gesomon",
         "ganimon__to__rukamon",
         "ganimon__to__seadramon"
+      ],
+      "gaomon": [
+        "gaomon__to__galgomon"
       ],
       "garurumon": [
         "garurumon__to__angewomon",
@@ -17190,6 +17697,7 @@
         "gulusgammamon__to__regulusmon"
       ],
       "gummymon": [
+        "gummymon__to__lopmon",
         "gummymon__to__terriermon"
       ],
       "hagurumon": [
@@ -17302,6 +17810,7 @@
         "kunemon__to__bakemon",
         "kunemon__to__kabuterimon",
         "kunemon__to__kuwagamon",
+        "kunemon__to__nanimon",
         "kunemon__to__vegiemon"
       ],
       "kuwagamon": [
@@ -17314,6 +17823,7 @@
       "leomon": [
         "leomon__to__andromon",
         "leomon__to__asuramon",
+        "leomon__to__kaiserleomon",
         "leomon__to__mamemon",
         "leomon__to__metalgreymon",
         "leomon__to__metalmamemon",
@@ -17334,6 +17844,9 @@
         "loogarmon__to__soloogarmon",
         "loogarmon__to__vamdemon",
         "loogarmon__to__weregarurumon"
+      ],
+      "lopmon": [
+        "lopmon__to__turuiemon"
       ],
       "manekimon": [
         "manekimon__to__darumamon",
@@ -17368,6 +17881,9 @@
         "mojyamon__to__mamemon",
         "mojyamon__to__skullgreymon",
         "mojyamon__to__weregarurumon"
+      ],
+      "mokumon": [
+        "mokumon__to__petimeramon"
       ],
       "monochromon": [
         "monochromon__to__jyagamon",
@@ -17405,6 +17921,9 @@
         "nyaromon__to__gabumon",
         "nyaromon__to__gammamon",
         "nyaromon__to__plotmon"
+      ],
+      "nyokimon": [
+        "nyokimon__to__pyocomon"
       ],
       "octmon": [
         "octmon__to__dagomon",
@@ -17470,6 +17989,9 @@
         "picodevimon__to__meramon",
         "picodevimon__to__wizarmon"
       ],
+      "pitchmon": [
+        "pitchmon__to__pukamon"
+      ],
       "piyomon": [
         "piyomon__to__birdramon",
         "piyomon__to__kiwimon",
@@ -17478,6 +18000,7 @@
       ],
       "plotmon": [
         "plotmon__to__angemon",
+        "plotmon__to__blacktailmon",
         "plotmon__to__garurumon",
         "plotmon__to__greymon",
         "plotmon__to__gulusgammamon",
@@ -17516,6 +18039,7 @@
         "redvegimon__to__jyureimon"
       ],
       "renamon": [
+        "renamon__to__crescemon",
         "renamon__to__fugamon",
         "renamon__to__peckmon",
         "renamon__to__siesamon",
@@ -17631,6 +18155,9 @@
         "tokomon__to__biyomon",
         "tokomon__to__patamon"
       ],
+      "tomorimon": [
+        "tomorimon__to__onibimon"
+      ],
       "tortamon": [
         "tortamon__to__atlurkabuterimon",
         "tortamon__to__jyagamon",
@@ -17645,9 +18172,11 @@
       ],
       "tsunomon": [
         "tsunomon__to__elecmon",
+        "tsunomon__to__gaomon",
         "tsunomon__to__penguinmon"
       ],
       "turuiemon": [
+        "turuiemon__to__antylamon",
         "turuiemon__to__chohakkaimon",
         "turuiemon__to__gokuwmon",
         "turuiemon__to__sanzomon"
@@ -17698,6 +18227,9 @@
         "xiquemon__to__huankunmon",
         "xiquemon__to__sagomon",
         "xiquemon__to__sanzomon"
+      ],
+      "yukimibotamon": [
+        "yukimibotamon__to__nyaromon"
       ],
       "yuramon": [
         "yuramon__to__tanemon"
