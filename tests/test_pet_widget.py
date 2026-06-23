@@ -88,7 +88,7 @@ def test_static_png_animation_alternates_scale_from_bottom_center():
 
     assert widget._animation_timer.interval() == 250
     assert normal_target == SPRITE_TARGET_RECT
-    assert scaled_target.width() == round(SPRITE_TARGET_RECT.width() * 0.9)
+    assert scaled_target.width() == SPRITE_TARGET_RECT.width()
     assert scaled_target.height() == round(SPRITE_TARGET_RECT.height() * 0.9)
     assert scaled_target.center().x() == SPRITE_TARGET_RECT.center().x()
     assert scaled_target.bottom() == SPRITE_TARGET_RECT.bottom()

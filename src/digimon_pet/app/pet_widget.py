@@ -356,7 +356,7 @@ class PetWidget(QWidget):
             return _scaled_rect(SPRITE_TARGET_RECT, scale, scale)
         if self._effect_name not in RESOLUTION_EFFECTS:
             if self._static_scale_shrunken and self._static_scale_fallback_enabled:
-                return _scaled_rect_from_bottom_center(SPRITE_TARGET_RECT, STATIC_SPRITE_SCALE, STATIC_SPRITE_SCALE)
+                return _scaled_rect_from_bottom_center(SPRITE_TARGET_RECT, 1.0, STATIC_SPRITE_SCALE)
             return SPRITE_TARGET_RECT
         progress = min(1.0, self._effect_elapsed_ms / self._effect_duration_ms())
         if self._effect_name == "evolution":
