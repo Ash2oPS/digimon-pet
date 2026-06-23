@@ -155,6 +155,12 @@ class InventoryWindow(QDialog):
         self._details_status.setWordWrap(True)
         details_layout.addWidget(self._details_status)
 
+        self._details_description = QLabel("", details)
+        self._details_description.setObjectName("InventoryDetailsDescription")
+        self._details_description.setWordWrap(True)
+        self._details_description.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        details_layout.addWidget(self._details_description, 1)
+
         details_layout.addStretch(1)
 
         self._use_button = QPushButton("Use", details)
@@ -221,6 +227,7 @@ class InventoryWindow(QDialog):
             self._details_status.setProperty("state", "neutral")
             self._details_status.style().unpolish(self._details_status)
             self._details_status.style().polish(self._details_status)
+            self._details_description.setText("")
             self._use_button.setText("Use")
             self._use_button.setEnabled(False)
             return
@@ -244,6 +251,7 @@ class InventoryWindow(QDialog):
         self._details_status.setProperty("state", _item_state(item))
         self._details_status.style().unpolish(self._details_status)
         self._details_status.style().polish(self._details_status)
+        self._details_description.setText(item.description)
         self._use_button.setText("Confirm" if item.dangerous else "Use")
         self._use_button.setEnabled(item.usable)
 

@@ -146,11 +146,13 @@ def test_inventory_window_disables_unusable_selected_item_with_reason():
                 item_type="evolution",
                 usable=False,
                 unavailable_reason="Requires Numemon.",
+                description="Makes Numemon digivolve into Monzaemon.",
             )
         ]
     )
 
     assert window._details_status.text() == "Evolution - unavailable"
+    assert window._details_description.text() == "Makes Numemon digivolve into Monzaemon."
     assert not hasattr(window, "_details_effect")
     assert window.findChild(QPushButton).isEnabled() is False
 
