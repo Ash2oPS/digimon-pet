@@ -77,6 +77,32 @@ def test_sprite_animation_timer_is_two_and_a_half_times_slower_than_sheet_fps():
     assert widget._animation_timer.interval() == 250
 
 
+def test_static_png_animation_alternates_scale_from_bottom_center():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget._configure_animation_timer(SpriteAnimation(path="unused.png", frame_count=1, fps=10))
+
+    normal_target = widget._effect_target_rect()
+    widget._advance_frame()
+    scaled_target = widget._effect_target_rect()
+
+    assert widget._animation_timer.interval() == 250
+    assert normal_target == SPRITE_TARGET_RECT
+    assert scaled_target.width() == round(SPRITE_TARGET_RECT.width() * 0.9)
+    assert scaled_target.height() == round(SPRITE_TARGET_RECT.height() * 0.9)
+    assert scaled_target.center().x() == SPRITE_TARGET_RECT.center().x()
+    assert scaled_target.bottom() == SPRITE_TARGET_RECT.bottom()
+
+
+def test_static_gif_does_not_use_scale_fallback():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+
+    widget._configure_animation_timer(SpriteAnimation(path="unused.gif", frame_count=1, fps=10))
+
+    assert not widget._animation_timer.isActive()
+
+
 def test_pending_lifecycle_effect_pulses_sprite_scale():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()

@@ -22,6 +22,7 @@ DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
 SPRITESHEET_ANIMATION_SPEED_DIVISOR = 2.5
+STATIC_SPRITE_SCALE = 0.9
 LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
 RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
@@ -71,6 +72,8 @@ class PetWidget(QWidget):
         self._animation: SpriteAnimation | None = None
         self._frame_index = 0
         self._frame_rects: list[QRect] = []
+        self._static_scale_fallback_enabled = False
+        self._static_scale_shrunken = False
         self._flipped_x = False
         self._manifest = load_or_build_runtime_manifest()
         self._animation_timer = QTimer(self)
@@ -103,6 +106,7 @@ class PetWidget(QWidget):
         if animation != self._animation:
             self._animation = animation
             self._frame_index = 0
+            self._static_scale_shrunken = False
             self._pixmap = self._load_pixmap(animation)
             self._frame_rects = self._build_frame_rects(self._pixmap, animation)
             self._configure_animation_timer(animation)
@@ -250,14 +254,22 @@ class PetWidget(QWidget):
 
     def _configure_animation_timer(self, animation: SpriteAnimation | None) -> None:
         self._animation_timer.stop()
+        self._static_scale_fallback_enabled = False
+        self._static_scale_shrunken = False
         if self._effect_name in PENDING_EFFECTS | RESOLUTION_EFFECTS:
             return
-        if animation is None or animation.frame_count <= 1:
+        if animation is None:
             return
-        self._animation_timer.start(max(16, round((1000 / animation.fps) * SPRITESHEET_ANIMATION_SPEED_DIVISOR)))
+        interval_ms = max(16, round((1000 / animation.fps) * SPRITESHEET_ANIMATION_SPEED_DIVISOR))
+        self._static_scale_fallback_enabled = _uses_static_scale_fallback(animation)
+        if animation.frame_count > 1 or self._static_scale_fallback_enabled:
+            self._animation_timer.start(interval_ms)
 
     def _advance_frame(self) -> None:
         if not self._frame_rects:
+            if self._static_scale_fallback_enabled:
+                self._static_scale_shrunken = not self._static_scale_shrunken
+                self.update()
             return
         self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
         self.update()
@@ -343,6 +355,8 @@ class PetWidget(QWidget):
             scale = 1.0 + 0.055 * _smooth_pulse(self._effect_elapsed_ms, 1800)
             return _scaled_rect(SPRITE_TARGET_RECT, scale, scale)
         if self._effect_name not in RESOLUTION_EFFECTS:
+            if self._static_scale_shrunken and self._static_scale_fallback_enabled:
+                return _scaled_rect_from_bottom_center(SPRITE_TARGET_RECT, STATIC_SPRITE_SCALE, STATIC_SPRITE_SCALE)
             return SPRITE_TARGET_RECT
         progress = min(1.0, self._effect_elapsed_ms / self._effect_duration_ms())
         if self._effect_name == "evolution":
@@ -730,3 +744,14 @@ def _scaled_rect(rect: QRect, x_scale: float, y_scale: float) -> QRect:
     height = round(rect.height() * y_scale)
     center = rect.center()
     return QRect(center.x() - width // 2, center.y() - height // 2, width, height)
+
+
+def _scaled_rect_from_bottom_center(rect: QRect, x_scale: float, y_scale: float) -> QRect:
+    width = round(rect.width() * x_scale)
+    height = round(rect.height() * y_scale)
+    center_x = rect.center().x()
+    return QRect(center_x - (width - 1) // 2, rect.bottom() - height + 1, width, height)
+
+
+def _uses_static_scale_fallback(animation: SpriteAnimation | None) -> bool:
+    return animation is not None and animation.frame_count <= 1 and Path(animation.path).suffix.casefold() != ".gif"
