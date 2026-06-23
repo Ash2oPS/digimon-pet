@@ -20,6 +20,7 @@ def test_parse_penc_html_extracts_species_edges_and_exclusions():
     assert species["heraklekabuterimon"]["excluded_reason"] == "stage exceeds Ultimate"
     assert species["metalgreymon"]["excluded_reason"] == "alternate form"
     assert species["tentomon"]["sprite_url"] == "https://humulos.com/digimon/images/dot/penc/tento.gif"
+    assert species["tentomon"]["sprite_frame2_url"] == "https://humulos.com/digimon/images/dot/penc/frame2/tento.gif"
     assert {item["name"] for item in raw["excluded"]} == {"Herakle Kabuterimon", "Metal Greymon"}
     assert ("mochimon", "tentomon") in {
         (edge["source_id"], edge["target_id"])
@@ -124,18 +125,21 @@ def _fixture_html():
     <div class="anchor"><div class="family"><h4 class="rdisplay">Nature Spirits</h4></div></div>
     <div class="baby column">
       <div id="bubb" class="row" data-stage="baby">
+        <img data-src="//humulos.com/digimon/images/dot/penc/frame2/bubb.gif" title="Bubbmon">
         <img data-src="//humulos.com/digimon/images/dot/penc/bubb.gif" title="Bubbmon">
       </div>
     </div>
     <div class="babyII column">
       <div id="mochi" class="row" data-stage="baby_2">
         <span class="nspc_bubb_line"></span>
+        <img data-src="//humulos.com/digimon/images/dot/penc/frame2/mochi.gif" title="Mochimon">
         <img data-src="//humulos.com/digimon/images/dot/penc/mochi.gif" title="Mochimon">
       </div>
     </div>
     <div class="child column">
       <div id="tento" class="row" data-stage="rookie">
         <span class="nspc_mochi_line"></span>
+        <img data-src="//humulos.com/digimon/images/dot/penc/frame2/tento.gif" title="Tentomon">
         <img data-src="//humulos.com/digimon/images/dot/penc/tento.gif" title="Tentomon">
       </div>
     </div>

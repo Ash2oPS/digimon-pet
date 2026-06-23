@@ -564,6 +564,7 @@ def _discover_humulos_penc_options(
         full_url = _absolute_humulos_url(image_url)
         if full_url in seen_urls:
             continue
+        frame2_url = _humulos_frame2_url_for_image_url(full_url)
         seen_urls.add(full_url)
         options.append(
             SpriteImportOption(
@@ -577,7 +578,7 @@ def _discover_humulos_penc_options(
                 fps=6,
                 matched_name=clean_title,
                 source_name=HUMULOS_PENC_SOURCE_NAME,
-                metadata={"source_title": title},
+                metadata={"source_title": title, "sprite_frame2_url": frame2_url},
             )
         )
     return options
@@ -1192,7 +1193,7 @@ def _import_humulos_penc_sprite(
     report_path: Path | None,
     timeout_seconds: float,
 ) -> ImportedPendulumSprite | None:
-    animation = _load_remote_animation_sheet(option.image_url, fps=option.fps, timeout_seconds=timeout_seconds)
+    animation = _load_humulos_penc_animation_sheet(option, timeout_seconds=timeout_seconds)
     if animation.image.isNull():
         return None
     matched_name = option.matched_name or option.name
@@ -1215,6 +1216,7 @@ def _import_humulos_penc_sprite(
             "path": target_relative.as_posix(),
             "source_page": option.source_url,
             "source_url": option.image_url,
+            "sprite_frame2_url": str(option.metadata.get("sprite_frame2_url") or ""),
             "source_title": str(option.metadata.get("source_title") or matched_name),
         },
     )
@@ -1248,6 +1250,25 @@ def _import_humulos_penc_sprite(
         frame_count=animation.frame_count,
         fps=animation.fps,
     )
+
+
+def _load_humulos_penc_animation_sheet(
+    option: SpriteImportOption,
+    *,
+    timeout_seconds: float,
+) -> AnimationSheet:
+    frame1 = _load_remote_image(option.image_url, timeout_seconds=timeout_seconds)
+    frame2_url = str(option.metadata.get("sprite_frame2_url") or "").strip()
+    if frame1.isNull() or not frame2_url:
+        return _load_remote_animation_sheet(option.image_url, fps=option.fps, timeout_seconds=timeout_seconds)
+    frame2 = _load_remote_image(frame2_url, timeout_seconds=timeout_seconds)
+    if frame2.isNull():
+        return _spritesheet_to_animation_sheet(frame1, frame_count=1, fps=option.fps, metadata={})
+    return _pack_frames([frame1, frame2], option.fps)
+
+
+def _humulos_frame2_url_for_image_url(image_url: str) -> str:
+    return re.sub(r"(/dot/penc/)(?!frame2/)", r"\1frame2/", image_url, count=1)
 
 
 def _transparent_white_background(image: QImage) -> QImage:

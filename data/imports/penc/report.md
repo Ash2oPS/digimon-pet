@@ -813,148 +813,148 @@ Source: https://humulos.com/digimon/penc/
 - Tenkomon -> Sekkamon: hp 43000, mp 48000, offense 5250, defense 4300
 
 ## Sprite Imports
-- Angoramon (`angoramon`): https://humulos.com/digimon/images/dot/penc/angora.gif
-- Candmon (`candmon`): https://humulos.com/digimon/images/dot/penc/cand.gif
-- Commandramon (`commandramon`): https://humulos.com/digimon/images/dot/penc/commandra.gif
-- Floramon (`floramon`): https://humulos.com/digimon/images/dot/penc/flora.gif
-- Fujamon (`fujamon`): https://humulos.com/digimon/images/dot/penc/fuja.gif
-- Gammamon (`gammamon`): https://humulos.com/digimon/images/dot/penc/gamma.gif
-- Ganimon (`ganimon`): https://humulos.com/digimon/images/dot/penc/gani.gif
-- Gasamon (`gasamon`): https://humulos.com/digimon/images/dot/penc/gasa.gif
-- Gottsumon (`gottsumon`): https://humulos.com/digimon/images/dot/penc/gottsu.gif
-- Hagurumon (`hagurumon`): https://humulos.com/digimon/images/dot/penc/haguru.gif
-- Jellymon (`jellymon`): https://humulos.com/digimon/images/dot/penc/jelly.gif
-- Loogamon (`loogamon`): https://humulos.com/digimon/images/dot/penc/looga.gif
-- Mushmon (`mushmon`): https://humulos.com/digimon/images/dot/penc/mush.gif
-- Otamamon (`otamamon`): https://humulos.com/digimon/images/dot/penc/otama.gif
-- Pico Devimon (`picodevimon`): https://humulos.com/digimon/images/dot/penc/picodevi.gif
-- Plotmon (`plotmon`): https://humulos.com/digimon/images/dot/penc/plot.gif
-- Pteromon (`pteromon`): https://humulos.com/digimon/images/dot/penc/ptero.gif
-- Renamon (`renamon`): https://humulos.com/digimon/images/dot/penc/rena.gif
-- Shakomon (`shakomon`): https://humulos.com/digimon/images/dot/penc/shako.gif
-- Takinmon (`takinmon`): https://humulos.com/digimon/images/dot/penc/takin.gif
-- Betel Gammamon (`betelgammamon`): https://humulos.com/digimon/images/dot/penc/betelgamma.gif
-- Clockmon (`clockmon`): https://humulos.com/digimon/images/dot/penc/clock.gif
-- Dokugumon (`dokugumon`): https://humulos.com/digimon/images/dot/penc/dokugu.gif
-- Ebidramon (`ebidramon`): https://humulos.com/digimon/images/dot/penc/ebidra.gif
-- Fugamon (`fugamon`): https://humulos.com/digimon/images/dot/penc/fuga.gif
-- Galemon (`galemon`): https://humulos.com/digimon/images/dot/penc/gale.gif
-- Gawappamon (`gawappamon`): https://humulos.com/digimon/images/dot/penc/gawappa.gif
-- Gekomon (`gekomon`): https://humulos.com/digimon/images/dot/penc/geko.gif
-- Gesomon (`gesomon`): https://humulos.com/digimon/images/dot/penc/geso.gif
-- Ginkakumon (`ginkakumon`): https://humulos.com/digimon/images/dot/penc/ginkaku.gif
-- Guardromon (`guardromon`): https://humulos.com/digimon/images/dot/penc/guardro.gif
-- Gulus Gammamon (`gulusgammamon`): https://humulos.com/digimon/images/dot/penc/gulusgamma.gif
-- Hakubamon (`hakubamon`): https://humulos.com/digimon/images/dot/penc/hakuba.gif
-- Hanumon (`hanumon`): https://humulos.com/digimon/images/dot/penc/hanu.gif
-- Hi-Commandramon (`hicommandramon`): https://humulos.com/digimon/images/dot/penc/hicommandra.gif
-- Igamon (`igamon`): https://humulos.com/digimon/images/dot/penc/iga.gif
-- Ikkakumon (`ikkakumon`): https://humulos.com/digimon/images/dot/penc/ikkaku.gif
-- Kaus Gammamon (`kausgammamon`): https://humulos.com/digimon/images/dot/penc/kausgamma.gif
-- Kinkakumon (`kinkakumon`): https://humulos.com/digimon/images/dot/penc/kinkaku.gif
-- Kiwimon (`kiwimon`): https://humulos.com/digimon/images/dot/penc/kiwi.gif
-- Kokeshimon (`kokeshimon`): https://humulos.com/digimon/images/dot/penc/kokeshi.gif
-- Lianpumon (`lianpumon`): https://humulos.com/digimon/images/dot/penc/lianpu.gif
-- Loogarmon (`loogarmon`): https://humulos.com/digimon/images/dot/penc/loogar.gif
-- Manekimon (`manekimon`): https://humulos.com/digimon/images/dot/penc/maneki.gif
-- Mechanorimon (`mechanorimon`): https://humulos.com/digimon/images/dot/penc/mechanori.gif
-- Musyamon (`musyamon`): https://humulos.com/digimon/images/dot/penc/musya.gif
-- Octmon (`octmon`): https://humulos.com/digimon/images/dot/penc/oct.gif
-- Peckmon (`peckmon`): https://humulos.com/digimon/images/dot/penc/peck.gif
-- Red Vegimon (`redvegimon`): https://humulos.com/digimon/images/dot/penc/redvegi.gif
-- Revolmon (`revolmon`): https://humulos.com/digimon/images/dot/penc/revol.gif
-- Rukamon (`rukamon`): https://humulos.com/digimon/images/dot/penc/ruka.gif
-- Siesamon (`siesamon`): https://humulos.com/digimon/images/dot/penc/siesa.gif
-- Starmon (`starmon`): https://humulos.com/digimon/images/dot/penc/star.gif
-- Symbare Angoramon (`symbareangoramon`): https://humulos.com/digimon/images/dot/penc/symbareangora.gif
-- Tailmon (`tailmon`): https://humulos.com/digimon/images/dot/penc/tail.gif
-- Tankmon (`tankmon`): https://humulos.com/digimon/images/dot/penc/tank.gif
-- Tenkomon (`tenkomon`): https://humulos.com/digimon/images/dot/penc/tenko.gif
-- Tesla Jellymon (`teslajellymon`): https://humulos.com/digimon/images/dot/penc/teslajelly.gif
-- Thunderballmon (`thunderballmon`): https://humulos.com/digimon/images/dot/penc/thunderball.gif
-- Togemon (`togemon`): https://humulos.com/digimon/images/dot/penc/toge.gif
-- Tortamon (`tortamon`): https://humulos.com/digimon/images/dot/penc/torta.gif
-- V-dramon (`vdramon`): https://humulos.com/digimon/images/dot/penc/vdra.gif
-- Wezen Gammamon (`wezengammamon`): https://humulos.com/digimon/images/dot/penc/wezengamma.gif
-- Wizarmon (`wizarmon`): https://humulos.com/digimon/images/dot/penc/wizar.gif
-- Woodmon (`woodmon`): https://humulos.com/digimon/images/dot/penc/wood.gif
-- Xiquemon (`xiquemon`): https://humulos.com/digimon/images/dot/penc/xique.gif
-- Aero V-dramon (`aerovdramon`): https://humulos.com/digimon/images/dot/penc/aerovdra.gif
-- Anomalocarimon (`anomalocarimon`): https://humulos.com/digimon/images/dot/penc/anomalocari.gif
-- Asuramon (`asuramon`): https://humulos.com/digimon/images/dot/penc/asura.gif
-- Atlur Kabuterimon (`atlurkabuterimon`): https://humulos.com/digimon/images/dot/penc/atlurkabuteri.gif
-- Big Mamemon (`bigmamemon`): https://humulos.com/digimon/images/dot/penc/bigmame.gif
-- Blossomon (`blossomon`): https://humulos.com/digimon/images/dot/penc/blosso.gif
-- Canoweissmon (`canoweissmon`): https://humulos.com/digimon/images/dot/penc/canoweiss.gif
-- Cargodramon (`cargodramon`): https://humulos.com/digimon/images/dot/penc/cargodra.gif
-- Cho-Hakkaimon (`chohakkaimon`): https://humulos.com/digimon/images/dot/penc/chohakkai.gif
-- Cyberdramon (`cyberdramon`): https://humulos.com/digimon/images/dot/penc/cyberdra.gif
-- Dagomon (`dagomon`): https://humulos.com/digimon/images/dot/penc/dago.gif
-- Darumamon (`darumamon`): https://humulos.com/digimon/images/dot/penc/daruma.gif
-- Death Meramon (`deathmeramon`): https://humulos.com/digimon/images/dot/penc/deathmera.gif
-- Delumon (`delumon`): https://humulos.com/digimon/images/dot/penc/delu.gif
-- Fantomon (`fantomon`): https://humulos.com/digimon/images/dot/penc/fanto.gif
-- Garudamon (`garudamon`): https://humulos.com/digimon/images/dot/penc/garuda.gif
-- Gerbemon (`gerbemon`): https://humulos.com/digimon/images/dot/penc/gerbe.gif
-- Gokuwmon (`gokuwmon`): https://humulos.com/digimon/images/dot/penc/gokuw.gif
-- Grand Galemon (`grandgalemon`): https://humulos.com/digimon/images/dot/penc/grandgale.gif
-- Hangyomon (`hangyomon`): https://humulos.com/digimon/images/dot/penc/hangyo.gif
-- Holy Angemon (`holyangemon`): https://humulos.com/digimon/images/dot/penc/holyange.gif
-- Huankunmon (`huankunmon`): https://humulos.com/digimon/images/dot/penc/huankun.gif
-- Jyagamon (`jyagamon`): https://humulos.com/digimon/images/dot/penc/jyaga.gif
-- Jyureimon (`jyureimon`): https://humulos.com/digimon/images/dot/penc/jyurei.gif
-- Karakurumon (`karakurumon`): https://humulos.com/digimon/images/dot/penc/karakuru.gif
-- Karatenmon (`karatenmon`): https://humulos.com/digimon/images/dot/penc/karaten.gif
-- Knightmon (`knightmon`): https://humulos.com/digimon/images/dot/penc/knight.gif
-- Lady Devimon (`ladydevimon`): https://humulos.com/digimon/images/dot/penc/ladydevi.gif
-- Lamortmon (`lamortmon`): https://humulos.com/digimon/images/dot/penc/lamort.gif
-- Lilimon (`lilimon`): https://humulos.com/digimon/images/dot/penc/lili.gif
-- Mammon (`mammon`): https://humulos.com/digimon/images/dot/penc/mam.gif
-- Marin Bullmon (`marinbullmon`): https://humulos.com/digimon/images/dot/penc/marinbull.gif
-- Marin Devimon (`marindevimon`): https://humulos.com/digimon/images/dot/penc/marindevi.gif
-- Oboromon (`oboromon`): https://humulos.com/digimon/images/dot/penc/oboro.gif
-- Okuwamon (`okuwamon`): https://humulos.com/digimon/images/dot/penc/okuwa.gif
-- Pandamon (`pandamon`): https://humulos.com/digimon/images/dot/penc/panda.gif
-- Piccolomon (`piccolomon`): https://humulos.com/digimon/images/dot/penc/piccolo.gif
-- Pumpmon (`pumpmon`): https://humulos.com/digimon/images/dot/penc/pump.gif
-- Regulusmon (`regulusmon`): https://humulos.com/digimon/images/dot/penc/regulus.gif
-- Sagomon (`sagomon`): https://humulos.com/digimon/images/dot/penc/sago.gif
-- Sanzomon (`sanzomon`): https://humulos.com/digimon/images/dot/penc/sanzo.gif
-- Sekkamon (`sekkamon`): https://humulos.com/digimon/images/dot/penc/sekka.gif
-- Shishimamon (`shishimamon`): https://humulos.com/digimon/images/dot/penc/shishima.gif
-- Soloogarmon (`soloogarmon`): https://humulos.com/digimon/images/dot/penc/soloogar.gif
-- Thetismon (`thetismon`): https://humulos.com/digimon/images/dot/penc/thetis.gif
-- Tonosama Gekomon (`tonosamagekomon`): https://humulos.com/digimon/images/dot/penc/tonosamageko.gif
-- Triceramon (`triceramon`): https://humulos.com/digimon/images/dot/penc/tricera.gif
-- Vamdemon (`vamdemon`): https://humulos.com/digimon/images/dot/penc/vamde.gif
-- Xingtianmon (`xingtianmon`): https://humulos.com/digimon/images/dot/penc/xingtian.gif
-- Zudomon (`zudomon`): https://humulos.com/digimon/images/dot/penc/zudo.gif
-- Pitchmon (`pitchmon`): https://humulos.com/digimon/images/dot/penc/pitch.gif
-- Pukamon (`pukamon`): https://humulos.com/digimon/images/dot/penc/puka.gif
-- Gomamon (`gomamon`): https://humulos.com/digimon/images/dot/penc/goma.gif
-- Choromon (`choromon`): https://humulos.com/digimon/images/dot/penc/choro.gif
-- Caprimon (`caprimon`): https://humulos.com/digimon/images/dot/penc/capri.gif
-- Kokuwamon (`kokuwamon`): https://humulos.com/digimon/images/dot/penc/kokuwa.gif
-- Toy Agumon (`toyagumon`): https://humulos.com/digimon/images/dot/penc/toyagu.gif
-- Bubbmon (`bubbmon`): https://humulos.com/digimon/images/dot/penc/bubb.gif
-- Mochimon (`mochimon`): https://humulos.com/digimon/images/dot/penc/mochi.gif
-- Tentomon (`tentomon`): https://humulos.com/digimon/images/dot/penc/tento.gif
-- Mokumon (`mokumon`): https://humulos.com/digimon/images/dot/penc/moku.gif
-- Peti Meramon (`petimeramon`): https://humulos.com/digimon/images/dot/penc/petimera.gif
-- Bakumon (`bakumon`): https://humulos.com/digimon/images/dot/penc/baku.gif
-- Fukamon (`fukamon`): https://humulos.com/digimon/images/dot/penc/fuka.gif
-- Mococomon (`mococomon`): https://humulos.com/digimon/images/dot/penc/mococo.gif
-- Kakamon (`kakamon`): https://humulos.com/digimon/images/dot/penc/kaka.gif
-- Kamemon (`kamemon`): https://humulos.com/digimon/images/dot/penc/kame.gif
-- Tomorimon (`tomorimon`): https://humulos.com/digimon/images/dot/penc/tomori.gif
-- Onibimon (`onibimon`): https://humulos.com/digimon/images/dot/penc/onibi.gif
-- Hanimon (`hanimon`): https://humulos.com/digimon/images/dot/penc/hani.gif
-- Wankomon (`wankomon`): https://humulos.com/digimon/images/dot/penc/wanko.gif
-- Yukimibotamon (`yukimibotamon`): https://humulos.com/digimon/images/dot/penc/yukimibota.gif
-- Nyaromon (`nyaromon`): https://humulos.com/digimon/images/dot/penc/nyaro.gif
-- Nyokimon (`nyokimon`): https://humulos.com/digimon/images/dot/penc/nyoki.gif
-- Pyocomon (`pyocomon`): https://humulos.com/digimon/images/dot/penc/pyoco.gif
-- Piyomon (`piyomon`): https://humulos.com/digimon/images/dot/penc/piyo.gif
+- Angoramon (`angoramon`): https://humulos.com/digimon/images/dot/penc/angora.gif + https://humulos.com/digimon/images/dot/penc/frame2/angora.gif
+- Candmon (`candmon`): https://humulos.com/digimon/images/dot/penc/cand.gif + https://humulos.com/digimon/images/dot/penc/frame2/cand.gif
+- Commandramon (`commandramon`): https://humulos.com/digimon/images/dot/penc/commandra.gif + https://humulos.com/digimon/images/dot/penc/frame2/commandra.gif
+- Floramon (`floramon`): https://humulos.com/digimon/images/dot/penc/flora.gif + https://humulos.com/digimon/images/dot/penc/frame2/flora.gif
+- Fujamon (`fujamon`): https://humulos.com/digimon/images/dot/penc/fuja.gif + https://humulos.com/digimon/images/dot/penc/frame2/fuja.gif
+- Gammamon (`gammamon`): https://humulos.com/digimon/images/dot/penc/gamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/gamma.gif
+- Ganimon (`ganimon`): https://humulos.com/digimon/images/dot/penc/gani.gif + https://humulos.com/digimon/images/dot/penc/frame2/gani.gif
+- Gasamon (`gasamon`): https://humulos.com/digimon/images/dot/penc/gasa.gif + https://humulos.com/digimon/images/dot/penc/frame2/gasa.gif
+- Gottsumon (`gottsumon`): https://humulos.com/digimon/images/dot/penc/gottsu.gif + https://humulos.com/digimon/images/dot/penc/frame2/gottsu.gif
+- Hagurumon (`hagurumon`): https://humulos.com/digimon/images/dot/penc/haguru.gif + https://humulos.com/digimon/images/dot/penc/frame2/haguru.gif
+- Jellymon (`jellymon`): https://humulos.com/digimon/images/dot/penc/jelly.gif + https://humulos.com/digimon/images/dot/penc/frame2/jelly.gif
+- Loogamon (`loogamon`): https://humulos.com/digimon/images/dot/penc/looga.gif + https://humulos.com/digimon/images/dot/penc/frame2/looga.gif
+- Mushmon (`mushmon`): https://humulos.com/digimon/images/dot/penc/mush.gif + https://humulos.com/digimon/images/dot/penc/frame2/mush.gif
+- Otamamon (`otamamon`): https://humulos.com/digimon/images/dot/penc/otama.gif + https://humulos.com/digimon/images/dot/penc/frame2/otama.gif
+- Pico Devimon (`picodevimon`): https://humulos.com/digimon/images/dot/penc/picodevi.gif + https://humulos.com/digimon/images/dot/penc/frame2/picodevi.gif
+- Plotmon (`plotmon`): https://humulos.com/digimon/images/dot/penc/plot.gif + https://humulos.com/digimon/images/dot/penc/frame2/plot.gif
+- Pteromon (`pteromon`): https://humulos.com/digimon/images/dot/penc/ptero.gif + https://humulos.com/digimon/images/dot/penc/frame2/ptero.gif
+- Renamon (`renamon`): https://humulos.com/digimon/images/dot/penc/rena.gif + https://humulos.com/digimon/images/dot/penc/frame2/rena.gif
+- Shakomon (`shakomon`): https://humulos.com/digimon/images/dot/penc/shako.gif + https://humulos.com/digimon/images/dot/penc/frame2/shako.gif
+- Takinmon (`takinmon`): https://humulos.com/digimon/images/dot/penc/takin.gif + https://humulos.com/digimon/images/dot/penc/frame2/takin.gif
+- Betel Gammamon (`betelgammamon`): https://humulos.com/digimon/images/dot/penc/betelgamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/betelgamma.gif
+- Clockmon (`clockmon`): https://humulos.com/digimon/images/dot/penc/clock.gif + https://humulos.com/digimon/images/dot/penc/frame2/clock.gif
+- Dokugumon (`dokugumon`): https://humulos.com/digimon/images/dot/penc/dokugu.gif + https://humulos.com/digimon/images/dot/penc/frame2/dokugu.gif
+- Ebidramon (`ebidramon`): https://humulos.com/digimon/images/dot/penc/ebidra.gif + https://humulos.com/digimon/images/dot/penc/frame2/ebidra.gif
+- Fugamon (`fugamon`): https://humulos.com/digimon/images/dot/penc/fuga.gif + https://humulos.com/digimon/images/dot/penc/frame2/fuga.gif
+- Galemon (`galemon`): https://humulos.com/digimon/images/dot/penc/gale.gif + https://humulos.com/digimon/images/dot/penc/frame2/gale.gif
+- Gawappamon (`gawappamon`): https://humulos.com/digimon/images/dot/penc/gawappa.gif + https://humulos.com/digimon/images/dot/penc/frame2/gawappa.gif
+- Gekomon (`gekomon`): https://humulos.com/digimon/images/dot/penc/geko.gif + https://humulos.com/digimon/images/dot/penc/frame2/geko.gif
+- Gesomon (`gesomon`): https://humulos.com/digimon/images/dot/penc/geso.gif + https://humulos.com/digimon/images/dot/penc/frame2/geso.gif
+- Ginkakumon (`ginkakumon`): https://humulos.com/digimon/images/dot/penc/ginkaku.gif + https://humulos.com/digimon/images/dot/penc/frame2/ginkaku.gif
+- Guardromon (`guardromon`): https://humulos.com/digimon/images/dot/penc/guardro.gif + https://humulos.com/digimon/images/dot/penc/frame2/guardro.gif
+- Gulus Gammamon (`gulusgammamon`): https://humulos.com/digimon/images/dot/penc/gulusgamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/gulusgamma.gif
+- Hakubamon (`hakubamon`): https://humulos.com/digimon/images/dot/penc/hakuba.gif + https://humulos.com/digimon/images/dot/penc/frame2/hakuba.gif
+- Hanumon (`hanumon`): https://humulos.com/digimon/images/dot/penc/hanu.gif + https://humulos.com/digimon/images/dot/penc/frame2/hanu.gif
+- Hi-Commandramon (`hicommandramon`): https://humulos.com/digimon/images/dot/penc/hicommandra.gif + https://humulos.com/digimon/images/dot/penc/frame2/hicommandra.gif
+- Igamon (`igamon`): https://humulos.com/digimon/images/dot/penc/iga.gif + https://humulos.com/digimon/images/dot/penc/frame2/iga.gif
+- Ikkakumon (`ikkakumon`): https://humulos.com/digimon/images/dot/penc/ikkaku.gif + https://humulos.com/digimon/images/dot/penc/frame2/ikkaku.gif
+- Kaus Gammamon (`kausgammamon`): https://humulos.com/digimon/images/dot/penc/kausgamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/kausgamma.gif
+- Kinkakumon (`kinkakumon`): https://humulos.com/digimon/images/dot/penc/kinkaku.gif + https://humulos.com/digimon/images/dot/penc/frame2/kinkaku.gif
+- Kiwimon (`kiwimon`): https://humulos.com/digimon/images/dot/penc/kiwi.gif + https://humulos.com/digimon/images/dot/penc/frame2/kiwi.gif
+- Kokeshimon (`kokeshimon`): https://humulos.com/digimon/images/dot/penc/kokeshi.gif + https://humulos.com/digimon/images/dot/penc/frame2/kokeshi.gif
+- Lianpumon (`lianpumon`): https://humulos.com/digimon/images/dot/penc/lianpu.gif + https://humulos.com/digimon/images/dot/penc/frame2/lianpu.gif
+- Loogarmon (`loogarmon`): https://humulos.com/digimon/images/dot/penc/loogar.gif + https://humulos.com/digimon/images/dot/penc/frame2/loogar.gif
+- Manekimon (`manekimon`): https://humulos.com/digimon/images/dot/penc/maneki.gif + https://humulos.com/digimon/images/dot/penc/frame2/maneki.gif
+- Mechanorimon (`mechanorimon`): https://humulos.com/digimon/images/dot/penc/mechanori.gif + https://humulos.com/digimon/images/dot/penc/frame2/mechanori.gif
+- Musyamon (`musyamon`): https://humulos.com/digimon/images/dot/penc/musya.gif + https://humulos.com/digimon/images/dot/penc/frame2/musya.gif
+- Octmon (`octmon`): https://humulos.com/digimon/images/dot/penc/oct.gif + https://humulos.com/digimon/images/dot/penc/frame2/oct.gif
+- Peckmon (`peckmon`): https://humulos.com/digimon/images/dot/penc/peck.gif + https://humulos.com/digimon/images/dot/penc/frame2/peck.gif
+- Red Vegimon (`redvegimon`): https://humulos.com/digimon/images/dot/penc/redvegi.gif + https://humulos.com/digimon/images/dot/penc/frame2/redvegi.gif
+- Revolmon (`revolmon`): https://humulos.com/digimon/images/dot/penc/revol.gif + https://humulos.com/digimon/images/dot/penc/frame2/revol.gif
+- Rukamon (`rukamon`): https://humulos.com/digimon/images/dot/penc/ruka.gif + https://humulos.com/digimon/images/dot/penc/frame2/ruka.gif
+- Siesamon (`siesamon`): https://humulos.com/digimon/images/dot/penc/siesa.gif + https://humulos.com/digimon/images/dot/penc/frame2/siesa.gif
+- Starmon (`starmon`): https://humulos.com/digimon/images/dot/penc/star.gif + https://humulos.com/digimon/images/dot/penc/frame2/star.gif
+- Symbare Angoramon (`symbareangoramon`): https://humulos.com/digimon/images/dot/penc/symbareangora.gif + https://humulos.com/digimon/images/dot/penc/frame2/symbareangora.gif
+- Tailmon (`tailmon`): https://humulos.com/digimon/images/dot/penc/tail.gif + https://humulos.com/digimon/images/dot/penc/frame2/tail.gif
+- Tankmon (`tankmon`): https://humulos.com/digimon/images/dot/penc/tank.gif + https://humulos.com/digimon/images/dot/penc/frame2/tank.gif
+- Tenkomon (`tenkomon`): https://humulos.com/digimon/images/dot/penc/tenko.gif + https://humulos.com/digimon/images/dot/penc/frame2/tenko.gif
+- Tesla Jellymon (`teslajellymon`): https://humulos.com/digimon/images/dot/penc/teslajelly.gif + https://humulos.com/digimon/images/dot/penc/frame2/teslajelly.gif
+- Thunderballmon (`thunderballmon`): https://humulos.com/digimon/images/dot/penc/thunderball.gif + https://humulos.com/digimon/images/dot/penc/frame2/thunderball.gif
+- Togemon (`togemon`): https://humulos.com/digimon/images/dot/penc/toge.gif + https://humulos.com/digimon/images/dot/penc/frame2/toge.gif
+- Tortamon (`tortamon`): https://humulos.com/digimon/images/dot/penc/torta.gif + https://humulos.com/digimon/images/dot/penc/frame2/torta.gif
+- V-dramon (`vdramon`): https://humulos.com/digimon/images/dot/penc/vdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/vdra.gif
+- Wezen Gammamon (`wezengammamon`): https://humulos.com/digimon/images/dot/penc/wezengamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/wezengamma.gif
+- Wizarmon (`wizarmon`): https://humulos.com/digimon/images/dot/penc/wizar.gif + https://humulos.com/digimon/images/dot/penc/frame2/wizar.gif
+- Woodmon (`woodmon`): https://humulos.com/digimon/images/dot/penc/wood.gif + https://humulos.com/digimon/images/dot/penc/frame2/wood.gif
+- Xiquemon (`xiquemon`): https://humulos.com/digimon/images/dot/penc/xique.gif + https://humulos.com/digimon/images/dot/penc/frame2/xique.gif
+- Aero V-dramon (`aerovdramon`): https://humulos.com/digimon/images/dot/penc/aerovdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/aerovdra.gif
+- Anomalocarimon (`anomalocarimon`): https://humulos.com/digimon/images/dot/penc/anomalocari.gif + https://humulos.com/digimon/images/dot/penc/frame2/anomalocari.gif
+- Asuramon (`asuramon`): https://humulos.com/digimon/images/dot/penc/asura.gif + https://humulos.com/digimon/images/dot/penc/frame2/asura.gif
+- Atlur Kabuterimon (`atlurkabuterimon`): https://humulos.com/digimon/images/dot/penc/atlurkabuteri.gif + https://humulos.com/digimon/images/dot/penc/frame2/atlurkabuteri.gif
+- Big Mamemon (`bigmamemon`): https://humulos.com/digimon/images/dot/penc/bigmame.gif + https://humulos.com/digimon/images/dot/penc/frame2/bigmame.gif
+- Blossomon (`blossomon`): https://humulos.com/digimon/images/dot/penc/blosso.gif + https://humulos.com/digimon/images/dot/penc/frame2/blosso.gif
+- Canoweissmon (`canoweissmon`): https://humulos.com/digimon/images/dot/penc/canoweiss.gif + https://humulos.com/digimon/images/dot/penc/frame2/canoweiss.gif
+- Cargodramon (`cargodramon`): https://humulos.com/digimon/images/dot/penc/cargodra.gif + https://humulos.com/digimon/images/dot/penc/frame2/cargodra.gif
+- Cho-Hakkaimon (`chohakkaimon`): https://humulos.com/digimon/images/dot/penc/chohakkai.gif + https://humulos.com/digimon/images/dot/penc/frame2/chohakkai.gif
+- Cyberdramon (`cyberdramon`): https://humulos.com/digimon/images/dot/penc/cyberdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/cyberdra.gif
+- Dagomon (`dagomon`): https://humulos.com/digimon/images/dot/penc/dago.gif + https://humulos.com/digimon/images/dot/penc/frame2/dago.gif
+- Darumamon (`darumamon`): https://humulos.com/digimon/images/dot/penc/daruma.gif + https://humulos.com/digimon/images/dot/penc/frame2/daruma.gif
+- Death Meramon (`deathmeramon`): https://humulos.com/digimon/images/dot/penc/deathmera.gif + https://humulos.com/digimon/images/dot/penc/frame2/deathmera.gif
+- Delumon (`delumon`): https://humulos.com/digimon/images/dot/penc/delu.gif + https://humulos.com/digimon/images/dot/penc/frame2/delu.gif
+- Fantomon (`fantomon`): https://humulos.com/digimon/images/dot/penc/fanto.gif + https://humulos.com/digimon/images/dot/penc/frame2/fanto.gif
+- Garudamon (`garudamon`): https://humulos.com/digimon/images/dot/penc/garuda.gif + https://humulos.com/digimon/images/dot/penc/frame2/garuda.gif
+- Gerbemon (`gerbemon`): https://humulos.com/digimon/images/dot/penc/gerbe.gif + https://humulos.com/digimon/images/dot/penc/frame2/gerbe.gif
+- Gokuwmon (`gokuwmon`): https://humulos.com/digimon/images/dot/penc/gokuw.gif + https://humulos.com/digimon/images/dot/penc/frame2/gokuw.gif
+- Grand Galemon (`grandgalemon`): https://humulos.com/digimon/images/dot/penc/grandgale.gif + https://humulos.com/digimon/images/dot/penc/frame2/grandgale.gif
+- Hangyomon (`hangyomon`): https://humulos.com/digimon/images/dot/penc/hangyo.gif + https://humulos.com/digimon/images/dot/penc/frame2/hangyo.gif
+- Holy Angemon (`holyangemon`): https://humulos.com/digimon/images/dot/penc/holyange.gif + https://humulos.com/digimon/images/dot/penc/frame2/holyange.gif
+- Huankunmon (`huankunmon`): https://humulos.com/digimon/images/dot/penc/huankun.gif + https://humulos.com/digimon/images/dot/penc/frame2/huankun.gif
+- Jyagamon (`jyagamon`): https://humulos.com/digimon/images/dot/penc/jyaga.gif + https://humulos.com/digimon/images/dot/penc/frame2/jyaga.gif
+- Jyureimon (`jyureimon`): https://humulos.com/digimon/images/dot/penc/jyurei.gif + https://humulos.com/digimon/images/dot/penc/frame2/jyurei.gif
+- Karakurumon (`karakurumon`): https://humulos.com/digimon/images/dot/penc/karakuru.gif + https://humulos.com/digimon/images/dot/penc/frame2/karakuru.gif
+- Karatenmon (`karatenmon`): https://humulos.com/digimon/images/dot/penc/karaten.gif + https://humulos.com/digimon/images/dot/penc/frame2/karaten.gif
+- Knightmon (`knightmon`): https://humulos.com/digimon/images/dot/penc/knight.gif + https://humulos.com/digimon/images/dot/penc/frame2/knight.gif
+- Lady Devimon (`ladydevimon`): https://humulos.com/digimon/images/dot/penc/ladydevi.gif + https://humulos.com/digimon/images/dot/penc/frame2/ladydevi.gif
+- Lamortmon (`lamortmon`): https://humulos.com/digimon/images/dot/penc/lamort.gif + https://humulos.com/digimon/images/dot/penc/frame2/lamort.gif
+- Lilimon (`lilimon`): https://humulos.com/digimon/images/dot/penc/lili.gif + https://humulos.com/digimon/images/dot/penc/frame2/lili.gif
+- Mammon (`mammon`): https://humulos.com/digimon/images/dot/penc/mam.gif + https://humulos.com/digimon/images/dot/penc/frame2/mam.gif
+- Marin Bullmon (`marinbullmon`): https://humulos.com/digimon/images/dot/penc/marinbull.gif + https://humulos.com/digimon/images/dot/penc/frame2/marinbull.gif
+- Marin Devimon (`marindevimon`): https://humulos.com/digimon/images/dot/penc/marindevi.gif + https://humulos.com/digimon/images/dot/penc/frame2/marindevi.gif
+- Oboromon (`oboromon`): https://humulos.com/digimon/images/dot/penc/oboro.gif + https://humulos.com/digimon/images/dot/penc/frame2/oboro.gif
+- Okuwamon (`okuwamon`): https://humulos.com/digimon/images/dot/penc/okuwa.gif + https://humulos.com/digimon/images/dot/penc/frame2/okuwa.gif
+- Pandamon (`pandamon`): https://humulos.com/digimon/images/dot/penc/panda.gif + https://humulos.com/digimon/images/dot/penc/frame2/panda.gif
+- Piccolomon (`piccolomon`): https://humulos.com/digimon/images/dot/penc/piccolo.gif + https://humulos.com/digimon/images/dot/penc/frame2/piccolo.gif
+- Pumpmon (`pumpmon`): https://humulos.com/digimon/images/dot/penc/pump.gif + https://humulos.com/digimon/images/dot/penc/frame2/pump.gif
+- Regulusmon (`regulusmon`): https://humulos.com/digimon/images/dot/penc/regulus.gif + https://humulos.com/digimon/images/dot/penc/frame2/regulus.gif
+- Sagomon (`sagomon`): https://humulos.com/digimon/images/dot/penc/sago.gif + https://humulos.com/digimon/images/dot/penc/frame2/sago.gif
+- Sanzomon (`sanzomon`): https://humulos.com/digimon/images/dot/penc/sanzo.gif + https://humulos.com/digimon/images/dot/penc/frame2/sanzo.gif
+- Sekkamon (`sekkamon`): https://humulos.com/digimon/images/dot/penc/sekka.gif + https://humulos.com/digimon/images/dot/penc/frame2/sekka.gif
+- Shishimamon (`shishimamon`): https://humulos.com/digimon/images/dot/penc/shishima.gif + https://humulos.com/digimon/images/dot/penc/frame2/shishima.gif
+- Soloogarmon (`soloogarmon`): https://humulos.com/digimon/images/dot/penc/soloogar.gif + https://humulos.com/digimon/images/dot/penc/frame2/soloogar.gif
+- Thetismon (`thetismon`): https://humulos.com/digimon/images/dot/penc/thetis.gif + https://humulos.com/digimon/images/dot/penc/frame2/thetis.gif
+- Tonosama Gekomon (`tonosamagekomon`): https://humulos.com/digimon/images/dot/penc/tonosamageko.gif + https://humulos.com/digimon/images/dot/penc/frame2/tonosamageko.gif
+- Triceramon (`triceramon`): https://humulos.com/digimon/images/dot/penc/tricera.gif + https://humulos.com/digimon/images/dot/penc/frame2/tricera.gif
+- Vamdemon (`vamdemon`): https://humulos.com/digimon/images/dot/penc/vamde.gif + https://humulos.com/digimon/images/dot/penc/frame2/vamde.gif
+- Xingtianmon (`xingtianmon`): https://humulos.com/digimon/images/dot/penc/xingtian.gif + https://humulos.com/digimon/images/dot/penc/frame2/xingtian.gif
+- Zudomon (`zudomon`): https://humulos.com/digimon/images/dot/penc/zudo.gif + https://humulos.com/digimon/images/dot/penc/frame2/zudo.gif
+- Pitchmon (`pitchmon`): https://humulos.com/digimon/images/dot/penc/pitch.gif + https://humulos.com/digimon/images/dot/penc/frame2/pitch.gif
+- Pukamon (`pukamon`): https://humulos.com/digimon/images/dot/penc/puka.gif + https://humulos.com/digimon/images/dot/penc/frame2/puka.gif
+- Gomamon (`gomamon`): https://humulos.com/digimon/images/dot/penc/goma.gif + https://humulos.com/digimon/images/dot/penc/frame2/goma.gif
+- Choromon (`choromon`): https://humulos.com/digimon/images/dot/penc/choro.gif + https://humulos.com/digimon/images/dot/penc/frame2/choro.gif
+- Caprimon (`caprimon`): https://humulos.com/digimon/images/dot/penc/capri.gif + https://humulos.com/digimon/images/dot/penc/frame2/capri.gif
+- Kokuwamon (`kokuwamon`): https://humulos.com/digimon/images/dot/penc/kokuwa.gif + https://humulos.com/digimon/images/dot/penc/frame2/kokuwa.gif
+- Toy Agumon (`toyagumon`): https://humulos.com/digimon/images/dot/penc/toyagu.gif + https://humulos.com/digimon/images/dot/penc/frame2/toyagu.gif
+- Bubbmon (`bubbmon`): https://humulos.com/digimon/images/dot/penc/bubb.gif + https://humulos.com/digimon/images/dot/penc/frame2/bubb.gif
+- Mochimon (`mochimon`): https://humulos.com/digimon/images/dot/penc/mochi.gif + https://humulos.com/digimon/images/dot/penc/frame2/mochi.gif
+- Tentomon (`tentomon`): https://humulos.com/digimon/images/dot/penc/tento.gif + https://humulos.com/digimon/images/dot/penc/frame2/tento.gif
+- Mokumon (`mokumon`): https://humulos.com/digimon/images/dot/penc/moku.gif + https://humulos.com/digimon/images/dot/penc/frame2/moku.gif
+- Peti Meramon (`petimeramon`): https://humulos.com/digimon/images/dot/penc/petimera.gif + https://humulos.com/digimon/images/dot/penc/frame2/petimera.gif
+- Bakumon (`bakumon`): https://humulos.com/digimon/images/dot/penc/baku.gif + https://humulos.com/digimon/images/dot/penc/frame2/baku.gif
+- Fukamon (`fukamon`): https://humulos.com/digimon/images/dot/penc/fuka.gif + https://humulos.com/digimon/images/dot/penc/frame2/fuka.gif
+- Mococomon (`mococomon`): https://humulos.com/digimon/images/dot/penc/mococo.gif + https://humulos.com/digimon/images/dot/penc/frame2/mococo.gif
+- Kakamon (`kakamon`): https://humulos.com/digimon/images/dot/penc/kaka.gif + https://humulos.com/digimon/images/dot/penc/frame2/kaka.gif
+- Kamemon (`kamemon`): https://humulos.com/digimon/images/dot/penc/kame.gif + https://humulos.com/digimon/images/dot/penc/frame2/kame.gif
+- Tomorimon (`tomorimon`): https://humulos.com/digimon/images/dot/penc/tomori.gif + https://humulos.com/digimon/images/dot/penc/frame2/tomori.gif
+- Onibimon (`onibimon`): https://humulos.com/digimon/images/dot/penc/onibi.gif + https://humulos.com/digimon/images/dot/penc/frame2/onibi.gif
+- Hanimon (`hanimon`): https://humulos.com/digimon/images/dot/penc/hani.gif + https://humulos.com/digimon/images/dot/penc/frame2/hani.gif
+- Wankomon (`wankomon`): https://humulos.com/digimon/images/dot/penc/wanko.gif + https://humulos.com/digimon/images/dot/penc/frame2/wanko.gif
+- Yukimibotamon (`yukimibotamon`): https://humulos.com/digimon/images/dot/penc/yukimibota.gif + https://humulos.com/digimon/images/dot/penc/frame2/yukimibota.gif
+- Nyaromon (`nyaromon`): https://humulos.com/digimon/images/dot/penc/nyaro.gif + https://humulos.com/digimon/images/dot/penc/frame2/nyaro.gif
+- Nyokimon (`nyokimon`): https://humulos.com/digimon/images/dot/penc/nyoki.gif + https://humulos.com/digimon/images/dot/penc/frame2/nyoki.gif
+- Pyocomon (`pyocomon`): https://humulos.com/digimon/images/dot/penc/pyoco.gif + https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif
+- Piyomon (`piyomon`): https://humulos.com/digimon/images/dot/penc/piyo.gif + https://humulos.com/digimon/images/dot/penc/frame2/piyo.gif
 
 ## Excluded
 - Andiramon: alternate form

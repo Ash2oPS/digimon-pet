@@ -125,6 +125,7 @@ def generate_penc_proposal(
         if species_id in existing_species:
             continue
         sprite_url = str(item.get("sprite_url", "")).strip()
+        sprite_frame2_url = str(item.get("sprite_frame2_url", "")).strip()
         if not sprite_url:
             errors.append(f"{species_id} has no PenC sprite candidate")
         new_species.append(
@@ -141,6 +142,7 @@ def generate_penc_proposal(
                 "species_id": species_id,
                 "name": str(item["name"]),
                 "sprite_url": sprite_url,
+                "sprite_frame2_url": sprite_frame2_url,
                 "source_url": str(item.get("profile_url") or raw.get("source_url") or PENC_URL),
                 "source_family": str(item.get("family", "")),
                 "preferred_source_id": PENC_SPRITE_SOURCE_ID,
@@ -224,7 +226,12 @@ def render_penc_report(proposal: dict[str, Any]) -> str:
         lines.append("- None")
     lines.extend(["", "## Sprite Imports"])
     sprite_imports = proposal.get("sprite_imports", [])
-    lines.extend(f"- {item['name']} (`{item['species_id']}`): {item['sprite_url']}" for item in sprite_imports) if sprite_imports else lines.append("- None")
+    if sprite_imports:
+        for item in sprite_imports:
+            frame2 = f" + {item['sprite_frame2_url']}" if item.get("sprite_frame2_url") else ""
+            lines.append(f"- {item['name']} (`{item['species_id']}`): {item['sprite_url']}{frame2}")
+    else:
+        lines.append("- None")
     lines.extend(["", "## Excluded"])
     excluded = proposal.get("excluded", [])
     lines.extend(f"- {item.get('name')}: {item.get('excluded_reason')}" for item in excluded) if excluded else lines.append("- None")
@@ -310,10 +317,20 @@ def _species_from_block(slug: str, block: str, prefix: str, source_url: str) -> 
     name = _clean_title(title)
     stage = _stage_from_block(block) or _stage_from_prefix(prefix)
     family = _family_from_prefix(prefix)
-    return _species_item(slug, name, stage, family, _absolute_url(source_url, image_url), source_url)
+    frame2_url = _frame2_sprite_url(block, source_url)
+    return _species_item(slug, name, stage, family, _absolute_url(source_url, image_url), source_url, frame2_url=frame2_url)
 
 
-def _species_item(slug: str, name: str, stage: str, family: str, sprite_url: str, source_url: str) -> dict[str, Any]:
+def _species_item(
+    slug: str,
+    name: str,
+    stage: str,
+    family: str,
+    sprite_url: str,
+    source_url: str,
+    *,
+    frame2_url: str = "",
+) -> dict[str, Any]:
     excluded_reason = ""
     if _is_alternate_form(name):
         excluded_reason = "alternate form"
@@ -327,6 +344,7 @@ def _species_item(slug: str, name: str, stage: str, family: str, sprite_url: str
         "stage": stage,
         "family": family,
         "sprite_url": sprite_url,
+        "sprite_frame2_url": frame2_url,
         "profile_url": source_url,
         "excluded_reason": excluded_reason,
     }
@@ -511,6 +529,15 @@ def _profile_image_tag(block: str) -> str:
 def _first_penc_image_tag(block: str) -> str:
     match = re.search(r"<img\b[^>]*(?:data-src|src)=\"[^\"]*images/dot/penc/[^\"]+\"[^>]*>", block, flags=re.I)
     return match.group(0) if match else ""
+
+
+def _frame2_sprite_url(block: str, source_url: str) -> str:
+    match = re.search(r"<img\b[^>]*(?:data-src|src)=\"[^\"]*images/dot/penc/frame2/[^\"]+\"[^>]*>", block, flags=re.I)
+    if not match:
+        return ""
+    tag = match.group(0)
+    image_url = _tag_attr(tag, "data-src") or _tag_attr(tag, "src")
+    return _absolute_url(source_url, image_url) if image_url else ""
 
 
 def _tag_attr(tag: str, attr: str) -> str:

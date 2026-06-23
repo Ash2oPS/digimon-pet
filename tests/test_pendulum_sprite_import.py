@@ -466,18 +466,18 @@ def test_discover_sprite_import_options_includes_humulos_penc_when_stage_is_know
     assert [option.provider_id for option in options] == ["humulos_penc"]
     assert options[0].label == "Humulos PenC (Agumon)"
     assert options[0].image_url == "https://humulos.com/digimon/images/dot/penc/agu.gif"
+    assert options[0].metadata["sprite_frame2_url"] == "https://humulos.com/digimon/images/dot/penc/frame2/agu.gif"
 
 
 def test_humulos_penc_import_updates_pendulum_source_manifest_and_runtime(tmp_path, monkeypatch):
     _write_json(tmp_path / "data" / "sprite_sources.json", [])
     _write_json(tmp_path / "data" / "dw1_roster.json", [{"id": "agumon", "name": "Agumon"}])
-    imported_image = QImage(32, 16, QImage.Format.Format_ARGB32)
-    imported_image.fill(QColor("red"))
-    monkeypatch.setattr(
-        pendulum_sprite_import,
-        "_load_remote_animation_sheet",
-        lambda url, fps=6, timeout_seconds=10, **kwargs: AnimationSheet(imported_image, 2, fps, 16, 16),
-    )
+    def fake_load_remote_image(url, timeout_seconds=10):
+        image = QImage(16, 16, QImage.Format.Format_ARGB32)
+        image.fill(QColor("red") if "/frame2/" not in url else QColor("blue"))
+        return image
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_remote_image", fake_load_remote_image)
     option = SpriteImportOption(
         provider_id="humulos_penc",
         label="Humulos PenC (Agumon)",
@@ -488,7 +488,10 @@ def test_humulos_penc_import_updates_pendulum_source_manifest_and_runtime(tmp_pa
         image_url="https://humulos.com/digimon/images/dot/penc/agu.gif",
         matched_name="Agumon",
         source_name="Humulos PenC",
-        metadata={"source_title": "Agumon"},
+        metadata={
+            "source_title": "Agumon",
+            "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/agu.gif",
+        },
     )
 
     result = import_sprite_option(
@@ -501,9 +504,16 @@ def test_humulos_penc_import_updates_pendulum_source_manifest_and_runtime(tmp_pa
     )
 
     assert result is not None
+    assert result.frame_count == 2
     assert result.relative_path == "assets/sprite_sources/digimon_pendulum_color/agumon.png"
+    output = QImage(str(result.path))
+    assert output.width() == 32
+    assert output.height() == 16
+    assert output.pixelColor(0, 0) == QColor("red")
+    assert output.pixelColor(16, 0) == QColor("blue")
     source_manifest = json.loads((tmp_path / "assets" / "sprite_sources" / "digimon_pendulum_color" / "manifest.json").read_text())
     assert source_manifest["sprites"][0]["source_url"] == "https://humulos.com/digimon/images/dot/penc/agu.gif"
+    assert source_manifest["sprites"][0]["sprite_frame2_url"] == "https://humulos.com/digimon/images/dot/penc/frame2/agu.gif"
     source_config = json.loads((tmp_path / "data" / "sprite_sources.json").read_text(encoding="utf-8"))
     assert source_config == [
         {

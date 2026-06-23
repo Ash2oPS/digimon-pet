@@ -73,7 +73,10 @@ def _apply(project_root: Path, proposal_path: Path | None) -> int:
             image_url=str(item.get("sprite_url") or ""),
             matched_name=str(item["name"]),
             source_name="Humulos PenC",
-            metadata={"source_title": str(item["name"])},
+            metadata={
+                "source_title": str(item["name"]),
+                "sprite_frame2_url": str(item.get("sprite_frame2_url") or ""),
+            },
         )
         result = import_sprite_option(option, project_root)
         if result is None:

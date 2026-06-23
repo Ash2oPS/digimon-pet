@@ -9,6 +9,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/angora.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/angora.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -20,6 +21,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cand.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cand.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -31,6 +33,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/commandra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/commandra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -42,6 +45,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/flora.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/flora.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -53,6 +57,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fuja.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fuja.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -64,6 +69,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gabu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gabu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -75,6 +81,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gamma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gamma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -86,6 +93,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gani.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gani.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -97,6 +105,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gasa.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gasa.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -108,6 +117,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gottsu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gottsu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -119,6 +129,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/haguru.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/haguru.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -130,6 +141,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jelly.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jelly.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -141,6 +153,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/looga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/looga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -152,6 +165,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mush.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mush.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -163,6 +177,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/otama.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/otama.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -174,6 +189,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pal.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pal.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -185,6 +201,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/picodevi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/picodevi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -196,6 +213,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/plot.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/plot.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -207,6 +225,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ptero.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ptero.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -218,6 +237,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rena.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rena.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -229,6 +249,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shako.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shako.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -240,6 +261,7 @@
       "stage": "rookie",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/takin.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takin.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -251,6 +273,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ange.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ange.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -262,6 +285,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bake.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bake.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -273,6 +297,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/betelgamma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/betelgamma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -284,6 +309,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/birdra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/birdra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -295,6 +321,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/clock.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/clock.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -306,6 +333,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/coela.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/coela.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -317,6 +345,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/devi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/devi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -328,6 +357,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/dokugu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dokugu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -339,6 +369,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ebidra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ebidra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -350,6 +381,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fuga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fuga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -361,6 +393,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gale.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gale.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -372,6 +405,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/garuru.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/garuru.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -383,6 +417,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gawappa.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gawappa.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -394,6 +429,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/geko.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/geko.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -405,6 +441,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/geso.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/geso.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -416,6 +453,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ginkaku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ginkaku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -427,6 +465,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/grey.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/grey.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -438,6 +477,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/guardro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/guardro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -449,6 +489,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gulusgamma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gulusgamma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -460,6 +501,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hakuba.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hakuba.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -471,6 +513,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hanu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hanu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -482,6 +525,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hicommandra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hicommandra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -493,6 +537,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/iga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/iga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -504,6 +549,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ikkaku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ikkaku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -515,6 +561,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kabuteri.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kabuteri.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -526,6 +573,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kausgamma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kausgamma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -537,6 +585,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kinkaku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kinkaku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -548,6 +597,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kiwi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kiwi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -559,6 +609,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kokeshi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kokeshi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -570,6 +621,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kuwaga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kuwaga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -581,6 +633,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/leo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/leo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -592,6 +645,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/lianpu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/lianpu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -603,6 +657,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/loogar.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/loogar.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -614,6 +669,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/maneki.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/maneki.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -625,6 +681,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mechanori.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mechanori.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -636,6 +693,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mera.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mera.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -647,6 +705,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/monochro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/monochro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -658,6 +717,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/musya.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/musya.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -669,6 +729,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/oct.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/oct.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -680,6 +741,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/peck.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/peck.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -691,6 +753,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/redvegi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/redvegi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -702,6 +765,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/revol.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/revol.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -713,6 +777,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ruka.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ruka.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -724,6 +789,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/seadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/seadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -735,6 +801,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shell.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shell.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -746,6 +813,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/siesa.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/siesa.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -757,6 +825,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/star.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/star.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -768,6 +837,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/symbareangora.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/symbareangora.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -779,6 +849,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tail.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tail.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -790,6 +861,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tank.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tank.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -801,6 +873,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tenko.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tenko.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -812,6 +885,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/teslajelly.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/teslajelly.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -823,6 +897,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/thunderball.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/thunderball.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -834,6 +909,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/toge.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/toge.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -845,6 +921,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/torta.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/torta.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -856,6 +933,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/turuie.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/turuie.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -867,6 +945,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/vdra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vdra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -878,6 +957,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wezengamma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wezengamma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -889,6 +969,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wizar.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wizar.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -900,6 +981,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wood.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wood.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -911,6 +993,7 @@
       "stage": "champion",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/xique.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xique.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -922,6 +1005,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/aerovdra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/aerovdra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -935,6 +1019,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/andira_d.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/andira_d.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "alternate form"
     },
@@ -946,6 +1031,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/andro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/andro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -957,6 +1043,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/angewo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/angewo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -968,6 +1055,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/anomalocari.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/anomalocari.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -979,6 +1067,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/asura.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/asura.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -990,6 +1079,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/atlurkabuteri.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/atlurkabuteri.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1001,6 +1091,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bigmame.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bigmame.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1012,6 +1103,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/blosso.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/blosso.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1023,6 +1115,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/canoweiss.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/canoweiss.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1034,6 +1127,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cargodra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cargodra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1045,6 +1139,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/chohakkai.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/chohakkai.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1056,6 +1151,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cyberdra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cyberdra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1067,6 +1163,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/dago.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dago.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1078,6 +1175,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/daruma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/daruma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1089,6 +1187,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/deathmera.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/deathmera.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1100,6 +1199,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/delu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/delu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1111,6 +1211,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fanto.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fanto.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1122,6 +1223,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/garuda.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/garuda.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1133,6 +1235,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gerbe.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gerbe.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1144,6 +1247,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gokuw.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gokuw.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1155,6 +1259,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/grandgale.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/grandgale.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1166,6 +1271,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hangyo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hangyo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1177,6 +1283,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/holyange.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/holyange.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1188,6 +1295,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/huankun.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/huankun.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1199,6 +1307,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jyaga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jyaga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1210,6 +1319,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jyurei.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jyurei.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1221,6 +1331,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/karakuru.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/karakuru.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1232,6 +1343,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/karaten.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/karaten.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1243,6 +1355,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/knight.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/knight.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1254,6 +1367,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ladydevi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ladydevi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1265,6 +1379,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/lamort.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/lamort.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1276,6 +1391,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/lili.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/lili.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1287,6 +1403,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mam.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mam.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1298,6 +1415,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/marinbull.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marinbull.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1309,6 +1427,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/marindevi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marindevi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1320,6 +1439,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/megaseadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/megaseadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1331,6 +1451,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/megadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/megadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1344,6 +1465,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalgrey_va.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalgrey_va.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "alternate form"
     },
@@ -1355,6 +1477,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalmame.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalmame.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1366,6 +1489,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/oboro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/oboro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1377,6 +1501,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/okuwa.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/okuwa.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1388,6 +1513,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/panda.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/panda.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1399,6 +1525,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/piccolo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/piccolo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1410,6 +1537,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pump.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pump.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1421,6 +1549,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/regulus.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/regulus.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1432,6 +1561,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sago.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sago.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1443,6 +1573,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sanzo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sanzo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1454,6 +1585,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sekka.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sekka.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1465,6 +1597,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shishima.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shishima.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1476,6 +1609,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/soloogar.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/soloogar.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1487,6 +1621,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/thetis.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/thetis.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1498,6 +1633,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tonosamageko.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tonosamageko.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1509,6 +1645,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tricera.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tricera.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1520,6 +1657,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/vamde.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vamde.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1531,6 +1669,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/warumonzae.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/warumonzae.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1542,6 +1681,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/weregaruru.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/weregaruru.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1553,6 +1693,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wha.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wha.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1564,6 +1705,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/xingtian.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xingtian.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1577,6 +1719,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/yatagara_2006.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yatagara_2006.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "alternate form"
     },
@@ -1588,6 +1731,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zudo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zudo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -1599,6 +1743,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/amphi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/amphi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1610,6 +1755,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/anubi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/anubi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1621,6 +1767,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/arcturus.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/arcturus.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1632,6 +1779,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/arie.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/arie.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1643,6 +1791,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/blast.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/blast.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1654,6 +1803,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bolt.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bolt.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1665,6 +1815,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/brigadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/brigadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1676,6 +1827,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/callis.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/callis.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1687,6 +1839,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cthylla.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cthylla.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1698,6 +1851,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/de.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/de.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1709,6 +1863,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/diarbbit.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/diarbbit.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1720,6 +1875,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/dijiang.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dijiang.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1731,6 +1887,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/domini.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/domini.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1742,6 +1899,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/eldoradi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/eldoradi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1753,6 +1911,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/erlang.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/erlang.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1764,6 +1923,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/erlang_b.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/erlang_b.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1775,6 +1935,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fenrilooga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fenrilooga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1786,6 +1947,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/grankuwaga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/grankuwaga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1797,6 +1959,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/griffo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/griffo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1808,6 +1971,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/heraklekabuteri.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/heraklekabuteri.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1819,6 +1983,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hiandro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hiandro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1830,6 +1995,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/holydra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/holydra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1841,6 +2007,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/houou.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/houou.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1852,6 +2019,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hydra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hydra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1863,6 +2031,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jouga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jouga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1874,6 +2043,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jumbogame.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jumbogame.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1885,6 +2055,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kaguya.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kaguya.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1896,6 +2067,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/marinange.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marinange.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1907,6 +2079,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalete.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1918,6 +2091,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalgaruru.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalgaruru.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1929,6 +2103,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalseadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalseadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1940,6 +2115,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mugendra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mugendra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1951,6 +2127,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nezha.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nezha.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1962,6 +2139,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nezha_c.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nezha_c.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1973,6 +2151,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/noblepump.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/noblepump.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1984,6 +2163,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pie.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pie.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -1995,6 +2175,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pinochi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pinochi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2006,6 +2187,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/plesio.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/plesio.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2017,6 +2199,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/puku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/puku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2028,6 +2211,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/quantu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/quantu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2039,6 +2223,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rafflesi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rafflesi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2050,6 +2235,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ragna.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ragna.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2061,6 +2247,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rav.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rav.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2072,6 +2259,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rav_b.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rav_b.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2083,6 +2271,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rose.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rose.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2094,6 +2283,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ryugu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ryugu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2105,6 +2295,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/saberleo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/saberleo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2116,6 +2307,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shagara.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shagara.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2127,6 +2319,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sirius.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sirius.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2138,6 +2331,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/skullmam.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/skullmam.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2149,6 +2343,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/takutou.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takutou.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2160,6 +2355,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/takutou_w.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takutou_w.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2171,6 +2367,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tengu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tengu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2182,6 +2379,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ulforcevdra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ulforcevdra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2193,6 +2391,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/venomvamde.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/venomvamde.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2204,6 +2403,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/vike.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vike.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2215,6 +2415,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wargrey.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wargrey.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2226,6 +2427,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/xiangpeng.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xiangpeng.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2237,6 +2439,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/yukina.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yukina.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2248,6 +2451,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zanba.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zanba.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2259,6 +2463,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zekegrey.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zekegrey.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2270,6 +2475,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zephaga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zephaga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -2281,6 +2487,7 @@
       "stage": "baby",
       "family": "Deep Savers",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pitch.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pitch.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2292,6 +2499,7 @@
       "stage": "baby_2",
       "family": "Deep Savers",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/puka.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/puka.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2303,6 +2511,7 @@
       "stage": "rookie",
       "family": "Deep Savers",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/goma.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/goma.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2314,6 +2523,7 @@
       "stage": "baby",
       "family": "Metal Empire",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/choro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/choro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2325,6 +2535,7 @@
       "stage": "baby_2",
       "family": "Metal Empire",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/capri.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/capri.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2336,6 +2547,7 @@
       "stage": "rookie",
       "family": "Metal Empire",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kokuwa.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kokuwa.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2347,6 +2559,7 @@
       "stage": "rookie",
       "family": "Metal Empire",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/toyagu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/toyagu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2358,6 +2571,7 @@
       "stage": "baby",
       "family": "Nature Spirits",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bubb.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bubb.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2369,6 +2583,7 @@
       "stage": "baby_2",
       "family": "Nature Spirits",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mochi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mochi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2380,6 +2595,7 @@
       "stage": "rookie",
       "family": "Nature Spirits",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tento.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tento.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2391,6 +2607,7 @@
       "stage": "baby",
       "family": "Nightmare Soldiers",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/moku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/moku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2402,6 +2619,7 @@
       "stage": "baby_2",
       "family": "Nightmare Soldiers",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/petimera.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/petimera.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2413,6 +2631,7 @@
       "stage": "rookie",
       "family": "Nightmare Soldiers",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/baku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/baku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2424,6 +2643,7 @@
       "stage": "baby",
       "family": "Saiyu Warriors",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fuka.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fuka.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2435,6 +2655,7 @@
       "stage": "baby_2",
       "family": "Saiyu Warriors",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mococo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mococo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2446,6 +2667,7 @@
       "stage": "rookie",
       "family": "Saiyu Warriors",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kaka.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kaka.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2457,6 +2679,7 @@
       "stage": "rookie",
       "family": "Saiyu Warriors",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kame.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kame.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2468,6 +2691,7 @@
       "stage": "baby",
       "family": "Toho Braves",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tomori.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tomori.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2479,6 +2703,7 @@
       "stage": "baby_2",
       "family": "Toho Braves",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/onibi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/onibi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2490,6 +2715,7 @@
       "stage": "rookie",
       "family": "Toho Braves",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hani.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hani.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2501,6 +2727,7 @@
       "stage": "rookie",
       "family": "Toho Braves",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wanko.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wanko.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2512,6 +2739,7 @@
       "stage": "baby",
       "family": "Virus Busters",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/yukimibota.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yukimibota.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2523,6 +2751,7 @@
       "stage": "baby_2",
       "family": "Virus Busters",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nyaro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nyaro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2534,6 +2763,7 @@
       "stage": "rookie",
       "family": "Virus Busters",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/agu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/agu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2545,6 +2775,7 @@
       "stage": "baby",
       "family": "Wind Guardians",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nyoki.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nyoki.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2556,6 +2787,7 @@
       "stage": "baby_2",
       "family": "Wind Guardians",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pyoco.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     },
@@ -2567,6 +2799,7 @@
       "stage": "rookie",
       "family": "Wind Guardians",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/piyo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/piyo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": ""
     }
@@ -6742,6 +6975,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/andira_d.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/andira_d.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "alternate form"
     },
@@ -6755,6 +6989,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalgrey_va.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalgrey_va.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "alternate form"
     },
@@ -6768,6 +7003,7 @@
       "stage": "ultimate",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/yatagara_2006.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yatagara_2006.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "alternate form"
     },
@@ -6779,6 +7015,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/amphi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/amphi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6790,6 +7027,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/anubi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/anubi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6801,6 +7039,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/arcturus.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/arcturus.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6812,6 +7051,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/arie.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/arie.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6823,6 +7063,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/blast.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/blast.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6834,6 +7075,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bolt.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bolt.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6845,6 +7087,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/brigadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/brigadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6856,6 +7099,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/callis.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/callis.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6867,6 +7111,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cthylla.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cthylla.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6878,6 +7123,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/de.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/de.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6889,6 +7135,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/diarbbit.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/diarbbit.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6900,6 +7147,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/dijiang.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dijiang.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6911,6 +7159,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/domini.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/domini.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6922,6 +7171,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/eldoradi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/eldoradi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6933,6 +7183,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/erlang.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/erlang.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6944,6 +7195,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/erlang_b.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/erlang_b.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6955,6 +7207,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fenrilooga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fenrilooga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6966,6 +7219,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/grankuwaga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/grankuwaga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6977,6 +7231,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/griffo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/griffo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6988,6 +7243,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/heraklekabuteri.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/heraklekabuteri.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -6999,6 +7255,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hiandro.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hiandro.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7010,6 +7267,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/holydra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/holydra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7021,6 +7279,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/houou.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/houou.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7032,6 +7291,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hydra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hydra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7043,6 +7303,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jouga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jouga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7054,6 +7315,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jumbogame.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jumbogame.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7065,6 +7327,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kaguya.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kaguya.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7076,6 +7339,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/marinange.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marinange.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7087,6 +7351,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalete.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7098,6 +7363,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalgaruru.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalgaruru.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7109,6 +7375,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalseadra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalseadra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7120,6 +7387,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mugendra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mugendra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7131,6 +7399,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nezha.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nezha.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7142,6 +7411,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nezha_c.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nezha_c.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7153,6 +7423,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/noblepump.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/noblepump.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7164,6 +7435,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pie.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pie.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7175,6 +7447,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pinochi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pinochi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7186,6 +7459,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/plesio.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/plesio.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7197,6 +7471,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/puku.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/puku.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7208,6 +7483,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/quantu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/quantu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7219,6 +7495,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rafflesi.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rafflesi.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7230,6 +7507,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ragna.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ragna.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7241,6 +7519,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rav.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rav.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7252,6 +7531,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rav_b.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rav_b.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7263,6 +7543,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rose.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rose.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7274,6 +7555,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ryugu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ryugu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7285,6 +7567,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/saberleo.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/saberleo.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7296,6 +7579,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shagara.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shagara.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7307,6 +7591,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sirius.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sirius.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7318,6 +7603,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/skullmam.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/skullmam.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7329,6 +7615,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/takutou.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takutou.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7340,6 +7627,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/takutou_w.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takutou_w.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7351,6 +7639,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tengu.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tengu.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7362,6 +7651,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ulforcevdra.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ulforcevdra.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7373,6 +7663,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/venomvamde.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/venomvamde.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7384,6 +7675,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/vike.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vike.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7395,6 +7687,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wargrey.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wargrey.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7406,6 +7699,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/xiangpeng.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xiangpeng.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7417,6 +7711,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/yukina.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yukina.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7428,6 +7723,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zanba.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zanba.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7439,6 +7735,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zekegrey.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zekegrey.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     },
@@ -7450,6 +7747,7 @@
       "stage": "mega",
       "family": "",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zephaga.gif",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zephaga.gif",
       "profile_url": "https://humulos.com/digimon/penc/",
       "excluded_reason": "stage exceeds Ultimate"
     }

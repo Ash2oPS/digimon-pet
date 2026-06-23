@@ -12784,7 +12784,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/angora.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/angora.gif"
     },
     {
       "species_id": "candmon",
@@ -12792,7 +12793,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cand.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cand.gif"
     },
     {
       "species_id": "commandramon",
@@ -12800,7 +12802,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/commandra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/commandra.gif"
     },
     {
       "species_id": "floramon",
@@ -12808,7 +12811,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/flora.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/flora.gif"
     },
     {
       "species_id": "fujamon",
@@ -12816,7 +12820,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fuja.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fuja.gif"
     },
     {
       "species_id": "gammamon",
@@ -12824,7 +12829,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gamma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gamma.gif"
     },
     {
       "species_id": "ganimon",
@@ -12832,7 +12838,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gani.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gani.gif"
     },
     {
       "species_id": "gasamon",
@@ -12840,7 +12847,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gasa.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gasa.gif"
     },
     {
       "species_id": "gottsumon",
@@ -12848,7 +12856,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gottsu.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gottsu.gif"
     },
     {
       "species_id": "hagurumon",
@@ -12856,7 +12865,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/haguru.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/haguru.gif"
     },
     {
       "species_id": "jellymon",
@@ -12864,7 +12874,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jelly.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jelly.gif"
     },
     {
       "species_id": "loogamon",
@@ -12872,7 +12883,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/looga.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/looga.gif"
     },
     {
       "species_id": "mushmon",
@@ -12880,7 +12892,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mush.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mush.gif"
     },
     {
       "species_id": "otamamon",
@@ -12888,7 +12901,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/otama.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/otama.gif"
     },
     {
       "species_id": "picodevimon",
@@ -12896,7 +12910,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/picodevi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/picodevi.gif"
     },
     {
       "species_id": "plotmon",
@@ -12904,7 +12919,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/plot.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/plot.gif"
     },
     {
       "species_id": "pteromon",
@@ -12912,7 +12928,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ptero.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ptero.gif"
     },
     {
       "species_id": "renamon",
@@ -12920,7 +12937,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/rena.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rena.gif"
     },
     {
       "species_id": "shakomon",
@@ -12928,7 +12946,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shako.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shako.gif"
     },
     {
       "species_id": "takinmon",
@@ -12936,7 +12955,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/takin.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takin.gif"
     },
     {
       "species_id": "betelgammamon",
@@ -12944,7 +12964,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/betelgamma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/betelgamma.gif"
     },
     {
       "species_id": "clockmon",
@@ -12952,7 +12973,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/clock.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/clock.gif"
     },
     {
       "species_id": "dokugumon",
@@ -12960,7 +12982,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/dokugu.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dokugu.gif"
     },
     {
       "species_id": "ebidramon",
@@ -12968,7 +12991,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ebidra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ebidra.gif"
     },
     {
       "species_id": "fugamon",
@@ -12976,7 +13000,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fuga.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fuga.gif"
     },
     {
       "species_id": "galemon",
@@ -12984,7 +13009,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gale.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gale.gif"
     },
     {
       "species_id": "gawappamon",
@@ -12992,7 +13018,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gawappa.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gawappa.gif"
     },
     {
       "species_id": "gekomon",
@@ -13000,7 +13027,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/geko.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/geko.gif"
     },
     {
       "species_id": "gesomon",
@@ -13008,7 +13036,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/geso.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/geso.gif"
     },
     {
       "species_id": "ginkakumon",
@@ -13016,7 +13045,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ginkaku.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ginkaku.gif"
     },
     {
       "species_id": "guardromon",
@@ -13024,7 +13054,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/guardro.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/guardro.gif"
     },
     {
       "species_id": "gulusgammamon",
@@ -13032,7 +13063,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gulusgamma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gulusgamma.gif"
     },
     {
       "species_id": "hakubamon",
@@ -13040,7 +13072,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hakuba.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hakuba.gif"
     },
     {
       "species_id": "hanumon",
@@ -13048,7 +13081,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hanu.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hanu.gif"
     },
     {
       "species_id": "hicommandramon",
@@ -13056,7 +13090,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hicommandra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hicommandra.gif"
     },
     {
       "species_id": "igamon",
@@ -13064,7 +13099,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/iga.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/iga.gif"
     },
     {
       "species_id": "ikkakumon",
@@ -13072,7 +13108,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ikkaku.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ikkaku.gif"
     },
     {
       "species_id": "kausgammamon",
@@ -13080,7 +13117,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kausgamma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kausgamma.gif"
     },
     {
       "species_id": "kinkakumon",
@@ -13088,7 +13126,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kinkaku.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kinkaku.gif"
     },
     {
       "species_id": "kiwimon",
@@ -13096,7 +13135,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kiwi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kiwi.gif"
     },
     {
       "species_id": "kokeshimon",
@@ -13104,7 +13144,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kokeshi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kokeshi.gif"
     },
     {
       "species_id": "lianpumon",
@@ -13112,7 +13153,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/lianpu.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/lianpu.gif"
     },
     {
       "species_id": "loogarmon",
@@ -13120,7 +13162,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/loogar.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/loogar.gif"
     },
     {
       "species_id": "manekimon",
@@ -13128,7 +13171,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/maneki.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/maneki.gif"
     },
     {
       "species_id": "mechanorimon",
@@ -13136,7 +13180,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mechanori.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mechanori.gif"
     },
     {
       "species_id": "musyamon",
@@ -13144,7 +13189,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/musya.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/musya.gif"
     },
     {
       "species_id": "octmon",
@@ -13152,7 +13198,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/oct.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/oct.gif"
     },
     {
       "species_id": "peckmon",
@@ -13160,7 +13207,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/peck.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/peck.gif"
     },
     {
       "species_id": "redvegimon",
@@ -13168,7 +13216,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/redvegi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/redvegi.gif"
     },
     {
       "species_id": "revolmon",
@@ -13176,7 +13225,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/revol.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/revol.gif"
     },
     {
       "species_id": "rukamon",
@@ -13184,7 +13234,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ruka.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ruka.gif"
     },
     {
       "species_id": "siesamon",
@@ -13192,7 +13243,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/siesa.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/siesa.gif"
     },
     {
       "species_id": "starmon",
@@ -13200,7 +13252,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/star.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/star.gif"
     },
     {
       "species_id": "symbareangoramon",
@@ -13208,7 +13261,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/symbareangora.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/symbareangora.gif"
     },
     {
       "species_id": "tailmon",
@@ -13216,7 +13270,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tail.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tail.gif"
     },
     {
       "species_id": "tankmon",
@@ -13224,7 +13279,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tank.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tank.gif"
     },
     {
       "species_id": "tenkomon",
@@ -13232,7 +13288,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tenko.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tenko.gif"
     },
     {
       "species_id": "teslajellymon",
@@ -13240,7 +13297,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/teslajelly.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/teslajelly.gif"
     },
     {
       "species_id": "thunderballmon",
@@ -13248,7 +13306,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/thunderball.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/thunderball.gif"
     },
     {
       "species_id": "togemon",
@@ -13256,7 +13315,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/toge.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/toge.gif"
     },
     {
       "species_id": "tortamon",
@@ -13264,7 +13324,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/torta.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/torta.gif"
     },
     {
       "species_id": "vdramon",
@@ -13272,7 +13333,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/vdra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vdra.gif"
     },
     {
       "species_id": "wezengammamon",
@@ -13280,7 +13342,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wezengamma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wezengamma.gif"
     },
     {
       "species_id": "wizarmon",
@@ -13288,7 +13351,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wizar.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wizar.gif"
     },
     {
       "species_id": "woodmon",
@@ -13296,7 +13360,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wood.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wood.gif"
     },
     {
       "species_id": "xiquemon",
@@ -13304,7 +13369,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/xique.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xique.gif"
     },
     {
       "species_id": "aerovdramon",
@@ -13312,7 +13378,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/aerovdra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/aerovdra.gif"
     },
     {
       "species_id": "anomalocarimon",
@@ -13320,7 +13387,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/anomalocari.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/anomalocari.gif"
     },
     {
       "species_id": "asuramon",
@@ -13328,7 +13396,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/asura.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/asura.gif"
     },
     {
       "species_id": "atlurkabuterimon",
@@ -13336,7 +13405,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/atlurkabuteri.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/atlurkabuteri.gif"
     },
     {
       "species_id": "bigmamemon",
@@ -13344,7 +13414,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bigmame.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bigmame.gif"
     },
     {
       "species_id": "blossomon",
@@ -13352,7 +13423,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/blosso.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/blosso.gif"
     },
     {
       "species_id": "canoweissmon",
@@ -13360,7 +13432,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/canoweiss.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/canoweiss.gif"
     },
     {
       "species_id": "cargodramon",
@@ -13368,7 +13441,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cargodra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cargodra.gif"
     },
     {
       "species_id": "chohakkaimon",
@@ -13376,7 +13450,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/chohakkai.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/chohakkai.gif"
     },
     {
       "species_id": "cyberdramon",
@@ -13384,7 +13459,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/cyberdra.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cyberdra.gif"
     },
     {
       "species_id": "dagomon",
@@ -13392,7 +13468,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/dago.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dago.gif"
     },
     {
       "species_id": "darumamon",
@@ -13400,7 +13477,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/daruma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/daruma.gif"
     },
     {
       "species_id": "deathmeramon",
@@ -13408,7 +13486,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/deathmera.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/deathmera.gif"
     },
     {
       "species_id": "delumon",
@@ -13416,7 +13495,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/delu.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/delu.gif"
     },
     {
       "species_id": "fantomon",
@@ -13424,7 +13504,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fanto.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fanto.gif"
     },
     {
       "species_id": "garudamon",
@@ -13432,7 +13513,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/garuda.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/garuda.gif"
     },
     {
       "species_id": "gerbemon",
@@ -13440,7 +13522,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gerbe.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gerbe.gif"
     },
     {
       "species_id": "gokuwmon",
@@ -13448,7 +13531,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/gokuw.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/gokuw.gif"
     },
     {
       "species_id": "grandgalemon",
@@ -13456,7 +13540,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/grandgale.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/grandgale.gif"
     },
     {
       "species_id": "hangyomon",
@@ -13464,7 +13549,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hangyo.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hangyo.gif"
     },
     {
       "species_id": "holyangemon",
@@ -13472,7 +13558,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/holyange.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/holyange.gif"
     },
     {
       "species_id": "huankunmon",
@@ -13480,7 +13567,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/huankun.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/huankun.gif"
     },
     {
       "species_id": "jyagamon",
@@ -13488,7 +13576,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jyaga.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jyaga.gif"
     },
     {
       "species_id": "jyureimon",
@@ -13496,7 +13585,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/jyurei.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jyurei.gif"
     },
     {
       "species_id": "karakurumon",
@@ -13504,7 +13594,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/karakuru.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/karakuru.gif"
     },
     {
       "species_id": "karatenmon",
@@ -13512,7 +13603,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/karaten.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/karaten.gif"
     },
     {
       "species_id": "knightmon",
@@ -13520,7 +13612,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/knight.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/knight.gif"
     },
     {
       "species_id": "ladydevimon",
@@ -13528,7 +13621,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/ladydevi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ladydevi.gif"
     },
     {
       "species_id": "lamortmon",
@@ -13536,7 +13630,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/lamort.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/lamort.gif"
     },
     {
       "species_id": "lilimon",
@@ -13544,7 +13639,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/lili.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/lili.gif"
     },
     {
       "species_id": "mammon",
@@ -13552,7 +13648,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mam.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mam.gif"
     },
     {
       "species_id": "marinbullmon",
@@ -13560,7 +13657,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/marinbull.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marinbull.gif"
     },
     {
       "species_id": "marindevimon",
@@ -13568,7 +13666,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/marindevi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marindevi.gif"
     },
     {
       "species_id": "oboromon",
@@ -13576,7 +13675,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/oboro.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/oboro.gif"
     },
     {
       "species_id": "okuwamon",
@@ -13584,7 +13684,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/okuwa.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/okuwa.gif"
     },
     {
       "species_id": "pandamon",
@@ -13592,7 +13693,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/panda.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/panda.gif"
     },
     {
       "species_id": "piccolomon",
@@ -13600,7 +13702,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/piccolo.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/piccolo.gif"
     },
     {
       "species_id": "pumpmon",
@@ -13608,7 +13711,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pump.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pump.gif"
     },
     {
       "species_id": "regulusmon",
@@ -13616,7 +13720,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/regulus.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/regulus.gif"
     },
     {
       "species_id": "sagomon",
@@ -13624,7 +13729,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sago.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sago.gif"
     },
     {
       "species_id": "sanzomon",
@@ -13632,7 +13738,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sanzo.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sanzo.gif"
     },
     {
       "species_id": "sekkamon",
@@ -13640,7 +13747,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/sekka.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sekka.gif"
     },
     {
       "species_id": "shishimamon",
@@ -13648,7 +13756,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/shishima.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shishima.gif"
     },
     {
       "species_id": "soloogarmon",
@@ -13656,7 +13765,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/soloogar.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/soloogar.gif"
     },
     {
       "species_id": "thetismon",
@@ -13664,7 +13774,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/thetis.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/thetis.gif"
     },
     {
       "species_id": "tonosamagekomon",
@@ -13672,7 +13783,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tonosamageko.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tonosamageko.gif"
     },
     {
       "species_id": "triceramon",
@@ -13680,7 +13792,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tricera.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tricera.gif"
     },
     {
       "species_id": "vamdemon",
@@ -13688,7 +13801,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/vamde.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vamde.gif"
     },
     {
       "species_id": "xingtianmon",
@@ -13696,7 +13810,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/xingtian.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xingtian.gif"
     },
     {
       "species_id": "zudomon",
@@ -13704,7 +13819,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/zudo.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zudo.gif"
     },
     {
       "species_id": "pitchmon",
@@ -13712,7 +13828,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pitch.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Deep Savers",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pitch.gif"
     },
     {
       "species_id": "pukamon",
@@ -13720,7 +13837,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/puka.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Deep Savers",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/puka.gif"
     },
     {
       "species_id": "gomamon",
@@ -13728,7 +13846,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/goma.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Deep Savers",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/goma.gif"
     },
     {
       "species_id": "choromon",
@@ -13736,7 +13855,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/choro.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Metal Empire",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/choro.gif"
     },
     {
       "species_id": "caprimon",
@@ -13744,7 +13864,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/capri.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Metal Empire",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/capri.gif"
     },
     {
       "species_id": "kokuwamon",
@@ -13752,7 +13873,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kokuwa.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Metal Empire",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kokuwa.gif"
     },
     {
       "species_id": "toyagumon",
@@ -13760,7 +13882,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/toyagu.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Metal Empire",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/toyagu.gif"
     },
     {
       "species_id": "bubbmon",
@@ -13768,7 +13891,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/bubb.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Nature Spirits",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bubb.gif"
     },
     {
       "species_id": "mochimon",
@@ -13776,7 +13900,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mochi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Nature Spirits",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mochi.gif"
     },
     {
       "species_id": "tentomon",
@@ -13784,7 +13909,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tento.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Nature Spirits",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tento.gif"
     },
     {
       "species_id": "mokumon",
@@ -13792,7 +13918,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/moku.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Nightmare Soldiers",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/moku.gif"
     },
     {
       "species_id": "petimeramon",
@@ -13800,7 +13927,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/petimera.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Nightmare Soldiers",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/petimera.gif"
     },
     {
       "species_id": "bakumon",
@@ -13808,7 +13936,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/baku.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Nightmare Soldiers",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/baku.gif"
     },
     {
       "species_id": "fukamon",
@@ -13816,7 +13945,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/fuka.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Saiyu Warriors",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fuka.gif"
     },
     {
       "species_id": "mococomon",
@@ -13824,7 +13954,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/mococo.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Saiyu Warriors",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mococo.gif"
     },
     {
       "species_id": "kakamon",
@@ -13832,7 +13963,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kaka.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Saiyu Warriors",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kaka.gif"
     },
     {
       "species_id": "kamemon",
@@ -13840,7 +13972,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/kame.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Saiyu Warriors",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kame.gif"
     },
     {
       "species_id": "tomorimon",
@@ -13848,7 +13981,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/tomori.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Toho Braves",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tomori.gif"
     },
     {
       "species_id": "onibimon",
@@ -13856,7 +13990,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/onibi.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Toho Braves",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/onibi.gif"
     },
     {
       "species_id": "hanimon",
@@ -13864,7 +13999,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/hani.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Toho Braves",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hani.gif"
     },
     {
       "species_id": "wankomon",
@@ -13872,7 +14008,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/wanko.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Toho Braves",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wanko.gif"
     },
     {
       "species_id": "yukimibotamon",
@@ -13880,7 +14017,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/yukimibota.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Virus Busters",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yukimibota.gif"
     },
     {
       "species_id": "nyaromon",
@@ -13888,7 +14026,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nyaro.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Virus Busters",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nyaro.gif"
     },
     {
       "species_id": "nyokimon",
@@ -13896,7 +14035,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/nyoki.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Wind Guardians",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nyoki.gif"
     },
     {
       "species_id": "pyocomon",
@@ -13904,7 +14044,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/pyoco.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Wind Guardians",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif"
     },
     {
       "species_id": "piyomon",
@@ -13912,7 +14053,8 @@
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/piyo.gif",
       "source_url": "https://humulos.com/digimon/penc/",
       "source_family": "Wind Guardians",
-      "preferred_source_id": "digimon_pendulum_color"
+      "preferred_source_id": "digimon_pendulum_color",
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/piyo.gif"
     }
   ],
   "preserved_existing_sprite_species_ids": [
