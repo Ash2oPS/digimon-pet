@@ -78,6 +78,26 @@ def test_save_load_persists_discovered_species(tmp_path):
     assert loaded.discovered_species_ids == ["botamon", "koromon"]
 
 
+def test_save_load_persists_evolution_condition_discoveries(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="terriermon",
+        stage=GrowthStage.ROOKIE,
+        evolution_condition_discoveries={
+            "terriermon__to__galgomon": ["hp", "bad_stat", "speed", "hp"],
+            "missing": ["offense"],
+        },
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.evolution_condition_discoveries == {
+        "terriermon__to__galgomon": ["hp", "speed"],
+        "missing": ["offense"],
+    }
+
+
 def test_save_load_persists_generation_and_pending_rebirth_stat_bonuses(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(
@@ -265,6 +285,7 @@ def test_load_legacy_save_marks_current_species_discovered(tmp_path):
     assert loaded.discovered_species_ids == ["agumon"]
     assert loaded.generation_stat_bonuses == {}
     assert loaded.pending_rebirth_stat_bonuses == {}
+    assert loaded.evolution_condition_discoveries == {}
     assert loaded.inventory == {}
 
 

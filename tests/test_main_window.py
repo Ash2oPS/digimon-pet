@@ -703,6 +703,10 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
 
     assert window._state.hp == 400
     assert window._state.offense == 40
+    assert len(window._state.evolution_condition_discoveries) == 1
+    transition_id, clues = next(iter(window._state.evolution_condition_discoveries.items()))
+    assert transition_id
+    assert clues == ["hp"]
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() is None
     assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]

@@ -61,6 +61,7 @@ class PetState:
     pending_rebirth_stat_bonuses: dict[str, int] = field(default_factory=dict)
     bakemon_lineage_used: bool = False
     bakemon_generation_cooldown: int = 0
+    evolution_condition_discoveries: dict[str, list[str]] = field(default_factory=dict)
     inventory: dict[str, int] = field(default_factory=dict)
     filled_incubators: list[FilledIncubatorState] = field(default_factory=list)
 
@@ -86,6 +87,9 @@ class PetState:
         self.pending_rebirth_stat_bonuses = _clean_stat_bonuses(self.pending_rebirth_stat_bonuses)
         self.bakemon_lineage_used = bool(self.bakemon_lineage_used)
         self.bakemon_generation_cooldown = max(0, int(self.bakemon_generation_cooldown))
+        self.evolution_condition_discoveries = _clean_evolution_condition_discoveries(
+            self.evolution_condition_discoveries
+        )
         self.inventory = _clean_inventory(self.inventory)
         self.filled_incubators = _clean_filled_incubators(self.filled_incubators)
 
@@ -124,6 +128,19 @@ def _clean_stat_bonuses(bonuses: dict[str, int]) -> dict[str, int]:
         for stat_name, value in bonuses.items()
         if str(stat_name) in valid_stats
     }
+
+
+def _clean_evolution_condition_discoveries(discoveries: dict[str, list[str]]) -> dict[str, list[str]]:
+    valid_stats = {"hp", "mp", "offense", "defense", "speed", "brains"}
+    cleaned: dict[str, list[str]] = {}
+    for transition_id, stats in discoveries.items():
+        clean_transition_id = str(transition_id).strip()
+        if not clean_transition_id:
+            continue
+        clean_stats = list(dict.fromkeys(str(stat) for stat in stats if str(stat) in valid_stats))
+        if clean_stats:
+            cleaned[clean_transition_id] = clean_stats
+    return cleaned
 
 
 def _clean_inventory(inventory: dict[str, int]) -> dict[str, int]:

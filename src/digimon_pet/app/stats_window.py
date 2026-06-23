@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QProgressBar,
     QTabWidget,
+    QToolButton,
     QVBoxLayout,
     QWidget,
 )
@@ -21,6 +22,11 @@ from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolv
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions
+from digimon_pet.domain.evolution_intel import (
+    DISCOVERABLE_EVOLUTION_STATS,
+    direct_evolution_options,
+    requirement_for_stat,
+)
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -45,6 +51,11 @@ class StatsWindow(QDialog):
         self._bars: dict[str, QProgressBar] = {}
         self._bar_groups: dict[str, list[QProgressBar]] = {}
         self._evolution_grid: QGridLayout | None = None
+        self._evolution_list_layout: QVBoxLayout | None = None
+        self._evolution_cards_layout: QVBoxLayout | None = None
+        self._evolution_detail_layout: QVBoxLayout | None = None
+        self._evolution_cards: dict[str, QToolButton] = {}
+        self._selected_evolution_id: str | None = None
 
         self.setWindowTitle("Stats")
         self.setMinimumSize(640, 520)
@@ -87,7 +98,7 @@ class StatsWindow(QDialog):
         self._tabs.addTab(self._build_overview_tab(), "View")
         self._tabs.addTab(self._build_combat_tab(), "Combat")
         self._tabs.addTab(self._build_care_tab(), "Care")
-        self._tabs.addTab(self._build_evolution_tab(), "Evolution")
+        self._tabs.addTab(self._build_evolution_tab(), "Evolution Intel")
         layout.addWidget(self._tabs, 1)
 
     def refresh(self, state: PetState, species: Species) -> None:
@@ -198,22 +209,35 @@ class StatsWindow(QDialog):
 
     def _build_evolution_tab(self) -> QWidget:
         page = QWidget(self)
-        layout = QVBoxLayout(page)
+        layout = QHBoxLayout(page)
         layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(10)
-        title = QLabel("Evolution forecast", self)
+        layout.setSpacing(12)
+
+        list_panel = QFrame(self)
+        list_panel.setObjectName("EvolutionIntelPanel")
+        list_layout = QVBoxLayout(list_panel)
+        list_layout.setContentsMargins(10, 10, 10, 10)
+        list_layout.setSpacing(8)
+        title = QLabel("Direct evolutions", self)
         title.setObjectName("SectionTitle")
-        layout.addWidget(title)
-        hint = QLabel("Unknown targets and their requirements stay hidden until discovered.", self)
-        hint.setObjectName("Muted")
-        hint.setWordWrap(True)
-        layout.addWidget(hint)
-        grid = QGridLayout()
-        grid.setHorizontalSpacing(8)
-        grid.setVerticalSpacing(8)
-        self._evolution_grid = grid
-        layout.addLayout(grid)
-        layout.addStretch(1)
+        list_layout.addWidget(title)
+        self._evolution_list_layout = list_layout
+        cards_layout = QVBoxLayout()
+        cards_layout.setContentsMargins(0, 0, 0, 0)
+        cards_layout.setSpacing(8)
+        self._evolution_cards_layout = cards_layout
+        list_layout.addLayout(cards_layout)
+        list_layout.addStretch(1)
+
+        detail_panel = QFrame(self)
+        detail_panel.setObjectName("EvolutionIntelPanel")
+        detail_layout = QVBoxLayout(detail_panel)
+        detail_layout.setContentsMargins(10, 10, 10, 10)
+        detail_layout.setSpacing(8)
+        self._evolution_detail_layout = detail_layout
+
+        layout.addWidget(list_panel, 0)
+        layout.addWidget(detail_panel, 1)
         return page
 
     def _metric_card(self, key: str, title: str) -> QFrame:
@@ -323,49 +347,86 @@ class StatsWindow(QDialog):
         self._set_label(f"{key}_bar_value", f"{clamped} / 100")
 
     def _refresh_evolution(self, state: PetState, species: Species) -> None:
-        if self._evolution_grid is None:
+        if self._evolution_cards_layout is None or self._evolution_detail_layout is None:
             return
-        _clear_layout(self._evolution_grid)
-        options = _evolution_options_for_species(self._digivolutions, species.id)
+        _clear_layout(self._evolution_cards_layout)
+        self._evolution_cards = {}
+        options = direct_evolution_options(self._digivolutions, species.id)
         if not options:
             empty = QLabel("No known natural evolution for this species.", self)
             empty.setObjectName("Muted")
-            self._evolution_grid.addWidget(empty, 0, 0)
+            self._evolution_cards_layout.addWidget(empty)
+            self._refresh_evolution_detail(state, None)
             return
-        for index, option in enumerate(options):
-            self._evolution_grid.addWidget(self._evolution_option_card(state, option), index // 2, index % 2)
+        option_ids = [str(option.get("id", "")) for option in options]
+        if self._selected_evolution_id not in option_ids:
+            self._selected_evolution_id = option_ids[0]
+        for option in options:
+            card = self._evolution_card(state, option)
+            transition_id = str(option.get("id", ""))
+            self._evolution_cards[transition_id] = card
+            self._evolution_cards_layout.addWidget(card)
+        self._refresh_evolution_selection()
+        selected_option = next(
+            (option for option in options if str(option.get("id", "")) == self._selected_evolution_id),
+            options[0],
+        )
+        self._refresh_evolution_detail(state, selected_option)
 
-    def _evolution_option_card(self, state: PetState, option: dict) -> QFrame:
-        card = QFrame(self)
-        card.setObjectName("EvolutionRequirementCard")
-        layout = QVBoxLayout(card)
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(8)
-
-        discovered = _evolution_target_is_discovered(state, option)
-        target = QLabel(_evolution_target_name(option) if discovered else "???", self)
-        target.setObjectName("StatsMetricValue")
-        layout.addWidget(target)
-
-        if not discovered:
-            hidden = QLabel("Requirements hidden until this Digimon is discovered.", self)
-            hidden.setObjectName("Muted")
-            hidden.setWordWrap(True)
-            layout.addWidget(hidden)
-            return card
-
-        stats = _requirement_stats(option)
-        if not stats:
-            empty = QLabel("No stat requirements.", self)
-            empty.setObjectName("Muted")
-            layout.addWidget(empty)
-            return card
-
-        for stat, required in stats.items():
-            layout.addWidget(self._requirement_row(state, stat, required))
+    def _evolution_card(self, state: PetState, option: dict) -> QToolButton:
+        transition_id = str(option.get("id", ""))
+        card = QToolButton(self)
+        card.setObjectName("EvolutionIntelCard")
+        card.setProperty("transition_id", transition_id)
+        card.setCheckable(True)
+        card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
+        card.setText(_evolution_card_text(state, option))
+        card.clicked.connect(lambda checked=False, selected_id=transition_id: self._select_evolution(selected_id))
         return card
 
-    def _requirement_row(self, state: PetState, stat: str, required: int) -> QFrame:
+    def _select_evolution(self, transition_id: str) -> None:
+        self._selected_evolution_id = transition_id
+        self._refresh_evolution_selection()
+        if self._state is None:
+            return
+        option = next(
+            (
+                option
+                for option in direct_evolution_options(self._digivolutions, self._state.species_id)
+                if str(option.get("id", "")) == transition_id
+            ),
+            None,
+        )
+        self._refresh_evolution_detail(self._state, option)
+
+    def _refresh_evolution_selection(self) -> None:
+        for transition_id, card in self._evolution_cards.items():
+            card.setChecked(transition_id == self._selected_evolution_id)
+
+    def _refresh_evolution_detail(self, state: PetState, option: dict | None) -> None:
+        if self._evolution_detail_layout is None:
+            return
+        _clear_layout(self._evolution_detail_layout)
+        if option is None:
+            empty = QLabel("Select an evolution to inspect known intel.", self)
+            empty.setObjectName("Muted")
+            empty.setWordWrap(True)
+            self._evolution_detail_layout.addWidget(empty)
+            self._evolution_detail_layout.addStretch(1)
+            return
+
+        title = QLabel(_evolution_target_name_for_state(state, option), self)
+        title.setObjectName("Title")
+        subtitle = QLabel("Known evolution intel", self)
+        subtitle.setObjectName("Muted")
+        self._evolution_detail_layout.addWidget(title)
+        self._evolution_detail_layout.addWidget(subtitle)
+
+        for stat in DISCOVERABLE_EVOLUTION_STATS:
+            self._evolution_detail_layout.addWidget(self._requirement_row(state, option, stat))
+        self._evolution_detail_layout.addStretch(1)
+
+    def _requirement_row(self, state: PetState, option: dict, stat: str) -> QFrame:
         row = QFrame(self)
         row.setObjectName("EvolutionStatRequirement")
         layout = QGridLayout(row)
@@ -373,19 +434,39 @@ class StatsWindow(QDialog):
         layout.setHorizontalSpacing(8)
         layout.setVerticalSpacing(4)
 
-        current = int(getattr(state, stat, 0))
         label = QLabel(_stat_label(stat), self)
         label.setObjectName("Muted")
-        value = QLabel(f"{current} / {required}", self)
+        transition_id = str(option.get("id", ""))
+        known = stat in state.evolution_condition_discoveries.get(transition_id, [])
+        required = requirement_for_stat(option, stat)
+        current = int(getattr(state, stat, 0))
+
+        if not known:
+            value_text = "???"
+            status_text = "Unknown"
+            status_state = "unknown"
+            percent = 0
+        elif required is None:
+            value_text = "-"
+            status_text = "No requirement"
+            status_state = "ok"
+            percent = 100
+        else:
+            value_text = f"{current} / {required}"
+            status_text = _requirement_status(current, required)
+            status_state = "ok" if current >= required else "missing"
+            percent = _requirement_percent(current, required)
+
+        value = QLabel(value_text, self)
         value.setObjectName("StatsMetricValue")
-        status = QLabel(_requirement_status(current, required), self)
+        status = QLabel(status_text, self)
         status.setObjectName("EvolutionRequirementStatus")
-        status.setProperty("state", "ok" if current >= required else "missing")
+        status.setProperty("state", status_state)
 
         bar = QProgressBar(self)
         bar.setRange(0, 100)
         bar.setTextVisible(False)
-        bar.setValue(_requirement_percent(current, required))
+        bar.setValue(percent)
 
         layout.addWidget(label, 0, 0)
         layout.addWidget(value, 0, 1)
@@ -488,10 +569,7 @@ def _format_bool(value: bool) -> str:
 
 
 def _evolution_options_for_species(digivolutions: dict, species_id: str) -> list[dict]:
-    transitions = {str(item.get("id")): item for item in digivolutions.get("natural_evolutions", [])}
-    source_index = digivolutions.get("indexes", {}).get("by_source", {})
-    transition_ids = source_index.get(species_id, [])
-    return [transitions[transition_id] for transition_id in transition_ids if transition_id in transitions]
+    return direct_evolution_options(digivolutions, species_id)
 
 
 def _requirement_stats(option: dict) -> dict[str, int]:
@@ -506,6 +584,34 @@ def _evolution_target_is_discovered(state: PetState, option: dict) -> bool:
 
 def _evolution_target_name(option: dict) -> str:
     return str(option.get("target_name") or option.get("target_species_id") or "-")
+
+
+def _evolution_target_name_for_state(state: PetState, option: dict) -> str:
+    return _evolution_target_name(option) if _evolution_target_is_discovered(state, option) else "???"
+
+
+def _evolution_card_text(state: PetState, option: dict) -> str:
+    transition_id = str(option.get("id", ""))
+    known_stats = state.evolution_condition_discoveries.get(transition_id, [])
+    title = _evolution_target_name_for_state(state, option)
+    stage = str(option.get("target_stage") or "").replace("_", " ").title()
+    slots = "  ".join(_slot_summary(state, option, stat) for stat in DISCOVERABLE_EVOLUTION_STATS)
+    return "\n".join(
+        [
+            title,
+            stage,
+            f"Clues {len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)}",
+            slots,
+        ]
+    )
+
+
+def _slot_summary(state: PetState, option: dict, stat: str) -> str:
+    transition_id = str(option.get("id", ""))
+    label = _stat_label(stat)
+    if stat not in state.evolution_condition_discoveries.get(transition_id, []):
+        return f"{label} ?"
+    return f"{label} -" if requirement_for_stat(option, stat) is None else f"{label} OK"
 
 
 def _format_requirements_progress(state: PetState, stats: dict[str, int]) -> str:

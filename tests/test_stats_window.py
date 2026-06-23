@@ -3,7 +3,7 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app import stats_window
 from digimon_pet.app.stats_window import (
@@ -91,7 +91,7 @@ def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
         "View",
         "Combat",
         "Care",
-        "Evolution",
+        "Evolution Intel",
     ]
     assert [label.text() for label in window._label_groups["hp"]] == ["4414", "4414"]
     assert [bar.value() for bar in window._bar_groups["hunger"]] == [30, 30]
@@ -130,7 +130,7 @@ def test_terriermon_evolution_progress_reports_missing_stats():
     assert "SPD 238/400 (needs 162)" in progress
 
 
-def test_stats_window_hides_unknown_evolution_requirements(monkeypatch):
+def test_stats_window_evolution_intel_lists_direct_evolutions_and_hides_unknown_values(monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
     monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
@@ -144,22 +144,96 @@ def test_stats_window_hides_unknown_evolution_requirements(monkeypatch):
                 "target_species_id": "galgomon",
                 "target_name": "Galgomon",
                 "requirements": {"groups": {"stats": {"offense": 250}}},
+            },
+            {
+                "id": "terriermon__to__rapidmon",
+                "source_species_id": "terriermon",
+                "target_species_id": "rapidmon",
+                "target_name": "Rapidmon",
+                "target_stage": "ultimate",
+                "requirements": {"groups": {"stats": {"speed": 400}}},
             }
         ],
-        "indexes": {"by_source": {"terriermon": ["terriermon__to__galgomon"]}},
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__galgomon", "terriermon__to__rapidmon"]}},
     }
 
     window.refresh(
-        PetState("terriermon", GrowthStage.ROOKIE, offense=202, discovered_species_ids=["terriermon"]),
+        PetState(
+            "terriermon",
+            GrowthStage.ROOKIE,
+            offense=202,
+            discovered_species_ids=["terriermon"],
+            evolution_condition_discoveries={"terriermon__to__galgomon": ["offense", "defense"]},
+        ),
         Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
     )
 
-    cards = [frame for frame in window.findChildren(stats_window.QFrame) if frame.objectName() == "EvolutionRequirementCard"]
-    texts = [label.text() for card in cards for label in card.findChildren(type(window._name_label))]
+    cards = window.findChildren(stats_window.QToolButton, "EvolutionIntelCard")
+    assert len(cards) == 2
+    assert [card.property("transition_id") for card in cards] == [
+        "terriermon__to__galgomon",
+        "terriermon__to__rapidmon",
+    ]
+    texts = [label.text() for label in window.findChildren(QLabel)]
     assert "???" in texts
     assert "Galgomon" not in texts
-    assert "OFF" not in texts
-    assert not any("250" in text for text in texts)
+    assert "OFF" in texts
+    assert "202 / 250" in texts
+    assert "No requirement" in texts
+    assert "SPD" in texts
+    assert "400" not in texts
+
+
+def test_stats_window_evolution_intel_click_updates_detail(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__galgomon",
+                "source_species_id": "terriermon",
+                "target_species_id": "galgomon",
+                "target_name": "Galgomon",
+                "requirements": {"groups": {"stats": {"offense": 250}}},
+            },
+            {
+                "id": "terriermon__to__rapidmon",
+                "source_species_id": "terriermon",
+                "target_species_id": "rapidmon",
+                "target_name": "Rapidmon",
+                "target_stage": "ultimate",
+                "requirements": {"groups": {"stats": {"speed": 400}}},
+            }
+        ],
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__galgomon", "terriermon__to__rapidmon"]}},
+    }
+
+    window.refresh(
+        PetState(
+            "terriermon",
+            GrowthStage.ROOKIE,
+            offense=202,
+            speed=238,
+            discovered_species_ids=["terriermon", "galgomon", "rapidmon"],
+            evolution_condition_discoveries={
+                "terriermon__to__galgomon": ["offense"],
+                "terriermon__to__rapidmon": ["speed"],
+            },
+        ),
+        Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+    )
+
+    cards = window.findChildren(stats_window.QToolButton, "EvolutionIntelCard")
+    cards[1].click()
+    texts = [label.text() for label in window.findChildren(QLabel)]
+
+    assert "Rapidmon" in texts
+    assert "SPD" in texts
+    assert "238 / 400" in texts
+    assert "Need 162" in texts
 
 
 def test_stats_window_shows_discovered_evolution_requirements(monkeypatch):
@@ -187,12 +261,12 @@ def test_stats_window_shows_discovered_evolution_requirements(monkeypatch):
             GrowthStage.ROOKIE,
             offense=202,
             discovered_species_ids=["terriermon", "galgomon"],
+            evolution_condition_discoveries={"terriermon__to__galgomon": ["offense"]},
         ),
         Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
     )
 
-    cards = [frame for frame in window.findChildren(stats_window.QFrame) if frame.objectName() == "EvolutionRequirementCard"]
-    texts = [label.text() for card in cards for label in card.findChildren(type(window._name_label))]
+    texts = [label.text() for label in window.findChildren(QLabel)]
     assert "Galgomon" in texts
     assert "OFF" in texts
     assert "202 / 250" in texts

@@ -93,6 +93,7 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "pending_rebirth_stat_bonuses": dict(state.pending_rebirth_stat_bonuses),
         "bakemon_lineage_used": state.bakemon_lineage_used,
         "bakemon_generation_cooldown": state.bakemon_generation_cooldown,
+        "evolution_condition_discoveries": dict(state.evolution_condition_discoveries),
         "inventory": dict(state.inventory),
         "filled_incubators": [_filled_incubator_to_dict(item) for item in state.filled_incubators],
     }
@@ -183,6 +184,9 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         pending_rebirth_stat_bonuses=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_bonuses")),
         bakemon_lineage_used=bool(raw.get("bakemon_lineage_used", False)),
         bakemon_generation_cooldown=int(raw.get("bakemon_generation_cooldown", 0)),
+        evolution_condition_discoveries=_evolution_condition_discoveries_from_raw(
+            raw.get("evolution_condition_discoveries")
+        ),
         inventory=_inventory_from_raw(raw.get("inventory")),
         filled_incubators=_filled_incubators_from_raw(raw.get("filled_incubators")),
     )
@@ -201,6 +205,21 @@ def _stat_bonuses_from_raw(raw: Any) -> dict[str, int]:
     if not isinstance(raw, dict):
         return {}
     return {str(key): int(value) for key, value in raw.items()}
+
+
+def _evolution_condition_discoveries_from_raw(raw: Any) -> dict[str, list[str]]:
+    if not isinstance(raw, dict):
+        return {}
+    valid_stats = {"hp", "mp", "offense", "defense", "speed", "brains"}
+    cleaned: dict[str, list[str]] = {}
+    for transition_id, stats in raw.items():
+        clean_transition_id = str(transition_id).strip()
+        if not clean_transition_id or not isinstance(stats, list):
+            continue
+        clean_stats = list(dict.fromkeys(str(stat) for stat in stats if str(stat) in valid_stats))
+        if clean_stats:
+            cleaned[clean_transition_id] = clean_stats
+    return cleaned
 
 
 def _inventory_from_raw(raw: Any) -> dict[str, int]:

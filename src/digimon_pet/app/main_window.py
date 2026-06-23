@@ -32,6 +32,7 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_dw1_digivolutions, load_fusion_catalog, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
+from digimon_pet.domain.evolution_intel import reveal_random_evolution_clue
 from digimon_pet.domain.fusions import find_fusion_target
 from digimon_pet.domain.items import INCUBATOR_ID, ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
@@ -850,6 +851,7 @@ class PetWindow(QWidget):
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
             gains[stat_name] = increment
         item_gain = self._grant_secondary_event_item() if self._secondary_event_kind == SECONDARY_EVENT_ITEM_KIND else None
+        reveal_random_evolution_clue(self._state, self._digivolutions, self._rng)
         self._state.clamp()
         item_gain_icon_path = self._item_catalog.items[item_gain].icon_path if item_gain is not None else None
         self._pet_widget.trigger_stat_gain_text(

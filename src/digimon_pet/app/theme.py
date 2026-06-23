@@ -134,6 +134,31 @@ QFrame#EvolutionRequirementCard {{
     border-radius: 8px;
 }}
 
+QFrame#EvolutionIntelPanel {{
+    background: {COLORS["surface"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 8px;
+}}
+
+QToolButton#EvolutionIntelCard {{
+    background: {COLORS["panel"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 8px;
+    padding: 9px 10px;
+    text-align: left;
+    font-weight: 800;
+}}
+
+QToolButton#EvolutionIntelCard:hover {{
+    background: {COLORS["panel_hot"]};
+    border-color: {COLORS["accent"]};
+}}
+
+QToolButton#EvolutionIntelCard:checked {{
+    background: {COLORS["panel_hot"]};
+    border-color: {COLORS["focus"]};
+}}
+
 QFrame#StatsHeader {{
     border-top-color: {COLORS["accent"]};
 }}
@@ -178,6 +203,11 @@ QLabel#EvolutionRequirementStatus[state="ok"] {{
 QLabel#EvolutionRequirementStatus[state="missing"] {{
     color: {COLORS["focus"]};
     border-color: {COLORS["focus_soft"]};
+}}
+
+QLabel#EvolutionRequirementStatus[state="unknown"] {{
+    color: {COLORS["muted"]};
+    border-color: {COLORS["line"]};
 }}
 
 QTabWidget#StatsTabs::pane {{
