@@ -13,9 +13,9 @@ from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_species
-from digimon_pet.domain.models import GrowthStage
+from digimon_pet.domain.models import GrowthStage, PetState
 from digimon_pet.storage import debug_settings
-from digimon_pet.storage import load_pet_state
+from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
 
 
@@ -86,6 +86,27 @@ def test_debug_panel_has_item_manager_button():
     window = PetWindow(overlay=True, debug=True)
 
     assert window._debug_panel._item_manager_button.text() == "Item Manager"
+
+
+def test_existing_save_queues_lifecycle_event_on_startup(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            species_id="gummymon",
+            stage=GrowthStage.BABY_2,
+            age_seconds=30 * 60,
+            hp=3839,
+            mp=2722,
+            speed=216,
+        )
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+
+    assert window._pending_lifecycle_kind == "evolution"
+    assert window._pet_widget._effect_name == "pending_evolution"
 
 
 def test_item_manager_opens_only_in_debug_mode():

@@ -306,6 +306,7 @@ class PetWindow(QWidget):
             self._prompt_initial_baby_choice()
         else:
             self._refresh()
+            self._queue_or_advance_lifecycle()
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
         if self._was_dragging:
