@@ -125,6 +125,56 @@ QWidget#DebugHeader {{
     border-bottom: 1px solid {COLORS["accent_soft"]};
 }}
 
+QFrame#StatsHeader,
+QFrame#StatsPanel,
+QFrame#StatsMetricCard {{
+    background: {COLORS["panel"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 8px;
+}}
+
+QFrame#StatsHeader {{
+    border-top-color: {COLORS["accent"]};
+}}
+
+QLabel#StatsPortrait {{
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 8px;
+    color: {COLORS["muted"]};
+}}
+
+QLabel#StatsStage {{
+    color: {COLORS["focus"]};
+    font-weight: 800;
+}}
+
+QLabel#StatsMetricValue,
+QLabel#StatsBarValue {{
+    color: {COLORS["text"]};
+    font-weight: 800;
+}}
+
+QTabWidget#StatsTabs::pane {{
+    background: {COLORS["surface"]};
+}}
+
+QProgressBar#StatsBar_hunger::chunk {{
+    background: {COLORS["accent"]};
+}}
+
+QProgressBar#StatsBar_happiness::chunk {{
+    background: {COLORS["success"]};
+}}
+
+QProgressBar#StatsBar_discipline::chunk {{
+    background: {COLORS["focus"]};
+}}
+
+QProgressBar#StatsBar_fatigue::chunk {{
+    background: {COLORS["danger"]};
+}}
+
 QWidget#StageCompleteStar {{
     background: transparent;
 }}
