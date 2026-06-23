@@ -29,7 +29,7 @@ class InventoryItem:
     name: str
     quantity: int = 1
     icon_path: str | None = None
-    description: str = "Objet utilisable"
+    description: str = "Usable item"
     item_type: str = "consumable"
     usable: bool = True
     unavailable_reason: str = ""
@@ -57,13 +57,13 @@ class InventoryWindow(QDialog):
         self._active_filter = "all"
         self._slot_count = slot_count
 
-        self.setWindowTitle("Inventaire")
-        self.setMinimumSize(700, 460)
+        self.setWindowTitle("Inventory")
+        self.setMinimumSize(600, 360)
         self.setStyleSheet(APP_QSS + _INVENTORY_QSS)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(14, 14, 14, 14)
-        layout.setSpacing(10)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
 
         header = QHBoxLayout()
         header.setContentsMargins(0, 0, 0, 0)
@@ -82,10 +82,10 @@ class InventoryWindow(QDialog):
         self._filter_group = QButtonGroup(self)
         self._filter_group.setExclusive(True)
         for filter_id, label in (
-            ("all", "Tous"),
+            ("all", "All"),
             ("consumable", "Stats"),
             ("evolution", "Evolution"),
-            ("special", "Speciaux"),
+            ("special", "Special"),
         ):
             button = QToolButton(self)
             button.setText(label)
@@ -101,21 +101,21 @@ class InventoryWindow(QDialog):
 
         body = QHBoxLayout()
         body.setContentsMargins(0, 0, 0, 0)
-        body.setSpacing(12)
+        body.setSpacing(8)
 
         scroll_area = QScrollArea(self)
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QFrame.Shape.NoFrame)
-        scroll_area.setMinimumHeight(278)
-        scroll_area.setMaximumHeight(304)
+        scroll_area.setMinimumHeight(224)
+        scroll_area.setMaximumHeight(270)
 
         grid_host = QWidget(self)
         grid_host.setObjectName("InventoryGrid")
         grid_host.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         grid = QGridLayout(grid_host)
-        grid.setContentsMargins(14, 14, 14, 14)
-        grid.setHorizontalSpacing(12)
-        grid.setVerticalSpacing(12)
+        grid.setContentsMargins(10, 10, 10, 10)
+        grid.setHorizontalSpacing(8)
+        grid.setVerticalSpacing(8)
 
         for index in range(slot_count):
             slot = InventorySlotWidget(self._select_item, self._use_item, grid_host)
@@ -127,10 +127,10 @@ class InventoryWindow(QDialog):
 
         details = QFrame(self)
         details.setObjectName("InventoryDetails")
-        details.setFixedWidth(240)
+        details.setFixedWidth(190)
         details_layout = QVBoxLayout(details)
-        details_layout.setContentsMargins(12, 12, 12, 12)
-        details_layout.setSpacing(8)
+        details_layout.setContentsMargins(10, 10, 10, 10)
+        details_layout.setSpacing(6)
 
         scan_title = QLabel("ITEM SCAN", details)
         scan_title.setObjectName("InventoryScanTitle")
@@ -140,19 +140,14 @@ class InventoryWindow(QDialog):
         self._details_icon = QLabel(details)
         self._details_icon.setObjectName("InventoryDetailsIcon")
         self._details_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._details_icon.setFixedSize(QSize(92, 92))
+        self._details_icon.setFixedSize(QSize(74, 74))
         details_layout.addWidget(self._details_icon, 0, Qt.AlignmentFlag.AlignHCenter)
 
-        self._details_name = QLabel("Aucun objet", details)
+        self._details_name = QLabel("No item", details)
         self._details_name.setObjectName("InventoryDetailsName")
         self._details_name.setWordWrap(True)
         self._details_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         details_layout.addWidget(self._details_name)
-
-        self._details_quantity = QLabel("", details)
-        self._details_quantity.setObjectName("Muted")
-        self._details_quantity.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        details_layout.addWidget(self._details_quantity)
 
         self._details_status = QLabel("", details)
         self._details_status.setObjectName("InventoryStatus")
@@ -160,19 +155,9 @@ class InventoryWindow(QDialog):
         self._details_status.setWordWrap(True)
         details_layout.addWidget(self._details_status)
 
-        self._details_effect = QLabel("", details)
-        self._details_effect.setObjectName("InventoryEffect")
-        self._details_effect.setWordWrap(True)
-        self._details_effect.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        details_layout.addWidget(self._details_effect)
+        details_layout.addStretch(1)
 
-        self._details_description = QLabel("Les objets disponibles apparaissent dans la grille.", details)
-        self._details_description.setObjectName("InventoryDetailsDescription")
-        self._details_description.setWordWrap(True)
-        self._details_description.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        details_layout.addWidget(self._details_description, 1)
-
-        self._use_button = QPushButton("Utiliser", details)
+        self._use_button = QPushButton("Use", details)
         self._use_button.setEnabled(False)
         self._use_button.clicked.connect(self._use_selected_item)
         details_layout.addWidget(self._use_button)
@@ -231,15 +216,12 @@ class InventoryWindow(QDialog):
     def _refresh_details(self, item: InventoryItem | None = None) -> None:
         if item is None:
             self._details_icon.clear()
-            self._details_name.setText("Aucun objet")
-            self._details_quantity.setText("")
+            self._details_name.setText("No item")
             self._details_status.setText("")
             self._details_status.setProperty("state", "neutral")
             self._details_status.style().unpolish(self._details_status)
             self._details_status.style().polish(self._details_status)
-            self._details_effect.setText("")
-            self._details_description.setText("Les objets disponibles apparaissent dans la grille.")
-            self._use_button.setText("Utiliser")
+            self._use_button.setText("Use")
             self._use_button.setEnabled(False)
             return
 
@@ -251,21 +233,18 @@ class InventoryWindow(QDialog):
             self._details_icon.setText("")
             self._details_icon.setPixmap(
                 pixmap.scaled(
-                    72,
-                    72,
+                    58,
+                    58,
                     Qt.AspectRatioMode.KeepAspectRatio,
                     Qt.TransformationMode.SmoothTransformation,
                 )
             )
         self._details_name.setText(item.name)
-        self._details_quantity.setText(f"Quantite : {item.quantity}")
         self._details_status.setText(_item_type_label(item))
         self._details_status.setProperty("state", _item_state(item))
         self._details_status.style().unpolish(self._details_status)
         self._details_status.style().polish(self._details_status)
-        self._details_effect.setText(item.unavailable_reason or item.effect_text)
-        self._details_description.setText(item.description)
-        self._use_button.setText("Confirmer" if item.dangerous else "Utiliser")
+        self._use_button.setText("Confirm" if item.dangerous else "Use")
         self._use_button.setEnabled(item.usable)
 
     def keyPressEvent(self, event) -> None:  # noqa: N802
@@ -281,7 +260,7 @@ class InventoryWindow(QDialog):
 
 
 class InventorySlotWidget(QWidget):
-    _SIZE = QSize(104, 112)
+    _SIZE = QSize(86, 92)
 
     def __init__(
         self,
@@ -301,37 +280,36 @@ class InventorySlotWidget(QWidget):
         self.setProperty("usable", True)
         self.setProperty("dangerous", False)
         self.setFocusPolicy(Qt.FocusPolicy.TabFocus)
-        self.setToolTip("Emplacement vide")
+        self.setToolTip("Empty slot")
         self.setCursor(Qt.CursorShape.ArrowCursor)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(8, 8, 8, 8)
-        layout.setSpacing(4)
+        layout.setContentsMargins(6, 6, 6, 6)
+        layout.setSpacing(3)
 
         self._type_label = QLabel("", self)
         self._type_label.setObjectName("InventorySlotType")
         self._type_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._type_label.setFixedHeight(17)
+        self._type_label.setFixedHeight(15)
         layout.addWidget(self._type_label)
 
         self._icon_label = QLabel(self)
         self._icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._icon_label.setFixedHeight(44)
+        self._icon_label.setFixedHeight(36)
         layout.addWidget(self._icon_label)
 
         self._name_label = QLabel("", self)
         self._name_label.setObjectName("InventorySlotName")
         self._name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._name_label.setWordWrap(True)
-        self._name_label.setFixedHeight(28)
+        self._name_label.setFixedHeight(26)
         layout.addWidget(self._name_label)
 
         self._quantity_label = QLabel("", self)
         self._quantity_label.setObjectName("InventoryQuantity")
-        self._quantity_label.setAlignment(
-            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
-        )
-        layout.addWidget(self._quantity_label)
+        self._quantity_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._quantity_label.setFixedSize(QSize(20, 20))
+        self._quantity_label.hide()
 
     def set_item(self, item: InventoryItem | None) -> None:
         self.item = item
@@ -348,15 +326,16 @@ class InventorySlotWidget(QWidget):
             self._type_label.setVisible(False)
             self._quantity_label.clear()
             self._quantity_label.setVisible(False)
-            self.setToolTip("Emplacement vide")
+            self.setToolTip("Empty slot")
             return
 
         self.setToolTip(_item_tooltip(item))
         self._name_label.setText(_short_item_name(item.name))
         self._type_label.setText(_slot_type_label(item))
         self._type_label.setVisible(True)
-        self._quantity_label.setText(str(item.quantity) if item.quantity > 1 else "")
-        self._quantity_label.setVisible(item.quantity > 1)
+        self._quantity_label.setText(str(item.quantity))
+        self._quantity_label.setVisible(True)
+        self._position_quantity_badge()
         pixmap = _item_pixmap(item)
         if pixmap is None:
             self._icon_label.setPixmap(QPixmap())
@@ -366,7 +345,7 @@ class InventorySlotWidget(QWidget):
         self._icon_label.setPixmap(
             pixmap.scaled(
                 44,
-                44,
+                36,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation,
             )
@@ -396,9 +375,20 @@ class InventorySlotWidget(QWidget):
         self.style().unpolish(self)
         self.style().polish(self)
 
+    def resizeEvent(self, event) -> None:  # noqa: N802
+        super().resizeEvent(event)
+        self._position_quantity_badge()
+
+    def _position_quantity_badge(self) -> None:
+        margin = 4
+        self._quantity_label.move(
+            self.width() - self._quantity_label.width() - margin,
+            self.height() - self._quantity_label.height() - margin,
+        )
+
 
 def _item_tooltip(item: InventoryItem) -> str:
-    suffix = "Double-clic pour utiliser" if item.usable else item.unavailable_reason
+    suffix = "Double-click to use" if item.usable else ""
     name = f"{item.name} x{item.quantity}" if item.quantity > 1 else item.name
     return f"{name}\n{suffix}" if suffix else name
 
@@ -413,11 +403,11 @@ def _matches_filter(item: InventoryItem, filter_id: str) -> bool:
 
 def _filter_label(filter_id: str) -> str:
     return {
-        "all": "Tous",
+        "all": "All",
         "consumable": "Stats",
         "evolution": "Evolution",
-        "special": "Speciaux",
-    }.get(filter_id, "Tous")
+        "special": "Special",
+    }.get(filter_id, "All")
 
 
 def _visible_slot_count(item_count: int, slot_count: int) -> int:
@@ -447,14 +437,14 @@ def _short_item_name(name: str) -> str:
 
 
 def _item_type_label(item: InventoryItem) -> str:
-    prefix = "Dangereux" if item.dangerous else {
+    prefix = "Danger" if item.dangerous else {
         "consumable": "Stats",
         "evolution": "Evolution",
-        "key_item": "Objet cle",
+        "key_item": "Key Item",
         "misc": "Special",
     }.get(item.item_type, "Special")
     if not item.usable and item.unavailable_reason:
-        return f"{prefix} - indisponible"
+        return f"{prefix} - unavailable"
     return prefix
 
 
@@ -485,7 +475,7 @@ QLabel#InventoryCount {{
     border-radius: 7px;
     color: {COLORS["focus"]};
     font-weight: 800;
-    padding: 5px 9px;
+    padding: 4px 8px;
 }}
 
 QToolButton#InventoryFilter {{
@@ -494,7 +484,7 @@ QToolButton#InventoryFilter {{
     border-radius: 7px;
     color: {COLORS["muted"]};
     font-weight: 800;
-    padding: 7px 12px;
+    padding: 6px 10px;
 }}
 
 QToolButton#InventoryFilter:hover {{
@@ -512,13 +502,13 @@ QWidget#InventoryGrid {{
     background: {COLORS["surface"]};
     border: 1px solid {COLORS["line_soft"]};
     border-top-color: {COLORS["accent"]};
-    border-radius: 10px;
+    border-radius: 8px;
 }}
 
 QWidget#InventorySlot {{
     background: {COLORS["panel"]};
     border: 1px solid {COLORS["line"]};
-    border-radius: 9px;
+    border-radius: 7px;
 }}
 
 QWidget#InventorySlot:hover {{
@@ -561,7 +551,7 @@ QLabel#InventorySlotType {{
     color: {COLORS["accent"]};
     font-size: 9px;
     font-weight: 900;
-    padding: 1px 4px;
+    padding: 0px 3px;
 }}
 
 QLabel#InventorySlotName {{
@@ -596,7 +586,7 @@ QLabel#InventoryDetailsIcon {{
 QLabel#InventoryDetailsName {{
     background: transparent;
     color: {COLORS["text"]};
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }}
 
@@ -606,7 +596,7 @@ QLabel#InventoryStatus {{
     border-radius: 7px;
     color: {COLORS["muted"]};
     font-weight: 800;
-    padding: 5px 8px;
+    padding: 4px 7px;
 }}
 
 QLabel#InventoryStatus[state="ready"] {{
@@ -646,10 +636,10 @@ QLabel#InventoryDetailsDescription {{
 QLabel#InventoryQuantity {{
     background: {COLORS["surface_alt"]};
     border: 1px solid {COLORS["focus_soft"]};
-    border-radius: 6px;
+    border-radius: 10px;
     color: {COLORS["focus"]};
     font-size: 10px;
     font-weight: 900;
-    padding: 1px 5px;
+    padding: 0px;
 }}
 """

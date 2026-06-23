@@ -64,7 +64,7 @@ class RadialPetMenu(QWidget):
         for action, tooltip in (
             ("stats", "Stats"),
             ("collection", "Collection"),
-            ("inventory", "Inventaire"),
+            ("inventory", "Inventory"),
             ("close", "Close"),
         ):
             button = QPushButton(self)

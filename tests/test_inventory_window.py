@@ -38,7 +38,7 @@ def test_inventory_window_starts_with_empty_grid():
     window = InventoryWindow(slot_count=24)
     slots = window.findChildren(InventorySlotWidget)
 
-    assert window.windowTitle() == "Inventaire"
+    assert window.windowTitle() == "Inventory"
     assert len(slots) == 24
     assert all(slot.item is None for slot in slots)
     assert all(slot.property("empty") is True for slot in slots)
@@ -52,7 +52,7 @@ def test_inventory_window_can_render_future_items():
     slots = window.findChildren(InventorySlotWidget)
 
     assert slots[0].item == InventoryItem(id="meat", name="Meat", quantity=3)
-    assert slots[0].toolTip() == "Meat x3\nDouble-clic pour utiliser"
+    assert slots[0].toolTip() == "Meat x3\nDouble-click to use"
     assert slots[0].property("empty") is False
     assert slots[0].property("selected") is True
     assert slots[1].item is None
@@ -130,6 +130,8 @@ def test_inventory_slot_cards_show_name_and_type_chip():
 
     assert slots[0]._name_label.text() == "DigiFish"
     assert slots[0]._type_label.text() == "STAT"
+    assert slots[0]._quantity_label.text() == "1"
+    assert slots[0]._quantity_label.isHidden() is False
 
 
 def test_inventory_window_disables_unusable_selected_item_with_reason():
@@ -143,13 +145,13 @@ def test_inventory_window_disables_unusable_selected_item_with_reason():
                 name="Champion Disk",
                 item_type="evolution",
                 usable=False,
-                unavailable_reason="Requiert Numemon.",
+                unavailable_reason="Requires Numemon.",
             )
         ]
     )
 
-    assert window._details_status.text() == "Evolution - indisponible"
-    assert window._details_effect.text() == "Requiert Numemon."
+    assert window._details_status.text() == "Evolution - unavailable"
+    assert not hasattr(window, "_details_effect")
     assert window.findChild(QPushButton).isEnabled() is False
 
 
@@ -179,7 +181,7 @@ def test_inventory_window_clears_selection_when_empty_slot_is_clicked():
     _left_click(slots[1])
 
     assert slots[0].property("selected") is False
-    assert window._details_name.text() == "Aucun objet"
+    assert window._details_name.text() == "No item"
     assert window.findChild(QPushButton).isEnabled() is False
 
 
@@ -190,7 +192,7 @@ def test_pet_window_opens_inventory_window():
     window._open_inventory()
 
     assert window._inventory_window is not None
-    assert window._inventory_window.windowTitle() == "Inventaire"
+    assert window._inventory_window.windowTitle() == "Inventory"
 
 
 def test_pet_window_does_not_grant_monzaemon_head_on_launch():
@@ -224,7 +226,7 @@ def test_pet_window_inventory_marks_blocked_evolution_items():
 
     assert items[0].item_type == "evolution"
     assert items[0].usable is False
-    assert items[0].unavailable_reason == "Requiert Numemon."
+    assert items[0].unavailable_reason == "Requires Numemon."
 
 
 def test_pet_window_queues_monzaemon_head_evolution_from_inventory():

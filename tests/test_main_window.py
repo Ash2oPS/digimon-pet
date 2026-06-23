@@ -996,7 +996,7 @@ def test_radial_menu_shows_stats_collection_inventory_and_close():
     window = PetWindow(overlay=True, debug=False)
     menu = window._ensure_radial_menu()
 
-    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventaire", "Close"]
+    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventory", "Close"]
 
 
 def test_radial_menu_buttons_do_not_take_focus_on_open():
@@ -1017,7 +1017,7 @@ def test_radial_menu_keeps_same_pet_actions_in_debug():
     window = PetWindow(overlay=True, debug=True)
     menu = window._ensure_radial_menu()
 
-    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventaire", "Close"]
+    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventory", "Close"]
 
 
 def test_radial_menu_selects_arc_away_from_screen_edges():

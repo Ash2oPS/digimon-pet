@@ -77,7 +77,7 @@ def _inventory_effect_text(item, species: dict[str, Species]) -> str:
     if item.type == ItemType.EVOLUTION and item.evolution is not None:
         target = species.get(item.evolution.target_species_id)
         target_name = target.name if target is not None else item.evolution.target_species_id
-        return f"Evolution vers {target_name}."
+        return f"Evolution to {target_name}."
 
     parts: list[str] = []
     for effect in item.effects:
@@ -86,7 +86,7 @@ def _inventory_effect_text(item, species: dict[str, Species]) -> str:
             sign = "+" if effect.amount >= 0 else ""
             parts.append(f"{sign}{effect.amount} {label}")
         elif effect.type == ItemEffectType.INSTANT_DEATH:
-            parts.append("Declenche une mort.")
+            parts.append("Triggers death.")
     return ", ".join(parts)
 
 
@@ -98,17 +98,17 @@ def _inventory_unavailable_reason(item, reason: str | None, species: dict[str, S
             species[species_id].name if species_id in species else species_id
             for species_id in item.evolution.required_species_ids
         ]
-        return f"Requiert {', '.join(names)}."
+        return f"Requires {', '.join(names)}."
     if reason == "wrong_stage" and item.evolution is not None:
         stages = [stage.value.title() for stage in item.evolution.required_stages]
-        return f"Requiert le stade {', '.join(stages)}."
+        return f"Requires {', '.join(stages)} stage."
     return {
-        "missing_item": "Objet absent.",
-        "not_usable": "Objet non utilisable.",
-        "unknown_item": "Objet inconnu.",
-        "unknown_target": "Evolution cible inconnue.",
-        "invalid_effect": "Effet invalide.",
-    }.get(reason, "Objet indisponible.")
+        "missing_item": "Missing item.",
+        "not_usable": "Item cannot be used.",
+        "unknown_item": "Unknown item.",
+        "unknown_target": "Unknown evolution target.",
+        "invalid_effect": "Invalid effect.",
+    }.get(reason, "Item unavailable.")
 
 
 def _baby_choice_pixmap(species: Species, manifest: dict, discovered: bool) -> QPixmap:
