@@ -145,7 +145,7 @@ QToolButton#EvolutionIntelCard {{
     border: 1px solid {COLORS["line"]};
     border-radius: 8px;
     padding: 8px 10px;
-    text-align: left;
+    text-align: center;
     font-weight: 800;
 }}
 

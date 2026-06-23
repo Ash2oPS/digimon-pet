@@ -189,20 +189,24 @@ def test_stats_window_evolution_intel_lists_direct_evolutions_and_hides_unknown_
     assert "400" not in texts
 
 
-def test_stats_window_evolution_card_uses_hidden_target_silhouette(tmp_path, monkeypatch):
+def test_stats_window_evolution_card_uses_hidden_target_idle_sprite_on_top(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
-    artwork_path = tmp_path / "rapidmon.png"
+    sprite_path = tmp_path / "rapidmon_idle.png"
     pixmap = QPixmap(24, 24)
     pixmap.fill()
-    pixmap.save(str(artwork_path))
-    monkeypatch.setattr(
-        stats_window,
-        "resolve_artwork_path",
-        lambda species_id: artwork_path if species_id == "rapidmon" else None,
-    )
+    pixmap.save(str(sprite_path))
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
     monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
 
     window = StatsWindow()
+    window._species_by_id = {
+        "rapidmon": Species(
+            "rapidmon",
+            "Rapidmon",
+            GrowthStage.ULTIMATE,
+            sprite_slots={"idle": str(sprite_path)},
+        )
+    }
     window._digivolutions = {
         "natural_evolutions": [
             {
@@ -224,7 +228,9 @@ def test_stats_window_evolution_card_uses_hidden_target_silhouette(tmp_path, mon
 
     cards = window.findChildren(stats_window.QToolButton, "EvolutionIntelCard")
     assert len(cards) == 1
-    assert cards[0].text().startswith("?\n???")
+    assert cards[0].toolButtonStyle() == stats_window.Qt.ToolButtonStyle.ToolButtonTextUnderIcon
+    assert cards[0].text().startswith("???")
+    assert "?" not in cards[0].text().splitlines()
     assert not cards[0].icon().isNull()
 
 

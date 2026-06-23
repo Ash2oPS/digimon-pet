@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
 from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolve_artwork_path
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.data import load_dw1_digivolutions
+from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain.evolution_intel import (
     DISCOVERABLE_EVOLUTION_STATS,
     direct_evolution_options,
@@ -41,6 +41,7 @@ class StatsWindow(QDialog):
         self._manifest = load_runtime_manifest()
         self._state: PetState | None = None
         self._species: Species | None = None
+        self._species_by_id = load_species()
         self._digivolutions = load_dw1_digivolutions()
         self._artwork_downloads_in_progress: set[str] = set()
         self._artwork_downloads_attempted: set[str] = set()
@@ -379,9 +380,9 @@ class StatsWindow(QDialog):
         card.setObjectName("EvolutionIntelCard")
         card.setProperty("transition_id", transition_id)
         card.setCheckable(True)
-        card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
-        card.setIconSize(QSize(58, 58))
-        icon = _evolution_target_icon(state, option)
+        card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
+        card.setIconSize(QSize(62, 62))
+        icon = self._evolution_target_icon(state, option)
         if icon is not None:
             card.setIcon(icon)
         card.setText(_evolution_card_text(state, option))
@@ -573,6 +574,19 @@ class StatsWindow(QDialog):
         frame = _first_frame_rect(pixmap, animation)
         return pixmap.copy(frame) if frame is not None else pixmap
 
+    def _evolution_target_icon(self, state: PetState, option: dict) -> QIcon | None:
+        target_id = str(option.get("target_species_id", ""))
+        target_species = self._species_by_id.get(target_id)
+        if target_species is None:
+            return None
+        target_state = PetState(target_id, target_species.stage, current_action="idle")
+        pixmap = self._sprite_pixmap_for_species(target_state, target_species)
+        if pixmap is None or pixmap.isNull():
+            return None
+        if not _evolution_target_is_discovered(state, option):
+            pixmap = _silhouette_pixmap(pixmap)
+        return QIcon(pixmap)
+
 
 def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | None:
     if animation.frame_count <= 1:
@@ -640,22 +654,8 @@ def _evolution_card_text(state: PetState, option: dict) -> str:
     known_stats = state.evolution_condition_discoveries.get(transition_id, [])
     title = _evolution_target_name_for_state(state, option)
     stage = _evolution_target_stage(option)
-    prefix = "?" if not _evolution_target_is_discovered(state, option) else ""
-    lines = [line for line in [prefix, title, stage, f"{len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)} clues"] if line]
+    lines = [title, stage, f"{len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)} clues"]
     return "\n".join(lines)
-
-
-def _evolution_target_icon(state: PetState, option: dict) -> QIcon | None:
-    target_id = str(option.get("target_species_id", ""))
-    path = resolve_artwork_path(target_id)
-    if path is None:
-        return None
-    pixmap = QPixmap(str(path))
-    if pixmap.isNull():
-        return None
-    if not _evolution_target_is_discovered(state, option):
-        pixmap = _silhouette_pixmap(pixmap)
-    return QIcon(pixmap)
 
 
 def _silhouette_pixmap(pixmap: QPixmap) -> QPixmap:
