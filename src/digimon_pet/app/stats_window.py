@@ -219,7 +219,7 @@ class StatsWindow(QDialog):
         list_layout = QVBoxLayout(list_panel)
         list_layout.setContentsMargins(10, 10, 10, 10)
         list_layout.setSpacing(8)
-        title = QLabel("Direct evolutions", self)
+        title = QLabel("Evolutions", self)
         title.setObjectName("SectionTitle")
         list_layout.addWidget(title)
         self._evolution_list_layout = list_layout

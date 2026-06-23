@@ -93,6 +93,9 @@ def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
         "Care",
         "Evolution Intel",
     ]
+    labels = [label.text() for label in window.findChildren(QLabel)]
+    assert "Evolutions" in labels
+    assert "Direct evolutions" not in labels
     assert [label.text() for label in window._label_groups["hp"]] == ["4414", "4414"]
     assert [bar.value() for bar in window._bar_groups["hunger"]] == [30, 30]
 
