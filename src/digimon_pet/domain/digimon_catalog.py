@@ -84,6 +84,7 @@ def add_species(catalog: DigimonCatalog) -> str:
             "id": species_id,
             "name": "New Digimon",
             "stage": GrowthStage.ROOKIE.value,
+            "aliases": [],
             "sprite_slots": {},
         }
     )
@@ -175,6 +176,8 @@ def validate_digimon_catalog(
         seen_ids.add(species_id)
         if not name:
             errors.append(f"{species_id} name is required")
+        if not isinstance(row.get("aliases", []), list):
+            errors.append(f"{species_id} aliases must be an array")
         if stage not in VALID_STAGE_VALUES:
             errors.append(f"{species_id} has invalid stage: {stage}")
         _validate_sprite_slots(row, project_root, warnings, runtime_sprite_paths)

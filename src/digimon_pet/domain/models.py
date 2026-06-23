@@ -18,6 +18,7 @@ class Species:
     name: str
     stage: GrowthStage
     sprite_slots: dict[str, str] = field(default_factory=dict)
+    aliases: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -73,12 +74,12 @@ class PetState:
         self.care_mistakes = max(0, self.care_mistakes)
         self.training_count = max(0, self.training_count)
         self.age_seconds = max(0, self.age_seconds)
-        self.hp = _clamp_stat(self.hp)
-        self.mp = _clamp_stat(self.mp)
-        self.offense = _clamp_stat(self.offense)
-        self.defense = _clamp_stat(self.defense)
-        self.speed = _clamp_stat(self.speed)
-        self.brains = _clamp_stat(self.brains)
+        self.hp = _clamp_stat(self.hp, "hp")
+        self.mp = _clamp_stat(self.mp, "mp")
+        self.offense = _clamp_stat(self.offense, "offense")
+        self.defense = _clamp_stat(self.defense, "defense")
+        self.speed = _clamp_stat(self.speed, "speed")
+        self.brains = _clamp_stat(self.brains, "brains")
         self.weight = max(0, self.weight)
         self.won_battles = max(0, self.won_battles)
         self.techniques_mastered = max(0, self.techniques_mastered)
@@ -113,8 +114,9 @@ def _clamp(value: int, minimum: int = 0, maximum: int = 100) -> int:
     return max(minimum, min(maximum, value))
 
 
-def _clamp_stat(value: int) -> int:
-    return max(0, min(9999, value))
+def _clamp_stat(value: int, stat_name: str = "") -> int:
+    maximum = 99999 if stat_name in {"hp", "mp"} else 9999
+    return max(0, min(maximum, value))
 
 
 def _dedupe_species_ids(species_ids: list[str]) -> list[str]:
@@ -164,12 +166,12 @@ def _clean_filled_incubators(incubators: list[FilledIncubatorState]) -> list[Fil
                 id=incubator_id,
                 species_id=species_id,
                 stage=GrowthStage(str(incubator.stage)),
-                hp=_clamp_stat(int(incubator.hp)),
-                mp=_clamp_stat(int(incubator.mp)),
-                offense=_clamp_stat(int(incubator.offense)),
-                defense=_clamp_stat(int(incubator.defense)),
-                speed=_clamp_stat(int(incubator.speed)),
-                brains=_clamp_stat(int(incubator.brains)),
+                hp=_clamp_stat(int(incubator.hp), "hp"),
+                mp=_clamp_stat(int(incubator.mp), "mp"),
+                offense=_clamp_stat(int(incubator.offense), "offense"),
+                defense=_clamp_stat(int(incubator.defense), "defense"),
+                speed=_clamp_stat(int(incubator.speed), "speed"),
+                brains=_clamp_stat(int(incubator.brains), "brains"),
             )
         )
         seen_ids.add(incubator_id)

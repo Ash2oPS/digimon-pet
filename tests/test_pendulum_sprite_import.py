@@ -255,6 +255,427 @@ def test_download_manifest_import_adds_digital_monster_color_vertical_sheet(tmp_
     assert runtime["entries"]["testmon"]["source_id"] == "digital_monster_color"
 
 
+def test_discover_sprite_import_options_includes_google_drive_sprite(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+
+    def fake_drive_folder_html(folder_id, timeout_seconds):
+        if folder_id == pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID:
+            return """
+            <div class="flip-entry" id="entry-folder1">
+              <a href="https://drive.google.com/drive/folders/folder1">
+                <div aria-label="Folder"></div><div class="flip-entry-title">Child</div>
+              </a>
+            </div>
+            """
+        return """
+        <div class="flip-entry" id="entry-file1">
+          <a href="https://drive.google.com/file/d/file1/view?usp=drive_web">
+            <img src="thumb"/><div class="flip-entry-title">Agumon.png</div>
+          </a>
+        </div>
+        """
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_google_drive_folder_html", fake_drive_folder_html)
+
+    options = discover_sprite_import_options("agumon", "Agumon", tmp_path)
+
+    assert [option.provider_id for option in options] == ["google_drive_sprites"]
+    assert options[0].label == "Google Drive Sprites - Child"
+    assert options[0].detail == "Agumon.png"
+    assert options[0].image_url == "https://drive.google.com/uc?export=download&id=file1"
+    assert options[0].metadata["file_id"] == "file1"
+
+
+def test_google_drive_discovery_limits_folder_scan_to_selected_stage(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    calls = []
+
+    def fake_drive_folder_html(folder_id, timeout_seconds):
+        calls.append(folder_id)
+        if folder_id == pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID:
+            return """
+            <div class="flip-entry" id="entry-child">
+              <a href="https://drive.google.com/drive/folders/child"><div class="flip-entry-title">Child</div></a>
+            </div>
+            <div class="flip-entry" id="entry-perfect">
+              <a href="https://drive.google.com/drive/folders/perfect"><div class="flip-entry-title">Perfect</div></a>
+            </div>
+            <div class="flip-entry" id="entry-ultimate">
+              <a href="https://drive.google.com/drive/folders/ultimate"><div class="flip-entry-title">Ultimate/Super Ultimate</div></a>
+            </div>
+            <div class="flip-entry" id="entry-idle">
+              <a href="https://drive.google.com/drive/folders/idle"><div class="flip-entry-title">Idle Frame Only</div></a>
+            </div>
+            """
+        if folder_id == "perfect":
+            return """
+            <div class="flip-entry" id="entry-file1">
+              <a href="https://drive.google.com/file/d/file1/view?usp=drive_web">
+                <div class="flip-entry-title">Andiramon_Virus.png</div>
+              </a>
+            </div>
+            """
+        if folder_id == "idle":
+            return ""
+        raise AssertionError(f"Unexpected folder scan: {folder_id}")
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_google_drive_folder_html", fake_drive_folder_html)
+
+    options = discover_sprite_import_options("antylamon", "Andiramon_Virus", tmp_path, stage="ultimate")
+
+    assert [option.detail for option in options] == ["Andiramon_Virus.png"]
+    assert calls == [pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID, "perfect"]
+
+
+def test_google_drive_discovery_never_scans_idle_frame_only(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    calls = []
+
+    def fake_drive_folder_html(folder_id, timeout_seconds):
+        calls.append(folder_id)
+        if folder_id == pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID:
+            return """
+            <div class="flip-entry" id="entry-perfect">
+              <a href="https://drive.google.com/drive/folders/perfect"><div class="flip-entry-title">Perfect</div></a>
+            </div>
+            <div class="flip-entry" id="entry-idle">
+              <a href="https://drive.google.com/drive/folders/idle"><div class="flip-entry-title">Idle Frame Only</div></a>
+            </div>
+            """
+        if folder_id == "perfect":
+            return ""
+        raise AssertionError(f"Unexpected folder scan: {folder_id}")
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_google_drive_folder_html", fake_drive_folder_html)
+
+    assert discover_sprite_import_options("antylamon", "Andiramon_Virus", tmp_path, stage="ultimate") == []
+    assert calls == [pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID, "perfect"]
+
+
+def test_google_drive_stage_discovery_falls_back_to_other_non_idle_folders(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    calls = []
+
+    def fake_drive_folder_html(folder_id, timeout_seconds):
+        calls.append(folder_id)
+        if folder_id == pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID:
+            return """
+            <div class="flip-entry" id="entry-adult">
+              <a href="https://drive.google.com/drive/folders/adult"><div class="flip-entry-title">Adult</div></a>
+            </div>
+            <div class="flip-entry" id="entry-perfect">
+              <a href="https://drive.google.com/drive/folders/perfect"><div class="flip-entry-title">Perfect</div></a>
+            </div>
+            <div class="flip-entry" id="entry-idle">
+              <a href="https://drive.google.com/drive/folders/idle"><div class="flip-entry-title">Idle Frame Only</div></a>
+            </div>
+            """
+        if folder_id == "adult":
+            return ""
+        if folder_id == "perfect":
+            return """
+            <div class="flip-entry" id="entry-file1">
+              <a href="https://drive.google.com/file/d/file1/view?usp=drive_web">
+                <div class="flip-entry-title">Crescemon.png</div>
+              </a>
+            </div>
+            """
+        raise AssertionError(f"Unexpected folder scan: {folder_id}")
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_google_drive_folder_html", fake_drive_folder_html)
+
+    options = discover_sprite_import_options("crescemon", "Crescemon", tmp_path, stage="champion")
+
+    assert [option.label for option in options] == ["Google Drive Sprites - Perfect"]
+    assert [option.detail for option in options] == ["Crescemon.png"]
+    assert calls == [pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID, "adult", "perfect"]
+
+
+def test_google_drive_discovery_without_stage_excludes_idle_frame_only_folder(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    calls = []
+
+    def fake_drive_folder_html(folder_id, timeout_seconds):
+        calls.append(folder_id)
+        if folder_id == pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID:
+            return """
+            <div class="flip-entry" id="entry-child">
+              <a href="https://drive.google.com/drive/folders/child"><div class="flip-entry-title">Child</div></a>
+            </div>
+            <div class="flip-entry" id="entry-idle">
+              <a href="https://drive.google.com/drive/folders/idle"><div class="flip-entry-title">Idle Frame Only</div></a>
+            </div>
+            """
+        if folder_id == "child":
+            return ""
+        raise AssertionError(f"Unexpected folder scan: {folder_id}")
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_google_drive_folder_html", fake_drive_folder_html)
+
+    assert discover_sprite_import_options("agumon", "Agumon", tmp_path) == []
+    assert calls == [pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID, "child"]
+
+
+def test_discovery_skips_wikimon_when_google_drive_has_stage_match(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+
+    def fail_wikimon(*args, **kwargs):
+        raise AssertionError("Wikimon should not be queried after a Drive match")
+
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", fail_wikimon)
+
+    def fake_drive_folder_html(folder_id, timeout_seconds):
+        if folder_id == pendulum_sprite_import.GOOGLE_DRIVE_SPRITES_FOLDER_ID:
+            return """
+            <div class="flip-entry" id="entry-perfect">
+              <a href="https://drive.google.com/drive/folders/perfect"><div class="flip-entry-title">Perfect</div></a>
+            </div>
+            """
+        return """
+        <div class="flip-entry" id="entry-file1">
+          <a href="https://drive.google.com/file/d/file1/view?usp=drive_web">
+            <div class="flip-entry-title">Andiramon_Virus.png</div>
+          </a>
+        </div>
+        """
+
+    monkeypatch.setattr(pendulum_sprite_import, "_load_google_drive_folder_html", fake_drive_folder_html)
+
+    options = discover_sprite_import_options("antylamon", "Andiramon_Virus", tmp_path, stage="ultimate")
+
+    assert [option.detail for option in options] == ["Andiramon_Virus.png"]
+
+
+def test_discover_sprite_import_options_includes_humulos_penc_when_stage_is_known(tmp_path, monkeypatch):
+    monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_google_drive_sprite_options", lambda *args, **kwargs: [])
+    html = """
+    <img data-src="//humulos.com/digimon/images/dot/penc/frame2/agu.gif" title="Agumon">
+    <img data-src="//humulos.com/digimon/images/dot/penc/agu.gif" title="Agumon">
+    <img data-src="//humulos.com/digimon/images/dot/penc/metalgrey_va.gif" title="Metal Greymon (Vaccine)">
+    """
+    monkeypatch.setattr(pendulum_sprite_import, "_load_remote_text", lambda url, timeout_seconds: html)
+
+    options = discover_sprite_import_options("agumon", "Agumon", tmp_path, stage="rookie")
+
+    assert [option.provider_id for option in options] == ["humulos_penc"]
+    assert options[0].label == "Humulos PenC (Agumon)"
+    assert options[0].image_url == "https://humulos.com/digimon/images/dot/penc/agu.gif"
+
+
+def test_humulos_penc_import_updates_pendulum_source_manifest_and_runtime(tmp_path, monkeypatch):
+    _write_json(tmp_path / "data" / "sprite_sources.json", [])
+    _write_json(tmp_path / "data" / "dw1_roster.json", [{"id": "agumon", "name": "Agumon"}])
+    imported_image = QImage(32, 16, QImage.Format.Format_ARGB32)
+    imported_image.fill(QColor("red"))
+    monkeypatch.setattr(
+        pendulum_sprite_import,
+        "_load_remote_animation_sheet",
+        lambda url, fps=6, timeout_seconds=10, **kwargs: AnimationSheet(imported_image, 2, fps, 16, 16),
+    )
+    option = SpriteImportOption(
+        provider_id="humulos_penc",
+        label="Humulos PenC (Agumon)",
+        detail="agu.gif",
+        species_id="agumon",
+        name="Agumon",
+        source_url="https://humulos.com/digimon/penc/",
+        image_url="https://humulos.com/digimon/images/dot/penc/agu.gif",
+        matched_name="Agumon",
+        source_name="Humulos PenC",
+        metadata={"source_title": "Agumon"},
+    )
+
+    result = import_sprite_option(
+        option,
+        tmp_path,
+        source_config_path=Path("data/sprite_sources.json"),
+        roster_path=Path("data/dw1_roster.json"),
+        runtime_manifest_path=Path("data/dw1_sprite_manifest.json"),
+        report_path=Path("data/dw1_sprite_report.md"),
+    )
+
+    assert result is not None
+    assert result.relative_path == "assets/sprite_sources/digimon_pendulum_color/agumon.png"
+    source_manifest = json.loads((tmp_path / "assets" / "sprite_sources" / "digimon_pendulum_color" / "manifest.json").read_text())
+    assert source_manifest["sprites"][0]["source_url"] == "https://humulos.com/digimon/images/dot/penc/agu.gif"
+    source_config = json.loads((tmp_path / "data" / "sprite_sources.json").read_text(encoding="utf-8"))
+    assert source_config == [
+        {
+            "id": "digimon_pendulum_color",
+            "name": "Digimon Pendulum COLOR",
+            "priority": 2,
+            "manifest": "assets/sprite_sources/digimon_pendulum_color/manifest.json",
+        }
+    ]
+    runtime = json.loads((tmp_path / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8"))
+    assert runtime["entries"]["agumon"]["source_id"] == "digimon_pendulum_color"
+
+
+def test_google_drive_import_adds_sprite_source_manifest_and_runtime(tmp_path, monkeypatch):
+    _write_json(
+        tmp_path / "data" / "sprite_sources.json",
+        [
+            {
+                "id": "google_drive_sprites",
+                "name": "Google Drive Sprites",
+                "priority": 5,
+                "manifest": "assets/sprite_sources/google_drive_sprites/manifest.json",
+            }
+        ],
+    )
+    _write_json(tmp_path / "data" / "dw1_roster.json", [{"id": "agumon", "name": "Agumon"}])
+    imported_image = QImage(32, 16, QImage.Format.Format_ARGB32)
+    imported_image.fill(QColor("red"))
+    monkeypatch.setattr(
+        pendulum_sprite_import,
+        "_load_remote_animation_sheet",
+        lambda url, frame_count=1, fps=6, timeout_seconds=10, **kwargs: AnimationSheet(imported_image, 2, fps, 16, 16),
+    )
+    option = SpriteImportOption(
+        provider_id="google_drive_sprites",
+        label="Google Drive sprites - Child",
+        detail="Agumon.png",
+        species_id="agumon",
+        name="Agumon",
+        source_url="https://drive.google.com/file/d/file1/view?usp=drive_web",
+        image_url="https://drive.google.com/uc?export=download&id=file1",
+        source_name="Google Drive Sprites",
+        metadata={"file_id": "file1", "folder": "Child", "title": "Agumon.png"},
+    )
+
+    result = import_sprite_option(
+        option,
+        tmp_path,
+        source_config_path=Path("data/sprite_sources.json"),
+        roster_path=Path("data/dw1_roster.json"),
+        runtime_manifest_path=Path("data/dw1_sprite_manifest.json"),
+        report_path=Path("data/dw1_sprite_report.md"),
+    )
+
+    assert result is not None
+    assert result.relative_path == "assets/sprite_sources/google_drive_sprites/agumon.png"
+    assert QImage(str(result.path)).width() == 32
+    source_manifest = json.loads((tmp_path / "assets" / "sprite_sources" / "google_drive_sprites" / "manifest.json").read_text())
+    assert source_manifest["sprites"][0]["source_file_id"] == "file1"
+    runtime = json.loads((tmp_path / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8"))
+    assert runtime["entries"]["agumon"]["source_id"] == "google_drive_sprites"
+
+
+def test_google_drive_import_adds_source_title_alias_for_existing_roster_name(tmp_path, monkeypatch):
+    _write_json(
+        tmp_path / "data" / "sprite_sources.json",
+        [
+            {
+                "id": "google_drive_sprites",
+                "name": "Google Drive Sprites",
+                "priority": 5,
+                "manifest": "assets/sprite_sources/google_drive_sprites/manifest.json",
+            }
+        ],
+    )
+    _write_json(tmp_path / "data" / "dw1_roster.json", [{"id": "antylamon", "name": "Antylamon"}])
+    imported_image = QImage(192, 16, QImage.Format.Format_ARGB32)
+    imported_image.fill(QColor("red"))
+    monkeypatch.setattr(
+        pendulum_sprite_import,
+        "_load_remote_animation_sheet",
+        lambda url, frame_count=1, fps=6, timeout_seconds=10, **kwargs: AnimationSheet(imported_image, 12, fps, 16, 16),
+    )
+    option = SpriteImportOption(
+        provider_id="google_drive_sprites",
+        label="Google Drive Sprites - Perfect",
+        detail="Andiramon_Virus.png",
+        species_id="antylamon",
+        name="Andiramon_Virus",
+        source_url="https://drive.google.com/file/d/file1/view?usp=drive_web",
+        image_url="https://drive.google.com/uc?export=download&id=file1",
+        source_name="Google Drive Sprites",
+        metadata={"file_id": "file1", "folder": "Perfect", "title": "Andiramon_Virus.png"},
+    )
+
+    result = import_sprite_option(
+        option,
+        tmp_path,
+        source_config_path=Path("data/sprite_sources.json"),
+        roster_path=Path("data/dw1_roster.json"),
+        runtime_manifest_path=Path("data/dw1_sprite_manifest.json"),
+        report_path=Path("data/dw1_sprite_report.md"),
+    )
+
+    assert result is not None
+    roster = json.loads((tmp_path / "data" / "dw1_roster.json").read_text(encoding="utf-8"))
+    assert roster == [
+        {
+            "id": "antylamon",
+            "name": "Antylamon",
+            "aliases": ["Andiramon_Virus"],
+            "preferred_source_id": "google_drive_sprites",
+        }
+    ]
+    runtime = json.loads((tmp_path / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8"))
+    assert runtime["entries"]["antylamon"]["source_id"] == "google_drive_sprites"
+    assert runtime["entries"]["antylamon"]["matched_name"] == "Andiramon_Virus"
+
+
+def test_google_drive_import_converts_lcd_grid_to_horizontal_animation_sheet(tmp_path):
+    _write_json(
+        tmp_path / "data" / "sprite_sources.json",
+        [
+            {
+                "id": "google_drive_sprites",
+                "name": "Google Drive Sprites",
+                "priority": 5,
+                "manifest": "assets/sprite_sources/google_drive_sprites/manifest.json",
+            }
+        ],
+    )
+    _write_json(tmp_path / "data" / "dw1_roster.json", [{"id": "agumon", "name": "Agumon"}])
+    remote_path = tmp_path / "remote" / "Agumon.png"
+    remote_path.parent.mkdir(parents=True)
+    image = QImage(48, 64, QImage.Format.Format_ARGB32)
+    image.fill(QColor("transparent"))
+    for index in range(12):
+        color = QColor(10 + index, 20, 30)
+        x = (index % 3) * 16
+        y = (index // 3) * 16
+        image.setPixelColor(x, y, color)
+    image.save(str(remote_path))
+    option = SpriteImportOption(
+        provider_id="google_drive_sprites",
+        label="Google Drive Sprites - Child",
+        detail="Agumon.png",
+        species_id="agumon",
+        name="Agumon",
+        source_url="https://drive.google.com/file/d/file1/view?usp=drive_web",
+        image_url=remote_path.as_uri(),
+        source_name="Google Drive Sprites",
+        metadata={"file_id": "file1", "folder": "Child", "title": "Agumon.png"},
+    )
+
+    result = import_sprite_option(
+        option,
+        tmp_path,
+        source_config_path=Path("data/sprite_sources.json"),
+        roster_path=Path("data/dw1_roster.json"),
+        runtime_manifest_path=Path("data/dw1_sprite_manifest.json"),
+        report_path=Path("data/dw1_sprite_report.md"),
+    )
+
+    assert result is not None
+    assert result.frame_count == 12
+    output = QImage(str(result.path))
+    assert output.width() == 192
+    assert output.height() == 16
+    assert output.pixelColor(0, 0) == QColor(10, 20, 30)
+    assert output.pixelColor(176, 0) == QColor(21, 20, 30)
+
+
 def test_wikimon_white_background_keeps_internal_white_pixels():
     image = QImage(5, 5, QImage.Format.Format_ARGB32)
     image.fill(QColor("white"))

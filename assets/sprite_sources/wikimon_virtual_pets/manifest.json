@@ -107,6 +107,146 @@
       "path": "assets/sprite_sources/wikimon_virtual_pets/veemon_vital_bracelet_digital_monster.png",
       "source_page": "https://wikimon.net/Veemon",
       "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "V-mon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/v_mon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/V-mon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Lopmon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/lopmon_digimon_xros_loader.png",
+      "source_page": "https://wikimon.net/Lopmon",
+      "source_label": "Digimon Xros Loader"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 78,
+      "name": "Gaomon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/gaomon_vital_bracelet_be.png",
+      "source_page": "https://wikimon.net/Gaomon",
+      "source_label": "Vital Bracelet BE"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Turuiemon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/turuiemon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Turuiemon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Wendigomon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/wendigomon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Wendigomon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 52,
+      "frame_height": 68,
+      "name": "Prairiemon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/prairiemon_d_3.png",
+      "source_page": "https://wikimon.net/Prairiemon",
+      "source_label": "D-3"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Antylamon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/antylamon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Antylamon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Andiramon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/andiramon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Andiramon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Crescemon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/crescemon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Crescemon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Black Tailmon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/black_tailmon_digimon_alysion.png",
+      "source_page": "https://wikimon.net/Black_Tailmon",
+      "source_label": "Digimon Alysion"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Waru Monzaemon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/waru_monzaemon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Waru_Monzaemon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Kaiser Leomon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/kaiser_leomon_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Kaiser_Leomon",
+      "source_label": "Vital Bracelet Digital Monster"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 76,
+      "name": "Dianamon",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/dianamon_vital_bracelet_be.png",
+      "source_page": "https://wikimon.net/Dianamon",
+      "source_label": "Vital Bracelet BE"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 80,
+      "name": "Andiramon_(Deva)",
+      "path": "assets/sprite_sources/wikimon_virtual_pets/andiramon_deva_vital_bracelet_digital_monster.png",
+      "source_page": "https://wikimon.net/Andiramon_%28Deva%29",
+      "source_label": "Vital Bracelet Digital Monster"
     }
   ]
 }

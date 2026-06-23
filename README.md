@@ -99,6 +99,7 @@ Put local PNG exports or source manifests under:
 assets/sprite_sources/digital_monster_color/
 assets/sprite_sources/digimon_pendulum_color/
 assets/sprite_sources/xros_loader_toy/
+assets/sprite_sources/google_drive_sprites/
 ```
 
 Build the generated DW1 sprite manifest and report with:
@@ -108,6 +109,8 @@ python -m digimon_pet.data.sprite_pipeline
 ```
 
 The desktop pet checks this manifest on startup. If any roster sprite is missing, it downloads entries declared in `data/sprite_downloads.json`, then rebuilds the manifest from local files.
+
+The Digimon Manager `Fetch sprite` action also searches the configured public Google Drive sprite folder and imports matching PNG grids into `assets/sprite_sources/google_drive_sprites/`.
 
 Download entries use direct file URLs and project-relative targets:
 

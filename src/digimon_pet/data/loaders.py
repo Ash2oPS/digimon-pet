@@ -47,6 +47,7 @@ def _species_from_dict(raw: dict[str, Any]) -> Species:
         name=str(raw["name"]),
         stage=GrowthStage(str(raw["stage"])),
         sprite_slots=dict(raw.get("sprite_slots", {})),
+        aliases=tuple(str(alias) for alias in raw.get("aliases", []) if str(alias).strip()),
     )
 
 

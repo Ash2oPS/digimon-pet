@@ -51,7 +51,7 @@ def test_dw1_digivolutions_contains_complete_terriermon_line():
         assert transition["target_stage"] == target_stage
         assert transition_id in data["indexes"]["by_source"][source_id]
 
-    assert transitions["galgomon__to__rapidmon"]["target_name"] == "Rapidmon Perfect"
+    assert transitions["galgomon__to__rapidmon"]["target_name"] == "Rapidmon"
 
 
 def test_dw1_digivolutions_only_use_stat_requirements_for_natural_paths():

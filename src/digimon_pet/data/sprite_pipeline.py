@@ -37,6 +37,7 @@ DEFAULT_ALIAS_MAP: dict[str, list[str]] = {
     "Mojyamon": ["Mojymon"],
     "Monzaemon": ["Mozaemon"],
     "SkullGreymon": ["Skull Greymon"],
+    "Rapidmon": ["Rapidmon Perfect"],
 }
 
 

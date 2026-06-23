@@ -12,6 +12,29 @@ def test_load_species_contains_initial_line():
     assert species["agumon"].sprite_slots["idle"].endswith("agumon/idle.png")
 
 
+def test_load_species_keeps_aliases_for_fetching_without_affecting_name(tmp_path):
+    species_path = tmp_path / "species.json"
+    species_path.write_text(
+        """
+        [
+          {
+            "id": "antylamon",
+            "name": "Andiramon_Virus",
+            "stage": "ultimate",
+            "aliases": ["Antylamon", "Andiramon"],
+            "sprite_slots": {}
+          }
+        ]
+        """,
+        encoding="utf-8",
+    )
+
+    species = load_species(species_path)
+
+    assert species["antylamon"].name == "Andiramon_Virus"
+    assert species["antylamon"].aliases == ("Antylamon", "Andiramon")
+
+
 def test_load_species_contains_terriermon_line_with_expected_stages():
     species = load_species()
 
@@ -20,7 +43,8 @@ def test_load_species_contains_terriermon_line_with_expected_stages():
     assert species["terriermon"].stage == GrowthStage.ROOKIE
     assert species["galgomon"].stage == GrowthStage.CHAMPION
     assert species["rapidmon"].stage == GrowthStage.ULTIMATE
-    assert species["rapidmon"].name == "Rapidmon Perfect"
+    assert species["rapidmon"].name == "Rapidmon"
+    assert "Rapidmon Perfect" in species["rapidmon"].aliases
 
 
 def test_load_evolution_rules_contains_baby_to_rookie_path():

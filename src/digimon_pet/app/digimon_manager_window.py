@@ -76,6 +76,35 @@ NATURAL_STAT_FIELDS = (
 )
 
 
+def _parse_aliases(text: str) -> list[str]:
+    aliases: list[str] = []
+    seen: set[str] = set()
+    for raw_alias in re.split(r"[,;\n]+", text):
+        alias = raw_alias.strip()
+        key = alias.casefold()
+        if alias and key not in seen:
+            aliases.append(alias)
+            seen.add(key)
+    return aliases
+
+
+def _aliases_from_row(row: dict[str, Any] | None) -> list[str]:
+    if row is None:
+        return []
+    raw_aliases = row.get("aliases", [])
+    if not isinstance(raw_aliases, list):
+        return []
+    aliases: list[str] = []
+    seen: set[str] = set()
+    for raw_alias in raw_aliases:
+        alias = str(raw_alias).strip()
+        key = alias.casefold()
+        if alias and key not in seen:
+            aliases.append(alias)
+            seen.add(key)
+    return aliases
+
+
 class RuntimeSpritePreview(QWidget):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -552,10 +581,13 @@ class DigimonManagerWindow(QWidget):
         form.setSpacing(8)
         self._id_input = QLineEdit(self)
         self._name_input = QLineEdit(self)
+        self._aliases_input = QLineEdit(self)
+        self._aliases_input.setPlaceholderText("Comma-separated names")
         self._stage_input = NoWheelComboBox(self)
         self._stage_input.addItems([stage.value for stage in GrowthStage])
         form.addRow("ID", self._id_input)
         form.addRow("Name", self._name_input)
+        form.addRow("Aliases", self._aliases_input)
         form.addRow("Stage", self._stage_input)
         detail_layout.addLayout(form)
         right_layout.addWidget(detail_panel)
@@ -667,7 +699,7 @@ class DigimonManagerWindow(QWidget):
         self._import_sprite_button = QPushButton("Fetch sprite", tab)
         self._import_sprite_button.setObjectName("PrimaryButton")
         self._import_sprite_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowDown))
-        self._import_sprite_button.setToolTip("Fetch a Pendulum Color spritesheet by the selected Digimon name")
+        self._import_sprite_button.setToolTip("Fetch a sprite from Google Drive, local manifests, Pendulum Color, or Wikimon")
         self._import_artwork_button = QPushButton("Fetch artwork", tab)
         self._import_artwork_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogOpenButton))
         self._import_artwork_button.setToolTip("Fetch artwork by the selected Digimon name")
@@ -891,6 +923,7 @@ class DigimonManagerWindow(QWidget):
         self._species_table.itemSelectionChanged.connect(self._load_selected_species)
         self._id_input.textChanged.connect(self._sync_species_edits)
         self._name_input.textChanged.connect(self._sync_species_edits)
+        self._aliases_input.textChanged.connect(self._sync_species_edits)
         self._stage_input.currentTextChanged.connect(self._sync_species_edits)
         for input_widget in self._sprite_inputs.values():
             input_widget.textChanged.connect(self._sync_species_edits)
@@ -1229,6 +1262,7 @@ class DigimonManagerWindow(QWidget):
             return
         self._id_input.setText(str(row_data.get("id", "")))
         self._name_input.setText(str(row_data.get("name", "")))
+        self._aliases_input.setText(", ".join(_aliases_from_row(row_data)))
         self._stage_input.setCurrentText(str(row_data.get("stage", GrowthStage.ROOKIE.value)))
         sprite_slots = row_data.get("sprite_slots", {})
         if not isinstance(sprite_slots, dict):
@@ -1246,6 +1280,7 @@ class DigimonManagerWindow(QWidget):
     def _clear_editor(self) -> None:
         self._id_input.clear()
         self._name_input.clear()
+        self._aliases_input.clear()
         self._stage_input.setCurrentIndex(0)
         for input_widget in self._sprite_inputs.values():
             input_widget.clear()
@@ -1268,6 +1303,7 @@ class DigimonManagerWindow(QWidget):
         new_id = self._id_input.text().strip()
         row_data["id"] = new_id
         row_data["name"] = self._name_input.text().strip()
+        row_data["aliases"] = _parse_aliases(self._aliases_input.text())
         row_data["stage"] = self._stage_input.currentText()
         row_data["sprite_slots"] = {
             slot_name: input_widget.text().strip()
@@ -1291,11 +1327,15 @@ class DigimonManagerWindow(QWidget):
             self._set_visual_import_status("Select a Digimon with a name first.", "error")
             return
         species_id, name = identity
-        options = self._discover_selected_sprite_options(species_id, name)
+        options = self._discover_selected_sprite_options(
+            species_id,
+            self._selected_import_names(name),
+            self._stage_input.currentText().strip(),
+        )
         if not options:
             self._set_visual_import_status("No sprite source found for this name.", "error")
             return
-        option = options[0] if len(options) == 1 else self._choose_sprite_import_option(options)
+        option = self._choose_sprite_import_option(options)
         if option is None:
             self._set_visual_import_status("Sprite import cancelled.", "neutral")
             return
@@ -1315,7 +1355,7 @@ class DigimonManagerWindow(QWidget):
         self._run_visual_import(
             self._import_artwork_button,
             f"Fetching artwork for {name}...",
-            lambda: discover_and_download_artwork_for_species(species_id, name, self._project_root),
+            lambda: self._discover_and_download_selected_artwork(species_id, self._selected_import_names(name)),
             self._handle_artwork_import_result,
         )
 
@@ -1326,19 +1366,54 @@ class DigimonManagerWindow(QWidget):
             return None
         return species_id, name
 
-    def _discover_selected_sprite_options(self, species_id: str, name: str) -> list[SpriteImportOption]:
-        self._set_visual_import_status(f"Looking up sprites for {name}...", "pending")
+    def _selected_import_names(self, name: str) -> list[str]:
+        names = [name, *_parse_aliases(self._aliases_input.text())]
+        unique: list[str] = []
+        seen: set[str] = set()
+        for candidate in names:
+            clean = candidate.strip()
+            key = clean.casefold()
+            if clean and key not in seen:
+                unique.append(clean)
+                seen.add(key)
+        return unique
+
+    def _discover_selected_sprite_options(self, species_id: str, names: list[str], stage: str = "") -> list[SpriteImportOption]:
+        label = names[0] if names else species_id
+        self._set_visual_import_status(f"Looking up sprites for {label}...", "pending")
         self._import_sprite_button.setEnabled(False)
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         QApplication.processEvents()
         try:
-            return discover_sprite_import_options(species_id, name, self._project_root)
+            return self._dedupe_sprite_import_options(
+                option
+                for name in names
+                for option in discover_sprite_import_options(species_id, name, self._project_root, stage=stage)
+            )
         except OSError as exc:
             self._set_visual_import_status(f"Network error: {exc}", "error")
             return []
         finally:
             QApplication.restoreOverrideCursor()
             self._import_sprite_button.setEnabled(True)
+
+    def _dedupe_sprite_import_options(self, options) -> list[SpriteImportOption]:
+        deduped: list[SpriteImportOption] = []
+        seen: set[tuple[str, str, str, str]] = set()
+        for option in options:
+            key = (option.provider_id, option.name.casefold(), option.label, option.detail)
+            if key in seen:
+                continue
+            deduped.append(option)
+            seen.add(key)
+        return deduped
+
+    def _discover_and_download_selected_artwork(self, species_id: str, names: list[str]) -> Path | None:
+        for name in names:
+            result = discover_and_download_artwork_for_species(species_id, name, self._project_root)
+            if result is not None:
+                return result
+        return None
 
     def _choose_sprite_import_option(self, options: list[SpriteImportOption]) -> SpriteImportOption | None:
         dialog = QDialog(self)

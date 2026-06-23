@@ -25,12 +25,20 @@ from digimon_pet.paths import PROJECT_ROOT
 
 PENDULUM_COLOR_SOURCE_ID = "digimon_pendulum_color"
 PENDULUM_COLOR_MANIFEST_PATH = Path("assets/sprite_sources/digimon_pendulum_color/manifest.json")
+HUMULOS_PENC_PROVIDER_ID = "humulos_penc"
+HUMULOS_PENC_SOURCE_NAME = "Humulos PenC"
+HUMULOS_PENC_URL = "https://humulos.com/digimon/penc/"
 WIKIMON_VIRTUAL_PETS_SOURCE_ID = "wikimon_virtual_pets"
 WIKIMON_VIRTUAL_PETS_MANIFEST_PATH = Path("assets/sprite_sources/wikimon_virtual_pets/manifest.json")
 WIKIMON_BASE_URL = "https://wikimon.net"
 DOWNLOAD_MANIFEST_PROVIDER_ID = "sprite_download_manifest"
 DOWNLOAD_MANIFEST_PATH = Path("data/sprite_downloads.json")
 DOWNLOAD_MANIFEST_SOURCE_IDS = frozenset({"digital_monster_color", "xros_loader_toy"})
+GOOGLE_DRIVE_SPRITES_PROVIDER_ID = "google_drive_sprites"
+GOOGLE_DRIVE_SPRITES_SOURCE_ID = "google_drive_sprites"
+GOOGLE_DRIVE_SPRITES_SOURCE_NAME = "Google Drive Sprites"
+GOOGLE_DRIVE_SPRITES_FOLDER_ID = "1EgoXHwlXNiurD4X_9WEgoyzm9OuWf_tf"
+GOOGLE_DRIVE_SPRITES_MANIFEST_PATH = Path("assets/sprite_sources/google_drive_sprites/manifest.json")
 DEFAULT_PENDULUM_TIMEOUT_SECONDS = 10.0
 
 
@@ -132,6 +140,7 @@ def discover_sprite_import_options(
     name: str,
     project_root: Path = PROJECT_ROOT,
     *,
+    stage: str | None = None,
     download_manifest_path: Path | None = None,
     source_config_path: Path | None = None,
     timeout_seconds: float = DEFAULT_PENDULUM_TIMEOUT_SECONDS,
@@ -167,6 +176,11 @@ def discover_sprite_import_options(
             source_config_path=source_config_path,
         )
     )
+    options.extend(_discover_google_drive_sprite_options(clean_species_id, clean_name, stage=stage, timeout_seconds=timeout_seconds))
+    if stage:
+        options.extend(_discover_humulos_penc_options(clean_species_id, clean_name, timeout_seconds=timeout_seconds))
+    if options:
+        return options
     options.extend(_discover_wikimon_virtual_pet_options(clean_species_id, clean_name, timeout_seconds=timeout_seconds))
     return options
 
@@ -216,6 +230,28 @@ def import_sprite_option(
             report_path=report_path,
             timeout_seconds=timeout_seconds,
         )
+    if option.provider_id == GOOGLE_DRIVE_SPRITES_PROVIDER_ID:
+        return _import_google_drive_sprite(
+            option,
+            project_root,
+            source_manifest_path=source_manifest_path,
+            roster_path=roster_path,
+            source_config_path=source_config_path,
+            runtime_manifest_path=runtime_manifest_path,
+            report_path=report_path,
+            timeout_seconds=timeout_seconds,
+        )
+    if option.provider_id == HUMULOS_PENC_PROVIDER_ID:
+        return _import_humulos_penc_sprite(
+            option,
+            project_root,
+            source_manifest_path=source_manifest_path,
+            roster_path=roster_path,
+            source_config_path=source_config_path,
+            runtime_manifest_path=runtime_manifest_path,
+            report_path=report_path,
+            timeout_seconds=timeout_seconds,
+        )
     return None
 
 
@@ -246,6 +282,19 @@ def sprite_import_option_preview_image(
             metadata=option.metadata,
             timeout_seconds=timeout_seconds,
         )
+        return animation.image.copy(QRect(0, 0, animation.frame_width, animation.frame_height)) if not animation.image.isNull() else QImage()
+    if option.provider_id == GOOGLE_DRIVE_SPRITES_PROVIDER_ID and option.image_url:
+        metadata = _google_drive_animation_metadata(option.metadata)
+        animation = _load_remote_animation_sheet(
+            option.image_url,
+            frame_count=_positive_int(metadata.get("frame_count"), option.frame_count),
+            fps=option.fps,
+            metadata=metadata,
+            timeout_seconds=timeout_seconds,
+        )
+        return animation.image.copy(QRect(0, 0, animation.frame_width, animation.frame_height)) if not animation.image.isNull() else QImage()
+    if option.provider_id == HUMULOS_PENC_PROVIDER_ID and option.image_url:
+        animation = _load_remote_animation_sheet(option.image_url, fps=option.fps, timeout_seconds=timeout_seconds)
         return animation.image.copy(QRect(0, 0, animation.frame_width, animation.frame_height)) if not animation.image.isNull() else QImage()
     return QImage()
 
@@ -442,6 +491,241 @@ def _discover_wikimon_virtual_pet_options(
     return options
 
 
+def _discover_google_drive_sprite_options(
+    species_id: str,
+    name: str,
+    *,
+    stage: str | None,
+    timeout_seconds: float,
+) -> list[SpriteImportOption]:
+    target_names = {normalize_name(name), normalize_name(species_id)}
+    options: list[SpriteImportOption] = []
+    if stage:
+        return _discover_google_drive_sprite_options_for_stage(target_names, species_id, name, stage, timeout_seconds)
+    queue: deque[tuple[str, str]] = deque([(GOOGLE_DRIVE_SPRITES_FOLDER_ID, "Root")])
+    visited: set[str] = set()
+    while queue and len(visited) < 40:
+        folder_id, folder_label = queue.popleft()
+        if folder_id in visited:
+            continue
+        visited.add(folder_id)
+        try:
+            html = _load_google_drive_folder_html(folder_id, timeout_seconds)
+        except OSError:
+            continue
+        for entry in _google_drive_folder_entries(html):
+            if entry["kind"] == "folder":
+                if _is_google_drive_idle_frame_folder(entry["title"]):
+                    continue
+                queue.append((entry["id"], entry["title"]))
+                continue
+            if entry["kind"] != "file" or not entry["title"].casefold().endswith(".png"):
+                continue
+            stem = Path(entry["title"]).stem
+            if normalize_name(stem) not in target_names:
+                continue
+            options.append(
+                SpriteImportOption(
+                    provider_id=GOOGLE_DRIVE_SPRITES_PROVIDER_ID,
+                    label=f"{GOOGLE_DRIVE_SPRITES_SOURCE_NAME} - {folder_label}",
+                    detail=entry["title"],
+                    species_id=species_id,
+                    name=name,
+                    source_url=entry["url"],
+                    image_url=_google_drive_download_url(entry["id"]),
+                    source_name=GOOGLE_DRIVE_SPRITES_SOURCE_NAME,
+                    metadata={"file_id": entry["id"], "folder": folder_label, "title": entry["title"]},
+                )
+            )
+    return options
+
+
+def _discover_humulos_penc_options(
+    species_id: str,
+    name: str,
+    *,
+    timeout_seconds: float,
+) -> list[SpriteImportOption]:
+    try:
+        html = _load_remote_text(HUMULOS_PENC_URL, timeout_seconds=timeout_seconds)
+    except OSError:
+        return []
+    target = normalize_name(name)
+    options: list[SpriteImportOption] = []
+    seen_urls: set[str] = set()
+    for tag in re.findall(r"<img\b[^>]*(?:data-src|src)=\"[^\"]*images/dot/penc/[^\"]+\"[^>]*>", html, flags=re.I):
+        title = _tag_attr(tag, "title") or _tag_attr(tag, "alt")
+        image_url = _tag_attr(tag, "data-src") or _tag_attr(tag, "src")
+        if not title or not image_url or "digitama" in title.casefold() or "/frame2/" in image_url:
+            continue
+        clean_title = _strip_form_suffix(title)
+        if normalize_name(clean_title) != target:
+            continue
+        full_url = _absolute_humulos_url(image_url)
+        if full_url in seen_urls:
+            continue
+        seen_urls.add(full_url)
+        options.append(
+            SpriteImportOption(
+                provider_id=HUMULOS_PENC_PROVIDER_ID,
+                label=f"{HUMULOS_PENC_SOURCE_NAME} ({clean_title})",
+                detail=Path(image_url.split("?", 1)[0]).name,
+                species_id=species_id,
+                name=name,
+                source_url=HUMULOS_PENC_URL,
+                image_url=full_url,
+                fps=6,
+                matched_name=clean_title,
+                source_name=HUMULOS_PENC_SOURCE_NAME,
+                metadata={"source_title": title},
+            )
+        )
+    return options
+
+
+def _discover_google_drive_sprite_options_for_stage(
+    target_names: set[str],
+    species_id: str,
+    name: str,
+    stage: str,
+    timeout_seconds: float,
+) -> list[SpriteImportOption]:
+    try:
+        root_html = _load_google_drive_folder_html(GOOGLE_DRIVE_SPRITES_FOLDER_ID, timeout_seconds)
+    except OSError:
+        return []
+    folders = [entry for entry in _google_drive_folder_entries(root_html) if entry["kind"] == "folder"]
+    folders_by_label = {normalize_name(folder["title"]): folder for folder in folders}
+    scanned_folder_ids: set[str] = set()
+    for label in _google_drive_stage_folder_labels(stage):
+        folder = folders_by_label.get(normalize_name(label))
+        if folder is None:
+            continue
+        scanned_folder_ids.add(folder["id"])
+        try:
+            html = _load_google_drive_folder_html(folder["id"], timeout_seconds)
+        except OSError:
+            continue
+        options = _google_drive_options_from_folder_html(html, folder["title"], target_names, species_id, name)
+        if options:
+            return options
+    for folder in folders:
+        if folder["id"] in scanned_folder_ids or _is_google_drive_idle_frame_folder(folder["title"]):
+            continue
+        try:
+            html = _load_google_drive_folder_html(folder["id"], timeout_seconds)
+        except OSError:
+            continue
+        options = _google_drive_options_from_folder_html(html, folder["title"], target_names, species_id, name)
+        if options:
+            return options
+    return []
+
+
+def _google_drive_stage_folder_labels(stage: str) -> list[str]:
+    normalized = normalize_name(stage)
+    stage_labels = {
+        "baby": "Baby I",
+        "baby_1": "Baby I",
+        "baby_i": "Baby I",
+        "baby2": "Baby II",
+        "baby_2": "Baby II",
+        "baby_ii": "Baby II",
+        "in_training": "Baby II",
+        "rookie": "Child",
+        "child": "Child",
+        "champion": "Adult",
+        "adult": "Adult",
+        "ultimate": "Perfect",
+        "perfect": "Perfect",
+        "mega": "Ultimate/Super Ultimate",
+        "super_ultimate": "Ultimate/Super Ultimate",
+        "armor": "Armor/Hybrid",
+        "hybrid": "Armor/Hybrid",
+    }
+    return [stage_labels.get(normalized, stage)]
+
+
+def _is_google_drive_idle_frame_folder(title: str) -> bool:
+    return normalize_name(title) == normalize_name("Idle Frame Only")
+
+
+def _google_drive_options_from_folder_html(
+    html: str,
+    folder_label: str,
+    target_names: set[str],
+    species_id: str,
+    name: str,
+) -> list[SpriteImportOption]:
+    options: list[SpriteImportOption] = []
+    for entry in _google_drive_folder_entries(html):
+        if entry["kind"] != "file" or not entry["title"].casefold().endswith(".png"):
+            continue
+        stem = Path(entry["title"]).stem
+        if normalize_name(stem) not in target_names:
+            continue
+        options.append(
+            SpriteImportOption(
+                provider_id=GOOGLE_DRIVE_SPRITES_PROVIDER_ID,
+                label=f"{GOOGLE_DRIVE_SPRITES_SOURCE_NAME} - {folder_label}",
+                detail=entry["title"],
+                species_id=species_id,
+                name=name,
+                source_url=entry["url"],
+                image_url=_google_drive_download_url(entry["id"]),
+                source_name=GOOGLE_DRIVE_SPRITES_SOURCE_NAME,
+                metadata={"file_id": entry["id"], "folder": folder_label, "title": entry["title"]},
+            )
+        )
+    return options
+
+
+def _load_google_drive_folder_html(folder_id: str, timeout_seconds: float) -> str:
+    url = f"https://drive.google.com/embeddedfolderview?id={quote(folder_id)}#list"
+    return _load_remote_text(url, timeout_seconds=timeout_seconds)
+
+
+def _google_drive_folder_entries(html: str) -> list[dict[str, str]]:
+    entries: list[dict[str, str]] = []
+    matches = list(re.finditer(r'<div class="flip-entry" id="entry-([^"]+)"', html))
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(html)
+        block = html[match.start() : end]
+        href_match = re.search(r'<a href="([^"]+)"', block)
+        title_match = re.search(r'<div class="flip-entry-title">([^<]+)</div>', block)
+        if not href_match or not title_match:
+            continue
+        href = _html_unescape(href_match.group(1))
+        title = _html_unescape(title_match.group(1)).strip()
+        if not title:
+            continue
+        kind = "folder" if "/drive/folders/" in href else "file"
+        entries.append({"id": match.group(1), "kind": kind, "title": title, "url": href})
+    return entries
+
+
+def _google_drive_download_url(file_id: str) -> str:
+    return f"https://drive.google.com/uc?export=download&id={quote(file_id)}"
+
+
+def _google_drive_animation_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
+    if metadata.get("frame_width") or metadata.get("frame_height"):
+        return dict(metadata)
+    title = str(metadata.get("title") or "")
+    folder = str(metadata.get("folder") or "")
+    if title.casefold().endswith(".png") and folder.casefold() != "idle frame only":
+        enriched = dict(metadata)
+        enriched.update({"frame_width": 16, "frame_height": 16, "columns": 3, "frame_count": 12})
+        return enriched
+    return dict(metadata)
+
+
+def _google_drive_matched_name(option: SpriteImportOption) -> str:
+    title = str(option.metadata.get("title") or option.detail).strip()
+    stem = Path(title).stem.strip()
+    return stem or option.name
+
+
 def _virtual_pet_gallery_section(html: str) -> str:
     match = re.search(r'id="Virtual_Pets_2"', html)
     if not match:
@@ -484,6 +768,24 @@ def _full_wikimon_image_url(raw_url: str) -> str:
         return f"https:{url}"
     if url.startswith("/"):
         return f"{WIKIMON_BASE_URL}{url}"
+    return url
+
+
+def _tag_attr(tag: str, attr: str) -> str:
+    match = re.search(rf'\b{re.escape(attr)}="([^"]*)"', tag, flags=re.I)
+    return _html_unescape(match.group(1)).strip() if match else ""
+
+
+def _strip_form_suffix(name: str) -> str:
+    return re.sub(r"\s*\([^)]*\)\s*$", "", _html_unescape(name)).strip()
+
+
+def _absolute_humulos_url(raw_url: str) -> str:
+    url = _html_unescape(raw_url)
+    if url.startswith("//"):
+        return f"https:{url}"
+    if url.startswith("/"):
+        return f"https://humulos.com{url}"
     return url
 
 
@@ -802,6 +1104,152 @@ def _import_download_manifest_sprite(
     )
 
 
+def _import_google_drive_sprite(
+    option: SpriteImportOption,
+    project_root: Path,
+    *,
+    source_manifest_path: Path | None,
+    roster_path: Path | None,
+    source_config_path: Path | None,
+    runtime_manifest_path: Path | None,
+    report_path: Path | None,
+    timeout_seconds: float,
+) -> ImportedPendulumSprite | None:
+    metadata = _google_drive_animation_metadata(option.metadata)
+    animation = _load_remote_animation_sheet(
+        option.image_url,
+        frame_count=_positive_int(metadata.get("frame_count"), option.frame_count),
+        fps=option.fps,
+        metadata=metadata,
+        timeout_seconds=timeout_seconds,
+    )
+    if animation.image.isNull():
+        return None
+    filename = f"{_asset_slug(option.name)}.png"
+    target_relative = Path("assets") / "sprite_sources" / GOOGLE_DRIVE_SPRITES_SOURCE_ID / filename
+    target_path = project_root / target_relative
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    if not animation.image.save(str(target_path), "PNG"):
+        return None
+
+    matched_name = _google_drive_matched_name(option)
+    manifest_path = project_root / (source_manifest_path or GOOGLE_DRIVE_SPRITES_MANIFEST_PATH)
+    _upsert_source_manifest_entry(
+        manifest_path,
+        {
+            "fps": animation.fps,
+            "frame_count": animation.frame_count,
+            "frame_width": animation.frame_width,
+            "frame_height": animation.frame_height,
+            "name": matched_name,
+            "path": target_relative.as_posix(),
+            "source_file_id": str(option.metadata.get("file_id") or ""),
+            "source_title": str(option.metadata.get("title") or option.detail),
+            "source_folder": str(option.metadata.get("folder") or ""),
+            "source_url": option.source_url,
+        },
+    )
+    effective_roster_path = project_root / (roster_path or _project_default(DEFAULT_ROSTER_PATH))
+    effective_source_config_path = project_root / (source_config_path or _project_default(DEFAULT_SOURCE_CONFIG_PATH))
+    effective_runtime_manifest_path = project_root / (runtime_manifest_path or _project_default(DEFAULT_MANIFEST_PATH))
+    effective_report_path = project_root / (report_path or _project_default(DEFAULT_REPORT_PATH))
+    _upsert_source_config_entry(
+        effective_source_config_path,
+        {
+            "id": GOOGLE_DRIVE_SPRITES_SOURCE_ID,
+            "name": GOOGLE_DRIVE_SPRITES_SOURCE_NAME,
+            "priority": 5,
+            "manifest": GOOGLE_DRIVE_SPRITES_MANIFEST_PATH.as_posix(),
+        },
+    )
+    _upsert_roster_entry(effective_roster_path, option.species_id, option.name, matched_name, GOOGLE_DRIVE_SPRITES_SOURCE_ID)
+    build_sprite_manifest(
+        project_root,
+        roster_path=effective_roster_path,
+        source_config_path=effective_source_config_path,
+        output_path=effective_runtime_manifest_path,
+        report_path=effective_report_path,
+    )
+    return ImportedPendulumSprite(
+        species_id=option.species_id,
+        name=option.name,
+        source_name=option.label,
+        path=target_path,
+        relative_path=target_relative.as_posix(),
+        frame_count=animation.frame_count,
+        fps=animation.fps,
+    )
+
+
+def _import_humulos_penc_sprite(
+    option: SpriteImportOption,
+    project_root: Path,
+    *,
+    source_manifest_path: Path | None,
+    roster_path: Path | None,
+    source_config_path: Path | None,
+    runtime_manifest_path: Path | None,
+    report_path: Path | None,
+    timeout_seconds: float,
+) -> ImportedPendulumSprite | None:
+    animation = _load_remote_animation_sheet(option.image_url, fps=option.fps, timeout_seconds=timeout_seconds)
+    if animation.image.isNull():
+        return None
+    matched_name = option.matched_name or option.name
+    filename = f"{_asset_slug(matched_name)}.png"
+    target_relative = Path("assets") / "sprite_sources" / PENDULUM_COLOR_SOURCE_ID / filename
+    target_path = project_root / target_relative
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    if not animation.image.save(str(target_path), "PNG"):
+        return None
+
+    manifest_path = project_root / (source_manifest_path or PENDULUM_COLOR_MANIFEST_PATH)
+    _upsert_source_manifest_entry(
+        manifest_path,
+        {
+            "fps": animation.fps,
+            "frame_count": animation.frame_count,
+            "frame_width": animation.frame_width,
+            "frame_height": animation.frame_height,
+            "name": matched_name,
+            "path": target_relative.as_posix(),
+            "source_page": option.source_url,
+            "source_url": option.image_url,
+            "source_title": str(option.metadata.get("source_title") or matched_name),
+        },
+    )
+    effective_roster_path = project_root / (roster_path or _project_default(DEFAULT_ROSTER_PATH))
+    effective_source_config_path = project_root / (source_config_path or _project_default(DEFAULT_SOURCE_CONFIG_PATH))
+    effective_runtime_manifest_path = project_root / (runtime_manifest_path or _project_default(DEFAULT_MANIFEST_PATH))
+    effective_report_path = project_root / (report_path or _project_default(DEFAULT_REPORT_PATH))
+    _upsert_source_config_entry(
+        effective_source_config_path,
+        {
+            "id": PENDULUM_COLOR_SOURCE_ID,
+            "name": "Digimon Pendulum COLOR",
+            "priority": 2,
+            "manifest": PENDULUM_COLOR_MANIFEST_PATH.as_posix(),
+        },
+    )
+    _upsert_roster_entry(effective_roster_path, option.species_id, option.name, matched_name, PENDULUM_COLOR_SOURCE_ID)
+    build_sprite_manifest(
+        project_root,
+        roster_path=effective_roster_path,
+        source_config_path=effective_source_config_path,
+        output_path=effective_runtime_manifest_path,
+        report_path=effective_report_path,
+    )
+    return ImportedPendulumSprite(
+        species_id=option.species_id,
+        name=matched_name,
+        source_name=option.label,
+        path=target_path,
+        relative_path=target_relative.as_posix(),
+        frame_count=animation.frame_count,
+        fps=animation.fps,
+    )
+
+
 def _transparent_white_background(image: QImage) -> QImage:
     converted = image.convertToFormat(QImage.Format.Format_ARGB32)
     width = converted.width()
@@ -944,6 +1392,8 @@ def _upsert_roster_entry(roster_path: Path, species_id: str, name: str, matched_
     for entry in roster:
         if str(entry.get("id", "")) != species_id:
             continue
+        if normalize_name(matched_name) != normalize_name(str(entry.get("name", ""))):
+            aliases.append(matched_name)
         existing_aliases = [str(alias) for alias in entry.get("aliases", []) if str(alias).strip()]
         for alias in aliases:
             if alias not in existing_aliases:

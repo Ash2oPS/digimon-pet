@@ -240,6 +240,7 @@ def test_visual_import_buttons_have_icons_and_status(tmp_path):
     assert window._import_sprite_button.text() == "Fetch sprite"
     assert not window._import_sprite_button.icon().isNull()
     assert window._import_sprite_button.toolTip()
+    assert "Google Drive" in window._import_sprite_button.toolTip()
     assert window._import_artwork_button.text() == "Fetch artwork"
     assert not window._import_artwork_button.icon().isNull()
     assert window._import_artwork_button.toolTip()
@@ -260,8 +261,8 @@ def test_fetch_sprite_uses_selected_digimon_name_and_refreshes_runtime(tmp_path,
         source_name="Wikimon Virtual Pets",
     )
 
-    def fake_discover(species_id, name, project_root):
-        calls.append(("discover", species_id, name, project_root))
+    def fake_discover(species_id, name, project_root, stage=""):
+        calls.append(("discover", species_id, name, project_root, stage))
         return [option]
 
     def fake_import(selected_option, project_root):
@@ -270,17 +271,59 @@ def test_fetch_sprite_uses_selected_digimon_name_and_refreshes_runtime(tmp_path,
 
     monkeypatch.setattr("digimon_pet.app.digimon_manager_window.discover_sprite_import_options", fake_discover)
     monkeypatch.setattr("digimon_pet.app.digimon_manager_window.import_sprite_option", fake_import)
+    monkeypatch.setattr(window, "_choose_sprite_import_option", lambda options: calls.append(("choose", options)) or options[0])
     monkeypatch.setattr(window, "_load_runtime_sprite_entries", lambda: {"agumon": {"asset_path": "sprite.png"}})
     window._species_table.selectRow(1)
 
     window.import_selected_sprite()
 
     assert calls == [
-        ("discover", "agumon", "Agumon", tmp_path),
+        ("discover", "agumon", "Agumon", tmp_path, "rookie"),
+        ("choose", [option]),
         ("import", option, tmp_path),
     ]
     assert "Sprite imported" in window._visual_import_status.text()
     assert window._runtime_sprite_entries == {"agumon": {"asset_path": "sprite.png"}}
+
+
+def test_fetch_sprite_searches_aliases_after_selected_digimon_name(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    window._species_table.selectRow(1)
+    window._aliases_input.setText("Agumon X, Agu")
+    calls = []
+    alias_option = SpriteImportOption(
+        provider_id="google_drive_sprites",
+        label="Google Drive Sprites - Child",
+        detail="Agumon_X.png",
+        species_id="agumon",
+        name="Agumon X",
+        source_url="https://drive.google.com/file/d/file1/view",
+        image_url="https://drive.google.com/uc?export=download&id=file1",
+        source_name="Google Drive Sprites",
+    )
+
+    def fake_discover(species_id, name, project_root, stage=""):
+        calls.append(("discover", species_id, name, stage))
+        return [alias_option] if name == "Agumon X" else []
+
+    def fake_import(selected_option, project_root):
+        calls.append(("import", selected_option.name))
+        return SimpleNamespace(source_name="Google Drive Sprites - Child", frame_count=12)
+
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.discover_sprite_import_options", fake_discover)
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.import_sprite_option", fake_import)
+    monkeypatch.setattr(window, "_choose_sprite_import_option", lambda options: calls.append(("choose", [option.name for option in options])) or options[0])
+    monkeypatch.setattr(window, "_load_runtime_sprite_entries", lambda: {"agumon": {"asset_path": "sprite.png"}})
+
+    window.import_selected_sprite()
+
+    assert calls == [
+        ("discover", "agumon", "Agumon", "rookie"),
+        ("discover", "agumon", "Agumon X", "rookie"),
+        ("discover", "agumon", "Agu", "rookie"),
+        ("choose", ["Agumon X"]),
+        ("import", "Agumon X"),
+    ]
 
 
 def test_sprite_source_list_item_shows_preview_icon(tmp_path, monkeypatch):
@@ -326,6 +369,30 @@ def test_fetch_artwork_uses_selected_digimon_name_and_refreshes_preview(tmp_path
     assert "Artwork imported" in window._visual_import_status.text()
 
 
+def test_fetch_artwork_searches_aliases_after_selected_digimon_name(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    calls = []
+    refreshed = []
+
+    def fake_import(species_id, name, project_root):
+        calls.append((species_id, name, project_root))
+        return tmp_path / "assets" / "artworks" / f"{species_id}.png" if name == "Agumon X" else None
+
+    monkeypatch.setattr("digimon_pet.app.digimon_manager_window.discover_and_download_artwork_for_species", fake_import)
+    monkeypatch.setattr(window, "_refresh_artwork_preview", lambda: refreshed.append(True))
+    window._species_table.selectRow(1)
+    window._aliases_input.setText("Agumon X")
+    refreshed.clear()
+
+    window.import_selected_artwork()
+
+    assert calls == [
+        ("agumon", "Agumon", tmp_path),
+        ("agumon", "Agumon X", tmp_path),
+    ]
+    assert refreshed == [True]
+
+
 def test_selecting_species_populates_detail_fields(tmp_path):
     window = make_window(tmp_path)
 
@@ -334,6 +401,7 @@ def test_selecting_species_populates_detail_fields(tmp_path):
     assert window._selected_species_id() == "agumon"
     assert window._id_input.text() == "agumon"
     assert window._name_input.text() == "Agumon"
+    assert window._aliases_input.text() == ""
     assert window._stage_input.currentText() == "rookie"
 
 
@@ -417,11 +485,13 @@ def test_editing_species_fields_updates_catalog_and_dirty_state(tmp_path):
 
     window._species_table.selectRow(1)
     window._name_input.setText("Agumon X")
+    window._aliases_input.setText("Agu, Agumon 2006")
     window._id_input.setText("agumon_x")
     window._stage_input.setCurrentText("champion")
 
     row = window._catalog.species_by_id()["agumon_x"]
     assert row["name"] == "Agumon X"
+    assert row["aliases"] == ["Agu", "Agumon 2006"]
     assert row["stage"] == "champion"
     assert window._dirty is True
 

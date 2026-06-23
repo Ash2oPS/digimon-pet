@@ -10,7 +10,6 @@
     "id": "digimon_pendulum_color",
     "name": "Digimon Pendulum COLOR",
     "priority": 2,
-    "root": "assets/sprite_sources/digimon_pendulum_color",
     "manifest": "assets/sprite_sources/digimon_pendulum_color/manifest.json"
   },
   {
@@ -25,5 +24,11 @@
     "name": "Wikimon Virtual Pets",
     "priority": 4,
     "manifest": "assets/sprite_sources/wikimon_virtual_pets/manifest.json"
+  },
+  {
+    "id": "google_drive_sprites",
+    "name": "Google Drive Sprites",
+    "priority": 5,
+    "manifest": "assets/sprite_sources/google_drive_sprites/manifest.json"
   }
 ]

@@ -23,6 +23,7 @@ build = [
 
 [project.scripts]
 digimon-pet = "digimon_pet.main:main"
+digimon-pet-penc-import = "digimon_pet.tools.penc_import:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
