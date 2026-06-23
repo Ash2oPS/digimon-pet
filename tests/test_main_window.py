@@ -1,4 +1,5 @@
 import os
+import random
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -340,6 +341,29 @@ def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch
     assert window._state.age_seconds == queued_age
     assert window._state.species_id == "botamon"
     assert window._pet_widget._effect_name == "pending_evolution"
+
+
+def test_tick_resets_age_when_catalog_evolution_requirements_are_missed(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = random.Random(1)
+    window._auto_lifecycle_events = False
+    window._state.species_id = "gummymon"
+    window._state.stage = GrowthStage.BABY_2
+    window._state.age_seconds = window._lifecycle_schedule.baby_2_seconds - 1
+    window._state.hp = 3839
+    window._state.mp = 2722
+    window._state.speed = 216
+
+    window._tick()
+
+    assert window._pending_lifecycle_kind is None
+    assert window._state.species_id == "gummymon"
+    assert window._state.stage == GrowthStage.BABY_2
+    assert window._state.age_seconds == 0
+    assert window._pet_widget._effect_name is None
 
 
 def test_click_on_pet_body_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):

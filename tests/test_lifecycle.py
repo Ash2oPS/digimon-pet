@@ -388,6 +388,32 @@ def test_terriermon_line_evolves_from_loaded_catalog_data():
     assert state.stage == GrowthStage.ULTIMATE
 
 
+def test_gummymon_missed_evolution_resets_stage_age_from_loaded_catalog_data():
+    species = load_species()
+    digivolutions = load_dw1_digivolutions()
+    state = PetState(
+        species_id="gummymon",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+        hp=3839,
+        mp=2722,
+        speed=216,
+    )
+
+    event = advance_lifecycle(
+        state,
+        species,
+        digivolutions,
+        EvolutionSchedule(baby_2_seconds=3600),
+        random.Random(1),
+    )
+
+    assert event == "missed_evolution:gummymon"
+    assert state.species_id == "gummymon"
+    assert state.stage == GrowthStage.BABY_2
+    assert state.age_seconds == 0
+
+
 def test_gummymon_without_loaded_catalog_data_does_not_need_runtime_mapping():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
     species = species_map()

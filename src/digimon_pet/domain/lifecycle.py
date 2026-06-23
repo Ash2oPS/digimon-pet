@@ -85,7 +85,11 @@ def advance_lifecycle(
         if target is not None:
             return _evolve_to(state, target, rng)
         target = _mapped_fallback_species(state.species_id, BABY_1_TO_BABY_2, species)
-        return _evolve_to(state, target, rng) if target is not None else None
+        if target is not None:
+            return _evolve_to(state, target, rng)
+        if _has_declared_natural_evolution(state, digivolutions):
+            return _miss_evolution(state)
+        return None
     if state.stage == GrowthStage.BABY_2:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
@@ -93,7 +97,11 @@ def advance_lifecycle(
         if "kunemon" in species and rng.random() < 0.1:
             return _evolve_to(state, species["kunemon"], rng)
         target = _mapped_fallback_species(state.species_id, BABY_2_TO_ROOKIE, species)
-        return _evolve_to(state, target, rng) if target is not None else None
+        if target is not None:
+            return _evolve_to(state, target, rng)
+        if _has_declared_natural_evolution(state, digivolutions):
+            return _miss_evolution(state)
+        return None
     if state.stage == GrowthStage.ROOKIE:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
@@ -133,6 +141,13 @@ def _choose_valid_natural_evolution(
         return None
     selected = rng.choice(candidates)
     return species[str(selected["target_species_id"])]
+
+
+def _has_declared_natural_evolution(state: PetState, digivolutions: dict[str, Any]) -> bool:
+    return any(
+        transition.get("source_species_id") == state.species_id
+        for transition in digivolutions.get("natural_evolutions", [])
+    )
 
 
 def _mapped_fallback_species(
@@ -244,6 +259,12 @@ def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
     _boost_evolution_stats(state, rng)
     _reset_stage_state(state)
     return f"evolved:{target.id}"
+
+
+def _miss_evolution(state: PetState) -> str:
+    missed_species_id = state.species_id
+    _reset_stage_state(state)
+    return f"missed_evolution:{missed_species_id}"
 
 
 def force_evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
