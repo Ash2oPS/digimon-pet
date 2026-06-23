@@ -343,7 +343,7 @@ def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch
     assert window._pet_widget._effect_name == "pending_evolution"
 
 
-def test_tick_resets_age_when_catalog_evolution_requirements_are_missed(tmp_path, monkeypatch):
+def test_tick_evolves_baby_2_to_nearest_candidate_when_requirements_are_missed(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
 
@@ -359,11 +359,14 @@ def test_tick_resets_age_when_catalog_evolution_requirements_are_missed(tmp_path
 
     window._tick()
 
-    assert window._pending_lifecycle_kind is None
-    assert window._state.species_id == "gummymon"
-    assert window._state.stage == GrowthStage.BABY_2
+    assert window._pending_lifecycle_kind == "evolution"
+    window._confirm_pending_lifecycle()
+    for _index in range(70):
+        window._pet_widget._advance_effect()
+
+    assert window._state.species_id == "terriermon"
+    assert window._state.stage == GrowthStage.ROOKIE
     assert window._state.age_seconds == 0
-    assert window._pet_widget._effect_name is None
 
 
 def test_click_on_pet_body_starts_lifecycle_resolution_animation(tmp_path, monkeypatch):

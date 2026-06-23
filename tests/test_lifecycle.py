@@ -388,7 +388,7 @@ def test_terriermon_line_evolves_from_loaded_catalog_data():
     assert state.stage == GrowthStage.ULTIMATE
 
 
-def test_gummymon_missed_evolution_resets_stage_age_from_loaded_catalog_data():
+def test_gummymon_evolves_to_nearest_rookie_when_requirements_are_missed():
     species = load_species()
     digivolutions = load_dw1_digivolutions()
     state = PetState(
@@ -408,10 +408,44 @@ def test_gummymon_missed_evolution_resets_stage_age_from_loaded_catalog_data():
         random.Random(1),
     )
 
-    assert event == "missed_evolution:gummymon"
-    assert state.species_id == "gummymon"
-    assert state.stage == GrowthStage.BABY_2
+    assert event == "evolved:terriermon"
+    assert state.species_id == "terriermon"
+    assert state.stage == GrowthStage.ROOKIE
     assert state.age_seconds == 0
+
+
+def test_baby_2_uses_nearest_declared_evolution_when_no_candidate_matches():
+    schedule = EvolutionSchedule(baby_2_seconds=3600)
+    species = species_map()
+    species["nearrookie"] = Species("nearrookie", "NearRookie", GrowthStage.ROOKIE)
+    state = PetState(
+        species_id="koromon",
+        stage=GrowthStage.BABY_2,
+        age_seconds=3600,
+        hp=300,
+        mp=40,
+        speed=1,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "agumon",
+                "requirements": {"groups": {"stats": {"hp": 1000, "mp": 1000}}},
+            },
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "nearrookie",
+                "requirements": {"groups": {"stats": {"hp": 400, "mp": 100}}},
+            },
+        ]
+    }
+
+    event = advance_lifecycle(state, species, digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:nearrookie"
+    assert state.species_id == "nearrookie"
+    assert state.stage == GrowthStage.ROOKIE
 
 
 def test_gummymon_without_loaded_catalog_data_does_not_need_runtime_mapping():

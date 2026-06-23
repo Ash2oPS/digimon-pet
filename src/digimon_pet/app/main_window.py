@@ -602,9 +602,6 @@ class PetWindow(QWidget):
                 self._reveal_death_evolution_resolution()
             return
         kind = self._preview_lifecycle_kind()
-        if kind == "missed":
-            self._resolve_lifecycle_now()
-            return
         if kind is None:
             return
         self._pending_lifecycle_kind = kind
@@ -629,8 +626,6 @@ class PetWindow(QWidget):
             return "evolution"
         if event.startswith("died:"):
             return "death"
-        if event.startswith("missed_evolution:"):
-            return "missed"
         return None
 
     def _confirm_pending_lifecycle(self) -> None:

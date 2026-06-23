@@ -87,11 +87,10 @@ def advance_lifecycle(
         target = _mapped_fallback_species(state.species_id, BABY_1_TO_BABY_2, species)
         if target is not None:
             return _evolve_to(state, target, rng)
-        if _has_declared_natural_evolution(state, digivolutions):
-            return _miss_evolution(state)
         return None
     if state.stage == GrowthStage.BABY_2:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        target = target or _choose_nearest_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
             return _evolve_to(state, target, rng)
         if "kunemon" in species and rng.random() < 0.1:
@@ -99,8 +98,6 @@ def advance_lifecycle(
         target = _mapped_fallback_species(state.species_id, BABY_2_TO_ROOKIE, species)
         if target is not None:
             return _evolve_to(state, target, rng)
-        if _has_declared_natural_evolution(state, digivolutions):
-            return _miss_evolution(state)
         return None
     if state.stage == GrowthStage.ROOKIE:
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
@@ -124,13 +121,10 @@ def _choose_valid_natural_evolution(
     rng: random.Random,
 ) -> Species | None:
     candidates = []
-    for transition in digivolutions.get("natural_evolutions", []):
-        target_id = str(transition.get("target_species_id", ""))
-        target = species.get(target_id)
+    for transition in _natural_evolution_candidates(state, species, digivolutions):
+        target = species[str(transition["target_species_id"])]
         if (
-            transition.get("source_species_id") == state.species_id
-            and target is not None
-            and _matches_known_requirements(
+            _matches_known_requirements(
                 state,
                 transition.get("requirements", {}),
                 target=target,
@@ -143,11 +137,36 @@ def _choose_valid_natural_evolution(
     return species[str(selected["target_species_id"])]
 
 
-def _has_declared_natural_evolution(state: PetState, digivolutions: dict[str, Any]) -> bool:
-    return any(
-        transition.get("source_species_id") == state.species_id
+def _choose_nearest_natural_evolution(
+    state: PetState,
+    species: dict[str, Species],
+    digivolutions: dict[str, Any],
+    rng: random.Random,
+) -> Species | None:
+    candidates = _natural_evolution_candidates(state, species, digivolutions)
+    if not candidates:
+        return None
+    scored = [
+        (_requirement_deficit(state, transition.get("requirements", {})), transition)
+        for transition in candidates
+    ]
+    best_score = min(score for score, _transition in scored)
+    nearest = [transition for score, transition in scored if score == best_score]
+    selected = rng.choice(nearest)
+    return species[str(selected["target_species_id"])]
+
+
+def _natural_evolution_candidates(
+    state: PetState,
+    species: dict[str, Species],
+    digivolutions: dict[str, Any],
+) -> list[dict[str, Any]]:
+    return [
+        transition
         for transition in digivolutions.get("natural_evolutions", [])
-    )
+        if transition.get("source_species_id") == state.species_id
+        and str(transition.get("target_species_id", "")) in species
+    ]
 
 
 def _mapped_fallback_species(
@@ -243,6 +262,43 @@ def _matches_stats(
     return matching_stats >= required_matches
 
 
+def _requirement_deficit(state: PetState, requirements: dict[str, Any]) -> float:
+    groups = requirements.get("groups", {})
+    if not isinstance(groups, dict):
+        return 0.0
+
+    deficit = 0.0
+    stats = groups.get("stats")
+    if isinstance(stats, dict):
+        deficit += sum(
+            _minimum_deficit(getattr(state, stat_name, 0), int(required))
+            for stat_name, required in stats.items()
+        )
+    if "weight" in groups:
+        deficit += _range_deficit(state.weight, groups.get("weight"))
+    if "care_mistakes" in groups:
+        deficit += _range_deficit(state.care_mistakes, groups.get("care_mistakes"))
+    return deficit
+
+
+def _minimum_deficit(value: int, minimum: int) -> float:
+    if value >= minimum:
+        return 0.0
+    return (minimum - value) / max(1, abs(minimum))
+
+
+def _range_deficit(value: int, rule: object) -> float:
+    if not isinstance(rule, dict):
+        return 0.0
+    if "min" in rule and value < int(rule["min"]):
+        minimum = int(rule["min"])
+        return (minimum - value) / max(1, abs(minimum))
+    if "max" in rule and value > int(rule["max"]):
+        maximum = int(rule["max"])
+        return (value - maximum) / max(1, abs(maximum))
+    return 0.0
+
+
 def _matches_range(value: int, rule: object) -> bool:
     if not isinstance(rule, dict):
         return False
@@ -259,12 +315,6 @@ def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
     _boost_evolution_stats(state, rng)
     _reset_stage_state(state)
     return f"evolved:{target.id}"
-
-
-def _miss_evolution(state: PetState) -> str:
-    missed_species_id = state.species_id
-    _reset_stage_state(state)
-    return f"missed_evolution:{missed_species_id}"
 
 
 def force_evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
