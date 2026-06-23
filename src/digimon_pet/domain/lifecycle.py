@@ -81,7 +81,13 @@ def advance_lifecycle(
         return None
 
     if state.stage == GrowthStage.BABY:
-        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        target = _choose_natural_evolution_to_stage(
+            state,
+            species,
+            digivolutions,
+            rng,
+            GrowthStage.BABY_2,
+        )
         if target is not None:
             return _evolve_to(state, target, rng)
         target = _mapped_fallback_species(state.species_id, BABY_1_TO_BABY_2, species)
@@ -153,6 +159,24 @@ def _choose_nearest_natural_evolution(
     best_score = min(score for score, _transition in scored)
     nearest = [transition for score, transition in scored if score == best_score]
     selected = rng.choice(nearest)
+    return species[str(selected["target_species_id"])]
+
+
+def _choose_natural_evolution_to_stage(
+    state: PetState,
+    species: dict[str, Species],
+    digivolutions: dict[str, Any],
+    rng: random.Random,
+    target_stage: GrowthStage,
+) -> Species | None:
+    candidates = [
+        transition
+        for transition in _natural_evolution_candidates(state, species, digivolutions)
+        if species[str(transition["target_species_id"])].stage == target_stage
+    ]
+    if not candidates:
+        return None
+    selected = rng.choice(candidates)
     return species[str(selected["target_species_id"])]
 
 

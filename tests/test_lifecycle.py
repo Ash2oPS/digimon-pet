@@ -94,6 +94,34 @@ def test_catalog_baby_uses_declared_natural_evolution_before_builtin_fallback():
     assert state.stage == GrowthStage.BABY_2
 
 
+def test_baby_1_evolves_to_declared_baby_2_without_requirements():
+    schedule = EvolutionSchedule(baby_seconds=600)
+    species = species_map()
+    species["custombaby"] = Species("custombaby", "CustomBaby", GrowthStage.BABY)
+    species["customtraining"] = Species("customtraining", "CustomTraining", GrowthStage.BABY_2)
+    state = PetState(
+        species_id="custombaby",
+        stage=GrowthStage.BABY,
+        age_seconds=600,
+        hp=0,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "custombaby",
+                "target_species_id": "customtraining",
+                "requirements": {"groups": {"stats": {"hp": 9999}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species, digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:customtraining"
+    assert state.species_id == "customtraining"
+    assert state.stage == GrowthStage.BABY_2
+
+
 def test_catalog_baby_without_declared_evolution_does_not_use_builtin_line():
     schedule = EvolutionSchedule(baby_seconds=1800)
     species = species_map()
