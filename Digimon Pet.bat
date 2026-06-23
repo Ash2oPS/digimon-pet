@@ -54,7 +54,7 @@ if not exist "%VENV_PY%" (
     )
 )
 
-"%VENV_PY%" -c "import PySide6" >nul 2>nul
+"%VENV_PY%" -c "import PySide6, cryptography" >nul 2>nul
 if errorlevel 1 (
     "%VENV_PY%" -m pip install --upgrade pip
     if errorlevel 1 (

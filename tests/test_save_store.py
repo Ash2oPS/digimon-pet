@@ -198,6 +198,27 @@ def test_load_replaces_corrupt_save_with_default_and_keeps_backup(tmp_path):
     assert path.with_suffix(".json.corrupt").exists()
 
 
+def test_save_failure_preserves_existing_save(tmp_path, monkeypatch):
+    path = tmp_path / "pet_save.json"
+    original = PetState(species_id="koromon", stage=GrowthStage.BABY_2)
+    replacement = PetState(species_id="agumon", stage=GrowthStage.ROOKIE)
+    save_pet_state(original, path)
+    original_raw = path.read_text(encoding="utf-8")
+
+    def fail_json_dump(*args, **kwargs):
+        raise OSError("disk write failed")
+
+    monkeypatch.setattr(save_store.json, "dump", fail_json_dump)
+
+    try:
+        save_pet_state(replacement, path)
+    except OSError:
+        pass
+
+    assert path.read_text(encoding="utf-8") == original_raw
+    assert load_pet_state(path).species_id == "koromon"
+
+
 def test_load_migrates_legacy_project_save_when_default_target_missing(tmp_path, monkeypatch):
     save_path = tmp_path / "user-data" / "pet_save.json"
     legacy_path = tmp_path / ".local" / "pet_save.json"

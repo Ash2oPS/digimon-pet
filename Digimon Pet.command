@@ -45,7 +45,7 @@ if ! "$VENV_PY" -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11
     exit 1
 fi
 
-if ! "$VENV_PY" -c "import PySide6" >/dev/null 2>&1; then
+if ! "$VENV_PY" -c "import PySide6, cryptography" >/dev/null 2>&1; then
     if ! "$VENV_PY" -m pip install -e .; then
         echo "Failed to install Digimon Pet dependencies."
         pause_on_error

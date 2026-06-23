@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 from dataclasses import asdict
 from pathlib import Path
@@ -54,9 +55,15 @@ def save_pet_state(state: PetState, path: Path | None = None) -> None:
     state.mark_discovered()
     state.clamp()
     envelope = _encrypt_save_payload(_state_to_payload(state))
-    with save_path.open("w", encoding="utf-8") as handle:
-        json.dump(envelope, handle, indent=2)
-        handle.write("\n")
+    temp_path = save_path.with_name(f"{save_path.name}.tmp")
+    try:
+        with temp_path.open("w", encoding="utf-8") as handle:
+            json.dump(envelope, handle, indent=2)
+            handle.write("\n")
+        os.replace(temp_path, save_path)
+    except Exception:
+        temp_path.unlink(missing_ok=True)
+        raise
 
 
 def _state_to_payload(state: PetState) -> dict[str, Any]:
