@@ -143,6 +143,7 @@ def test_stats_window_evolution_intel_lists_direct_evolutions_and_hides_unknown_
                 "source_species_id": "terriermon",
                 "target_species_id": "galgomon",
                 "target_name": "Galgomon",
+                "target_stage": "champion",
                 "requirements": {"groups": {"stats": {"offense": 250}}},
             },
             {
@@ -174,14 +175,57 @@ def test_stats_window_evolution_intel_lists_direct_evolutions_and_hides_unknown_
         "terriermon__to__galgomon",
         "terriermon__to__rapidmon",
     ]
+    assert "???" in cards[0].text()
     texts = [label.text() for label in window.findChildren(QLabel)]
-    assert "???" in texts
+    assert "Unknown Champion" in texts
+    assert "2 of 6 clues discovered" in texts
+    assert "Known conditions" in texts
+    assert "Unknown clues" in texts
     assert "Galgomon" not in texts
     assert "OFF" in texts
     assert "202 / 250" in texts
     assert "No requirement" in texts
     assert "SPD" in texts
     assert "400" not in texts
+
+
+def test_stats_window_evolution_card_uses_hidden_target_silhouette(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    artwork_path = tmp_path / "rapidmon.png"
+    pixmap = QPixmap(24, 24)
+    pixmap.fill()
+    pixmap.save(str(artwork_path))
+    monkeypatch.setattr(
+        stats_window,
+        "resolve_artwork_path",
+        lambda species_id: artwork_path if species_id == "rapidmon" else None,
+    )
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__rapidmon",
+                "source_species_id": "terriermon",
+                "target_species_id": "rapidmon",
+                "target_name": "Rapidmon",
+                "target_stage": "ultimate",
+                "requirements": {"groups": {"stats": {"speed": 400}}},
+            }
+        ],
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__rapidmon"]}},
+    }
+
+    window.refresh(
+        PetState("terriermon", GrowthStage.ROOKIE, discovered_species_ids=["terriermon"]),
+        Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+    )
+
+    cards = window.findChildren(stats_window.QToolButton, "EvolutionIntelCard")
+    assert len(cards) == 1
+    assert cards[0].text().startswith("?\n???")
+    assert not cards[0].icon().isNull()
 
 
 def test_stats_window_evolution_intel_click_updates_detail(monkeypatch):

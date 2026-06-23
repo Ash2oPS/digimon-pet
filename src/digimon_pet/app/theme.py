@@ -144,7 +144,7 @@ QToolButton#EvolutionIntelCard {{
     background: {COLORS["panel"]};
     border: 1px solid {COLORS["line"]};
     border-radius: 8px;
-    padding: 9px 10px;
+    padding: 8px 10px;
     text-align: left;
     font-weight: 800;
 }}
@@ -185,6 +185,24 @@ QFrame#EvolutionStatRequirement {{
     background: {COLORS["surface_alt"]};
     border: 1px solid {COLORS["line_soft"]};
     border-radius: 7px;
+}}
+
+QLabel#EvolutionIntelSummary {{
+    background: {COLORS["panel_hot"]};
+    border: 1px solid {COLORS["accent_soft"]};
+    border-radius: 7px;
+    color: {COLORS["focus"]};
+    font-weight: 800;
+    padding: 7px 9px;
+}}
+
+QLabel#EvolutionUnknownChip {{
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line_soft"]};
+    border-radius: 7px;
+    color: {COLORS["muted"]};
+    font-weight: 800;
+    padding: 8px 6px;
 }}
 
 QLabel#EvolutionRequirementStatus {{

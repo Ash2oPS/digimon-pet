@@ -3,8 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 import threading
 
-from PySide6.QtCore import QObject, QRect, Qt, Signal
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import QObject, QRect, QSize, Qt, Signal
+from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QDialog,
     QFrame,
@@ -379,7 +379,11 @@ class StatsWindow(QDialog):
         card.setObjectName("EvolutionIntelCard")
         card.setProperty("transition_id", transition_id)
         card.setCheckable(True)
-        card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
+        card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        card.setIconSize(QSize(58, 58))
+        icon = _evolution_target_icon(state, option)
+        if icon is not None:
+            card.setIcon(icon)
         card.setText(_evolution_card_text(state, option))
         card.clicked.connect(lambda checked=False, selected_id=transition_id: self._select_evolution(selected_id))
         return card
@@ -415,16 +419,46 @@ class StatsWindow(QDialog):
             self._evolution_detail_layout.addStretch(1)
             return
 
-        title = QLabel(_evolution_target_name_for_state(state, option), self)
+        title = QLabel(_evolution_detail_title(state, option), self)
         title.setObjectName("Title")
-        subtitle = QLabel("Known evolution intel", self)
-        subtitle.setObjectName("Muted")
+        transition_id = str(option.get("id", ""))
+        known_stats = [
+            stat
+            for stat in DISCOVERABLE_EVOLUTION_STATS
+            if stat in state.evolution_condition_discoveries.get(transition_id, [])
+        ]
+        unknown_stats = [stat for stat in DISCOVERABLE_EVOLUTION_STATS if stat not in known_stats]
+        summary = QLabel(f"{len(known_stats)} of {len(DISCOVERABLE_EVOLUTION_STATS)} clues discovered", self)
+        summary.setObjectName("EvolutionIntelSummary")
         self._evolution_detail_layout.addWidget(title)
-        self._evolution_detail_layout.addWidget(subtitle)
+        self._evolution_detail_layout.addWidget(summary)
 
-        for stat in DISCOVERABLE_EVOLUTION_STATS:
+        known_title = QLabel("Known conditions", self)
+        known_title.setObjectName("SectionTitle")
+        self._evolution_detail_layout.addWidget(known_title)
+        if not known_stats:
+            empty = QLabel("No condition clue discovered yet.", self)
+            empty.setObjectName("Muted")
+            self._evolution_detail_layout.addWidget(empty)
+        for stat in known_stats:
             self._evolution_detail_layout.addWidget(self._requirement_row(state, option, stat))
+
+        unknown_title = QLabel("Unknown clues", self)
+        unknown_title.setObjectName("SectionTitle")
+        self._evolution_detail_layout.addWidget(unknown_title)
+        unknown_grid = QGridLayout()
+        unknown_grid.setHorizontalSpacing(6)
+        unknown_grid.setVerticalSpacing(6)
+        for index, stat in enumerate(unknown_stats):
+            unknown_grid.addWidget(self._unknown_requirement_chip(stat), index // 3, index % 3)
+        self._evolution_detail_layout.addLayout(unknown_grid)
         self._evolution_detail_layout.addStretch(1)
+
+    def _unknown_requirement_chip(self, stat: str) -> QLabel:
+        chip = QLabel(f"{_stat_label(stat)}  ???", self)
+        chip.setObjectName("EvolutionUnknownChip")
+        chip.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        return chip
 
     def _requirement_row(self, state: PetState, option: dict, stat: str) -> QFrame:
         row = QFrame(self)
@@ -590,20 +624,49 @@ def _evolution_target_name_for_state(state: PetState, option: dict) -> str:
     return _evolution_target_name(option) if _evolution_target_is_discovered(state, option) else "???"
 
 
+def _evolution_target_stage(option: dict) -> str:
+    stage = str(option.get("target_stage") or "stage").replace("_", " ").title()
+    return stage
+
+
+def _evolution_detail_title(state: PetState, option: dict) -> str:
+    if _evolution_target_is_discovered(state, option):
+        return _evolution_target_name(option)
+    return f"Unknown {_evolution_target_stage(option)}"
+
+
 def _evolution_card_text(state: PetState, option: dict) -> str:
     transition_id = str(option.get("id", ""))
     known_stats = state.evolution_condition_discoveries.get(transition_id, [])
     title = _evolution_target_name_for_state(state, option)
-    stage = str(option.get("target_stage") or "").replace("_", " ").title()
-    slots = "  ".join(_slot_summary(state, option, stat) for stat in DISCOVERABLE_EVOLUTION_STATS)
-    return "\n".join(
-        [
-            title,
-            stage,
-            f"Clues {len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)}",
-            slots,
-        ]
-    )
+    stage = _evolution_target_stage(option)
+    prefix = "?" if not _evolution_target_is_discovered(state, option) else ""
+    lines = [line for line in [prefix, title, stage, f"{len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)} clues"] if line]
+    return "\n".join(lines)
+
+
+def _evolution_target_icon(state: PetState, option: dict) -> QIcon | None:
+    target_id = str(option.get("target_species_id", ""))
+    path = resolve_artwork_path(target_id)
+    if path is None:
+        return None
+    pixmap = QPixmap(str(path))
+    if pixmap.isNull():
+        return None
+    if not _evolution_target_is_discovered(state, option):
+        pixmap = _silhouette_pixmap(pixmap)
+    return QIcon(pixmap)
+
+
+def _silhouette_pixmap(pixmap: QPixmap) -> QPixmap:
+    result = QPixmap(pixmap.size())
+    result.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(result)
+    painter.drawPixmap(0, 0, pixmap)
+    painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
+    painter.fillRect(result.rect(), QColor("#02040a"))
+    painter.end()
+    return result
 
 
 def _slot_summary(state: PetState, option: dict, stat: str) -> str:
