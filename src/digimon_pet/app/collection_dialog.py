@@ -496,7 +496,9 @@ def _tree_node_pixmap(pixmap: QPixmap | None, discovered: bool) -> QPixmap:
 def _incoming_requirements(links: list[EvolutionLink]) -> dict[str, list[str]]:
     requirements: dict[str, list[str]] = {}
     for link in links:
-        requirements.setdefault(link.target_species_id, []).append(link.description)
+        target_requirements = requirements.setdefault(link.target_species_id, [])
+        if link.description not in target_requirements:
+            target_requirements.append(link.description)
     return requirements
 
 

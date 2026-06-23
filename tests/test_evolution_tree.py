@@ -240,6 +240,24 @@ def test_evolution_tree_shows_conditions_for_discovered_targets():
     assert "OFF >= 100" in nodes["greymon"].toolTip()
 
 
+def test_evolution_tree_deduplicates_repeated_target_requirements():
+    app = QApplication.instance() or QApplication([])
+    species = {
+        "elecmon": _species("elecmon", "Elecmon", GrowthStage.ROOKIE),
+        "patamon": _species("patamon", "Patamon", GrowthStage.ROOKIE),
+        "angemon": _species("angemon", "Angemon", GrowthStage.CHAMPION),
+    }
+    links = [
+        EvolutionLink("elecmon", "angemon", "natural", "MP >= 1000, INT >= 100"),
+        EvolutionLink("patamon", "angemon", "natural", "MP >= 1000, INT >= 100"),
+    ]
+
+    graph = EvolutionGraphWidget(species, set(species), links, set(species), "angemon", {})
+    nodes = {node._species.id: node for node in graph.findChildren(EvolutionNode)}
+
+    assert nodes["angemon"].toolTip().count("MP >= 1000, INT >= 100") == 1
+
+
 def test_evolution_tree_groups_nodes_by_growth_stage_from_top_to_bottom():
     app = QApplication.instance() or QApplication([])
 
