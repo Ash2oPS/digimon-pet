@@ -127,7 +127,8 @@ QWidget#DebugHeader {{
 
 QFrame#StatsHeader,
 QFrame#StatsPanel,
-QFrame#StatsMetricCard {{
+QFrame#StatsMetricCard,
+QFrame#EvolutionRequirementCard {{
     background: {COLORS["panel"]};
     border: 1px solid {COLORS["line"]};
     border-radius: 8px;
@@ -153,6 +154,30 @@ QLabel#StatsMetricValue,
 QLabel#StatsBarValue {{
     color: {COLORS["text"]};
     font-weight: 800;
+}}
+
+QFrame#EvolutionStatRequirement {{
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line_soft"]};
+    border-radius: 7px;
+}}
+
+QLabel#EvolutionRequirementStatus {{
+    background: {COLORS["surface_alt"]};
+    border: 1px solid {COLORS["line"]};
+    border-radius: 6px;
+    padding: 3px 7px;
+    font-weight: 800;
+}}
+
+QLabel#EvolutionRequirementStatus[state="ok"] {{
+    color: {COLORS["success"]};
+    border-color: #2f7a48;
+}}
+
+QLabel#EvolutionRequirementStatus[state="missing"] {{
+    color: {COLORS["focus"]};
+    border-color: {COLORS["focus_soft"]};
 }}
 
 QTabWidget#StatsTabs::pane {{

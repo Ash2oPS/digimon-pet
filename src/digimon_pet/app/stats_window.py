@@ -84,11 +84,10 @@ class StatsWindow(QDialog):
 
         self._tabs = QTabWidget(self)
         self._tabs.setObjectName("StatsTabs")
-        self._tabs.addTab(self._build_overview_tab(), "Vue")
+        self._tabs.addTab(self._build_overview_tab(), "View")
         self._tabs.addTab(self._build_combat_tab(), "Combat")
-        self._tabs.addTab(self._build_care_tab(), "Soin")
+        self._tabs.addTab(self._build_care_tab(), "Care")
         self._tabs.addTab(self._build_evolution_tab(), "Evolution")
-        self._tabs.addTab(self._build_bonus_tab(), "Bonus")
         layout.addWidget(self._tabs, 1)
 
     def refresh(self, state: PetState, species: Species) -> None:
@@ -98,7 +97,7 @@ class StatsWindow(QDialog):
         self._stage_label.setText(_format_stage(species.stage.value))
         self._summary_label.setText(
             f"{_format_age(state.age_seconds)} - {_format_action(state.current_action)}"
-            f" - {'endormi' if state.is_sleeping else 'eveille'}"
+            f" - {'asleep' if state.is_sleeping else 'awake'}"
         )
         self._set_label("age", _format_age(state.age_seconds))
         self._set_label("stage", _format_stage(species.stage.value))
@@ -115,10 +114,6 @@ class StatsWindow(QDialog):
         self._set_label("defense", str(state.defense))
         self._set_label("speed", str(state.speed))
         self._set_label("brains", str(state.brains))
-        self._set_label("discovered_species", str(len(state.discovered_species_ids)))
-        self._set_label("generation_bonuses", _format_bonus_summary(state.generation_stat_bonuses))
-        self._set_label("pending_bonuses", _format_bonus_summary(state.pending_rebirth_stat_bonuses))
-        self._set_label("incubators", str(len(state.filled_incubators)))
         self._set_bar("hunger", state.hunger)
         self._set_bar("fatigue", state.fatigue)
         self._set_bar("discipline", state.discipline)
@@ -139,13 +134,13 @@ class StatsWindow(QDialog):
         for index, (key, title) in enumerate(
             [
                 ("age", "Age"),
-                ("stage", "Niveau"),
+                ("stage", "Stage"),
                 ("action", "Action"),
-                ("sleeping", "Sommeil"),
-                ("weight", "Poids"),
-                ("care_mistakes", "Erreurs soin"),
-                ("training_count", "Entrainements"),
-                ("won_battles", "Combats gagnes"),
+                ("sleeping", "Sleep"),
+                ("weight", "Weight"),
+                ("care_mistakes", "Care mistakes"),
+                ("training_count", "Training"),
+                ("won_battles", "Won battles"),
             ]
         ):
             summary_grid.addWidget(self._metric_card(key, title), index // 4, index % 4)
@@ -170,9 +165,9 @@ class StatsWindow(QDialog):
         layout.addLayout(grid)
         for index, (key, title) in enumerate(
             [
-                ("won_battles", "Combats gagnes"),
+                ("won_battles", "Won battles"),
                 ("techniques_mastered", "Techniques"),
-                ("training_count", "Entrainements"),
+                ("training_count", "Training"),
             ]
         ):
             grid.addWidget(self._metric_card(key, title), 0, index)
@@ -191,10 +186,10 @@ class StatsWindow(QDialog):
         layout.addLayout(grid)
         for index, (key, title) in enumerate(
             [
-                ("care_mistakes", "Erreurs soin"),
-                ("weight", "Poids"),
-                ("action", "Action actuelle"),
-                ("sleeping", "Sommeil"),
+                ("care_mistakes", "Care mistakes"),
+                ("weight", "Weight"),
+                ("action", "Current action"),
+                ("sleeping", "Sleep"),
             ]
         ):
             grid.addWidget(self._metric_card(key, title), index // 2, index % 2)
@@ -206,10 +201,10 @@ class StatsWindow(QDialog):
         layout = QVBoxLayout(page)
         layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(10)
-        title = QLabel("Projection evolution", self)
+        title = QLabel("Evolution forecast", self)
         title.setObjectName("SectionTitle")
         layout.addWidget(title)
-        hint = QLabel("Compare les stats actuelles aux prerequis des evolutions naturelles connues.", self)
+        hint = QLabel("Unknown targets and their requirements stay hidden until discovered.", self)
         hint.setObjectName("Muted")
         hint.setWordWrap(True)
         layout.addWidget(hint)
@@ -218,27 +213,6 @@ class StatsWindow(QDialog):
         grid.setVerticalSpacing(8)
         self._evolution_grid = grid
         layout.addLayout(grid)
-        layout.addStretch(1)
-        return page
-
-    def _build_bonus_tab(self) -> QWidget:
-        page = QWidget(self)
-        layout = QVBoxLayout(page)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
-        grid = QGridLayout()
-        grid.setHorizontalSpacing(8)
-        grid.setVerticalSpacing(8)
-        layout.addLayout(grid)
-        for index, (key, title) in enumerate(
-            [
-                ("discovered_species", "Especes decouvertes"),
-                ("generation_bonuses", "Bonus generation"),
-                ("pending_bonuses", "Bonus renaissance"),
-                ("incubators", "Incubateurs remplis"),
-            ]
-        ):
-            grid.addWidget(self._metric_card(key, title), index // 2, index % 2)
         layout.addStretch(1)
         return page
 
@@ -265,12 +239,12 @@ class StatsWindow(QDialog):
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(8)
-        title = QLabel("Jauges de soin", self)
+        title = QLabel("Care gauges", self)
         title.setObjectName("SectionTitle")
         layout.addWidget(title)
         for key, label in [
-            ("hunger", "Faim"),
-            ("happiness", "Bonheur"),
+            ("hunger", "Hunger"),
+            ("happiness", "Happiness"),
             ("discipline", "Discipline"),
             ("fatigue", "Fatigue"),
         ]:
@@ -354,24 +328,71 @@ class StatsWindow(QDialog):
         _clear_layout(self._evolution_grid)
         options = _evolution_options_for_species(self._digivolutions, species.id)
         if not options:
-            empty = QLabel("Aucune evolution naturelle connue pour cette espece.", self)
+            empty = QLabel("No known natural evolution for this species.", self)
             empty.setObjectName("Muted")
             self._evolution_grid.addWidget(empty, 0, 0)
             return
-        for row, option in enumerate(options):
-            target = QLabel(str(option.get("target_name") or option.get("target_species_id") or "-"), self)
-            target.setObjectName("StatsMetricValue")
-            self._evolution_grid.addWidget(target, row, 0)
-            stats = _requirement_stats(option)
-            if not stats:
-                detail = QLabel("Aucun prerequis de stat.", self)
-                detail.setObjectName("Muted")
-                self._evolution_grid.addWidget(detail, row, 1)
-                continue
-            detail = QLabel(_format_requirements_progress(state, stats), self)
-            detail.setObjectName("Muted")
-            detail.setWordWrap(True)
-            self._evolution_grid.addWidget(detail, row, 1)
+        for index, option in enumerate(options):
+            self._evolution_grid.addWidget(self._evolution_option_card(state, option), index // 2, index % 2)
+
+    def _evolution_option_card(self, state: PetState, option: dict) -> QFrame:
+        card = QFrame(self)
+        card.setObjectName("EvolutionRequirementCard")
+        layout = QVBoxLayout(card)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+
+        discovered = _evolution_target_is_discovered(state, option)
+        target = QLabel(_evolution_target_name(option) if discovered else "???", self)
+        target.setObjectName("StatsMetricValue")
+        layout.addWidget(target)
+
+        if not discovered:
+            hidden = QLabel("Requirements hidden until this Digimon is discovered.", self)
+            hidden.setObjectName("Muted")
+            hidden.setWordWrap(True)
+            layout.addWidget(hidden)
+            return card
+
+        stats = _requirement_stats(option)
+        if not stats:
+            empty = QLabel("No stat requirements.", self)
+            empty.setObjectName("Muted")
+            layout.addWidget(empty)
+            return card
+
+        for stat, required in stats.items():
+            layout.addWidget(self._requirement_row(state, stat, required))
+        return card
+
+    def _requirement_row(self, state: PetState, stat: str, required: int) -> QFrame:
+        row = QFrame(self)
+        row.setObjectName("EvolutionStatRequirement")
+        layout = QGridLayout(row)
+        layout.setContentsMargins(8, 7, 8, 7)
+        layout.setHorizontalSpacing(8)
+        layout.setVerticalSpacing(4)
+
+        current = int(getattr(state, stat, 0))
+        label = QLabel(_stat_label(stat), self)
+        label.setObjectName("Muted")
+        value = QLabel(f"{current} / {required}", self)
+        value.setObjectName("StatsMetricValue")
+        status = QLabel(_requirement_status(current, required), self)
+        status.setObjectName("EvolutionRequirementStatus")
+        status.setProperty("state", "ok" if current >= required else "missing")
+
+        bar = QProgressBar(self)
+        bar.setRange(0, 100)
+        bar.setTextVisible(False)
+        bar.setValue(_requirement_percent(current, required))
+
+        layout.addWidget(label, 0, 0)
+        layout.addWidget(value, 0, 1)
+        layout.addWidget(status, 0, 2)
+        layout.addWidget(bar, 1, 0, 1, 3)
+        layout.setColumnStretch(1, 1)
+        return row
 
     def _set_sprite(self, state: PetState, species: Species) -> None:
         pixmap = self._pixmap_for_species(state, species)
@@ -463,13 +484,7 @@ def _format_action(action: str) -> str:
 
 
 def _format_bool(value: bool) -> str:
-    return "Oui" if value else "Non"
-
-
-def _format_bonus_summary(bonuses: dict[str, int]) -> str:
-    if not bonuses:
-        return "Aucun"
-    return ", ".join(f"{_stat_label(stat)} +{value}" for stat, value in sorted(bonuses.items()))
+    return "Yes" if value else "No"
 
 
 def _evolution_options_for_species(digivolutions: dict, species_id: str) -> list[dict]:
@@ -485,14 +500,33 @@ def _requirement_stats(option: dict) -> dict[str, int]:
     return {str(stat): int(value) for stat, value in stats.items()}
 
 
+def _evolution_target_is_discovered(state: PetState, option: dict) -> bool:
+    return str(option.get("target_species_id", "")) in state.discovered_species_ids
+
+
+def _evolution_target_name(option: dict) -> str:
+    return str(option.get("target_name") or option.get("target_species_id") or "-")
+
+
 def _format_requirements_progress(state: PetState, stats: dict[str, int]) -> str:
     parts: list[str] = []
     for stat, required in stats.items():
         current = int(getattr(state, stat, 0))
         missing = max(0, required - current)
-        status = "OK" if missing == 0 else f"manque {missing}"
+        status = "OK" if missing == 0 else f"needs {missing}"
         parts.append(f"{_stat_label(stat)} {current}/{required} ({status})")
     return " - ".join(parts)
+
+
+def _requirement_status(current: int, required: int) -> str:
+    missing = max(0, required - current)
+    return "OK" if missing == 0 else f"Need {missing}"
+
+
+def _requirement_percent(current: int, required: int) -> int:
+    if required <= 0:
+        return 100
+    return max(0, min(100, int((current / required) * 100)))
 
 
 def _stat_label(stat: str) -> str:

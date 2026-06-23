@@ -88,11 +88,10 @@ def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
     )
 
     assert [window._tabs.tabText(index) for index in range(window._tabs.count())] == [
-        "Vue",
+        "View",
         "Combat",
-        "Soin",
+        "Care",
         "Evolution",
-        "Bonus",
     ]
     assert [label.text() for label in window._label_groups["hp"]] == ["4414", "4414"]
     assert [bar.value() for bar in window._bar_groups["hunger"]] == [30, 30]
@@ -126,6 +125,75 @@ def test_terriermon_evolution_progress_reports_missing_stats():
     )
 
     assert "HP 4414/2000 (OK)" in progress
-    assert "MP 2994/3000 (manque 6)" in progress
-    assert "OFF 202/250 (manque 48)" in progress
-    assert "SPD 238/400 (manque 162)" in progress
+    assert "MP 2994/3000 (needs 6)" in progress
+    assert "OFF 202/250 (needs 48)" in progress
+    assert "SPD 238/400 (needs 162)" in progress
+
+
+def test_stats_window_hides_unknown_evolution_requirements(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__galgomon",
+                "source_species_id": "terriermon",
+                "target_species_id": "galgomon",
+                "target_name": "Galgomon",
+                "requirements": {"groups": {"stats": {"offense": 250}}},
+            }
+        ],
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__galgomon"]}},
+    }
+
+    window.refresh(
+        PetState("terriermon", GrowthStage.ROOKIE, offense=202, discovered_species_ids=["terriermon"]),
+        Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+    )
+
+    cards = [frame for frame in window.findChildren(stats_window.QFrame) if frame.objectName() == "EvolutionRequirementCard"]
+    texts = [label.text() for card in cards for label in card.findChildren(type(window._name_label))]
+    assert "???" in texts
+    assert "Galgomon" not in texts
+    assert "OFF" not in texts
+    assert not any("250" in text for text in texts)
+
+
+def test_stats_window_shows_discovered_evolution_requirements(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__galgomon",
+                "source_species_id": "terriermon",
+                "target_species_id": "galgomon",
+                "target_name": "Galgomon",
+                "requirements": {"groups": {"stats": {"offense": 250}}},
+            }
+        ],
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__galgomon"]}},
+    }
+
+    window.refresh(
+        PetState(
+            "terriermon",
+            GrowthStage.ROOKIE,
+            offense=202,
+            discovered_species_ids=["terriermon", "galgomon"],
+        ),
+        Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+    )
+
+    cards = [frame for frame in window.findChildren(stats_window.QFrame) if frame.objectName() == "EvolutionRequirementCard"]
+    texts = [label.text() for card in cards for label in card.findChildren(type(window._name_label))]
+    assert "Galgomon" in texts
+    assert "OFF" in texts
+    assert "202 / 250" in texts
+    assert "Need 48" in texts
