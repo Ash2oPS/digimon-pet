@@ -192,6 +192,7 @@ class DigimonManagerWindow(QWidget):
         self._dirty = False
         self._loading = False
         self._selected_id: str | None = None
+        self._selected_row: dict[str, Any] | None = None
 
         self.setWindowTitle("Digimon Manager")
         self.setMinimumSize(1120, 680)
@@ -842,9 +843,10 @@ class DigimonManagerWindow(QWidget):
     def _refresh_table(self) -> None:
         self._refresh_validation_indexes()
         selected_id = self._selected_id
+        selected_row = self._selected_row
         self._species_table.blockSignals(True)
         self._species_table.setRowCount(0)
-        for row_data in self._catalog.species_rows:
+        for source_index, row_data in enumerate(self._catalog.species_rows):
             species_id = str(row_data.get("id", ""))
             if not self._matches_filters(row_data):
                 continue
@@ -861,6 +863,7 @@ class DigimonManagerWindow(QWidget):
             for column, value in enumerate(values):
                 item = QTableWidgetItem(value)
                 item.setData(Qt.ItemDataRole.UserRole, species_id)
+                item.setData(Qt.ItemDataRole.UserRole + 1, source_index)
                 if column == 0:
                     thumbnail = self._species_thumbnail(species_id, row_data)
                     if thumbnail is not None:
@@ -952,11 +955,16 @@ class DigimonManagerWindow(QWidget):
         )
 
     def _select_species_id(self, species_id: str | None) -> None:
+        selected_row = self._selected_row
         if not species_id:
-            return
+            if selected_row is None:
+                return
         for row in range(self._species_table.rowCount()):
             item = self._species_table.item(row, 0)
-            if item and item.data(Qt.ItemDataRole.UserRole) == species_id:
+            if not item:
+                continue
+            item_row = self._row_from_table_item(item)
+            if (item_row is not None and item_row is selected_row) or item.data(Qt.ItemDataRole.UserRole) == species_id:
                 self._species_table.selectRow(row)
                 return
 
@@ -967,10 +975,30 @@ class DigimonManagerWindow(QWidget):
         value = selected[0].data(Qt.ItemDataRole.UserRole)
         return str(value) if value is not None else None
 
+    def _selected_species_row(self) -> dict[str, Any] | None:
+        selected = self._species_table.selectedItems()
+        if selected:
+            row_data = self._row_from_table_item(selected[0])
+            if row_data is not None:
+                return row_data
+        if self._selected_row in self._catalog.species_rows:
+            return self._selected_row
+        species_id = self._selected_species_id() or self._selected_id or ""
+        return self._catalog.species_by_id().get(species_id)
+
+    def _row_from_table_item(self, item: QTableWidgetItem) -> dict[str, Any] | None:
+        row_index = item.data(Qt.ItemDataRole.UserRole + 1)
+        try:
+            row_data = self._catalog.species_rows[int(row_index)]
+        except (TypeError, ValueError, IndexError):
+            return None
+        return row_data
+
     def _load_selected_species(self) -> None:
-        species_id = self._selected_species_id()
-        row_data = self._catalog.species_by_id().get(species_id or "")
+        row_data = self._selected_species_row()
+        species_id = str(row_data.get("id", "")) if row_data is not None else self._selected_species_id()
         self._selected_id = species_id
+        self._selected_row = row_data
         self._loading = True
         if row_data is None:
             self._clear_editor()
@@ -1011,7 +1039,7 @@ class DigimonManagerWindow(QWidget):
         if self._loading:
             return
         old_id = self._selected_id
-        row_data = self._catalog.species_by_id().get(old_id or "")
+        row_data = self._selected_species_row()
         if row_data is None:
             return
         new_id = self._id_input.text().strip()
@@ -1023,9 +1051,10 @@ class DigimonManagerWindow(QWidget):
             for slot_name, input_widget in self._sprite_inputs.items()
             if input_widget.text().strip()
         }
+        self._selected_id = new_id
+        self._selected_row = row_data
         if old_id and new_id and old_id != new_id:
             self._replace_species_references(old_id, new_id)
-            self._selected_id = new_id
         self._mark_dirty()
         self._refresh_species_options()
         self._refresh_table()
@@ -1167,10 +1196,11 @@ class DigimonManagerWindow(QWidget):
 
     def _refresh_selected_context(self) -> None:
         species_id = self._selected_id or ""
-        row_data = self._catalog.species_by_id().get(species_id)
+        row_data = self._selected_species_row()
         if row_data is None:
             self._clear_editor()
             return
+        species_id = str(row_data.get("id", "")).strip()
         name = str(row_data.get("name", species_id)).strip() or species_id
         stage = str(row_data.get("stage", "")).strip()
         self._selected_title_label.setText(name)
@@ -1479,9 +1509,11 @@ class DigimonManagerWindow(QWidget):
     def add_species(self) -> None:
         species_id = add_species(self._catalog)
         self._selected_id = species_id
+        self._selected_row = self._catalog.species_by_id().get(species_id)
         self._mark_dirty()
         self._refresh_species_options()
         self._refresh_table()
+        self._load_selected_species()
         self._refresh_validation()
 
     def duplicate_selected_species(self) -> None:
@@ -1492,9 +1524,11 @@ class DigimonManagerWindow(QWidget):
         if not duplicate_id:
             return
         self._selected_id = duplicate_id
+        self._selected_row = self._catalog.species_by_id().get(duplicate_id)
         self._mark_dirty()
         self._refresh_species_options()
         self._refresh_table()
+        self._load_selected_species()
         self._refresh_validation()
 
     def delete_selected_species(self) -> None:
@@ -1514,6 +1548,7 @@ class DigimonManagerWindow(QWidget):
             return
         delete_species(self._catalog, species_id)
         self._selected_id = None
+        self._selected_row = None
         self._mark_dirty()
         self._refresh_species_options()
         self._refresh_table()
@@ -1704,6 +1739,7 @@ class DigimonManagerWindow(QWidget):
         )
         self._refresh_validation()
         if result.has_errors:
+            self._status_label.setText("Save failed: validation errors")
             return False
         self._species_path.write_text(
             json.dumps(digimon_catalog_to_species_rows(self._catalog), indent=2, ensure_ascii=False) + "\n",

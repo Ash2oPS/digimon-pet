@@ -373,6 +373,30 @@ def test_editing_species_fields_updates_catalog_and_dirty_state(tmp_path):
     assert window._dirty is True
 
 
+def test_editing_species_id_can_be_temporarily_blank_without_losing_editor_state(tmp_path):
+    window = make_window(tmp_path)
+
+    window.add_species()
+    window._name_input.setText("Gaomon")
+    window._id_input.clear()
+    window._id_input.setText("gaomon")
+
+    row = window._catalog.species_by_id()["gaomon"]
+    assert row["name"] == "Gaomon"
+    assert window._name_input.text() == "Gaomon"
+    assert window._selected_species_id() == "gaomon"
+
+
+def test_save_failure_updates_status_when_validation_blocks_write(tmp_path):
+    window = make_window(tmp_path)
+
+    window.add_species()
+    window._id_input.clear()
+
+    assert window.save_catalog() is False
+    assert "Save failed" in window._status_label.text()
+
+
 def test_sprite_path_preview_handles_existing_and_missing_paths(tmp_path):
     sprite_path = tmp_path / "assets" / "sprites" / "agumon" / "idle.png"
     sprite_path.parent.mkdir(parents=True)
