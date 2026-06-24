@@ -59,27 +59,27 @@ class StatsWindow(QDialog):
         self._selected_evolution_id: str | None = None
 
         self.setWindowTitle("Stats")
-        self.setMinimumSize(640, 520)
+        self.setMinimumSize(560, 420)
         self.setStyleSheet(APP_QSS)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
 
         header = QFrame(self)
         header.setObjectName("StatsHeader")
         header_layout = QHBoxLayout(header)
-        header_layout.setContentsMargins(12, 12, 12, 12)
-        header_layout.setSpacing(14)
+        header_layout.setContentsMargins(8, 8, 8, 8)
+        header_layout.setSpacing(10)
 
         self._sprite_label = QLabel(self)
         self._sprite_label.setObjectName("StatsPortrait")
         self._sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._sprite_label.setMinimumSize(142, 142)
+        self._sprite_label.setFixedSize(96, 96)
         header_layout.addWidget(self._sprite_label)
 
         identity_layout = QVBoxLayout()
-        identity_layout.setSpacing(6)
+        identity_layout.setSpacing(3)
         self._name_label = QLabel("-", self)
         self._name_label.setObjectName("Title")
         self._stage_label = QLabel("-", self)
@@ -136,8 +136,8 @@ class StatsWindow(QDialog):
     def _build_overview_tab(self) -> QWidget:
         page = QWidget(self)
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
 
         summary_grid = QGridLayout()
         summary_grid.setHorizontalSpacing(8)
@@ -158,7 +158,7 @@ class StatsWindow(QDialog):
             summary_grid.addWidget(self._metric_card(key, title), index // 4, index % 4)
 
         content = QHBoxLayout()
-        content.setSpacing(12)
+        content.setSpacing(8)
         content.addWidget(self._care_panel(), 1)
         content.addWidget(self._combat_panel(), 1)
         layout.addLayout(content)
@@ -168,8 +168,8 @@ class StatsWindow(QDialog):
     def _build_combat_tab(self) -> QWidget:
         page = QWidget(self)
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
         layout.addWidget(self._combat_panel())
         grid = QGridLayout()
         grid.setHorizontalSpacing(8)
@@ -189,8 +189,8 @@ class StatsWindow(QDialog):
     def _build_care_tab(self) -> QWidget:
         page = QWidget(self)
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
         layout.addWidget(self._care_panel())
         grid = QGridLayout()
         grid.setHorizontalSpacing(8)
@@ -211,21 +211,21 @@ class StatsWindow(QDialog):
     def _build_evolution_tab(self) -> QWidget:
         page = QWidget(self)
         layout = QHBoxLayout(page)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(8)
 
         list_panel = QFrame(self)
         list_panel.setObjectName("EvolutionIntelPanel")
         list_layout = QVBoxLayout(list_panel)
-        list_layout.setContentsMargins(10, 10, 10, 10)
-        list_layout.setSpacing(8)
+        list_layout.setContentsMargins(8, 8, 8, 8)
+        list_layout.setSpacing(6)
         title = QLabel("Evolutions", self)
         title.setObjectName("SectionTitle")
         list_layout.addWidget(title)
         self._evolution_list_layout = list_layout
         cards_layout = QVBoxLayout()
         cards_layout.setContentsMargins(0, 0, 0, 0)
-        cards_layout.setSpacing(8)
+        cards_layout.setSpacing(6)
         self._evolution_cards_layout = cards_layout
         list_layout.addLayout(cards_layout)
         list_layout.addStretch(1)
@@ -233,10 +233,11 @@ class StatsWindow(QDialog):
         detail_panel = QFrame(self)
         detail_panel.setObjectName("EvolutionIntelPanel")
         detail_layout = QVBoxLayout(detail_panel)
-        detail_layout.setContentsMargins(10, 10, 10, 10)
-        detail_layout.setSpacing(8)
+        detail_layout.setContentsMargins(8, 8, 8, 8)
+        detail_layout.setSpacing(6)
         self._evolution_detail_layout = detail_layout
 
+        list_panel.setFixedWidth(110)
         layout.addWidget(list_panel, 0)
         layout.addWidget(detail_panel, 1)
         return page
@@ -245,8 +246,8 @@ class StatsWindow(QDialog):
         card = QFrame(self)
         card.setObjectName("StatsMetricCard")
         layout = QVBoxLayout(card)
-        layout.setContentsMargins(10, 8, 10, 8)
-        layout.setSpacing(4)
+        layout.setContentsMargins(8, 6, 8, 6)
+        layout.setSpacing(2)
         label = QLabel(title, self)
         label.setObjectName("Muted")
         value = QLabel("-", self)
@@ -262,8 +263,8 @@ class StatsWindow(QDialog):
         panel = QFrame(self)
         panel.setObjectName("StatsPanel")
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(8)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(6)
         title = QLabel("Care gauges", self)
         title.setObjectName("SectionTitle")
         layout.addWidget(title)
@@ -280,14 +281,14 @@ class StatsWindow(QDialog):
         panel = QFrame(self)
         panel.setObjectName("StatsPanel")
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(8)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(6)
         title = QLabel("Combat", self)
         title.setObjectName("SectionTitle")
         layout.addWidget(title)
         grid = QGridLayout()
         grid.setHorizontalSpacing(18)
-        grid.setVerticalSpacing(10)
+        grid.setVerticalSpacing(6)
         layout.addLayout(grid)
         for index, (key, label) in enumerate(
             [
@@ -381,7 +382,7 @@ class StatsWindow(QDialog):
         card.setProperty("transition_id", transition_id)
         card.setCheckable(True)
         card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
-        card.setIconSize(QSize(62, 62))
+        card.setIconSize(QSize(44, 44))
         icon = self._evolution_target_icon(state, option)
         if icon is not None:
             card.setIcon(icon)
@@ -465,9 +466,9 @@ class StatsWindow(QDialog):
         row = QFrame(self)
         row.setObjectName("EvolutionStatRequirement")
         layout = QGridLayout(row)
-        layout.setContentsMargins(8, 7, 8, 7)
+        layout.setContentsMargins(7, 5, 7, 5)
         layout.setHorizontalSpacing(8)
-        layout.setVerticalSpacing(4)
+        layout.setVerticalSpacing(3)
 
         label = QLabel(_stat_label(stat), self)
         label.setObjectName("Muted")
@@ -517,8 +518,8 @@ class StatsWindow(QDialog):
             return
         self._sprite_label.setPixmap(
             pixmap.scaled(
-                148,
-                148,
+                92,
+                92,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation,
             )

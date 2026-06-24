@@ -39,7 +39,7 @@ QLabel {{
 
 QLabel#Title {{
     color: {COLORS["text"]};
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
 }}
 
@@ -143,8 +143,8 @@ QFrame#EvolutionIntelPanel {{
 QToolButton#EvolutionIntelCard {{
     background: {COLORS["panel"]};
     border: 1px solid {COLORS["line"]};
-    border-radius: 8px;
-    padding: 8px 10px;
+    border-radius: 7px;
+    padding: 5px 6px;
     text-align: center;
     font-weight: 800;
 }}
@@ -190,26 +190,26 @@ QFrame#EvolutionStatRequirement {{
 QLabel#EvolutionIntelSummary {{
     background: {COLORS["panel_hot"]};
     border: 1px solid {COLORS["accent_soft"]};
-    border-radius: 7px;
+    border-radius: 6px;
     color: {COLORS["focus"]};
     font-weight: 800;
-    padding: 7px 9px;
+    padding: 5px 8px;
 }}
 
 QLabel#EvolutionUnknownChip {{
     background: {COLORS["surface_alt"]};
     border: 1px solid {COLORS["line_soft"]};
-    border-radius: 7px;
+    border-radius: 6px;
     color: {COLORS["muted"]};
     font-weight: 800;
-    padding: 8px 6px;
+    padding: 5px 5px;
 }}
 
 QLabel#EvolutionRequirementStatus {{
     background: {COLORS["surface_alt"]};
     border: 1px solid {COLORS["line"]};
-    border-radius: 6px;
-    padding: 3px 7px;
+    border-radius: 5px;
+    padding: 2px 6px;
     font-weight: 800;
 }}
 
@@ -356,14 +356,14 @@ QPlainTextEdit:focus {{
 QProgressBar {{
     background: {COLORS["surface_alt"]};
     border: 1px solid {COLORS["line"]};
-    border-radius: 6px;
-    height: 13px;
+    border-radius: 5px;
+    height: 10px;
     text-align: center;
 }}
 
 QProgressBar::chunk {{
     background: {COLORS["accent"]};
-    border-radius: 5px;
+    border-radius: 4px;
 }}
 
 QComboBox QAbstractItemView {{
@@ -540,10 +540,10 @@ QTabBar::tab {{
     color: {COLORS["muted"]};
     border: 1px solid {COLORS["line"]};
     border-bottom: none;
-    padding: 7px 11px;
-    margin-right: 3px;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
+    padding: 5px 9px;
+    margin-right: 2px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     font-weight: 700;
 }}
 
