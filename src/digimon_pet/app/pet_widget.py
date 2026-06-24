@@ -8,6 +8,7 @@ from PySide6.QtCore import QPoint, QRect, Qt, QTimer
 from PySide6.QtGui import QColor, QImage, QPainter, QPainterPath, QPen, QPixmap, QTransform
 from PySide6.QtWidgets import QWidget
 
+from digimon_pet.app.animated_sprite import sprite_animation_interval_ms
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
@@ -22,7 +23,6 @@ EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
-SPRITESHEET_ANIMATION_SPEED_DIVISOR = 2.5
 STATIC_SPRITE_SCALE = 0.9
 SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
 SECONDARY_EVENT_BOUNCE_HEIGHT = 7
@@ -281,7 +281,7 @@ class PetWidget(QWidget):
             return
         if animation is None:
             return
-        interval_ms = max(16, round((1000 / animation.fps) * SPRITESHEET_ANIMATION_SPEED_DIVISOR))
+        interval_ms = sprite_animation_interval_ms(animation)
         self._static_scale_fallback_enabled = _uses_static_scale_fallback(animation)
         if animation.frame_count > 1 or self._static_scale_fallback_enabled:
             self._animation_timer.start(interval_ms)

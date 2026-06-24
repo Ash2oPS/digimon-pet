@@ -95,9 +95,9 @@ def _write_two_frame_sprite(path) -> None:
     pixmap.save(str(path))
 
 
-def _two_frame_idle_sprite(path):
+def _two_frame_idle_sprite(path, *, fps: int = 6):
     pixmap = QPixmap(str(path))
-    return IdleSpriteSheet(pixmap, SpriteAnimation(path=str(path), frame_count=2, frame_indices=(0, 1)))
+    return IdleSpriteSheet(pixmap, SpriteAnimation(path=str(path), frame_count=2, fps=fps, frame_indices=(0, 1)))
 
 
 def _cross_family_digivolutions() -> dict:
@@ -258,6 +258,18 @@ def test_collection_tile_animates_hidden_idle_sprite(tmp_path):
     tile._advance_frame()
 
     assert tile._sprite.current_frame_index == 1
+
+
+def test_collection_tile_uses_current_pet_animation_speed(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    sprite_path = tmp_path / "greymon_idle.png"
+    _write_two_frame_sprite(sprite_path)
+    species = Species("greymon", "Greymon", GrowthStage.CHAMPION)
+    sprite = _two_frame_idle_sprite(sprite_path, fps=2)
+
+    tile = CollectionTile(species, True, sprite, animation_interval_ms=250)
+
+    assert tile._timer.interval() == 250
 
 
 def test_evolution_tree_hides_unknown_species_and_their_conditions():

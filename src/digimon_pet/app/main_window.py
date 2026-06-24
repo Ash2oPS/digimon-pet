@@ -1050,6 +1050,7 @@ class PetWindow(QWidget):
             self._species,
             self._state.discovered_species_ids,
             self._digivolutions,
+            self._state.species_id,
             self,
         )
         self._position_secondary_window(self._collection_dialog)

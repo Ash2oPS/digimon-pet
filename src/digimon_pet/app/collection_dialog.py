@@ -7,7 +7,7 @@ from PySide6.QtCore import QPointF, QRect, QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QColor, QFont, QPainter, QPen, QPixmap, QPolygonF
 from PySide6.QtWidgets import QDialog, QGridLayout, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
 
-from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_sprite_for_species
+from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_animation_interval_for_species, idle_sprite_for_species
 from digimon_pet.app.sprite_runtime import load_runtime_manifest
 from digimon_pet.app.theme import APP_QSS, COLORS
 from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, graph_links, graph_species_ids
@@ -36,6 +36,7 @@ class CollectionDialog(QDialog):
         species: dict[str, Species],
         discovered_species_ids: list[str],
         digivolutions: dict[str, Any] | None = None,
+        current_species_id: str | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
@@ -43,6 +44,10 @@ class CollectionDialog(QDialog):
         self._discovered_species_ids = set(discovered_species_ids)
         self._digivolutions = digivolutions or {}
         self._manifest = load_runtime_manifest()
+        current_species = self._species.get(current_species_id or "")
+        self._animation_interval_ms = (
+            idle_animation_interval_for_species(current_species, self._manifest) if current_species is not None else None
+        )
         self._tree_dialog: EvolutionTreeDialog | None = None
 
         self.setWindowTitle("Collection")
@@ -79,6 +84,7 @@ class CollectionDialog(QDialog):
                 STAGE_LABELS[stage],
                 items,
                 self._discovered_species_ids,
+                self._animation_interval_ms,
                 self,
                 content,
             )
@@ -99,6 +105,7 @@ class CollectionDialog(QDialog):
             self._digivolutions,
             self._discovered_species_ids,
             species_id,
+            self._animation_interval_ms,
             self,
         )
         self._tree_dialog.show()
@@ -112,6 +119,7 @@ class CollectionStageSection(QWidget):
         label: str,
         species: list[Species],
         discovered_species_ids: set[str],
+        animation_interval_ms: int | None,
         dialog: CollectionDialog,
         parent: QWidget | None = None,
     ) -> None:
@@ -150,6 +158,7 @@ class CollectionStageSection(QWidget):
                 item,
                 item.id in discovered_species_ids,
                 dialog._sprite_for_species(item),
+                animation_interval_ms,
                 grid_host,
             )
             tile.clicked.connect(dialog._open_evolution_tree)
@@ -187,12 +196,14 @@ class CollectionTile(QWidget):
         species: Species,
         discovered: bool,
         sprite: IdleSpriteSheet | None,
+        animation_interval_ms: int | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self._species = species
         self._discovered = discovered
         self._sprite = sprite
+        self._animation_interval_ms = animation_interval_ms
         self._timer = QTimer(self)
         self._timer.timeout.connect(self._advance_frame)
         self.setFixedSize(QSize(96, 108))
@@ -200,7 +211,7 @@ class CollectionTile(QWidget):
         if discovered:
             self.setCursor(Qt.CursorShape.PointingHandCursor)
         if self._sprite is not None and self._sprite.is_animated:
-            self._timer.start(self._sprite.interval_ms)
+            self._timer.start(self._animation_interval_ms or self._sprite.interval_ms)
 
     def mouseReleaseEvent(self, event) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton and self._discovered:
@@ -255,6 +266,7 @@ class EvolutionTreeDialog(QDialog):
         digivolutions: dict[str, Any],
         discovered_species_ids: set[str] | list[str],
         selected_species_id: str,
+        animation_interval_ms: int | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
@@ -262,6 +274,7 @@ class EvolutionTreeDialog(QDialog):
         self._discovered_species_ids = set(discovered_species_ids)
         self._selected_species_id = selected_species_id
         self._manifest = load_runtime_manifest()
+        self._animation_interval_ms = animation_interval_ms
 
         selected = species[selected_species_id]
         self.setWindowTitle(f"{selected.name} Evolution Tree")
@@ -297,6 +310,7 @@ class EvolutionTreeDialog(QDialog):
             selected_species_id,
             self._manifest,
             scroll_area,
+            animation_interval_ms=self._animation_interval_ms,
         )
 
         scroll_area.setWidget(graph)
@@ -321,6 +335,7 @@ class EvolutionGraphWidget(QWidget):
         selected_species_id: str,
         manifest: dict[str, Any],
         parent: QWidget | None = None,
+        animation_interval_ms: int | None = None,
     ) -> None:
         super().__init__(parent)
         self._species = species
@@ -330,6 +345,7 @@ class EvolutionGraphWidget(QWidget):
         self._discovered_species_ids = discovered_species_ids
         self._selected_species_id = selected_species_id
         self._manifest = manifest
+        self._animation_interval_ms = animation_interval_ms
         self._nodes: dict[str, EvolutionNode] = {}
         self._build_graph()
 
@@ -394,6 +410,7 @@ class EvolutionGraphWidget(QWidget):
                     species_id == self._selected_species_id,
                     idle_sprite_for_species(item, self._manifest),
                     requirements,
+                    self._animation_interval_ms,
                     self,
                 )
                 node.setGeometry(x, y, self.NODE_SIZE.width(), self.NODE_SIZE.height())
@@ -422,12 +439,14 @@ class EvolutionNode(QWidget):
         selected: bool,
         sprite: IdleSpriteSheet | None,
         requirements: list[str] | None = None,
+        animation_interval_ms: int | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self._species = species
         self._discovered = discovered
         self._sprite = sprite
+        self._animation_interval_ms = animation_interval_ms
         self.setObjectName("EvolutionNode")
         self.setProperty("selected", selected)
         self.setFixedSize(QSize(116, 96))
@@ -443,7 +462,7 @@ class EvolutionNode(QWidget):
         self._timer = QTimer(self)
         self._timer.timeout.connect(self._advance_frame)
         if self._sprite is not None and self._sprite.is_animated:
-            self._timer.start(self._sprite.interval_ms)
+            self._timer.start(self._animation_interval_ms or self._sprite.interval_ms)
         self._refresh_sprite_pixmap()
 
         name = QLabel(species.name if discovered else "???")

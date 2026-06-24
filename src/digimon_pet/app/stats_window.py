@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
 )
 
 from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolve_artwork_path
-from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_sprite_for_species
+from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_animation_interval_for_species, idle_sprite_for_species
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
@@ -61,6 +61,7 @@ class StatsWindow(QDialog):
         self._evolution_detail_layout: QVBoxLayout | None = None
         self._evolution_cards: dict[str, QToolButton] = {}
         self._evolution_card_sprites: dict[str, tuple[QToolButton, IdleSpriteSheet, bool]] = {}
+        self._current_animation_interval_ms: int | None = None
         self._evolution_animation_timer = QTimer(self)
         self._evolution_animation_timer.timeout.connect(self._advance_evolution_card_sprites)
         self._selected_evolution_id: str | None = None
@@ -137,6 +138,7 @@ class StatsWindow(QDialog):
         self._set_bar("fatigue", state.fatigue)
         self._set_bar("discipline", state.discipline)
         self._set_bar("happiness", state.happiness)
+        self._current_animation_interval_ms = idle_animation_interval_for_species(species, self._manifest)
         self._refresh_evolution(state, species)
         self._set_sprite(state, species)
 
@@ -407,7 +409,7 @@ class StatsWindow(QDialog):
         if not animated_sprites:
             return
         interval = min(sprite.interval_ms for sprite in animated_sprites)
-        self._evolution_animation_timer.start(interval)
+        self._evolution_animation_timer.start(self._current_animation_interval_ms or interval)
 
     def _advance_evolution_card_sprites(self) -> None:
         for card, sprite, hidden in self._evolution_card_sprites.values():
