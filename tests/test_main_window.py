@@ -6,11 +6,12 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 import pytest
 from PySide6.QtCore import QEvent, QPoint, QPointF, QRect, Qt
 from PySide6.QtGui import QMouseEvent
-from PySide6.QtWidgets import QApplication, QLabel, QDialogButtonBox
+from PySide6.QtWidgets import QApplication, QLabel, QDialogButtonBox, QInputDialog
 
 from digimon_pet import platform as desktop_platform
-from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow
+from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow, create_trainer_nickname_dialog
 from digimon_pet.app.radial_menu import RadialArcDirection
+from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_species
 from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
@@ -49,6 +50,18 @@ def test_pet_window_does_not_auto_move():
     window = PetWindow(overlay=True, debug=False)
 
     assert not window._move_timer.isActive()
+
+
+def test_trainer_nickname_dialog_uses_app_theme():
+    app = QApplication.instance() or QApplication([])
+
+    dialog = create_trainer_nickname_dialog(None, "Tai")
+
+    assert isinstance(dialog, QInputDialog)
+    assert dialog.windowTitle() == "Trainer Nickname"
+    assert dialog.labelText() == "Enter your trainer nickname:"
+    assert dialog.textValue() == "Tai"
+    assert dialog.styleSheet() == APP_QSS
 
 
 def test_debug_panel_updates_lifecycle_schedule():

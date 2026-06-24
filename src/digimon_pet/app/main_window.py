@@ -82,6 +82,16 @@ ITEM_STAT_LABELS = {
 }
 
 
+def create_trainer_nickname_dialog(parent: QWidget | None, current_nickname: str = "") -> QInputDialog:
+    dialog = QInputDialog(parent)
+    dialog.setWindowTitle("Trainer Nickname")
+    dialog.setLabelText("Enter your trainer nickname:")
+    dialog.setInputMode(QInputDialog.InputMode.TextInput)
+    dialog.setTextValue(current_nickname)
+    dialog.setStyleSheet(APP_QSS)
+    return dialog
+
+
 def _item_has_instant_death_effect(item) -> bool:
     return any(effect.type == ItemEffectType.INSTANT_DEATH for effect in item.effects)
 
@@ -1142,13 +1152,9 @@ class PetWindow(QWidget):
         self._apply_network_settings(self._network_settings)
 
     def _get_trainer_nickname(self) -> tuple[str, bool]:
-        nickname, accepted = QInputDialog.getText(
-            self,
-            "Trainer Nickname",
-            "Enter your trainer nickname:",
-            text=self._network_settings.trainer_nickname,
-        )
-        return str(nickname), bool(accepted)
+        dialog = create_trainer_nickname_dialog(self, self._network_settings.trainer_nickname)
+        accepted = dialog.exec() == QDialog.DialogCode.Accepted
+        return dialog.textValue(), accepted
 
     def _apply_network_settings(self, settings: NetworkSettings) -> None:
         settings.clamp()
