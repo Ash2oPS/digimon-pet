@@ -7151,7 +7151,7 @@
       "source_name": "Rukamon",
       "target_species_id": "whamon",
       "target_name": "Whamon",
-      "target_stage": "ultimate",
+      "target_stage": "champion",
       "chart_order": 70,
       "requirements": {
         "mode": "stats_only",
@@ -7182,7 +7182,7 @@
       "source_name": "Ikkakumon",
       "target_species_id": "whamon",
       "target_name": "Whamon",
-      "target_stage": "ultimate",
+      "target_stage": "champion",
       "chart_order": 71,
       "requirements": {
         "mode": "stats_only",
@@ -7213,7 +7213,7 @@
       "source_name": "Seadramon",
       "target_species_id": "whamon",
       "target_name": "Whamon",
-      "target_stage": "ultimate",
+      "target_stage": "champion",
       "chart_order": 72,
       "requirements": {
         "mode": "stats_only",
@@ -7244,7 +7244,7 @@
       "source_name": "Coelamon",
       "target_species_id": "whamon",
       "target_name": "Whamon",
-      "target_stage": "ultimate",
+      "target_stage": "champion",
       "chart_order": 73,
       "requirements": {
         "mode": "stats_only",
@@ -7398,7 +7398,7 @@
       "source_species_id": "teslajellymon",
       "source_name": "Tesla Jellymon",
       "target_species_id": "megaseadramon",
-      "target_name": "Mega Seadramon",
+      "target_name": "MegaSeadramon",
       "target_stage": "ultimate",
       "chart_order": 78,
       "requirements": {
@@ -8696,7 +8696,7 @@
       "source_species_id": "hanumon",
       "source_name": "Hanumon",
       "target_species_id": "weregarurumon",
-      "target_name": "Were Garurumon",
+      "target_name": "WereGarurumon",
       "target_stage": "ultimate",
       "chart_order": 120,
       "requirements": {
@@ -8725,7 +8725,7 @@
       "source_species_id": "meramon",
       "source_name": "Meramon",
       "target_species_id": "weregarurumon",
-      "target_name": "Were Garurumon",
+      "target_name": "WereGarurumon",
       "target_stage": "ultimate",
       "chart_order": 121,
       "requirements": {
@@ -8754,7 +8754,7 @@
       "source_species_id": "loogarmon",
       "source_name": "Loogarmon",
       "target_species_id": "weregarurumon",
-      "target_name": "Were Garurumon",
+      "target_name": "WereGarurumon",
       "target_stage": "ultimate",
       "chart_order": 122,
       "requirements": {
@@ -13479,7 +13479,7 @@
       "source_species_id": "igamon",
       "source_name": "Igamon",
       "target_species_id": "weregarurumon",
-      "target_name": "Were Garurumon",
+      "target_name": "WereGarurumon",
       "target_stage": "ultimate",
       "chart_order": 276,
       "requirements": {
@@ -13508,7 +13508,7 @@
       "source_species_id": "kausgammamon",
       "source_name": "Kaus Gammamon",
       "target_species_id": "weregarurumon",
-      "target_name": "Were Garurumon",
+      "target_name": "WereGarurumon",
       "target_stage": "ultimate",
       "chart_order": 277,
       "requirements": {
@@ -13537,7 +13537,7 @@
       "source_species_id": "tailmon",
       "source_name": "Tailmon",
       "target_species_id": "weregarurumon",
-      "target_name": "Were Garurumon",
+      "target_name": "WereGarurumon",
       "target_stage": "ultimate",
       "chart_order": 278,
       "requirements": {
@@ -13566,7 +13566,7 @@
       "source_species_id": "greymon",
       "source_name": "Greymon",
       "target_species_id": "metalmamemon",
-      "target_name": "Metal Mamemon",
+      "target_name": "MetalMamemon",
       "target_stage": "ultimate",
       "chart_order": 279,
       "requirements": {
@@ -13596,7 +13596,7 @@
       "source_species_id": "leomon",
       "source_name": "Leomon",
       "target_species_id": "metalmamemon",
-      "target_name": "Metal Mamemon",
+      "target_name": "MetalMamemon",
       "target_stage": "ultimate",
       "chart_order": 280,
       "requirements": {
@@ -13626,7 +13626,7 @@
       "source_species_id": "betelgammamon",
       "source_name": "Betel Gammamon",
       "target_species_id": "metalmamemon",
-      "target_name": "Metal Mamemon",
+      "target_name": "MetalMamemon",
       "target_stage": "ultimate",
       "chart_order": 281,
       "requirements": {
@@ -13656,7 +13656,7 @@
       "source_species_id": "garurumon",
       "source_name": "Garurumon",
       "target_species_id": "metalmamemon",
-      "target_name": "Metal Mamemon",
+      "target_name": "MetalMamemon",
       "target_stage": "ultimate",
       "chart_order": 282,
       "requirements": {
@@ -13686,7 +13686,7 @@
       "source_species_id": "igamon",
       "source_name": "Igamon",
       "target_species_id": "metalmamemon",
-      "target_name": "Metal Mamemon",
+      "target_name": "MetalMamemon",
       "target_stage": "ultimate",
       "chart_order": 283,
       "requirements": {
