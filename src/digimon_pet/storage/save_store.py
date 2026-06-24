@@ -104,6 +104,7 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "window_screen_name": state.window_screen_name,
         "window_screen_offset_x": state.window_screen_offset_x,
         "window_screen_offset_y": state.window_screen_offset_y,
+        "pet_scale_percent": state.pet_scale_percent,
     }
 
 
@@ -205,6 +206,7 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         window_screen_name=_optional_str_from_raw(raw.get("window_screen_name")),
         window_screen_offset_x=_optional_int_from_raw(raw.get("window_screen_offset_x")),
         window_screen_offset_y=_optional_int_from_raw(raw.get("window_screen_offset_y")),
+        pet_scale_percent=int(raw.get("pet_scale_percent", 100)),
     )
     state.mark_discovered()
     state.clamp()

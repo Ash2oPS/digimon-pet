@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 
 from PySide6.QtCore import QProcess
-from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
+from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from digimon_pet.app.main_window import PetWindow
@@ -35,6 +35,19 @@ def _create_menu(app: QApplication, window: PetWindow) -> QMenu:
         toggle_debug = QAction("Toggle Debug", menu)
         toggle_debug.triggered.connect(window.toggle_debug)
         menu.addAction(toggle_debug)
+
+    scale_menu = QMenu("Pet Scale", menu)
+    menu.addMenu(scale_menu)
+    scale_group = QActionGroup(scale_menu)
+    scale_group.setExclusive(True)
+    current_scale = window.pet_scale_percent() if hasattr(window, "pet_scale_percent") else 100
+    for percent in (50, 75, 100, 125, 150):
+        action = QAction(f"{percent}%", scale_menu)
+        action.setCheckable(True)
+        action.setChecked(current_scale == percent)
+        action.triggered.connect(lambda checked=False, value=percent: window.set_pet_scale_percent(value))
+        scale_group.addAction(action)
+        scale_menu.addAction(action)
 
     menu.addSeparator()
 

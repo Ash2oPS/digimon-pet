@@ -790,6 +790,45 @@ def test_window_position_loads_from_save(tmp_path, monkeypatch):
     assert window.pos() == QPoint(37, 45)
 
 
+def test_pet_scale_loads_from_save(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            pet_scale_percent=150,
+        ),
+        save_path,
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+
+    assert window.pet_scale_percent() == 150
+    assert window.size().width() == 192
+    assert window._pet_widget.size().width() == 192
+
+
+def test_changing_pet_scale_resizes_only_pet_window_and_saves(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+
+    window = PetWindow(overlay=True, debug=True)
+    window.move(200, 300)
+    window._open_stats()
+    stats_size_before = window._stats_window.size()
+
+    window.set_pet_scale_percent(50)
+    loaded = load_pet_state(save_path)
+
+    assert window.size().width() == 64
+    assert window._pet_widget.size().width() == 64
+    assert window._stats_window.size() == stats_size_before
+    assert loaded.pet_scale_percent == 50
+
+
 def test_window_position_restore_uses_full_screen_geometry_below_taskbar(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"

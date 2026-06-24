@@ -239,6 +239,38 @@ def test_save_load_persists_window_position(tmp_path):
     assert loaded.window_screen_offset_y == 54
 
 
+def test_save_load_persists_pet_scale(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        pet_scale_percent=150,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.pet_scale_percent == 150
+
+
+def test_invalid_saved_pet_scale_falls_back_to_default(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie",
+  "pet_scale_percent": 99
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.pet_scale_percent == 100
+
+
 def test_save_load_cleans_invalid_filled_incubators(tmp_path):
     path = tmp_path / "pet_save.json"
     path.write_text(

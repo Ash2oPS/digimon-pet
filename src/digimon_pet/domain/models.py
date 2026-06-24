@@ -73,6 +73,7 @@ class PetState:
     window_screen_name: str | None = None
     window_screen_offset_x: int | None = None
     window_screen_offset_y: int | None = None
+    pet_scale_percent: int = 100
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -112,6 +113,7 @@ class PetState:
         self.window_screen_name = _clean_optional_text(self.window_screen_name)
         self.window_screen_offset_x = _clean_optional_int(self.window_screen_offset_x)
         self.window_screen_offset_y = _clean_optional_int(self.window_screen_offset_y)
+        self.pet_scale_percent = _clean_pet_scale_percent(self.pet_scale_percent)
 
     def mark_discovered(self, species_id: str | None = None) -> None:
         target_id = species_id or self.species_id
@@ -213,3 +215,8 @@ def _clean_optional_text(value: str | None) -> str | None:
         return None
     clean_value = str(value).strip()
     return clean_value or None
+
+
+def _clean_pet_scale_percent(value: int) -> int:
+    scale = int(value)
+    return scale if scale in {50, 75, 100, 125, 150} else 100

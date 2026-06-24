@@ -12,12 +12,19 @@ class _WindowStub(QWidget):
         super().__init__()
         self._debug = debug
         self.saved = False
+        self.scale_percent = 100
 
     def toggle_debug(self) -> None:
         pass
 
     def save_current_state(self) -> None:
         self.saved = True
+
+    def pet_scale_percent(self) -> int:
+        return self.scale_percent
+
+    def set_pet_scale_percent(self, percent: int) -> None:
+        self.scale_percent = int(percent)
 
 
 def test_create_tray_icon_returns_none_when_system_tray_unavailable(monkeypatch):
@@ -55,6 +62,30 @@ def test_tray_menu_includes_restart_action():
     menu = tray_module._create_menu(app, window)
 
     assert "Restart" in [action.text() for action in menu.actions()]
+
+
+def test_tray_menu_includes_checkable_pet_scale_actions():
+    app = QApplication.instance() or QApplication([])
+    window = _WindowStub(debug=False)
+    window.scale_percent = 125
+
+    menu = tray_module._create_menu(app, window)
+    scale_menu = next(action.menu() for action in menu.actions() if action.text() == "Pet Scale")
+    actions = scale_menu.actions()
+
+    assert [action.text() for action in actions] == ["50%", "75%", "100%", "125%", "150%"]
+    assert [action.isChecked() for action in actions] == [False, False, False, True, False]
+
+
+def test_pet_scale_menu_action_changes_window_scale():
+    app = QApplication.instance() or QApplication([])
+    window = _WindowStub(debug=False)
+
+    menu = tray_module._create_menu(app, window)
+    scale_menu = next(action.menu() for action in menu.actions() if action.text() == "Pet Scale")
+    scale_menu.actions()[0].trigger()
+
+    assert window.scale_percent == 50
 
 
 def test_restart_starts_new_process_then_saves_and_quits(monkeypatch):

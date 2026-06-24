@@ -134,6 +134,21 @@ def test_pending_lifecycle_event_renders_clickable_bubble():
     assert image.pixelColor(bubble_center).alpha() > 0
 
 
+def test_pet_widget_scales_canvas_and_hitboxes():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_render_scale(1.5)
+    widget.set_lifecycle_pending("evolution")
+
+    prompt_center = widget.event_prompt_rect().center()
+    pet_center = QPoint(round(SPRITE_TARGET_RECT.center().x() * 1.5), round(SPRITE_TARGET_RECT.center().y() * 1.5))
+
+    assert widget.size().width() == 192
+    assert widget.size().height() == 192
+    assert widget.is_event_prompt_at(prompt_center)
+    assert widget.is_pet_body_at(pet_center)
+
+
 def test_event_bubble_switches_side_with_pet_screen_position():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()

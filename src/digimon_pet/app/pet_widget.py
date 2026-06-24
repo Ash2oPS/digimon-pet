@@ -12,6 +12,7 @@ from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtim
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
+BASE_WIDGET_SIZE = 128
 SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
 SHADOW_OFFSET = QPoint(6, 6)
 SHADOW_COLOR = QColor(0, 0, 0, 95)
@@ -66,6 +67,7 @@ PIXEL_GLYPHS = {
 class PetWidget(QWidget):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
+        self._render_scale = 1.0
         self._state: PetState | None = None
         self._species: Species | None = None
         self._pixmap: QPixmap | None = None
@@ -94,9 +96,15 @@ class PetWidget(QWidget):
         self._stat_gain_item_icon_path: str | None = None
         self._stat_gain_timer = QTimer(self)
         self._stat_gain_timer.timeout.connect(self._advance_stat_gain_text)
-        self.setFixedSize(128, 128)
+        self.setFixedSize(BASE_WIDGET_SIZE, BASE_WIDGET_SIZE)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
+
+    def set_render_scale(self, scale: float) -> None:
+        self._render_scale = max(0.5, min(1.5, float(scale)))
+        scaled_size = round(BASE_WIDGET_SIZE * self._render_scale)
+        self.setFixedSize(scaled_size, scaled_size)
+        self.update()
 
     def set_pet(self, state: PetState, species: Species) -> None:
         self._state = state
@@ -194,13 +202,15 @@ class PetWidget(QWidget):
         return None
 
     def event_prompt_rect(self) -> QRect:
-        return QRect(RIGHT_EVENT_PROMPT_RECT if self._flipped_x else LEFT_EVENT_PROMPT_RECT)
+        return self._scale_rect(self._logical_event_prompt_rect())
 
     def is_event_prompt_at(self, point: QPoint) -> bool:
-        return self.event_prompt_kind() is not None and self.event_prompt_rect().contains(point)
+        return self.event_prompt_kind() is not None and self._logical_event_prompt_rect().contains(
+            self._to_logical_point(point)
+        )
 
     def is_pet_body_at(self, point: QPoint) -> bool:
-        return SPRITE_TARGET_RECT.contains(point)
+        return SPRITE_TARGET_RECT.contains(self._to_logical_point(point))
 
     def set_flipped_x(self, flipped: bool) -> None:
         flipped = bool(flipped)
@@ -212,6 +222,7 @@ class PetWidget(QWidget):
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.scale(self._render_scale, self._render_scale)
 
         if self._pixmap and not self._pixmap.isNull():
             if self._frame_rects:
@@ -447,7 +458,7 @@ class PetWidget(QWidget):
         if kind is None:
             return
         pulse = _smooth_pulse(self._effect_elapsed_ms, 1200)
-        rect = self.event_prompt_rect()
+        rect = self._logical_event_prompt_rect()
         rect.translate(0, -round(2 * pulse))
 
         painter.save()
@@ -620,7 +631,7 @@ class PetWidget(QWidget):
     def _draw_outlined_pixel_text(self, painter: QPainter, y: int, text: str, outline: QColor, fill: QColor) -> None:
         scale = 2
         width = _pixel_text_width(text, scale)
-        x = max(0, (self.width() - width) // 2)
+        x = max(0, (BASE_WIDGET_SIZE - width) // 2)
         self._draw_outlined_pixel_text_at(painter, x, y, text, outline, fill)
 
     def _draw_outlined_pixel_text_at(
@@ -642,7 +653,7 @@ class PetWidget(QWidget):
         if pixmap is None:
             return
         icon_size = 24
-        x = max(0, (self.width() - icon_size) // 2)
+        x = max(0, (BASE_WIDGET_SIZE - icon_size) // 2)
         painter.save()
         painter.setOpacity(alpha / 255)
         painter.drawPixmap(
@@ -680,6 +691,23 @@ class PetWidget(QWidget):
         painter.drawEllipse(QPoint(77, 54), 5, 5)
         painter.setPen(QColor("#171719"))
         painter.drawArc(QRect(50, 62, 28, 16), 200 * 16, 140 * 16)
+
+    def _logical_event_prompt_rect(self) -> QRect:
+        return QRect(RIGHT_EVENT_PROMPT_RECT if self._flipped_x else LEFT_EVENT_PROMPT_RECT)
+
+    def _scale_rect(self, rect: QRect) -> QRect:
+        return QRect(
+            round(rect.x() * self._render_scale),
+            round(rect.y() * self._render_scale),
+            round(rect.width() * self._render_scale),
+            round(rect.height() * self._render_scale),
+        )
+
+    def _to_logical_point(self, point: QPoint) -> QPoint:
+        return QPoint(
+            round(point.x() / self._render_scale),
+            round(point.y() / self._render_scale),
+        )
 
 
 def _stats_tooltip(state: PetState, species: Species) -> str:

@@ -23,7 +23,7 @@ from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.inventory_window import InventoryItem, InventoryWindow
 from digimon_pet.app.item_manager_window import ItemManagerWindow
-from digimon_pet.app.pet_widget import PetWidget
+from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.stats_window import StatsWindow
@@ -57,6 +57,7 @@ SECONDARY_EVENT_ITEM_KIND = "item"
 SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
 SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
+PET_SCALE_OPTIONS = (50, 75, 100, 125, 150)
 FILLED_INCUBATOR_ITEM_PREFIX = "filled_incubator:"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 PASSIVE_GROWTH_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
@@ -290,14 +291,17 @@ class PetWindow(QWidget):
             if self._state.secondary_event_seconds_remaining is not None
             else self._next_secondary_event_delay()
         )
+        self._pet_scale_percent = self._state.pet_scale_percent
 
         self._configure_window()
 
         self._pet_widget = PetWidget(self)
+        self._pet_widget.set_render_scale(self._pet_scale_percent / 100)
         self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self._pet_widget)
+        self._apply_pet_scale()
 
         self._debug_panel = DebugPanel(
             schedule_changed=self._set_lifecycle_schedule,
@@ -370,7 +374,7 @@ class PetWindow(QWidget):
 
     def _configure_window(self) -> None:
         self.setWindowTitle("Digimon Pet")
-        self.setFixedSize(128, 128)
+        self.setFixedSize(BASE_WIDGET_SIZE, BASE_WIDGET_SIZE)
         if self._overlay:
             self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
             self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
@@ -929,6 +933,7 @@ class PetWindow(QWidget):
     def save_current_state(self) -> None:
         self._sync_secondary_event_state()
         self._sync_window_position_state()
+        self._sync_pet_scale_state()
         save_pet_state(self._state)
 
     def _sync_secondary_event_state(self) -> None:
@@ -949,6 +954,32 @@ class PetWindow(QWidget):
         self._state.window_screen_name = screen.name()
         self._state.window_screen_offset_x = self.x() - bounds.left()
         self._state.window_screen_offset_y = self.y() - bounds.top()
+
+    def pet_scale_percent(self) -> int:
+        return self._pet_scale_percent
+
+    def set_pet_scale_percent(self, percent: int) -> None:
+        if int(percent) not in PET_SCALE_OPTIONS:
+            return
+        percent = int(percent)
+        if self._pet_scale_percent == percent:
+            return
+        anchor = self.frameGeometry().bottomLeft() + QPoint(self.width() // 2, 0)
+        self._pet_scale_percent = percent
+        self._apply_pet_scale()
+        self.move(anchor.x() - self.width() // 2, anchor.y() - self.height() + 1)
+        self._keep_inside_screen()
+        self.save_current_state()
+
+    def _apply_pet_scale(self) -> None:
+        scale = self._pet_scale_percent / 100
+        size = round(BASE_WIDGET_SIZE * scale)
+        if hasattr(self, "_pet_widget"):
+            self._pet_widget.set_render_scale(scale)
+        self.setFixedSize(size, size)
+
+    def _sync_pet_scale_state(self) -> None:
+        self._state.pet_scale_percent = self._pet_scale_percent
 
     def _refresh(self) -> None:
         species = self._species[self._state.species_id]
