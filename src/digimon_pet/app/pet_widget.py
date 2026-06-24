@@ -24,6 +24,8 @@ NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
 SPRITESHEET_ANIMATION_SPEED_DIVISOR = 2.5
 STATIC_SPRITE_SCALE = 0.9
+SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
+SECONDARY_EVENT_BOUNCE_HEIGHT = 7
 LEFT_EVENT_PROMPT_RECT = QRect(10, 5, 42, 34)
 RIGHT_EVENT_PROMPT_RECT = QRect(76, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
@@ -88,6 +90,9 @@ class PetWidget(QWidget):
         self._effect_timer = QTimer(self)
         self._effect_timer.timeout.connect(self._advance_effect)
         self._secondary_event_kind: str | None = None
+        self._secondary_event_elapsed_ms = 0
+        self._secondary_event_timer = QTimer(self)
+        self._secondary_event_timer.timeout.connect(self._advance_secondary_event_prompt)
         self._new_badge_elapsed_ms = 0
         self._new_badge_timer = QTimer(self)
         self._new_badge_timer.timeout.connect(self._advance_new_badge)
@@ -190,6 +195,11 @@ class PetWidget(QWidget):
         if self._secondary_event_kind == kind:
             return
         self._secondary_event_kind = kind
+        self._secondary_event_elapsed_ms = 0
+        if kind is None:
+            self._secondary_event_timer.stop()
+        else:
+            self._secondary_event_timer.start(EFFECT_INTERVAL_MS)
         self.update()
 
     def event_prompt_kind(self) -> str | None:
@@ -310,6 +320,14 @@ class PetWidget(QWidget):
             return
         self.update()
 
+    def _advance_secondary_event_prompt(self) -> None:
+        if self._secondary_event_kind is None:
+            self._secondary_event_elapsed_ms = 0
+            self._secondary_event_timer.stop()
+            return
+        self._secondary_event_elapsed_ms += EFFECT_INTERVAL_MS
+        self.update()
+
     def _advance_new_badge(self) -> None:
         self._new_badge_elapsed_ms += EFFECT_INTERVAL_MS
         if self._new_badge_elapsed_ms >= NEW_BADGE_DURATION_MS:
@@ -367,8 +385,12 @@ class PetWidget(QWidget):
             return _scaled_rect(SPRITE_TARGET_RECT, scale, scale)
         if self._effect_name not in RESOLUTION_EFFECTS:
             if self._static_scale_shrunken and self._static_scale_fallback_enabled:
-                return _scaled_rect_from_bottom_center(SPRITE_TARGET_RECT, 1.0, STATIC_SPRITE_SCALE)
-            return SPRITE_TARGET_RECT
+                target = _scaled_rect_from_bottom_center(SPRITE_TARGET_RECT, 1.0, STATIC_SPRITE_SCALE)
+            else:
+                target = QRect(SPRITE_TARGET_RECT)
+            if self._secondary_event_kind is not None:
+                target.translate(0, -self._secondary_event_bounce_offset())
+            return target
         progress = min(1.0, self._effect_elapsed_ms / self._effect_duration_ms())
         if self._effect_name == "evolution":
             reveal = EVOLUTION_REVEAL_MS / RESOLUTION_DURATION_MS
@@ -382,6 +404,14 @@ class PetWidget(QWidget):
         wave = math.sin(progress * math.pi * 3)
         scale = 1.0 + (0.18 * math.sin(progress * math.pi)) + (0.04 * wave)
         return _scaled_rect(SPRITE_TARGET_RECT, scale, 1.0 + (scale - 1.0) * 0.75)
+
+    def _secondary_event_bounce_offset(self) -> int:
+        phase = (self._secondary_event_elapsed_ms % SECONDARY_EVENT_BOUNCE_PERIOD_MS) / SECONDARY_EVENT_BOUNCE_PERIOD_MS
+        jump_window = 0.58
+        if phase >= jump_window:
+            return 0
+        arc = math.sin((phase / jump_window) * math.pi)
+        return round(SECONDARY_EVENT_BOUNCE_HEIGHT * math.pow(max(0.0, arc), 0.85))
 
     def _effect_overlay_color(self) -> QColor:
         if self._effect_name == "pending_evolution":

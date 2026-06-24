@@ -210,6 +210,22 @@ def test_secondary_event_prompt_renders_without_lifecycle_effect():
     assert image.pixelColor(icon_center).alpha() > 0
 
 
+def test_secondary_event_prompt_bounces_sprite_without_moving_bubble():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_secondary_event_prompt("meat")
+    bubble_rect = widget.event_prompt_rect()
+
+    for _index in range(8):
+        widget._advance_secondary_event_prompt()
+
+    target = widget._effect_target_rect()
+
+    assert target.top() < SPRITE_TARGET_RECT.top()
+    assert target.size() == SPRITE_TARGET_RECT.size()
+    assert widget.event_prompt_rect() == bubble_rect
+
+
 def test_secondary_item_prompt_uses_dialog_bubble_with_question_mark():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
