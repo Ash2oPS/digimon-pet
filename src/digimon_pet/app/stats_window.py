@@ -30,6 +30,9 @@ from digimon_pet.domain.evolution_intel import (
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
+STATS_PORTRAIT_SIZE = 156
+STATS_PORTRAIT_PIXMAP_SIZE = 148
+
 
 class _ArtworkDownloadSignals(QObject):
     finished = Signal(str)
@@ -75,7 +78,7 @@ class StatsWindow(QDialog):
         self._sprite_label = QLabel(self)
         self._sprite_label.setObjectName("StatsPortrait")
         self._sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._sprite_label.setFixedSize(96, 96)
+        self._sprite_label.setFixedSize(STATS_PORTRAIT_SIZE, STATS_PORTRAIT_SIZE)
         header_layout.addWidget(self._sprite_label)
 
         identity_layout = QVBoxLayout()
@@ -518,8 +521,8 @@ class StatsWindow(QDialog):
             return
         self._sprite_label.setPixmap(
             pixmap.scaled(
-                92,
-                92,
+                STATS_PORTRAIT_PIXMAP_SIZE,
+                STATS_PORTRAIT_PIXMAP_SIZE,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation,
             )

@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app import stats_window
 from digimon_pet.app.stats_window import (
+    STATS_PORTRAIT_PIXMAP_SIZE,
+    STATS_PORTRAIT_SIZE,
     StatsWindow,
     _evolution_options_for_species,
     _format_age,
@@ -53,6 +55,27 @@ def test_stats_window_prefers_official_artwork_over_runtime_sprite(tmp_path, mon
     assert pixmap is not None
     assert pixmap.width() == 44
     assert pixmap.height() == 66
+
+
+def test_stats_window_uses_large_artwork_portrait(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    portrait = QPixmap(240, 180)
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    monkeypatch.setattr(window, "_pixmap_for_species", lambda state, species: portrait)
+    window.refresh(
+        PetState("agumon", GrowthStage.ROOKIE),
+        Species("agumon", "Agumon", GrowthStage.ROOKIE),
+    )
+
+    rendered = window._sprite_label.pixmap()
+
+    assert window._sprite_label.width() == STATS_PORTRAIT_SIZE
+    assert window._sprite_label.height() == STATS_PORTRAIT_SIZE
+    assert rendered is not None
+    assert rendered.width() == STATS_PORTRAIT_PIXMAP_SIZE
 
 
 def test_stats_window_opens_without_synchronous_artwork_download(monkeypatch):
