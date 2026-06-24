@@ -1,19 +1,17 @@
 from __future__ import annotations
 
 from math import cos, pi, sin
-from pathlib import Path
-
 from typing import Any
 
-from PySide6.QtCore import QPointF, QRect, QSize, Qt, Signal
-from PySide6.QtGui import QColor, QFont, QImage, QPainter, QPen, QPixmap, QPolygonF
+from PySide6.QtCore import QPointF, QRect, QSize, Qt, QTimer, Signal
+from PySide6.QtGui import QColor, QFont, QPainter, QPen, QPixmap, QPolygonF
 from PySide6.QtWidgets import QDialog, QGridLayout, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
 
-from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
+from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_sprite_for_species
+from digimon_pet.app.sprite_runtime import load_runtime_manifest
 from digimon_pet.app.theme import APP_QSS, COLORS
 from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, graph_links, graph_species_ids
-from digimon_pet.domain.models import GrowthStage, PetState, Species
-from digimon_pet.paths import PROJECT_ROOT
+from digimon_pet.domain.models import GrowthStage, Species
 
 STAGE_LABELS = {
     GrowthStage.BABY: "Baby1",
@@ -90,8 +88,8 @@ class CollectionDialog(QDialog):
         scroll_area.setWidget(content)
         layout.addWidget(scroll_area, 1)
 
-    def _pixmap_for_species(self, species: Species) -> QPixmap | None:
-        return _pixmap_for_species(species, self._manifest)
+    def _sprite_for_species(self, species: Species) -> IdleSpriteSheet | None:
+        return idle_sprite_for_species(species, self._manifest)
 
     def _open_evolution_tree(self, species_id: str) -> None:
         if species_id not in self._discovered_species_ids or species_id not in self._species:
@@ -151,7 +149,7 @@ class CollectionStageSection(QWidget):
             tile = CollectionTile(
                 item,
                 item.id in discovered_species_ids,
-                dialog._pixmap_for_species(item),
+                dialog._sprite_for_species(item),
                 grid_host,
             )
             tile.clicked.connect(dialog._open_evolution_tree)
@@ -188,17 +186,21 @@ class CollectionTile(QWidget):
         self,
         species: Species,
         discovered: bool,
-        pixmap: QPixmap | None,
+        sprite: IdleSpriteSheet | None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self._species = species
         self._discovered = discovered
-        self._pixmap = pixmap
+        self._sprite = sprite
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self._advance_frame)
         self.setFixedSize(QSize(96, 108))
         self.setToolTip(species.name if discovered else "Unknown")
         if discovered:
             self.setCursor(Qt.CursorShape.PointingHandCursor)
+        if self._sprite is not None and self._sprite.is_animated:
+            self._timer.start(self._sprite.interval_ms)
 
     def mouseReleaseEvent(self, event) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton and self._discovered:
@@ -216,11 +218,8 @@ class CollectionTile(QWidget):
         painter.drawRoundedRect(self.rect().adjusted(0, 0, -1, -1), 6, 6)
 
         sprite_rect = QRect(16, 8, 64, 64)
-        if self._pixmap is not None:
-            if self._discovered:
-                painter.drawPixmap(sprite_rect, self._pixmap)
-            else:
-                painter.drawPixmap(sprite_rect, _silhouette(self._pixmap))
+        if self._sprite is not None:
+            self._sprite.draw(painter, sprite_rect, silhouette=not self._discovered)
         else:
             painter.setPen(Qt.PenStyle.NoPen)
             painter.setBrush(QColor("#050506"))
@@ -241,6 +240,12 @@ class CollectionTile(QWidget):
         painter.setFont(font)
         label = self._species.name if self._discovered else "???"
         painter.drawText(QRect(6, 78, 84, 24), Qt.AlignmentFlag.AlignCenter | Qt.TextFlag.TextWordWrap, label)
+
+    def _advance_frame(self) -> None:
+        if self._sprite is None:
+            return
+        self._sprite.advance()
+        self.update()
 
 
 class EvolutionTreeDialog(QDialog):
@@ -387,7 +392,7 @@ class EvolutionGraphWidget(QWidget):
                     item,
                     species_id in self._discovered_species_ids,
                     species_id == self._selected_species_id,
-                    _pixmap_for_species(item, self._manifest),
+                    idle_sprite_for_species(item, self._manifest),
                     requirements,
                     self,
                 )
@@ -415,12 +420,14 @@ class EvolutionNode(QWidget):
         species: Species,
         discovered: bool,
         selected: bool,
-        pixmap: QPixmap | None,
+        sprite: IdleSpriteSheet | None,
         requirements: list[str] | None = None,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self._species = species
+        self._discovered = discovered
+        self._sprite = sprite
         self.setObjectName("EvolutionNode")
         self.setProperty("selected", selected)
         self.setFixedSize(QSize(116, 96))
@@ -430,10 +437,14 @@ class EvolutionNode(QWidget):
         layout.setContentsMargins(8, 8, 8, 7)
         layout.setSpacing(4)
 
-        sprite = QLabel(self)
-        sprite.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        sprite.setPixmap(_tree_node_pixmap(pixmap, discovered))
-        layout.addWidget(sprite)
+        self._sprite_label = QLabel(self)
+        self._sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self._sprite_label)
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self._advance_frame)
+        if self._sprite is not None and self._sprite.is_animated:
+            self._timer.start(self._sprite.interval_ms)
+        self._refresh_sprite_pixmap()
 
         name = QLabel(species.name if discovered else "???")
         name.setObjectName("EvolutionNodeName")
@@ -441,45 +452,19 @@ class EvolutionNode(QWidget):
         name.setWordWrap(True)
         layout.addWidget(name)
 
+    def _advance_frame(self) -> None:
+        if self._sprite is None:
+            return
+        self._sprite.advance()
+        self._refresh_sprite_pixmap()
 
-def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | None:
-    if animation.frame_count <= 1:
-        return None
-    frame_width = animation.frame_width or pixmap.width() // animation.frame_count
-    frame_height = animation.frame_height or pixmap.height()
-    if frame_width <= 0 or frame_height <= 0:
-        return None
-    return QRect(0, 0, frame_width, frame_height)
-
-
-def _pixmap_for_species(species: Species, manifest: dict[str, Any]) -> QPixmap | None:
-    state = PetState(species_id=species.id, stage=species.stage)
-    animation = resolve_sprite_animation(state, species, manifest)
-    if animation is None:
-        return None
-    path = PROJECT_ROOT / Path(animation.path)
-    if not path.exists():
-        return None
-    pixmap = QPixmap(str(path))
-    if pixmap.isNull():
-        return None
-    frame = _first_frame_rect(pixmap, animation)
-    return pixmap.copy(frame) if frame is not None else pixmap
+    def _refresh_sprite_pixmap(self) -> None:
+        self._sprite_label.setPixmap(_tree_node_pixmap(self._sprite, self._discovered))
 
 
-def _silhouette(pixmap: QPixmap) -> QPixmap:
-    image = pixmap.toImage().convertToFormat(QImage.Format.Format_ARGB32)
-    for y in range(image.height()):
-        for x in range(image.width()):
-            color = image.pixelColor(x, y)
-            if color.alpha() > 0:
-                image.setPixelColor(x, y, QColor(5, 5, 6, color.alpha()))
-    return QPixmap.fromImage(image)
-
-
-def _tree_node_pixmap(pixmap: QPixmap | None, discovered: bool) -> QPixmap:
-    if pixmap is not None:
-        display = pixmap if discovered else _silhouette(pixmap)
+def _tree_node_pixmap(sprite: IdleSpriteSheet | None, discovered: bool) -> QPixmap:
+    if sprite is not None:
+        display = sprite.frame_pixmap(silhouette=not discovered)
         return display.scaled(52, 52, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.FastTransformation)
 
     placeholder = QPixmap(52, 52)

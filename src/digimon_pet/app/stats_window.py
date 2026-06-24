@@ -3,8 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 import threading
 
-from PySide6.QtCore import QObject, QRect, QSize, Qt, Signal
-from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
+from PySide6.QtCore import QObject, QRect, QSize, Qt, QTimer, Signal
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
     QDialog,
     QFrame,
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
 )
 
 from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolve_artwork_path
+from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_sprite_for_species
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
@@ -59,6 +60,9 @@ class StatsWindow(QDialog):
         self._evolution_cards_layout: QVBoxLayout | None = None
         self._evolution_detail_layout: QVBoxLayout | None = None
         self._evolution_cards: dict[str, QToolButton] = {}
+        self._evolution_card_sprites: dict[str, tuple[QToolButton, IdleSpriteSheet, bool]] = {}
+        self._evolution_animation_timer = QTimer(self)
+        self._evolution_animation_timer.timeout.connect(self._advance_evolution_card_sprites)
         self._selected_evolution_id: str | None = None
 
         self.setWindowTitle("Stats")
@@ -356,6 +360,8 @@ class StatsWindow(QDialog):
             return
         _clear_layout(self._evolution_cards_layout)
         self._evolution_cards = {}
+        self._evolution_card_sprites = {}
+        self._evolution_animation_timer.stop()
         options = direct_evolution_options(self._digivolutions, species.id)
         if not options:
             empty = QLabel("No known natural evolution for this species.", self)
@@ -372,6 +378,7 @@ class StatsWindow(QDialog):
             self._evolution_cards[transition_id] = card
             self._evolution_cards_layout.addWidget(card)
         self._refresh_evolution_selection()
+        self._start_evolution_card_animation()
         selected_option = next(
             (option for option in options if str(option.get("id", "")) == self._selected_evolution_id),
             options[0],
@@ -386,12 +393,26 @@ class StatsWindow(QDialog):
         card.setCheckable(True)
         card.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         card.setIconSize(QSize(44, 44))
-        icon = self._evolution_target_icon(state, option)
-        if icon is not None:
-            card.setIcon(icon)
+        sprite = self._evolution_target_sprite(option)
+        hidden = not _evolution_target_is_discovered(state, option)
+        if sprite is not None:
+            card.setIcon(QIcon(sprite.frame_pixmap(silhouette=hidden)))
+            self._evolution_card_sprites[transition_id] = (card, sprite, hidden)
         card.setText(_evolution_card_text(state, option))
         card.clicked.connect(lambda checked=False, selected_id=transition_id: self._select_evolution(selected_id))
         return card
+
+    def _start_evolution_card_animation(self) -> None:
+        animated_sprites = [sprite for _, sprite, _ in self._evolution_card_sprites.values() if sprite.is_animated]
+        if not animated_sprites:
+            return
+        interval = min(sprite.interval_ms for sprite in animated_sprites)
+        self._evolution_animation_timer.start(interval)
+
+    def _advance_evolution_card_sprites(self) -> None:
+        for card, sprite, hidden in self._evolution_card_sprites.values():
+            sprite.advance()
+            card.setIcon(QIcon(sprite.frame_pixmap(silhouette=hidden)))
 
     def _select_evolution(self, transition_id: str) -> None:
         self._selected_evolution_id = transition_id
@@ -578,18 +599,12 @@ class StatsWindow(QDialog):
         frame = _first_frame_rect(pixmap, animation)
         return pixmap.copy(frame) if frame is not None else pixmap
 
-    def _evolution_target_icon(self, state: PetState, option: dict) -> QIcon | None:
+    def _evolution_target_sprite(self, option: dict) -> IdleSpriteSheet | None:
         target_id = str(option.get("target_species_id", ""))
         target_species = self._species_by_id.get(target_id)
         if target_species is None:
             return None
-        target_state = PetState(target_id, target_species.stage, current_action="idle")
-        pixmap = self._sprite_pixmap_for_species(target_state, target_species)
-        if pixmap is None or pixmap.isNull():
-            return None
-        if not _evolution_target_is_discovered(state, option):
-            pixmap = _silhouette_pixmap(pixmap)
-        return QIcon(pixmap)
+        return idle_sprite_for_species(target_species, self._manifest)
 
 
 def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | None:
@@ -660,17 +675,6 @@ def _evolution_card_text(state: PetState, option: dict) -> str:
     stage = _evolution_target_stage(option)
     lines = [title, stage, f"{len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)} clues"]
     return "\n".join(lines)
-
-
-def _silhouette_pixmap(pixmap: QPixmap) -> QPixmap:
-    result = QPixmap(pixmap.size())
-    result.fill(Qt.GlobalColor.transparent)
-    painter = QPainter(result)
-    painter.drawPixmap(0, 0, pixmap)
-    painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
-    painter.fillRect(result.rect(), QColor("#02040a"))
-    painter.end()
-    return result
 
 
 def _slot_summary(state: PetState, option: dict, stat: str) -> str:

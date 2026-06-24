@@ -3,7 +3,7 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtCore import QEvent, QPointF, Qt
-from PySide6.QtGui import QMouseEvent
+from PySide6.QtGui import QColor, QMouseEvent, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app.collection_dialog import (
@@ -14,6 +14,8 @@ from digimon_pet.app.collection_dialog import (
     EvolutionTreeDialog,
     StarMarker,
 )
+from digimon_pet.app.animated_sprite import IdleSpriteSheet
+from digimon_pet.app.sprite_runtime import SpriteAnimation
 from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, family_species_ids, graph_species_ids
 from digimon_pet.domain.models import GrowthStage, Species
 
@@ -81,6 +83,21 @@ def _digivolutions() -> dict:
             },
         ],
     }
+
+
+def _write_two_frame_sprite(path) -> None:
+    pixmap = QPixmap(48, 24)
+    pixmap.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(pixmap)
+    painter.fillRect(0, 0, 24, 24, QColor("red"))
+    painter.fillRect(24, 0, 24, 24, QColor("blue"))
+    painter.end()
+    pixmap.save(str(path))
+
+
+def _two_frame_idle_sprite(path):
+    pixmap = QPixmap(str(path))
+    return IdleSpriteSheet(pixmap, SpriteAnimation(path=str(path), frame_count=2, frame_indices=(0, 1)))
 
 
 def _cross_family_digivolutions() -> dict:
@@ -209,6 +226,38 @@ def test_collection_stage_section_shows_star_only_when_stage_is_complete():
 
     assert len(stars) == 1
     assert stars[0].toolTip() == "Section complete"
+
+
+def test_collection_tile_animates_discovered_idle_sprite(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    sprite_path = tmp_path / "agumon_idle.png"
+    _write_two_frame_sprite(sprite_path)
+    species = Species("agumon", "Agumon", GrowthStage.ROOKIE)
+    sprite = _two_frame_idle_sprite(sprite_path)
+    tile = CollectionTile(species, True, sprite)
+
+    assert tile._sprite is not None
+    assert tile._sprite.current_frame_index == 0
+
+    tile._advance_frame()
+
+    assert tile._sprite.current_frame_index == 1
+
+
+def test_collection_tile_animates_hidden_idle_sprite(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    sprite_path = tmp_path / "greymon_idle.png"
+    _write_two_frame_sprite(sprite_path)
+    species = Species("greymon", "Greymon", GrowthStage.CHAMPION)
+    sprite = _two_frame_idle_sprite(sprite_path)
+    tile = CollectionTile(species, False, sprite)
+
+    assert tile._sprite is not None
+    assert tile._sprite.frame_pixmap(silhouette=True).toImage().pixelColor(1, 1).red() < 10
+
+    tile._advance_frame()
+
+    assert tile._sprite.current_frame_index == 1
 
 
 def test_evolution_tree_hides_unknown_species_and_their_conditions():

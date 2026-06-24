@@ -2,7 +2,7 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QLabel
 
 from digimon_pet.app import stats_window
@@ -16,6 +16,16 @@ from digimon_pet.app.stats_window import (
     _requirement_stats,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
+
+
+def _write_two_frame_sprite(path) -> None:
+    pixmap = QPixmap(48, 24)
+    pixmap.fill()
+    painter = QPainter(pixmap)
+    painter.fillRect(0, 0, 24, 24, QColor("red"))
+    painter.fillRect(24, 0, 24, 24, QColor("blue"))
+    painter.end()
+    pixmap.save(str(path))
 
 
 def test_stats_window_age_display_does_not_round_up_before_next_hour():
@@ -225,6 +235,14 @@ def test_stats_window_evolution_card_uses_hidden_target_idle_sprite_on_top(tmp_p
     monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
 
     window = StatsWindow()
+    window._manifest = {
+        "entries": {
+            "rapidmon": {
+                "asset_path": str(sprite_path),
+                "metadata": {"frame_count": 2, "frame_indices": [0, 1]},
+            }
+        }
+    }
     window._species_by_id = {
         "rapidmon": Species(
             "rapidmon",
@@ -258,6 +276,51 @@ def test_stats_window_evolution_card_uses_hidden_target_idle_sprite_on_top(tmp_p
     assert cards[0].text().startswith("???")
     assert "?" not in cards[0].text().splitlines()
     assert not cards[0].icon().isNull()
+
+
+def test_stats_window_evolution_card_animates_hidden_target_idle_sprite(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    sprite_path = tmp_path / "rapidmon_idle.png"
+    _write_two_frame_sprite(sprite_path)
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._species_by_id = {
+        "rapidmon": Species(
+            "rapidmon",
+            "Rapidmon",
+            GrowthStage.ULTIMATE,
+            sprite_slots={"idle": str(sprite_path)},
+        )
+    }
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__rapidmon",
+                "source_species_id": "terriermon",
+                "target_species_id": "rapidmon",
+                "target_name": "Rapidmon",
+                "target_stage": "ultimate",
+                "requirements": {"groups": {"stats": {"speed": 400}}},
+            }
+        ],
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__rapidmon"]}},
+    }
+
+    window.refresh(
+        PetState("terriermon", GrowthStage.ROOKIE, discovered_species_ids=["terriermon"]),
+        Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+    )
+
+    card, sprite, hidden = window._evolution_card_sprites["terriermon__to__rapidmon"]
+    assert hidden is True
+    assert not card.icon().isNull()
+    assert sprite.current_frame_index == 0
+
+    window._advance_evolution_card_sprites()
+
+    assert sprite.current_frame_index == 1
 
 
 def test_stats_window_evolution_intel_click_updates_detail(monkeypatch):
