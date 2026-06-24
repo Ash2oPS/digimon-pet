@@ -479,19 +479,19 @@ def _item_pixmap(item: InventoryItem) -> QPixmap | None:
 _INVENTORY_QSS = f"""
 QLabel#InventoryCount {{
     background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["accent_soft"]};
-    border-radius: 7px;
+    border: 2px solid {COLORS["accent"]};
+    border-radius: 2px;
     color: {COLORS["focus"]};
-    font-weight: 800;
+    font-weight: 900;
     padding: 4px 8px;
 }}
 
 QToolButton#InventoryFilter {{
     background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["line"]};
-    border-radius: 7px;
+    border: 2px solid {COLORS["line"]};
+    border-radius: 2px;
     color: {COLORS["muted"]};
-    font-weight: 800;
+    font-weight: 900;
     padding: 6px 10px;
 }}
 
@@ -501,27 +501,27 @@ QToolButton#InventoryFilter:hover {{
 }}
 
 QToolButton#InventoryFilter:checked {{
-    background: {COLORS["panel_hot"]};
-    border-color: {COLORS["focus"]};
+    background: {COLORS["panel_alt"]};
+    border-color: {COLORS["accent"]};
     color: {COLORS["focus"]};
 }}
 
 QWidget#InventoryGrid {{
     background: {COLORS["surface"]};
-    border: 1px solid {COLORS["line_soft"]};
+    border: 2px solid {COLORS["line_soft"]};
     border-top-color: {COLORS["accent"]};
-    border-radius: 8px;
+    border-radius: 2px;
 }}
 
 QWidget#InventorySlot {{
     background: {COLORS["panel"]};
-    border: 1px solid {COLORS["line"]};
-    border-radius: 7px;
+    border: 2px solid {COLORS["line"]};
+    border-radius: 2px;
 }}
 
 QWidget#InventorySlot:hover {{
     border-color: {COLORS["accent"]};
-    background: {COLORS["panel_alt"]};
+    background: {COLORS["panel_hot"]};
 }}
 
 QWidget#InventorySlot:focus {{
@@ -534,12 +534,12 @@ QWidget#InventorySlot[empty="false"] {{
 }}
 
 QWidget#InventorySlot[empty="true"] {{
-    background: #0b111b;
-    border: 1px dashed {COLORS["line"]};
+    background: {COLORS["surface_alt"]};
+    border: 2px dashed {COLORS["line"]};
 }}
 
 QWidget#InventorySlot[usable="false"] {{
-    background: #101722;
+    background: {COLORS["surface_alt"]};
     border-color: {COLORS["focus_soft"]};
 }}
 
@@ -553,9 +553,9 @@ QWidget#InventorySlot[selected="true"] {{
 }}
 
 QLabel#InventorySlotType {{
-    background: #0a2230;
-    border: 1px solid {COLORS["accent_soft"]};
-    border-radius: 5px;
+    background: {COLORS["surface_alt"]};
+    border: 2px solid {COLORS["accent_soft"]};
+    border-radius: 2px;
     color: {COLORS["accent"]};
     font-size: 9px;
     font-weight: 900;
@@ -570,9 +570,9 @@ QLabel#InventorySlotName {{
 
 QFrame#InventoryDetails {{
     background: {COLORS["panel"]};
-    border: 1px solid {COLORS["line"]};
+    border: 2px solid {COLORS["line"]};
     border-top-color: {COLORS["accent"]};
-    border-radius: 9px;
+    border-radius: 2px;
 }}
 
 QLabel#InventoryScanTitle {{
@@ -584,26 +584,26 @@ QLabel#InventoryScanTitle {{
 
 QLabel#InventoryDetailsIcon {{
     background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["accent_soft"]};
-    border-radius: 8px;
+    border: 2px solid {COLORS["accent_soft"]};
+    border-radius: 2px;
     color: {COLORS["focus"]};
     font-size: 18px;
-    font-weight: 800;
+    font-weight: 900;
 }}
 
 QLabel#InventoryDetailsName {{
     background: transparent;
     color: {COLORS["text"]};
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
 }}
 
 QLabel#InventoryStatus {{
     background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["line"]};
-    border-radius: 7px;
+    border: 2px solid {COLORS["line"]};
+    border-radius: 2px;
     color: {COLORS["muted"]};
-    font-weight: 800;
+    font-weight: 900;
     padding: 4px 7px;
 }}
 
@@ -629,10 +629,10 @@ QLabel#InventoryStatus[state="blocked"] {{
 
 QLabel#InventoryEffect {{
     background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["accent_soft"]};
-    border-radius: 7px;
+    border: 2px solid {COLORS["accent_soft"]};
+    border-radius: 2px;
     color: {COLORS["focus"]};
-    font-weight: 800;
+    font-weight: 900;
     padding: 7px 9px;
 }}
 
@@ -643,7 +643,7 @@ QLabel#InventoryDetailsDescription {{
 
 QLabel#InventoryQuantity {{
     background: {COLORS["surface_alt"]};
-    border: 1px solid {COLORS["focus_soft"]};
+    border: 2px solid {COLORS["focus_soft"]};
     border-radius: 10px;
     color: {COLORS["focus"]};
     font-size: 10px;
