@@ -57,17 +57,17 @@ class RadialPetMenu(QWidget):
         self._buttons_by_action: dict[str, QPushButton] = {}
         self._actions = {
             "stats": open_stats,
-            "network": open_network,
             "collection": open_collection,
             "inventory": open_inventory,
+            "network": open_network,
             "close": close_app,
         }
 
         for action, tooltip in (
             ("stats", "Stats"),
-            ("network", "Network"),
             ("collection", "Collection"),
             ("inventory", "Inventory"),
+            ("network", "Network"),
             ("close", "Close"),
         ):
             button = QPushButton(self)
@@ -203,13 +203,13 @@ def _icon_for(action: str) -> QIcon:
             painter.drawRoundedRect(5 + index * 7, 24 - height, 4, height, 2, 2)
     elif action == "network":
         painter.setBrush(Qt.BrushStyle.NoBrush)
-        nodes = (QPoint(8, 9), QPoint(20, 8), QPoint(15, 20))
-        painter.drawLine(nodes[0], nodes[1])
-        painter.drawLine(nodes[1], nodes[2])
-        painter.drawLine(nodes[2], nodes[0])
-        painter.setBrush(QColor(COLORS["text"]))
-        for node in nodes:
-            painter.drawEllipse(node, 3, 3)
+        painter.drawEllipse(8, 8, 12, 12)
+        painter.save()
+        painter.translate(14, 14)
+        painter.rotate(-24)
+        painter.drawEllipse(-11, -4, 22, 8)
+        painter.restore()
+        painter.drawArc(10, 7, 8, 14, 95 * 16, 170 * 16)
     elif action == "collection":
         painter.setBrush(Qt.BrushStyle.NoBrush)
         for row in range(2):

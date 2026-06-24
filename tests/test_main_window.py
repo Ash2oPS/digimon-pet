@@ -1253,9 +1253,9 @@ def test_radial_menu_shows_stats_network_collection_inventory_and_close():
 
     assert [button.toolTip() for button in menu.action_buttons()] == [
         "Stats",
-        "Network",
         "Collection",
         "Inventory",
+        "Network",
         "Close",
     ]
 
@@ -1280,9 +1280,9 @@ def test_radial_menu_keeps_same_pet_actions_in_debug():
 
     assert [button.toolTip() for button in menu.action_buttons()] == [
         "Stats",
-        "Network",
         "Collection",
         "Inventory",
+        "Network",
         "Close",
     ]
 
