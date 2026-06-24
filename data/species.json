@@ -1179,7 +1179,9 @@
     "id": "redvegimon",
     "name": "Red Vegimon",
     "stage": "champion",
-    "aliases": [],
+    "aliases": [
+      "Red_Vegimon"
+    ],
     "sprite_slots": {}
   },
   {
