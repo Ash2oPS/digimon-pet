@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Renaissance - Allocation des stats</title>
+  <title>Renaissance - Stats a heriter</title>
   <style>
     :root {
       color-scheme: dark;
       --bg: #101114;
       --panel: #181a1f;
-      --panel-2: #20232a;
+      --panel-soft: #20232a;
       --line: #30343c;
       --text: #f4f1e8;
       --muted: #aaa69b;
@@ -28,12 +28,12 @@
       margin: 0;
       min-height: 100svh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 14% 18%, rgba(255, 204, 51, .16), transparent 30%),
-        radial-gradient(circle at 86% 8%, rgba(56, 198, 217, .12), transparent 27%),
-        linear-gradient(135deg, #101114 0%, #17191e 52%, #0c0d10 100%);
       color: var(--text);
       letter-spacing: 0;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(255, 204, 51, .16), transparent 30%),
+        radial-gradient(circle at 86% 10%, rgba(56, 198, 217, .12), transparent 28%),
+        linear-gradient(135deg, #101114 0%, #17191e 52%, #0c0d10 100%);
     }
 
     main {
@@ -44,16 +44,16 @@
     }
 
     .shell {
-      width: min(1120px, 100%);
+      width: min(1180px, 100%);
       display: grid;
-      grid-template-columns: 340px minmax(0, 1fr);
+      grid-template-columns: 310px minmax(0, 1fr);
       gap: 18px;
-      animation: enter .46s ease-out both;
+      animation: enter .42s ease-out both;
     }
 
     .sidebar,
     .workspace {
-      background: rgba(24, 26, 31, .92);
+      background: rgba(24, 26, 31, .94);
       border: 1px solid rgba(255, 255, 255, .08);
       box-shadow: var(--shadow);
     }
@@ -81,8 +81,8 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(30px, 5vw, 54px);
-      line-height: .94;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: .95;
       letter-spacing: 0;
     }
 
@@ -94,22 +94,22 @@
     }
 
     .pet-stage {
-      min-height: 230px;
+      min-height: 222px;
       display: grid;
       place-items: center;
       border: 1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, .04), transparent),
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 8px);
       border-radius: 12px;
       position: relative;
       overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .04), transparent),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 8px);
     }
 
     .pet-stage::before {
       content: "";
       position: absolute;
-      inset: 24px 54px;
+      inset: 26px 54px;
       border-radius: 999px;
       background: rgba(255, 204, 51, .16);
       filter: blur(28px);
@@ -123,7 +123,6 @@
       place-items: center;
       position: relative;
       z-index: 1;
-      image-rendering: pixelated;
       filter: drop-shadow(0 18px 20px rgba(0, 0, 0, .42));
       animation: bob 1.8s ease-in-out infinite;
     }
@@ -133,33 +132,51 @@
       height: 100%;
     }
 
-    .baby-choice {
+    .steps {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .baby {
-      border: 1px solid var(--line);
-      background: #15171c;
-      color: var(--text);
-      border-radius: 10px;
+    .step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      align-items: center;
+      gap: 10px;
       padding: 12px;
-      font: inherit;
-      font-weight: 750;
-      cursor: pointer;
-      transition: border-color .18s ease, transform .18s ease, background .18s ease;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--muted);
+      background: #15171c;
     }
 
-    .baby:hover {
-      transform: translateY(-1px);
-      border-color: rgba(255, 204, 51, .55);
+    .step strong {
+      color: var(--text);
+      font-size: 14px;
     }
 
-    .baby.active {
-      background: #2d2612;
+    .step span:first-child {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #0f1115;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .step.active {
       border-color: var(--accent);
-      color: var(--accent);
+      background: #2d2612;
+    }
+
+    .step.active span:first-child {
+      color: #171204;
+      background: var(--accent);
+    }
+
+    .step.locked {
+      opacity: .62;
     }
 
     .workspace-header {
@@ -174,7 +191,7 @@
 
     .workspace-header h2 {
       margin: 0;
-      font-size: 22px;
+      font-size: 23px;
     }
 
     .remaining {
@@ -198,20 +215,33 @@
 
     .content {
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) 250px;
+      grid-template-columns: minmax(0, 1fr) 260px;
       gap: 0;
     }
 
     .allocations {
-      padding: 22px 26px 26px;
+      padding: 20px 26px 26px;
+    }
+
+    .table-head,
+    .stat-row {
+      display: grid;
+      grid-template-columns: 70px 86px minmax(120px, 1fr) 54px 72px 94px 80px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .table-head {
+      min-height: 34px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--line);
     }
 
     .stat-row {
-      display: grid;
-      grid-template-columns: 72px 74px minmax(130px, 1fr) 58px 76px 88px;
-      align-items: center;
-      gap: 14px;
-      min-height: 58px;
+      min-height: 64px;
       border-bottom: 1px solid rgba(255, 255, 255, .075);
     }
 
@@ -221,21 +251,30 @@
 
     .stat-name {
       font-size: 13px;
-      font-weight: 850;
+      font-weight: 900;
       text-transform: uppercase;
     }
 
-    .stat-base,
-    .stat-bonus {
+    .stat-before,
+    .stat-after,
+    .stat-gain {
       font-variant-numeric: tabular-nums;
-      color: var(--muted);
       font-size: 13px;
+      font-weight: 800;
     }
 
-    .stat-bonus {
+    .stat-before {
+      color: var(--muted);
+    }
+
+    .stat-gain {
       color: var(--accent-2);
       text-align: right;
-      font-weight: 800;
+    }
+
+    .stat-after {
+      color: var(--ok);
+      text-align: right;
     }
 
     input[type="range"] {
@@ -243,9 +282,15 @@
       accent-color: var(--accent);
     }
 
+    .pct {
+      width: 42px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+    }
+
     .stepper {
       display: flex;
-      align-items: center;
       justify-content: flex-end;
       gap: 8px;
     }
@@ -264,13 +309,6 @@
 
     .stepper button:hover {
       border-color: var(--accent);
-    }
-
-    .pct {
-      width: 42px;
-      text-align: center;
-      font-variant-numeric: tabular-nums;
-      font-weight: 850;
     }
 
     aside {
@@ -400,7 +438,7 @@
       }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
       main {
         padding: 14px;
       }
@@ -414,17 +452,9 @@
         border-left: 0;
         border-top: 1px solid var(--line);
       }
-
-      .stat-row {
-        grid-template-columns: 62px 62px minmax(100px, 1fr) 54px 76px;
-      }
-
-      .stat-bonus {
-        display: none;
-      }
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 720px) {
       .workspace-header {
         align-items: flex-start;
         flex-direction: column;
@@ -434,35 +464,61 @@
         text-align: left;
       }
 
-      .stat-row {
-        grid-template-columns: 1fr 74px;
-        gap: 8px;
-        padding: 12px 0;
+      .table-head {
+        display: none;
       }
 
-      .stat-base,
+      .stat-row {
+        grid-template-columns: 1fr 76px;
+        gap: 8px;
+        padding: 14px 0;
+      }
+
+      .stat-before,
+      .stat-after,
+      .stat-gain,
       .stat-row input,
       .stepper {
         grid-column: 1 / -1;
+      }
+
+      .stat-before::before {
+        content: "Avant : ";
+        color: var(--muted);
+      }
+
+      .stat-gain::before {
+        content: "Bonus : ";
+        color: var(--muted);
+      }
+
+      .stat-after::before {
+        content: "Apres heritage : ";
+        color: var(--muted);
+      }
+
+      .stat-gain,
+      .stat-after {
+        text-align: left;
       }
     }
   </style>
 </head>
 <body>
   <main>
-    <section class="shell" aria-label="Maquette d'allocation des stats à la renaissance">
+    <section class="shell" aria-label="Maquette d'allocation des stats a la renaissance">
       <div class="sidebar">
         <div>
           <p class="eyebrow">Renaissance</p>
-          <h1>Transmission des stats</h1>
+          <h1>Choisir l'heritage</h1>
           <p class="summary">
-            Le Digimon a disparu. Choisis le prochain Baby1 puis répartis exactement 30% d'héritage sur les stats que tu veux.
+            Avant de choisir le nouveau bebe, le joueur repartit 30% des stats du Digimon mort. La colonne finale montre les stats de depart apres heritage.
           </p>
         </div>
 
         <div class="pet-stage" aria-hidden="true">
           <div class="sprite">
-            <svg viewBox="0 0 128 128" role="img" aria-label="Baby Digimon stylisé">
+            <svg viewBox="0 0 128 128" role="img" aria-label="Digimon stylise">
               <rect width="128" height="128" fill="none"/>
               <path fill="#ffcc33" d="M64 22c24 0 43 18 43 40 0 27-20 44-43 44S21 89 21 62c0-22 19-40 43-40Z"/>
               <path fill="#ffe888" d="M41 56c0-13 11-24 25-24 15 0 29 11 29 25 0 18-13 30-29 30-15 0-25-13-25-31Z" opacity=".72"/>
@@ -476,13 +532,14 @@
           </div>
         </div>
 
-        <div>
-          <p class="eyebrow">Baby1</p>
-          <div class="baby-choice">
-            <button class="baby active" type="button">Botamon</button>
-            <button class="baby" type="button">Punimon</button>
-            <button class="baby" type="button">Poyomon</button>
-            <button class="baby" type="button">Yuramon</button>
+        <div class="steps">
+          <div class="step active">
+            <span>1</span>
+            <strong>Stats a heriter</strong>
+          </div>
+          <div class="step locked">
+            <span>2</span>
+            <strong>Choix du bebe</strong>
           </div>
         </div>
       </div>
@@ -491,7 +548,7 @@
         <header class="workspace-header">
           <div>
             <p class="eyebrow">Allocation libre</p>
-            <h2>Attribuer le pool de 30%</h2>
+            <h2>Repartir le pool de 30%</h2>
           </div>
           <div class="remaining">
             <strong id="remaining">0%</strong>
@@ -500,7 +557,18 @@
         </header>
 
         <div class="content">
-          <div class="allocations" id="allocations"></div>
+          <div class="allocations">
+            <div class="table-head" aria-hidden="true">
+              <span>Stat</span>
+              <span>Avant</span>
+              <span>Allocation</span>
+              <span>%</span>
+              <span>Bonus</span>
+              <span>Apres</span>
+              <span></span>
+            </div>
+            <div id="allocations"></div>
+          </div>
 
           <aside>
             <div>
@@ -510,27 +578,27 @@
 
             <div class="totals">
               <div class="total-line">
-                <span>Total attribué</span>
+                <span>Total attribue</span>
                 <strong id="allocated">30%</strong>
               </div>
               <div class="total-line">
-                <span>Bonus hérités</span>
+                <span>Bonus transmis</span>
                 <strong id="bonus-total">+0</strong>
               </div>
               <div class="total-line">
-                <span>Validation</span>
-                <strong id="validity">Prête</strong>
+                <span>Etape suivante</span>
+                <strong id="validity">Bebe</strong>
               </div>
             </div>
 
             <div class="preview" id="preview">
-              L'aperçu montre les bonus qui seront ajoutés au cumul générationnel après la renaissance.
+              Les valeurs "Apres" correspondent aux stats de base du prochain Baby1 plus l'heritage cumule.
             </div>
 
             <div class="actions">
-              <button class="primary" id="confirm" type="button">Renaître</button>
-              <button class="secondary" id="reset" type="button">Réinitialiser</button>
-              <div class="status ok" id="status">Allocation complète.</div>
+              <button class="primary" id="confirm" type="button">Continuer vers le choix du bebe</button>
+              <button class="secondary" id="reset" type="button">Reinitialiser</button>
+              <div class="status ok" id="status">Allocation complete.</div>
             </div>
           </aside>
         </div>
@@ -540,12 +608,12 @@
 
   <script>
     const stats = [
-      { id: "hp", label: "HP", value: 1420 },
-      { id: "mp", label: "MP", value: 980 },
-      { id: "offense", label: "OFF", value: 260 },
-      { id: "defense", label: "DEF", value: 210 },
-      { id: "speed", label: "SPD", value: 175 },
-      { id: "brains", label: "BRN", value: 95 },
+      { id: "hp", label: "HP", before: 1420, babyBase: 300, carried: 57 },
+      { id: "mp", label: "MP", before: 980, babyBase: 300, carried: 8 },
+      { id: "offense", label: "OFF", before: 260, babyBase: 30, carried: 0 },
+      { id: "defense", label: "DEF", before: 210, babyBase: 30, carried: 0 },
+      { id: "speed", label: "SPD", before: 175, babyBase: 30, carried: 7 },
+      { id: "brains", label: "BRN", before: 95, babyBase: 30, carried: 4 },
     ];
 
     const initial = { hp: 10, mp: 5, offense: 5, defense: 5, speed: 5, brains: 0 };
@@ -571,11 +639,19 @@
         row.className = "stat-row";
         row.innerHTML = `
           <div class="stat-name">${stat.label}</div>
-          <div class="stat-base">${stat.value}</div>
+          <div class="stat-before">${stat.before}</div>
           <input aria-label="${stat.label}" type="range" min="0" max="30" step="${step}" value="${allocation[stat.id]}" data-stat="${stat.id}">
           <div class="pct" id="pct-${stat.id}">${allocation[stat.id]}%</div>
-          <div class="stat-bonus" id="bonus-${stat.id}">+0</div>
+          <div class="stat-gain" id="gain-${stat.id}">+0</div>
+          <div class="stat-after" id="after-${stat.id}">0</div>
         `;
+        const controls = document.createElement("div");
+        controls.className = "stepper";
+        controls.innerHTML = `
+          <button type="button" data-action="minus" data-stat="${stat.id}" aria-label="Retirer ${stat.label}">-</button>
+          <button type="button" data-action="plus" data-stat="${stat.id}" aria-label="Ajouter ${stat.label}">+</button>
+        `;
+        row.appendChild(controls);
         allocations.appendChild(row);
       }
     }
@@ -598,13 +674,14 @@
 
       for (const stat of stats) {
         const pct = allocation[stat.id];
-        const gain = Math.floor(stat.value * pct / 100);
+        const gain = Math.floor(stat.before * pct / 100);
+        const after = stat.babyBase + stat.carried + gain;
         inheritedTotal += gain;
         document.querySelector(`#pct-${stat.id}`).textContent = `${pct}%`;
-        document.querySelector(`#bonus-${stat.id}`).textContent = `+${gain}`;
-        const input = document.querySelector(`input[data-stat="${stat.id}"]`);
-        input.value = pct;
-        if (pct > 0) selected.push(`${stat.label} +${gain}`);
+        document.querySelector(`#gain-${stat.id}`).textContent = `+${gain}`;
+        document.querySelector(`#after-${stat.id}`).textContent = after;
+        document.querySelector(`input[data-stat="${stat.id}"]`).value = pct;
+        if (pct > 0) selected.push(`${stat.label} ${stat.before} -> ${after}`);
       }
 
       remaining.textContent = `${left}%`;
@@ -612,13 +689,13 @@
       bonusTotal.textContent = `+${inheritedTotal}`;
       meter.style.width = `${Math.min(100, total / maxTotal * 100)}%`;
       preview.textContent = selected.length
-        ? `Transmission prévue : ${selected.join(", ")}.`
-        : "Aucune stat sélectionnée.";
+        ? `Apercu apres heritage : ${selected.join(", ")}.`
+        : "Aucune stat selectionnee.";
 
       const complete = total === maxTotal;
       confirm.disabled = !complete;
-      validity.textContent = complete ? "Prête" : "Incomplète";
-      status.textContent = complete ? "Allocation complète." : `Il reste ${left}% à attribuer.`;
+      validity.textContent = complete ? "Bebe" : "Bloquee";
+      status.textContent = complete ? "Allocation complete." : `Il reste ${left}% a attribuer.`;
       status.className = complete ? "status ok" : "status";
     }
 
@@ -638,29 +715,12 @@
       update();
     });
 
-    document.querySelectorAll(".baby").forEach((button) => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".baby").forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
-      });
-    });
-
     reset.addEventListener("click", () => {
       for (const stat of stats) allocation[stat.id] = initial[stat.id];
       update();
     });
 
     renderRows();
-    for (const stat of stats) {
-      const row = document.querySelector(`input[data-stat="${stat.id}"]`).parentElement;
-      const controls = document.createElement("div");
-      controls.className = "stepper";
-      controls.innerHTML = `
-        <button type="button" data-action="minus" data-stat="${stat.id}" aria-label="Retirer ${stat.label}">-</button>
-        <button type="button" data-action="plus" data-stat="${stat.id}" aria-label="Ajouter ${stat.label}">+</button>
-      `;
-      row.appendChild(controls);
-    }
     update();
   </script>
 </body>
