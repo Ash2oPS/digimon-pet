@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from digimon_pet.app.main_window import PetWindow
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.paths import ASSETS_DIR
+from digimon_pet.paths import ASSETS_DIR, PROJECT_ROOT
 
 
 def create_tray_icon(app: QApplication, window: PetWindow) -> QSystemTrayIcon | None:
@@ -56,9 +56,16 @@ def _quit_app(app: QApplication, window: PetWindow) -> None:
 
 
 def _restart_app(app: QApplication, window: PetWindow) -> None:
-    if not QProcess.startDetached(sys.executable, sys.argv[1:]):
+    program, arguments = _restart_command()
+    if not QProcess.startDetached(program, arguments, str(PROJECT_ROOT)):
         return
     _quit_app(app, window)
+
+
+def _restart_command() -> tuple[str, list[str]]:
+    if getattr(sys, "frozen", False):
+        return sys.executable, sys.argv[1:]
+    return sys.executable, ["-m", "digimon_pet", *sys.argv[1:]]
 
 
 def _handle_activation(reason: QSystemTrayIcon.ActivationReason, window: PetWindow) -> None:

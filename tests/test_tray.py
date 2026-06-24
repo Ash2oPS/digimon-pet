@@ -65,15 +65,23 @@ def test_restart_starts_new_process_then_saves_and_quits(monkeypatch):
             calls.append("quit")
 
     window = _WindowStub(debug=False)
-    monkeypatch.setattr(tray_module.sys, "executable", "digimon-pet.exe")
-    monkeypatch.setattr(tray_module.sys, "argv", ["digimon-pet.exe", "--debug"])
+    monkeypatch.setattr(tray_module.sys, "executable", "python.exe")
+    monkeypatch.setattr(tray_module.sys, "argv", ["python.exe", "--debug"])
     monkeypatch.setattr(
         tray_module.QProcess,
         "startDetached",
-        lambda program, args: calls.append((program, args)) or True,
+        lambda program, args, cwd: calls.append((program, args, cwd)) or True,
     )
 
     tray_module._restart_app(_AppStub(), window)
 
-    assert calls == [("digimon-pet.exe", ["--debug"]), "quit"]
+    assert calls == [("python.exe", ["-m", "digimon_pet", "--debug"], str(tray_module.PROJECT_ROOT)), "quit"]
     assert window.saved is True
+
+
+def test_restart_command_uses_executable_directly_when_frozen(monkeypatch):
+    monkeypatch.setattr(tray_module.sys, "executable", "digimon-pet.exe")
+    monkeypatch.setattr(tray_module.sys, "argv", ["digimon-pet.exe", "--debug"])
+    monkeypatch.setattr(tray_module.sys, "frozen", True, raising=False)
+
+    assert tray_module._restart_command() == ("digimon-pet.exe", ["--debug"])
