@@ -96,6 +96,9 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "evolution_condition_discoveries": dict(state.evolution_condition_discoveries),
         "inventory": dict(state.inventory),
         "filled_incubators": [_filled_incubator_to_dict(item) for item in state.filled_incubators],
+        "secondary_event_kind": state.secondary_event_kind,
+        "secondary_event_ttl_seconds": state.secondary_event_ttl_seconds,
+        "secondary_event_seconds_remaining": state.secondary_event_seconds_remaining,
     }
 
 
@@ -189,6 +192,9 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         ),
         inventory=_inventory_from_raw(raw.get("inventory")),
         filled_incubators=_filled_incubators_from_raw(raw.get("filled_incubators")),
+        secondary_event_kind=_secondary_event_kind_from_raw(raw.get("secondary_event_kind")),
+        secondary_event_ttl_seconds=int(raw.get("secondary_event_ttl_seconds", 0)),
+        secondary_event_seconds_remaining=_optional_int_from_raw(raw.get("secondary_event_seconds_remaining")),
     )
     state.mark_discovered()
     state.clamp()
@@ -272,3 +278,16 @@ def _filled_incubator_to_dict(item: FilledIncubatorState) -> dict[str, Any]:
         "speed": item.speed,
         "brains": item.brains,
     }
+
+
+def _secondary_event_kind_from_raw(raw: Any) -> str | None:
+    if raw is None:
+        return None
+    clean_kind = str(raw).strip()
+    return clean_kind if clean_kind in {"meat", "dumbbell", "item"} else None
+
+
+def _optional_int_from_raw(raw: Any) -> int | None:
+    if raw is None:
+        return None
+    return int(raw)

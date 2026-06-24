@@ -712,6 +712,44 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
     assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
 
 
+def test_secondary_event_timer_loads_from_save(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            secondary_event_kind="meat",
+            secondary_event_ttl_seconds=12,
+            secondary_event_seconds_remaining=0,
+        ),
+        save_path,
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+
+    assert window._secondary_event_kind == "meat"
+    assert window._secondary_event_ttl_seconds == 12
+    assert window._secondary_event_seconds_remaining == 0
+    assert window._pet_widget.event_prompt_kind() == "secondary_meat"
+
+
+def test_secondary_event_timer_is_saved_on_quit(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+
+    window = PetWindow(overlay=True, debug=True)
+    window._secondary_event_seconds_remaining = 42
+
+    window.save_current_state()
+    loaded = load_pet_state(save_path)
+
+    assert loaded.secondary_event_kind is None
+    assert loaded.secondary_event_seconds_remaining == 42
+
+
 def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")

@@ -283,13 +283,18 @@ class PetWindow(QWidget):
         self._item_manager_window: ItemManagerWindow | None = None
         self._radial_menu: RadialPetMenu | None = None
         self._resume_move_after_radial_menu = False
-        self._secondary_event_kind: str | None = None
-        self._secondary_event_ttl_seconds = 0
-        self._secondary_event_seconds_remaining = self._next_secondary_event_delay()
+        self._secondary_event_kind = self._state.secondary_event_kind
+        self._secondary_event_ttl_seconds = self._state.secondary_event_ttl_seconds
+        self._secondary_event_seconds_remaining = (
+            self._state.secondary_event_seconds_remaining
+            if self._state.secondary_event_seconds_remaining is not None
+            else self._next_secondary_event_delay()
+        )
 
         self._configure_window()
 
         self._pet_widget = PetWidget(self)
+        self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self._pet_widget)
@@ -885,8 +890,17 @@ class PetWindow(QWidget):
         return 100 if stat_name in {"hp", "mp"} else 10
 
     def _save_and_refresh(self) -> None:
-        save_pet_state(self._state)
+        self.save_current_state()
         self._refresh()
+
+    def save_current_state(self) -> None:
+        self._sync_secondary_event_state()
+        save_pet_state(self._state)
+
+    def _sync_secondary_event_state(self) -> None:
+        self._state.secondary_event_kind = self._secondary_event_kind
+        self._state.secondary_event_ttl_seconds = self._secondary_event_ttl_seconds
+        self._state.secondary_event_seconds_remaining = self._secondary_event_seconds_remaining
 
     def _refresh(self) -> None:
         species = self._species[self._state.species_id]

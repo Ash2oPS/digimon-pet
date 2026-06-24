@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import sys
+
+from PySide6.QtCore import QProcess
 from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
@@ -35,11 +38,27 @@ def _create_menu(app: QApplication, window: PetWindow) -> QMenu:
 
     menu.addSeparator()
 
+    restart_action = QAction("Restart", menu)
+    restart_action.triggered.connect(lambda: _restart_app(app, window))
+    menu.addAction(restart_action)
+
     quit_action = QAction("Quit", menu)
-    quit_action.triggered.connect(app.quit)
+    quit_action.triggered.connect(lambda: _quit_app(app, window))
     menu.addAction(quit_action)
 
     return menu
+
+
+def _quit_app(app: QApplication, window: PetWindow) -> None:
+    if hasattr(window, "save_current_state"):
+        window.save_current_state()
+    app.quit()
+
+
+def _restart_app(app: QApplication, window: PetWindow) -> None:
+    if not QProcess.startDetached(sys.executable, sys.argv[1:]):
+        return
+    _quit_app(app, window)
 
 
 def _handle_activation(reason: QSystemTrayIcon.ActivationReason, window: PetWindow) -> None:

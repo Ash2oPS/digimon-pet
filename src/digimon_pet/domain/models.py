@@ -65,6 +65,9 @@ class PetState:
     evolution_condition_discoveries: dict[str, list[str]] = field(default_factory=dict)
     inventory: dict[str, int] = field(default_factory=dict)
     filled_incubators: list[FilledIncubatorState] = field(default_factory=list)
+    secondary_event_kind: str | None = None
+    secondary_event_ttl_seconds: int = 0
+    secondary_event_seconds_remaining: int | None = None
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -93,6 +96,12 @@ class PetState:
         )
         self.inventory = _clean_inventory(self.inventory)
         self.filled_incubators = _clean_filled_incubators(self.filled_incubators)
+        self.secondary_event_kind = _clean_secondary_event_kind(self.secondary_event_kind)
+        self.secondary_event_ttl_seconds = max(0, int(self.secondary_event_ttl_seconds))
+        if self.secondary_event_kind is None:
+            self.secondary_event_ttl_seconds = 0
+        if self.secondary_event_seconds_remaining is not None:
+            self.secondary_event_seconds_remaining = max(0, int(self.secondary_event_seconds_remaining))
 
     def mark_discovered(self, species_id: str | None = None) -> None:
         target_id = species_id or self.species_id
@@ -176,3 +185,10 @@ def _clean_filled_incubators(incubators: list[FilledIncubatorState]) -> list[Fil
         )
         seen_ids.add(incubator_id)
     return cleaned
+
+
+def _clean_secondary_event_kind(kind: str | None) -> str | None:
+    if kind is None:
+        return None
+    clean_kind = str(kind).strip()
+    return clean_kind if clean_kind in {"meat", "dumbbell", "item"} else None

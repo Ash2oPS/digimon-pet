@@ -199,6 +199,24 @@ def test_save_load_persists_filled_incubators(tmp_path):
     assert loaded.filled_incubators == state.filled_incubators
 
 
+def test_save_load_persists_secondary_event_timer(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        secondary_event_kind="meat",
+        secondary_event_ttl_seconds=17,
+        secondary_event_seconds_remaining=0,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.secondary_event_kind == "meat"
+    assert loaded.secondary_event_ttl_seconds == 17
+    assert loaded.secondary_event_seconds_remaining == 0
+
+
 def test_save_load_cleans_invalid_filled_incubators(tmp_path):
     path = tmp_path / "pet_save.json"
     path.write_text(
