@@ -5,7 +5,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 import pytest
 from PySide6.QtCore import QEvent, QPointF, Qt
 from PySide6.QtGui import QKeyEvent, QMouseEvent
-from PySide6.QtWidgets import QApplication, QPushButton
+from PySide6.QtWidgets import QApplication, QScrollArea, QPushButton
 
 from digimon_pet.app.inventory_window import InventoryItem, InventorySlotWidget, InventoryWindow
 from digimon_pet.app.main_window import PetWindow
@@ -120,6 +120,15 @@ def test_inventory_window_compacts_unused_empty_storage_slots():
     assert slots[1].isHidden() is False
     assert slots[5].isHidden() is False
     assert slots[6].isHidden() is True
+
+
+def test_inventory_grid_scroll_expands_with_dialog_height():
+    app = QApplication.instance() or QApplication([])
+    window = InventoryWindow(slot_count=24)
+    scroll_area = window.findChild(QScrollArea, "InventoryScroll")
+
+    assert scroll_area is not None
+    assert scroll_area.maximumHeight() == 16777215
 
 
 def test_inventory_slot_cards_show_name_and_type_chip():

@@ -104,10 +104,10 @@ class InventoryWindow(QDialog):
         body.setSpacing(8)
 
         scroll_area = QScrollArea(self)
+        scroll_area.setObjectName("InventoryScroll")
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QFrame.Shape.NoFrame)
         scroll_area.setMinimumHeight(224)
-        scroll_area.setMaximumHeight(270)
 
         grid_host = QWidget(self)
         grid_host.setObjectName("InventoryGrid")
