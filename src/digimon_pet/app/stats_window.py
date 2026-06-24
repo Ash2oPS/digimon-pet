@@ -67,6 +67,7 @@ class StatsWindow(QDialog):
         self._evolution_list_layout: QVBoxLayout | None = None
         self._evolution_cards_layout: QVBoxLayout | None = None
         self._evolution_detail_layout: QVBoxLayout | None = None
+        self._evolution_known_conditions_grid: QGridLayout | None = None
         self._evolution_cards: dict[str, QToolButton] = {}
         self._evolution_card_sprites: dict[str, tuple[QToolButton, IdleSpriteSheet, bool]] = {}
         self._current_animation_interval_ms: int | None = None
@@ -484,12 +485,20 @@ class StatsWindow(QDialog):
         known_title = QLabel("Known conditions", self)
         known_title.setObjectName("SectionTitle")
         self._evolution_detail_layout.addWidget(known_title)
+        self._evolution_known_conditions_grid = QGridLayout()
+        self._evolution_known_conditions_grid.setHorizontalSpacing(6)
+        self._evolution_known_conditions_grid.setVerticalSpacing(6)
         if not known_stats:
             empty = QLabel("No condition clue discovered yet.", self)
             empty.setObjectName("Muted")
-            self._evolution_detail_layout.addWidget(empty)
-        for stat in known_stats:
-            self._evolution_detail_layout.addWidget(self._requirement_row(state, option, stat))
+            self._evolution_known_conditions_grid.addWidget(empty, 0, 0, 1, 2)
+        for index, stat in enumerate(known_stats):
+            self._evolution_known_conditions_grid.addWidget(
+                self._requirement_row(state, option, stat),
+                index // 2,
+                index % 2,
+            )
+        self._evolution_detail_layout.addLayout(self._evolution_known_conditions_grid)
 
         unknown_title = QLabel("Unknown clues", self)
         unknown_title.setObjectName("SectionTitle")
@@ -512,8 +521,8 @@ class StatsWindow(QDialog):
         row = QFrame(self)
         row.setObjectName("EvolutionStatRequirement")
         layout = QGridLayout(row)
-        layout.setContentsMargins(7, 5, 7, 5)
-        layout.setHorizontalSpacing(8)
+        layout.setContentsMargins(6, 4, 6, 4)
+        layout.setHorizontalSpacing(6)
         layout.setVerticalSpacing(3)
 
         label = QLabel(_stat_label(stat), self)
@@ -544,11 +553,15 @@ class StatsWindow(QDialog):
         status = QLabel(status_text, self)
         status.setObjectName("EvolutionRequirementStatus")
         status.setProperty("state", status_state)
+        status.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         bar = QProgressBar(self)
         bar.setRange(0, 100)
         bar.setTextVisible(False)
         bar.setValue(percent)
+        bar.setFixedHeight(4)
+        bar.setMinimumHeight(4)
+        bar.setMaximumHeight(4)
 
         layout.addWidget(label, 0, 0)
         layout.addWidget(value, 0, 1)

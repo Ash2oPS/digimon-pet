@@ -493,3 +493,56 @@ def test_stats_window_shows_discovered_evolution_requirements(monkeypatch):
     assert "OFF" in texts
     assert "202 / 250" in texts
     assert "Need 48" in texts
+
+
+def test_stats_window_evolution_requirements_use_compact_grid(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__galgomon",
+                "source_species_id": "terriermon",
+                "target_species_id": "galgomon",
+                "target_name": "Galgomon",
+                "requirements": {
+                    "groups": {
+                        "stats": {
+                            "hp": 2000,
+                            "mp": 3000,
+                            "offense": 250,
+                            "defense": 200,
+                        }
+                    }
+                },
+            }
+        ],
+        "indexes": {"by_source": {"terriermon": ["terriermon__to__galgomon"]}},
+    }
+
+    window.refresh(
+        PetState(
+            "terriermon",
+            GrowthStage.ROOKIE,
+            hp=4414,
+            mp=2994,
+            offense=202,
+            defense=179,
+            discovered_species_ids=["terriermon", "galgomon"],
+            evolution_condition_discoveries={
+                "terriermon__to__galgomon": ["hp", "mp", "offense", "defense"]
+            },
+        ),
+        Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+    )
+
+    grid = window._evolution_known_conditions_grid
+
+    assert grid is not None
+    assert grid.itemAtPosition(0, 0).widget().objectName() == "EvolutionStatRequirement"
+    assert grid.itemAtPosition(0, 1).widget().objectName() == "EvolutionStatRequirement"
+    assert grid.itemAtPosition(1, 0).widget().objectName() == "EvolutionStatRequirement"
+    assert grid.itemAtPosition(1, 1).widget().objectName() == "EvolutionStatRequirement"
