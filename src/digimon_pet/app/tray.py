@@ -31,6 +31,11 @@ def _create_menu(app: QApplication, window: PetWindow) -> QMenu:
     toggle_pet.triggered.connect(lambda: window.setVisible(not window.isVisible()))
     menu.addAction(toggle_pet)
 
+    if hasattr(window, "open_network_window"):
+        network_action = QAction("Local Network", menu)
+        network_action.triggered.connect(window.open_network_window)
+        menu.addAction(network_action)
+
     if getattr(window, "_debug", False):
         toggle_debug = QAction("Toggle Debug", menu)
         toggle_debug.triggered.connect(window.toggle_debug)
@@ -63,7 +68,9 @@ def _create_menu(app: QApplication, window: PetWindow) -> QMenu:
 
 
 def _quit_app(app: QApplication, window: PetWindow) -> None:
-    if hasattr(window, "save_current_state"):
+    if hasattr(window, "shutdown"):
+        window.shutdown()
+    elif hasattr(window, "save_current_state"):
         window.save_current_state()
     app.quit()
 

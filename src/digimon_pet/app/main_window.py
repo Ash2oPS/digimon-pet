@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QDialog,
     QDialogButtonBox,
     QGridLayout,
+    QInputDialog,
     QLabel,
     QToolButton,
     QVBoxLayout,
@@ -23,6 +24,7 @@ from digimon_pet.app.collection_dialog import CollectionDialog
 from digimon_pet.app.debug_panel import DebugPanel
 from digimon_pet.app.inventory_window import InventoryItem, InventoryWindow
 from digimon_pet.app.item_manager_window import ItemManagerWindow
+from digimon_pet.app.network_window import NetworkWindow
 from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
@@ -44,8 +46,15 @@ from digimon_pet.domain.lifecycle import (
     next_lifecycle_event,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
+from digimon_pet.network.presence import PresencePayload, PresenceService, build_presence_payload
 from digimon_pet.paths import PROJECT_ROOT
 from digimon_pet.storage import debug_settings
+from digimon_pet.storage.network_settings import (
+    NetworkSettings,
+    is_valid_trainer_nickname,
+    load_network_settings,
+    save_network_settings,
+)
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
 
@@ -282,8 +291,17 @@ class PetWindow(QWidget):
         self._stats_window: StatsWindow | None = None
         self._inventory_window: InventoryWindow | None = None
         self._item_manager_window: ItemManagerWindow | None = None
+        self._network_window: NetworkWindow | None = None
         self._radial_menu: RadialPetMenu | None = None
         self._resume_move_after_radial_menu = False
+        self._network_settings = load_network_settings()
+        self._trainer_nickname_prompted = False
+        self._presence_service = PresenceService(
+            settings=self._network_settings,
+            payload_provider=self._presence_payload,
+        )
+        if self._network_settings.network_enabled and self._network_settings.trainer_nickname:
+            self._presence_service.start()
         self._secondary_event_kind = self._state.secondary_event_kind
         self._secondary_event_ttl_seconds = self._state.secondary_event_ttl_seconds
         self._secondary_event_seconds_remaining = (
@@ -401,6 +419,7 @@ class PetWindow(QWidget):
             self._positioned_once = True
         if self._overlay:
             self._apply_platform_overlay_styles()
+        self._ensure_trainer_nickname()
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton:
@@ -1091,6 +1110,63 @@ class PetWindow(QWidget):
         self._item_manager_window.show()
         self._item_manager_window.raise_()
         self._item_manager_window.activateWindow()
+
+    def open_network_window(self) -> None:
+        self._open_network_window()
+
+    def _open_network_window(self) -> None:
+        if self._network_window is None:
+            self._network_window = NetworkWindow(
+                self._network_settings,
+                self._presence_service,
+                self._apply_network_settings,
+                parent=self,
+            )
+        self._position_secondary_window(self._network_window)
+        self._network_window.refresh()
+        self._network_window.show()
+        self._network_window.raise_()
+        self._network_window.activateWindow()
+
+    def _ensure_trainer_nickname(self) -> None:
+        if self._trainer_nickname_prompted or self._network_settings.trainer_nickname:
+            return
+        self._trainer_nickname_prompted = True
+        nickname, accepted = self._get_trainer_nickname()
+        if not accepted:
+            return
+        nickname = nickname.strip()
+        if not is_valid_trainer_nickname(nickname):
+            return
+        self._network_settings.trainer_nickname = nickname
+        self._apply_network_settings(self._network_settings)
+
+    def _get_trainer_nickname(self) -> tuple[str, bool]:
+        nickname, accepted = QInputDialog.getText(
+            self,
+            "Trainer Nickname",
+            "Enter your trainer nickname:",
+            text=self._network_settings.trainer_nickname,
+        )
+        return str(nickname), bool(accepted)
+
+    def _apply_network_settings(self, settings: NetworkSettings) -> None:
+        settings.clamp()
+        self._network_settings = settings
+        started = self._presence_service.apply_settings(self._network_settings)
+        if self._network_settings.network_enabled and not started:
+            self._network_settings.network_enabled = False
+        save_network_settings(self._network_settings)
+        if self._network_window is not None:
+            self._network_window.refresh()
+
+    def _presence_payload(self) -> PresencePayload:
+        species = self._species[self._state.species_id]
+        return build_presence_payload(self._network_settings.trainer_nickname, self._state, species)
+
+    def shutdown(self) -> None:
+        self.save_current_state()
+        self._presence_service.stop()
 
     def _position_secondary_window(self, window: QWidget, anchor: QWidget | None = None) -> None:
         window.adjustSize()

@@ -15,7 +15,7 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_species
 from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
 from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
-from digimon_pet.storage import debug_settings
+from digimon_pet.storage import debug_settings, network_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
 
@@ -25,6 +25,7 @@ def default_initial_baby_choice(tmp_path, monkeypatch):
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
     monkeypatch.setattr(save_store, "LEGACY_SAVE_PATH", tmp_path / ".local" / "pet_save.json")
     monkeypatch.setattr(debug_settings, "DEBUG_SETTINGS_PATH", tmp_path / "debug_settings.json")
+    monkeypatch.setattr(network_settings, "NETWORK_SETTINGS_PATH", tmp_path / "network_settings.json")
     monkeypatch.setattr(
         debug_settings,
         "LEGACY_DEBUG_SETTINGS_PATH",
@@ -34,6 +35,11 @@ def default_initial_baby_choice(tmp_path, monkeypatch):
         PetWindow,
         "_get_baby_choice",
         lambda self, baby_ids: ("botamon", True),
+    )
+    monkeypatch.setattr(
+        PetWindow,
+        "_get_trainer_nickname",
+        lambda self: ("Tai", True),
     )
 
 

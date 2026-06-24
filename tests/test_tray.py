@@ -13,11 +13,18 @@ class _WindowStub(QWidget):
         self._debug = debug
         self.saved = False
         self.scale_percent = 100
+        self.network_opened = False
 
     def toggle_debug(self) -> None:
         pass
 
+    def open_network_window(self) -> None:
+        self.network_opened = True
+
     def save_current_state(self) -> None:
+        self.saved = True
+
+    def shutdown(self) -> None:
         self.saved = True
 
     def pet_scale_percent(self) -> int:
@@ -62,6 +69,17 @@ def test_tray_menu_includes_restart_action():
     menu = tray_module._create_menu(app, window)
 
     assert "Restart" in [action.text() for action in menu.actions()]
+
+
+def test_tray_menu_includes_local_network_action():
+    app = QApplication.instance() or QApplication([])
+    window = _WindowStub(debug=False)
+
+    menu = tray_module._create_menu(app, window)
+    action = next(action for action in menu.actions() if action.text() == "Local Network")
+    action.trigger()
+
+    assert window.network_opened is True
 
 
 def test_tray_menu_includes_checkable_pet_scale_actions():
