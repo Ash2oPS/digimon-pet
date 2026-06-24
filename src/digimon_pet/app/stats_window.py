@@ -33,6 +33,14 @@ from digimon_pet.paths import PROJECT_ROOT
 
 STATS_PORTRAIT_SIZE = 156
 STATS_PORTRAIT_PIXMAP_SIZE = 148
+COMBAT_STAT_MAXIMUMS = {
+    "hp": 99999,
+    "mp": 99999,
+    "offense": 9999,
+    "defense": 9999,
+    "speed": 9999,
+    "brains": 9999,
+}
 
 
 class _ArtworkDownloadSignals(QObject):
@@ -134,6 +142,12 @@ class StatsWindow(QDialog):
         self._set_label("defense", str(state.defense))
         self._set_label("speed", str(state.speed))
         self._set_label("brains", str(state.brains))
+        self._set_bar("hp", state.hp)
+        self._set_bar("mp", state.mp)
+        self._set_bar("offense", state.offense)
+        self._set_bar("defense", state.defense)
+        self._set_bar("speed", state.speed)
+        self._set_bar("brains", state.brains)
         self._set_bar("hunger", state.hunger)
         self._set_bar("fatigue", state.fatigue)
         self._set_bar("discipline", state.discipline)
@@ -147,24 +161,6 @@ class StatsWindow(QDialog):
         layout = QVBoxLayout(page)
         layout.setContentsMargins(8, 8, 8, 8)
         layout.setSpacing(8)
-
-        summary_grid = QGridLayout()
-        summary_grid.setHorizontalSpacing(8)
-        summary_grid.setVerticalSpacing(8)
-        layout.addLayout(summary_grid)
-        for index, (key, title) in enumerate(
-            [
-                ("age", "Age"),
-                ("stage", "Stage"),
-                ("action", "Action"),
-                ("sleeping", "Sleep"),
-                ("weight", "Weight"),
-                ("care_mistakes", "Care mistakes"),
-                ("training_count", "Training"),
-                ("won_battles", "Won battles"),
-            ]
-        ):
-            summary_grid.addWidget(self._metric_card(key, title), index // 4, index % 4)
 
         content = QHBoxLayout()
         content.setSpacing(8)
@@ -309,18 +305,36 @@ class StatsWindow(QDialog):
                 ("brains", "INT"),
             ]
         ):
-            title_label = QLabel(label, self)
-            title_label.setObjectName("Muted")
-            value = QLabel("-", self)
-            value.setObjectName("StatsMetricValue")
-            value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-            self._register_label(key, value)
-            cell = QVBoxLayout()
-            cell.setSpacing(2)
-            cell.addWidget(title_label)
-            cell.addWidget(value)
+            cell = self._combat_stat_cell(key, label)
             grid.addLayout(cell, index // 2, index % 2)
         return panel
+
+    def _combat_stat_cell(self, key: str, title: str) -> QVBoxLayout:
+        cell = QVBoxLayout()
+        cell.setSpacing(3)
+        header = QHBoxLayout()
+        header.setSpacing(6)
+        title_label = QLabel(title, self)
+        title_label.setObjectName("Muted")
+        value = QLabel("-", self)
+        value.setObjectName("StatsMetricValue")
+        value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self._register_label(key, value)
+        header.addWidget(title_label)
+        header.addStretch(1)
+        header.addWidget(value)
+        bar = QProgressBar(self)
+        bar.setRange(0, _stat_maximum(key))
+        bar.setTextVisible(False)
+        bar.setObjectName(f"StatsCombatBar_{key}")
+        bar.setFixedHeight(4)
+        bar.setMinimumHeight(4)
+        bar.setMaximumHeight(4)
+        self._bar_groups.setdefault(key, []).append(bar)
+        self._bars.setdefault(key, bar)
+        cell.addLayout(header)
+        cell.addWidget(bar)
+        return cell
 
     def _bar_row(self, key: str, title: str) -> QVBoxLayout:
         row = QVBoxLayout()
@@ -337,6 +351,9 @@ class StatsWindow(QDialog):
         bar.setRange(0, 100)
         bar.setTextVisible(False)
         bar.setObjectName(f"StatsBar_{key}")
+        bar.setFixedHeight(4)
+        bar.setMinimumHeight(4)
+        bar.setMaximumHeight(4)
         self._bar_groups.setdefault(key, []).append(bar)
         self._bars.setdefault(key, bar)
         row.addLayout(header)
@@ -352,10 +369,13 @@ class StatsWindow(QDialog):
             label.setText(text)
 
     def _set_bar(self, key: str, value: int) -> None:
-        clamped = max(0, min(100, int(value)))
+        maximum = _stat_maximum(key)
+        clamped = max(0, min(maximum, int(value)))
         for bar in self._bar_groups.get(key, []):
+            bar.setRange(0, maximum)
             bar.setValue(clamped)
-        self._set_label(f"{key}_bar_value", f"{clamped} / 100")
+            bar.setToolTip(f"{_stat_label(key)} {clamped} / {maximum}")
+        self._set_label(f"{key}_bar_value", str(clamped))
 
     def _refresh_evolution(self, state: PetState, species: Species) -> None:
         if self._evolution_cards_layout is None or self._evolution_detail_layout is None:
@@ -708,6 +728,10 @@ def _requirement_percent(current: int, required: int) -> int:
     return max(0, min(100, int((current / required) * 100)))
 
 
+def _stat_maximum(stat: str) -> int:
+    return COMBAT_STAT_MAXIMUMS.get(stat, 100)
+
+
 def _stat_label(stat: str) -> str:
     labels = {
         "hp": "HP",
@@ -716,6 +740,10 @@ def _stat_label(stat: str) -> str:
         "defense": "DEF",
         "speed": "SPD",
         "brains": "INT",
+        "hunger": "Hunger",
+        "happiness": "Happiness",
+        "discipline": "Discipline",
+        "fatigue": "Fatigue",
     }
     return labels.get(stat, stat.replace("_", " ").upper())
 

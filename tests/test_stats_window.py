@@ -3,7 +3,7 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtGui import QColor, QPainter, QPixmap
-from PySide6.QtWidgets import QApplication, QLabel
+from PySide6.QtWidgets import QApplication, QFrame, QLabel
 
 from digimon_pet.app import stats_window
 from digimon_pet.app.stats_window import (
@@ -101,6 +101,7 @@ def test_stats_window_opens_without_synchronous_artwork_download(monkeypatch):
 
 def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
     app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "load_runtime_manifest", lambda: {"entries": {}})
     monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
     monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
 
@@ -131,6 +132,83 @@ def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
     assert "Direct evolutions" not in labels
     assert [label.text() for label in window._label_groups["hp"]] == ["4414", "4414"]
     assert [bar.value() for bar in window._bar_groups["hunger"]] == [30, 30]
+
+
+def test_stats_window_combat_stats_have_compact_max_gauges(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window.refresh(
+        PetState(
+            "commandramon",
+            GrowthStage.ROOKIE,
+            hp=6442,
+            mp=3202,
+            offense=381,
+            defense=391,
+            speed=314,
+            brains=451,
+        ),
+        Species("commandramon", "Commandramon", GrowthStage.ROOKIE),
+    )
+
+    assert [label.text() for label in window._label_groups["hp"]] == ["6442", "6442"]
+    assert [bar.maximum() for bar in window._bar_groups["hp"]] == [99999, 99999]
+    assert [bar.value() for bar in window._bar_groups["hp"]] == [6442, 6442]
+    assert [bar.maximum() for bar in window._bar_groups["offense"]] == [9999, 9999]
+    assert [bar.value() for bar in window._bar_groups["offense"]] == [381, 381]
+    assert window._bar_groups["hp"][0].toolTip() == "HP 6442 / 99999"
+    assert window._bar_groups["offense"][0].toolTip() == "OFF 381 / 9999"
+
+
+def test_stats_window_care_gauges_use_compact_bars(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "load_runtime_manifest", lambda: {"entries": {}})
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window.refresh(
+        PetState(
+            "numemon",
+            GrowthStage.CHAMPION,
+            hunger=30,
+            happiness=50,
+            discipline=50,
+            fatigue=0,
+        ),
+        Species("numemon", "Numemon", GrowthStage.CHAMPION),
+    )
+
+    assert [label.text() for label in window._label_groups["hunger_bar_value"]] == ["30", "30"]
+    assert window._bar_groups["hunger"][0].maximum() == 100
+    assert window._bar_groups["hunger"][0].value() == 30
+    window.show()
+    app.processEvents()
+    assert window._bar_groups["hunger"][0].height() == 8
+    assert window._bar_groups["hunger"][0].toolTip() == "Hunger 30 / 100"
+
+
+def test_stats_window_view_tab_omits_redundant_summary_cards(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "load_runtime_manifest", lambda: {"entries": {}})
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window.refresh(
+        PetState("numemon", GrowthStage.CHAMPION, age_seconds=240),
+        Species("numemon", "Numemon", GrowthStage.CHAMPION),
+    )
+
+    view_tab = window._tabs.widget(0)
+    labels = [label.text() for label in view_tab.findChildren(QLabel)]
+
+    assert view_tab.findChildren(QFrame, "StatsMetricCard") == []
+    assert "Care gauges" in labels
+    assert "Combat" in labels
 
 
 def test_terriermon_evolution_progress_reports_missing_stats():
@@ -235,14 +313,6 @@ def test_stats_window_evolution_card_uses_hidden_target_idle_sprite_on_top(tmp_p
     monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
 
     window = StatsWindow()
-    window._manifest = {
-        "entries": {
-            "rapidmon": {
-                "asset_path": str(sprite_path),
-                "metadata": {"frame_count": 2, "frame_indices": [0, 1]},
-            }
-        }
-    }
     window._species_by_id = {
         "rapidmon": Species(
             "rapidmon",
@@ -286,6 +356,18 @@ def test_stats_window_evolution_card_animates_hidden_target_idle_sprite(tmp_path
     monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
 
     window = StatsWindow()
+    window._manifest = {
+        "entries": {
+            "terriermon": {
+                "asset_path": str(sprite_path),
+                "metadata": {"frame_count": 2, "fps": 10},
+            },
+            "rapidmon": {
+                "asset_path": str(sprite_path),
+                "metadata": {"frame_count": 2, "fps": 2},
+            },
+        }
+    }
     window._species_by_id = {
         "rapidmon": Species(
             "rapidmon",
@@ -316,6 +398,7 @@ def test_stats_window_evolution_card_animates_hidden_target_idle_sprite(tmp_path
     card, sprite, hidden = window._evolution_card_sprites["terriermon__to__rapidmon"]
     assert hidden is True
     assert not card.icon().isNull()
+    assert window._evolution_animation_timer.interval() == 250
     assert sprite.current_frame_index == 0
 
     window._advance_evolution_card_sprites()

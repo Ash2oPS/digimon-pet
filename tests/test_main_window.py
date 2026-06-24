@@ -1218,7 +1218,7 @@ def test_stats_window_opens_and_refreshes_live_values():
     assert window._stats_window is not None
     assert window._stats_window.windowTitle() == "Stats"
     assert window._stats_window._name_label.text() == species.name
-    assert window._stats_window._labels["age"].text() == "1 h 30 min"
+    assert window._stats_window._summary_label.text().startswith("1 h 30 min")
     assert window._stats_window._labels["hp"].text() == "777"
     assert window._stats_window._labels["mp"].text() == "888"
     assert window._stats_window._labels["offense"].text() == "111"

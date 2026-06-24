@@ -237,6 +237,14 @@ QProgressBar#StatsBar_hunger::chunk {{
     background: {COLORS["accent"]};
 }}
 
+QProgressBar#StatsBar_hunger,
+QProgressBar#StatsBar_happiness,
+QProgressBar#StatsBar_discipline,
+QProgressBar#StatsBar_fatigue {{
+    height: 4px;
+    max-height: 4px;
+}}
+
 QProgressBar#StatsBar_happiness::chunk {{
     background: {COLORS["success"]};
 }}
@@ -247,6 +255,28 @@ QProgressBar#StatsBar_discipline::chunk {{
 
 QProgressBar#StatsBar_fatigue::chunk {{
     background: {COLORS["danger"]};
+}}
+
+QProgressBar#StatsCombatBar_hp,
+QProgressBar#StatsCombatBar_mp,
+QProgressBar#StatsCombatBar_offense,
+QProgressBar#StatsCombatBar_defense,
+QProgressBar#StatsCombatBar_speed,
+QProgressBar#StatsCombatBar_brains {{
+    height: 4px;
+    max-height: 4px;
+}}
+
+QProgressBar#StatsCombatBar_hp::chunk,
+QProgressBar#StatsCombatBar_mp::chunk {{
+    background: {COLORS["accent"]};
+}}
+
+QProgressBar#StatsCombatBar_offense::chunk,
+QProgressBar#StatsCombatBar_defense::chunk,
+QProgressBar#StatsCombatBar_speed::chunk,
+QProgressBar#StatsCombatBar_brains::chunk {{
+    background: {COLORS["focus"]};
 }}
 
 QWidget#StageCompleteStar {{
@@ -359,7 +389,7 @@ QProgressBar {{
     background: {COLORS["surface_alt"]};
     border: 2px solid {COLORS["line"]};
     border-radius: 1px;
-    height: 12px;
+    height: 4px;
     text-align: center;
 }}
 
