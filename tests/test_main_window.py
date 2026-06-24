@@ -790,6 +790,38 @@ def test_window_position_loads_from_save(tmp_path, monkeypatch):
     assert window.pos() == QPoint(37, 45)
 
 
+def test_window_position_restore_uses_full_screen_geometry_below_taskbar(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            window_x=1200,
+            window_y=951,
+            window_screen_name="Primary",
+        ),
+        save_path,
+    )
+
+    class _ScreenStub:
+        def name(self):
+            return "Primary"
+
+        def geometry(self):
+            return QRect(0, 0, 1920, 1080)
+
+        def availableGeometry(self):
+            return QRect(0, 0, 1920, 1000)
+
+    window = PetWindow(overlay=True, debug=True)
+    monkeypatch.setattr(window, "_saved_screen", lambda: _ScreenStub())
+
+    assert window._restore_saved_position() is True
+    assert window.pos() == QPoint(1200, 951)
+
+
 def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")

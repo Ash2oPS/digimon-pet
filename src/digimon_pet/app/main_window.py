@@ -577,14 +577,15 @@ class PetWindow(QWidget):
     def _restore_saved_position(self) -> bool:
         if self._state.window_x is None or self._state.window_y is None:
             return False
-        screen = self._saved_screen() or QApplication.primaryScreen()
+        saved_screen = self._saved_screen()
+        screen = saved_screen or QApplication.primaryScreen()
         if screen is None:
             return False
-        bounds = screen.availableGeometry()
+        bounds = screen.geometry()
         if (
             self._state.window_screen_offset_x is not None
             and self._state.window_screen_offset_y is not None
-            and self._saved_screen() is not None
+            and saved_screen is not None
         ):
             x = bounds.left() + self._state.window_screen_offset_x
             y = bounds.top() + self._state.window_screen_offset_y
@@ -618,7 +619,7 @@ class PetWindow(QWidget):
         screen = QApplication.screenAt(center) or QApplication.primaryScreen()
         if screen is None:
             return None
-        return screen.availableGeometry()
+        return screen.geometry()
 
     def _update_pet_orientation(self) -> None:
         if not hasattr(self, "_pet_widget"):
@@ -627,7 +628,7 @@ class PetWindow(QWidget):
         screen = QApplication.screenAt(center) or QApplication.primaryScreen()
         if screen is None:
             return
-        bounds = screen.availableGeometry()
+        bounds = screen.geometry()
         if bounds is None:
             return
         self._pet_widget.set_flipped_x(center.x() < bounds.center().x())
@@ -637,9 +638,9 @@ class PetWindow(QWidget):
         if not screens:
             return None
 
-        bounds = screens[0].availableGeometry()
+        bounds = screens[0].geometry()
         for screen in screens[1:]:
-            bounds = bounds.united(screen.availableGeometry())
+            bounds = bounds.united(screen.geometry())
         return bounds
 
     def _queue_or_advance_lifecycle(self) -> None:
@@ -944,7 +945,7 @@ class PetWindow(QWidget):
             self._state.window_screen_offset_x = None
             self._state.window_screen_offset_y = None
             return
-        bounds = screen.availableGeometry()
+        bounds = screen.geometry()
         self._state.window_screen_name = screen.name()
         self._state.window_screen_offset_x = self.x() - bounds.left()
         self._state.window_screen_offset_y = self.y() - bounds.top()
