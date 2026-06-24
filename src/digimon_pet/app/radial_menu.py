@@ -27,15 +27,16 @@ class RadialArcDirection(Enum):
 
 
 class RadialPetMenu(QWidget):
-    _SIZE = 320
+    _SIZE = 400
     _BUTTON_SIZE = 48
-    _RADIUS = 136
+    _RADIUS = 176
     _ANIMATION_MS = 180
 
     def __init__(
         self,
         *,
         open_stats: Callable[[], None],
+        open_network: Callable[[], None],
         open_collection: Callable[[], None],
         open_inventory: Callable[[], None],
         close_app: Callable[[], None],
@@ -56,6 +57,7 @@ class RadialPetMenu(QWidget):
         self._buttons_by_action: dict[str, QPushButton] = {}
         self._actions = {
             "stats": open_stats,
+            "network": open_network,
             "collection": open_collection,
             "inventory": open_inventory,
             "close": close_app,
@@ -63,6 +65,7 @@ class RadialPetMenu(QWidget):
 
         for action, tooltip in (
             ("stats", "Stats"),
+            ("network", "Network"),
             ("collection", "Collection"),
             ("inventory", "Inventory"),
             ("close", "Close"),
@@ -198,6 +201,15 @@ def _icon_for(action: str) -> QIcon:
     if action == "stats":
         for index, height in enumerate((9, 16, 22)):
             painter.drawRoundedRect(5 + index * 7, 24 - height, 4, height, 2, 2)
+    elif action == "network":
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        nodes = (QPoint(8, 9), QPoint(20, 8), QPoint(15, 20))
+        painter.drawLine(nodes[0], nodes[1])
+        painter.drawLine(nodes[1], nodes[2])
+        painter.drawLine(nodes[2], nodes[0])
+        painter.setBrush(QColor(COLORS["text"]))
+        for node in nodes:
+            painter.drawEllipse(node, 3, 3)
     elif action == "collection":
         painter.setBrush(Qt.BrushStyle.NoBrush)
         for row in range(2):

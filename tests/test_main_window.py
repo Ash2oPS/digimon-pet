@@ -1245,13 +1245,19 @@ def test_stats_window_opens_and_refreshes_live_values():
     assert window._stats_window._labels["hp"].text() == "999"
 
 
-def test_radial_menu_shows_stats_collection_inventory_and_close():
+def test_radial_menu_shows_stats_network_collection_inventory_and_close():
     app = QApplication.instance() or QApplication([])
 
     window = PetWindow(overlay=True, debug=False)
     menu = window._ensure_radial_menu()
 
-    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventory", "Close"]
+    assert [button.toolTip() for button in menu.action_buttons()] == [
+        "Stats",
+        "Network",
+        "Collection",
+        "Inventory",
+        "Close",
+    ]
 
 
 def test_radial_menu_buttons_do_not_take_focus_on_open():
@@ -1272,7 +1278,28 @@ def test_radial_menu_keeps_same_pet_actions_in_debug():
     window = PetWindow(overlay=True, debug=True)
     menu = window._ensure_radial_menu()
 
-    assert [button.toolTip() for button in menu.action_buttons()] == ["Stats", "Collection", "Inventory", "Close"]
+    assert [button.toolTip() for button in menu.action_buttons()] == [
+        "Stats",
+        "Network",
+        "Collection",
+        "Inventory",
+        "Close",
+    ]
+
+
+def test_network_button_opens_network_window_and_closes_menu(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    opened = []
+    monkeypatch.setattr(window, "_open_network_window", lambda: opened.append("network"))
+    menu = window._ensure_radial_menu()
+    menu.show()
+
+    menu.button_for_action("network").click()
+
+    assert opened == ["network"]
+    assert not menu.isVisible()
 
 
 def test_radial_menu_selects_arc_away_from_screen_edges():

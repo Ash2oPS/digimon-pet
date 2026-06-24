@@ -372,6 +372,7 @@ class PetWindow(QWidget):
         if self._radial_menu is None:
             self._radial_menu = RadialPetMenu(
                 open_stats=self._open_stats,
+                open_network=self._open_network_window,
                 open_collection=self._open_collection,
                 open_inventory=self._open_inventory,
                 close_app=QApplication.quit,
