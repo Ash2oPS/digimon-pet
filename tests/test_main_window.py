@@ -750,6 +750,46 @@ def test_secondary_event_timer_is_saved_on_quit(tmp_path, monkeypatch):
     assert loaded.secondary_event_seconds_remaining == 42
 
 
+def test_window_position_is_saved_on_quit(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+
+    window = PetWindow(overlay=True, debug=True)
+    window.move(111, 122)
+
+    window.save_current_state()
+    loaded = load_pet_state(save_path)
+    screen_name = QApplication.primaryScreen().name().strip()
+
+    assert loaded.window_x == 111
+    assert loaded.window_y == 122
+    assert loaded.window_screen_name == (screen_name or None)
+    assert loaded.window_screen_offset_x is not None
+    assert loaded.window_screen_offset_y is not None
+
+
+def test_window_position_loads_from_save(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            window_x=37,
+            window_y=45,
+        ),
+        save_path,
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+    window.show()
+    app.processEvents()
+
+    assert window.pos() == QPoint(37, 45)
+
+
 def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")

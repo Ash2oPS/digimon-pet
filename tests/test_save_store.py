@@ -217,6 +217,28 @@ def test_save_load_persists_secondary_event_timer(tmp_path):
     assert loaded.secondary_event_seconds_remaining == 0
 
 
+def test_save_load_persists_window_position(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        window_x=321,
+        window_y=654,
+        window_screen_name="Display 2",
+        window_screen_offset_x=121,
+        window_screen_offset_y=54,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.window_x == 321
+    assert loaded.window_y == 654
+    assert loaded.window_screen_name == "Display 2"
+    assert loaded.window_screen_offset_x == 121
+    assert loaded.window_screen_offset_y == 54
+
+
 def test_save_load_cleans_invalid_filled_incubators(tmp_path):
     path = tmp_path / "pet_save.json"
     path.write_text(

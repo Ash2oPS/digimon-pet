@@ -68,6 +68,11 @@ class PetState:
     secondary_event_kind: str | None = None
     secondary_event_ttl_seconds: int = 0
     secondary_event_seconds_remaining: int | None = None
+    window_x: int | None = None
+    window_y: int | None = None
+    window_screen_name: str | None = None
+    window_screen_offset_x: int | None = None
+    window_screen_offset_y: int | None = None
 
     def clamp(self) -> None:
         self.hunger = _clamp(self.hunger)
@@ -102,6 +107,11 @@ class PetState:
             self.secondary_event_ttl_seconds = 0
         if self.secondary_event_seconds_remaining is not None:
             self.secondary_event_seconds_remaining = max(0, int(self.secondary_event_seconds_remaining))
+        self.window_x = _clean_optional_int(self.window_x)
+        self.window_y = _clean_optional_int(self.window_y)
+        self.window_screen_name = _clean_optional_text(self.window_screen_name)
+        self.window_screen_offset_x = _clean_optional_int(self.window_screen_offset_x)
+        self.window_screen_offset_y = _clean_optional_int(self.window_screen_offset_y)
 
     def mark_discovered(self, species_id: str | None = None) -> None:
         target_id = species_id or self.species_id
@@ -192,3 +202,14 @@ def _clean_secondary_event_kind(kind: str | None) -> str | None:
         return None
     clean_kind = str(kind).strip()
     return clean_kind if clean_kind in {"meat", "dumbbell", "item"} else None
+
+
+def _clean_optional_int(value: int | None) -> int | None:
+    return None if value is None else int(value)
+
+
+def _clean_optional_text(value: str | None) -> str | None:
+    if value is None:
+        return None
+    clean_value = str(value).strip()
+    return clean_value or None

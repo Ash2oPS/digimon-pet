@@ -99,6 +99,11 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "secondary_event_kind": state.secondary_event_kind,
         "secondary_event_ttl_seconds": state.secondary_event_ttl_seconds,
         "secondary_event_seconds_remaining": state.secondary_event_seconds_remaining,
+        "window_x": state.window_x,
+        "window_y": state.window_y,
+        "window_screen_name": state.window_screen_name,
+        "window_screen_offset_x": state.window_screen_offset_x,
+        "window_screen_offset_y": state.window_screen_offset_y,
     }
 
 
@@ -195,6 +200,11 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         secondary_event_kind=_secondary_event_kind_from_raw(raw.get("secondary_event_kind")),
         secondary_event_ttl_seconds=int(raw.get("secondary_event_ttl_seconds", 0)),
         secondary_event_seconds_remaining=_optional_int_from_raw(raw.get("secondary_event_seconds_remaining")),
+        window_x=_optional_int_from_raw(raw.get("window_x")),
+        window_y=_optional_int_from_raw(raw.get("window_y")),
+        window_screen_name=_optional_str_from_raw(raw.get("window_screen_name")),
+        window_screen_offset_x=_optional_int_from_raw(raw.get("window_screen_offset_x")),
+        window_screen_offset_y=_optional_int_from_raw(raw.get("window_screen_offset_y")),
     )
     state.mark_discovered()
     state.clamp()
@@ -291,3 +301,10 @@ def _optional_int_from_raw(raw: Any) -> int | None:
     if raw is None:
         return None
     return int(raw)
+
+
+def _optional_str_from_raw(raw: Any) -> str | None:
+    if raw is None:
+        return None
+    clean_value = str(raw).strip()
+    return clean_value or None

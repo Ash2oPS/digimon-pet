@@ -392,7 +392,8 @@ class PetWindow(QWidget):
     def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
         if not self._positioned_once:
-            self._move_to_bottom_right()
+            if not self._restore_saved_position():
+                self._move_to_bottom_right()
             self._positioned_once = True
         if self._overlay:
             self._apply_platform_overlay_styles()
@@ -572,6 +573,37 @@ class PetWindow(QWidget):
             bounds.right() - self.width() - margin,
             bounds.bottom() - self.height() - margin,
         )
+
+    def _restore_saved_position(self) -> bool:
+        if self._state.window_x is None or self._state.window_y is None:
+            return False
+        screen = self._saved_screen() or QApplication.primaryScreen()
+        if screen is None:
+            return False
+        bounds = screen.availableGeometry()
+        if (
+            self._state.window_screen_offset_x is not None
+            and self._state.window_screen_offset_y is not None
+            and self._saved_screen() is not None
+        ):
+            x = bounds.left() + self._state.window_screen_offset_x
+            y = bounds.top() + self._state.window_screen_offset_y
+        else:
+            x = self._state.window_x
+            y = self._state.window_y
+        self.move(
+            min(max(x, bounds.left()), bounds.right() - self.width()),
+            min(max(y, bounds.top()), bounds.bottom() - self.height()),
+        )
+        return True
+
+    def _saved_screen(self):
+        if self._state.window_screen_name is None:
+            return None
+        for screen in QApplication.screens():
+            if screen.name() == self._state.window_screen_name:
+                return screen
+        return None
 
     def _keep_inside_screen(self) -> None:
         bounds = self._virtual_screen_bounds()
@@ -895,12 +927,27 @@ class PetWindow(QWidget):
 
     def save_current_state(self) -> None:
         self._sync_secondary_event_state()
+        self._sync_window_position_state()
         save_pet_state(self._state)
 
     def _sync_secondary_event_state(self) -> None:
         self._state.secondary_event_kind = self._secondary_event_kind
         self._state.secondary_event_ttl_seconds = self._secondary_event_ttl_seconds
         self._state.secondary_event_seconds_remaining = self._secondary_event_seconds_remaining
+
+    def _sync_window_position_state(self) -> None:
+        self._state.window_x = self.x()
+        self._state.window_y = self.y()
+        screen = QApplication.screenAt(self.frameGeometry().center()) or QApplication.primaryScreen()
+        if screen is None:
+            self._state.window_screen_name = None
+            self._state.window_screen_offset_x = None
+            self._state.window_screen_offset_y = None
+            return
+        bounds = screen.availableGeometry()
+        self._state.window_screen_name = screen.name()
+        self._state.window_screen_offset_x = self.x() - bounds.left()
+        self._state.window_screen_offset_y = self.y() - bounds.top()
 
     def _refresh(self) -> None:
         species = self._species[self._state.species_id]
