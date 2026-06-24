@@ -164,6 +164,19 @@ def test_event_bubble_switches_side_with_pet_screen_position():
     assert not widget.is_event_prompt_at(right_screen_rect.center())
 
 
+def test_event_bubble_sits_near_outer_canvas_edges():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_lifecycle_pending("evolution")
+
+    right_screen_rect = widget.event_prompt_rect()
+    widget.set_flipped_x(True)
+    left_screen_rect = widget.event_prompt_rect()
+
+    assert right_screen_rect.left() <= 4
+    assert left_screen_rect.right() >= widget.width() - 5
+
+
 def test_event_bubble_tail_points_toward_pet_body():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
