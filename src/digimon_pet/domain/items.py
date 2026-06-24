@@ -16,7 +16,6 @@ INCUBATOR_ID = "incubator"
 EVOLUTION_ITEM_POOL_PERCENT = 15
 NORMAL_ITEM_POOL_PERCENT_WITH_EVOLUTIONS = 100 - EVOLUTION_ITEM_POOL_PERCENT
 INCUBATOR_ALLOWED_STAGES = {GrowthStage.ROOKIE, GrowthStage.CHAMPION, GrowthStage.ULTIMATE}
-INHERITED_STAT_NAMES = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
 class ItemType(StrEnum):
@@ -341,10 +340,8 @@ def incubate_current_digimon(
             brains=state.brains,
         )
     )
-    state.pending_rebirth_stat_bonuses = _roll_reduced_rebirth_stat_bonuses(state, rng)
+    force_death(state, rng)
     state.needs_rebirth_choice = True
-    state.current_action = "idle"
-    state.is_sleeping = False
     _consume_item(state, item.id)
     state.clamp()
     return ItemUseResult(used=True, event="died:choice_required")
@@ -358,15 +355,6 @@ def _incubator_blocking_result(state: PetState, item: ItemDefinition) -> ItemUse
     if state.stage not in INCUBATOR_ALLOWED_STAGES:
         return ItemUseResult(used=False, reason="wrong_stage")
     return ItemUseResult(used=True)
-
-
-def _roll_reduced_rebirth_stat_bonuses(state: PetState, rng: random.Random) -> dict[str, int]:
-    rates = (0.15, 0.10, 0.05)
-    selected_stats = rng.sample(INHERITED_STAT_NAMES, len(rates))
-    return {
-        stat_name: int(int(getattr(state, stat_name) * rate) * 0.5)
-        for stat_name, rate in zip(selected_stats, rates, strict=True)
-    }
 
 
 def _new_incubator_entry_id() -> str:

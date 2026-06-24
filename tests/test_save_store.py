@@ -106,6 +106,7 @@ def test_save_load_persists_generation_and_pending_rebirth_stat_bonuses(tmp_path
         needs_rebirth_choice=True,
         generation_stat_bonuses={"hp": 12, "mp": 8, "unknown": 99},
         pending_rebirth_stat_bonuses={"hp": 45, "speed": 7, "unknown": 99},
+        pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "unknown": 99},
     )
 
     save_pet_state(state, path)
@@ -113,6 +114,7 @@ def test_save_load_persists_generation_and_pending_rebirth_stat_bonuses(tmp_path
 
     assert loaded.generation_stat_bonuses == {"hp": 12, "mp": 8}
     assert loaded.pending_rebirth_stat_bonuses == {"hp": 45, "speed": 7}
+    assert loaded.pending_rebirth_stat_source_stats == {"hp": 300, "mp": 400}
 
 
 def test_save_load_persists_bakemon_lineage_limits(tmp_path):
@@ -357,6 +359,7 @@ def test_load_legacy_save_marks_current_species_discovered(tmp_path):
     assert loaded.discovered_species_ids == ["agumon"]
     assert loaded.generation_stat_bonuses == {}
     assert loaded.pending_rebirth_stat_bonuses == {}
+    assert loaded.pending_rebirth_stat_source_stats == {}
     assert loaded.evolution_condition_discoveries == {}
     assert loaded.inventory == {}
 
@@ -377,6 +380,7 @@ def test_load_creates_default_save_when_missing(tmp_path):
     assert loaded.discovered_species_ids == ["botamon"]
     assert loaded.generation_stat_bonuses == {}
     assert loaded.pending_rebirth_stat_bonuses == {}
+    assert loaded.pending_rebirth_stat_source_stats == {}
     assert loaded.inventory == {}
     assert path.exists()
 

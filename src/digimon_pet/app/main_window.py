@@ -12,8 +12,10 @@ from PySide6.QtWidgets import (
     QDialog,
     QDialogButtonBox,
     QGridLayout,
+    QHBoxLayout,
     QInputDialog,
     QLabel,
+    QPushButton,
     QToolButton,
     QVBoxLayout,
     QWidget,
@@ -39,7 +41,12 @@ from digimon_pet.domain.fusions import find_fusion_target
 from digimon_pet.domain.items import INCUBATOR_ID, ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
+    INHERITED_STAT_NAMES,
+    REBIRTH_STAT_ALLOCATION_STEP_PERCENT,
+    REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT,
     advance_lifecycle,
+    allocate_rebirth_stat_bonuses,
+    apply_random_rebirth_stat_bonuses,
     baby_1_choices,
     choose_rebirth,
     force_evolve_to,
@@ -269,6 +276,153 @@ class BabyChoiceDialog(QDialog):
 
     def selected_baby_id(self) -> str:
         return self._selected_baby_id
+
+
+class RebirthStatAllocationDialog(QDialog):
+    def __init__(
+        self,
+        state: PetState,
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self.setWindowTitle("Stats to Inherit")
+        self.setStyleSheet(APP_QSS)
+        self.setMinimumWidth(620)
+        self._state = state
+        self._allocations = {stat_name: 0 for stat_name in INHERITED_STAT_NAMES}
+        self._percent_labels: dict[str, QLabel] = {}
+        self._bonus_labels: dict[str, QLabel] = {}
+        self._after_labels: dict[str, QLabel] = {}
+        self._plus_buttons: dict[str, QPushButton] = {}
+        self._ok_button: QPushButton | None = None
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(14, 14, 14, 14)
+        layout.setSpacing(12)
+
+        title = QLabel("Stats to inherit:")
+        title.setObjectName("Title")
+        layout.addWidget(title)
+
+        help_text = QLabel("Allocate exactly 30% before choosing the next Baby1.")
+        help_text.setObjectName("Muted")
+        layout.addWidget(help_text)
+
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(10)
+        grid.setVerticalSpacing(8)
+        headers = ("Stat", "Before", "Alloc", "Bonus", "After")
+        for column, text in enumerate(headers):
+            label = QLabel(text)
+            label.setObjectName("SectionTitle")
+            grid.addWidget(label, 0, column)
+
+        for row, stat_name in enumerate(INHERITED_STAT_NAMES, start=1):
+            label = QLabel(ITEM_STAT_LABELS.get(stat_name, stat_name.upper()))
+            label.setObjectName("DebugValue")
+            before = QLabel(str(self._source_value(stat_name)))
+            before.setObjectName("Muted")
+            percent = QLabel("0%")
+            percent.setObjectName("DebugValue")
+            bonus = QLabel("+0")
+            bonus.setObjectName("Muted")
+            after = QLabel(str(self._after_value(stat_name)))
+            after.setObjectName("DebugValue")
+
+            minus = QPushButton("-")
+            plus = QPushButton("+")
+            minus.setFixedWidth(32)
+            plus.setFixedWidth(32)
+            minus.clicked.connect(
+                lambda checked=False, name=stat_name: self._adjust(
+                    name, -REBIRTH_STAT_ALLOCATION_STEP_PERCENT
+                )
+            )
+            plus.clicked.connect(
+                lambda checked=False, name=stat_name: self._adjust(
+                    name, REBIRTH_STAT_ALLOCATION_STEP_PERCENT
+                )
+            )
+            controls = QWidget(self)
+            controls_layout = QHBoxLayout(controls)
+            controls_layout.setContentsMargins(0, 0, 0, 0)
+            controls_layout.setSpacing(6)
+            controls_layout.addWidget(minus)
+            controls_layout.addWidget(percent)
+            controls_layout.addWidget(plus)
+
+            self._percent_labels[stat_name] = percent
+            self._bonus_labels[stat_name] = bonus
+            self._after_labels[stat_name] = after
+            self._plus_buttons[stat_name] = plus
+
+            grid.addWidget(label, row, 0)
+            grid.addWidget(before, row, 1)
+            grid.addWidget(controls, row, 2)
+            grid.addWidget(bonus, row, 3)
+            grid.addWidget(after, row, 4)
+        layout.addLayout(grid)
+
+        self._remaining_label = QLabel("")
+        self._remaining_label.setObjectName("EvolutionRequirementStatus")
+        layout.addWidget(self._remaining_label)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, self)
+        buttons.accepted.connect(self.accept)
+        self._ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
+        if self._ok_button is not None:
+            self._ok_button.setText("Continue")
+            self._ok_button.setObjectName("PrimaryButton")
+        layout.addWidget(buttons)
+        self._refresh_allocations()
+
+    def reject(self) -> None:
+        return
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        event.ignore()
+
+    def selected_allocations(self) -> dict[str, int]:
+        return dict(self._allocations)
+
+    def _adjust(self, stat_name: str, delta: int) -> None:
+        current = self._allocations[stat_name]
+        without_current = self._allocated_total() - current
+        next_value = max(0, current + delta)
+        next_value = min(next_value, REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT - without_current)
+        self._allocations[stat_name] = next_value
+        self._refresh_allocations()
+
+    def _refresh_allocations(self) -> None:
+        total = self._allocated_total()
+        remaining = REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT - total
+        for stat_name in INHERITED_STAT_NAMES:
+            percent = self._allocations[stat_name]
+            bonus = int(self._source_value(stat_name) * percent / 100)
+            self._percent_labels[stat_name].setText(f"{percent}%")
+            self._bonus_labels[stat_name].setText(f"+{bonus}")
+            self._after_labels[stat_name].setText(str(self._after_value(stat_name, bonus)))
+            self._plus_buttons[stat_name].setEnabled(remaining > 0)
+        self._remaining_label.setText(
+            "Allocation complete."
+            if remaining == 0
+            else f"{remaining}% remaining."
+        )
+        self._remaining_label.setProperty("state", "ok" if remaining == 0 else "missing")
+        self._remaining_label.style().unpolish(self._remaining_label)
+        self._remaining_label.style().polish(self._remaining_label)
+        if self._ok_button is not None:
+            self._ok_button.setEnabled(remaining == 0)
+
+    def _allocated_total(self) -> int:
+        return sum(self._allocations.values())
+
+    def _source_value(self, stat_name: str) -> int:
+        return int(self._state.pending_rebirth_stat_source_stats.get(stat_name, getattr(self._state, stat_name)))
+
+    def _after_value(self, stat_name: str, bonus: int = 0) -> int:
+        base_value = 300 if stat_name in {"hp", "mp"} else 30
+        return base_value + self._state.generation_stat_bonuses.get(stat_name, 0) + bonus
 
 
 class PetWindow(QWidget):
@@ -782,6 +936,7 @@ class PetWindow(QWidget):
             if allow_natural_death_evolution and self._roll_natural_death_evolution():
                 return self._natural_death_evolution_event()
             if self._auto_rebirth_random:
+                apply_random_rebirth_stat_bonuses(self._state, self._rng)
                 choose_rebirth(self._state, self._rng.choice(self._baby_1_choice_ids()), self._species)
                 self._trigger_new_badge_if_needed(discovered_before)
                 return event
@@ -814,6 +969,7 @@ class PetWindow(QWidget):
         discovered_before = set(self._state.discovered_species_ids)
         force_evolve_to(self._state, target, self._rng)
         self._state.pending_rebirth_stat_bonuses = {}
+        self._state.pending_rebirth_stat_source_stats = {}
         self._state.bakemon_lineage_used = True
         self._state.bakemon_generation_cooldown = 4
         self._trigger_new_badge_if_needed(discovered_before)
@@ -850,6 +1006,8 @@ class PetWindow(QWidget):
         self._queue_or_advance_lifecycle()
 
     def _prompt_rebirth_choice(self) -> None:
+        if not self._prompt_rebirth_stat_allocation():
+            return
         baby_id = self._prompt_baby_choice()
         if baby_id is None:
             return
@@ -876,6 +1034,20 @@ class PetWindow(QWidget):
         dialog = BabyChoiceDialog(baby_ids, self._species, self._state.discovered_species_ids, self)
         accepted = dialog.exec() == QDialog.DialogCode.Accepted
         return dialog.selected_baby_id(), accepted
+
+    def _prompt_rebirth_stat_allocation(self) -> bool:
+        if self._state.pending_rebirth_stat_bonuses:
+            return True
+        allocations, accepted = self._get_rebirth_stat_allocation()
+        if not accepted:
+            return False
+        allocate_rebirth_stat_bonuses(self._state, allocations)
+        return True
+
+    def _get_rebirth_stat_allocation(self) -> tuple[dict[str, int], bool]:
+        dialog = RebirthStatAllocationDialog(self._state, self)
+        accepted = dialog.exec() == QDialog.DialogCode.Accepted
+        return dialog.selected_allocations(), accepted
 
     def _choose_rebirth(self, baby_id: str) -> None:
         discovered_before = set(self._state.discovered_species_ids)
@@ -1065,6 +1237,7 @@ class PetWindow(QWidget):
         self._state.brains = fresh.brains
         self._state.generation_stat_bonuses = {}
         self._state.pending_rebirth_stat_bonuses = {}
+        self._state.pending_rebirth_stat_source_stats = {}
         self._save_and_refresh()
 
     def _reset_collection_progression(self) -> None:
@@ -1216,6 +1389,7 @@ class PetWindow(QWidget):
                     self._pet_widget.trigger_stat_gain_text(result.stat_gains)
                 if result.event == "died:choice_required":
                     if self._auto_rebirth_random:
+                        apply_random_rebirth_stat_bonuses(self._state, self._rng)
                         choose_rebirth(self._state, self._rng.choice(self._baby_1_choice_ids()), self._species)
                     else:
                         self._prompt_rebirth_choice()

@@ -9,7 +9,12 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication, QLabel, QDialogButtonBox, QInputDialog
 
 from digimon_pet import platform as desktop_platform
-from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow, create_trainer_nickname_dialog
+from digimon_pet.app.main_window import (
+    BabyChoiceDialog,
+    PetWindow,
+    RebirthStatAllocationDialog,
+    create_trainer_nickname_dialog,
+)
 from digimon_pet.app import radial_menu
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.theme import APP_QSS
@@ -37,6 +42,11 @@ def default_initial_baby_choice(tmp_path, monkeypatch):
         PetWindow,
         "_get_baby_choice",
         lambda self, baby_ids: ("botamon", True),
+    )
+    monkeypatch.setattr(
+        PetWindow,
+        "_get_rebirth_stat_allocation",
+        lambda self: ({"hp": 15, "mp": 10, "speed": 5}, True),
     )
     monkeypatch.setattr(
         PetWindow,
@@ -279,6 +289,46 @@ def test_baby_choice_dialog_cannot_be_rejected_without_choice():
     dialog.reject()
 
     assert dialog.isVisible()
+
+
+def test_rebirth_stat_allocation_dialog_requires_complete_allocation():
+    app = QApplication.instance() or QApplication([])
+    state = PetState(
+        "numemon",
+        GrowthStage.CHAMPION,
+        generation_stat_bonuses={"hp": 12},
+        pending_rebirth_stat_source_stats={
+            "hp": 300,
+            "mp": 400,
+            "offense": 50,
+            "defense": 60,
+            "speed": 70,
+            "brains": 80,
+        },
+    )
+    dialog = RebirthStatAllocationDialog(state)
+    buttons = dialog.findChild(QDialogButtonBox)
+    ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
+
+    assert ok_button.isEnabled() is False
+
+    for _index in range(3):
+        dialog._adjust("hp", 5)
+    for _index in range(2):
+        dialog._adjust("mp", 5)
+    dialog._adjust("speed", 5)
+
+    assert dialog.selected_allocations() == {
+        "hp": 15,
+        "mp": 10,
+        "offense": 0,
+        "defense": 0,
+        "speed": 5,
+        "brains": 0,
+    }
+    assert dialog._bonus_labels["hp"].text() == "+45"
+    assert dialog._after_labels["hp"].text() == "357"
+    assert ok_button.isEnabled() is True
 
 
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
@@ -604,6 +654,103 @@ def test_sudden_death_item_does_not_chain_into_bakemon(tmp_path, monkeypatch):
     assert window._pet_widget._effect_name is None
     assert window._state.stage == GrowthStage.BABY
     assert window._state.species_id != "bakemon"
+    assert window._state.needs_rebirth_choice is False
+
+
+def test_manual_rebirth_prompts_stat_allocation_before_baby_choice(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    calls = []
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = True
+    window._auto_rebirth_random = False
+    window._roll_natural_death_evolution = lambda: False
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.age_seconds = window._lifecycle_schedule.ultimate_seconds
+    window._state.hp = 300
+    window._state.mp = 400
+    window._state.speed = 70
+
+    def allocate():
+        calls.append(("allocation", dict(window._state.pending_rebirth_stat_source_stats)))
+        return {"hp": 15, "mp": 10, "speed": 5}, True
+
+    def choose_baby(baby_ids):
+        calls.append(("baby", dict(window._state.pending_rebirth_stat_bonuses)))
+        return "botamon", True
+
+    monkeypatch.setattr(window, "_get_rebirth_stat_allocation", allocate)
+    monkeypatch.setattr(window, "_get_baby_choice", choose_baby)
+
+    window._advance_lifecycle()
+
+    assert calls == [
+        (
+            "allocation",
+            {
+                "hp": 300,
+                "mp": 400,
+                "offense": 30,
+                "defense": 30,
+                "speed": 70,
+                "brains": 30,
+            },
+        ),
+        ("baby", {"hp": 45, "mp": 40, "speed": 3}),
+    ]
+    assert window._state.species_id == "botamon"
+    assert window._state.hp == 345
+    assert window._state.mp == 340
+    assert window._state.speed == 33
+
+
+def test_manual_item_death_uses_same_rebirth_stat_allocation_flow(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    calls = []
+
+    window = PetWindow(overlay=True, debug=False)
+    window._auto_rebirth_random = False
+    window._state.species_id = "agumon"
+    window._state.stage = GrowthStage.ROOKIE
+    window._state.hp = 300
+    window._state.mp = 400
+    window._state.speed = 70
+    window._state.inventory = {"digigun": 1}
+
+    def allocate():
+        calls.append(("allocation", dict(window._state.pending_rebirth_stat_source_stats)))
+        return {"hp": 15, "mp": 10, "speed": 5}, True
+
+    def choose_baby(baby_ids):
+        calls.append(("baby", dict(window._state.pending_rebirth_stat_bonuses)))
+        return "botamon", True
+
+    monkeypatch.setattr(window, "_get_rebirth_stat_allocation", allocate)
+    monkeypatch.setattr(window, "_get_baby_choice", choose_baby)
+
+    window._use_inventory_item("digigun")
+    window._confirm_pending_lifecycle()
+    for _index in range(28):
+        window._pet_widget._advance_effect()
+
+    assert calls == [
+        (
+            "allocation",
+            {
+                "hp": 300,
+                "mp": 400,
+                "offense": 30,
+                "defense": 30,
+                "speed": 70,
+                "brains": 30,
+            },
+        ),
+        ("baby", {"hp": 45, "mp": 40, "speed": 3}),
+    ]
+    assert window._state.species_id == "botamon"
     assert window._state.needs_rebirth_choice is False
 
 

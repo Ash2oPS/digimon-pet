@@ -91,6 +91,7 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "discovered_species_ids": list(state.discovered_species_ids),
         "generation_stat_bonuses": dict(state.generation_stat_bonuses),
         "pending_rebirth_stat_bonuses": dict(state.pending_rebirth_stat_bonuses),
+        "pending_rebirth_stat_source_stats": dict(state.pending_rebirth_stat_source_stats),
         "bakemon_lineage_used": state.bakemon_lineage_used,
         "bakemon_generation_cooldown": state.bakemon_generation_cooldown,
         "evolution_condition_discoveries": dict(state.evolution_condition_discoveries),
@@ -191,6 +192,7 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         discovered_species_ids=_species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"])),
         generation_stat_bonuses=_stat_bonuses_from_raw(raw.get("generation_stat_bonuses")),
         pending_rebirth_stat_bonuses=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_bonuses")),
+        pending_rebirth_stat_source_stats=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_source_stats")),
         bakemon_lineage_used=bool(raw.get("bakemon_lineage_used", False)),
         bakemon_generation_cooldown=int(raw.get("bakemon_generation_cooldown", 0)),
         evolution_condition_discoveries=_evolution_condition_discoveries_from_raw(

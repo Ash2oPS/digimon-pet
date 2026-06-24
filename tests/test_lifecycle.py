@@ -5,7 +5,9 @@ import pytest
 from digimon_pet.data import load_dw1_digivolutions, load_species
 from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
+    allocate_rebirth_stat_bonuses,
     advance_lifecycle,
+    apply_random_rebirth_stat_bonuses,
     baby_1_choices,
     choose_rebirth,
     next_lifecycle_event,
@@ -675,11 +677,84 @@ def test_champion_dies_when_no_known_ultimate_conditions_match():
     assert event == "died:choice_required"
     assert state.needs_rebirth_choice is True
     assert state.species_id == "numemon"
-    assert state.pending_rebirth_stat_bonuses == {
-        "mp": 60,
-        "speed": 7,
-        "hp": 15,
+    assert state.pending_rebirth_stat_bonuses == {}
+    assert state.pending_rebirth_stat_source_stats == {
+        "hp": 300,
+        "mp": 400,
+        "offense": 50,
+        "defense": 60,
+        "speed": 70,
+        "brains": 80,
     }
+
+
+def test_rebirth_stat_allocation_calculates_pending_bonuses_from_death_stats():
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        needs_rebirth_choice=True,
+        hp=300,
+        mp=400,
+        offense=50,
+        defense=60,
+        speed=70,
+        brains=80,
+        pending_rebirth_stat_source_stats={
+            "hp": 300,
+            "mp": 400,
+            "offense": 50,
+            "defense": 60,
+            "speed": 70,
+            "brains": 80,
+        },
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(
+        state,
+        {"hp": 15, "mp": 10, "speed": 5},
+    )
+
+    assert bonuses == {"hp": 45, "mp": 40, "speed": 3}
+    assert state.pending_rebirth_stat_bonuses == {"hp": 45, "mp": 40, "speed": 3}
+
+
+def test_rebirth_stat_allocation_requires_exact_thirty_percent_in_five_percent_steps():
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        pending_rebirth_stat_source_stats={"hp": 300, "mp": 400},
+    )
+
+    with pytest.raises(ValueError, match="total 30"):
+        allocate_rebirth_stat_bonuses(state, {"hp": 15})
+
+    with pytest.raises(ValueError, match="5% steps"):
+        allocate_rebirth_stat_bonuses(state, {"hp": 17, "mp": 13})
+
+
+def test_auto_rebirth_random_bonus_keeps_old_distribution():
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        hp=300,
+        mp=400,
+        offense=50,
+        defense=60,
+        speed=70,
+        brains=80,
+        pending_rebirth_stat_source_stats={
+            "hp": 300,
+            "mp": 400,
+            "offense": 50,
+            "defense": 60,
+            "speed": 70,
+            "brains": 80,
+        },
+    )
+
+    bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
+
+    assert bonuses == {"mp": 60, "speed": 7, "hp": 15}
 
 
 def test_catalog_champion_uses_declared_ultimate_evolution_for_added_species():
@@ -883,6 +958,7 @@ def test_rebirth_choice_applies_pending_generation_stat_bonuses():
     assert state.brains == 34
     assert state.generation_stat_bonuses == {"hp": 57, "mp": 8, "speed": 7, "brains": 4}
     assert state.pending_rebirth_stat_bonuses == {}
+    assert state.pending_rebirth_stat_source_stats == {}
 
 
 def test_rebirth_choice_reapplies_accumulated_generation_stat_bonuses():

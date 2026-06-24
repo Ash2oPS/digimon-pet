@@ -60,6 +60,7 @@ class PetState:
     discovered_species_ids: list[str] = field(default_factory=list)
     generation_stat_bonuses: dict[str, int] = field(default_factory=dict)
     pending_rebirth_stat_bonuses: dict[str, int] = field(default_factory=dict)
+    pending_rebirth_stat_source_stats: dict[str, int] = field(default_factory=dict)
     bakemon_lineage_used: bool = False
     bakemon_generation_cooldown: int = 0
     evolution_condition_discoveries: dict[str, list[str]] = field(default_factory=dict)
@@ -95,6 +96,7 @@ class PetState:
         self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
         self.generation_stat_bonuses = _clean_stat_bonuses(self.generation_stat_bonuses)
         self.pending_rebirth_stat_bonuses = _clean_stat_bonuses(self.pending_rebirth_stat_bonuses)
+        self.pending_rebirth_stat_source_stats = _clean_stat_bonuses(self.pending_rebirth_stat_source_stats)
         self.bakemon_lineage_used = bool(self.bakemon_lineage_used)
         self.bakemon_generation_cooldown = max(0, int(self.bakemon_generation_cooldown))
         self.evolution_condition_discoveries = _clean_evolution_condition_discoveries(

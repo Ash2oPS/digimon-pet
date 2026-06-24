@@ -255,7 +255,15 @@ def test_incubator_stores_current_digimon_consumes_item_and_starts_rebirth():
     assert incubator.defense == 130
     assert incubator.speed == 90
     assert incubator.brains == 80
-    assert state.pending_rebirth_stat_bonuses == {"mp": 67, "speed": 4, "hp": 30}
+    assert state.pending_rebirth_stat_bonuses == {}
+    assert state.pending_rebirth_stat_source_stats == {
+        "hp": 1200,
+        "mp": 900,
+        "offense": 140,
+        "defense": 130,
+        "speed": 90,
+        "brains": 80,
+    }
 
 
 def test_weighted_item_choice_ignores_zero_weight_entries():
