@@ -10,6 +10,7 @@ from PySide6.QtWidgets import QApplication, QLabel, QDialogButtonBox, QInputDial
 
 from digimon_pet import platform as desktop_platform
 from digimon_pet.app.main_window import BabyChoiceDialog, PetWindow, create_trainer_nickname_dialog
+from digimon_pet.app import radial_menu
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.window_positioning import offset_window_position
@@ -1300,6 +1301,13 @@ def test_network_button_opens_network_window_and_closes_menu(monkeypatch):
 
     assert opened == ["network"]
     assert not menu.isVisible()
+
+
+def test_network_radial_icon_uses_simple_earth_svg():
+    assert hasattr(radial_menu, "_NETWORK_ICON_SVG")
+    assert "<svg" in radial_menu._NETWORK_ICON_SVG
+    assert 'id="ocean"' in radial_menu._NETWORK_ICON_SVG
+    assert 'id="land"' in radial_menu._NETWORK_ICON_SVG
 
 
 def test_radial_menu_selects_arc_away_from_screen_edges():

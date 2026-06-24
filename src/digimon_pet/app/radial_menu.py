@@ -5,6 +5,7 @@ from collections.abc import Callable
 from enum import Enum
 
 from PySide6.QtCore import (
+    QByteArray,
     QEasingCurve,
     QPoint,
     QParallelAnimationGroup,
@@ -14,9 +15,19 @@ from PySide6.QtCore import (
     Qt,
 )
 from PySide6.QtGui import QColor, QIcon, QPainter, QPen, QPixmap
+from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import QGraphicsOpacityEffect, QPushButton, QWidget
 
 from digimon_pet.app.theme import COLORS
+
+_NETWORK_ICON_SVG = """
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <circle id="ocean" cx="14" cy="14" r="10" fill="#25c8e8"/>
+  <path id="land" fill="#7ee36d" d="M9 7l4 1 1 3-3 2-4-1-1-2 1-2zM17 9l4 2 1 4-3 1-2-2-3 1 1-4zM11 18l4 1 1 3-3 1-3-2z"/>
+  <path fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" d="M5 14h18M14 4c-3 3-3 17 0 20M14 4c3 3 3 17 0 20"/>
+  <circle cx="14" cy="14" r="10" fill="none" stroke="#ffffff" stroke-width="1.8"/>
+</svg>
+""".strip()
 
 
 class RadialArcDirection(Enum):
@@ -189,6 +200,9 @@ class RadialPetMenu(QWidget):
 
 
 def _icon_for(action: str) -> QIcon:
+    if action == "network":
+        return _svg_icon(_NETWORK_ICON_SVG)
+
     pixmap = QPixmap(28, 28)
     pixmap.fill(Qt.GlobalColor.transparent)
     painter = QPainter(pixmap)
@@ -201,15 +215,6 @@ def _icon_for(action: str) -> QIcon:
     if action == "stats":
         for index, height in enumerate((9, 16, 22)):
             painter.drawRoundedRect(5 + index * 7, 24 - height, 4, height, 2, 2)
-    elif action == "network":
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawEllipse(8, 8, 12, 12)
-        painter.save()
-        painter.translate(14, 14)
-        painter.rotate(-24)
-        painter.drawEllipse(-11, -4, 22, 8)
-        painter.restore()
-        painter.drawArc(10, 7, 8, 14, 95 * 16, 170 * 16)
     elif action == "collection":
         painter.setBrush(Qt.BrushStyle.NoBrush)
         for row in range(2):
@@ -223,6 +228,16 @@ def _icon_for(action: str) -> QIcon:
         painter.drawLine(8, 8, 20, 20)
         painter.drawLine(20, 8, 8, 20)
 
+    painter.end()
+    return QIcon(pixmap)
+
+
+def _svg_icon(svg: str) -> QIcon:
+    pixmap = QPixmap(28, 28)
+    pixmap.fill(Qt.GlobalColor.transparent)
+    renderer = QSvgRenderer(QByteArray(svg.encode("utf-8")))
+    painter = QPainter(pixmap)
+    renderer.render(painter)
     painter.end()
     return QIcon(pixmap)
 
