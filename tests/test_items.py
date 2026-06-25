@@ -11,6 +11,7 @@ from digimon_pet.domain.items import (
     ItemPoolEntry,
     ItemType,
     ItemEffectType,
+    can_use_item,
     choose_weighted_item,
     incubate_current_digimon,
     item_catalog_from_dict,
@@ -18,6 +19,7 @@ from digimon_pet.domain.items import (
     use_evolution_item,
     use_item,
 )
+from digimon_pet.domain.lifecycle import EvolutionSchedule
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 
 
@@ -202,6 +204,56 @@ def test_consumable_instant_death_effect_requires_rebirth_choice_and_consumes_it
     assert result.event == "died:choice_required"
     assert state.needs_rebirth_choice is True
     assert state.inventory == {}
+
+
+def test_consumable_lifecycle_halving_effect_halves_remaining_time_and_consumes_item():
+    item = ItemDefinition(
+        id="digialcohol",
+        name="DigiAlcohol",
+        description="Divide remaining time by 2.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.HALVE_LIFECYCLE_REMAINING),),
+    )
+    schedule = EvolutionSchedule(rookie_seconds=600)
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        age_seconds=200,
+        inventory={"digialcohol": 1},
+    )
+
+    result = use_item(state, "digialcohol", species_map(), random.Random(1), catalog, schedule)
+
+    assert result.used is True
+    assert state.age_seconds == 400
+    assert state.inventory == {}
+
+
+def test_consumable_lifecycle_halving_effect_is_blocked_with_one_minute_or_less_remaining():
+    item = ItemDefinition(
+        id="digialcohol",
+        name="DigiAlcohol",
+        description="Divide remaining time by 2.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.HALVE_LIFECYCLE_REMAINING),),
+    )
+    schedule = EvolutionSchedule(rookie_seconds=600)
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+
+    for remaining_seconds in (60, 1, 0):
+        state = PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            age_seconds=600 - remaining_seconds,
+            inventory={"digialcohol": 1},
+        )
+
+        result = can_use_item(state, "digialcohol", species_map(), catalog, schedule)
+
+        assert result.used is False
+        assert result.reason == "lifecycle_too_soon"
+        assert state.inventory == {"digialcohol": 1}
 
 
 def test_incubator_is_blocked_for_baby_stages():

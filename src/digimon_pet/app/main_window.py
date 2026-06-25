@@ -129,6 +129,8 @@ def _inventory_effect_text(item, species: dict[str, Species]) -> str:
             parts.append(f"{sign}{effect.amount} {label}")
         elif effect.type == ItemEffectType.INSTANT_DEATH:
             parts.append("Triggers death.")
+        elif effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:
+            parts.append("Halves remaining time.")
     return ", ".join(parts)
 
 
@@ -160,6 +162,7 @@ def _inventory_unavailable_reason(item, reason: str | None, species: dict[str, S
         "unknown_item": "Unknown item.",
         "unknown_target": "Unknown evolution target.",
         "invalid_effect": "Invalid effect.",
+        "lifecycle_too_soon": "Requires more than 1 minute remaining.",
     }.get(reason, "Item unavailable.")
 
 
@@ -1048,7 +1051,14 @@ class PetWindow(QWidget):
         self._pending_inventory_item_id = None
         if item_id.startswith(FILLED_INCUBATOR_ITEM_PREFIX):
             return self._resolve_filled_incubator_item(item_id)
-        result = use_item(self._state, item_id, self._species, self._rng, self._item_catalog)
+        result = use_item(
+            self._state,
+            item_id,
+            self._species,
+            self._rng,
+            self._item_catalog,
+            self._lifecycle_schedule,
+        )
         return result.event if result.used else None
 
     def _resolve_filled_incubator_item(self, item_id: str) -> str | None:
@@ -1472,7 +1482,13 @@ class PetWindow(QWidget):
             self._pet_widget.set_lifecycle_pending("evolution")
             self._refresh()
             return
-        result = can_use_item(self._state, item_id, self._species, self._item_catalog)
+        result = can_use_item(
+            self._state,
+            item_id,
+            self._species,
+            self._item_catalog,
+            self._lifecycle_schedule,
+        )
         if not result.used:
             self._refresh()
             return
@@ -1485,7 +1501,14 @@ class PetWindow(QWidget):
                 self._pet_widget.set_lifecycle_pending("death")
                 self._refresh()
                 return
-            result = use_item(self._state, item_id, self._species, self._rng, self._item_catalog)
+            result = use_item(
+                self._state,
+                item_id,
+                self._species,
+                self._rng,
+                self._item_catalog,
+                self._lifecycle_schedule,
+            )
             if result.used:
                 if result.stat_gains:
                     self._pet_widget.trigger_stat_gain_text(result.stat_gains)
@@ -1526,7 +1549,13 @@ class PetWindow(QWidget):
             icon_path = None
             if definition.icon_path is not None:
                 icon_path = str(PROJECT_ROOT / definition.icon_path)
-            use_result = can_use_item(self._state, item_id, self._species, self._item_catalog)
+            use_result = can_use_item(
+                self._state,
+                item_id,
+                self._species,
+                self._item_catalog,
+                self._lifecycle_schedule,
+            )
             items.append(
                 InventoryItem(
                     id=item_id,

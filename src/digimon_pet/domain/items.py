@@ -7,7 +7,7 @@ from enum import StrEnum
 from collections.abc import Callable
 from typing import Any
 
-from digimon_pet.domain.lifecycle import force_death, force_evolve_to
+from digimon_pet.domain.lifecycle import EvolutionSchedule, force_death, force_evolve_to
 from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState, Species
 
 
@@ -34,6 +34,7 @@ class InventoryCategory(StrEnum):
 class ItemEffectType(StrEnum):
     STAT_DELTA = "stat_delta"
     INSTANT_DEATH = "instant_death"
+    HALVE_LIFECYCLE_REMAINING = "halve_lifecycle_remaining"
 
 
 @dataclass(frozen=True)
@@ -122,6 +123,7 @@ def use_item(
     species: dict[str, Species],
     rng: random.Random,
     catalog: ItemCatalog | None = None,
+    lifecycle_schedule: EvolutionSchedule | None = None,
 ) -> ItemUseResult:
     item = _find_item(item_id, catalog)
     if item is None:
@@ -129,7 +131,7 @@ def use_item(
     if item.type == ItemType.EVOLUTION:
         return use_evolution_item(state, item, species, rng)
     if item.type == ItemType.CONSUMABLE:
-        return use_consumable_item(state, item, rng)
+        return use_consumable_item(state, item, rng, lifecycle_schedule)
     if item.id == INCUBATOR_ID:
         return incubate_current_digimon(state, item, rng)
     return ItemUseResult(used=False, reason="not_usable")
@@ -140,15 +142,15 @@ def can_use_item(
     item_id: str,
     species: dict[str, Species],
     catalog: ItemCatalog | None = None,
+    lifecycle_schedule: EvolutionSchedule | None = None,
 ) -> ItemUseResult:
     item = _find_item(item_id, catalog)
     if item is None:
         return ItemUseResult(used=False, reason="unknown_item")
     if item.type == ItemType.CONSUMABLE:
-        if state.inventory.get(item.id, 0) <= 0:
-            return ItemUseResult(used=False, reason="missing_item")
-        if not item.effects:
-            return ItemUseResult(used=False, reason="not_usable")
+        reason = _consumable_item_blocking_reason(state, item, lifecycle_schedule)
+        if reason is not None:
+            return ItemUseResult(used=False, reason=reason)
         return ItemUseResult(used=True)
     if item.id == INCUBATOR_ID:
         return _incubator_blocking_result(state, item)
@@ -301,8 +303,9 @@ def use_consumable_item(
     state: PetState,
     item: ItemDefinition,
     rng: random.Random,
+    lifecycle_schedule: EvolutionSchedule | None = None,
 ) -> ItemUseResult:
-    reason = _consumable_item_blocking_reason(state, item)
+    reason = _consumable_item_blocking_reason(state, item, lifecycle_schedule)
     if reason is not None:
         return ItemUseResult(used=False, reason=reason)
 
@@ -317,6 +320,10 @@ def use_consumable_item(
             stat_gains[effect.stat] = stat_gains.get(effect.stat, 0) + amount
         elif effect.type == ItemEffectType.INSTANT_DEATH:
             event = force_death(state, rng)
+        elif effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:
+            threshold = _lifecycle_threshold_for(state, lifecycle_schedule)
+            remaining = max(0, threshold - state.age_seconds)
+            state.age_seconds = threshold - (remaining // 2)
 
     state.clamp()
     _consume_item(state, item.id)
@@ -371,6 +378,7 @@ def _new_incubator_entry_id() -> str:
 def _consumable_item_blocking_reason(
     state: PetState,
     item: ItemDefinition,
+    lifecycle_schedule: EvolutionSchedule | None = None,
 ) -> str | None:
     if item.type != ItemType.CONSUMABLE:
         return "not_usable"
@@ -378,7 +386,20 @@ def _consumable_item_blocking_reason(
         return "missing_item"
     if not item.effects:
         return "not_usable"
+    for effect in item.effects:
+        if effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:
+            threshold = _lifecycle_threshold_for(state, lifecycle_schedule)
+            remaining = max(0, threshold - state.age_seconds)
+            if remaining <= 60:
+                return "lifecycle_too_soon"
     return None
+
+
+def _lifecycle_threshold_for(
+    state: PetState,
+    lifecycle_schedule: EvolutionSchedule | None = None,
+) -> int:
+    return (lifecycle_schedule or EvolutionSchedule()).threshold_for(state.stage)
 
 
 def _evolution_item_blocking_reason(

@@ -288,6 +288,19 @@
         ],
         "required_stages": []
       }
+    },
+    {
+      "id": "digialcohol",
+      "name": "DigiAlcohol",
+      "description": "Divide remaining time by 2.",
+      "type": "consumable",
+      "inventory_category": "special",
+      "icon_path": "assets/items/beer.png",
+      "effects": [
+        {
+          "type": "halve_lifecycle_remaining"
+        }
+      ]
     }
   ],
   "pools": {
@@ -367,6 +380,10 @@
       {
         "item_id": "metal_banana",
         "weight": 1
+      },
+      {
+        "item_id": "digialcohol",
+        "weight": 2
       }
     ]
   }
