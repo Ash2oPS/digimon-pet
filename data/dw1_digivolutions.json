@@ -3661,37 +3661,6 @@
       ]
     },
     {
-      "id": "numemon__to__monzaemon",
-      "type": "natural",
-      "source_species_id": "numemon",
-      "source_name": "Numemon",
-      "target_species_id": "monzaemon",
-      "target_name": "Monzaemon",
-      "target_stage": "ultimate",
-      "chart_order": 1,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 3000,
-            "mp": 3000,
-            "offense": 300,
-            "defense": 300,
-            "speed": 300,
-            "brains": 300
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "ogremon__to__andromon",
       "type": "natural",
       "source_species_id": "ogremon",
@@ -4336,37 +4305,6 @@
             "offense": 500,
             "defense": 400,
             "brains": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "sukamon__to__etemon",
-      "type": "natural",
-      "source_species_id": "sukamon",
-      "source_name": "Sukamon",
-      "target_species_id": "etemon",
-      "target_name": "Etemon",
-      "target_stage": "ultimate",
-      "chart_order": 1,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 2000,
-            "mp": 3000,
-            "offense": 400,
-            "defense": 200,
-            "speed": 400,
-            "brains": 300
           }
         }
       },
@@ -12128,130 +12066,6 @@
       ]
     },
     {
-      "id": "clockmon__to__warumonzaemon",
-      "type": "natural",
-      "source_species_id": "clockmon",
-      "source_name": "Clockmon",
-      "target_species_id": "warumonzaemon",
-      "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
-      "chart_order": 237,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 43000,
-            "mp": 48000,
-            "offense": 5250,
-            "defense": 4300
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family:"
-      ]
-    },
-    {
-      "id": "thunderballmon__to__warumonzaemon",
-      "type": "natural",
-      "source_species_id": "thunderballmon",
-      "source_name": "Thunderballmon",
-      "target_species_id": "warumonzaemon",
-      "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
-      "chart_order": 238,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 43000,
-            "mp": 48000,
-            "offense": 5250,
-            "defense": 4300
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family:"
-      ]
-    },
-    {
-      "id": "guardromon__to__warumonzaemon",
-      "type": "natural",
-      "source_species_id": "guardromon",
-      "source_name": "Guardromon",
-      "target_species_id": "warumonzaemon",
-      "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
-      "chart_order": 239,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 43000,
-            "mp": 48000,
-            "offense": 5250,
-            "defense": 4300
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family:"
-      ]
-    },
-    {
-      "id": "mechanorimon__to__warumonzaemon",
-      "type": "natural",
-      "source_species_id": "mechanorimon",
-      "source_name": "Mechanorimon",
-      "target_species_id": "warumonzaemon",
-      "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
-      "chart_order": 240,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 43000,
-            "mp": 48000,
-            "offense": 5250,
-            "defense": 4300
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family:"
-      ]
-    },
-    {
       "id": "tankmon__to__cargodramon",
       "type": "natural",
       "source_species_id": "tankmon",
@@ -17365,8 +17179,7 @@
       "clockmon": [
         "clockmon__to__andromon",
         "clockmon__to__knightmon",
-        "clockmon__to__metalgreymon",
-        "clockmon__to__warumonzaemon"
+        "clockmon__to__metalgreymon"
       ],
       "coelamon": [
         "coelamon__to__anomalocarimon",
@@ -17529,8 +17342,7 @@
       ],
       "guardromon": [
         "guardromon__to__knightmon",
-        "guardromon__to__megadramon",
-        "guardromon__to__warumonzaemon"
+        "guardromon__to__megadramon"
       ],
       "gulusgammamon": [
         "gulusgammamon__to__asuramon",
@@ -17695,8 +17507,7 @@
       ],
       "mechanorimon": [
         "mechanorimon__to__bigmamemon",
-        "mechanorimon__to__megadramon",
-        "mechanorimon__to__warumonzaemon"
+        "mechanorimon__to__megadramon"
       ],
       "meramon": [
         "meramon__to__andromon",
@@ -17752,9 +17563,6 @@
         "ninjamon__to__mamemon",
         "ninjamon__to__metalmamemon",
         "ninjamon__to__piximon"
-      ],
-      "numemon": [
-        "numemon__to__monzaemon"
       ],
       "nyaromon": [
         "nyaromon__to__agumon",
@@ -17926,9 +17734,6 @@
         "starmon__to__tonosamagekomon",
         "starmon__to__triceramon"
       ],
-      "sukamon": [
-        "sukamon__to__etemon"
-      ],
       "symbareangoramon": [
         "symbareangoramon__to__atlurkabuterimon",
         "symbareangoramon__to__lamortmon",
@@ -17982,8 +17787,7 @@
       "thunderballmon": [
         "thunderballmon__to__bigmamemon",
         "thunderballmon__to__cyberdramon",
-        "thunderballmon__to__knightmon",
-        "thunderballmon__to__warumonzaemon"
+        "thunderballmon__to__knightmon"
       ],
       "togemon": [
         "togemon__to__aerovdramon",

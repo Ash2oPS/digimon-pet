@@ -256,6 +256,21 @@
       "description": "Incubates your Digimon. You hatch a new one.",
       "type": "misc",
       "icon_path": "assets/items/incubator.png"
+    },
+    {
+      "id": "red_cape",
+      "name": "Red Cape",
+      "description": "Makes Monzaemon digivolve into Waru Monzaemon.",
+      "type": "evolution",
+      "inventory_category": "evolution",
+      "icon_path": "assets/items/red-cape.png",
+      "evolution": {
+        "target_species_id": "warumonzaemon",
+        "required_species_ids": [
+          "monzaemon"
+        ],
+        "required_stages": []
+      }
     }
   ],
   "pools": {
@@ -327,6 +342,10 @@
       {
         "item_id": "incubator",
         "weight": 3
+      },
+      {
+        "item_id": "red_cape",
+        "weight": 1
       }
     ]
   }
