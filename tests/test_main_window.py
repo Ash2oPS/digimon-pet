@@ -14,6 +14,9 @@ from digimon_pet.app.main_window import (
     PetWindow,
     RebirthStatAllocationDialog,
     create_trainer_nickname_dialog,
+    _friend_notification_message,
+    _peer_digimon_became_ultimate,
+    _peer_digimon_died,
 )
 from digimon_pet.app import radial_menu
 from digimon_pet.app.radial_menu import RadialArcDirection
@@ -22,6 +25,7 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_species
 from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
 from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
+from digimon_pet.network.presence import PeerStatus
 from digimon_pet.storage import debug_settings, network_settings
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
@@ -73,6 +77,58 @@ def test_trainer_nickname_dialog_uses_app_theme():
     assert dialog.labelText() == "Enter your trainer nickname:"
     assert dialog.textValue() == "Tai"
     assert dialog.styleSheet() == APP_QSS
+
+
+def test_friend_death_notification_detects_only_death_transition():
+    previous = PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload={
+            "protocol_version": 1,
+            "trainer_nickname": "Sora",
+            "species_id": "gabumon",
+            "digimon_name": "Gabumon",
+            "stage": "rookie",
+            "current_action": "idle",
+            "is_sleeping": False,
+            "needs_rebirth_choice": False,
+        },
+    )
+    current = PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload={**previous.payload, "needs_rebirth_choice": True},
+    )
+
+    assert _peer_digimon_died(previous, current) is True
+    assert _peer_digimon_died(None, current) is False
+    assert _friend_notification_message(current.payload, "death") == "Sora's Gabumon just died."
+
+
+def test_friend_ultimate_notification_detects_only_stage_transition():
+    previous = PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload={
+            "protocol_version": 1,
+            "trainer_nickname": "Matt",
+            "species_id": "metalgreymon",
+            "digimon_name": "MetalGreymon",
+            "stage": "champion",
+            "current_action": "idle",
+            "is_sleeping": False,
+            "needs_rebirth_choice": False,
+        },
+    )
+    current = PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload={**previous.payload, "stage": "ultimate"},
+    )
+
+    assert _peer_digimon_became_ultimate(previous, current) is True
+    assert _peer_digimon_became_ultimate(None, current) is False
+    assert _friend_notification_message(current.payload, "ultimate") == "Matt's MetalGreymon just became an Ultimate."
 
 
 def test_debug_panel_updates_lifecycle_schedule():

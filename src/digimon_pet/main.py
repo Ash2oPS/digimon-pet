@@ -28,6 +28,8 @@ def main(argv: list[str] | None = None) -> int:
     app.setQuitOnLastWindowClosed(False)
     window = PetWindow(overlay=not args.normal or args.overlay, debug=args.debug)
     tray = create_tray_icon(app, window)
+    if hasattr(window, "set_tray_icon"):
+        window.set_tray_icon(tray)
     if hasattr(app, "aboutToQuit"):
         app.aboutToQuit.connect(window.shutdown)
     window.show()

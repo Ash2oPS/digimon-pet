@@ -33,6 +33,9 @@ class PeerStatus:
     error: str = ""
 
 
+PeerStatusChangedCallback = Callable[[PeerStatus | None, PeerStatus], None]
+
+
 def build_presence_payload(nickname: str, state: PetState, species: Species) -> PresencePayload:
     return {
         "protocol_version": PROTOCOL_VERSION,
@@ -42,6 +45,7 @@ def build_presence_payload(nickname: str, state: PetState, species: Species) -> 
         "stage": state.stage.value,
         "current_action": state.current_action,
         "is_sleeping": bool(state.is_sleeping),
+        "needs_rebirth_choice": bool(state.needs_rebirth_choice),
         "hp": int(state.hp),
         "mp": int(state.mp),
         "offense": int(state.offense),
@@ -94,10 +98,12 @@ class PresenceService:
         settings: NetworkSettings,
         payload_provider: Callable[[], PresencePayload],
         poll_interval_seconds: int = PEER_POLL_INTERVAL_SECONDS,
+        peer_status_changed: PeerStatusChangedCallback | None = None,
     ) -> None:
         self._settings = settings
         self._payload_provider = payload_provider
         self._poll_interval_seconds = max(1, int(poll_interval_seconds))
+        self._peer_status_changed = peer_status_changed
         self._server: ThreadingHTTPServer | None = None
         self._server_thread: threading.Thread | None = None
         self._poll_thread: threading.Thread | None = None
@@ -217,7 +223,10 @@ class PresenceService:
         except (OSError, ValueError, json.JSONDecodeError, urllib.error.URLError) as exc:
             status = PeerStatus(address=address, online=False, error=_short_error(exc))
         with self._lock:
+            previous_status = self._peers.get(address)
             self._peers[address] = status
+        if self._peer_status_changed is not None:
+            self._peer_status_changed(previous_status, status)
 
 
 def _presence_payload_from_raw(raw: Any) -> PresencePayload:
@@ -233,6 +242,7 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
         "stage": str(raw["stage"]),
         "current_action": str(raw["current_action"]),
         "is_sleeping": bool(raw["is_sleeping"]),
+        "needs_rebirth_choice": bool(raw.get("needs_rebirth_choice", False)),
     }
     for key in COMBAT_STAT_KEYS:
         payload[key] = int(raw.get(key, 0))

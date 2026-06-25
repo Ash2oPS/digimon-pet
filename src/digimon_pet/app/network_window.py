@@ -77,6 +77,15 @@ class NetworkWindow(QDialog):
         form.addRow("Your address", self._local_address_label)
         layout.addLayout(form)
 
+        self._notify_death_checkbox = QCheckBox("Notify when a friend's Digimon dies", self)
+        self._notify_death_checkbox.setObjectName("NetworkNotifyDeathCheckbox")
+        self._notify_death_checkbox.setChecked(settings.notify_friend_death)
+        self._notify_ultimate_checkbox = QCheckBox("Notify when a friend's Digimon becomes Ultimate", self)
+        self._notify_ultimate_checkbox.setObjectName("NetworkNotifyUltimateCheckbox")
+        self._notify_ultimate_checkbox.setChecked(settings.notify_friend_ultimate)
+        layout.addWidget(self._notify_death_checkbox)
+        layout.addWidget(self._notify_ultimate_checkbox)
+
         friend_row = QHBoxLayout()
         self._friend_input = QLineEdit(self)
         self._friend_input.setObjectName("NetworkFriendInput")
@@ -108,6 +117,8 @@ class NetworkWindow(QDialog):
 
         self._nickname_input.editingFinished.connect(self._save_from_inputs)
         self._enabled_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
+        self._notify_death_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
+        self._notify_ultimate_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
         self._port_input.valueChanged.connect(lambda value=0: self._save_from_inputs())
         self._add_friend_button.clicked.connect(self._add_friend)
         self._remove_friend_button.clicked.connect(self._remove_selected_friend)
@@ -149,8 +160,12 @@ class NetworkWindow(QDialog):
         self._settings.trainer_nickname = nickname
         self._settings.network_enabled = self._enabled_checkbox.isChecked()
         self._settings.listen_port = self._port_input.value()
+        self._settings.notify_friend_death = self._notify_death_checkbox.isChecked()
+        self._settings.notify_friend_ultimate = self._notify_ultimate_checkbox.isChecked()
         self._settings_changed(self._settings)
         self._enabled_checkbox.setChecked(self._settings.network_enabled)
+        self._notify_death_checkbox.setChecked(self._settings.notify_friend_death)
+        self._notify_ultimate_checkbox.setChecked(self._settings.notify_friend_ultimate)
         self.refresh()
 
     def _add_friend(self) -> None:

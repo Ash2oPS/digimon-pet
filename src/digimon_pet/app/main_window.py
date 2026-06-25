@@ -5,7 +5,7 @@ import random
 from collections.abc import Sequence
 from pathlib import Path
 
-from PySide6.QtCore import QPoint, QRect, QSize, Qt, QTimer
+from PySide6.QtCore import QObject, QPoint, QRect, QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QColor, QGuiApplication, QIcon, QImage, QMouseEvent, QPainter, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QToolButton,
     QVBoxLayout,
     QWidget,
+    QSystemTrayIcon,
 )
 
 from digimon_pet import platform as desktop_platform
@@ -53,7 +54,7 @@ from digimon_pet.domain.lifecycle import (
     rebirth_stat_allocation_total_percent,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
-from digimon_pet.network.presence import PresencePayload, PresenceService, build_presence_payload
+from digimon_pet.network.presence import PeerStatus, PresencePayload, PresenceService, build_presence_payload
 from digimon_pet.paths import PROJECT_ROOT
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage.network_settings import (
@@ -220,6 +221,37 @@ def _unknown_baby_pixmap() -> QPixmap:
     return pixmap
 
 
+def _peer_digimon_died(previous: PeerStatus | None, current: PeerStatus) -> bool:
+    if not current.online or current.payload is None:
+        return False
+    if previous is None or previous.payload is None:
+        return False
+    return not _payload_is_dead(previous.payload) and _payload_is_dead(current.payload)
+
+
+def _peer_digimon_became_ultimate(previous: PeerStatus | None, current: PeerStatus) -> bool:
+    if not current.online or current.payload is None:
+        return False
+    if previous is None or previous.payload is None:
+        return False
+    return (
+        str(previous.payload.get("stage", "")).casefold() != GrowthStage.ULTIMATE.value
+        and str(current.payload.get("stage", "")).casefold() == GrowthStage.ULTIMATE.value
+    )
+
+
+def _payload_is_dead(payload: PresencePayload) -> bool:
+    return bool(payload.get("needs_rebirth_choice", False))
+
+
+def _friend_notification_message(payload: PresencePayload, event_kind: str) -> str:
+    trainer = str(payload.get("trainer_nickname", "")).strip() or "Friend"
+    digimon = str(payload.get("digimon_name", "")).strip() or "Digimon"
+    if event_kind == "death":
+        return f"{trainer}'s {digimon} just died."
+    return f"{trainer}'s {digimon} just became an Ultimate."
+
+
 class BabyChoiceDialog(QDialog):
     def __init__(
         self,
@@ -286,6 +318,21 @@ class BabyChoiceDialog(QDialog):
 
     def selected_baby_id(self) -> str:
         return self._selected_baby_id
+
+
+class NetworkNotificationBridge(QObject):
+    peer_status_changed = Signal(object, object)
+
+    def __init__(self, window: "PetWindow") -> None:
+        super().__init__(window)
+        self._window = window
+        self.peer_status_changed.connect(self._window._handle_peer_status_changed)
+
+    def handle_peer_status_changed(self, previous: PeerStatus | None, current: PeerStatus) -> None:
+        try:
+            self.peer_status_changed.emit(previous, current)
+        except RuntimeError:
+            return
 
 
 class RebirthStatAllocationDialog(QDialog):
@@ -442,6 +489,7 @@ class PetWindow(QWidget):
         self._overlay = overlay
         self._debug = debug
         self._species = load_species()
+        self._notification_manifest = load_runtime_manifest()
         self._digivolutions = load_dw1_digivolutions()
         self._item_catalog = load_item_catalog()
         self._fusion_catalog = load_fusion_catalog()
@@ -471,9 +519,12 @@ class PetWindow(QWidget):
         self._resume_move_after_radial_menu = False
         self._network_settings = load_network_settings()
         self._trainer_nickname_prompted = False
+        self._tray_icon: QSystemTrayIcon | None = None
+        self._network_notification_bridge = NetworkNotificationBridge(self)
         self._presence_service = PresenceService(
             settings=self._network_settings,
             payload_provider=self._presence_payload,
+            peer_status_changed=self._network_notification_bridge.handle_peer_status_changed,
         )
         if self._network_settings.network_enabled and self._network_settings.trainer_nickname:
             self._presence_service.start()
@@ -524,6 +575,9 @@ class PetWindow(QWidget):
         else:
             self._refresh()
             self._queue_or_advance_lifecycle()
+
+    def set_tray_icon(self, tray_icon: QSystemTrayIcon | None) -> None:
+        self._tray_icon = tray_icon
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
         if self._was_dragging:
@@ -1354,6 +1408,43 @@ class PetWindow(QWidget):
     def _presence_payload(self) -> PresencePayload:
         species = self._species[self._state.species_id]
         return build_presence_payload(self._network_settings.trainer_nickname, self._state, species)
+
+    def _handle_peer_status_changed(self, previous: PeerStatus | None, current: PeerStatus) -> None:
+        if current.payload is None:
+            return
+        if self._network_settings.notify_friend_death and _peer_digimon_died(previous, current):
+            self._show_friend_notification(current.payload, "death")
+            return
+        if self._network_settings.notify_friend_ultimate and _peer_digimon_became_ultimate(previous, current):
+            self._show_friend_notification(current.payload, "ultimate")
+
+    def _show_friend_notification(self, payload: PresencePayload, event_kind: str) -> None:
+        if self._tray_icon is None or not self._tray_icon.isVisible():
+            return
+        message = _friend_notification_message(payload, event_kind)
+        icon = self._friend_notification_icon(payload)
+        if icon is not None and not icon.isNull():
+            try:
+                self._tray_icon.showMessage("Digimon Pet", message, icon, 10000)
+                return
+            except TypeError:
+                pass
+        self._tray_icon.showMessage(
+            "Digimon Pet",
+            message,
+            QSystemTrayIcon.MessageIcon.Information,
+            10000,
+        )
+
+    def _friend_notification_icon(self, payload: PresencePayload) -> QIcon | None:
+        species_id = str(payload.get("species_id", "")).strip()
+        species = self._species.get(species_id)
+        if species is None:
+            return None
+        pixmap = _pixmap_for_species(species, self._notification_manifest)
+        if pixmap is None or pixmap.isNull():
+            return None
+        return QIcon(pixmap)
 
     def shutdown(self) -> None:
         self.save_current_state()

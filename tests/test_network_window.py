@@ -58,6 +58,25 @@ def test_network_window_saves_nickname_and_enabled_state():
     service.stop()
 
 
+def test_network_window_saves_notification_toggles():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai")
+    saved = []
+    service = _service(settings)
+    window = NetworkWindow(settings, service, lambda updated: saved.append((updated.notify_friend_death, updated.notify_friend_ultimate)))
+
+    assert window._notify_death_checkbox.isChecked() is True
+    assert window._notify_ultimate_checkbox.isChecked() is True
+
+    window._notify_death_checkbox.setChecked(False)
+    window._notify_ultimate_checkbox.setChecked(False)
+
+    assert settings.notify_friend_death is False
+    assert settings.notify_friend_ultimate is False
+    assert saved[-1] == (False, False)
+    service.stop()
+
+
 def test_network_window_shows_all_local_address_candidates(monkeypatch):
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai", listen_port=54545)

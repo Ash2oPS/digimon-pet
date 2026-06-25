@@ -18,12 +18,16 @@ class NetworkSettings:
     network_enabled: bool = False
     listen_port: int = DEFAULT_LISTEN_PORT
     friends: list[str] = field(default_factory=list)
+    notify_friend_death: bool = True
+    notify_friend_ultimate: bool = True
 
     def clamp(self) -> None:
         self.trainer_nickname = clean_trainer_nickname(self.trainer_nickname)
         self.network_enabled = bool(self.network_enabled)
         self.listen_port = clean_port(self.listen_port, default=DEFAULT_LISTEN_PORT)
         self.friends = clean_friend_addresses(self.friends)
+        self.notify_friend_death = bool(self.notify_friend_death)
+        self.notify_friend_ultimate = bool(self.notify_friend_ultimate)
 
 
 def clean_trainer_nickname(value: str) -> str:
@@ -105,6 +109,8 @@ def _settings_from_dict(raw: dict[str, Any]) -> NetworkSettings:
         network_enabled=bool(raw.get("network_enabled", False)),
         listen_port=raw.get("listen_port", DEFAULT_LISTEN_PORT),
         friends=[str(value) for value in friends] if isinstance(friends, list) else [],
+        notify_friend_death=bool(raw.get("notify_friend_death", True)),
+        notify_friend_ultimate=bool(raw.get("notify_friend_ultimate", True)),
     )
     settings.clamp()
     return settings

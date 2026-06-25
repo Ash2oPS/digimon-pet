@@ -38,6 +38,7 @@ def test_presence_payload_exposes_only_public_fields():
         "stage": "rookie",
         "current_action": "idle",
         "is_sleeping": True,
+        "needs_rebirth_choice": False,
         "hp": 777,
         "mp": 300,
         "offense": 30,
@@ -67,6 +68,7 @@ def test_presence_payload_parser_accepts_legacy_payload_without_combat_stats():
 
     assert payload["trainer_nickname"] == "Tai"
     assert payload["digimon_name"] == "Agumon"
+    assert payload["needs_rebirth_choice"] is False
     assert payload["hp"] == 0
     assert payload["mp"] == 0
 
@@ -100,6 +102,42 @@ def test_peer_poll_failure_marks_peer_offline():
     assert statuses[0].address == "127.0.0.1:65535"
     assert statuses[0].online is False
     assert statuses[0].error
+
+
+def test_peer_status_changed_callback_receives_previous_and_current(monkeypatch):
+    service = PresenceService(
+        settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),
+        payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
+        poll_interval_seconds=1,
+        peer_status_changed=lambda previous, current: calls.append((previous, current)),
+    )
+    calls = []
+    payload = build_presence_payload("Sora", PetState("gabumon", GrowthStage.ROOKIE), Species("gabumon", "Gabumon", GrowthStage.ROOKIE))
+
+    def fake_urlopen(request, timeout):
+        class Response:
+            status = 200
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return presence_module.json.dumps(payload).encode("utf-8")
+
+        return Response()
+
+    monkeypatch.setattr(presence_module.urllib.request, "urlopen", fake_urlopen)
+
+    service.poll_once()
+    service.poll_once()
+
+    assert calls[0][0].online is False
+    assert calls[0][1].payload == payload
+    assert calls[1][0].payload == payload
+    assert calls[1][1].payload == payload
 
 
 def test_port_bind_failure_keeps_service_stopped(monkeypatch):

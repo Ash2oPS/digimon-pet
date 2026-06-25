@@ -22,6 +22,8 @@ def test_network_settings_roundtrip(tmp_path):
         network_enabled=True,
         listen_port=54546,
         friends=["192.168.1.42:54545"],
+        notify_friend_death=False,
+        notify_friend_ultimate=False,
     )
 
     save_network_settings(settings, path)
@@ -50,6 +52,8 @@ def test_network_settings_clamps_invalid_values(tmp_path):
     assert loaded.network_enabled is True
     assert loaded.listen_port == DEFAULT_LISTEN_PORT
     assert loaded.friends == ["192.168.1.10:54545"]
+    assert loaded.notify_friend_death is True
+    assert loaded.notify_friend_ultimate is True
 
 
 def test_trainer_nickname_is_trimmed():
