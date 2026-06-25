@@ -30,9 +30,14 @@ def test_presence_payload_exposes_only_public_fields():
         "stage": "rookie",
         "current_action": "idle",
         "is_sleeping": True,
+        "hp": 777,
+        "mp": 300,
+        "offense": 30,
+        "defense": 30,
+        "speed": 30,
+        "brains": 30,
     }
     assert "inventory" not in payload
-    assert "hp" not in payload
 
 
 def test_disabled_service_does_not_start_or_poll():

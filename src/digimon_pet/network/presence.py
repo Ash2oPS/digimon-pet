@@ -20,6 +20,7 @@ REQUEST_TIMEOUT_SECONDS = 2
 
 
 PresencePayload = dict[str, str | int | bool]
+COMBAT_STAT_KEYS = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,12 @@ def build_presence_payload(nickname: str, state: PetState, species: Species) -> 
         "stage": state.stage.value,
         "current_action": state.current_action,
         "is_sleeping": bool(state.is_sleeping),
+        "hp": int(state.hp),
+        "mp": int(state.mp),
+        "offense": int(state.offense),
+        "defense": int(state.defense),
+        "speed": int(state.speed),
+        "brains": int(state.brains),
     }
 
 
@@ -200,6 +207,8 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
         "current_action": str(raw["current_action"]),
         "is_sleeping": bool(raw["is_sleeping"]),
     }
+    for key in COMBAT_STAT_KEYS:
+        payload[key] = int(raw.get(key, 0))
     if not payload["trainer_nickname"] or not payload["species_id"] or not payload["digimon_name"]:
         raise ValueError("Presence response is incomplete.")
     return payload

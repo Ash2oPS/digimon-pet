@@ -2,24 +2,30 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QPoint, Qt, QTimer
 from PySide6.QtWidgets import (
     QCheckBox,
     QDialog,
     QFormLayout,
+    QFrame,
+    QGridLayout,
     QHBoxLayout,
     QHeaderView,
     QLabel,
     QLineEdit,
+    QMenu,
+    QProgressBar,
     QPushButton,
     QSpinBox,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
+    QWidget,
 )
 
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.network.presence import PresenceService, local_ip_address
+from digimon_pet.app.stats_window import COMBAT_STAT_MAXIMUMS
+from digimon_pet.network.presence import COMBAT_STAT_KEYS, PresencePayload, PresenceService, local_ip_address
 from digimon_pet.storage.network_settings import (
     MAX_PORT,
     MIN_PORT,
@@ -41,6 +47,7 @@ class NetworkWindow(QDialog):
         self._settings = settings
         self._service = service
         self._settings_changed = settings_changed
+        self._friend_details_dialog: FriendDigimonDetailsDialog | None = None
         self.setWindowTitle("Local Network")
         self.setStyleSheet(APP_QSS)
         self.setMinimumWidth(560)
@@ -93,6 +100,7 @@ class NetworkWindow(QDialog):
         self._friends_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self._friends_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._friends_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self._friends_table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         layout.addWidget(self._friends_table)
 
         self._save_button = QPushButton("Save", self)
@@ -105,6 +113,7 @@ class NetworkWindow(QDialog):
         self._add_friend_button.clicked.connect(self._add_friend)
         self._remove_friend_button.clicked.connect(self._remove_selected_friend)
         self._save_button.clicked.connect(self._save_from_inputs)
+        self._friends_table.customContextMenuRequested.connect(self._show_friends_context_menu)
 
         self._refresh_timer = QTimer(self)
         self._refresh_timer.timeout.connect(self.refresh)
@@ -166,5 +175,114 @@ class NetworkWindow(QDialog):
             self._settings_changed(self._settings)
             self.refresh()
 
+    def _show_friends_context_menu(self, position: QPoint) -> None:
+        row = self._friends_table.rowAt(position.y())
+        if row < 0:
+            return
+        self._friends_table.selectRow(row)
+        menu = QMenu(self)
+        details_action = menu.addAction("View Digimon combat stats")
+        details_action.setEnabled(self._payload_for_row(row) is not None)
+        selected = menu.exec(self._friends_table.viewport().mapToGlobal(position))
+        if selected == details_action:
+            self._open_friend_details_for_row(row)
+
+    def _open_friend_details_for_row(self, row: int) -> None:
+        payload = self._payload_for_row(row)
+        if payload is None:
+            self._status_label.setText("Friend Digimon details are unavailable.")
+            return
+        self._friend_details_dialog = FriendDigimonDetailsDialog(payload, self)
+        self._friend_details_dialog.show()
+        self._friend_details_dialog.raise_()
+        self._friend_details_dialog.activateWindow()
+
+    def _payload_for_row(self, row: int) -> PresencePayload | None:
+        if row < 0 or row >= len(self._settings.friends):
+            return None
+        address = self._settings.friends[row]
+        statuses = {status.address: status for status in self._service.peer_statuses()}
+        status = statuses.get(address)
+        if status is None or not status.online:
+            return None
+        return status.payload
+
     def _local_address_text(self) -> str:
         return f"{local_ip_address()}:{self._settings.listen_port}"
+
+
+class FriendDigimonDetailsDialog(QDialog):
+    def __init__(self, payload: PresencePayload, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._payload = payload
+        self._labels: dict[str, QLabel] = {}
+        trainer = str(payload.get("trainer_nickname", "")).strip()
+        digimon = str(payload.get("digimon_name", "")).strip() or "Digimon"
+        self.setWindowTitle(f"{digimon} - {trainer}" if trainer else digimon)
+        self.setStyleSheet(APP_QSS)
+        self.setMinimumWidth(330)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+
+        title = QLabel(digimon, self)
+        title.setObjectName("Title")
+        layout.addWidget(title)
+
+        stage = str(payload.get("stage", "")).replace("_", " ").title()
+        summary = QLabel(f"{stage} - {trainer}" if trainer else stage, self)
+        summary.setObjectName("Muted")
+        layout.addWidget(summary)
+
+        layout.addWidget(self._combat_panel())
+
+    def _combat_panel(self) -> QFrame:
+        panel = QFrame(self)
+        panel.setObjectName("StatsPanel")
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(6)
+        title = QLabel("Combat", self)
+        title.setObjectName("SectionTitle")
+        layout.addWidget(title)
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(18)
+        grid.setVerticalSpacing(6)
+        layout.addLayout(grid)
+        labels = {
+            "hp": "HP",
+            "mp": "MP",
+            "offense": "OFF",
+            "defense": "DEF",
+            "speed": "SPD",
+            "brains": "INT",
+        }
+        for index, key in enumerate(COMBAT_STAT_KEYS):
+            grid.addLayout(self._combat_stat_cell(key, labels[key]), index // 2, index % 2)
+        return panel
+
+    def _combat_stat_cell(self, key: str, title: str) -> QVBoxLayout:
+        cell = QVBoxLayout()
+        cell.setSpacing(3)
+        header = QHBoxLayout()
+        header.setSpacing(6)
+        title_label = QLabel(title, self)
+        title_label.setObjectName("Muted")
+        value = QLabel(str(int(self._payload.get(key, 0))), self)
+        value.setObjectName("StatsMetricValue")
+        value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self._labels[key] = value
+        header.addWidget(title_label)
+        header.addStretch(1)
+        header.addWidget(value)
+        bar = QProgressBar(self)
+        maximum = COMBAT_STAT_MAXIMUMS[key]
+        bar.setRange(0, maximum)
+        bar.setValue(max(0, min(maximum, int(self._payload.get(key, 0)))))
+        bar.setTextVisible(False)
+        bar.setObjectName(f"StatsCombatBar_{key}")
+        bar.setFixedHeight(4)
+        cell.addLayout(header)
+        cell.addWidget(bar)
+        return cell
