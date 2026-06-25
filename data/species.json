@@ -1834,5 +1834,12 @@
     "stage": "rookie",
     "aliases": [],
     "sprite_slots": {}
+  },
+  {
+    "id": "metal_etemon",
+    "name": "MetalEtemon",
+    "stage": "ultimate",
+    "aliases": [],
+    "sprite_slots": {}
   }
 ]

@@ -227,5 +227,6 @@
   {"id": "nyaromon", "name": "Nyaromon", "preferred_source_id": "digimon_pendulum_color"},
   {"id": "nyokimon", "name": "Nyokimon", "preferred_source_id": "digimon_pendulum_color"},
   {"id": "pyocomon", "name": "Pyocomon", "preferred_source_id": "digimon_pendulum_color"},
-  {"id": "piyomon", "name": "Piyomon", "preferred_source_id": "digimon_pendulum_color"}
+  {"id": "piyomon", "name": "Piyomon", "preferred_source_id": "digimon_pendulum_color"},
+  {"id": "metal_etemon", "name": "MetalEtemon", "preferred_source_id": "digimon_pendulum_color"}
 ]

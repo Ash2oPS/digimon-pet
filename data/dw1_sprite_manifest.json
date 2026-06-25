@@ -2441,6 +2441,25 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "meramon"
     },
+    "metal_etemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/metal_etemon.png",
+      "matched_name": "Metal Etemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Metal Etemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/metalete.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif"
+      },
+      "name": "MetalEtemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "metal_etemon"
+    },
     "metalgreymon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Metal Greymon.png",

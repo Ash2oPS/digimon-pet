@@ -71,19 +71,19 @@ def test_load_item_catalog_contains_monzaemon_head():
     assert item.evolution.required_stages == ()
 
 
-def test_load_item_catalog_contains_golden_poop_any_digimon_evolution():
+def test_load_item_catalog_contains_golden_poop_rookie_evolution():
     catalog = load_item_catalog()
 
     item = catalog.items["golden_poop"]
 
     assert item.name == "Golden Poop"
-    assert item.description == "Makes any Digimon digivolve into Sukamon."
+    assert item.description == "Makes any Rookie Digimon digivolve into Sukamon."
     assert item.type == ItemType.EVOLUTION
     assert item.icon_path == "assets/items/golden_poop.png"
     assert item.evolution is not None
     assert item.evolution.target_species_id == "sukamon"
     assert item.evolution.required_species_ids == ()
-    assert item.evolution.required_stages == ()
+    assert item.evolution.required_stages == (GrowthStage.ROOKIE,)
 
 
 def test_load_item_catalog_contains_food_items_added_from_manager():

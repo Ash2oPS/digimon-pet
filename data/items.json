@@ -18,14 +18,16 @@
     {
       "id": "golden_poop",
       "name": "Golden Poop",
-      "description": "Makes any Digimon digivolve into Sukamon.",
+      "description": "Makes any Rookie Digimon digivolve into Sukamon.",
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/golden_poop.png",
       "evolution": {
         "target_species_id": "sukamon",
         "required_species_ids": [],
-        "required_stages": []
+        "required_stages": [
+          "rookie"
+        ]
       }
     },
     {
@@ -158,6 +160,7 @@
       "name": "Black Wings",
       "description": "Makes Angemon digivolve into Devimon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/black-wing-icon.png",
       "evolution": {
         "target_species_id": "devimon",
@@ -211,6 +214,7 @@
       "name": "Golden Banana",
       "description": "Makes Sukamon digivolve into Etemon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/gold-banana-icon.png",
       "evolution": {
         "target_species_id": "etemon",
@@ -266,6 +270,21 @@
         "target_species_id": "warumonzaemon",
         "required_species_ids": [
           "monzaemon"
+        ],
+        "required_stages": []
+      }
+    },
+    {
+      "id": "metal_banana",
+      "name": "Metal Banana",
+      "description": "Makes Etemon digivolve into MetalEtemon.",
+      "type": "evolution",
+      "inventory_category": "evolution",
+      "icon_path": "assets/items/metal-banana-icon.png",
+      "evolution": {
+        "target_species_id": "metal_etemon",
+        "required_species_ids": [
+          "etemon"
         ],
         "required_stages": []
       }
@@ -343,6 +362,10 @@
       },
       {
         "item_id": "red_cape",
+        "weight": 1
+      },
+      {
+        "item_id": "metal_banana",
         "weight": 1
       }
     ]
