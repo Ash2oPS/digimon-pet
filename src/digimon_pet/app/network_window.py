@@ -200,8 +200,8 @@ class NetworkWindow(QDialog):
         self.refresh()
 
     def _copy_local_address(self) -> None:
-        QApplication.clipboard().setText(self._primary_local_address_text())
-        self._status_label.setText("Address copied.")
+        QApplication.clipboard().setText(self._primary_local_ip_text())
+        self._status_label.setText("IP copied.")
 
     def _remove_selected_friend(self) -> None:
         selected_rows = sorted({index.row() for index in self._friends_table.selectedIndexes()}, reverse=True)
@@ -247,8 +247,8 @@ class NetworkWindow(QDialog):
     def _local_address_text(self) -> str:
         return ", ".join(f"{address}:{DEFAULT_LISTEN_PORT}" for address in presence_module.local_ip_addresses())
 
-    def _primary_local_address_text(self) -> str:
-        return f"{presence_module.local_ip_addresses()[0]}:{DEFAULT_LISTEN_PORT}"
+    def _primary_local_ip_text(self) -> str:
+        return presence_module.local_ip_addresses()[0]
 
     def _build_friend_detail_panel(self) -> QFrame:
         panel = QFrame(self)

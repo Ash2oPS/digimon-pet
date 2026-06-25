@@ -107,7 +107,7 @@ def test_network_window_shows_all_local_address_candidates(monkeypatch):
     assert window._local_address_label.text() == "192.168.0.134:54545, 192.168.0.254:54545"
 
 
-def test_network_window_copies_first_local_address_candidate(monkeypatch):
+def test_network_window_copies_first_local_ip_candidate(monkeypatch):
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai", listen_port=54545)
     monkeypatch.setattr(presence_module, "local_ip_addresses", lambda: ["192.168.0.134", "192.168.0.254"])
@@ -116,7 +116,7 @@ def test_network_window_copies_first_local_address_candidate(monkeypatch):
 
     window._copy_address_button.click()
 
-    assert app.clipboard().text() == "192.168.0.134:54545"
+    assert app.clipboard().text() == "192.168.0.134"
 
 
 def test_network_window_rejects_friend_address_with_port():
