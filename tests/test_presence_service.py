@@ -3,7 +3,12 @@ import threading
 
 from digimon_pet.network import presence as presence_module
 from digimon_pet.domain.models import GrowthStage, PetState, Species
-from digimon_pet.network.presence import PresenceService, _presence_payload_from_raw, build_presence_payload
+from digimon_pet.network.presence import (
+    PEER_POLL_INTERVAL_SECONDS,
+    PresenceService,
+    _presence_payload_from_raw,
+    build_presence_payload,
+)
 from digimon_pet.storage.network_settings import NetworkSettings
 
 
@@ -41,6 +46,10 @@ def test_presence_payload_exposes_only_public_fields():
         "brains": 30,
     }
     assert "inventory" not in payload
+
+
+def test_default_peer_poll_interval_is_fast_enough_for_interactive_status():
+    assert PEER_POLL_INTERVAL_SECONDS <= 2
 
 
 def test_presence_payload_parser_accepts_legacy_payload_without_combat_stats():

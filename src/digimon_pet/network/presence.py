@@ -16,7 +16,7 @@ from digimon_pet.domain.models import PetState, Species
 from digimon_pet.storage.network_settings import NetworkSettings, parse_friend_address
 
 PROTOCOL_VERSION = 1
-PEER_POLL_INTERVAL_SECONDS = 10
+PEER_POLL_INTERVAL_SECONDS = 2
 REQUEST_TIMEOUT_SECONDS = 2
 
 
