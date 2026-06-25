@@ -43,19 +43,23 @@ def test_presence_payload_exposes_only_public_fields():
     assert "inventory" not in payload
 
 
-def test_presence_payload_parser_requires_combat_stats():
-    with pytest.raises(ValueError, match="Presence response is missing combat stats"):
-        _presence_payload_from_raw(
-            {
-                "protocol_version": 1,
-                "trainer_nickname": "Tai",
-                "species_id": "agumon",
-                "digimon_name": "Agumon",
-                "stage": "rookie",
-                "current_action": "idle",
-                "is_sleeping": False,
-            }
-        )
+def test_presence_payload_parser_accepts_legacy_payload_without_combat_stats():
+    payload = _presence_payload_from_raw(
+        {
+            "protocol_version": 1,
+            "trainer_nickname": "Tai",
+            "species_id": "agumon",
+            "digimon_name": "Agumon",
+            "stage": "rookie",
+            "current_action": "idle",
+            "is_sleeping": False,
+        }
+    )
+
+    assert payload["trainer_nickname"] == "Tai"
+    assert payload["digimon_name"] == "Agumon"
+    assert payload["hp"] == 0
+    assert payload["mp"] == 0
 
 
 def test_disabled_service_does_not_start_or_poll():

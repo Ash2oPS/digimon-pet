@@ -234,11 +234,8 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
         "current_action": str(raw["current_action"]),
         "is_sleeping": bool(raw["is_sleeping"]),
     }
-    missing_stats = [key for key in COMBAT_STAT_KEYS if key not in raw]
-    if missing_stats:
-        raise ValueError("Presence response is missing combat stats.")
     for key in COMBAT_STAT_KEYS:
-        payload[key] = int(raw[key])
+        payload[key] = int(raw.get(key, 0))
     if not payload["trainer_nickname"] or not payload["species_id"] or not payload["digimon_name"]:
         raise ValueError("Presence response is incomplete.")
     return payload
