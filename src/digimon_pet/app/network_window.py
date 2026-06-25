@@ -23,7 +23,8 @@ from PySide6.QtWidgets import (
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.domain.models import GrowthStage, PetState, Species
-from digimon_pet.network.presence import PresencePayload, PresenceService, local_ip_address
+from digimon_pet.network import presence as presence_module
+from digimon_pet.network.presence import PresencePayload, PresenceService
 from digimon_pet.storage.network_settings import (
     MAX_PORT,
     MIN_PORT,
@@ -206,7 +207,7 @@ class NetworkWindow(QDialog):
         return status.payload
 
     def _local_address_text(self) -> str:
-        return f"{local_ip_address()}:{self._settings.listen_port}"
+        return ", ".join(f"{address}:{self._settings.listen_port}" for address in presence_module.local_ip_addresses())
 
 
 class FriendDigimonDetailsDialog(StatsWindow):

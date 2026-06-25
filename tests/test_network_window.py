@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QApplication, QFrame
 
 from digimon_pet.app.network_window import NetworkWindow
 from digimon_pet.domain.models import GrowthStage, PetState, Species
+from digimon_pet.network import presence as presence_module
 from digimon_pet.network.presence import PeerStatus, PresenceService, build_presence_payload
 from digimon_pet.storage.network_settings import NetworkSettings
 
@@ -55,6 +56,16 @@ def test_network_window_saves_nickname_and_enabled_state():
     assert settings.network_enabled is True
     assert saved[-1] is True
     service.stop()
+
+
+def test_network_window_shows_all_local_address_candidates(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", listen_port=54545)
+    monkeypatch.setattr(presence_module, "local_ip_addresses", lambda: ["192.168.0.134", "192.168.0.254"])
+
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+
+    assert window._local_address_label.text() == "192.168.0.134:54545, 192.168.0.254:54545"
 
 
 def test_network_window_opens_friend_combat_stats_from_context_action():

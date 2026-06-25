@@ -6,6 +6,7 @@ from digimon_pet.network.presence import (
     PresenceService,
     build_presence_payload,
     local_ip_address,
+    local_ip_addresses,
 )
 
 __all__ = [
@@ -16,4 +17,5 @@ __all__ = [
     "PresenceService",
     "build_presence_payload",
     "local_ip_address",
+    "local_ip_addresses",
 ]

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import ipaddress
 import socket
 import threading
 import time
@@ -51,14 +52,39 @@ def build_presence_payload(nickname: str, state: PetState, species: Species) -> 
 
 
 def local_ip_address() -> str:
+    return local_ip_addresses()[0]
+
+
+def local_ip_addresses() -> list[str]:
+    addresses: list[str] = []
+    try:
+        _, _, host_addresses = socket.gethostbyname_ex(socket.gethostname())
+    except OSError:
+        host_addresses = []
+    for address in host_addresses:
+        _append_lan_address(addresses, address)
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         sock.connect(("8.8.8.8", 80))
-        return str(sock.getsockname()[0])
+        _append_lan_address(addresses, str(sock.getsockname()[0]))
     except OSError:
-        return "127.0.0.1"
+        pass
     finally:
         sock.close()
+    return addresses or ["127.0.0.1"]
+
+
+def _append_lan_address(addresses: list[str], value: str) -> None:
+    try:
+        parsed = ipaddress.ip_address(value)
+    except ValueError:
+        return
+    if parsed.version != 4 or parsed.is_loopback or parsed.is_link_local:
+        return
+    address = str(parsed)
+    if address not in addresses:
+        addresses.append(address)
 
 
 class PresenceService:
@@ -173,6 +199,7 @@ class PresenceService:
         return True
 
     def _poll_loop(self) -> None:
+        self.poll_once()
         while not self._stop_event.wait(self._poll_interval_seconds):
             self.poll_once()
 

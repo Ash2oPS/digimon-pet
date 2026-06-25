@@ -1,4 +1,5 @@
 import pytest
+import threading
 
 from digimon_pet.network import presence as presence_module
 from digimon_pet.domain.models import GrowthStage, PetState, Species
@@ -102,3 +103,50 @@ def test_port_bind_failure_keeps_service_stopped(monkeypatch):
     assert service.start() is False
     assert service.is_running() is False
     assert "port busy" in service.last_error
+
+
+def test_start_polls_configured_friends_immediately(monkeypatch):
+    polled = []
+    polled_event = threading.Event()
+    service = PresenceService(
+        settings=NetworkSettings(network_enabled=True, listen_port=0, friends=["127.0.0.1:54545"]),
+        payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
+        poll_interval_seconds=60,
+    )
+
+    def poll_peer(address):
+        polled.append(address)
+        polled_event.set()
+
+    monkeypatch.setattr(service, "_poll_peer", poll_peer)
+
+    assert service.start() is True
+    assert polled_event.wait(1)
+    service.stop()
+
+    assert polled == ["127.0.0.1:54545"]
+
+
+def test_local_ip_addresses_includes_all_lan_candidates(monkeypatch):
+    class FakeSocket:
+        def __init__(self, *args, **kwargs):
+            self.connected_to = None
+
+        def connect(self, address):
+            self.connected_to = address
+
+        def getsockname(self):
+            return ("192.168.0.254", 50000)
+
+        def close(self):
+            return None
+
+    monkeypatch.setattr(presence_module.socket, "socket", FakeSocket)
+    monkeypatch.setattr(presence_module.socket, "gethostname", lambda: "digimon-pet")
+    monkeypatch.setattr(
+        presence_module.socket,
+        "gethostbyname_ex",
+        lambda hostname: ("digimon-pet", [], ["192.168.0.134", "127.0.0.1", "192.168.0.254"]),
+    )
+
+    assert presence_module.local_ip_addresses() == ["192.168.0.134", "192.168.0.254"]
