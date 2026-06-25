@@ -4,6 +4,7 @@ from digimon_pet.domain.items import (
     INCUBATOR_ID,
     MONZAEMON_HEAD_ID,
     EvolutionItemEffect,
+    InventoryCategory,
     ItemEffect,
     ItemCatalog,
     ItemDefinition,
@@ -12,6 +13,8 @@ from digimon_pet.domain.items import (
     ItemEffectType,
     choose_weighted_item,
     incubate_current_digimon,
+    item_catalog_from_dict,
+    item_catalog_to_dict,
     use_evolution_item,
     use_item,
 )
@@ -371,3 +374,43 @@ def test_weighted_item_choice_reserves_fifteen_percent_for_evolution_items():
     assert choose_weighted_item(catalog, "test", FixedRandom([15, 2])) == "evo_b"
     assert choose_weighted_item(catalog, "test", FixedRandom([16, 2])) == "normal_a"
     assert choose_weighted_item(catalog, "test", FixedRandom([100, 9])) == "normal_b"
+
+
+def test_item_catalog_serializes_inventory_category_when_explicit():
+    catalog = ItemCatalog(
+        items={
+            "digigun": ItemDefinition(
+                id="digigun",
+                name="DigiGun",
+                description="Instantly kills your Digimon.",
+                type=ItemType.CONSUMABLE,
+                inventory_category=InventoryCategory.SPECIAL,
+                effects=(ItemEffect(type=ItemEffectType.INSTANT_DEATH),),
+            )
+        },
+        pools={},
+    )
+
+    raw = item_catalog_to_dict(catalog)
+    loaded = item_catalog_from_dict(raw)
+
+    assert raw["items"][0]["inventory_category"] == "special"
+    assert loaded.items["digigun"].inventory_category == InventoryCategory.SPECIAL
+
+
+def test_item_catalog_keeps_inventory_category_optional_for_old_data():
+    catalog = item_catalog_from_dict(
+        {
+            "items": [
+                {
+                    "id": "digimeat",
+                    "name": "DigiMeat",
+                    "description": "Increases Off by 25.",
+                    "type": "consumable",
+                }
+            ],
+            "pools": {},
+        }
+    )
+
+    assert catalog.items["digimeat"].inventory_category is None

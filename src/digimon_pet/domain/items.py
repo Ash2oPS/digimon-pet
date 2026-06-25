@@ -25,6 +25,12 @@ class ItemType(StrEnum):
     MISC = "misc"
 
 
+class InventoryCategory(StrEnum):
+    STATS = "consumable"
+    EVOLUTION = "evolution"
+    SPECIAL = "special"
+
+
 class ItemEffectType(StrEnum):
     STAT_DELTA = "stat_delta"
     INSTANT_DEATH = "instant_death"
@@ -50,6 +56,7 @@ class ItemDefinition:
     name: str
     description: str
     type: ItemType
+    inventory_category: InventoryCategory | None = None
     icon_path: str | None = None
     evolution: EvolutionItemEffect | None = None
     effects: tuple[ItemEffect, ...] = ()
@@ -416,6 +423,7 @@ def _item_from_dict(raw: dict[str, Any]) -> ItemDefinition:
         name=str(raw["name"]),
         description=str(raw["description"]),
         type=ItemType(str(raw["type"])),
+        inventory_category=_optional_inventory_category(raw.get("inventory_category")),
         icon_path=_optional_str(raw.get("icon_path")),
         evolution=_evolution_effect_from_dict(evolution) if evolution else None,
         effects=tuple(_item_effect_from_dict(effect) for effect in raw.get("effects", ())),
@@ -449,6 +457,8 @@ def _item_to_dict(item: ItemDefinition) -> dict[str, Any]:
         "description": item.description,
         "type": item.type.value,
     }
+    if item.inventory_category is not None:
+        raw["inventory_category"] = item.inventory_category.value
     if item.icon_path is not None:
         raw["icon_path"] = item.icon_path
     if item.evolution is not None:
@@ -483,3 +493,9 @@ def _optional_str(value: Any) -> str | None:
     if value is None:
         return None
     return str(value)
+
+
+def _optional_inventory_category(value: Any) -> InventoryCategory | None:
+    if value is None:
+        return None
+    return InventoryCategory(str(value))

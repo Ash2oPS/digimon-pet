@@ -104,6 +104,30 @@ def test_inventory_window_shows_count_and_filters_items_by_type():
     assert slots[1].item is None
 
 
+def test_inventory_window_filters_items_by_inventory_category():
+    app = QApplication.instance() or QApplication([])
+    window = InventoryWindow(slot_count=6)
+
+    window.set_items(
+        [
+            InventoryItem(
+                id="digigun",
+                name="DigiGun",
+                item_type="consumable",
+                inventory_category="special",
+            ),
+            InventoryItem(id="fish", name="DigiFish", item_type="consumable"),
+        ]
+    )
+    window.set_filter("special")
+    slots = window.findChildren(InventorySlotWidget)
+
+    assert slots[0].item is not None
+    assert slots[0].item.id == "digigun"
+    assert slots[0]._type_label.text() == "DATA"
+    assert slots[1].item is None
+
+
 def test_inventory_window_compacts_unused_empty_storage_slots():
     app = QApplication.instance() or QApplication([])
     window = InventoryWindow(slot_count=12)

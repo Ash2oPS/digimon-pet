@@ -131,6 +131,16 @@ def _inventory_effect_text(item, species: dict[str, Species]) -> str:
     return ", ".join(parts)
 
 
+def _inventory_category_for_item(item) -> str:
+    if item.inventory_category is not None:
+        return item.inventory_category.value
+    if item.type == ItemType.CONSUMABLE:
+        return "consumable"
+    if item.type == ItemType.EVOLUTION:
+        return "evolution"
+    return "special"
+
+
 def _inventory_unavailable_reason(item, reason: str | None, species: dict[str, Species]) -> str:
     if reason is None:
         return ""
@@ -1433,6 +1443,7 @@ class PetWindow(QWidget):
                     icon_path=icon_path,
                     description=definition.description,
                     item_type=definition.type.value,
+                    inventory_category=_inventory_category_for_item(definition),
                     usable=use_result.used,
                     unavailable_reason=_inventory_unavailable_reason(definition, use_result.reason, self._species),
                     effect_text=_inventory_effect_text(definition, self._species),
@@ -1458,6 +1469,7 @@ class PetWindow(QWidget):
                     icon_path=icon_path,
                     description=f"Contains {name}. Fuse it with the current Digimon.",
                     item_type=ItemType.MISC.value,
+                    inventory_category="special",
                     usable=can_fuse,
                     unavailable_reason="" if can_fuse else "No fusion recipe.",
                     effect_text="Fusion material.",

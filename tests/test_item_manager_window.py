@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication, QFileDialog, QPushButton
 from digimon_pet.app.item_manager_window import ItemManagerWindow, validate_item_catalog
 from digimon_pet.domain.items import (
     EvolutionItemEffect,
+    InventoryCategory,
     ItemEffect,
     ItemCatalog,
     ItemDefinition,
@@ -311,6 +312,35 @@ def test_item_manager_preserves_consumable_effects_when_editing_and_duplicating(
     window.duplicate_selected_item()
 
     assert window._catalog.items["digimeat_2"].effects == item.effects
+
+
+def test_item_manager_edits_inventory_category_without_changing_item_type(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "items.json"
+    item = ItemDefinition(
+        id="digigun",
+        name="DigiGun",
+        description="Instantly kills your Digimon.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.INSTANT_DEATH),),
+    )
+    window = ItemManagerWindow(
+        ItemCatalog(items={item.id: item}, pools={"secondary_event": ()}),
+        species_map(),
+        Path.cwd(),
+        save_path=save_path,
+    )
+
+    window._inventory_category_input.setCurrentIndex(
+        window._inventory_category_input.findData(InventoryCategory.SPECIAL.value)
+    )
+
+    assert window._catalog.items["digigun"].type == ItemType.CONSUMABLE
+    assert window._catalog.items["digigun"].inventory_category == InventoryCategory.SPECIAL
+    assert window.save_catalog() is True
+    raw = json.loads(save_path.read_text(encoding="utf-8"))
+    assert raw["items"][0]["type"] == "consumable"
+    assert raw["items"][0]["inventory_category"] == "special"
 
 
 def test_item_manager_add_from_empty_catalog_loads_new_item():

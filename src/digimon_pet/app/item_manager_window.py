@@ -25,6 +25,7 @@ from PySide6.QtWidgets import (
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.domain.items import (
     EvolutionItemEffect,
+    InventoryCategory,
     ItemCatalog,
     ItemDefinition,
     ItemPoolEntry,
@@ -149,6 +150,9 @@ class ItemManagerWindow(QWidget):
         self._description_input.setMaximumHeight(96)
         self._type_input = QComboBox(self)
         self._type_input.addItems([item_type.value for item_type in ItemType])
+        self._inventory_category_input = QComboBox(self)
+        for category in InventoryCategory:
+            self._inventory_category_input.addItem(_inventory_category_label(category), category.value)
         self._target_species_input = QComboBox(self)
         self._target_species_input.addItems(sorted(species))
         self._required_species_input = QComboBox(self)
@@ -175,6 +179,7 @@ class ItemManagerWindow(QWidget):
         form.addRow("Name", self._name_input)
         form.addRow("Description", self._description_input)
         form.addRow("Type", self._type_input)
+        form.addRow("Inventory Category", self._inventory_category_input)
         form.addRow("Evolution Target", self._target_species_input)
         form.addRow("Required Species", self._required_species_input)
         form.addRow("Required Stages", self._required_stages_input)
@@ -233,6 +238,7 @@ class ItemManagerWindow(QWidget):
         self._name_input.textChanged.connect(self._sync_current_item_edits)
         self._description_input.textChanged.connect(self._sync_current_item_edits)
         self._type_input.currentTextChanged.connect(self._sync_current_item_edits)
+        self._inventory_category_input.currentTextChanged.connect(self._sync_current_item_edits)
         self._target_species_input.currentTextChanged.connect(self._sync_current_item_edits)
         self._required_species_input.currentTextChanged.connect(self._sync_current_item_edits)
         self._required_stages_input.currentTextChanged.connect(self._sync_current_item_edits)
@@ -332,6 +338,7 @@ class ItemManagerWindow(QWidget):
             self._name_input,
             self._description_input,
             self._type_input,
+            self._inventory_category_input,
             self._target_species_input,
             self._required_species_input,
             self._required_stages_input,
@@ -369,6 +376,8 @@ class ItemManagerWindow(QWidget):
         self._name_input.setText(item.name)
         self._description_input.setPlainText(item.description)
         self._type_input.setCurrentText(item.type.value)
+        category_index = self._inventory_category_input.findData(_inventory_category_for_item(item).value)
+        self._inventory_category_input.setCurrentIndex(category_index if category_index >= 0 else 0)
         self._icon_path_input.setText(item.icon_path or "")
         self._refresh_icon_preview()
 
@@ -400,6 +409,7 @@ class ItemManagerWindow(QWidget):
         self._name_input.clear()
         self._description_input.clear()
         self._type_input.setCurrentIndex(0)
+        self._inventory_category_input.setCurrentIndex(0)
         self._target_species_input.setCurrentIndex(-1)
         self._required_species_input.setCurrentIndex(0)
         self._required_stages_input.setCurrentIndex(0)
@@ -416,6 +426,7 @@ class ItemManagerWindow(QWidget):
             name="New Item",
             description="",
             type=ItemType.MISC,
+            inventory_category=InventoryCategory.SPECIAL,
             icon_path=None,
             evolution=None,
         )
@@ -448,6 +459,7 @@ class ItemManagerWindow(QWidget):
             name=self._next_duplicate_item_name(base_name, base_item_id, item_id),
             description=item.description,
             type=item.type,
+            inventory_category=item.inventory_category,
             icon_path=item.icon_path,
             evolution=item.evolution,
             effects=item.effects,
@@ -503,6 +515,7 @@ class ItemManagerWindow(QWidget):
             return False
 
         item_type = ItemType(self._type_input.currentText())
+        inventory_category = InventoryCategory(str(self._inventory_category_input.currentData()))
         evolution = None
         description = self._description_input.toPlainText()
         if item_type == ItemType.EVOLUTION:
@@ -524,6 +537,7 @@ class ItemManagerWindow(QWidget):
             name=self._name_input.text(),
             description=description,
             type=item_type,
+            inventory_category=inventory_category,
             icon_path=self._icon_path_input.text().strip() or None,
             evolution=evolution,
             effects=item.effects,
@@ -657,6 +671,24 @@ class ItemManagerWindow(QWidget):
 
 def _split_csv(raw: str) -> list[str]:
     return [value.strip() for value in raw.split(",") if value.strip()]
+
+
+def _inventory_category_for_item(item: ItemDefinition) -> InventoryCategory:
+    if item.inventory_category is not None:
+        return item.inventory_category
+    if item.type == ItemType.CONSUMABLE:
+        return InventoryCategory.STATS
+    if item.type == ItemType.EVOLUTION:
+        return InventoryCategory.EVOLUTION
+    return InventoryCategory.SPECIAL
+
+
+def _inventory_category_label(category: InventoryCategory) -> str:
+    return {
+        InventoryCategory.STATS: "Stats",
+        InventoryCategory.EVOLUTION: "Evolution",
+        InventoryCategory.SPECIAL: "Special",
+    }[category]
 
 
 def _item_id_from_name(name: str) -> str:

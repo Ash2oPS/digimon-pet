@@ -31,6 +31,7 @@ class InventoryItem:
     icon_path: str | None = None
     description: str = "Usable item"
     item_type: str = "consumable"
+    inventory_category: str = ""
     usable: bool = True
     unavailable_reason: str = ""
     effect_text: str = ""
@@ -404,6 +405,9 @@ def _item_tooltip(item: InventoryItem) -> str:
 def _matches_filter(item: InventoryItem, filter_id: str) -> bool:
     if filter_id == "all":
         return True
+    category = _item_inventory_category(item)
+    if category:
+        return category == filter_id
     if filter_id == "special":
         return item.item_type not in {"consumable", "evolution"} or item.dangerous
     return item.item_type == filter_id
@@ -435,9 +439,8 @@ def _slot_type_label(item: InventoryItem) -> str:
     return {
         "consumable": "STAT",
         "evolution": "EVO",
-        "key_item": "KEY",
-        "misc": "DATA",
-    }.get(item.item_type, "DATA")
+        "special": "DATA",
+    }.get(_item_inventory_category(item), "DATA")
 
 
 def _short_item_name(name: str) -> str:
@@ -448,9 +451,8 @@ def _item_type_label(item: InventoryItem) -> str:
     prefix = "Danger" if item.dangerous else {
         "consumable": "Stats",
         "evolution": "Evolution",
-        "key_item": "Key Item",
-        "misc": "Special",
-    }.get(item.item_type, "Special")
+        "special": "Special",
+    }.get(_item_inventory_category(item), "Special")
     if not item.usable and item.unavailable_reason:
         return f"{prefix} - unavailable"
     return prefix
@@ -461,9 +463,17 @@ def _item_state(item: InventoryItem) -> str:
         return "blocked"
     if item.dangerous:
         return "danger"
-    if item.item_type == "evolution":
+    if _item_inventory_category(item) == "evolution":
         return "evolution"
     return "ready"
+
+
+def _item_inventory_category(item: InventoryItem) -> str:
+    if item.inventory_category:
+        return item.inventory_category
+    if item.item_type in {"consumable", "evolution"}:
+        return item.item_type
+    return "special"
 
 
 def _item_pixmap(item: InventoryItem) -> QPixmap | None:
