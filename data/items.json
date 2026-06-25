@@ -18,16 +18,14 @@
     {
       "id": "golden_poop",
       "name": "Golden Poop",
-      "description": "Makes any Rookie Digimon digivolve into Sukamon.",
+      "description": "Makes any Digimon digivolve into Sukamon.",
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/golden_poop.png",
       "evolution": {
         "target_species_id": "sukamon",
         "required_species_ids": [],
-        "required_stages": [
-          "rookie"
-        ]
+        "required_stages": []
       }
     },
     {
