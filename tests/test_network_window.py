@@ -27,12 +27,13 @@ def test_network_window_adds_and_removes_friend():
     saved = []
     window = NetworkWindow(settings, _service(settings), lambda updated: saved.append(list(updated.friends)))
 
-    window._friend_input.setText("192.168.1.42:54545")
+    window._friend_input.setText("192.168.1.42")
     window._add_friend_button.click()
 
     assert settings.friends == ["192.168.1.42:54545"]
     assert saved[-1] == ["192.168.1.42:54545"]
     assert window._friends_table.rowCount() == 1
+    assert window._friends_table.columnCount() == 3
 
     window._friends_table.selectRow(0)
     window._remove_friend_button.click()
@@ -41,21 +42,31 @@ def test_network_window_adds_and_removes_friend():
     assert saved[-1] == []
 
 
-def test_network_window_saves_nickname_and_enabled_state():
+def test_network_window_shows_read_only_trainer_and_applies_enabled_state():
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai")
     saved = []
     service = _service(settings)
     window = NetworkWindow(settings, service, lambda updated: saved.append(updated.network_enabled))
 
-    window._nickname_input.setText("  Sora  ")
+    assert not hasattr(window, "_nickname_input")
+    assert window._trainer_name_label.text() == "Tai"
+    window._enabled_checkbox.setChecked(False)
     window._enabled_checkbox.setChecked(True)
-    window._save_button.click()
 
-    assert settings.trainer_nickname == "Sora"
+    assert settings.trainer_nickname == "Tai"
     assert settings.network_enabled is True
     assert saved[-1] is True
     service.stop()
+
+
+def test_network_window_has_no_save_button():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai")
+
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+
+    assert not hasattr(window, "_save_button")
 
 
 def test_network_window_saves_notification_toggles():
@@ -85,6 +96,30 @@ def test_network_window_shows_all_local_address_candidates(monkeypatch):
     window = NetworkWindow(settings, _service(settings), lambda updated: None)
 
     assert window._local_address_label.text() == "192.168.0.134:54545, 192.168.0.254:54545"
+
+
+def test_network_window_copies_first_local_address_candidate(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", listen_port=54545)
+    monkeypatch.setattr(presence_module, "local_ip_addresses", lambda: ["192.168.0.134", "192.168.0.254"])
+
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+
+    window._copy_address_button.click()
+
+    assert app.clipboard().text() == "192.168.0.134:54545"
+
+
+def test_network_window_rejects_friend_address_with_port():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai")
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+
+    window._friend_input.setText("192.168.1.42:54545")
+    window._add_friend_button.click()
+
+    assert settings.friends == []
+    assert window._status_label.text() == "Enter the IP only."
 
 
 def test_network_window_opens_friend_combat_stats_from_context_action():
@@ -130,3 +165,38 @@ def test_network_window_opens_friend_combat_stats_from_context_action():
     assert dialog._labels["defense"].text() == "625"
     assert dialog._labels["speed"].text() == "447"
     assert dialog._labels["brains"].text() == "458"
+
+
+def test_network_window_embeds_selected_friend_combat_stats():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545"])
+    service = _service(settings)
+    payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Sora",
+        "species_id": "numemon",
+        "digimon_name": "Numemon",
+        "stage": "champion",
+        "current_action": "idle",
+        "is_sleeping": False,
+        "hp": 9370,
+        "mp": 5618,
+        "offense": 526,
+        "defense": 625,
+        "speed": 447,
+        "brains": 458,
+    }
+    service._peers["192.168.1.42:54545"] = PeerStatus(
+        address="192.168.1.42:54545",
+        online=True,
+        payload=payload,
+    )
+    window = NetworkWindow(settings, service, lambda updated: None)
+
+    window._friends_table.selectRow(0)
+
+    assert window._friend_detail_name_label.text() == "Numemon"
+    assert window._friend_detail_trainer_label.text() == "Sora"
+    assert window._friend_detail_stage_label.text() == "Champion"
+    assert window._friend_detail_stats["hp"].text() == "9370"
+    assert window._friend_detail_stats["mp"].text() == "5618"

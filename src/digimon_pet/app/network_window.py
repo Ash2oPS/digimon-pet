@@ -3,33 +3,36 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from PySide6.QtCore import QPoint, Qt, QTimer
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
+    QApplication,
     QCheckBox,
     QDialog,
     QFormLayout,
+    QFrame,
+    QGridLayout,
     QHBoxLayout,
     QHeaderView,
     QLabel,
     QLineEdit,
     QMenu,
+    QProgressBar,
     QPushButton,
-    QSpinBox,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
+from digimon_pet.app.artwork_runtime import resolve_artwork_path
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network import presence as presence_module
 from digimon_pet.network.presence import PresencePayload, PresenceService
 from digimon_pet.storage.network_settings import (
-    MAX_PORT,
-    MIN_PORT,
+    DEFAULT_LISTEN_PORT,
     NetworkSettings,
-    is_valid_trainer_nickname,
     normalize_friend_address,
 )
 
@@ -49,7 +52,7 @@ class NetworkWindow(QDialog):
         self._friend_details_dialog: FriendDigimonDetailsDialog | None = None
         self.setWindowTitle("Local Network")
         self.setStyleSheet(APP_QSS)
-        self.setMinimumWidth(560)
+        self.setMinimumSize(760, 500)
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(14, 14, 14, 14)
@@ -60,21 +63,24 @@ class NetworkWindow(QDialog):
         layout.addWidget(title)
 
         form = QFormLayout()
-        self._nickname_input = QLineEdit(settings.trainer_nickname, self)
-        self._nickname_input.setObjectName("NetworkNicknameInput")
+        self._trainer_name_label = QLabel(settings.trainer_nickname or "-", self)
+        self._trainer_name_label.setObjectName("StatsMetricValue")
+        self._trainer_name_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self._enabled_checkbox = QCheckBox("Available on local network", self)
         self._enabled_checkbox.setObjectName("NetworkEnabledCheckbox")
         self._enabled_checkbox.setChecked(settings.network_enabled)
-        self._port_input = QSpinBox(self)
-        self._port_input.setObjectName("NetworkPortInput")
-        self._port_input.setRange(MIN_PORT, MAX_PORT)
-        self._port_input.setValue(settings.listen_port)
         self._local_address_label = QLabel(self._local_address_text(), self)
         self._local_address_label.setObjectName("Muted")
-        form.addRow("Trainer", self._nickname_input)
+        self._copy_address_button = QPushButton("Copy", self)
+        self._copy_address_button.setObjectName("PrimaryButton")
+        self._copy_address_button.setToolTip("Copy first local network address")
+        self._copy_address_button.setMaximumWidth(68)
+        address_row = QHBoxLayout()
+        address_row.addWidget(self._local_address_label, 1)
+        address_row.addWidget(self._copy_address_button)
+        form.addRow("Trainer", self._trainer_name_label)
         form.addRow("", self._enabled_checkbox)
-        form.addRow("Port", self._port_input)
-        form.addRow("Your address", self._local_address_label)
+        form.addRow("Your address", address_row)
         layout.addLayout(form)
 
         self._notify_death_checkbox = QCheckBox("Notify when a friend's Digimon dies", self)
@@ -89,7 +95,7 @@ class NetworkWindow(QDialog):
         friend_row = QHBoxLayout()
         self._friend_input = QLineEdit(self)
         self._friend_input.setObjectName("NetworkFriendInput")
-        self._friend_input.setPlaceholderText("192.168.1.42:54545")
+        self._friend_input.setPlaceholderText("192.168.1.42")
         self._add_friend_button = QPushButton("Add", self)
         self._add_friend_button.setObjectName("PrimaryButton")
         self._remove_friend_button = QPushButton("Remove", self)
@@ -102,28 +108,27 @@ class NetworkWindow(QDialog):
         self._status_label.setObjectName("Muted")
         layout.addWidget(self._status_label)
 
-        self._friends_table = QTableWidget(0, 4, self)
+        content = QHBoxLayout()
+        content.setSpacing(10)
+        self._friends_table = QTableWidget(0, 3, self)
         self._friends_table.setObjectName("NetworkFriendsTable")
-        self._friends_table.setHorizontalHeaderLabels(["Friend", "Status", "Trainer", "Digimon"])
+        self._friends_table.setHorizontalHeaderLabels(["Trainer", "Connected", "Digimon"])
         self._friends_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self._friends_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._friends_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self._friends_table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        layout.addWidget(self._friends_table)
+        content.addWidget(self._friends_table, 1)
+        content.addWidget(self._build_friend_detail_panel(), 2)
+        layout.addLayout(content, 1)
 
-        self._save_button = QPushButton("Save", self)
-        self._save_button.setObjectName("PrimaryButton")
-        layout.addWidget(self._save_button)
-
-        self._nickname_input.editingFinished.connect(self._save_from_inputs)
         self._enabled_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
         self._notify_death_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
         self._notify_ultimate_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
-        self._port_input.valueChanged.connect(lambda value=0: self._save_from_inputs())
+        self._copy_address_button.clicked.connect(self._copy_local_address)
         self._add_friend_button.clicked.connect(self._add_friend)
         self._remove_friend_button.clicked.connect(self._remove_selected_friend)
-        self._save_button.clicked.connect(self._save_from_inputs)
         self._friends_table.customContextMenuRequested.connect(self._show_friends_context_menu)
+        self._friends_table.itemSelectionChanged.connect(self._refresh_friend_detail)
 
         self._refresh_timer = QTimer(self)
         self._refresh_timer.timeout.connect(self.refresh)
@@ -138,28 +143,24 @@ class NetworkWindow(QDialog):
             status = statuses.get(address)
             payload = status.payload if status is not None else None
             state_text = "Online" if status is not None and status.online else "Offline"
-            trainer = str(payload["trainer_nickname"]) if payload is not None else ""
+            trainer = str(payload["trainer_nickname"]) if payload is not None else address.split(":", 1)[0]
             digimon = str(payload["digimon_name"]) if payload is not None else ""
-            self._friends_table.setItem(row, 0, QTableWidgetItem(address))
+            trainer_item = QTableWidgetItem(trainer)
+            trainer_item.setToolTip(address)
+            self._friends_table.setItem(row, 0, trainer_item)
             self._friends_table.setItem(row, 1, QTableWidgetItem(state_text))
-            self._friends_table.setItem(row, 2, QTableWidgetItem(trainer))
-            self._friends_table.setItem(row, 3, QTableWidgetItem(digimon))
+            self._friends_table.setItem(row, 2, QTableWidgetItem(digimon))
         if self._service.last_error:
             self._status_label.setText(self._service.last_error)
         elif self._settings.network_enabled:
             self._status_label.setText("Network availability is enabled.")
         else:
             self._status_label.setText("Network availability is disabled.")
+        self._refresh_friend_detail()
 
     def _save_from_inputs(self) -> None:
-        nickname = self._nickname_input.text().strip()
-        if not is_valid_trainer_nickname(nickname):
-            self._status_label.setText("Trainer nickname is required.")
-            self._nickname_input.setText(self._settings.trainer_nickname)
-            return
-        self._settings.trainer_nickname = nickname
         self._settings.network_enabled = self._enabled_checkbox.isChecked()
-        self._settings.listen_port = self._port_input.value()
+        self._settings.listen_port = DEFAULT_LISTEN_PORT
         self._settings.notify_friend_death = self._notify_death_checkbox.isChecked()
         self._settings.notify_friend_ultimate = self._notify_ultimate_checkbox.isChecked()
         self._settings_changed(self._settings)
@@ -179,6 +180,10 @@ class NetworkWindow(QDialog):
         self._friend_input.clear()
         self._settings_changed(self._settings)
         self.refresh()
+
+    def _copy_local_address(self) -> None:
+        QApplication.clipboard().setText(self._primary_local_address_text())
+        self._status_label.setText("Address copied.")
 
     def _remove_selected_friend(self) -> None:
         selected_rows = sorted({index.row() for index in self._friends_table.selectedIndexes()}, reverse=True)
@@ -222,7 +227,132 @@ class NetworkWindow(QDialog):
         return status.payload
 
     def _local_address_text(self) -> str:
-        return ", ".join(f"{address}:{self._settings.listen_port}" for address in presence_module.local_ip_addresses())
+        return ", ".join(f"{address}:{DEFAULT_LISTEN_PORT}" for address in presence_module.local_ip_addresses())
+
+    def _primary_local_address_text(self) -> str:
+        return f"{presence_module.local_ip_addresses()[0]}:{DEFAULT_LISTEN_PORT}"
+
+    def _build_friend_detail_panel(self) -> QFrame:
+        panel = QFrame(self)
+        panel.setObjectName("StatsPanel")
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+
+        header = QHBoxLayout()
+        header.setSpacing(10)
+        self._friend_detail_sprite_label = QLabel(self)
+        self._friend_detail_sprite_label.setObjectName("StatsPortrait")
+        self._friend_detail_sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._friend_detail_sprite_label.setFixedSize(116, 116)
+        header.addWidget(self._friend_detail_sprite_label)
+
+        identity = QVBoxLayout()
+        identity.setSpacing(3)
+        self._friend_detail_name_label = QLabel("Select a friend", self)
+        self._friend_detail_name_label.setObjectName("Title")
+        self._friend_detail_trainer_label = QLabel("", self)
+        self._friend_detail_trainer_label.setObjectName("Muted")
+        self._friend_detail_stage_label = QLabel("", self)
+        self._friend_detail_stage_label.setObjectName("StatsStage")
+        identity.addWidget(self._friend_detail_name_label)
+        identity.addWidget(self._friend_detail_stage_label)
+        identity.addWidget(self._friend_detail_trainer_label)
+        identity.addStretch(1)
+        header.addLayout(identity, 1)
+        layout.addLayout(header)
+
+        title = QLabel("Combat", self)
+        title.setObjectName("SectionTitle")
+        layout.addWidget(title)
+
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(18)
+        grid.setVerticalSpacing(6)
+        layout.addLayout(grid)
+        self._friend_detail_stats: dict[str, QLabel] = {}
+        self._friend_detail_bars: dict[str, QProgressBar] = {}
+        for index, (key, label) in enumerate(
+            [
+                ("hp", "HP"),
+                ("mp", "MP"),
+                ("offense", "OFF"),
+                ("defense", "DEF"),
+                ("speed", "SPD"),
+                ("brains", "INT"),
+            ]
+        ):
+            cell = self._friend_stat_cell(key, label)
+            grid.addLayout(cell, index // 2, index % 2)
+        layout.addStretch(1)
+        return panel
+
+    def _friend_stat_cell(self, key: str, title: str) -> QVBoxLayout:
+        cell = QVBoxLayout()
+        cell.setSpacing(3)
+        header = QHBoxLayout()
+        header.setSpacing(6)
+        title_label = QLabel(title, self)
+        title_label.setObjectName("Muted")
+        value = QLabel("-", self)
+        value.setObjectName("StatsMetricValue")
+        value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        header.addWidget(title_label)
+        header.addStretch(1)
+        header.addWidget(value)
+        bar = QProgressBar(self)
+        bar.setRange(0, _stat_maximum(key))
+        bar.setTextVisible(False)
+        bar.setObjectName(f"StatsCombatBar_{key}")
+        bar.setFixedHeight(4)
+        self._friend_detail_stats[key] = value
+        self._friend_detail_bars[key] = bar
+        cell.addLayout(header)
+        cell.addWidget(bar)
+        return cell
+
+    def _refresh_friend_detail(self) -> None:
+        row = self._friends_table.currentRow()
+        payload = self._payload_for_row(row)
+        if payload is None:
+            self._friend_detail_sprite_label.clear()
+            self._friend_detail_name_label.setText("Select an online friend")
+            self._friend_detail_trainer_label.setText("")
+            self._friend_detail_stage_label.setText("")
+            for key, label in self._friend_detail_stats.items():
+                label.setText("-")
+                self._friend_detail_bars[key].setValue(0)
+            return
+        digimon = str(payload.get("digimon_name", "Digimon"))
+        trainer = str(payload.get("trainer_nickname", "")).strip()
+        self._friend_detail_name_label.setText(digimon)
+        self._friend_detail_trainer_label.setText(trainer)
+        self._friend_detail_stage_label.setText(_format_stage(str(payload.get("stage", ""))))
+        self._set_friend_sprite(payload)
+        for key in self._friend_detail_stats:
+            value = int(payload.get(key, 0))
+            maximum = _stat_maximum(key)
+            self._friend_detail_stats[key].setText(str(value))
+            self._friend_detail_bars[key].setRange(0, maximum)
+            self._friend_detail_bars[key].setValue(max(0, min(maximum, value)))
+
+    def _set_friend_sprite(self, payload: PresencePayload) -> None:
+        path = resolve_artwork_path(str(payload.get("species_id", "")))
+        if path is None:
+            self._friend_detail_sprite_label.clear()
+            return
+        pixmap = QPixmap(str(path))
+        if pixmap.isNull():
+            self._friend_detail_sprite_label.clear()
+            return
+        self._friend_detail_sprite_label.setPixmap(
+            pixmap.scaled(
+                108,
+                108,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+        )
 
 
 class FriendDigimonDetailsDialog(StatsWindow):
@@ -281,3 +411,11 @@ def _growth_stage_from_payload(payload: PresencePayload) -> GrowthStage:
         return GrowthStage(str(payload["stage"]))
     except ValueError:
         return GrowthStage.ROOKIE
+
+
+def _format_stage(stage: str) -> str:
+    return stage.replace("_", " ").title()
+
+
+def _stat_maximum(stat: str) -> int:
+    return 99999 if stat in {"hp", "mp"} else 9999

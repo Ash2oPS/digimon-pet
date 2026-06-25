@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import ipaddress
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -15,7 +16,7 @@ MAX_PORT = 65535
 @dataclass
 class NetworkSettings:
     trainer_nickname: str = ""
-    network_enabled: bool = False
+    network_enabled: bool = True
     listen_port: int = DEFAULT_LISTEN_PORT
     friends: list[str] = field(default_factory=list)
     notify_friend_death: bool = True
@@ -24,7 +25,7 @@ class NetworkSettings:
     def clamp(self) -> None:
         self.trainer_nickname = clean_trainer_nickname(self.trainer_nickname)
         self.network_enabled = bool(self.network_enabled)
-        self.listen_port = clean_port(self.listen_port, default=DEFAULT_LISTEN_PORT)
+        self.listen_port = DEFAULT_LISTEN_PORT
         self.friends = clean_friend_addresses(self.friends)
         self.notify_friend_death = bool(self.notify_friend_death)
         self.notify_friend_ultimate = bool(self.notify_friend_ultimate)
@@ -63,20 +64,38 @@ def parse_friend_address(value: str) -> tuple[str, int]:
 
 
 def normalize_friend_address(value: str) -> str:
-    host, port = parse_friend_address(value)
-    return f"{host}:{port}"
+    host = str(value).strip()
+    if not host:
+        raise ValueError("Friend IP is required.")
+    if ":" in host:
+        raise ValueError("Enter the IP only.")
+    try:
+        parsed = ipaddress.ip_address(host)
+    except ValueError as exc:
+        raise ValueError("Friend IP is invalid.") from exc
+    if parsed.version != 4:
+        raise ValueError("Friend IP must be IPv4.")
+    return f"{host}:{DEFAULT_LISTEN_PORT}"
 
 
 def clean_friend_addresses(values: list[str]) -> list[str]:
     cleaned: list[str] = []
     for value in values:
         try:
-            address = normalize_friend_address(value)
+            address = _clean_saved_friend_address(value)
         except ValueError:
             continue
         if address not in cleaned:
             cleaned.append(address)
     return cleaned
+
+
+def _clean_saved_friend_address(value: str) -> str:
+    raw = str(value).strip()
+    if ":" in raw:
+        host, _port = parse_friend_address(raw)
+        return f"{host}:{DEFAULT_LISTEN_PORT}"
+    return normalize_friend_address(raw)
 
 
 def load_network_settings(path: Path | None = None) -> NetworkSettings:
