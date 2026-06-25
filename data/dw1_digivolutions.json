@@ -2046,37 +2046,6 @@
       ]
     },
     {
-      "id": "bakemon__to__skullgreymon",
-      "type": "natural",
-      "source_species_id": "bakemon",
-      "source_name": "Bakemon",
-      "target_species_id": "skullgreymon",
-      "target_name": "SkullGreymon",
-      "target_stage": "ultimate",
-      "chart_order": 3,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 6000,
-            "offense": 400,
-            "defense": 400,
-            "speed": 200,
-            "brains": 500
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "betamon__to__coelamon",
       "type": "natural",
       "source_species_id": "betamon",
@@ -2481,37 +2450,6 @@
             "defense": 300,
             "speed": 400,
             "brains": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "devimon__to__skullgreymon",
-      "type": "natural",
-      "source_species_id": "devimon",
-      "source_name": "Devimon",
-      "target_species_id": "skullgreymon",
-      "target_name": "SkullGreymon",
-      "target_stage": "ultimate",
-      "chart_order": 2,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 6000,
-            "offense": 400,
-            "defense": 400,
-            "speed": 200,
-            "brains": 500
           }
         }
       },
@@ -2936,37 +2874,6 @@
       ]
     },
     {
-      "id": "garurumon__to__skullgreymon",
-      "type": "natural",
-      "source_species_id": "garurumon",
-      "source_name": "Garurumon",
-      "target_species_id": "skullgreymon",
-      "target_name": "SkullGreymon",
-      "target_stage": "ultimate",
-      "chart_order": 4,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 6000,
-            "offense": 400,
-            "defense": 400,
-            "speed": 200,
-            "brains": 500
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "garurumon__to__weregarurumon",
       "type": "natural",
       "source_species_id": "garurumon",
@@ -3018,37 +2925,6 @@
             "defense": 500,
             "speed": 300,
             "brains": 300
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "greymon__to__skullgreymon",
-      "type": "natural",
-      "source_species_id": "greymon",
-      "source_name": "Greymon",
-      "target_species_id": "skullgreymon",
-      "target_name": "SkullGreymon",
-      "target_stage": "ultimate",
-      "chart_order": 1,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 6000,
-            "offense": 400,
-            "defense": 400,
-            "speed": 200,
-            "brains": 500
           }
         }
       },
@@ -3569,37 +3445,6 @@
             "defense": 300,
             "speed": 300,
             "brains": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "mojyamon__to__skullgreymon",
-      "type": "natural",
-      "source_species_id": "mojyamon",
-      "source_name": "Mojyamon",
-      "target_species_id": "skullgreymon",
-      "target_name": "SkullGreymon",
-      "target_stage": "ultimate",
-      "chart_order": 5,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 6000,
-            "offense": 400,
-            "defense": 400,
-            "speed": 200,
-            "brains": 500
           }
         }
       },
@@ -17460,8 +17305,7 @@
         "bakemon__to__fantomon",
         "bakemon__to__giromon",
         "bakemon__to__ladydevimon",
-        "bakemon__to__pumpmon",
-        "bakemon__to__skullgreymon"
+        "bakemon__to__pumpmon"
       ],
       "bakumon": [
         "bakumon__to__garurumon",
@@ -17543,7 +17387,6 @@
         "devimon__to__deathmeramon",
         "devimon__to__ladydevimon",
         "devimon__to__megadramon",
-        "devimon__to__skullgreymon",
         "devimon__to__vamdemon"
       ],
       "dokugumon": [
@@ -17636,7 +17479,6 @@
         "garurumon__to__megaseadramon",
         "garurumon__to__metalmamemon",
         "garurumon__to__pumpmon",
-        "garurumon__to__skullgreymon",
         "garurumon__to__weregarurumon"
       ],
       "gasamon": [
@@ -17683,8 +17525,7 @@
         "greymon__to__bigmamemon",
         "greymon__to__cyberdramon",
         "greymon__to__metalgreymon",
-        "greymon__to__metalmamemon",
-        "greymon__to__skullgreymon"
+        "greymon__to__metalmamemon"
       ],
       "guardromon": [
         "guardromon__to__knightmon",
@@ -17879,7 +17720,6 @@
       ],
       "mojyamon": [
         "mojyamon__to__mamemon",
-        "mojyamon__to__skullgreymon",
         "mojyamon__to__weregarurumon"
       ],
       "mokumon": [
