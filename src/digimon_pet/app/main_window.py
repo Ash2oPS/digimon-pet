@@ -43,7 +43,6 @@ from digimon_pet.domain.lifecycle import (
     EvolutionSchedule,
     INHERITED_STAT_NAMES,
     REBIRTH_STAT_ALLOCATION_STEP_PERCENT,
-    REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT,
     advance_lifecycle,
     allocate_rebirth_stat_bonuses,
     apply_random_rebirth_stat_bonuses,
@@ -51,6 +50,7 @@ from digimon_pet.domain.lifecycle import (
     choose_rebirth,
     force_evolve_to,
     next_lifecycle_event,
+    rebirth_stat_allocation_total_percent,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network.presence import PresencePayload, PresenceService, build_presence_payload
@@ -305,6 +305,7 @@ class RebirthStatAllocationDialog(QDialog):
         self._after_labels: dict[str, QLabel] = {}
         self._plus_buttons: dict[str, QPushButton] = {}
         self._ok_button: QPushButton | None = None
+        self._total_percent = rebirth_stat_allocation_total_percent(state)
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(14, 14, 14, 14)
@@ -314,7 +315,7 @@ class RebirthStatAllocationDialog(QDialog):
         title.setObjectName("Title")
         layout.addWidget(title)
 
-        help_text = QLabel("Allocate exactly 30% before choosing the next Baby1.")
+        help_text = QLabel(f"Allocate exactly {self._total_percent}% before choosing the next Baby1.")
         help_text.setObjectName("Muted")
         layout.addWidget(help_text)
 
@@ -399,13 +400,13 @@ class RebirthStatAllocationDialog(QDialog):
         current = self._allocations[stat_name]
         without_current = self._allocated_total() - current
         next_value = max(0, current + delta)
-        next_value = min(next_value, REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT - without_current)
+        next_value = min(next_value, self._total_percent - without_current)
         self._allocations[stat_name] = next_value
         self._refresh_allocations()
 
     def _refresh_allocations(self) -> None:
         total = self._allocated_total()
-        remaining = REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT - total
+        remaining = self._total_percent - total
         for stat_name in INHERITED_STAT_NAMES:
             percent = self._allocations[stat_name]
             bonus = int(self._source_value(stat_name) * percent / 100)

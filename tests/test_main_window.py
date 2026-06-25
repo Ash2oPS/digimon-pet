@@ -331,6 +331,37 @@ def test_rebirth_stat_allocation_dialog_requires_complete_allocation():
     assert ok_button.isEnabled() is True
 
 
+def test_ultimate_rebirth_stat_allocation_dialog_requires_forty_percent():
+    app = QApplication.instance() or QApplication([])
+    state = PetState(
+        "metalgreymon",
+        GrowthStage.ULTIMATE,
+        pending_rebirth_stat_source_stats={
+            "hp": 300,
+            "mp": 400,
+            "offense": 50,
+            "defense": 60,
+            "speed": 70,
+            "brains": 80,
+        },
+    )
+    dialog = RebirthStatAllocationDialog(state)
+    buttons = dialog.findChild(QDialogButtonBox)
+    ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
+
+    for _index in range(4):
+        dialog._adjust("hp", 5)
+    for _index in range(3):
+        dialog._adjust("mp", 5)
+    dialog._adjust("speed", 5)
+
+    assert dialog.selected_allocations()["hp"] == 20
+    assert dialog.selected_allocations()["mp"] == 15
+    assert dialog.selected_allocations()["speed"] == 5
+    assert dialog._bonus_labels["hp"].text() == "+60"
+    assert ok_button.isEnabled() is True
+
+
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"
@@ -675,7 +706,7 @@ def test_manual_rebirth_prompts_stat_allocation_before_baby_choice(tmp_path, mon
 
     def allocate():
         calls.append(("allocation", dict(window._state.pending_rebirth_stat_source_stats)))
-        return {"hp": 15, "mp": 10, "speed": 5}, True
+        return {"hp": 20, "mp": 15, "speed": 5}, True
 
     def choose_baby(baby_ids):
         calls.append(("baby", dict(window._state.pending_rebirth_stat_bonuses)))
@@ -698,11 +729,11 @@ def test_manual_rebirth_prompts_stat_allocation_before_baby_choice(tmp_path, mon
                 "brains": 30,
             },
         ),
-        ("baby", {"hp": 45, "mp": 40, "speed": 3}),
+        ("baby", {"hp": 60, "mp": 60, "speed": 3}),
     ]
     assert window._state.species_id == "botamon"
-    assert window._state.hp == 345
-    assert window._state.mp == 340
+    assert window._state.hp == 360
+    assert window._state.mp == 360
     assert window._state.speed == 33
 
 

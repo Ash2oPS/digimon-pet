@@ -732,6 +732,20 @@ def test_rebirth_stat_allocation_requires_exact_thirty_percent_in_five_percent_s
         allocate_rebirth_stat_bonuses(state, {"hp": 17, "mp": 13})
 
 
+def test_ultimate_rebirth_stat_allocation_requires_exact_forty_percent():
+    state = PetState(
+        species_id="metalgreymon",
+        stage=GrowthStage.ULTIMATE,
+        pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "speed": 70},
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 20, "mp": 15, "speed": 5})
+
+    assert bonuses == {"hp": 60, "mp": 60, "speed": 3}
+    with pytest.raises(ValueError, match="total 40"):
+        allocate_rebirth_stat_bonuses(state, {"hp": 15, "mp": 10, "speed": 5})
+
+
 def test_auto_rebirth_random_bonus_keeps_old_distribution():
     state = PetState(
         species_id="numemon",
@@ -755,6 +769,31 @@ def test_auto_rebirth_random_bonus_keeps_old_distribution():
     bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
 
     assert bonuses == {"mp": 60, "speed": 7, "hp": 15}
+
+
+def test_ultimate_auto_rebirth_random_bonus_uses_forty_percent_distribution():
+    state = PetState(
+        species_id="metalgreymon",
+        stage=GrowthStage.ULTIMATE,
+        hp=300,
+        mp=400,
+        offense=50,
+        defense=60,
+        speed=70,
+        brains=80,
+        pending_rebirth_stat_source_stats={
+            "hp": 300,
+            "mp": 400,
+            "offense": 50,
+            "defense": 60,
+            "speed": 70,
+            "brains": 80,
+        },
+    )
+
+    bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
+
+    assert bonuses == {"mp": 80, "speed": 7, "hp": 15, "brains": 4}
 
 
 def test_catalog_champion_uses_declared_ultimate_evolution_for_added_species():
