@@ -5,6 +5,7 @@
       "name": "Monzaemon's Head",
       "description": "Makes Numemon digivolve into Monzaemon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/monzaemon_head.png",
       "evolution": {
         "target_species_id": "monzaemon",
@@ -17,13 +18,16 @@
     {
       "id": "golden_poop",
       "name": "Golden Poop",
-      "description": "Makes any Digimon digivolve into Sukamon.",
+      "description": "Makes any Rookie Digimon digivolve into Sukamon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/golden_poop.png",
       "evolution": {
         "target_species_id": "sukamon",
         "required_species_ids": [],
-        "required_stages": []
+        "required_stages": [
+          "rookie"
+        ]
       }
     },
     {
@@ -31,6 +35,7 @@
       "name": "DigiGun",
       "description": "Instantly kills your Digimon.",
       "type": "consumable",
+      "inventory_category": "special",
       "icon_path": "assets/items/gun.png",
       "effects": [
         {
