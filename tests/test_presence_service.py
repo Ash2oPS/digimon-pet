@@ -1,6 +1,8 @@
+import pytest
+
 from digimon_pet.network import presence as presence_module
 from digimon_pet.domain.models import GrowthStage, PetState, Species
-from digimon_pet.network.presence import PresenceService, build_presence_payload
+from digimon_pet.network.presence import PresenceService, _presence_payload_from_raw, build_presence_payload
 from digimon_pet.storage.network_settings import NetworkSettings
 
 
@@ -38,6 +40,21 @@ def test_presence_payload_exposes_only_public_fields():
         "brains": 30,
     }
     assert "inventory" not in payload
+
+
+def test_presence_payload_parser_requires_combat_stats():
+    with pytest.raises(ValueError, match="Presence response is missing combat stats"):
+        _presence_payload_from_raw(
+            {
+                "protocol_version": 1,
+                "trainer_nickname": "Tai",
+                "species_id": "agumon",
+                "digimon_name": "Agumon",
+                "stage": "rookie",
+                "current_action": "idle",
+                "is_sleeping": False,
+            }
+        )
 
 
 def test_disabled_service_does_not_start_or_poll():

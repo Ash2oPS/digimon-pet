@@ -7,14 +7,11 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QDialog,
     QFormLayout,
-    QFrame,
-    QGridLayout,
     QHBoxLayout,
     QHeaderView,
     QLabel,
     QLineEdit,
     QMenu,
-    QProgressBar,
     QPushButton,
     QSpinBox,
     QTableWidget,
@@ -24,8 +21,9 @@ from PySide6.QtWidgets import (
 )
 
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.app.stats_window import COMBAT_STAT_MAXIMUMS
-from digimon_pet.network.presence import COMBAT_STAT_KEYS, PresencePayload, PresenceService, local_ip_address
+from digimon_pet.app.stats_window import StatsWindow
+from digimon_pet.domain.models import GrowthStage, PetState, Species
+from digimon_pet.network.presence import PresencePayload, PresenceService, local_ip_address
 from digimon_pet.storage.network_settings import (
     MAX_PORT,
     MIN_PORT,
@@ -211,78 +209,59 @@ class NetworkWindow(QDialog):
         return f"{local_ip_address()}:{self._settings.listen_port}"
 
 
-class FriendDigimonDetailsDialog(QDialog):
+class FriendDigimonDetailsDialog(StatsWindow):
     def __init__(self, payload: PresencePayload, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._payload = payload
-        self._labels: dict[str, QLabel] = {}
         trainer = str(payload.get("trainer_nickname", "")).strip()
         digimon = str(payload.get("digimon_name", "")).strip() or "Digimon"
         self.setWindowTitle(f"{digimon} - {trainer}" if trainer else digimon)
-        self.setStyleSheet(APP_QSS)
-        self.setMinimumWidth(330)
+        self._labels = {}
+        self._label_groups = {}
+        self._bars = {}
+        self._bar_groups = {}
+        while self._tabs.count():
+            self._tabs.removeTab(0)
+        self._tabs.addTab(self._build_friend_view_tab(), "View")
+        self.refresh(_state_from_presence_payload(payload), _species_from_presence_payload(payload))
+        self._summary_label.setText(f"{self._stage_label.text()} - {trainer}" if trainer else self._stage_label.text())
 
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(8)
-
-        title = QLabel(digimon, self)
-        title.setObjectName("Title")
-        layout.addWidget(title)
-
-        stage = str(payload.get("stage", "")).replace("_", " ").title()
-        summary = QLabel(f"{stage} - {trainer}" if trainer else stage, self)
-        summary.setObjectName("Muted")
-        layout.addWidget(summary)
-
-        layout.addWidget(self._combat_panel())
-
-    def _combat_panel(self) -> QFrame:
-        panel = QFrame(self)
-        panel.setObjectName("StatsPanel")
-        layout = QVBoxLayout(panel)
+    def _build_friend_view_tab(self) -> QWidget:
+        page = QWidget(self)
+        layout = QVBoxLayout(page)
         layout.setContentsMargins(8, 8, 8, 8)
-        layout.setSpacing(6)
-        title = QLabel("Combat", self)
-        title.setObjectName("SectionTitle")
-        layout.addWidget(title)
-        grid = QGridLayout()
-        grid.setHorizontalSpacing(18)
-        grid.setVerticalSpacing(6)
-        layout.addLayout(grid)
-        labels = {
-            "hp": "HP",
-            "mp": "MP",
-            "offense": "OFF",
-            "defense": "DEF",
-            "speed": "SPD",
-            "brains": "INT",
-        }
-        for index, key in enumerate(COMBAT_STAT_KEYS):
-            grid.addLayout(self._combat_stat_cell(key, labels[key]), index // 2, index % 2)
-        return panel
+        layout.setSpacing(8)
+        layout.addWidget(self._combat_panel())
+        layout.addStretch(1)
+        return page
 
-    def _combat_stat_cell(self, key: str, title: str) -> QVBoxLayout:
-        cell = QVBoxLayout()
-        cell.setSpacing(3)
-        header = QHBoxLayout()
-        header.setSpacing(6)
-        title_label = QLabel(title, self)
-        title_label.setObjectName("Muted")
-        value = QLabel(str(int(self._payload.get(key, 0))), self)
-        value.setObjectName("StatsMetricValue")
-        value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        self._labels[key] = value
-        header.addWidget(title_label)
-        header.addStretch(1)
-        header.addWidget(value)
-        bar = QProgressBar(self)
-        maximum = COMBAT_STAT_MAXIMUMS[key]
-        bar.setRange(0, maximum)
-        bar.setValue(max(0, min(maximum, int(self._payload.get(key, 0)))))
-        bar.setTextVisible(False)
-        bar.setObjectName(f"StatsCombatBar_{key}")
-        bar.setFixedHeight(4)
-        cell.addLayout(header)
-        cell.addWidget(bar)
-        return cell
+
+def _state_from_presence_payload(payload: PresencePayload) -> PetState:
+    stage = _growth_stage_from_payload(payload)
+    return PetState(
+        species_id=str(payload["species_id"]),
+        stage=stage,
+        current_action=str(payload.get("current_action", "idle")),
+        is_sleeping=bool(payload.get("is_sleeping", False)),
+        hp=int(payload["hp"]),
+        mp=int(payload["mp"]),
+        offense=int(payload["offense"]),
+        defense=int(payload["defense"]),
+        speed=int(payload["speed"]),
+        brains=int(payload["brains"]),
+    )
+
+
+def _species_from_presence_payload(payload: PresencePayload) -> Species:
+    return Species(
+        id=str(payload["species_id"]),
+        name=str(payload["digimon_name"]),
+        stage=_growth_stage_from_payload(payload),
+    )
+
+
+def _growth_stage_from_payload(payload: PresencePayload) -> GrowthStage:
+    try:
+        return GrowthStage(str(payload["stage"]))
+    except ValueError:
+        return GrowthStage.ROOKIE

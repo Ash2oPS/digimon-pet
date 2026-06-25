@@ -3,13 +3,12 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QFrame
 
 from digimon_pet.app.network_window import NetworkWindow
-from digimon_pet.network.presence import PeerStatus
-from digimon_pet.network.presence import PresenceService, build_presence_payload
-from digimon_pet.storage.network_settings import NetworkSettings
 from digimon_pet.domain.models import GrowthStage, PetState, Species
+from digimon_pet.network.presence import PeerStatus, PresenceService, build_presence_payload
+from digimon_pet.storage.network_settings import NetworkSettings
 
 
 def _service(settings: NetworkSettings) -> PresenceService:
@@ -91,6 +90,10 @@ def test_network_window_opens_friend_combat_stats_from_context_action():
     dialog = window._friend_details_dialog
     assert dialog is not None
     assert dialog.windowTitle() == "Numemon - Sora"
+    assert dialog._sprite_label.objectName() == "StatsPortrait"
+    assert dialog._sprite_label.width() == 156
+    assert dialog.findChildren(QFrame, "StatsHeader")
+    assert [label.text() for label in dialog._label_groups["hp"]] == ["9370"]
     assert dialog._labels["hp"].text() == "9370"
     assert dialog._labels["mp"].text() == "5618"
     assert dialog._labels["offense"].text() == "526"
