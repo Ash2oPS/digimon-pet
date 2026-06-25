@@ -104,6 +104,25 @@ def test_peer_poll_failure_marks_peer_offline():
     assert statuses[0].error
 
 
+def test_unexpected_peer_poll_failure_marks_peer_offline(monkeypatch):
+    service = PresenceService(
+        settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),
+        payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
+        poll_interval_seconds=1,
+    )
+
+    def raise_attribute_error(request, timeout):
+        raise AttributeError("fake socket missing settimeout")
+
+    monkeypatch.setattr(presence_module.urllib.request, "urlopen", raise_attribute_error)
+
+    service.poll_once()
+
+    statuses = service.peer_statuses()
+    assert statuses[0].online is False
+    assert "fake socket missing settimeout" in statuses[0].error
+
+
 def test_peer_status_changed_callback_receives_previous_and_current(monkeypatch):
     service = PresenceService(
         settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),

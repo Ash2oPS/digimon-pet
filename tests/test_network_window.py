@@ -69,6 +69,15 @@ def test_network_window_has_no_save_button():
     assert not hasattr(window, "_save_button")
 
 
+def test_network_window_settings_header_is_compact():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai")
+
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+
+    assert window._settings_panel.maximumHeight() <= 118
+
+
 def test_network_window_saves_notification_toggles():
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai")
