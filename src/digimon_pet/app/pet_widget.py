@@ -504,8 +504,10 @@ class PetWidget(QWidget):
         kind = self.event_prompt_kind()
         if kind is None:
             return
-        pulse = _smooth_pulse(self._effect_elapsed_ms, 1200)
+        pulse = _smooth_pulse(self._event_prompt_elapsed_ms(), 1200)
         rect = self._logical_event_prompt_rect()
+        growth = round(3 * pulse)
+        rect.adjust(-growth, -growth, growth, growth)
         rect.translate(0, -round(2 * pulse))
 
         painter.save()
@@ -538,6 +540,11 @@ class PetWidget(QWidget):
         elif kind == "secondary_item":
             self._draw_item_prompt_icon(painter, rect.center())
         painter.restore()
+
+    def _event_prompt_elapsed_ms(self) -> int:
+        if self._secondary_event_kind is not None:
+            return self._secondary_event_elapsed_ms
+        return self._effect_elapsed_ms
 
     def _draw_evolution_prompt_icon(self, painter: QPainter, center: QPoint) -> None:
         painter.setPen(QPen(QColor(65, 43, 24), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))

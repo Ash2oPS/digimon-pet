@@ -310,6 +310,21 @@ def test_secondary_event_prompt_bounces_sprite_without_moving_bubble():
     assert widget.event_prompt_rect() == bubble_rect
 
 
+def test_secondary_event_prompt_pulses_bubble_without_moving_hitbox():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_secondary_event_prompt("meat")
+    bubble_rect = widget.event_prompt_rect()
+
+    resting_image = _render_widget(widget)
+    widget._secondary_event_elapsed_ms = 600
+    pulsing_image = _render_widget(widget)
+
+    assert widget.event_prompt_rect() == bubble_rect
+    assert resting_image.pixelColor(bubble_rect.center().x(), bubble_rect.top() - 5).alpha() == 0
+    assert pulsing_image.pixelColor(bubble_rect.center().x(), bubble_rect.top() - 5).alpha() > 0
+
+
 def test_secondary_item_prompt_uses_dialog_bubble_with_question_mark():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
