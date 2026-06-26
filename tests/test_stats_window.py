@@ -179,6 +179,8 @@ def test_stats_window_combat_stats_have_compact_max_gauges(monkeypatch):
     assert [bar.value() for bar in window._bar_groups["offense"]] == [381]
     assert window._bar_groups["hp"][0].toolTip() == "HP 6442 / 99999"
     assert window._bar_groups["offense"][0].toolTip() == "OFF 381 / 9999"
+    assert window._label_groups["hp"][0].objectName() == "StatsBarValue"
+    assert window._label_groups["offense"][0].objectName() == "StatsBarValue"
 
 
 def test_stats_window_care_gauges_use_compact_bars(monkeypatch):

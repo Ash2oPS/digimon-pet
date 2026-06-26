@@ -294,7 +294,7 @@ class StatsWindow(QDialog):
         layout.addWidget(title)
         grid = QGridLayout()
         grid.setHorizontalSpacing(18)
-        grid.setVerticalSpacing(6)
+        grid.setVerticalSpacing(8)
         layout.addLayout(grid)
         for index, (key, label) in enumerate(
             [
@@ -316,9 +316,8 @@ class StatsWindow(QDialog):
         header = QHBoxLayout()
         header.setSpacing(6)
         title_label = QLabel(title, self)
-        title_label.setObjectName("Muted")
         value = QLabel("-", self)
-        value.setObjectName("StatsMetricValue")
+        value.setObjectName("StatsBarValue")
         value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self._register_label(key, value)
         header.addWidget(title_label)
