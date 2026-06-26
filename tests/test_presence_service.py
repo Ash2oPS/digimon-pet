@@ -196,6 +196,144 @@ def test_peer_status_changed_callback_receives_previous_and_current(monkeypatch)
     assert calls[1][1].payload == payload
 
 
+def test_peer_poll_extends_legacy_current_generation_history_from_previous_status(monkeypatch):
+    service = PresenceService(
+        settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),
+        payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
+        poll_interval_seconds=1,
+    )
+    previous_payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Sora",
+        "species_id": "agumon",
+        "digimon_name": "Agumon",
+        "stage": "rookie",
+        "age_seconds": 120,
+        "current_generation_species_ids": ["botamon", "koromon", "agumon"],
+        "current_action": "idle",
+        "is_sleeping": False,
+        "needs_rebirth_choice": False,
+        "hp": 900,
+        "mp": 800,
+        "offense": 90,
+        "defense": 80,
+        "speed": 70,
+        "brains": 60,
+    }
+    service._peers["127.0.0.1:54545"] = presence_module.PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload=previous_payload,
+    )
+    legacy_numemon_payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Sora",
+        "species_id": "numemon",
+        "digimon_name": "Numemon",
+        "stage": "champion",
+        "current_action": "idle",
+        "is_sleeping": False,
+        "hp": 1000,
+        "mp": 900,
+        "offense": 100,
+        "defense": 90,
+        "speed": 80,
+        "brains": 70,
+    }
+
+    def fake_urlopen(request, timeout):
+        class Response:
+            status = 200
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return presence_module.json.dumps(legacy_numemon_payload).encode("utf-8")
+
+        return Response()
+
+    monkeypatch.setattr(presence_module.urllib.request, "urlopen", fake_urlopen)
+
+    service.poll_once()
+
+    status = service.peer_statuses()[0]
+    assert status.payload is not None
+    assert status.payload["species_id"] == "numemon"
+    assert status.payload["current_generation_species_ids"] == ["botamon", "koromon", "agumon", "numemon"]
+
+
+def test_peer_poll_does_not_merge_previous_generation_after_rebirth(monkeypatch):
+    service = PresenceService(
+        settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),
+        payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
+        poll_interval_seconds=1,
+    )
+    service._peers["127.0.0.1:54545"] = presence_module.PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload={
+            "protocol_version": 1,
+            "trainer_nickname": "Sora",
+            "species_id": "metalgreymon",
+            "digimon_name": "MetalGreymon",
+            "stage": "ultimate",
+            "age_seconds": 120,
+            "current_generation_species_ids": ["botamon", "koromon", "agumon", "greymon", "metalgreymon"],
+            "current_action": "idle",
+            "is_sleeping": False,
+            "needs_rebirth_choice": False,
+            "hp": 900,
+            "mp": 800,
+            "offense": 90,
+            "defense": 80,
+            "speed": 70,
+            "brains": 60,
+        },
+    )
+    baby_payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Sora",
+        "species_id": "punimon",
+        "digimon_name": "Punimon",
+        "stage": "baby",
+        "current_action": "idle",
+        "is_sleeping": False,
+        "hp": 300,
+        "mp": 300,
+        "offense": 30,
+        "defense": 30,
+        "speed": 30,
+        "brains": 30,
+    }
+
+    def fake_urlopen(request, timeout):
+        class Response:
+            status = 200
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return presence_module.json.dumps(baby_payload).encode("utf-8")
+
+        return Response()
+
+    monkeypatch.setattr(presence_module.urllib.request, "urlopen", fake_urlopen)
+
+    service.poll_once()
+
+    status = service.peer_statuses()[0]
+    assert status.payload is not None
+    assert status.payload["current_generation_species_ids"] == ["punimon"]
+
+
 def test_port_bind_failure_keeps_service_stopped(monkeypatch):
     def raise_os_error(*args, **kwargs):
         raise OSError("port busy")
