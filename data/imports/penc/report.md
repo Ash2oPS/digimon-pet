@@ -425,7 +425,7 @@ Source: https://humulos.com/digimon/penc/
 - Nyaromon (`nyaromon`, baby_2)
 - Nyokimon (`nyokimon`, baby)
 - Pyocomon (`pyocomon`, baby_2)
-- Piyomon (`piyomon`, rookie)
+- Biyomon (`biyomon`, rookie)
 
 ## New Evolutions
 - Mochimon -> Tentomon: hp 1000, defense 100, speed 100, brains 100
@@ -569,7 +569,7 @@ Source: https://humulos.com/digimon/penc/
 - Bakemon -> Lady Devimon: hp 43000, mp 48000, offense 5250, defense 4300
 - Dokugumon -> Lady Devimon: hp 43000, mp 48000, offense 5250, defense 4300
 - Loogarmon -> Soloogarmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Pyocomon -> Piyomon: hp 1000, mp 1000, offense 100, defense 100
+- Pyocomon -> Biyomon: hp 1000, mp 1000, offense 100, defense 100
 - Pyocomon -> Floramon: hp 1000, defense 100, speed 100, brains 100
 - Pyocomon -> Palmon: hp 1000, defense 100, speed 100, brains 100
 - Pyocomon -> Pteromon: hp 1000, mp 1000, offense 100, defense 100
@@ -577,22 +577,22 @@ Source: https://humulos.com/digimon/penc/
 - Floramon -> V-dramon: defense 1100, offense 1250, brains 1400
 - Mushmon -> V-dramon: defense 1100, offense 1250, brains 1400
 - Pteromon -> V-dramon: defense 1100, offense 1250, brains 1400
-- Piyomon -> Birdramon: defense 1100, offense 1250, brains 1400
+- Biyomon -> Birdramon: defense 1100, offense 1250, brains 1400
 - Floramon -> Birdramon: defense 1100, offense 1250, brains 1400
 - Pteromon -> Birdramon: defense 1100, offense 1250, brains 1400
 - Palmon -> Togemon: hp 11000, mp 12500, offense 1400, defense 1100
 - Mushmon -> Togemon: hp 11000, mp 12500, offense 1400, defense 1100
 - Pteromon -> Togemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Piyomon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
+- Biyomon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
 - Floramon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
 - Palmon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
 - Floramon -> Galemon: hp 11000, mp 12500, offense 1400, defense 1100
 - Mushmon -> Galemon: hp 11000, mp 12500, offense 1400, defense 1100
 - Pteromon -> Galemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Piyomon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
+- Biyomon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
 - Palmon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
 - Mushmon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Piyomon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
+- Biyomon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
 - Floramon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
 - Palmon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
 - Mushmon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
@@ -954,7 +954,7 @@ Source: https://humulos.com/digimon/penc/
 - Nyaromon (`nyaromon`): https://humulos.com/digimon/images/dot/penc/nyaro.gif + https://humulos.com/digimon/images/dot/penc/frame2/nyaro.gif
 - Nyokimon (`nyokimon`): https://humulos.com/digimon/images/dot/penc/nyoki.gif + https://humulos.com/digimon/images/dot/penc/frame2/nyoki.gif
 - Pyocomon (`pyocomon`): https://humulos.com/digimon/images/dot/penc/pyoco.gif + https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif
-- Piyomon (`piyomon`): https://humulos.com/digimon/images/dot/penc/piyo.gif + https://humulos.com/digimon/images/dot/penc/frame2/piyo.gif
+- Biyomon (`biyomon`): https://humulos.com/digimon/images/dot/penc/piyo.gif + https://humulos.com/digimon/images/dot/penc/frame2/piyo.gif
 
 ## Excluded
 - Andiramon: alternate form

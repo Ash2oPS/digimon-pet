@@ -28,6 +28,19 @@ def test_parse_penc_html_extracts_species_edges_and_exclusions():
     }
 
 
+def test_parse_penc_html_maps_piyomon_to_biyomon_alias():
+    raw = parse_penc_html(_fixture_html_with_piyomon())
+
+    species = {item["slug"]: item for item in raw["species"]}
+    assert species["piyo"]["id"] == "biyomon"
+    assert species["piyo"]["name"] == "Biyomon"
+    assert species["piyo"]["aliases"] == ["Piyomon"]
+    assert ("pyocomon", "biyomon") in {
+        (edge["source_id"], edge["target_id"])
+        for edge in raw["edges"]
+    }
+
+
 def test_generate_penc_proposal_adds_new_branches_without_replacing_existing():
     raw = parse_penc_html(_fixture_html())
     species_rows = [
@@ -65,6 +78,24 @@ def test_generate_penc_proposal_adds_new_branches_without_replacing_existing():
     assert all(500 <= value <= 18000 for value in stats.values())
     assert "tentomon" in proposal["preserved_existing_sprite_species_ids"]
     assert "Herakle Kabuterimon excluded: stage exceeds Ultimate" in proposal["warnings"]
+
+
+def test_generate_penc_proposal_does_not_readd_piyomon_when_biyomon_exists():
+    raw = parse_penc_html(_fixture_html_with_piyomon())
+    species_rows = [
+        {"id": "pyocomon", "name": "Pyocomon", "stage": "baby_2", "sprite_slots": {}},
+        {"id": "biyomon", "name": "Biyomon", "stage": "rookie", "aliases": ["Piyomon"], "sprite_slots": {}},
+    ]
+    digivolutions = {"natural_evolutions": [], "indexes": {"by_source": {}}}
+
+    proposal = generate_penc_proposal(raw, species_rows, digivolutions)
+
+    assert "piyomon" not in {item["id"] for item in proposal["new_species"]}
+    assert "biyomon" not in {item["id"] for item in proposal["new_species"]}
+    assert "pyocomon__to__biyomon" in {
+        item["id"]
+        for item in proposal["new_natural_evolutions"]
+    }
 
 
 def test_apply_penc_proposal_merges_species_and_indexes():
@@ -166,4 +197,24 @@ def _fixture_html():
       </div>
     </div>
     <div data-evolution-source="mochi" data-evolution-target="tento"></div>
+    """
+
+
+def _fixture_html_with_piyomon():
+    return """
+    <div class="anchor"><div class="family"><h4 class="rdisplay">Wind Guardians</h4></div></div>
+    <div class="babyII column">
+      <div id="pyoco" class="row" data-stage="baby_2">
+        <img data-src="//humulos.com/digimon/images/dot/penc/frame2/pyoco.gif" title="Pyocomon">
+        <img data-src="//humulos.com/digimon/images/dot/penc/pyoco.gif" title="Pyocomon">
+      </div>
+    </div>
+    <div class="child column">
+      <div id="piyo" class="row" data-stage="rookie">
+        <span class="wg_pyoco_line"></span>
+        <img data-src="//humulos.com/digimon/images/dot/penc/frame2/piyo.gif" title="Piyomon">
+        <img data-src="//humulos.com/digimon/images/dot/penc/piyo.gif" title="Piyomon">
+      </div>
+    </div>
+    <div data-evolution-source="pyoco" data-evolution-target="piyo"></div>
     """

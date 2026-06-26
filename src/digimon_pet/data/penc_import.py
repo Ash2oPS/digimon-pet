@@ -69,6 +69,9 @@ DW1_STAGE_BY_APP_STAGE = {
     GrowthStage.BABY.value: "fresh",
     GrowthStage.BABY_2.value: "in_training",
 }
+CANONICAL_NAME_OVERRIDES = {
+    "piyomon": "Biyomon",
+}
 
 
 @dataclass(frozen=True)
@@ -506,7 +509,8 @@ def species_id_from_name(name: str) -> str:
 
 
 def _canonical_name(name: str) -> str:
-    return re.sub(r"\s*\([^)]*\)\s*$", "", name).strip()
+    canonical = re.sub(r"\s*\([^)]*\)\s*$", "", name).strip()
+    return CANONICAL_NAME_OVERRIDES.get(normalize_name(canonical), canonical)
 
 
 def _aliases_for_name(name: str) -> list[str]:

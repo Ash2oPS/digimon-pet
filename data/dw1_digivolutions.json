@@ -9150,12 +9150,12 @@
       ]
     },
     {
-      "id": "pyocomon__to__piyomon",
+      "id": "pyocomon__to__biyomon",
       "type": "natural",
       "source_species_id": "pyocomon",
       "source_name": "Pyocomon",
-      "target_species_id": "piyomon",
-      "target_name": "Piyomon",
+      "target_species_id": "biyomon",
+      "target_name": "Biyomon",
       "target_stage": "rookie",
       "chart_order": 142,
       "requirements": {
@@ -9395,36 +9395,6 @@
       ]
     },
     {
-      "id": "piyomon__to__birdramon",
-      "type": "natural",
-      "source_species_id": "piyomon",
-      "source_name": "Piyomon",
-      "target_species_id": "birdramon",
-      "target_name": "Birdramon",
-      "target_stage": "champion",
-      "chart_order": 150,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "defense": 1100,
-            "offense": 1250,
-            "brains": 1400
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family: Wind Guardians"
-      ]
-    },
-    {
       "id": "floramon__to__birdramon",
       "type": "natural",
       "source_species_id": "floramon",
@@ -9578,10 +9548,10 @@
       ]
     },
     {
-      "id": "piyomon__to__kiwimon",
+      "id": "biyomon__to__kiwimon",
       "type": "natural",
-      "source_species_id": "piyomon",
-      "source_name": "Piyomon",
+      "source_species_id": "biyomon",
+      "source_name": "Biyomon",
       "target_species_id": "kiwimon",
       "target_name": "Kiwimon",
       "target_stage": "champion",
@@ -9764,10 +9734,10 @@
       ]
     },
     {
-      "id": "piyomon__to__woodmon",
+      "id": "biyomon__to__woodmon",
       "type": "natural",
-      "source_species_id": "piyomon",
-      "source_name": "Piyomon",
+      "source_species_id": "biyomon",
+      "source_name": "Biyomon",
       "target_species_id": "woodmon",
       "target_name": "Woodmon",
       "target_stage": "champion",
@@ -9857,10 +9827,10 @@
       ]
     },
     {
-      "id": "piyomon__to__redvegimon",
+      "id": "biyomon__to__redvegimon",
       "type": "natural",
-      "source_species_id": "piyomon",
-      "source_name": "Piyomon",
+      "source_species_id": "biyomon",
+      "source_name": "Biyomon",
       "target_species_id": "redvegimon",
       "target_name": "Red Vegimon",
       "target_stage": "champion",
@@ -17148,8 +17118,11 @@
         "biyomon__to__airdramon",
         "biyomon__to__birdramon",
         "biyomon__to__kabuterimon",
+        "biyomon__to__kiwimon",
         "biyomon__to__kokatorimon",
-        "biyomon__to__unimon"
+        "biyomon__to__redvegimon",
+        "biyomon__to__unimon",
+        "biyomon__to__woodmon"
       ],
       "botamon": [
         "botamon__to__koromon"
@@ -17640,12 +17613,6 @@
       "pitchmon": [
         "pitchmon__to__pukamon"
       ],
-      "piyomon": [
-        "piyomon__to__birdramon",
-        "piyomon__to__kiwimon",
-        "piyomon__to__redvegimon",
-        "piyomon__to__woodmon"
-      ],
       "plotmon": [
         "plotmon__to__angemon",
         "plotmon__to__blacktailmon",
@@ -17675,10 +17642,10 @@
         "punimon__to__tsunomon"
       ],
       "pyocomon": [
+        "pyocomon__to__biyomon",
         "pyocomon__to__floramon",
         "pyocomon__to__mushmon",
         "pyocomon__to__palmon",
-        "pyocomon__to__piyomon",
         "pyocomon__to__pteromon"
       ],
       "redvegimon": [

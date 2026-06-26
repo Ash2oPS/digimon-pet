@@ -226,7 +226,6 @@
 - Nyaromon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/nyaromon.png); aliases: -
 - Nyokimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/nyokimon.png); aliases: -
 - Pyocomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pyocomon.png); aliases: -
-- Piyomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/piyomon.png); aliases: -
 - MetalEtemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/metal_etemon.png); aliases: -
 
 ## Missing

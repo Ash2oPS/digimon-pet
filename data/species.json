@@ -477,7 +477,10 @@
       "sleep": "assets/sprites/biyomon/sleep.png",
       "eat": "assets/sprites/biyomon/eat.png",
       "train": "assets/sprites/biyomon/train.png"
-    }
+    },
+    "aliases": [
+      "Piyomon"
+    ]
   },
   {
     "id": "elecmon",
@@ -1825,13 +1828,6 @@
     "id": "pyocomon",
     "name": "Pyocomon",
     "stage": "baby_2",
-    "aliases": [],
-    "sprite_slots": {}
-  },
-  {
-    "id": "piyomon",
-    "name": "Piyomon",
-    "stage": "rookie",
     "aliases": [],
     "sprite_slots": {}
   },

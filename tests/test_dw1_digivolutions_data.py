@@ -119,6 +119,33 @@ def test_species_contains_all_normal_dw1_evolution_targets_and_sources():
     assert required <= species_ids
 
 
+def test_biyomon_is_the_only_catalog_entry_for_piyomon_alias():
+    species = load_species()
+    assert "biyomon" in species
+    assert "piyomon" not in species
+    assert "Piyomon" in species["biyomon"].aliases
+
+    roster = json.loads((ROOT / "data" / "dw1_roster.json").read_text(encoding="utf-8"))
+    roster_by_id = {item["id"]: item for item in roster}
+    assert "piyomon" not in roster_by_id
+    assert "Piyomon" in roster_by_id["biyomon"]["aliases"]
+
+    data = load_dw1_digivolutions()
+    assert all(row.get("id") != "piyomon" for row in data["digimon"])
+    for transition in data["natural_evolutions"]:
+        assert transition["source_species_id"] != "piyomon"
+        assert transition["target_species_id"] != "piyomon"
+    assert "piyomon" not in data["indexes"]["by_source"]
+
+    sprite_manifest = json.loads(
+        (ROOT / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8")
+    )
+    assert "piyomon" not in sprite_manifest["entries"]
+
+    artworks = json.loads((ROOT / "data" / "artwork_downloads.json").read_text(encoding="utf-8"))
+    assert all(item.get("species_id") != "piyomon" for item in artworks)
+
+
 def test_terriermon_line_has_runtime_assets_and_roster_entries():
     line_ids = {"zerimon", "gummymon", "terriermon", "galgomon", "rapidmon"}
 

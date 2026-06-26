@@ -1800,14 +1800,6 @@
     "path": "assets/artworks/pyocomon.png"
   },
   {
-    "species_id": "piyomon",
-    "name": "Piyomon",
-    "official_name": "Piyomon",
-    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=piyomon",
-    "url": "https://www.digimon.net/cimages/digimon/piyomon.jpg",
-    "path": "assets/artworks/piyomon.png"
-  },
-  {
     "species_id": "metal_etemon",
     "name": "MetalEtemon",
     "official_name": "Metal Etemon",

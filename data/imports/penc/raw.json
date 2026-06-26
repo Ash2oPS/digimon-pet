@@ -2793,9 +2793,11 @@
     },
     {
       "slug": "piyo",
-      "id": "piyomon",
-      "name": "Piyomon",
-      "aliases": [],
+      "id": "biyomon",
+      "name": "Biyomon",
+      "aliases": [
+        "Piyomon"
+      ],
       "stage": "rookie",
       "family": "Wind Guardians",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/piyo.gif",
@@ -4377,7 +4379,7 @@
       "source_slug": "pyoco",
       "target_slug": "piyo",
       "source_id": "pyocomon",
-      "target_id": "piyomon",
+      "target_id": "biyomon",
       "family": "Wind Guardians"
     },
     {
@@ -4432,7 +4434,7 @@
     {
       "source_slug": "piyo",
       "target_slug": "birdra",
-      "source_id": "piyomon",
+      "source_id": "biyomon",
       "target_id": "birdramon",
       "family": "Wind Guardians"
     },
@@ -4474,7 +4476,7 @@
     {
       "source_slug": "piyo",
       "target_slug": "kiwi",
-      "source_id": "piyomon",
+      "source_id": "biyomon",
       "target_id": "kiwimon",
       "family": "Wind Guardians"
     },
@@ -4516,7 +4518,7 @@
     {
       "source_slug": "piyo",
       "target_slug": "wood",
-      "source_id": "piyomon",
+      "source_id": "biyomon",
       "target_id": "woodmon",
       "family": "Wind Guardians"
     },
@@ -4537,7 +4539,7 @@
     {
       "source_slug": "piyo",
       "target_slug": "redvegi",
-      "source_id": "piyomon",
+      "source_id": "biyomon",
       "target_id": "redvegimon",
       "family": "Wind Guardians"
     },
