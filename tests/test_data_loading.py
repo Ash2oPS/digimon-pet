@@ -115,6 +115,7 @@ def test_load_item_catalog_contains_consumable_effects():
         "digiveggie": ((ItemEffectType.STAT_DELTA, "hp", 250),),
         "digiweed": ((ItemEffectType.STAT_DELTA, "mp", 250),),
         "digialcohol": ((ItemEffectType.HALVE_LIFECYCLE_REMAINING, None, 0),),
+        "my_digibigburger": ((ItemEffectType.RANDOM_STAT_DELTA, None, 100),),
     }
 
     for item_id, effects in expected_effects.items():

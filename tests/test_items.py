@@ -183,6 +183,66 @@ def test_consumable_effect_can_apply_multiple_stat_deltas():
     assert state.inventory == {}
 
 
+def test_consumable_random_stat_delta_effect_increases_one_random_stat_and_consumes_item():
+    item = ItemDefinition(
+        id="my_digibigburger",
+        name="My DigiBigBurger",
+        description="Increases a random stat by 100(0).",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.RANDOM_STAT_DELTA, amount=100),),
+    )
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        hp=300,
+        mp=300,
+        offense=30,
+        defense=30,
+        speed=30,
+        brains=30,
+        inventory={"my_digibigburger": 1},
+    )
+
+    result = use_item(state, "my_digibigburger", species_map(), random.Random(0), catalog)
+
+    assert result.used is True
+    assert result.stat_gains == {"defense": 100}
+    assert state.hp == 300
+    assert state.mp == 300
+    assert state.offense == 30
+    assert state.defense == 130
+    assert state.speed == 30
+    assert state.brains == 30
+    assert state.inventory == {}
+
+
+def test_consumable_random_stat_delta_effect_scales_hp_and_mp_like_large_stats():
+    item = ItemDefinition(
+        id="my_digibigburger",
+        name="My DigiBigBurger",
+        description="Increases a random stat by 100(0).",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.RANDOM_STAT_DELTA, amount=100),),
+    )
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        hp=300,
+        mp=300,
+        inventory={"my_digibigburger": 1},
+    )
+
+    result = use_item(state, "my_digibigburger", species_map(), random.Random(2), catalog)
+
+    assert result.used is True
+    assert result.stat_gains == {"hp": 1000}
+    assert state.hp == 1300
+    assert state.mp == 300
+    assert state.inventory == {}
+
+
 def test_consumable_instant_death_effect_requires_rebirth_choice_and_consumes_item():
     item = ItemDefinition(
         id="digigun",

@@ -127,6 +127,8 @@ def _inventory_effect_text(item, species: dict[str, Species]) -> str:
             label = ITEM_STAT_LABELS.get(effect.stat, effect.stat.upper())
             sign = "+" if effect.amount >= 0 else ""
             parts.append(f"{sign}{effect.amount} {label}")
+        elif effect.type == ItemEffectType.RANDOM_STAT_DELTA:
+            parts.append(f"+{effect.amount} to a random stat")
         elif effect.type == ItemEffectType.INSTANT_DEATH:
             parts.append("Triggers death.")
         elif effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:

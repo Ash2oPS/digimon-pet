@@ -16,6 +16,7 @@ INCUBATOR_ID = "incubator"
 EVOLUTION_ITEM_POOL_PERCENT = 15
 NORMAL_ITEM_POOL_PERCENT_WITH_EVOLUTIONS = 100 - EVOLUTION_ITEM_POOL_PERCENT
 INCUBATOR_ALLOWED_STAGES = {GrowthStage.ROOKIE, GrowthStage.CHAMPION, GrowthStage.ULTIMATE}
+RANDOM_STAT_DELTA_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
 class ItemType(StrEnum):
@@ -33,6 +34,7 @@ class InventoryCategory(StrEnum):
 
 class ItemEffectType(StrEnum):
     STAT_DELTA = "stat_delta"
+    RANDOM_STAT_DELTA = "random_stat_delta"
     INSTANT_DEATH = "instant_death"
     HALVE_LIFECYCLE_REMAINING = "halve_lifecycle_remaining"
 
@@ -318,6 +320,11 @@ def use_consumable_item(
             amount = int(effect.amount)
             setattr(state, effect.stat, getattr(state, effect.stat) + amount)
             stat_gains[effect.stat] = stat_gains.get(effect.stat, 0) + amount
+        elif effect.type == ItemEffectType.RANDOM_STAT_DELTA:
+            stat = rng.choice(RANDOM_STAT_DELTA_STATS)
+            amount = int(effect.amount) * (10 if stat in {"hp", "mp"} else 1)
+            setattr(state, stat, getattr(state, stat) + amount)
+            stat_gains[stat] = stat_gains.get(stat, 0) + amount
         elif effect.type == ItemEffectType.INSTANT_DEATH:
             event = force_death(state, rng)
         elif effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:

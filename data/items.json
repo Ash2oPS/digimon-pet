@@ -76,6 +76,7 @@
       "name": "DigiFish",
       "description": "Increases Int by 25.",
       "type": "consumable",
+      "inventory_category": "consumable",
       "icon_path": "assets/items/digianchovy-icon.png",
       "effects": [
         {
@@ -104,6 +105,7 @@
       "name": "DigiVeggie",
       "description": "Increases HP by 250.",
       "type": "consumable",
+      "inventory_category": "consumable",
       "icon_path": "assets/items/super-veggy-icon.png",
       "effects": [
         {
@@ -118,6 +120,7 @@
       "name": "DigiWeed",
       "description": "Increases MP by 250.",
       "type": "consumable",
+      "inventory_category": "consumable",
       "icon_path": "assets/items/spiny-green-icon.png",
       "effects": [
         {
@@ -132,6 +135,7 @@
       "name": "Sunglasses",
       "description": "Makes any Rookie Digimon digivolve into Nanimon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/sunglasses-icon.png",
       "evolution": {
         "target_species_id": "nanimon",
@@ -146,6 +150,7 @@
       "name": "Fatal Bone",
       "description": "Makes MetalGreymon digivolve into SkullGreymon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/fatal-bone-icon.png",
       "evolution": {
         "target_species_id": "skullgreymon",
@@ -320,6 +325,20 @@
         ],
         "required_stages": []
       }
+    },
+    {
+      "id": "my_digibigburger",
+      "name": "My DigiBigBurger",
+      "description": "Increases a random stat by 100(0).",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/big-burger.png",
+      "effects": [
+        {
+          "type": "random_stat_delta",
+          "amount": 100
+        }
+      ]
     }
   ],
   "pools": {
@@ -407,6 +426,10 @@
       {
         "item_id": "black_wings_for_ladies",
         "weight": 1
+      },
+      {
+        "item_id": "my_digibigburger",
+        "weight": 2
       }
     ]
   }
