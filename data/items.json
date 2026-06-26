@@ -485,6 +485,20 @@
           "amount": 50
         }
       ]
+    },
+    {
+      "id": "auto_clicker",
+      "name": "Auto Clicker",
+      "description": "Auto triggers Secondary Events for 1h.",
+      "type": "consumable",
+      "inventory_category": "special",
+      "icon_path": "assets/items/autoclicker.png",
+      "effects": [
+        {
+          "type": "auto_secondary_events",
+          "amount": 3600
+        }
+      ]
     }
   ],
   "pools": {
@@ -608,6 +622,10 @@
       {
         "item_id": "mega_chip",
         "weight": 1
+      },
+      {
+        "item_id": "auto_clicker",
+        "weight": 3
       }
     ]
   }

@@ -123,6 +123,7 @@ def test_load_item_catalog_contains_consumable_effects():
         "hp_chip": ((ItemEffectType.STAT_PERCENT, "hp", 10),),
         "mp_chip": ((ItemEffectType.STAT_PERCENT, "mp", 10),),
         "mega_chip": ((ItemEffectType.RANDOM_STAT_PERCENT, None, 50),),
+        "auto_clicker": ((ItemEffectType.AUTO_SECONDARY_EVENTS, None, 3600),),
     }
 
     for item_id, effects in expected_effects.items():

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import random
+import time
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -137,6 +138,8 @@ def _inventory_effect_text(item, species: dict[str, Species]) -> str:
             parts.append(f"{sign}{effect.amount} {label}")
         elif effect.type == ItemEffectType.RANDOM_STAT_DELTA:
             parts.append(f"+{effect.amount} to a random stat")
+        elif effect.type == ItemEffectType.AUTO_SECONDARY_EVENTS:
+            parts.append("Auto-claims secondary events for 1h.")
         elif effect.type == ItemEffectType.INSTANT_DEATH:
             parts.append("Triggers death.")
         elif effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:
@@ -1162,6 +1165,7 @@ class PetWindow(QWidget):
             self._pet_widget.trigger_new_badge()
 
     def _tick_secondary_event(self) -> None:
+        self._clear_expired_auto_clicker()
         if self._pending_lifecycle_kind is not None or self._lifecycle_animating:
             if self._secondary_event_kind is not None:
                 self._clear_secondary_event(schedule_next=True)
@@ -1181,6 +1185,9 @@ class PetWindow(QWidget):
         self._secondary_event_kind = kind or self._choose_secondary_event_kind()
         self._secondary_event_ttl_seconds = SECONDARY_EVENT_TTL_SECONDS
         self._secondary_event_seconds_remaining = 0
+        if self._auto_clicker_active():
+            self._claim_secondary_event()
+            return
         self._play_action_animation("walk")
         self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
 
@@ -1233,6 +1240,18 @@ class PetWindow(QWidget):
         if self._state.stage == GrowthStage.ULTIMATE:
             return 120 if stat_name in {"hp", "mp"} else 12
         return 100 if stat_name in {"hp", "mp"} else 10
+
+    def _auto_clicker_active(self) -> bool:
+        expires_at = self._state.auto_clicker_expires_at
+        if expires_at is None:
+            return False
+        if expires_at <= int(time.time()):
+            self._state.auto_clicker_expires_at = None
+            return False
+        return True
+
+    def _clear_expired_auto_clicker(self) -> None:
+        self._auto_clicker_active()
 
     def _play_action_animation(self, action: str) -> None:
         self._state.current_action = action

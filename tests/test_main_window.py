@@ -1245,6 +1245,65 @@ def test_secondary_item_event_boosts_stats_and_grants_weighted_item(tmp_path, mo
     assert window._pet_widget._stat_gain_item_name == "Monzaemon's Head"
 
 
+def test_auto_clicker_item_is_consumed_and_enables_auto_secondary_events(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    monkeypatch.setattr("digimon_pet.domain.items.time.time", lambda: 1000.0)
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.inventory = {"auto_clicker": 1}
+
+    window._use_inventory_item("auto_clicker")
+
+    assert window._state.inventory == {}
+    assert window._state.auto_clicker_expires_at == 4600
+
+
+def test_auto_clicker_claims_secondary_event_without_showing_prompt(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    monkeypatch.setattr("digimon_pet.app.main_window.time.time", lambda: 1000.0)
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._state.auto_clicker_expires_at = 4600
+    window._secondary_event_seconds_remaining = 1
+
+    window._tick()
+
+    assert window._state.hp == 400
+    assert window._state.offense == 40
+    assert window._secondary_event_kind is None
+    assert window._pet_widget.event_prompt_kind() is None
+    assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
+
+
+def test_auto_clicker_expiration_uses_real_elapsed_time_after_restart(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            auto_clicker_expires_at=4600,
+        ),
+        save_path,
+    )
+    monkeypatch.setattr("digimon_pet.app.main_window.time.time", lambda: 4700.0)
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._secondary_event_seconds_remaining = 1
+
+    window._tick()
+
+    assert window._state.auto_clicker_expires_at is None
+    assert window._state.hp == 300
+    assert window._secondary_event_kind in {"meat", "dumbbell", "item"}
+    assert window._pet_widget.event_prompt_kind().startswith("secondary_")
+
+
 def test_consumable_item_without_lifecycle_event_plays_eat_animation(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")

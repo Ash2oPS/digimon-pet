@@ -253,6 +253,20 @@ def test_save_load_persists_secondary_event_timer(tmp_path):
     assert loaded.secondary_event_seconds_remaining == 0
 
 
+def test_save_load_persists_auto_clicker_expiration(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        auto_clicker_expires_at=123456,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.auto_clicker_expires_at == 123456
+
+
 def test_save_load_persists_window_position(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(

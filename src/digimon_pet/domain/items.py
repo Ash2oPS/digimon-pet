@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import time
 import uuid
 from dataclasses import dataclass
 from enum import StrEnum
@@ -37,6 +38,7 @@ class ItemEffectType(StrEnum):
     STAT_PERCENT = "stat_percent"
     RANDOM_STAT_DELTA = "random_stat_delta"
     RANDOM_STAT_PERCENT = "random_stat_percent"
+    AUTO_SECONDARY_EVENTS = "auto_secondary_events"
     INSTANT_DEATH = "instant_death"
     HALVE_LIFECYCLE_REMAINING = "halve_lifecycle_remaining"
 
@@ -338,6 +340,10 @@ def use_consumable_item(
             amount = _stat_percent_gain(state, stat, effect.amount)
             setattr(state, stat, getattr(state, stat) + amount)
             stat_gains[stat] = stat_gains.get(stat, 0) + amount
+        elif effect.type == ItemEffectType.AUTO_SECONDARY_EVENTS:
+            current_time = int(time.time())
+            start_time = max(current_time, state.auto_clicker_expires_at or 0)
+            state.auto_clicker_expires_at = start_time + int(effect.amount)
         elif effect.type == ItemEffectType.INSTANT_DEATH:
             event = force_death(state, rng)
         elif effect.type == ItemEffectType.HALVE_LIFECYCLE_REMAINING:
