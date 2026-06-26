@@ -4,7 +4,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
 from PySide6.QtCore import QEvent, QPointF, Qt
-from PySide6.QtGui import QKeyEvent, QMouseEvent
+from PySide6.QtGui import QKeyEvent, QMouseEvent, QPixmap
 from PySide6.QtWidgets import QApplication, QScrollArea, QPushButton
 
 from digimon_pet.app.inventory_window import InventoryItem, InventorySlotWidget, InventoryWindow
@@ -40,9 +40,67 @@ def test_inventory_window_starts_with_empty_grid():
     slots = window.findChildren(InventorySlotWidget)
 
     assert window.windowTitle() == "Inventory"
-    assert len(slots) == 24
+    assert len(slots) == InventoryWindow._MIN_VISIBLE_SLOT_COUNT
     assert all(slot.item is None for slot in slots)
     assert all(slot.property("empty") is True for slot in slots)
+
+
+def test_inventory_window_does_not_build_every_storage_slot_on_open():
+    app = QApplication.instance() or QApplication([])
+
+    window = InventoryWindow()
+    slots = window.findChildren(InventorySlotWidget)
+
+    assert window._inventory_count.text() == "0 / 1024"
+    assert len(slots) == InventoryWindow._MIN_VISIBLE_SLOT_COUNT
+
+
+def test_inventory_filter_only_updates_materialized_slots(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    calls = []
+    original_set_item = InventorySlotWidget.set_item
+
+    def count_set_item(self, item):
+        calls.append(item.id if item is not None else None)
+        original_set_item(self, item)
+
+    monkeypatch.setattr(InventorySlotWidget, "set_item", count_set_item)
+    window = InventoryWindow(slot_count=1024)
+    window.set_items(
+        [
+            InventoryItem(id="meat", name="Meat", item_type="consumable"),
+            InventoryItem(id="disk", name="Champion Disk", item_type="evolution"),
+        ]
+    )
+
+    calls.clear()
+    window.set_filter("evolution")
+
+    assert len(calls) == InventoryWindow._MIN_VISIBLE_SLOT_COUNT
+
+
+def test_inventory_reuses_loaded_item_pixmaps(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    loads = []
+    original_init = QPixmap.__init__
+
+    def count_init(self, *args):
+        if args and isinstance(args[0], str) and args[0].endswith("monzaemon_head.png"):
+            loads.append(args[0])
+        original_init(self, *args)
+
+    monkeypatch.setattr(QPixmap, "__init__", count_init)
+    window = InventoryWindow(slot_count=12)
+    item = InventoryItem(
+        id="head",
+        name="Monzaemon Head",
+        icon_path="assets/items/monzaemon_head.png",
+    )
+
+    window.set_items([item])
+    window.set_filter("all")
+
+    assert len(loads) == 1
 
 
 def test_inventory_window_can_render_future_items():
@@ -143,7 +201,7 @@ def test_inventory_window_compacts_unused_empty_storage_slots():
     assert slots[0].isHidden() is False
     assert slots[1].isHidden() is False
     assert slots[5].isHidden() is False
-    assert slots[6].isHidden() is True
+    assert len(slots) == InventoryWindow._MIN_VISIBLE_SLOT_COUNT
 
 
 def test_inventory_grid_scroll_expands_with_dialog_height():

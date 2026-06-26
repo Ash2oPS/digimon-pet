@@ -57,6 +57,8 @@ class InventoryWindow(QDialog):
         self._items: list[InventoryItem] = []
         self._active_filter = "all"
         self._slot_count = slot_count
+        self._grid_layout: QGridLayout | None = None
+        self._pixmap_cache: dict[str, QPixmap] = {}
 
         self.setWindowTitle("Inventory")
         self.setMinimumSize(600, 360)
@@ -113,15 +115,11 @@ class InventoryWindow(QDialog):
         grid_host = QWidget(self)
         grid_host.setObjectName("InventoryGrid")
         grid_host.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
-        grid = QGridLayout(grid_host)
-        grid.setContentsMargins(10, 10, 10, 10)
-        grid.setHorizontalSpacing(8)
-        grid.setVerticalSpacing(8)
-
-        for index in range(slot_count):
-            slot = InventorySlotWidget(self._select_item, self._use_item, grid_host)
-            self._slots.append(slot)
-            grid.addWidget(slot, index // self._COLUMNS, index % self._COLUMNS)
+        self._grid_layout = QGridLayout(grid_host)
+        self._grid_layout.setContentsMargins(10, 10, 10, 10)
+        self._grid_layout.setHorizontalSpacing(8)
+        self._grid_layout.setVerticalSpacing(8)
+        self._ensure_slot_count(_visible_slot_count(0, self._slot_count))
 
         scroll_area.setWidget(grid_host)
         body.addWidget(scroll_area, 1)
@@ -188,12 +186,34 @@ class InventoryWindow(QDialog):
     def _render_slots(self) -> None:
         visible_items = [item for item in self._items if _matches_filter(item, self._active_filter)]
         visible_slot_count = _visible_slot_count(len(visible_items), self._slot_count)
+        self._ensure_slot_count(visible_slot_count)
         for index, slot in enumerate(self._slots):
             slot.set_item(visible_items[index] if index < len(visible_items) else None)
             slot.setVisible(index < visible_slot_count)
         if self._selected_item_id not in {item.id for item in visible_items}:
             self._selected_item_id = visible_items[0].id if visible_items else None
         self._refresh_selection()
+
+    def _ensure_slot_count(self, count: int) -> None:
+        if self._grid_layout is None:
+            return
+        while len(self._slots) < count:
+            index = len(self._slots)
+            slot = InventorySlotWidget(self._select_item, self._use_item, self._grid_layout.parentWidget())
+            slot.set_pixmap_provider(self._item_pixmap)
+            self._slots.append(slot)
+            self._grid_layout.addWidget(slot, index // self._COLUMNS, index % self._COLUMNS)
+
+    def _item_pixmap(self, item: InventoryItem) -> QPixmap | None:
+        if item.icon_path is None:
+            return None
+        cached = self._pixmap_cache.get(item.icon_path)
+        if cached is not None:
+            return cached
+        pixmap = _item_pixmap(item)
+        if pixmap is not None:
+            self._pixmap_cache[item.icon_path] = pixmap
+        return pixmap
 
     def _use_item(self, item_id: str) -> None:
         if self._item_used is not None:
@@ -233,7 +253,7 @@ class InventoryWindow(QDialog):
             self._use_button.setEnabled(False)
             return
 
-        pixmap = _item_pixmap(item)
+        pixmap = self._item_pixmap(item)
         if pixmap is None:
             self._details_icon.setPixmap(QPixmap())
             self._details_icon.setText(item.name[:2].upper())
@@ -281,6 +301,7 @@ class InventorySlotWidget(QWidget):
         self.item: InventoryItem | None = None
         self._item_selected = item_selected
         self._item_used = item_used
+        self._pixmap_provider: Callable[[InventoryItem], QPixmap | None] = _item_pixmap
         self.setObjectName("InventorySlot")
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self.setFixedSize(self._SIZE)
@@ -345,7 +366,7 @@ class InventorySlotWidget(QWidget):
         self._quantity_label.setText(str(item.quantity))
         self._quantity_label.setVisible(True)
         self._position_quantity_badge()
-        pixmap = _item_pixmap(item)
+        pixmap = self._pixmap_provider(item)
         if pixmap is None:
             self._icon_label.setPixmap(QPixmap())
             self._icon_label.setText(item.name[:2].upper())
@@ -359,6 +380,9 @@ class InventorySlotWidget(QWidget):
                 Qt.TransformationMode.SmoothTransformation,
             )
         )
+
+    def set_pixmap_provider(self, provider: Callable[[InventoryItem], QPixmap | None]) -> None:
+        self._pixmap_provider = provider
 
     def set_selected(self, selected: bool) -> None:
         self.setProperty("selected", selected)
