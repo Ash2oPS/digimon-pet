@@ -122,16 +122,14 @@ def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
     )
 
     assert [window._tabs.tabText(index) for index in range(window._tabs.count())] == [
-        "View",
-        "Combat",
-        "Care",
-        "Evolution Intel",
+        "Stats",
+        "Evolutions",
     ]
     labels = [label.text() for label in window.findChildren(QLabel)]
     assert "Evolutions" in labels
     assert "Direct evolutions" not in labels
-    assert [label.text() for label in window._label_groups["hp"]] == ["4414", "4414"]
-    assert [bar.value() for bar in window._bar_groups["hunger"]] == [30, 30]
+    assert [label.text() for label in window._label_groups["hp"]] == ["4414"]
+    assert [bar.value() for bar in window._bar_groups["hunger"]] == [30]
 
 
 def test_stats_window_displays_current_stage_age_not_total_generation_age(monkeypatch):
@@ -174,11 +172,11 @@ def test_stats_window_combat_stats_have_compact_max_gauges(monkeypatch):
         Species("commandramon", "Commandramon", GrowthStage.ROOKIE),
     )
 
-    assert [label.text() for label in window._label_groups["hp"]] == ["6442", "6442"]
-    assert [bar.maximum() for bar in window._bar_groups["hp"]] == [99999, 99999]
-    assert [bar.value() for bar in window._bar_groups["hp"]] == [6442, 6442]
-    assert [bar.maximum() for bar in window._bar_groups["offense"]] == [9999, 9999]
-    assert [bar.value() for bar in window._bar_groups["offense"]] == [381, 381]
+    assert [label.text() for label in window._label_groups["hp"]] == ["6442"]
+    assert [bar.maximum() for bar in window._bar_groups["hp"]] == [99999]
+    assert [bar.value() for bar in window._bar_groups["hp"]] == [6442]
+    assert [bar.maximum() for bar in window._bar_groups["offense"]] == [9999]
+    assert [bar.value() for bar in window._bar_groups["offense"]] == [381]
     assert window._bar_groups["hp"][0].toolTip() == "HP 6442 / 99999"
     assert window._bar_groups["offense"][0].toolTip() == "OFF 381 / 9999"
 
@@ -202,7 +200,7 @@ def test_stats_window_care_gauges_use_compact_bars(monkeypatch):
         Species("numemon", "Numemon", GrowthStage.CHAMPION),
     )
 
-    assert [label.text() for label in window._label_groups["hunger_bar_value"]] == ["30", "30"]
+    assert [label.text() for label in window._label_groups["hunger_bar_value"]] == ["30"]
     assert window._bar_groups["hunger"][0].maximum() == 100
     assert window._bar_groups["hunger"][0].value() == 30
     window.show()
@@ -227,8 +225,9 @@ def test_stats_window_view_tab_omits_redundant_summary_cards(monkeypatch):
     labels = [label.text() for label in view_tab.findChildren(QLabel)]
 
     assert view_tab.findChildren(QFrame, "StatsMetricCard") == []
-    assert "Care gauges" in labels
     assert "Combat" in labels
+    assert "Care gauges" in labels
+    assert labels.index("Combat") < labels.index("Care gauges")
 
 
 def test_terriermon_evolution_progress_reports_missing_stats():

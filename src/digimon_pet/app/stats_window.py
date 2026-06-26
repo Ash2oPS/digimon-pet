@@ -114,10 +114,8 @@ class StatsWindow(QDialog):
 
         self._tabs = QTabWidget(self)
         self._tabs.setObjectName("StatsTabs")
-        self._tabs.addTab(self._build_overview_tab(), "View")
-        self._tabs.addTab(self._build_combat_tab(), "Combat")
-        self._tabs.addTab(self._build_care_tab(), "Care")
-        self._tabs.addTab(self._build_evolution_tab(), "Evolution Intel")
+        self._tabs.addTab(self._build_overview_tab(), "Stats")
+        self._tabs.addTab(self._build_evolution_tab(), "Evolutions")
         layout.addWidget(self._tabs, 1)
 
     def refresh(self, state: PetState, species: Species) -> None:
@@ -166,8 +164,8 @@ class StatsWindow(QDialog):
 
         content = QHBoxLayout()
         content.setSpacing(8)
-        content.addWidget(self._care_panel(), 1)
         content.addWidget(self._combat_panel(), 1)
+        content.addWidget(self._care_panel(), 1)
         layout.addLayout(content)
         layout.addStretch(1)
         return page
@@ -292,6 +290,7 @@ class StatsWindow(QDialog):
         layout.setSpacing(6)
         title = QLabel("Combat", self)
         title.setObjectName("SectionTitle")
+        title.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         layout.addWidget(title)
         grid = QGridLayout()
         grid.setHorizontalSpacing(18)
