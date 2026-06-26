@@ -196,7 +196,7 @@ def test_peer_status_changed_callback_receives_previous_and_current(monkeypatch)
     assert calls[1][1].payload == payload
 
 
-def test_peer_poll_extends_legacy_current_generation_history_from_previous_status(monkeypatch):
+def test_peer_poll_uses_friend_current_generation_history_without_local_repair(monkeypatch):
     service = PresenceService(
         settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),
         payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
@@ -263,7 +263,7 @@ def test_peer_poll_extends_legacy_current_generation_history_from_previous_statu
     status = service.peer_statuses()[0]
     assert status.payload is not None
     assert status.payload["species_id"] == "numemon"
-    assert status.payload["current_generation_species_ids"] == ["botamon", "koromon", "agumon", "numemon"]
+    assert status.payload["current_generation_species_ids"] == ["numemon"]
 
 
 def test_peer_poll_does_not_merge_previous_generation_after_rebirth(monkeypatch):

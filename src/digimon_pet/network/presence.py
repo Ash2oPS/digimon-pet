@@ -221,9 +221,6 @@ class PresenceService:
                     raise ValueError(f"HTTP {response.status}")
                 raw = json.loads(response.read().decode("utf-8"))
             payload = _presence_payload_from_raw(raw)
-            with self._lock:
-                previous_status = self._peers.get(address)
-            payload = _merge_observed_current_generation(previous_status.payload if previous_status else None, payload)
             status = PeerStatus(address=address, online=True, payload=payload, last_seen_seconds=time.time())
         except (OSError, ValueError, AttributeError, json.JSONDecodeError, urllib.error.URLError) as exc:
             with self._lock:
@@ -274,36 +271,6 @@ def _current_generation_species_ids_from_raw(raw: Any, current_species_id: str) 
         return [current_species_id]
     cleaned = list(dict.fromkeys(str(item) for item in raw if str(item).strip()))
     return cleaned or [current_species_id]
-
-
-def _merge_observed_current_generation(
-    previous_payload: PresencePayload | None,
-    current_payload: PresencePayload,
-) -> PresencePayload:
-    if previous_payload is None:
-        return current_payload
-    current_species_id = str(current_payload.get("species_id", "")).strip()
-    if not current_species_id or str(current_payload.get("stage", "")) == "baby":
-        return current_payload
-    current_lineage = _current_generation_species_ids_from_raw(
-        current_payload.get("current_generation_species_ids"),
-        current_species_id,
-    )
-    if len(current_lineage) > 1:
-        return current_payload
-    previous_species_id = str(previous_payload.get("species_id", "")).strip()
-    previous_lineage = _current_generation_species_ids_from_raw(
-        previous_payload.get("current_generation_species_ids"),
-        previous_species_id,
-    )
-    merged_lineage = previous_lineage[:]
-    if not merged_lineage and previous_species_id:
-        merged_lineage.append(previous_species_id)
-    if not merged_lineage or merged_lineage[-1] != current_species_id:
-        merged_lineage.append(current_species_id)
-    merged_payload = dict(current_payload)
-    merged_payload["current_generation_species_ids"] = merged_lineage
-    return merged_payload
 
 
 def _short_error(exc: Exception) -> str:
