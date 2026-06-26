@@ -409,7 +409,7 @@ def test_new_badge_renders_above_pet():
     )
 
 
-def test_stat_gain_text_renders_in_blue():
+def test_stat_gain_text_renders_as_readable_reward_strip():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
     widget.trigger_stat_gain_text({"hp": 100, "offense": 10})
@@ -419,14 +419,14 @@ def test_stat_gain_text_renders_in_blue():
     assert widget._stat_gain_elapsed_ms > 0
     assert widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
     assert any(
-        pixel.blue() > 150 and pixel.red() < 120
+        pixel.green() > 180 and pixel.red() < 170
         for x in range(12, 116)
-        for y in range(0, 44)
+        for y in range(52, 84)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
 
 
-def test_item_gain_text_keeps_icon_separate_from_label():
+def test_item_gain_text_uses_digivice_toast_with_icon_and_name():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
 
@@ -434,10 +434,26 @@ def test_item_gain_text_keeps_icon_separate_from_label():
         {},
         item_gains=1,
         item_gain_icon_path="assets/items/monzaemon_head.png",
+        item_gain_name="Monzaemon Head",
     )
+
+    image = _render_widget(widget)
 
     assert widget._stat_gain_labels == []
     assert widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
+    assert widget._stat_gain_item_name == "Monzaemon Head"
+    assert any(
+        pixel.blue() > 170 and pixel.red() < 80
+        for x in range(6, 122)
+        for y in range(4, 52)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
+    assert any(
+        pixel.red() > 170 and pixel.green() > 140 and pixel.blue() < 100
+        for x in range(10, 48)
+        for y in range(9, 47)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
 
 
 def _render_widget(widget: PetWidget) -> QImage:

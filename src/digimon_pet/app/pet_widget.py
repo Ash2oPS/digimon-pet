@@ -24,6 +24,9 @@ EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
+REWARD_TOAST_RECT = QRect(6, 4, 116, 48)
+REWARD_TOAST_ICON_RECT = QRect(13, 12, 32, 32)
+REWARD_TOAST_STAT_RECT = QRect(14, 56, 100, 24)
 STATIC_SPRITE_SCALE = 0.9
 SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
 SECONDARY_EVENT_BOUNCE_HEIGHT = 7
@@ -53,17 +56,32 @@ PIXEL_GLYPHS = {
     "8": ("111", "101", "111", "101", "111"),
     "9": ("111", "101", "111", "001", "111"),
     "?": ("111", "001", "011", "000", "010"),
+    "A": ("010", "101", "111", "101", "101"),
+    "B": ("110", "101", "110", "101", "110"),
+    "C": ("111", "100", "100", "100", "111"),
     "D": ("110", "101", "101", "101", "110"),
     "E": ("111", "100", "110", "100", "111"),
     "F": ("111", "100", "110", "100", "100"),
+    "G": ("111", "100", "101", "101", "111"),
     "H": ("101", "101", "111", "101", "101"),
     "I": ("111", "010", "010", "010", "111"),
+    "J": ("001", "001", "001", "101", "111"),
+    "K": ("101", "101", "110", "101", "101"),
+    "L": ("100", "100", "100", "100", "111"),
     "M": ("101", "111", "111", "101", "101"),
     "N": ("101", "111", "111", "111", "101"),
     "O": ("111", "101", "101", "101", "111"),
     "P": ("111", "101", "111", "100", "100"),
+    "Q": ("111", "101", "101", "111", "001"),
+    "R": ("111", "101", "111", "110", "101"),
     "S": ("111", "100", "111", "001", "111"),
     "T": ("111", "010", "010", "010", "010"),
+    "U": ("101", "101", "101", "101", "111"),
+    "V": ("101", "101", "101", "101", "010"),
+    "W": ("101", "101", "111", "111", "101"),
+    "X": ("101", "101", "010", "101", "101"),
+    "Y": ("101", "101", "010", "010", "010"),
+    "Z": ("111", "001", "010", "100", "111"),
 }
 
 
@@ -103,6 +121,7 @@ class PetWidget(QWidget):
         self._stat_gain_elapsed_ms = 0
         self._stat_gain_labels: list[str] = []
         self._stat_gain_item_icon_path: str | None = None
+        self._stat_gain_item_name: str | None = None
         self._stat_gain_timer = QTimer(self)
         self._stat_gain_timer.timeout.connect(self._advance_stat_gain_text)
         self.setFixedSize(BASE_WIDGET_SIZE, BASE_WIDGET_SIZE)
@@ -179,6 +198,7 @@ class PetWidget(QWidget):
         *,
         item_gains: int = 0,
         item_gain_icon_path: str | None = None,
+        item_gain_name: str | None = None,
     ) -> None:
         labels = [
             f"+{int(amount)} {STAT_LABELS[stat_name]}"
@@ -190,6 +210,7 @@ class PetWidget(QWidget):
             return
         self._stat_gain_labels = labels
         self._stat_gain_item_icon_path = item_icon_path
+        self._stat_gain_item_name = item_gain_name if item_icon_path is not None else None
         self._stat_gain_elapsed_ms = 1
         self._stat_gain_timer.start(EFFECT_INTERVAL_MS)
         self.update()
@@ -350,6 +371,7 @@ class PetWidget(QWidget):
             self._stat_gain_elapsed_ms = 0
             self._stat_gain_labels = []
             self._stat_gain_item_icon_path = None
+            self._stat_gain_item_name = None
             self._stat_gain_timer.stop()
         self.update()
 
@@ -661,32 +683,85 @@ class PetWidget(QWidget):
             return
         progress = min(1.0, self._stat_gain_elapsed_ms / STAT_GAIN_TEXT_DURATION_MS)
         fade = 1.0 if progress < 0.72 else max(0.0, 1.0 - (progress - 0.72) / 0.28)
-        y_offset = round(9 * _ease_out_cubic(progress))
+        pop = _ease_out_back(min(1.0, progress / 0.26))
+        y_offset = round(7 * _ease_out_cubic(progress))
         alpha = round(255 * fade)
 
         painter.save()
-        has_item_icon = self._stat_gain_item_icon_path is not None
-        if has_item_icon:
-            self._draw_item_gain_icon(painter, 8 - y_offset, alpha)
+        painter.translate(0, -y_offset)
+        if alpha < 255:
+            painter.setOpacity(alpha / 255)
 
-        rows = [" ".join(self._stat_gain_labels[index : index + 2]) for index in range(0, len(self._stat_gain_labels), 2)]
-        first_text_y = 38 if has_item_icon else 14
-        for row_index, text in enumerate(rows[:3]):
-            y = first_text_y + row_index * 13 - y_offset
-            self._draw_outlined_pixel_text(
-                painter,
-                y,
-                text,
-                QColor(0, 42, 84, alpha),
-                QColor(70, 178, 255, alpha),
-            )
+        if self._stat_gain_item_icon_path is not None:
+            self._draw_reward_item_toast(painter, pop)
+            if self._stat_gain_labels:
+                self._draw_reward_stat_strip(painter, self._stat_gain_labels[:2])
+        else:
+            self._draw_reward_stat_strip(painter, self._stat_gain_labels[:2])
         painter.restore()
+
+    def _draw_reward_item_toast(self, painter: QPainter, pop: float) -> None:
+        rect = QRect(REWARD_TOAST_RECT)
+        scaled_rect = _scaled_rect(rect, 0.86 + 0.14 * pop, 0.86 + 0.14 * pop)
+        painter.setPen(QPen(QColor(0, 216, 255, 230), 2))
+        painter.setBrush(QColor(7, 21, 35, 235))
+        painter.drawRoundedRect(scaled_rect, 5, 5)
+        painter.setPen(QPen(QColor(255, 223, 74, 215), 1))
+        painter.drawLine(scaled_rect.left() + 4, scaled_rect.top() + 4, scaled_rect.left() + 25, scaled_rect.top() + 4)
+        painter.drawLine(scaled_rect.right() - 25, scaled_rect.bottom() - 4, scaled_rect.right() - 4, scaled_rect.bottom() - 4)
+        self._draw_item_gain_icon(painter)
+
+        label = _reward_item_label(self._stat_gain_item_name)
+        self._draw_outlined_pixel_text_at(
+            painter,
+            52,
+            16,
+            "ITEM",
+            QColor(0, 18, 30, 235),
+            QColor(255, 223, 74),
+            scale=2,
+        )
+        self._draw_outlined_pixel_text_at(
+            painter,
+            52,
+            31,
+            label,
+            QColor(0, 18, 30, 235),
+            QColor(0, 216, 255),
+            scale=2,
+        )
+
+    def _draw_reward_stat_strip(self, painter: QPainter, texts: list[str]) -> None:
+        texts = texts[:2]
+        if not texts:
+            return
+        painter.setPen(QPen(QColor(46, 88, 118, 220), 2))
+        painter.setBrush(QColor(9, 24, 39, 220))
+        painter.drawRoundedRect(REWARD_TOAST_STAT_RECT, 4, 4)
+        scale = 2
+        for index, text in enumerate(texts):
+            text = _reward_stat_label(text)
+            width = _pixel_text_width(text, scale)
+            if len(texts) == 1:
+                x = REWARD_TOAST_STAT_RECT.center().x() - width // 2
+            else:
+                column_left = REWARD_TOAST_STAT_RECT.left() + 5 + index * 51
+                x = column_left + max(0, (47 - width) // 2)
+            self._draw_outlined_pixel_text_at(
+                painter,
+                x,
+                REWARD_TOAST_STAT_RECT.top() + 7,
+                text,
+                QColor(0, 18, 30, 235),
+                QColor(125, 255, 138),
+                scale=scale,
+            )
 
     def _draw_outlined_pixel_text(self, painter: QPainter, y: int, text: str, outline: QColor, fill: QColor) -> None:
         scale = 2
         width = _pixel_text_width(text, scale)
         x = max(0, (BASE_WIDGET_SIZE - width) // 2)
-        self._draw_outlined_pixel_text_at(painter, x, y, text, outline, fill)
+        self._draw_outlined_pixel_text_at(painter, x, y, text, outline, fill, scale=scale)
 
     def _draw_outlined_pixel_text_at(
         self,
@@ -696,25 +771,26 @@ class PetWidget(QWidget):
         text: str,
         outline: QColor,
         fill: QColor,
+        *,
+        scale: int = 2,
     ) -> None:
-        scale = 2
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             _draw_pixel_text(painter, text, x + dx, y + dy, scale, outline)
         _draw_pixel_text(painter, text, x, y, scale, fill)
 
-    def _draw_item_gain_icon(self, painter: QPainter, y: int, alpha: int) -> None:
+    def _draw_item_gain_icon(self, painter: QPainter) -> None:
         pixmap = self._stat_gain_item_pixmap()
         if pixmap is None:
             return
-        icon_size = 24
-        x = max(0, (BASE_WIDGET_SIZE - icon_size) // 2)
         painter.save()
-        painter.setOpacity(alpha / 255)
         painter.drawPixmap(
-            QRect(x, y, icon_size, icon_size),
+            REWARD_TOAST_ICON_RECT,
             pixmap,
             pixmap.rect(),
         )
+        painter.setPen(QPen(QColor(255, 223, 74, 220), 2))
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        painter.drawRoundedRect(REWARD_TOAST_ICON_RECT.adjusted(-2, -2, 2, 2), 3, 3)
         painter.restore()
 
     def _stat_gain_item_pixmap(self) -> QPixmap | None:
@@ -792,6 +868,35 @@ def _pixel_text_width(text: str, scale: int) -> int:
     for char in text:
         width += (2 if char == " " else 4) * scale
     return max(0, width - scale)
+
+
+def _reward_item_label(name: str | None) -> str:
+    if name is None or not name.strip():
+        return "+1 DROP"
+    normalized = "".join(char if char.isalnum() else " " for char in name.upper())
+    words = " ".join(normalized.split())
+    if not words:
+        return "+1 DROP"
+    max_width = 66
+    if _pixel_text_width(words, 2) <= max_width:
+        return words
+    parts = words.split()
+    if len(parts) > 1 and _pixel_text_width(parts[0], 2) <= max_width:
+        return parts[0]
+    clipped = ""
+    for char in words:
+        candidate = clipped + char
+        if _pixel_text_width(candidate, 2) > max_width:
+            break
+        clipped = candidate
+    return clipped.rstrip() or "+1 DROP"
+
+
+def _reward_stat_label(text: str) -> str:
+    parts = text.split()
+    if len(parts) == 2 and parts[0].startswith("+"):
+        return f"{parts[1]}{parts[0]}"
+    return text
 
 
 def _draw_pixel_text(painter: QPainter, text: str, x: int, y: int, scale: int, color: QColor) -> None:

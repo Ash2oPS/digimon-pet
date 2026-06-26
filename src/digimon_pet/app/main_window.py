@@ -1201,11 +1201,12 @@ class PetWindow(QWidget):
         item_gain = self._grant_secondary_event_item() if self._secondary_event_kind == SECONDARY_EVENT_ITEM_KIND else None
         reveal_random_evolution_clue(self._state, self._digivolutions, self._rng)
         self._state.clamp()
-        item_gain_icon_path = self._item_catalog.items[item_gain].icon_path if item_gain is not None else None
+        item_gain_definition = self._item_catalog.items[item_gain] if item_gain is not None else None
         self._pet_widget.trigger_stat_gain_text(
             gains,
-            item_gains=1 if item_gain is not None else 0,
-            item_gain_icon_path=item_gain_icon_path,
+            item_gains=1 if item_gain_definition is not None else 0,
+            item_gain_icon_path=item_gain_definition.icon_path if item_gain_definition is not None else None,
+            item_gain_name=item_gain_definition.name if item_gain_definition is not None else None,
         )
         self._clear_secondary_event(schedule_next=True)
         self._play_action_animation(SECONDARY_EVENT_ACTIONS.get(event_kind, "happy"))

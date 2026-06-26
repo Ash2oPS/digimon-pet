@@ -1242,6 +1242,7 @@ def test_secondary_item_event_boosts_stats_and_grants_weighted_item(tmp_path, mo
     assert window._state.inventory["monzaemon_head"] == 1
     assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
     assert window._pet_widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
+    assert window._pet_widget._stat_gain_item_name == "Monzaemon's Head"
 
 
 def test_consumable_item_without_lifecycle_event_plays_eat_animation(tmp_path, monkeypatch):
