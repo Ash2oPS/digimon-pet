@@ -39,7 +39,7 @@ def test_presence_payload_exposes_only_public_fields():
         "species_id": "agumon",
         "digimon_name": "Agumon",
         "stage": "rookie",
-        "age_seconds": 7800,
+        "age_seconds": 5400,
         "current_generation_species_ids": ["botamon", "koromon", "agumon"],
         "current_action": "idle",
         "is_sleeping": True,

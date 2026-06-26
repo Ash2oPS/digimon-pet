@@ -149,7 +149,7 @@ def test_network_window_has_no_friend_combat_stats_context_action():
         "species_id": "numemon",
         "digimon_name": "Numemon",
         "stage": "champion",
-        "age_seconds": 7800,
+        "age_seconds": 5400,
         "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
         "current_action": "idle",
         "is_sleeping": False,
@@ -181,7 +181,7 @@ def test_network_window_embeds_selected_friend_combat_stats():
         "species_id": "numemon",
         "digimon_name": "Numemon",
         "stage": "champion",
-        "age_seconds": 7800,
+        "age_seconds": 5400,
         "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
         "current_action": "idle",
         "is_sleeping": False,
@@ -204,7 +204,7 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert window._friend_detail_name_label.text() == "Numemon"
     assert window._friend_detail_trainer_label.text() == "Sora"
     assert window._friend_detail_stage_label.text() == "Champion"
-    assert window._friend_detail_age_label.text() == "2 h 10 min"
+    assert window._friend_detail_age_label.text() == "1 h 30 min"
     assert isinstance(window._friend_lineage_scroll, QScrollArea)
     assert window._friend_lineage_scroll.horizontalScrollBarPolicy().name == "ScrollBarAsNeeded"
     lineage_labels = [

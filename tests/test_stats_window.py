@@ -134,6 +134,26 @@ def test_stats_window_exposes_complete_tabbed_profile(monkeypatch):
     assert [bar.value() for bar in window._bar_groups["hunger"]] == [30, 30]
 
 
+def test_stats_window_displays_current_stage_age_not_total_generation_age(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "load_runtime_manifest", lambda: {"entries": {}})
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window.refresh(
+        PetState(
+            "skullgreymon",
+            GrowthStage.ULTIMATE,
+            age_seconds=55 * 60,
+            total_age_seconds=(4 * 60 + 55) * 60,
+        ),
+        Species("skullgreymon", "SkullGreymon", GrowthStage.ULTIMATE),
+    )
+
+    assert window._summary_label.text().startswith("0 h 55 min")
+
+
 def test_stats_window_combat_stats_have_compact_max_gauges(monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
