@@ -1755,16 +1755,16 @@
     "species_id": "hanimon",
     "name": "Hanimon",
     "official_name": "Hanimon",
-    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=hanimon",
-    "url": "https://www.digimon.net/cimages/digimon/hanimon.jpg",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Hanimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/5/54/Hanimon.png/revision/latest?cb=20250528223634&path-prefix=fr",
     "path": "assets/artworks/hanimon.png"
   },
   {
     "species_id": "wankomon",
     "name": "Wankomon",
     "official_name": "Wankomon",
-    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=wankomon",
-    "url": "https://www.digimon.net/cimages/digimon/wankomon.jpg",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Wankomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/7/7b/Wankomon.png/revision/latest?cb=20250827161943&path-prefix=fr",
     "path": "assets/artworks/wankomon.png"
   },
   {
@@ -1787,16 +1787,16 @@
     "species_id": "nyokimon",
     "name": "Nyokimon",
     "official_name": "Nyokimon",
-    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=nyokimon",
-    "url": "https://www.digimon.net/cimages/digimon/nyokimon.jpg",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Nyokimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/4/4a/Nyokimon.png/revision/latest?cb=20220627171750&path-prefix=fr",
     "path": "assets/artworks/nyokimon.png"
   },
   {
     "species_id": "pyocomon",
     "name": "Pyocomon",
     "official_name": "Pyocomon",
-    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=pyocomon",
-    "url": "https://www.digimon.net/cimages/digimon/pyocomon.jpg",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Pyocomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/e/ee/Pyokomon.png/revision/latest?cb=20220619193821&path-prefix=fr",
     "path": "assets/artworks/pyocomon.png"
   },
   {

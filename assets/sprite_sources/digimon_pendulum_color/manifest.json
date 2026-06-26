@@ -1731,14 +1731,14 @@
     {
       "fps": 6,
       "frame_count": 2,
-      "frame_height": 36,
       "frame_width": 36,
+      "frame_height": 36,
       "name": "Pyocomon",
       "path": "assets/sprite_sources/digimon_pendulum_color/pyocomon.png",
       "source_page": "https://humulos.com/digimon/penc/",
-      "source_title": "Zudomon",
       "source_url": "https://humulos.com/digimon/images/dot/penc/pyoco.gif",
-      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif"
+      "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif",
+      "source_title": "Pyocomon"
     },
     {
       "fps": 6,
