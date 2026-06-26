@@ -9,7 +9,7 @@ from PySide6.QtGui import QColor, QImage, QPainter, QPainterPath, QPen, QPixmap,
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.app.animated_sprite import sprite_animation_interval_ms
-from digimon_pet.app.sprite_runtime import SpriteAnimation, load_or_build_runtime_manifest, resolve_sprite_animation
+from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -76,10 +76,13 @@ class PetWidget(QWidget):
         self._animation: SpriteAnimation | None = None
         self._frame_index = 0
         self._frame_rects: list[QRect] = []
+        self._prepared_frame_cache: dict[tuple[int, bool], QPixmap] = {}
+        self._prepared_shadow_cache: dict[tuple[int, bool], QImage] = {}
+        self._stat_gain_item_pixmap_cache: tuple[str, QPixmap] | None = None
         self._static_scale_fallback_enabled = False
         self._static_scale_shrunken = False
         self._flipped_x = False
-        self._manifest = load_or_build_runtime_manifest()
+        self._manifest = load_runtime_manifest()
         self._animation_timer = QTimer(self)
         self._animation_timer.timeout.connect(self._advance_frame)
         self._effect_name: str | None = None
@@ -122,6 +125,7 @@ class PetWidget(QWidget):
             self._static_scale_shrunken = False
             self._pixmap = self._load_pixmap(animation)
             self._frame_rects = self._build_frame_rects(self._pixmap, animation)
+            self._clear_prepared_sprite_cache()
             self._configure_animation_timer(animation)
         if self._effect_name in PENDING_EFFECTS | RESOLUTION_EFFECTS:
             self._animation_timer.stop()
@@ -235,11 +239,7 @@ class PetWidget(QWidget):
         painter.scale(self._render_scale, self._render_scale)
 
         if self._pixmap and not self._pixmap.isNull():
-            if self._frame_rects:
-                source = self._frame_rects[self._frame_index % len(self._frame_rects)]
-                source_pixmap = self._sprite_pixmap(self._pixmap, source)
-            else:
-                source_pixmap = self._sprite_pixmap(self._pixmap, None)
+            source_pixmap = self._prepared_sprite_pixmap()
             target = self._effect_target_rect()
             if self._draws_sprite():
                 self._draw_sprite_shadow(painter, source_pixmap, target)
@@ -294,6 +294,23 @@ class PetWidget(QWidget):
             return
         self._frame_index = (self._frame_index + 1) % len(self._frame_rects)
         self.update()
+
+    def _clear_prepared_sprite_cache(self) -> None:
+        self._prepared_frame_cache.clear()
+        self._prepared_shadow_cache.clear()
+
+    def _prepared_sprite_pixmap(self) -> QPixmap:
+        if self._pixmap is None:
+            return QPixmap()
+        frame_key = self._frame_index % len(self._frame_rects) if self._frame_rects else 0
+        cache_key = (frame_key, self._flipped_x)
+        cached = self._prepared_frame_cache.get(cache_key)
+        if cached is not None:
+            return cached
+        source = self._frame_rects[frame_key] if self._frame_rects else None
+        prepared = self._sprite_pixmap(self._pixmap, source)
+        self._prepared_frame_cache[cache_key] = prepared
+        return prepared
 
     def _advance_effect(self) -> None:
         self._effect_elapsed_ms += EFFECT_INTERVAL_MS
@@ -351,6 +368,15 @@ class PetWidget(QWidget):
         return source_pixmap.transformed(QTransform().scale(-1, 1))
 
     def _draw_sprite_shadow(self, painter: QPainter, source_pixmap: QPixmap, target: QRect) -> None:
+        frame_key = self._frame_index % len(self._frame_rects) if self._frame_rects else 0
+        cache_key = (frame_key, self._flipped_x)
+        shadow = self._prepared_shadow_cache.get(cache_key)
+        if shadow is None:
+            shadow = self._create_shadow_image(source_pixmap)
+            self._prepared_shadow_cache[cache_key] = shadow
+        painter.drawImage(target.translated(self._shadow_offset()), shadow)
+
+    def _create_shadow_image(self, source_pixmap: QPixmap) -> QImage:
         shadow = QImage(source_pixmap.size(), QImage.Format.Format_ARGB32_Premultiplied)
         shadow.fill(Qt.GlobalColor.transparent)
 
@@ -359,8 +385,7 @@ class PetWidget(QWidget):
         shadow_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
         shadow_painter.fillRect(shadow.rect(), SHADOW_COLOR)
         shadow_painter.end()
-
-        painter.drawImage(target.translated(self._shadow_offset()), shadow)
+        return shadow
 
     def _draw_effect_sprite(self, painter: QPainter, source_pixmap: QPixmap, target: QRect) -> None:
         painter.drawPixmap(target, source_pixmap)
@@ -695,12 +720,21 @@ class PetWidget(QWidget):
 
     def _stat_gain_item_pixmap(self) -> QPixmap | None:
         if not self._stat_gain_item_icon_path:
+            self._stat_gain_item_pixmap_cache = None
             return None
+        if (
+            self._stat_gain_item_pixmap_cache is not None
+            and self._stat_gain_item_pixmap_cache[0] == self._stat_gain_item_icon_path
+        ):
+            return self._stat_gain_item_pixmap_cache[1]
         path = Path(self._stat_gain_item_icon_path)
         if not path.is_absolute():
             path = PROJECT_ROOT / path
         pixmap = QPixmap(str(path))
-        return None if pixmap.isNull() else pixmap
+        if pixmap.isNull():
+            return None
+        self._stat_gain_item_pixmap_cache = (self._stat_gain_item_icon_path, pixmap)
+        return pixmap
 
     def _effect_duration_ms(self) -> int:
         if self._effect_name == "death":

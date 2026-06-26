@@ -68,6 +68,33 @@ def test_pet_widget_flips_sprite_and_shadow_when_on_left_side():
     assert mirrored_shadow_pixel.red() < 10
 
 
+def test_pet_widget_reuses_prepared_frame_and_shadow_between_paints(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget._pixmap = QPixmap(8, 8)
+    widget._pixmap.fill(QColor("#ff0000"))
+
+    calls = {"sprite": 0, "shadow": 0}
+    original_sprite = widget._sprite_pixmap
+    original_shadow = widget._create_shadow_image
+
+    def count_sprite(*args, **kwargs):
+        calls["sprite"] += 1
+        return original_sprite(*args, **kwargs)
+
+    def count_shadow(*args, **kwargs):
+        calls["shadow"] += 1
+        return original_shadow(*args, **kwargs)
+
+    monkeypatch.setattr(widget, "_sprite_pixmap", count_sprite)
+    monkeypatch.setattr(widget, "_create_shadow_image", count_shadow)
+
+    _render_widget(widget)
+    _render_widget(widget)
+
+    assert calls == {"sprite": 1, "shadow": 1}
+
+
 def test_sprite_animation_timer_is_two_and_a_half_times_slower_than_sheet_fps():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()

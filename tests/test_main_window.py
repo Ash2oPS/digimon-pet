@@ -1723,7 +1723,7 @@ def test_macos_overlay_path_does_not_call_windows_styles(monkeypatch):
     assert window.windowFlags() & Qt.WindowType.WindowStaysOnTopHint
 
 
-def test_tick_persists_advanced_age(tmp_path, monkeypatch):
+def test_tick_defers_advanced_age_save_until_scheduled_flush(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"
     monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
@@ -1735,6 +1735,12 @@ def test_tick_persists_advanced_age(tmp_path, monkeypatch):
     window._debug_time_scale = 4
 
     window._tick()
+    loaded = load_pet_state(save_path)
+
+    assert loaded.age_seconds != 127
+    assert window._save_timer.isActive()
+
+    window._flush_scheduled_save()
     loaded = load_pet_state(save_path)
 
     assert loaded.age_seconds == 127

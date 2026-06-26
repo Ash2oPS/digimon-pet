@@ -51,16 +51,18 @@ def load_or_build_runtime_manifest(
     source_config_path: Path = DEFAULT_SOURCE_CONFIG_PATH,
     report_path: Path = DEFAULT_REPORT_PATH,
     download_manifest_path: Path = DEFAULT_DOWNLOAD_MANIFEST_PATH,
+    download_missing: bool = False,
 ) -> dict[str, Any]:
     manifest = load_runtime_manifest(manifest_path)
     if manifest.get("entries"):
-        if download_missing_sprites(project_root, manifest, download_manifest_path):
+        if download_missing and download_missing_sprites(project_root, manifest, download_manifest_path):
             return build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
         return manifest
 
     manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
-    download_missing_sprites(project_root, manifest, download_manifest_path)
-    manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
+    if download_missing:
+        download_missing_sprites(project_root, manifest, download_manifest_path)
+        manifest = build_sprite_manifest(project_root, roster_path, source_config_path, manifest_path, report_path)
     if manifest.get("entries") or manifest_path.exists():
         return manifest
     manifest = load_runtime_manifest(manifest_path)

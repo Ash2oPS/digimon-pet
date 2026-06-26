@@ -183,7 +183,7 @@ def test_empty_runtime_manifest_is_rebuilt_from_local_source_manifests(tmp_path)
     assert manifest["entries"]["agumon"]["asset_path"].endswith("agumon.png")
 
 
-def test_runtime_downloads_declared_missing_sprite_before_rebuilding_manifest(tmp_path):
+def test_runtime_skips_declared_missing_sprite_download_by_default(tmp_path):
     roster_path = tmp_path / "data" / "roster.json"
     sources_path = tmp_path / "data" / "sources.json"
     downloads_path = tmp_path / "data" / "sprite_downloads.json"
@@ -234,6 +234,64 @@ def test_runtime_downloads_declared_missing_sprite_before_rebuilding_manifest(tm
         source_config_path=sources_path,
         report_path=report_path,
         download_manifest_path=downloads_path,
+    )
+
+    assert not target_png.exists()
+    assert manifest["entries"] == {}
+
+
+def test_runtime_downloads_declared_missing_sprite_when_explicitly_allowed(tmp_path):
+    roster_path = tmp_path / "data" / "roster.json"
+    sources_path = tmp_path / "data" / "sources.json"
+    downloads_path = tmp_path / "data" / "sprite_downloads.json"
+    manifest_path = tmp_path / "data" / "dw1_sprite_manifest.json"
+    report_path = tmp_path / "data" / "dw1_sprite_report.md"
+    source_png = tmp_path / "remote" / "agumon.png"
+    target_png = tmp_path / "assets" / "sprite_sources" / "digital_monster_color" / "agumon.png"
+
+    roster_path.parent.mkdir(parents=True)
+    roster_path.write_text(json.dumps([{"id": "agumon", "name": "Agumon"}]), encoding="utf-8")
+    sources_path.write_text(
+        json.dumps(
+            [
+                {
+                    "id": "digital_monster_color",
+                    "name": "Digital Monster COLOR",
+                    "priority": 1,
+                    "root": "assets/sprite_sources/digital_monster_color",
+                    "manifest": "assets/sprite_sources/digital_monster_color/manifest.json",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    downloads_path.write_text(
+        json.dumps(
+            [
+                {
+                    "species_id": "agumon",
+                    "name": "Agumon",
+                    "source_id": "digital_monster_color",
+                    "url": source_png.as_uri(),
+                    "path": "assets/sprite_sources/digital_monster_color/agumon.png",
+                    "frame_count": 2,
+                    "fps": 5,
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    source_png.parent.mkdir(parents=True)
+    source_png.write_bytes(b"png bytes")
+
+    manifest = load_or_build_runtime_manifest(
+        tmp_path,
+        manifest_path=manifest_path,
+        roster_path=roster_path,
+        source_config_path=sources_path,
+        report_path=report_path,
+        download_manifest_path=downloads_path,
+        download_missing=True,
     )
 
     assert target_png.read_bytes() == b"png bytes"
@@ -290,6 +348,7 @@ def test_runtime_writes_source_manifest_for_existing_downloaded_file(tmp_path):
         source_config_path=sources_path,
         report_path=report_path,
         download_manifest_path=downloads_path,
+        download_missing=True,
     )
 
     assert manifest["entries"]["agumon"]["metadata"]["frame_count"] == 2

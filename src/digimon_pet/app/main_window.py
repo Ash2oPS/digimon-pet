@@ -74,6 +74,7 @@ SECONDARY_EVENT_ITEM_KIND = "item"
 SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
 SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
+SAVE_DEBOUNCE_MS = 30_000
 PET_SCALE_OPTIONS = (50, 75, 100, 125, 150)
 FILLED_INCUBATOR_ITEM_PREFIX = "filled_incubator:"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
@@ -585,6 +586,10 @@ class PetWindow(QWidget):
         self._tick_timer.timeout.connect(self._tick)
         self._tick_timer.start(1000)
 
+        self._save_timer = QTimer(self)
+        self._save_timer.setSingleShot(True)
+        self._save_timer.timeout.connect(self._flush_scheduled_save)
+
         self._move_timer = QTimer(self)
         self._move_timer.timeout.connect(self._move_pet)
 
@@ -801,7 +806,8 @@ class PetWindow(QWidget):
                 self._state.current_action = "idle"
             self._queue_or_advance_lifecycle()
         self._tick_secondary_event()
-        self._save_and_refresh()
+        self._schedule_save()
+        self._refresh()
 
     def _apply_passive_stat_growth(self, previous_age_seconds: int) -> None:
         previous_minutes = max(0, previous_age_seconds) // 60
@@ -1218,9 +1224,21 @@ class PetWindow(QWidget):
             return 120 if stat_name in {"hp", "mp"} else 12
         return 100 if stat_name in {"hp", "mp"} else 10
 
-    def _save_and_refresh(self) -> None:
-        self.save_current_state()
+    def _save_and_refresh(self, *, immediate: bool = True) -> None:
+        if immediate:
+            self.save_current_state()
+        else:
+            self._schedule_save()
         self._refresh()
+
+    def _schedule_save(self) -> None:
+        if not self._save_timer.isActive():
+            self._save_timer.start(SAVE_DEBOUNCE_MS)
+
+    def _flush_scheduled_save(self) -> None:
+        if self._save_timer.isActive():
+            self._save_timer.stop()
+        self.save_current_state()
 
     def save_current_state(self) -> None:
         self._sync_secondary_event_state()
@@ -1278,9 +1296,10 @@ class PetWindow(QWidget):
         self._pet_widget.set_pet(self._state, species)
         next_event = next_lifecycle_event(self._state, self._lifecycle_schedule)
         self._debug_panel.refresh(self._state, species, next_event)
-        if self._stats_window is not None:
+        if self._stats_window is not None and self._stats_window.isVisible():
             self._stats_window.refresh(self._state, species)
-        self._refresh_inventory_window()
+        if self._inventory_window is not None and self._inventory_window.isVisible():
+            self._refresh_inventory_window()
 
     def _set_lifecycle_schedule(self, schedule: EvolutionSchedule) -> None:
         self._lifecycle_schedule = schedule
@@ -1475,7 +1494,7 @@ class PetWindow(QWidget):
         return QIcon(pixmap)
 
     def shutdown(self) -> None:
-        self.save_current_state()
+        self._flush_scheduled_save()
         self._presence_service.stop()
 
     def _position_secondary_window(self, window: QWidget, anchor: QWidget | None = None) -> None:
