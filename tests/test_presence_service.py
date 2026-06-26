@@ -123,6 +123,36 @@ def test_unexpected_peer_poll_failure_marks_peer_offline(monkeypatch):
     assert "fake socket missing settimeout" in statuses[0].error
 
 
+def test_peer_poll_failure_keeps_last_payload_for_later_transition_detection(monkeypatch):
+    payload = build_presence_payload(
+        "Sora",
+        PetState("gabumon", GrowthStage.ROOKIE),
+        Species("gabumon", "Gabumon", GrowthStage.ROOKIE),
+    )
+    service = PresenceService(
+        settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),
+        payload_provider=lambda: build_presence_payload("Tai", _state(), _species()),
+        poll_interval_seconds=1,
+    )
+    service._peers["127.0.0.1:54545"] = presence_module.PeerStatus(
+        address="127.0.0.1:54545",
+        online=True,
+        payload=payload,
+    )
+
+    def raise_url_error(request, timeout):
+        raise presence_module.urllib.error.URLError("offline")
+
+    monkeypatch.setattr(presence_module.urllib.request, "urlopen", raise_url_error)
+
+    service.poll_once()
+
+    status = service.peer_statuses()[0]
+    assert status.online is False
+    assert status.payload == payload
+    assert status.error
+
+
 def test_peer_status_changed_callback_receives_previous_and_current(monkeypatch):
     service = PresenceService(
         settings=NetworkSettings(network_enabled=True, friends=["127.0.0.1:54545"]),

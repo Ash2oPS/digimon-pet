@@ -221,7 +221,15 @@ class PresenceService:
             payload = _presence_payload_from_raw(raw)
             status = PeerStatus(address=address, online=True, payload=payload, last_seen_seconds=time.time())
         except (OSError, ValueError, AttributeError, json.JSONDecodeError, urllib.error.URLError) as exc:
-            status = PeerStatus(address=address, online=False, error=_short_error(exc))
+            with self._lock:
+                previous_status = self._peers.get(address)
+            status = PeerStatus(
+                address=address,
+                online=False,
+                payload=previous_status.payload if previous_status is not None else None,
+                last_seen_seconds=previous_status.last_seen_seconds if previous_status is not None else None,
+                error=_short_error(exc),
+            )
         with self._lock:
             previous_status = self._peers.get(address)
             self._peers[address] = status

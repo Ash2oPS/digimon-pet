@@ -24,6 +24,7 @@ def test_network_settings_roundtrip(tmp_path):
         friends=["192.168.1.42:54545"],
         notify_friend_death=False,
         notify_friend_ultimate=False,
+        notify_friend_numemon=False,
     )
 
     save_network_settings(settings, path)
@@ -34,6 +35,7 @@ def test_network_settings_roundtrip(tmp_path):
     assert loaded.friends == settings.friends
     assert loaded.notify_friend_death is False
     assert loaded.notify_friend_ultimate is False
+    assert loaded.notify_friend_numemon is False
 
 
 def test_network_settings_clamps_invalid_values(tmp_path):
@@ -58,6 +60,7 @@ def test_network_settings_clamps_invalid_values(tmp_path):
     assert loaded.friends == ["192.168.1.10:54545"]
     assert loaded.notify_friend_death is True
     assert loaded.notify_friend_ultimate is True
+    assert loaded.notify_friend_numemon is True
 
 
 def test_trainer_nickname_is_trimmed():

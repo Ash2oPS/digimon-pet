@@ -21,6 +21,7 @@ class NetworkSettings:
     friends: list[str] = field(default_factory=list)
     notify_friend_death: bool = True
     notify_friend_ultimate: bool = True
+    notify_friend_numemon: bool = True
 
     def clamp(self) -> None:
         self.trainer_nickname = clean_trainer_nickname(self.trainer_nickname)
@@ -29,6 +30,7 @@ class NetworkSettings:
         self.friends = clean_friend_addresses(self.friends)
         self.notify_friend_death = bool(self.notify_friend_death)
         self.notify_friend_ultimate = bool(self.notify_friend_ultimate)
+        self.notify_friend_numemon = bool(self.notify_friend_numemon)
 
 
 def clean_trainer_nickname(value: str) -> str:
@@ -130,6 +132,7 @@ def _settings_from_dict(raw: dict[str, Any]) -> NetworkSettings:
         friends=[str(value) for value in friends] if isinstance(friends, list) else [],
         notify_friend_death=bool(raw.get("notify_friend_death", True)),
         notify_friend_ultimate=bool(raw.get("notify_friend_ultimate", True)),
+        notify_friend_numemon=bool(raw.get("notify_friend_numemon", True)),
     )
     settings.clamp()
     return settings

@@ -243,6 +243,17 @@ def _peer_digimon_became_ultimate(previous: PeerStatus | None, current: PeerStat
     )
 
 
+def _peer_digimon_became_numemon(previous: PeerStatus | None, current: PeerStatus) -> bool:
+    if not current.online or current.payload is None:
+        return False
+    if previous is None or previous.payload is None:
+        return False
+    return (
+        str(previous.payload.get("species_id", "")).casefold() != "numemon"
+        and str(current.payload.get("species_id", "")).casefold() == "numemon"
+    )
+
+
 def _payload_is_dead(payload: PresencePayload) -> bool:
     return bool(payload.get("needs_rebirth_choice", False))
 
@@ -252,6 +263,8 @@ def _friend_notification_message(payload: PresencePayload, event_kind: str) -> s
     digimon = str(payload.get("digimon_name", "")).strip() or "Digimon"
     if event_kind == "death":
         return f"{trainer}'s {digimon} just died."
+    if event_kind == "numemon":
+        return f"{trainer}'s Digimon just became Numemon."
     return f"{trainer}'s {digimon} just became an Ultimate."
 
 
@@ -1427,6 +1440,9 @@ class PetWindow(QWidget):
             return
         if self._network_settings.notify_friend_ultimate and _peer_digimon_became_ultimate(previous, current):
             self._show_friend_notification(current.payload, "ultimate")
+            return
+        if self._network_settings.notify_friend_numemon and _peer_digimon_became_numemon(previous, current):
+            self._show_friend_notification(current.payload, "numemon")
 
     def _show_friend_notification(self, payload: PresencePayload, event_kind: str) -> None:
         if self._tray_icon is None or not self._tray_icon.isVisible():
