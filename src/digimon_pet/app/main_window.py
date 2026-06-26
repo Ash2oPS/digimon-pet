@@ -1175,6 +1175,7 @@ class PetWindow(QWidget):
         self._secondary_event_kind = kind or self._choose_secondary_event_kind()
         self._secondary_event_ttl_seconds = SECONDARY_EVENT_TTL_SECONDS
         self._secondary_event_seconds_remaining = 0
+        self._play_action_animation("walk")
         self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
 
     def _choose_secondary_event_kind(self) -> str:

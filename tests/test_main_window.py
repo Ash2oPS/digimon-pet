@@ -961,6 +961,17 @@ def test_secondary_event_appears_after_random_delay_without_pausing_age(tmp_path
     assert window._pet_widget._effect_name is None
 
 
+def test_secondary_event_appearance_plays_walk_animation(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+
+    window._show_secondary_event("meat")
+
+    assert window._state.current_action == "walk"
+
+
 def test_secondary_event_expires_after_thirty_seconds(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
