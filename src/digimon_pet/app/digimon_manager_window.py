@@ -2044,14 +2044,19 @@ class DigimonManagerWindow(QWidget):
         if result.has_errors or (fusion_result is not None and fusion_result.has_errors):
             self._status_label.setText("Save failed: validation errors")
             return False
-        self._species_path.write_text(
-            json.dumps(digimon_catalog_to_species_rows(self._catalog), indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
-        )
-        self._digivolutions_path.write_text(
-            json.dumps(digimon_catalog_to_digivolutions(self._catalog), indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
-        )
+        try:
+            self._species_path.write_text(
+                json.dumps(digimon_catalog_to_species_rows(self._catalog), indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            self._digivolutions_path.write_text(
+                json.dumps(digimon_catalog_to_digivolutions(self._catalog), indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+        except OSError as error:
+            path = getattr(error, "filename", None) or self._digivolutions_path
+            self._status_label.setText(f"Save failed: {path}: {error.strerror or error}")
+            return False
         if self._fusion_manager_window is not None and not self._fusion_manager_window.save_catalog():
             self._status_label.setText("Save failed: validation errors")
             return False

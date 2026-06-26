@@ -723,6 +723,23 @@ def test_save_writes_valid_species_and_digivolution_json(tmp_path):
     assert raw_digivolutions["indexes"]["by_source"]["agumon"] == ["agumon__to__greymon"]
 
 
+def test_save_reports_file_write_errors(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    path_type = type(window._digivolutions_path)
+    original_write_text = path_type.write_text
+
+    def raise_for_digivolutions(path, *args, **kwargs):
+        if path == window._digivolutions_path:
+            raise OSError(22, "Invalid argument", str(path))
+        return original_write_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(path_type, "write_text", raise_for_digivolutions)
+
+    assert window.save_catalog() is False
+    assert "Save failed:" in window._status_label.text()
+    assert str(window._digivolutions_path) in window._status_label.text()
+
+
 def test_delete_confirmation_receives_impact_summary(tmp_path, monkeypatch):
     window = make_window(tmp_path)
     messages = []
