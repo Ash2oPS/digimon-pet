@@ -39,7 +39,7 @@ class InventoryItem:
 
 
 class InventoryWindow(QDialog):
-    _DEFAULT_SLOT_COUNT = 24
+    _DEFAULT_SLOT_COUNT = 1024
     _COLUMNS = 4
     _GHOST_SLOT_COUNT = 4
     _MIN_VISIBLE_SLOT_COUNT = 6
