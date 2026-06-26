@@ -426,6 +426,7 @@ def _state_from_presence_payload(payload: PresencePayload) -> PetState:
         species_id=str(payload["species_id"]),
         stage=stage,
         age_seconds=int(payload.get("age_seconds", 0)),
+        total_age_seconds=int(payload.get("age_seconds", 0)),
         current_action=str(payload.get("current_action", "idle")),
         is_sleeping=bool(payload.get("is_sleeping", False)),
         hp=int(payload["hp"]),

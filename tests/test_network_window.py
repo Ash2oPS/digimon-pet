@@ -150,7 +150,7 @@ def test_network_window_opens_friend_combat_stats_from_context_action():
         "species_id": "numemon",
         "digimon_name": "Numemon",
         "stage": "champion",
-        "age_seconds": 5400,
+        "age_seconds": 7800,
         "current_action": "idle",
         "is_sleeping": False,
         "hp": 9370,
@@ -177,8 +177,8 @@ def test_network_window_opens_friend_combat_stats_from_context_action():
     assert dialog._sprite_label.objectName() == "StatsPortrait"
     assert dialog._sprite_label.width() == 156
     assert dialog.findChildren(QFrame, "StatsHeader")
-    assert dialog._summary_label.text() == "Champion - 1 h 30 min - Sora"
-    assert dialog._labels["age"].text() == "1 h 30 min"
+    assert dialog._summary_label.text() == "Champion - 2 h 10 min - Sora"
+    assert dialog._labels["age"].text() == "2 h 10 min"
     assert [label.text() for label in dialog._label_groups["hp"]] == ["9370"]
     assert dialog._labels["hp"].text() == "9370"
     assert dialog._labels["mp"].text() == "5618"
@@ -198,7 +198,7 @@ def test_network_window_embeds_selected_friend_combat_stats():
         "species_id": "numemon",
         "digimon_name": "Numemon",
         "stage": "champion",
-        "age_seconds": 5400,
+        "age_seconds": 7800,
         "current_action": "idle",
         "is_sleeping": False,
         "hp": 9370,
@@ -220,6 +220,6 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert window._friend_detail_name_label.text() == "Numemon"
     assert window._friend_detail_trainer_label.text() == "Sora"
     assert window._friend_detail_stage_label.text() == "Champion"
-    assert window._friend_detail_age_label.text() == "1 h 30 min"
+    assert window._friend_detail_age_label.text() == "2 h 10 min"
     assert window._friend_detail_stats["hp"].text() == "9370"
     assert window._friend_detail_stats["mp"].text() == "5618"

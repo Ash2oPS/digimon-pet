@@ -39,6 +39,7 @@ class PetState:
     species_id: str
     stage: GrowthStage
     age_seconds: int = 0
+    total_age_seconds: int = 0
     hunger: int = 30
     fatigue: int = 0
     discipline: int = 50
@@ -84,6 +85,7 @@ class PetState:
         self.care_mistakes = max(0, self.care_mistakes)
         self.training_count = max(0, self.training_count)
         self.age_seconds = max(0, self.age_seconds)
+        self.total_age_seconds = max(0, self.total_age_seconds)
         self.hp = _clamp_stat(self.hp, "hp")
         self.mp = _clamp_stat(self.mp, "mp")
         self.offense = _clamp_stat(self.offense, "offense")

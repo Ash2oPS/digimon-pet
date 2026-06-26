@@ -87,5 +87,6 @@ def scold(state: PetState) -> PetState:
 def apply_tick(state: PetState, elapsed_seconds: int, debug_multiplier: int = 1) -> PetState:
     elapsed = max(0, elapsed_seconds) * max(1, debug_multiplier)
     state.age_seconds += elapsed
+    state.total_age_seconds += elapsed
     state.clamp()
     return state

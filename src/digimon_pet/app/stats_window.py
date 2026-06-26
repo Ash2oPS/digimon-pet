@@ -124,11 +124,12 @@ class StatsWindow(QDialog):
         self._species = species
         self._name_label.setText(species.name)
         self._stage_label.setText(_format_stage(species.stage.value))
+        display_age_seconds = max(state.total_age_seconds, state.age_seconds)
         self._summary_label.setText(
-            f"{_format_age(state.age_seconds)} - {_format_action(state.current_action)}"
+            f"{_format_age(display_age_seconds)} - {_format_action(state.current_action)}"
             f" - {'asleep' if state.is_sleeping else 'awake'}"
         )
-        self._set_label("age", _format_age(state.age_seconds))
+        self._set_label("age", _format_age(display_age_seconds))
         self._set_label("stage", _format_stage(species.stage.value))
         self._set_label("action", _format_action(state.current_action))
         self._set_label("sleeping", _format_bool(state.is_sleeping))

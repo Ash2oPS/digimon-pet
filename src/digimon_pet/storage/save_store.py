@@ -70,6 +70,7 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "species_id": state.species_id,
         "stage": state.stage.value,
         "age_seconds": state.age_seconds,
+        "total_age_seconds": state.total_age_seconds,
         "hunger": state.hunger,
         "fatigue": state.fatigue,
         "discipline": state.discipline,
@@ -171,6 +172,7 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         species_id=str(raw["species_id"]),
         stage=GrowthStage(str(raw["stage"])),
         age_seconds=int(raw.get("age_seconds", 0)),
+        total_age_seconds=_total_age_seconds_from_raw(raw),
         hunger=int(raw.get("hunger", 30)),
         fatigue=int(raw.get("fatigue", 0)),
         discipline=int(raw.get("discipline", 50)),
@@ -213,6 +215,21 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
     state.mark_discovered()
     state.clamp()
     return state
+
+
+def _total_age_seconds_from_raw(raw: dict[str, Any]) -> int:
+    if "total_age_seconds" in raw:
+        return int(raw["total_age_seconds"])
+    age_seconds = int(raw.get("age_seconds", 0))
+    stage = GrowthStage(str(raw["stage"]))
+    elapsed_before_stage = {
+        GrowthStage.BABY: 0,
+        GrowthStage.BABY_2: 10 * 60,
+        GrowthStage.ROOKIE: (10 + 30) * 60,
+        GrowthStage.CHAMPION: (10 + 30 + 80) * 60,
+        GrowthStage.ULTIMATE: (10 + 30 + 80 + 120) * 60,
+    }[stage]
+    return elapsed_before_stage + age_seconds
 
 
 def _species_ids_from_raw(raw: Any, current_species_id: str) -> list[str]:

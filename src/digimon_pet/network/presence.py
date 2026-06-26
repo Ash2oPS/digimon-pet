@@ -43,7 +43,7 @@ def build_presence_payload(nickname: str, state: PetState, species: Species) -> 
         "species_id": state.species_id,
         "digimon_name": species.name,
         "stage": state.stage.value,
-        "age_seconds": int(state.age_seconds),
+        "age_seconds": int(max(state.total_age_seconds, state.age_seconds)),
         "current_action": state.current_action,
         "is_sleeping": bool(state.is_sleeping),
         "needs_rebirth_choice": bool(state.needs_rebirth_choice),

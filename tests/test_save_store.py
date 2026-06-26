@@ -43,12 +43,32 @@ def test_load_encrypts_legacy_plain_json_save_immediately(tmp_path):
     assert load_pet_state(path).species_id == "agumon"
 
 
+def test_load_legacy_save_estimates_total_age_from_current_stage(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "tyrannomon",
+  "stage": "champion",
+  "age_seconds": 60
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.age_seconds == 60
+    assert loaded.total_age_seconds == (10 * 60) + (30 * 60) + (80 * 60) + 60
+
+
 def test_save_load_roundtrip(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(
         species_id="koromon",
         stage=GrowthStage.BABY_2,
         age_seconds=120,
+        total_age_seconds=720,
         hunger=40,
         fatigue=12,
         discipline=61,

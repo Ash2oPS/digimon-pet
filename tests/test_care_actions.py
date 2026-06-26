@@ -23,6 +23,7 @@ def test_tick_only_advances_age_and_does_not_change_needs():
         species_id="agumon",
         stage=GrowthStage.ROOKIE,
         age_seconds=10,
+        total_age_seconds=130,
         hunger=40,
         fatigue=30,
         care_mistakes=2,
@@ -32,6 +33,7 @@ def test_tick_only_advances_age_and_does_not_change_needs():
     apply_tick(state, 5, debug_multiplier=3)
 
     assert state.age_seconds == 25
+    assert state.total_age_seconds == 145
     assert state.hunger == 40
     assert state.fatigue == 30
     assert state.care_mistakes == 2

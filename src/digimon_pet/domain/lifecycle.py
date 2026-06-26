@@ -461,6 +461,7 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     state.species_id = fresh.species_id
     state.stage = fresh.stage
     state.age_seconds = fresh.age_seconds
+    state.total_age_seconds = fresh.total_age_seconds
     state.hunger = fresh.hunger
     state.fatigue = fresh.fatigue
     state.discipline = fresh.discipline
