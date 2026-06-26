@@ -421,7 +421,7 @@ def test_stat_gain_text_renders_as_readable_reward_strip():
     assert any(
         pixel.green() > 180 and pixel.red() < 170
         for x in range(12, 116)
-        for y in range(52, 84)
+        for y in range(39, 66)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
 
@@ -451,7 +451,7 @@ def test_item_gain_text_uses_digivice_toast_with_icon_and_name():
     assert any(
         pixel.red() > 170 and pixel.green() > 140 and pixel.blue() < 100
         for x in range(10, 48)
-        for y in range(9, 47)
+        for y in range(5, 43)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
 
