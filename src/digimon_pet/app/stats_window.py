@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 
 from digimon_pet.app.artwork_runtime import download_artwork_for_species, resolve_artwork_path
 from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_animation_interval_for_species, idle_sprite_for_species
+from digimon_pet.app.sprite_frames import sprite_frame_rect
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_dw1_digivolutions, load_species
@@ -643,13 +644,7 @@ class StatsWindow(QDialog):
 
 
 def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | None:
-    if animation.frame_count <= 1:
-        return None
-    frame_width = animation.frame_width or pixmap.width() // animation.frame_count
-    frame_height = animation.frame_height or pixmap.height()
-    if frame_width <= 0 or frame_height <= 0:
-        return None
-    return QRect(0, 0, frame_width, frame_height)
+    return sprite_frame_rect(pixmap, animation, 0)
 
 
 def _format_age(age_seconds: int) -> str:

@@ -5,6 +5,7 @@ from pathlib import Path
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QColor, QPainter, QPixmap
 
+from digimon_pet.app.sprite_frames import sprite_frame_rect
 from digimon_pet.app.sprite_runtime import SpriteAnimation, resolve_sprite_animation
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
@@ -50,18 +51,7 @@ class IdleSpriteSheet:
         return self._animation.frame_indices or (0,)
 
     def _source_rect(self) -> QRect:
-        frame_width = self._animation.frame_width or self._pixmap.width() // max(1, self._animation.frame_count)
-        frame_height = self._animation.frame_height or self._pixmap.height()
-        frame_width = max(1, frame_width)
-        frame_height = max(1, frame_height)
-        columns = max(1, self._pixmap.width() // frame_width)
-        frame_index = self.current_frame_index
-        return QRect(
-            (frame_index % columns) * frame_width,
-            (frame_index // columns) * frame_height,
-            frame_width,
-            frame_height,
-        )
+        return sprite_frame_rect(self._pixmap, self._animation, self.current_frame_index) or QRect()
 
 
 def idle_sprite_for_species(species: Species, manifest: dict, *, project_root: Path | None = None) -> IdleSpriteSheet | None:

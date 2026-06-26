@@ -30,6 +30,7 @@ from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.network_window import NetworkWindow
 from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
+from digimon_pet.app.sprite_frames import sprite_frame_rect
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.stats_window import StatsWindow
 from digimon_pet.app.theme import APP_QSS
@@ -193,13 +194,7 @@ def _pixmap_for_species(species: Species, manifest: dict) -> QPixmap | None:
 
 
 def _first_frame_rect(pixmap: QPixmap, animation: SpriteAnimation) -> QRect | None:
-    if animation.frame_count <= 1:
-        return None
-    frame_width = animation.frame_width or pixmap.width() // animation.frame_count
-    frame_height = animation.frame_height or pixmap.height()
-    if frame_width <= 0 or frame_height <= 0:
-        return None
-    return QRect(0, 0, frame_width, frame_height)
+    return sprite_frame_rect(pixmap, animation, 0)
 
 
 def _silhouette(pixmap: QPixmap) -> QPixmap:

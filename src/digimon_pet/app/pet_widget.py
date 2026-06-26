@@ -9,6 +9,7 @@ from PySide6.QtGui import QColor, QImage, QPainter, QPainterPath, QPen, QPixmap,
 from PySide6.QtWidgets import QWidget
 
 from digimon_pet.app.animated_sprite import sprite_animation_interval_ms
+from digimon_pet.app.sprite_frames import sprite_frame_rects
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
@@ -262,18 +263,7 @@ class PetWidget(QWidget):
     def _build_frame_rects(self, pixmap: QPixmap | None, animation: SpriteAnimation | None) -> list[QRect]:
         if pixmap is None or pixmap.isNull() or animation is None:
             return []
-        frame_width = animation.frame_width or pixmap.width() // animation.frame_count
-        frame_height = animation.frame_height or pixmap.height()
-        if frame_width <= 0 or frame_height <= 0:
-            return []
-        columns = max(1, pixmap.width() // frame_width)
-        rows = max(1, pixmap.height() // frame_height)
-        max_frames = min(animation.frame_count, columns * rows)
-        return [
-            QRect((index % columns) * frame_width, (index // columns) * frame_height, frame_width, frame_height)
-            for index in animation.frame_indices
-            if index < max_frames
-        ]
+        return sprite_frame_rects(pixmap, animation)
 
     def _configure_animation_timer(self, animation: SpriteAnimation | None) -> None:
         self._animation_timer.stop()

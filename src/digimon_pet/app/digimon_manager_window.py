@@ -38,6 +38,8 @@ from PySide6.QtWidgets import (
 
 from digimon_pet.app.artwork_runtime import discover_and_download_artwork_for_species, resolve_artwork_path
 from digimon_pet.app.item_manager_window import ItemManagerWindow
+from digimon_pet.app.sprite_frames import sprite_frame_rect
+from digimon_pet.app.sprite_runtime import SpriteAnimation
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.data import load_item_catalog
 from digimon_pet.data.pendulum_sprite_import import (
@@ -110,6 +112,8 @@ class RuntimeSpritePreview(QWidget):
         super().__init__(parent)
         self._pixmap: QPixmap | None = None
         self._frame_count = 1
+        self._frame_width: int | None = None
+        self._frame_height: int | None = None
         self._fps = 6
         self._frame_index = 0
         self._status_text = "No runtime sprite"
@@ -118,10 +122,20 @@ class RuntimeSpritePreview(QWidget):
         self.setObjectName("RuntimeSpritePreview")
         self.setMinimumSize(220, 220)
 
-    def set_sprite(self, path: Path | None, *, frame_count: int = 1, fps: int = 6) -> None:
+    def set_sprite(
+        self,
+        path: Path | None,
+        *,
+        frame_count: int = 1,
+        fps: int = 6,
+        frame_width: int | None = None,
+        frame_height: int | None = None,
+    ) -> None:
         self._timer.stop()
         self._frame_index = 0
         self._frame_count = max(1, int(frame_count or 1))
+        self._frame_width = frame_width
+        self._frame_height = frame_height
         self._fps = max(1, int(fps or 6))
         if path is None or not path.exists():
             self._pixmap = None
@@ -162,10 +176,17 @@ class RuntimeSpritePreview(QWidget):
     def _source_rect(self) -> QRect:
         if self._pixmap is None or self._pixmap.isNull():
             return QRect()
-        frame_width = max(1, self._pixmap.width() // self._frame_count)
-        frame_height = self._pixmap.height()
-        frame_index = min(self._frame_index, self._frame_count - 1)
-        return QRect(frame_index * frame_width, 0, frame_width, frame_height)
+        return sprite_frame_rect(
+            self._pixmap,
+            SpriteAnimation(
+                path="",
+                frame_width=self._frame_width,
+                frame_height=self._frame_height,
+                frame_count=self._frame_count,
+                frame_indices=(self._frame_index,),
+            ),
+            self._frame_index,
+        ) or QRect()
 
     def _target_rect(self, source: QRect) -> QRect:
         if source.width() <= 0 or source.height() <= 0:
@@ -1577,6 +1598,8 @@ class DigimonManagerWindow(QWidget):
                 path,
                 frame_count=int(metadata.get("frame_count", 1)),
                 fps=int(metadata.get("fps", 6)),
+                frame_width=_optional_int(metadata.get("frame_width")),
+                frame_height=_optional_int(metadata.get("frame_height")),
             )
             return
         idle_path = self._sprite_inputs["idle"].text().strip()
@@ -2147,14 +2170,20 @@ def _first_frame_thumbnail(path: Path, *, frame_count: int) -> QPixmap | None:
     pixmap = QPixmap(str(path))
     if pixmap.isNull():
         return None
-    frame_width = max(1, pixmap.width() // max(1, frame_count))
-    frame = pixmap.copy(QRect(0, 0, frame_width, pixmap.height()))
+    frame_rect = sprite_frame_rect(pixmap, SpriteAnimation(path="", frame_count=frame_count), 0)
+    frame = pixmap.copy(frame_rect) if frame_rect is not None else pixmap
     return frame.scaled(
         34,
         34,
         Qt.AspectRatioMode.KeepAspectRatio,
         Qt.TransformationMode.FastTransformation,
     )
+
+
+def _optional_int(value: Any) -> int | None:
+    if value is None or value == "":
+        return None
+    return int(value)
 
 
 def _message_species_id(message: str, species_ids: set[str]) -> str | None:

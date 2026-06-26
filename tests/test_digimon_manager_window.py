@@ -5,11 +5,11 @@ from types import SimpleNamespace
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QImage
+from PySide6.QtCore import QRect, Qt
+from PySide6.QtGui import QColor, QImage, QPixmap
 from PySide6.QtWidgets import QApplication, QMessageBox, QScrollArea
 
-from digimon_pet.app.digimon_manager_window import DigimonManagerWindow
+from digimon_pet.app.digimon_manager_window import DigimonManagerWindow, RuntimeSpritePreview
 from digimon_pet.data.pendulum_sprite_import import SpriteImportOption
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
 from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
@@ -42,6 +42,20 @@ def make_window(tmp_path: Path) -> DigimonManagerWindow:
         fusion_catalog=FusionCatalog(),
         fusion_save_path=tmp_path / "fusions.json",
     )
+
+
+def test_runtime_sprite_preview_slices_multi_row_google_drive_sheet(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    path = tmp_path / "punimon.png"
+    pixmap = QPixmap(48, 64)
+    pixmap.fill(Qt.GlobalColor.transparent)
+    pixmap.save(str(path))
+
+    preview = RuntimeSpritePreview()
+    preview.set_sprite(path, frame_count=12, fps=6, frame_width=16, frame_height=16)
+    preview._frame_index = 7
+
+    assert preview._source_rect() == QRect(16, 32, 16, 16)
 
 
 def make_window_with_runtime_sprite(tmp_path: Path) -> DigimonManagerWindow:
