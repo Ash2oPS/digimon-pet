@@ -2,9 +2,10 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QLabel, QScrollArea
 
-from digimon_pet.app.network_window import NetworkWindow
+from digimon_pet.app.network_window import NetworkWindow, _lineage_sprite_transformation_mode
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network import presence as presence_module
 from digimon_pet.network.presence import PeerStatus, PresenceService, build_presence_payload
@@ -215,3 +216,7 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert lineage_labels == ["Botamon", "->", "Koromon", "->", "Agumon", "->", "Numemon"]
     assert window._friend_detail_stats["hp"].text() == "9370"
     assert window._friend_detail_stats["mp"].text() == "5618"
+
+
+def test_friend_lineage_sprites_use_pixel_art_scaling():
+    assert _lineage_sprite_transformation_mode() == Qt.TransformationMode.FastTransformation

@@ -467,6 +467,10 @@ def _set_lineage_sprite_frame(label: QLabel, sprite: IdleSpriteSheet) -> None:
             44,
             44,
             Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation,
+            _lineage_sprite_transformation_mode(),
         )
     )
+
+
+def _lineage_sprite_transformation_mode() -> Qt.TransformationMode:
+    return Qt.TransformationMode.FastTransformation
