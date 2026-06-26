@@ -67,8 +67,8 @@ from digimon_pet.storage.network_settings import (
 from digimon_pet.storage import load_pet_state, save_pet_state
 from digimon_pet.storage import save_store
 
-SECONDARY_EVENT_MIN_SECONDS = 240
-SECONDARY_EVENT_MAX_SECONDS = 360
+SECONDARY_EVENT_MIN_SECONDS = 180
+SECONDARY_EVENT_MAX_SECONDS = 300
 SECONDARY_EVENT_TTL_SECONDS = 30
 SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
 SECONDARY_EVENT_ITEM_KIND = "item"
