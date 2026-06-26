@@ -63,8 +63,11 @@
     {
       "fps": 6,
       "frame_count": 9,
+      "frame_width": 46,
+      "frame_height": 43,
       "name": "Poyomon",
-      "path": "assets/sprite_sources/digital_monster_color/Poyomon.png"
+      "path": "assets/sprite_sources/digital_monster_color/Poyomon.png",
+      "source_url": "https://raw.githubusercontent.com/furudbat/wayland-vpets/main/assets/dmc/Poyomon.png"
     },
     {
       "fps": 6,
