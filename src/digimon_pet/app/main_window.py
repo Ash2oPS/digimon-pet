@@ -72,6 +72,11 @@ SECONDARY_EVENT_MAX_SECONDS = 360
 SECONDARY_EVENT_TTL_SECONDS = 30
 SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
 SECONDARY_EVENT_ITEM_KIND = "item"
+SECONDARY_EVENT_ACTIONS = {
+    "meat": "eat",
+    "dumbbell": "train",
+    SECONDARY_EVENT_ITEM_KIND: "happy",
+}
 SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
 SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
@@ -1180,6 +1185,7 @@ class PetWindow(QWidget):
     def _claim_secondary_event(self) -> None:
         if self._secondary_event_kind is None:
             return
+        event_kind = self._secondary_event_kind
         gains: dict[str, int] = {}
         for stat_name in self._rng.sample(BONUS_STATS, 2):
             increment = self._secondary_event_stat_increment(stat_name)
@@ -1195,6 +1201,7 @@ class PetWindow(QWidget):
             item_gain_icon_path=item_gain_icon_path,
         )
         self._clear_secondary_event(schedule_next=True)
+        self._play_action_animation(SECONDARY_EVENT_ACTIONS.get(event_kind, "happy"))
         self._save_and_refresh()
 
     def _grant_secondary_event_item(self) -> str | None:
@@ -1218,6 +1225,9 @@ class PetWindow(QWidget):
         if self._state.stage == GrowthStage.ULTIMATE:
             return 120 if stat_name in {"hp", "mp"} else 12
         return 100 if stat_name in {"hp", "mp"} else 10
+
+    def _play_action_animation(self, action: str) -> None:
+        self._state.current_action = action
 
     def _save_and_refresh(self, *, immediate: bool = True) -> None:
         if immediate:
@@ -1550,6 +1560,8 @@ class PetWindow(QWidget):
                         choose_rebirth(self._state, self._rng.choice(self._baby_1_choice_ids()), self._species)
                     else:
                         self._prompt_rebirth_choice()
+                elif result.event is None:
+                    self._play_action_animation("eat")
                 self._save_and_refresh()
             else:
                 self._refresh()

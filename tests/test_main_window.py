@@ -1182,6 +1182,27 @@ def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch
     assert window._pet_widget._stat_gain_labels == ["+120 HP", "+12 OFF"]
 
 
+@pytest.mark.parametrize(
+    ("event_kind", "expected_action"),
+    [
+        ("meat", "eat"),
+        ("dumbbell", "train"),
+        ("item", "happy"),
+    ],
+)
+def test_secondary_event_click_plays_matching_animation(event_kind, expected_action, tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._show_secondary_event(event_kind)
+
+    window._claim_secondary_event()
+
+    assert window._state.current_action == expected_action
+
+
 def test_one_in_three_secondary_events_is_item(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -1210,6 +1231,18 @@ def test_secondary_item_event_boosts_stats_and_grants_weighted_item(tmp_path, mo
     assert window._state.inventory["monzaemon_head"] == 1
     assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
     assert window._pet_widget._stat_gain_item_icon_path == "assets/items/monzaemon_head.png"
+
+
+def test_consumable_item_without_lifecycle_event_plays_eat_animation(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.inventory = {"digifish": 1}
+
+    window._use_inventory_item("digifish")
+
+    assert window._state.current_action == "eat"
 
 
 def test_passive_ultimate_growth_doubles_every_third_minute(tmp_path, monkeypatch):
