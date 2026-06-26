@@ -260,7 +260,7 @@ class PetWidget(QWidget):
         return QPixmap(str(path))
 
     def _build_frame_rects(self, pixmap: QPixmap | None, animation: SpriteAnimation | None) -> list[QRect]:
-        if pixmap is None or pixmap.isNull() or animation is None or animation.frame_count <= 1:
+        if pixmap is None or pixmap.isNull() or animation is None:
             return []
         frame_width = animation.frame_width or pixmap.width() // animation.frame_count
         frame_height = animation.frame_height or pixmap.height()

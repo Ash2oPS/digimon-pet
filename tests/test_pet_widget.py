@@ -128,6 +128,26 @@ def test_pet_widget_slices_multi_row_sprite_sheets():
     ]
 
 
+def test_pet_widget_slices_sheet_even_when_frame_count_is_static():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    pixmap = QPixmap(48, 64)
+    pixmap.fill(Qt.GlobalColor.transparent)
+
+    rects = widget._build_frame_rects(
+        pixmap,
+        SpriteAnimation(
+            path="unused.png",
+            frame_width=16,
+            frame_height=16,
+            frame_count=1,
+            frame_indices=(0,),
+        ),
+    )
+
+    assert rects == [QRect(0, 0, 16, 16)]
+
+
 def test_static_png_animation_alternates_scale_from_bottom_center():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
