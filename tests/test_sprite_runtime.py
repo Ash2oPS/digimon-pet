@@ -88,6 +88,34 @@ def test_manifest_action_metadata_uses_current_action_then_idle(tmp_path):
     assert eat.frame_indices == (0, 1)
 
 
+def test_manifest_action_metadata_can_declare_explicit_frame_indices():
+    manifest = {
+        "entries": {
+            "monzaemon": {
+                "asset_path": "assets/sprite_sources/google_drive_sprites/monzaemon.png",
+                "metadata": {
+                    "frame_width": 16,
+                    "frame_height": 16,
+                    "frame_count": 12,
+                    "animations": {
+                        "idle": {"frame_indices": [0, 1]},
+                        "eat": {"frame_indices": [7, 8, 11]},
+                    },
+                },
+            }
+        }
+    }
+
+    animation = resolve_sprite_animation(
+        PetState("monzaemon", GrowthStage.ULTIMATE, current_action="eat"),
+        Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
+        manifest,
+    )
+
+    assert animation is not None
+    assert animation.frame_indices == (7, 8, 11)
+
+
 def test_species_sprite_slots_are_used_when_manifest_entry_is_missing():
     state = PetState("agumon", GrowthStage.ROOKIE, current_action="sleep")
 

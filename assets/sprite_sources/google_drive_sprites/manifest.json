@@ -481,6 +481,21 @@
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
+      "animations": {
+        "eat": {
+          "frame_indices": [
+            7,
+            8,
+            11
+          ]
+        },
+        "idle": {
+          "frame_indices": [
+            0,
+            1
+          ]
+        }
+      },
       "name": "Monzaemon",
       "path": "assets/sprite_sources/google_drive_sprites/monzaemon.png",
       "source_file_id": "1CO07vyBoAAVLWp0hk3qPNOqndf3wisu_",

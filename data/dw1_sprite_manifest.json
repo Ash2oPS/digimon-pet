@@ -3183,6 +3183,21 @@
       "asset_path": "assets/sprite_sources/google_drive_sprites/monzaemon.png",
       "matched_name": "Monzaemon",
       "metadata": {
+        "animations": {
+          "eat": {
+            "frame_indices": [
+              7,
+              8,
+              11
+            ]
+          },
+          "idle": {
+            "frame_indices": [
+              0,
+              1
+            ]
+          }
+        },
         "fps": 6,
         "frame_count": 12,
         "frame_height": 16,

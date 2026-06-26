@@ -1256,6 +1256,19 @@ def test_consumable_item_without_lifecycle_event_plays_eat_animation(tmp_path, m
     assert window._state.current_action == "eat"
 
 
+def test_action_animation_survives_first_tick_after_play(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.inventory = {"digifish": 1}
+    window._use_inventory_item("digifish")
+
+    window._tick()
+
+    assert window._state.current_action == "eat"
+
+
 def test_passive_ultimate_growth_doubles_every_third_minute(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")

@@ -81,6 +81,7 @@ SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
 SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
 SAVE_DEBOUNCE_MS = 30_000
+ACTION_ANIMATION_HOLD_TICKS = 2
 PET_SCALE_OPTIONS = (50, 75, 100, 125, 150)
 FILLED_INCUBATOR_ITEM_PREFIX = "filled_incubator:"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
@@ -554,6 +555,7 @@ class PetWindow(QWidget):
             if self._state.secondary_event_seconds_remaining is not None
             else self._next_secondary_event_delay()
         )
+        self._action_animation_ticks_remaining = 0
         self._pet_scale_percent = self._state.pet_scale_percent
 
         self._configure_window()
@@ -794,6 +796,7 @@ class PetWindow(QWidget):
         }
         action = actions[name]
         action(self._state)
+        self._hold_current_action_animation()
         self._queue_or_advance_lifecycle()
         self._save_and_refresh()
 
@@ -803,7 +806,10 @@ class PetWindow(QWidget):
             apply_tick(self._state, 1, debug_multiplier=self._debug_time_scale)
             self._apply_passive_stat_growth(previous_age_seconds)
             if self._state.current_action not in {"sleep", "idle"}:
-                self._state.current_action = "idle"
+                if self._action_animation_ticks_remaining > 0:
+                    self._action_animation_ticks_remaining -= 1
+                else:
+                    self._state.current_action = "idle"
             self._queue_or_advance_lifecycle()
         self._tick_secondary_event()
         self._schedule_save()
@@ -1229,6 +1235,13 @@ class PetWindow(QWidget):
 
     def _play_action_animation(self, action: str) -> None:
         self._state.current_action = action
+        self._hold_current_action_animation()
+
+    def _hold_current_action_animation(self) -> None:
+        if self._state.current_action in {"sleep", "idle"}:
+            self._action_animation_ticks_remaining = 0
+            return
+        self._action_animation_ticks_remaining = ACTION_ANIMATION_HOLD_TICKS
 
     def _save_and_refresh(self, *, immediate: bool = True) -> None:
         if immediate:

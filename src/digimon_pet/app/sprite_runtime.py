@@ -139,7 +139,7 @@ def _manifest_animation(action: str, entry: dict[str, Any]) -> SpriteAnimation |
         selected = animations.get(action) or animations.get("idle")
         if isinstance(selected, dict):
             path = str(selected.get("path") or asset_path).strip()
-            return _animation_from_metadata(path, {**metadata, **selected}, "idle")
+            return _animation_from_metadata(path, {**metadata, **selected}, action)
 
     if asset_path:
         return _animation_from_metadata(asset_path, metadata, action)
@@ -154,7 +154,7 @@ def _animation_from_metadata(path: str, metadata: dict[str, Any], action: str) -
         frame_height=_optional_int(metadata.get("frame_height")),
         frame_count=frame_count,
         fps=max(1, int(metadata.get("fps", 6))),
-        frame_indices=_frame_indices_for_action(action, frame_count),
+        frame_indices=_explicit_frame_indices(metadata, frame_count) or _frame_indices_for_action(action, frame_count),
     )
 
 
@@ -162,6 +162,18 @@ def _optional_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
     return int(value)
+
+
+def _explicit_frame_indices(metadata: dict[str, Any], frame_count: int) -> tuple[int, ...]:
+    raw_indices = metadata.get("frame_indices")
+    if not isinstance(raw_indices, list):
+        return ()
+    indices: list[int] = []
+    for raw_index in raw_indices:
+        index = int(raw_index)
+        if 0 <= index < frame_count:
+            indices.append(index)
+    return tuple(indices)
 
 
 def _frame_indices_for_action(action: str, frame_count: int) -> tuple[int, ...]:
