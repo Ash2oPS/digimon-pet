@@ -290,6 +290,7 @@ def test_discover_sprite_import_options_includes_google_drive_sprite(tmp_path, m
 def test_google_drive_discovery_limits_folder_scan_to_selected_stage(tmp_path, monkeypatch):
     monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
     monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_humulos_penc_options", lambda *args, **kwargs: [])
     calls = []
 
     def fake_drive_folder_html(folder_id, timeout_seconds):
@@ -332,6 +333,7 @@ def test_google_drive_discovery_limits_folder_scan_to_selected_stage(tmp_path, m
 def test_google_drive_discovery_never_scans_idle_frame_only(tmp_path, monkeypatch):
     monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
     monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_humulos_penc_options", lambda *args, **kwargs: [])
     calls = []
 
     def fake_drive_folder_html(folder_id, timeout_seconds):
@@ -358,6 +360,7 @@ def test_google_drive_discovery_never_scans_idle_frame_only(tmp_path, monkeypatc
 def test_google_drive_stage_discovery_falls_back_to_other_non_idle_folders(tmp_path, monkeypatch):
     monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
     monkeypatch.setattr(pendulum_sprite_import, "_discover_wikimon_virtual_pet_options", lambda *args, **kwargs: [])
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_humulos_penc_options", lambda *args, **kwargs: [])
     calls = []
 
     def fake_drive_folder_html(folder_id, timeout_seconds):
@@ -423,6 +426,7 @@ def test_google_drive_discovery_without_stage_excludes_idle_frame_only_folder(tm
 
 def test_discovery_skips_wikimon_when_google_drive_has_stage_match(tmp_path, monkeypatch):
     monkeypatch.setattr(pendulum_sprite_import, "PENDULUM_SHEET_SOURCES", ())
+    monkeypatch.setattr(pendulum_sprite_import, "_discover_humulos_penc_options", lambda *args, **kwargs: [])
 
     def fail_wikimon(*args, **kwargs):
         raise AssertionError("Wikimon should not be queried after a Drive match")

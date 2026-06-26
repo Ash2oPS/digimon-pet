@@ -130,6 +130,7 @@ def _manifest_entry(species_id: str, manifest: dict[str, Any]) -> dict[str, Any]
 
 def _manifest_animation(action: str, entry: dict[str, Any]) -> SpriteAnimation | None:
     asset_path = str(entry.get("asset_path") or "").strip()
+    source_id = str(entry.get("source_id") or "").strip()
     metadata = entry.get("metadata")
     if not isinstance(metadata, dict):
         metadata = {}
@@ -139,14 +140,19 @@ def _manifest_animation(action: str, entry: dict[str, Any]) -> SpriteAnimation |
         selected = animations.get(action) or animations.get("idle")
         if isinstance(selected, dict):
             path = str(selected.get("path") or asset_path).strip()
-            return _animation_from_metadata(path, {**metadata, **selected}, action)
+            return _animation_from_metadata(path, {**metadata, **selected}, action, source_id)
 
     if asset_path:
-        return _animation_from_metadata(asset_path, metadata, action)
+        return _animation_from_metadata(asset_path, metadata, action, source_id)
     return None
 
 
-def _animation_from_metadata(path: str, metadata: dict[str, Any], action: str) -> SpriteAnimation:
+def _animation_from_metadata(
+    path: str,
+    metadata: dict[str, Any],
+    action: str,
+    source_id: str = "",
+) -> SpriteAnimation:
     frame_count = max(1, int(metadata.get("frame_count", 1)))
     return SpriteAnimation(
         path=path,
@@ -154,7 +160,8 @@ def _animation_from_metadata(path: str, metadata: dict[str, Any], action: str) -
         frame_height=_optional_int(metadata.get("frame_height")),
         frame_count=frame_count,
         fps=max(1, int(metadata.get("fps", 6))),
-        frame_indices=_explicit_frame_indices(metadata, frame_count) or _frame_indices_for_action(action, frame_count),
+        frame_indices=_explicit_frame_indices(metadata, frame_count)
+        or _frame_indices_for_action(action, frame_count, source_id),
     )
 
 
@@ -176,7 +183,22 @@ def _explicit_frame_indices(metadata: dict[str, Any], frame_count: int) -> tuple
     return tuple(indices)
 
 
-def _frame_indices_for_action(action: str, frame_count: int) -> tuple[int, ...]:
+def _frame_indices_for_action(action: str, frame_count: int, source_id: str = "") -> tuple[int, ...]:
+    if source_id == "google_drive_sprites" and frame_count == 12:
+        sequences = {
+            "idle": (0, 1),
+            "sleep": (4, 5),
+            "eat": (7, 8, 11),
+            "train": (2, 11),
+            "angry": (2,),
+            "scold": (2,),
+            "happy": (7, 8),
+            "clean": (7, 8),
+            "walk": (0, 1),
+            "move": (0, 1),
+        }
+        return sequences.get(action, sequences["idle"])
+
     sequences = {
         "idle": (0, 1),
         "sleep": (6,),

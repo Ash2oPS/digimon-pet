@@ -152,6 +152,42 @@ def test_default_digimon_sheet_uses_context_frame_sequences():
     assert train.frame_indices == (12,)
 
 
+def test_google_drive_sprite_sheet_uses_google_drive_context_frame_sequences():
+    manifest = {
+        "entries": {
+            "terriermon": {
+                "source_id": "google_drive_sprites",
+                "asset_path": "assets/sprite_sources/google_drive_sprites/terriermon.png",
+                "metadata": {"frame_width": 16, "frame_height": 16, "frame_count": 12},
+            }
+        }
+    }
+    species = Species("terriermon", "Terriermon", GrowthStage.ROOKIE)
+
+    sleep = resolve_sprite_animation(
+        PetState("terriermon", GrowthStage.ROOKIE, current_action="sleep"),
+        species,
+        manifest,
+    )
+    eat = resolve_sprite_animation(
+        PetState("terriermon", GrowthStage.ROOKIE, current_action="eat"),
+        species,
+        manifest,
+    )
+    train = resolve_sprite_animation(
+        PetState("terriermon", GrowthStage.ROOKIE, current_action="train"),
+        species,
+        manifest,
+    )
+
+    assert sleep is not None
+    assert sleep.frame_indices == (4, 5)
+    assert eat is not None
+    assert eat.frame_indices == (7, 8, 11)
+    assert train is not None
+    assert train.frame_indices == (2, 11)
+
+
 def test_default_digimon_context_frames_fall_back_to_idle_when_missing():
     manifest = {
         "entries": {
