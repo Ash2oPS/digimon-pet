@@ -243,6 +243,59 @@ def test_consumable_random_stat_delta_effect_scales_hp_and_mp_like_large_stats()
     assert state.inventory == {}
 
 
+def test_consumable_stat_percent_effect_increases_stat_by_current_value_percent():
+    item = ItemDefinition(
+        id="off_chip",
+        name="OFF Chip",
+        description="Increases Off by 10%.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.STAT_PERCENT, stat="offense", amount=10),),
+    )
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        offense=35,
+        inventory={"off_chip": 1},
+    )
+
+    result = use_item(state, "off_chip", species_map(), random.Random(1), catalog)
+
+    assert result.used is True
+    assert result.stat_gains == {"offense": 3}
+    assert state.offense == 38
+    assert state.inventory == {}
+
+
+def test_consumable_random_stat_percent_effect_increases_one_random_stat_by_percent():
+    item = ItemDefinition(
+        id="mega_chip",
+        name="Mega Chip",
+        description="Increases a random stat by 50%.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.RANDOM_STAT_PERCENT, amount=50),),
+    )
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        hp=300,
+        mp=300,
+        offense=30,
+        defense=31,
+        speed=30,
+        brains=30,
+        inventory={"mega_chip": 1},
+    )
+
+    result = use_item(state, "mega_chip", species_map(), random.Random(0), catalog)
+
+    assert result.used is True
+    assert result.stat_gains == {"defense": 15}
+    assert state.defense == 46
+    assert state.inventory == {}
+
+
 def test_consumable_instant_death_effect_requires_rebirth_choice_and_consumes_item():
     item = ItemDefinition(
         id="digigun",

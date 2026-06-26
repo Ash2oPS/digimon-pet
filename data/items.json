@@ -48,6 +48,7 @@
       "name": "DigiMeat",
       "description": "Increases Off by 25.",
       "type": "consumable",
+      "inventory_category": "consumable",
       "icon_path": "assets/items/meat-icon.png",
       "effects": [
         {
@@ -91,6 +92,7 @@
       "name": "DigiBerry",
       "description": "Increases Def by 25.",
       "type": "consumable",
+      "inventory_category": "consumable",
       "icon_path": "assets/items/big-berry-icon.png",
       "effects": [
         {
@@ -339,6 +341,150 @@
           "amount": 100
         }
       ]
+    },
+    {
+      "id": "off_chip",
+      "name": "OFF Chip",
+      "description": "Increases Off by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/off-chip-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "offense",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "def_chip",
+      "name": "Def Chip",
+      "description": "Increases Def by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/def-chip-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "defense",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "spd_chip",
+      "name": "Spd Chip",
+      "description": "Increases Spd by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/quick-chip-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "speed",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "int_chip",
+      "name": "Int Chip",
+      "description": "Increases Int by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/brain-chip-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "brains",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "hp_chip",
+      "name": "HP Chip",
+      "description": "Increases HP by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/hp-chip-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "hp",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "mp_chip",
+      "name": "MP Chip",
+      "description": "Increases MP by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/mp-chip-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "mp",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "omni_chip",
+      "name": "Omni Chip",
+      "description": "Increases all stats by 10%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/hispeed-dsk-icon.png",
+      "effects": [
+        {
+          "type": "stat_percent",
+          "stat": "hp",
+          "amount": 10
+        },
+        {
+          "type": "stat_percent",
+          "stat": "mp",
+          "amount": 10
+        },
+        {
+          "type": "stat_percent",
+          "stat": "offense",
+          "amount": 10
+        },
+        {
+          "type": "stat_percent",
+          "stat": "defense",
+          "amount": 10
+        },
+        {
+          "type": "stat_percent",
+          "stat": "speed",
+          "amount": 10
+        },
+        {
+          "type": "stat_percent",
+          "stat": "brains",
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "mega_chip",
+      "name": "Mega Chip",
+      "description": "Increases a random stat by 50%. ",
+      "type": "consumable",
+      "inventory_category": "consumable",
+      "icon_path": "assets/items/omni-disk-icon.png",
+      "effects": [
+        {
+          "type": "random_stat_percent",
+          "amount": 50
+        }
+      ]
     }
   ],
   "pools": {
@@ -430,6 +576,38 @@
       {
         "item_id": "my_digibigburger",
         "weight": 2
+      },
+      {
+        "item_id": "off_chip",
+        "weight": 3
+      },
+      {
+        "item_id": "def_chip",
+        "weight": 3
+      },
+      {
+        "item_id": "spd_chip",
+        "weight": 3
+      },
+      {
+        "item_id": "int_chip",
+        "weight": 3
+      },
+      {
+        "item_id": "hp_chip",
+        "weight": 3
+      },
+      {
+        "item_id": "mp_chip",
+        "weight": 3
+      },
+      {
+        "item_id": "omni_chip",
+        "weight": 1
+      },
+      {
+        "item_id": "mega_chip",
+        "weight": 1
       }
     ]
   }

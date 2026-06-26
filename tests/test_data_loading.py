@@ -116,6 +116,13 @@ def test_load_item_catalog_contains_consumable_effects():
         "digiweed": ((ItemEffectType.STAT_DELTA, "mp", 250),),
         "digialcohol": ((ItemEffectType.HALVE_LIFECYCLE_REMAINING, None, 0),),
         "my_digibigburger": ((ItemEffectType.RANDOM_STAT_DELTA, None, 100),),
+        "off_chip": ((ItemEffectType.STAT_PERCENT, "offense", 10),),
+        "def_chip": ((ItemEffectType.STAT_PERCENT, "defense", 10),),
+        "spd_chip": ((ItemEffectType.STAT_PERCENT, "speed", 10),),
+        "int_chip": ((ItemEffectType.STAT_PERCENT, "brains", 10),),
+        "hp_chip": ((ItemEffectType.STAT_PERCENT, "hp", 10),),
+        "mp_chip": ((ItemEffectType.STAT_PERCENT, "mp", 10),),
+        "mega_chip": ((ItemEffectType.RANDOM_STAT_PERCENT, None, 50),),
     }
 
     for item_id, effects in expected_effects.items():
@@ -132,6 +139,18 @@ def test_load_item_catalog_contains_consumable_effects():
         ("defense", 50),
         ("speed", 50),
         ("brains", 50),
+    )
+
+    assert tuple(
+        (effect.type, effect.stat, effect.amount)
+        for effect in catalog.items["omni_chip"].effects
+    ) == (
+        (ItemEffectType.STAT_PERCENT, "hp", 10),
+        (ItemEffectType.STAT_PERCENT, "mp", 10),
+        (ItemEffectType.STAT_PERCENT, "offense", 10),
+        (ItemEffectType.STAT_PERCENT, "defense", 10),
+        (ItemEffectType.STAT_PERCENT, "speed", 10),
+        (ItemEffectType.STAT_PERCENT, "brains", 10),
     )
 
 

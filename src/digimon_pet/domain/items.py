@@ -34,7 +34,9 @@ class InventoryCategory(StrEnum):
 
 class ItemEffectType(StrEnum):
     STAT_DELTA = "stat_delta"
+    STAT_PERCENT = "stat_percent"
     RANDOM_STAT_DELTA = "random_stat_delta"
+    RANDOM_STAT_PERCENT = "random_stat_percent"
     INSTANT_DEATH = "instant_death"
     HALVE_LIFECYCLE_REMAINING = "halve_lifecycle_remaining"
 
@@ -320,9 +322,20 @@ def use_consumable_item(
             amount = int(effect.amount)
             setattr(state, effect.stat, getattr(state, effect.stat) + amount)
             stat_gains[effect.stat] = stat_gains.get(effect.stat, 0) + amount
+        elif effect.type == ItemEffectType.STAT_PERCENT:
+            if effect.stat is None or not hasattr(state, effect.stat):
+                return ItemUseResult(used=False, reason="invalid_effect")
+            amount = _stat_percent_gain(state, effect.stat, effect.amount)
+            setattr(state, effect.stat, getattr(state, effect.stat) + amount)
+            stat_gains[effect.stat] = stat_gains.get(effect.stat, 0) + amount
         elif effect.type == ItemEffectType.RANDOM_STAT_DELTA:
             stat = rng.choice(RANDOM_STAT_DELTA_STATS)
             amount = int(effect.amount) * (10 if stat in {"hp", "mp"} else 1)
+            setattr(state, stat, getattr(state, stat) + amount)
+            stat_gains[stat] = stat_gains.get(stat, 0) + amount
+        elif effect.type == ItemEffectType.RANDOM_STAT_PERCENT:
+            stat = rng.choice(RANDOM_STAT_DELTA_STATS)
+            amount = _stat_percent_gain(state, stat, effect.amount)
             setattr(state, stat, getattr(state, stat) + amount)
             stat_gains[stat] = stat_gains.get(stat, 0) + amount
         elif effect.type == ItemEffectType.INSTANT_DEATH:
@@ -335,6 +348,10 @@ def use_consumable_item(
     state.clamp()
     _consume_item(state, item.id)
     return ItemUseResult(used=True, event=event, stat_gains=stat_gains)
+
+
+def _stat_percent_gain(state: PetState, stat: str, percent: int) -> int:
+    return int(getattr(state, stat) * int(percent) / 100)
 
 
 def incubate_current_digimon(
