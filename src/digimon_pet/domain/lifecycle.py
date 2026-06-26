@@ -337,8 +337,12 @@ def _matches_range(value: int, rule: object) -> bool:
 
 
 def _evolve_to(state: PetState, target: Species, rng: random.Random) -> str:
+    lineage = list(state.current_generation_species_ids or [state.species_id])
+    if not lineage or lineage[-1] != target.id:
+        lineage.append(target.id)
     state.species_id = target.id
     state.stage = target.stage
+    state.current_generation_species_ids = lineage
     _boost_evolution_stats(state, rng)
     _reset_stage_state(state)
     return f"evolved:{target.id}"
@@ -462,6 +466,7 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     state.stage = fresh.stage
     state.age_seconds = fresh.age_seconds
     state.total_age_seconds = fresh.total_age_seconds
+    state.current_generation_species_ids = [fresh.species_id]
     state.hunger = fresh.hunger
     state.fatigue = fresh.fatigue
     state.discipline = fresh.discipline

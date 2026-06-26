@@ -90,6 +90,7 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "current_action": state.current_action,
         "needs_rebirth_choice": state.needs_rebirth_choice,
         "discovered_species_ids": list(state.discovered_species_ids),
+        "current_generation_species_ids": list(state.current_generation_species_ids),
         "generation_stat_bonuses": dict(state.generation_stat_bonuses),
         "pending_rebirth_stat_bonuses": dict(state.pending_rebirth_stat_bonuses),
         "pending_rebirth_stat_source_stats": dict(state.pending_rebirth_stat_source_stats),
@@ -192,6 +193,10 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         current_action=str(raw.get("current_action", "idle")),
         needs_rebirth_choice=bool(raw.get("needs_rebirth_choice", False)),
         discovered_species_ids=_species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"])),
+        current_generation_species_ids=_species_ids_from_raw(
+            raw.get("current_generation_species_ids"),
+            str(raw["species_id"]),
+        ),
         generation_stat_bonuses=_stat_bonuses_from_raw(raw.get("generation_stat_bonuses")),
         pending_rebirth_stat_bonuses=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_bonuses")),
         pending_rebirth_stat_source_stats=_stat_bonuses_from_raw(raw.get("pending_rebirth_stat_source_stats")),

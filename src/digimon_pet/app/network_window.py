@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from PySide6.QtCore import QPoint, Qt, QTimer
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QApplication,
@@ -14,9 +14,9 @@ from PySide6.QtWidgets import (
     QHeaderView,
     QLabel,
     QLineEdit,
-    QMenu,
     QProgressBar,
     QPushButton,
+    QScrollArea,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
@@ -24,8 +24,11 @@ from PySide6.QtWidgets import (
 )
 
 from digimon_pet.app.artwork_runtime import resolve_artwork_path
+from digimon_pet.app.animated_sprite import IdleSpriteSheet, idle_sprite_for_species
+from digimon_pet.app.sprite_runtime import load_runtime_manifest
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.app.stats_window import StatsWindow, _format_age
+from digimon_pet.app.stats_window import _format_age
+from digimon_pet.data import load_species
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network import presence as presence_module
 from digimon_pet.network.presence import PresencePayload, PresenceService
@@ -48,7 +51,9 @@ class NetworkWindow(QDialog):
         self._settings = settings
         self._service = service
         self._settings_changed = settings_changed
-        self._friend_details_dialog: FriendDigimonDetailsDialog | None = None
+        self._species_by_id = load_species()
+        self._manifest = load_runtime_manifest()
+        self._lineage_sprite_labels: list[tuple[QLabel, IdleSpriteSheet]] = []
         self.setWindowTitle("Local Network")
         self.setStyleSheet(APP_QSS)
         self.setMinimumSize(760, 500)
@@ -138,7 +143,6 @@ class NetworkWindow(QDialog):
         self._friends_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self._friends_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._friends_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
-        self._friends_table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         content.addWidget(self._friends_table, 1)
         content.addWidget(self._build_friend_detail_panel(), 2)
         layout.addLayout(content, 1)
@@ -150,12 +154,14 @@ class NetworkWindow(QDialog):
         self._copy_address_button.clicked.connect(self._copy_local_address)
         self._add_friend_button.clicked.connect(self._add_friend)
         self._remove_friend_button.clicked.connect(self._remove_selected_friend)
-        self._friends_table.customContextMenuRequested.connect(self._show_friends_context_menu)
         self._friends_table.itemSelectionChanged.connect(self._refresh_friend_detail)
 
         self._refresh_timer = QTimer(self)
         self._refresh_timer.timeout.connect(self.refresh)
         self._refresh_timer.start(1000)
+        self._lineage_animation_timer = QTimer(self)
+        self._lineage_animation_timer.timeout.connect(self._advance_lineage_sprites)
+        self._lineage_animation_timer.start(250)
         self.refresh()
 
     def refresh(self) -> None:
@@ -219,28 +225,6 @@ class NetworkWindow(QDialog):
             self._settings_changed(self._settings)
             self.refresh()
 
-    def _show_friends_context_menu(self, position: QPoint) -> None:
-        row = self._friends_table.rowAt(position.y())
-        if row < 0:
-            return
-        self._friends_table.selectRow(row)
-        menu = QMenu(self)
-        details_action = menu.addAction("View Digimon combat stats")
-        details_action.setEnabled(self._payload_for_row(row) is not None)
-        selected = menu.exec(self._friends_table.viewport().mapToGlobal(position))
-        if selected == details_action:
-            self._open_friend_details_for_row(row)
-
-    def _open_friend_details_for_row(self, row: int) -> None:
-        payload = self._payload_for_row(row)
-        if payload is None:
-            self._status_label.setText("Friend Digimon details are unavailable.")
-            return
-        self._friend_details_dialog = FriendDigimonDetailsDialog(payload, self)
-        self._friend_details_dialog.show()
-        self._friend_details_dialog.raise_()
-        self._friend_details_dialog.activateWindow()
-
     def _payload_for_row(self, row: int) -> PresencePayload | None:
         if row < 0 or row >= len(self._settings.friends):
             return None
@@ -288,6 +272,20 @@ class NetworkWindow(QDialog):
         identity.addWidget(self._friend_detail_trainer_label)
         identity.addStretch(1)
         header.addLayout(identity, 1)
+
+        self._friend_lineage_scroll = QScrollArea(self)
+        self._friend_lineage_scroll.setObjectName("FriendLineageScroll")
+        self._friend_lineage_scroll.setWidgetResizable(True)
+        self._friend_lineage_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self._friend_lineage_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self._friend_lineage_scroll.setMinimumHeight(92)
+        self._friend_lineage_scroll.setFrameShape(QFrame.Shape.NoFrame)
+        self._friend_lineage_content = QWidget(self._friend_lineage_scroll)
+        self._friend_lineage_layout = QHBoxLayout(self._friend_lineage_content)
+        self._friend_lineage_layout.setContentsMargins(4, 2, 4, 2)
+        self._friend_lineage_layout.setSpacing(8)
+        self._friend_lineage_scroll.setWidget(self._friend_lineage_content)
+        header.addWidget(self._friend_lineage_scroll, 3)
         layout.addLayout(header)
 
         title = QLabel("Combat", self)
@@ -348,6 +346,7 @@ class NetworkWindow(QDialog):
             self._friend_detail_trainer_label.setText("")
             self._friend_detail_stage_label.setText("")
             self._friend_detail_age_label.setText("")
+            self._set_friend_lineage([])
             for key, label in self._friend_detail_stats.items():
                 label.setText("-")
                 self._friend_detail_bars[key].setValue(0)
@@ -359,6 +358,7 @@ class NetworkWindow(QDialog):
         self._friend_detail_stage_label.setText(_format_stage(str(payload.get("stage", ""))))
         self._friend_detail_age_label.setText(_format_age(int(payload.get("age_seconds", 0))))
         self._set_friend_sprite(payload)
+        self._set_friend_lineage(_lineage_species_ids_from_payload(payload))
         for key in self._friend_detail_stats:
             value = int(payload.get(key, 0))
             maximum = _stat_maximum(key)
@@ -384,73 +384,56 @@ class NetworkWindow(QDialog):
             )
         )
 
+    def _set_friend_lineage(self, species_ids: list[str]) -> None:
+        self._lineage_sprite_labels = []
+        while self._friend_lineage_layout.count():
+            item = self._friend_lineage_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+        if not species_ids:
+            empty = QLabel("Select an online friend", self._friend_lineage_content)
+            empty.setObjectName("Muted")
+            self._friend_lineage_layout.addWidget(empty)
+            self._friend_lineage_layout.addStretch(1)
+            return
+        for index, species_id in enumerate(species_ids):
+            if index > 0:
+                arrow = QLabel("->", self._friend_lineage_content)
+                arrow.setObjectName("FriendLineageArrow")
+                arrow.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                self._friend_lineage_layout.addWidget(arrow)
+            self._friend_lineage_layout.addWidget(self._lineage_cell(species_id))
+        self._friend_lineage_layout.addStretch(1)
 
-class FriendDigimonDetailsDialog(StatsWindow):
-    def __init__(self, payload: PresencePayload, parent: QWidget | None = None) -> None:
-        super().__init__(parent)
-        self._payload = payload
-        trainer = str(payload.get("trainer_nickname", "")).strip()
-        digimon = str(payload.get("digimon_name", "")).strip() or "Digimon"
-        self.setWindowTitle(f"{digimon} - {trainer}" if trainer else digimon)
-        self._labels = {}
-        self._label_groups = {}
-        self._bars = {}
-        self._bar_groups = {}
-        while self._tabs.count():
-            self._tabs.removeTab(0)
-        self._tabs.addTab(self._build_friend_view_tab(), "View")
-        self.refresh(_state_from_presence_payload(payload), _species_from_presence_payload(payload))
-        summary_parts = [self._stage_label.text(), _format_age(int(payload.get("age_seconds", 0)))]
-        if trainer:
-            summary_parts.append(trainer)
-        self._summary_label.setText(" - ".join(summary_parts))
+    def _lineage_cell(self, species_id: str) -> QWidget:
+        species = self._species_by_id.get(species_id, Species(species_id, _species_name(species_id), GrowthStage.ROOKIE))
+        cell = QWidget(self._friend_lineage_content)
+        cell.setObjectName("FriendLineageCell")
+        layout = QVBoxLayout(cell)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(2)
+        sprite_label = QLabel(cell)
+        sprite_label.setObjectName("FriendLineageSprite")
+        sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        sprite_label.setFixedSize(48, 48)
+        name_label = QLabel(species.name, cell)
+        name_label.setObjectName("FriendLineageName")
+        name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        name_label.setFixedWidth(74)
+        name_label.setWordWrap(True)
+        layout.addWidget(sprite_label, 0, Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(name_label)
+        sprite = idle_sprite_for_species(species, self._manifest)
+        if sprite is not None:
+            self._lineage_sprite_labels.append((sprite_label, sprite))
+            _set_lineage_sprite_frame(sprite_label, sprite)
+        return cell
 
-    def _build_friend_view_tab(self) -> QWidget:
-        page = QWidget(self)
-        layout = QVBoxLayout(page)
-        layout.setContentsMargins(8, 8, 8, 8)
-        layout.setSpacing(8)
-        summary_grid = QGridLayout()
-        summary_grid.setHorizontalSpacing(8)
-        summary_grid.setVerticalSpacing(8)
-        summary_grid.addWidget(self._metric_card("age", "Age"), 0, 0)
-        layout.addLayout(summary_grid)
-        layout.addWidget(self._combat_panel())
-        layout.addStretch(1)
-        return page
-
-
-def _state_from_presence_payload(payload: PresencePayload) -> PetState:
-    stage = _growth_stage_from_payload(payload)
-    return PetState(
-        species_id=str(payload["species_id"]),
-        stage=stage,
-        age_seconds=int(payload.get("age_seconds", 0)),
-        total_age_seconds=int(payload.get("age_seconds", 0)),
-        current_action=str(payload.get("current_action", "idle")),
-        is_sleeping=bool(payload.get("is_sleeping", False)),
-        hp=int(payload["hp"]),
-        mp=int(payload["mp"]),
-        offense=int(payload["offense"]),
-        defense=int(payload["defense"]),
-        speed=int(payload["speed"]),
-        brains=int(payload["brains"]),
-    )
-
-
-def _species_from_presence_payload(payload: PresencePayload) -> Species:
-    return Species(
-        id=str(payload["species_id"]),
-        name=str(payload["digimon_name"]),
-        stage=_growth_stage_from_payload(payload),
-    )
-
-
-def _growth_stage_from_payload(payload: PresencePayload) -> GrowthStage:
-    try:
-        return GrowthStage(str(payload["stage"]))
-    except ValueError:
-        return GrowthStage.ROOKIE
+    def _advance_lineage_sprites(self) -> None:
+        for label, sprite in self._lineage_sprite_labels:
+            sprite.advance()
+            _set_lineage_sprite_frame(label, sprite)
 
 
 def _format_stage(stage: str) -> str:
@@ -459,3 +442,31 @@ def _format_stage(stage: str) -> str:
 
 def _stat_maximum(stat: str) -> int:
     return 99999 if stat in {"hp", "mp"} else 9999
+
+
+def _lineage_species_ids_from_payload(payload: PresencePayload) -> list[str]:
+    raw = payload.get("current_generation_species_ids")
+    if isinstance(raw, list):
+        cleaned = [str(species_id) for species_id in raw if str(species_id).strip()]
+        if cleaned:
+            return cleaned
+    return [str(payload.get("species_id", ""))]
+
+
+def _species_name(species_id: str) -> str:
+    return species_id.replace("_", " ").title() or "Digimon"
+
+
+def _set_lineage_sprite_frame(label: QLabel, sprite: IdleSpriteSheet) -> None:
+    pixmap = sprite.frame_pixmap()
+    if pixmap.isNull():
+        label.clear()
+        return
+    label.setPixmap(
+        pixmap.scaled(
+            44,
+            44,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
+    )

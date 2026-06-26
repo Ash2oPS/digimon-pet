@@ -98,6 +98,20 @@ def test_save_load_persists_discovered_species(tmp_path):
     assert loaded.discovered_species_ids == ["botamon", "koromon"]
 
 
+def test_save_load_persists_current_generation_history(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="tyrannomon",
+        stage=GrowthStage.CHAMPION,
+        current_generation_species_ids=["botamon", "koromon", "agumon", "tyrannomon"],
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.current_generation_species_ids == ["botamon", "koromon", "agumon", "tyrannomon"]
+
+
 def test_save_load_persists_evolution_condition_discoveries(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(

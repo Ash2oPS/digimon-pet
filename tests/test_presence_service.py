@@ -18,6 +18,7 @@ def _state() -> PetState:
         stage=GrowthStage.ROOKIE,
         age_seconds=5400,
         total_age_seconds=7800,
+        current_generation_species_ids=["botamon", "koromon", "agumon"],
         current_action="idle",
         is_sleeping=True,
         inventory={"meat": 99},
@@ -39,6 +40,7 @@ def test_presence_payload_exposes_only_public_fields():
         "digimon_name": "Agumon",
         "stage": "rookie",
         "age_seconds": 7800,
+        "current_generation_species_ids": ["botamon", "koromon", "agumon"],
         "current_action": "idle",
         "is_sleeping": True,
         "needs_rebirth_choice": False,
@@ -73,6 +75,7 @@ def test_presence_payload_parser_accepts_legacy_payload_without_combat_stats():
     assert payload["digimon_name"] == "Agumon"
     assert payload["needs_rebirth_choice"] is False
     assert payload["age_seconds"] == 0
+    assert payload["current_generation_species_ids"] == ["agumon"]
     assert payload["hp"] == 0
     assert payload["mp"] == 0
 

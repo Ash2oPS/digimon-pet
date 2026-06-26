@@ -20,7 +20,7 @@ PEER_POLL_INTERVAL_SECONDS = 2
 REQUEST_TIMEOUT_SECONDS = 2
 
 
-PresencePayload = dict[str, str | int | bool]
+PresencePayload = dict[str, str | int | bool | list[str]]
 COMBAT_STAT_KEYS = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
@@ -44,6 +44,7 @@ def build_presence_payload(nickname: str, state: PetState, species: Species) -> 
         "digimon_name": species.name,
         "stage": state.stage.value,
         "age_seconds": int(max(state.total_age_seconds, state.age_seconds)),
+        "current_generation_species_ids": list(state.current_generation_species_ids or [state.species_id]),
         "current_action": state.current_action,
         "is_sleeping": bool(state.is_sleeping),
         "needs_rebirth_choice": bool(state.needs_rebirth_choice),
@@ -250,6 +251,10 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
         "digimon_name": str(raw["digimon_name"]),
         "stage": str(raw["stage"]),
         "age_seconds": int(raw.get("age_seconds", 0)),
+        "current_generation_species_ids": _current_generation_species_ids_from_raw(
+            raw.get("current_generation_species_ids"),
+            str(raw["species_id"]),
+        ),
         "current_action": str(raw["current_action"]),
         "is_sleeping": bool(raw["is_sleeping"]),
         "needs_rebirth_choice": bool(raw.get("needs_rebirth_choice", False)),
@@ -259,6 +264,13 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
     if not payload["trainer_nickname"] or not payload["species_id"] or not payload["digimon_name"]:
         raise ValueError("Presence response is incomplete.")
     return payload
+
+
+def _current_generation_species_ids_from_raw(raw: Any, current_species_id: str) -> list[str]:
+    if not isinstance(raw, list):
+        return [current_species_id]
+    cleaned = list(dict.fromkeys(str(item) for item in raw if str(item).strip()))
+    return cleaned or [current_species_id]
 
 
 def _short_error(exc: Exception) -> str:

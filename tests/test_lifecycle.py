@@ -67,6 +67,21 @@ def test_baby_line_evolves_forced_and_resets_stage_state():
     assert state.care_mistakes == 0
     assert state.training_count == 0
     assert state.current_action == "idle"
+    assert state.current_generation_species_ids == ["botamon", "koromon"]
+
+
+def test_rebirth_resets_current_generation_history():
+    state = PetState(
+        species_id="metalgreymon",
+        stage=GrowthStage.ULTIMATE,
+        current_generation_species_ids=["botamon", "koromon", "agumon", "greymon", "metalgreymon"],
+        needs_rebirth_choice=True,
+    )
+
+    event = choose_rebirth(state, "punimon", species_map())
+
+    assert event == "reborn:punimon"
+    assert state.current_generation_species_ids == ["punimon"]
 
 
 def test_catalog_baby_uses_declared_natural_evolution_before_builtin_fallback():
@@ -955,7 +970,11 @@ def test_rebirth_choice_resets_pet_to_selected_baby_1():
     event = choose_rebirth(state, "yuramon", species_map())
 
     assert event == "reborn:yuramon"
-    assert state == PetState(species_id="yuramon", stage=GrowthStage.BABY)
+    assert state == PetState(
+        species_id="yuramon",
+        stage=GrowthStage.BABY,
+        current_generation_species_ids=["yuramon"],
+    )
 
 
 def test_baby_1_choices_include_every_catalog_baby():

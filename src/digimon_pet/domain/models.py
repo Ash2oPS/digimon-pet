@@ -59,6 +59,7 @@ class PetState:
     current_action: str = "idle"
     needs_rebirth_choice: bool = False
     discovered_species_ids: list[str] = field(default_factory=list)
+    current_generation_species_ids: list[str] = field(default_factory=list)
     generation_stat_bonuses: dict[str, int] = field(default_factory=dict)
     pending_rebirth_stat_bonuses: dict[str, int] = field(default_factory=dict)
     pending_rebirth_stat_source_stats: dict[str, int] = field(default_factory=dict)
@@ -96,6 +97,10 @@ class PetState:
         self.won_battles = max(0, self.won_battles)
         self.techniques_mastered = max(0, self.techniques_mastered)
         self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
+        self.current_generation_species_ids = _clean_current_generation_species_ids(
+            self.current_generation_species_ids,
+            self.species_id,
+        )
         self.generation_stat_bonuses = _clean_stat_bonuses(self.generation_stat_bonuses)
         self.pending_rebirth_stat_bonuses = _clean_stat_bonuses(self.pending_rebirth_stat_bonuses)
         self.pending_rebirth_stat_source_stats = _clean_stat_bonuses(self.pending_rebirth_stat_source_stats)
@@ -146,6 +151,14 @@ def _clamp_stat(value: int, stat_name: str = "") -> int:
 
 def _dedupe_species_ids(species_ids: list[str]) -> list[str]:
     return list(dict.fromkeys(str(species_id) for species_id in species_ids if str(species_id).strip()))
+
+
+def _clean_current_generation_species_ids(species_ids: list[str], current_species_id: str) -> list[str]:
+    cleaned = _dedupe_species_ids(species_ids)
+    current = str(current_species_id).strip()
+    if current and (not cleaned or cleaned[-1] != current):
+        cleaned.append(current)
+    return cleaned
 
 
 def _clean_stat_bonuses(bonuses: dict[str, int]) -> dict[str, int]:

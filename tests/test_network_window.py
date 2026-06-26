@@ -2,8 +2,7 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QFrame
+from PySide6.QtWidgets import QApplication, QLabel, QScrollArea
 
 from digimon_pet.app.network_window import NetworkWindow
 from digimon_pet.domain.models import GrowthStage, PetState, Species
@@ -140,7 +139,7 @@ def test_network_window_rejects_friend_address_with_port():
     assert window._status_label.text() == "Enter the IP only."
 
 
-def test_network_window_opens_friend_combat_stats_from_context_action():
+def test_network_window_has_no_friend_combat_stats_context_action():
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545"])
     service = _service(settings)
@@ -151,6 +150,7 @@ def test_network_window_opens_friend_combat_stats_from_context_action():
         "digimon_name": "Numemon",
         "stage": "champion",
         "age_seconds": 7800,
+        "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
         "current_action": "idle",
         "is_sleeping": False,
         "hp": 9370,
@@ -167,25 +167,8 @@ def test_network_window_opens_friend_combat_stats_from_context_action():
     )
     window = NetworkWindow(settings, service, lambda updated: None)
 
-    assert window._friends_table.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
-
-    window._open_friend_details_for_row(0)
-
-    dialog = window._friend_details_dialog
-    assert dialog is not None
-    assert dialog.windowTitle() == "Numemon - Sora"
-    assert dialog._sprite_label.objectName() == "StatsPortrait"
-    assert dialog._sprite_label.width() == 156
-    assert dialog.findChildren(QFrame, "StatsHeader")
-    assert dialog._summary_label.text() == "Champion - 2 h 10 min - Sora"
-    assert dialog._labels["age"].text() == "2 h 10 min"
-    assert [label.text() for label in dialog._label_groups["hp"]] == ["9370"]
-    assert dialog._labels["hp"].text() == "9370"
-    assert dialog._labels["mp"].text() == "5618"
-    assert dialog._labels["offense"].text() == "526"
-    assert dialog._labels["defense"].text() == "625"
-    assert dialog._labels["speed"].text() == "447"
-    assert dialog._labels["brains"].text() == "458"
+    assert not hasattr(window, "_friend_details_dialog")
+    assert not hasattr(window, "_open_friend_details_for_row")
 
 
 def test_network_window_embeds_selected_friend_combat_stats():
@@ -199,6 +182,7 @@ def test_network_window_embeds_selected_friend_combat_stats():
         "digimon_name": "Numemon",
         "stage": "champion",
         "age_seconds": 7800,
+        "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
         "current_action": "idle",
         "is_sleeping": False,
         "hp": 9370,
@@ -221,5 +205,13 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert window._friend_detail_trainer_label.text() == "Sora"
     assert window._friend_detail_stage_label.text() == "Champion"
     assert window._friend_detail_age_label.text() == "2 h 10 min"
+    assert isinstance(window._friend_lineage_scroll, QScrollArea)
+    assert window._friend_lineage_scroll.horizontalScrollBarPolicy().name == "ScrollBarAsNeeded"
+    lineage_labels = [
+        label.text()
+        for label in window._friend_lineage_content.findChildren(QLabel)
+        if label.objectName() in {"FriendLineageName", "FriendLineageArrow"}
+    ]
+    assert lineage_labels == ["Botamon", "->", "Koromon", "->", "Agumon", "->", "Numemon"]
     assert window._friend_detail_stats["hp"].text() == "9370"
     assert window._friend_detail_stats["mp"].text() == "5618"

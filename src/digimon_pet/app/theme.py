@@ -171,6 +171,28 @@ QLabel#StatsPortrait {{
     color: {COLORS["muted"]};
 }}
 
+QScrollArea#FriendLineageScroll,
+QScrollArea#FriendLineageScroll QWidget {{
+    background: {COLORS["surface_alt"]};
+}}
+
+QLabel#FriendLineageSprite {{
+    background: {COLORS["panel"]};
+    border: 1px solid {COLORS["line_soft"]};
+    border-radius: 2px;
+}}
+
+QLabel#FriendLineageName {{
+    color: {COLORS["text"]};
+    font-size: 11px;
+    font-weight: 800;
+}}
+
+QLabel#FriendLineageArrow {{
+    color: {COLORS["focus"]};
+    font-weight: 900;
+}}
+
 QLabel#StatsStage {{
     color: {COLORS["focus"]};
     font-weight: 900;
