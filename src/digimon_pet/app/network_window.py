@@ -54,6 +54,7 @@ class NetworkWindow(QDialog):
         self._species_by_id = load_species()
         self._manifest = load_runtime_manifest()
         self._lineage_sprite_labels: list[tuple[QLabel, IdleSpriteSheet]] = []
+        self._friend_table_sprite_labels: list[tuple[QLabel, IdleSpriteSheet]] = []
         self.setWindowTitle("Local Network")
         self.setStyleSheet(APP_QSS)
         self.setMinimumSize(760, 500)
@@ -137,10 +138,12 @@ class NetworkWindow(QDialog):
 
         content = QHBoxLayout()
         content.setSpacing(10)
-        self._friends_table = QTableWidget(0, 3, self)
+        self._friends_table = QTableWidget(0, 4, self)
         self._friends_table.setObjectName("NetworkFriendsTable")
-        self._friends_table.setHorizontalHeaderLabels(["Trainer", "Connected", "Digimon"])
+        self._friends_table.setHorizontalHeaderLabels(["Trainer", "Connected", "Digimon", "Sprite"])
         self._friends_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self._friends_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
+        self._friends_table.verticalHeader().setDefaultSectionSize(42)
         self._friends_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._friends_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         content.addWidget(self._friends_table, 1)
@@ -159,13 +162,14 @@ class NetworkWindow(QDialog):
         self._refresh_timer = QTimer(self)
         self._refresh_timer.timeout.connect(self.refresh)
         self._refresh_timer.start(1000)
-        self._lineage_animation_timer = QTimer(self)
-        self._lineage_animation_timer.timeout.connect(self._advance_lineage_sprites)
-        self._lineage_animation_timer.start(250)
+        self._sprite_animation_timer = QTimer(self)
+        self._sprite_animation_timer.timeout.connect(self._advance_idle_sprites)
+        self._sprite_animation_timer.start(250)
         self.refresh()
 
     def refresh(self) -> None:
         self._local_address_label.setText(self._local_address_text())
+        self._friend_table_sprite_labels = []
         self._friends_table.setRowCount(len(self._settings.friends))
         statuses = {status.address: status for status in self._service.peer_statuses()}
         for row, address in enumerate(self._settings.friends):
@@ -179,6 +183,7 @@ class NetworkWindow(QDialog):
             self._friends_table.setItem(row, 0, trainer_item)
             self._friends_table.setItem(row, 1, QTableWidgetItem(state_text))
             self._friends_table.setItem(row, 2, QTableWidgetItem(digimon))
+            self._set_friend_table_sprite(row, payload if status is not None and status.online else None)
         if self._service.last_error:
             self._status_label.setText(self._service.last_error)
         elif self._settings.network_enabled:
@@ -384,6 +389,32 @@ class NetworkWindow(QDialog):
             )
         )
 
+    def _set_friend_table_sprite(self, row: int, payload: PresencePayload | None) -> None:
+        label = QLabel(self._friends_table)
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label.setFixedSize(40, 36)
+        self._friends_table.setCellWidget(row, 3, label)
+        if payload is None:
+            return
+        sprite = self._idle_sprite_from_payload(payload)
+        if sprite is None:
+            return
+        self._friend_table_sprite_labels.append((label, sprite))
+        _set_table_sprite_frame(label, sprite)
+
+    def _idle_sprite_from_payload(self, payload: PresencePayload) -> IdleSpriteSheet | None:
+        species_id = str(payload.get("species_id", "")).strip()
+        if not species_id:
+            return None
+        species = self._species_by_id.get(species_id)
+        if species is None:
+            try:
+                stage = GrowthStage(str(payload.get("stage", GrowthStage.ROOKIE.value)))
+            except ValueError:
+                stage = GrowthStage.ROOKIE
+            species = Species(species_id, _species_name(species_id), stage)
+        return idle_sprite_for_species(species, self._manifest)
+
     def _set_friend_lineage(self, species_ids: list[str]) -> None:
         self._lineage_sprite_labels = []
         while self._friend_lineage_layout.count():
@@ -430,7 +461,10 @@ class NetworkWindow(QDialog):
             _set_lineage_sprite_frame(sprite_label, sprite)
         return cell
 
-    def _advance_lineage_sprites(self) -> None:
+    def _advance_idle_sprites(self) -> None:
+        for label, sprite in self._friend_table_sprite_labels:
+            sprite.advance()
+            _set_table_sprite_frame(label, sprite)
         for label, sprite in self._lineage_sprite_labels:
             sprite.advance()
             _set_lineage_sprite_frame(label, sprite)
@@ -466,6 +500,21 @@ def _set_lineage_sprite_frame(label: QLabel, sprite: IdleSpriteSheet) -> None:
         pixmap.scaled(
             44,
             44,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            _lineage_sprite_transformation_mode(),
+        )
+    )
+
+
+def _set_table_sprite_frame(label: QLabel, sprite: IdleSpriteSheet) -> None:
+    pixmap = sprite.frame_pixmap()
+    if pixmap.isNull():
+        label.clear()
+        return
+    label.setPixmap(
+        pixmap.scaled(
+            32,
+            32,
             Qt.AspectRatioMode.KeepAspectRatio,
             _lineage_sprite_transformation_mode(),
         )

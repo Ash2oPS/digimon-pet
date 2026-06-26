@@ -3,8 +3,10 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QLabel, QScrollArea
 
+from digimon_pet.app import network_window
 from digimon_pet.app.network_window import NetworkWindow, _lineage_sprite_transformation_mode
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network import presence as presence_module
@@ -21,6 +23,16 @@ def _service(settings: NetworkSettings) -> PresenceService:
     )
 
 
+def _write_two_frame_sprite(path) -> None:
+    pixmap = QPixmap(48, 24)
+    pixmap.fill()
+    painter = QPainter(pixmap)
+    painter.fillRect(0, 0, 24, 24, QColor("red"))
+    painter.fillRect(24, 0, 24, 24, QColor("blue"))
+    painter.end()
+    pixmap.save(str(path))
+
+
 def test_network_window_adds_and_removes_friend():
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai")
@@ -33,7 +45,7 @@ def test_network_window_adds_and_removes_friend():
     assert settings.friends == ["192.168.1.42:54545"]
     assert saved[-1] == ["192.168.1.42:54545"]
     assert window._friends_table.rowCount() == 1
-    assert window._friends_table.columnCount() == 3
+    assert window._friends_table.columnCount() == 4
 
     window._friends_table.selectRow(0)
     window._remove_friend_button.click()
@@ -216,6 +228,64 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert lineage_labels == ["Botamon", "->", "Koromon", "->", "Agumon", "->", "Numemon"]
     assert window._friend_detail_stats["hp"].text() == "9370"
     assert window._friend_detail_stats["mp"].text() == "5618"
+
+
+def test_network_window_table_shows_animated_idle_sprite(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    sprite_path = tmp_path / "agumon_idle.png"
+    _write_two_frame_sprite(sprite_path)
+    monkeypatch.setattr(
+        network_window,
+        "load_species",
+        lambda: {"agumon": Species(id="agumon", name="Agumon", stage=GrowthStage.ROOKIE)},
+    )
+    monkeypatch.setattr(
+        network_window,
+        "load_runtime_manifest",
+        lambda: {
+            "entries": {
+                "agumon": {
+                    "asset_path": str(sprite_path),
+                    "metadata": {"frame_count": 2, "fps": 10},
+                }
+            }
+        },
+    )
+    settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545"])
+    service = _service(settings)
+    payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Sora",
+        "species_id": "agumon",
+        "digimon_name": "Agumon",
+        "stage": "rookie",
+        "age_seconds": 5400,
+        "current_generation_species_ids": ["agumon"],
+        "current_action": "idle",
+        "is_sleeping": False,
+        "hp": 9370,
+        "mp": 5618,
+        "offense": 526,
+        "defense": 625,
+        "speed": 447,
+        "brains": 458,
+    }
+    service._peers["192.168.1.42:54545"] = PeerStatus(
+        address="192.168.1.42:54545",
+        online=True,
+        payload=payload,
+    )
+
+    window = NetworkWindow(settings, service, lambda updated: None)
+
+    label, sprite = window._friend_table_sprite_labels[0]
+    assert window._friends_table.horizontalHeaderItem(3).text() == "Sprite"
+    assert label.pixmap() is not None
+    assert sprite.current_frame_index == 0
+
+    window._advance_idle_sprites()
+
+    assert sprite.current_frame_index == 1
 
 
 def test_friend_lineage_sprites_use_pixel_art_scaling():
