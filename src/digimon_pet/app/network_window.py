@@ -25,7 +25,7 @@ from PySide6.QtWidgets import (
 
 from digimon_pet.app.artwork_runtime import resolve_artwork_path
 from digimon_pet.app.theme import APP_QSS
-from digimon_pet.app.stats_window import StatsWindow
+from digimon_pet.app.stats_window import StatsWindow, _format_age
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network import presence as presence_module
 from digimon_pet.network.presence import PresencePayload, PresenceService
@@ -280,8 +280,11 @@ class NetworkWindow(QDialog):
         self._friend_detail_trainer_label.setObjectName("Muted")
         self._friend_detail_stage_label = QLabel("", self)
         self._friend_detail_stage_label.setObjectName("StatsStage")
+        self._friend_detail_age_label = QLabel("", self)
+        self._friend_detail_age_label.setObjectName("Muted")
         identity.addWidget(self._friend_detail_name_label)
         identity.addWidget(self._friend_detail_stage_label)
+        identity.addWidget(self._friend_detail_age_label)
         identity.addWidget(self._friend_detail_trainer_label)
         identity.addStretch(1)
         header.addLayout(identity, 1)
@@ -344,6 +347,7 @@ class NetworkWindow(QDialog):
             self._friend_detail_name_label.setText("Select an online friend")
             self._friend_detail_trainer_label.setText("")
             self._friend_detail_stage_label.setText("")
+            self._friend_detail_age_label.setText("")
             for key, label in self._friend_detail_stats.items():
                 label.setText("-")
                 self._friend_detail_bars[key].setValue(0)
@@ -353,6 +357,7 @@ class NetworkWindow(QDialog):
         self._friend_detail_name_label.setText(digimon)
         self._friend_detail_trainer_label.setText(trainer)
         self._friend_detail_stage_label.setText(_format_stage(str(payload.get("stage", ""))))
+        self._friend_detail_age_label.setText(_format_age(int(payload.get("age_seconds", 0))))
         self._set_friend_sprite(payload)
         for key in self._friend_detail_stats:
             value = int(payload.get(key, 0))
@@ -395,13 +400,21 @@ class FriendDigimonDetailsDialog(StatsWindow):
             self._tabs.removeTab(0)
         self._tabs.addTab(self._build_friend_view_tab(), "View")
         self.refresh(_state_from_presence_payload(payload), _species_from_presence_payload(payload))
-        self._summary_label.setText(f"{self._stage_label.text()} - {trainer}" if trainer else self._stage_label.text())
+        summary_parts = [self._stage_label.text(), _format_age(int(payload.get("age_seconds", 0)))]
+        if trainer:
+            summary_parts.append(trainer)
+        self._summary_label.setText(" - ".join(summary_parts))
 
     def _build_friend_view_tab(self) -> QWidget:
         page = QWidget(self)
         layout = QVBoxLayout(page)
         layout.setContentsMargins(8, 8, 8, 8)
         layout.setSpacing(8)
+        summary_grid = QGridLayout()
+        summary_grid.setHorizontalSpacing(8)
+        summary_grid.setVerticalSpacing(8)
+        summary_grid.addWidget(self._metric_card("age", "Age"), 0, 0)
+        layout.addLayout(summary_grid)
         layout.addWidget(self._combat_panel())
         layout.addStretch(1)
         return page
@@ -412,6 +425,7 @@ def _state_from_presence_payload(payload: PresencePayload) -> PetState:
     return PetState(
         species_id=str(payload["species_id"]),
         stage=stage,
+        age_seconds=int(payload.get("age_seconds", 0)),
         current_action=str(payload.get("current_action", "idle")),
         is_sleeping=bool(payload.get("is_sleeping", False)),
         hp=int(payload["hp"]),
