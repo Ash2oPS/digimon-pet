@@ -175,6 +175,7 @@
       "name": "Green Thing",
       "description": "Increases HP and MP by 500 and Off, Def, Spd and Int by 50",
       "type": "consumable",
+      "inventory_category": "consumable",
       "icon_path": "assets/items/chain-melon-icon.png",
       "effects": [
         {
@@ -229,6 +230,7 @@
       "name": "Grey Claws",
       "description": "Makes Agumon digivolve into Greymon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/grey-claws-icon.png",
       "evolution": {
         "target_species_id": "greymon",
@@ -243,6 +245,7 @@
       "name": "Metal Parts",
       "description": "Makes Greymon digivolve into MetalGreymon.",
       "type": "evolution",
+      "inventory_category": "evolution",
       "icon_path": "assets/items/metal-part-icon.png",
       "evolution": {
         "target_species_id": "metalgreymon",
@@ -257,6 +260,7 @@
       "name": "Incubator",
       "description": "Incubates your Digimon. You hatch a new one.",
       "type": "misc",
+      "inventory_category": "special",
       "icon_path": "assets/items/incubator.png"
     },
     {
@@ -301,6 +305,21 @@
           "type": "halve_lifecycle_remaining"
         }
       ]
+    },
+    {
+      "id": "black_wings_for_ladies",
+      "name": "Black Wings for Ladies",
+      "description": "Makes Angewomon digivolve into Lady Devimon.",
+      "type": "evolution",
+      "inventory_category": "evolution",
+      "icon_path": "assets/items/lady-black-wing-icon.png",
+      "evolution": {
+        "target_species_id": "ladydevimon",
+        "required_species_ids": [
+          "angewomon"
+        ],
+        "required_stages": []
+      }
     }
   ],
   "pools": {
@@ -384,6 +403,10 @@
       {
         "item_id": "digialcohol",
         "weight": 2
+      },
+      {
+        "item_id": "black_wings_for_ladies",
+        "weight": 1
       }
     ]
   }
