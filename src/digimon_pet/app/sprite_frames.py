@@ -32,18 +32,32 @@ def sprite_frame_rects(pixmap: QPixmap, animation: SpriteAnimation) -> list[QRec
 
 
 def _inferred_frame_width(pixmap: QPixmap, animation: SpriteAnimation) -> int:
+    horizontal_width = _horizontal_band_frame_width(pixmap, animation)
+    if horizontal_width is not None:
+        return horizontal_width
     if _looks_like_16px_grid(pixmap):
         return 16
     return max(1, pixmap.width() // max(1, animation.frame_count))
 
 
 def _inferred_frame_height(pixmap: QPixmap, animation: SpriteAnimation) -> int:
+    if _horizontal_band_frame_width(pixmap, animation) is not None:
+        return pixmap.height()
     if _looks_like_16px_grid(pixmap):
         return 16
     return pixmap.height()
 
 
+def _horizontal_band_frame_width(pixmap: QPixmap, animation: SpriteAnimation) -> int | None:
+    if animation.frame_count <= 1 or pixmap.width() % animation.frame_count != 0:
+        return None
+    frame_width = pixmap.width() // animation.frame_count
+    if frame_width < 16:
+        return None
+    return frame_width
+
+
 def _looks_like_16px_grid(pixmap: QPixmap) -> bool:
-    return pixmap.width() % 16 == 0 and pixmap.height() % 16 == 0 and (
-        pixmap.width() > 16 or pixmap.height() > 16
-    )
+    if pixmap.width() == 48 and pixmap.height() % 16 == 0 and pixmap.height() > 16:
+        return True
+    return pixmap.height() == 16 and pixmap.width() % 16 == 0 and pixmap.width() > 16

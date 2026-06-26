@@ -20,6 +20,16 @@ def test_sprite_frame_rect_infers_16px_grid_for_sprite_sheets_without_dimensions
     assert rect == QRect(0, 0, 16, 16)
 
 
+def test_sprite_frame_rect_preserves_horizontal_64px_band_sheets():
+    app = QApplication.instance() or QApplication([])
+    pixmap = QPixmap(832, 64)
+    pixmap.fill()
+
+    rect = sprite_frame_rect(pixmap, SpriteAnimation(path="unused.png", frame_count=13), 6)
+
+    assert rect == QRect(384, 0, 64, 64)
+
+
 def test_sprite_frame_rect_uses_grid_coordinates_for_later_frames():
     app = QApplication.instance() or QApplication([])
     pixmap = QPixmap(48, 64)
