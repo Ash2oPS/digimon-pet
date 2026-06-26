@@ -40,6 +40,8 @@ DEFAULT_ALIAS_MAP: dict[str, list[str]] = {
     "Rapidmon": ["Rapidmon Perfect"],
 }
 
+GOOGLE_DRIVE_SOURCE_ID = "google_drive_sprites"
+
 
 @dataclass(frozen=True)
 class RosterEntry:
@@ -191,6 +193,11 @@ def _choose_match_for_species(
     species: RosterEntry,
     matches: list[tuple[SpriteSource, SpriteAsset, str]],
 ) -> tuple[SpriteSource, SpriteAsset, str]:
+    for match in matches:
+        source, _, _ = match
+        if source.id == GOOGLE_DRIVE_SOURCE_ID:
+            return match
+
     preferred_source_id = species.preferred_source_id.strip()
     if preferred_source_id:
         for match in matches:

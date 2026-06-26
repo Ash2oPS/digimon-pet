@@ -266,9 +266,11 @@ class PetWidget(QWidget):
         frame_height = animation.frame_height or pixmap.height()
         if frame_width <= 0 or frame_height <= 0:
             return []
-        max_frames = max(1, pixmap.width() // frame_width)
+        columns = max(1, pixmap.width() // frame_width)
+        rows = max(1, pixmap.height() // frame_height)
+        max_frames = min(animation.frame_count, columns * rows)
         return [
-            QRect(index * frame_width, 0, frame_width, frame_height)
+            QRect((index % columns) * frame_width, (index // columns) * frame_height, frame_width, frame_height)
             for index in animation.frame_indices
             if index < max_frames
         ]

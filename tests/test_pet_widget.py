@@ -2,7 +2,7 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtCore import QPoint, Qt
+from PySide6.QtCore import QPoint, QRect, Qt
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication
 
@@ -102,6 +102,30 @@ def test_sprite_animation_timer_is_two_and_a_half_times_slower_than_sheet_fps():
     widget._configure_animation_timer(SpriteAnimation(path="unused.png", frame_count=2, fps=10))
 
     assert widget._animation_timer.interval() == 250
+
+
+def test_pet_widget_slices_multi_row_sprite_sheets():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    pixmap = QPixmap(48, 64)
+    pixmap.fill(Qt.GlobalColor.transparent)
+
+    rects = widget._build_frame_rects(
+        pixmap,
+        SpriteAnimation(
+            path="unused.png",
+            frame_width=16,
+            frame_height=16,
+            frame_count=12,
+            frame_indices=(0, 6, 10),
+        ),
+    )
+
+    assert rects == [
+        QRect(0, 0, 16, 16),
+        QRect(0, 32, 16, 16),
+        QRect(16, 48, 16, 16),
+    ]
 
 
 def test_static_png_animation_alternates_scale_from_bottom_center():

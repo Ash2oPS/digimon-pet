@@ -40,6 +40,33 @@ def _species_map() -> dict[str, Species]:
     }
 
 
+def test_idle_sprite_sheet_slices_multi_row_sprite_sheets():
+    pixmap = QPixmap(48, 64)
+    pixmap.fill(Qt.GlobalColor.transparent)
+    painter = QPainter(pixmap)
+    painter.fillRect(0, 32, 16, 16, QColor("red"))
+    painter.fillRect(16, 32, 16, 16, QColor("blue"))
+    painter.end()
+
+    sprite = IdleSpriteSheet(
+        pixmap,
+        SpriteAnimation(
+            path="unused.png",
+            frame_width=16,
+            frame_height=16,
+            frame_count=12,
+            frame_indices=(6,),
+        ),
+    )
+
+    frame = sprite.frame_pixmap().toImage()
+
+    assert frame.size().width() == 16
+    assert frame.size().height() == 16
+    assert frame.pixelColor(1, 1).red() > 200
+    assert frame.pixelColor(15, 15).red() > 200
+
+
 def _digivolutions() -> dict:
     return {
         "natural_evolutions": [

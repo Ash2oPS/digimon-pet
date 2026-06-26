@@ -5,6 +5,14 @@
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
+      "name": "Agumon",
+      "path": "assets/sprite_sources/google_drive_sprites/agumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
       "name": "Andiramon_Virus",
       "path": "assets/sprite_sources/google_drive_sprites/andiramon_virus.png",
       "source_file_id": "1npJyZGTnAtMPgzDyWyUGp1WO0sr51-qR",
@@ -17,144 +25,28 @@
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
-      "name": "Turuiemon",
-      "path": "assets/sprite_sources/google_drive_sprites/turuiemon.png",
-      "source_file_id": "1lBmKshbcLr2tbnC5xJIFlO7lVbQxiinq",
-      "source_title": "Turuiemon.png",
+      "name": "Angemon",
+      "path": "assets/sprite_sources/google_drive_sprites/angemon.png",
+      "source_file_id": "12UP0ONQRD9D3EUHK6WW5OXln1tAxNY0G",
+      "source_title": "Angemon.png",
       "source_folder": "Adult",
-      "source_url": "https://drive.google.com/file/d/1lBmKshbcLr2tbnC5xJIFlO7lVbQxiinq/view?usp=drive_web"
+      "source_url": "https://drive.google.com/file/d/12UP0ONQRD9D3EUHK6WW5OXln1tAxNY0G/view?usp=drive_web"
     },
     {
       "fps": 6,
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
-      "name": "Dianamon",
-      "path": "assets/sprite_sources/google_drive_sprites/dianamon.png",
-      "source_file_id": "1MfD3UGKe5lFlmPWIIDhBWSYrCuj191J9",
-      "source_title": "Dianamon.png",
-      "source_folder": "Ultimate/Super Ultimate",
-      "source_url": "https://drive.google.com/file/d/1MfD3UGKe5lFlmPWIIDhBWSYrCuj191J9/view?usp=drive_web"
+      "name": "Bakemon",
+      "path": "assets/sprite_sources/google_drive_sprites/bakemon.png"
     },
     {
       "fps": 6,
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
-      "name": "KaiserLeomon",
-      "path": "assets/sprite_sources/google_drive_sprites/kaiser_leomon.png",
-      "source_file_id": "1KE7RDZywU3D-WRBfGRCQpO_5njjTDfmj",
-      "source_title": "KaiserLeomon.png",
-      "source_folder": "Armor/Hybrid",
-      "source_url": "https://drive.google.com/file/d/1KE7RDZywU3D-WRBfGRCQpO_5njjTDfmj/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "WaruMonzaemon",
-      "path": "assets/sprite_sources/google_drive_sprites/waru_monzaemon.png",
-      "source_file_id": "1nMilP9IILh_oFW03JgATgEBbDzOX3noo",
-      "source_title": "WaruMonzaemon.png",
-      "source_folder": "Perfect",
-      "source_url": "https://drive.google.com/file/d/1nMilP9IILh_oFW03JgATgEBbDzOX3noo/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Zerimon",
-      "path": "assets/sprite_sources/google_drive_sprites/zerimon.png",
-      "source_file_id": "1slLpKw8cHqz4DQ0H9_VwSGLCK7GAHgaO",
-      "source_title": "Zerimon.png",
-      "source_folder": "Baby I",
-      "source_url": "https://drive.google.com/file/d/1slLpKw8cHqz4DQ0H9_VwSGLCK7GAHgaO/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Gummymon",
-      "path": "assets/sprite_sources/google_drive_sprites/gummymon.png",
-      "source_file_id": "10SyTPA62B4OZK20vhFa2pEnzOdcme5j7",
-      "source_title": "Gummymon.png",
-      "source_folder": "Baby II",
-      "source_url": "https://drive.google.com/file/d/10SyTPA62B4OZK20vhFa2pEnzOdcme5j7/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Terriermon",
-      "path": "assets/sprite_sources/google_drive_sprites/terriermon.png",
-      "source_file_id": "1gjVML8yBG1oGGMIAZedpgbQF9GmNDCPy",
-      "source_title": "Terriermon.png",
-      "source_folder": "Child",
-      "source_url": "https://drive.google.com/file/d/1gjVML8yBG1oGGMIAZedpgbQF9GmNDCPy/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Rapidmon",
-      "path": "assets/sprite_sources/google_drive_sprites/rapidmon_perfect.png",
-      "source_file_id": "1Ptev6IoGqZn-Jl7QzB2zU3s8JDo06eHO",
-      "source_title": "Rapidmon.png",
-      "source_folder": "Perfect",
-      "source_url": "https://drive.google.com/file/d/1Ptev6IoGqZn-Jl7QzB2zU3s8JDo06eHO/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Galgomon",
-      "path": "assets/sprite_sources/google_drive_sprites/galgomon.png",
-      "source_file_id": "1WdWc3U2mCBVh1yp6YynoWm1YyURrF8-x",
-      "source_title": "Galgomon.png",
-      "source_folder": "Adult",
-      "source_url": "https://drive.google.com/file/d/1WdWc3U2mCBVh1yp6YynoWm1YyURrF8-x/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Lopmon",
-      "path": "assets/sprite_sources/google_drive_sprites/lopmon.png",
-      "source_file_id": "1A55Pbrq4DE237wmt1TR2F1UeierkLfjj",
-      "source_title": "Lopmon.png",
-      "source_folder": "Child",
-      "source_url": "https://drive.google.com/file/d/1A55Pbrq4DE237wmt1TR2F1UeierkLfjj/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Gaomon",
-      "path": "assets/sprite_sources/google_drive_sprites/gaomon.png",
-      "source_file_id": "1cIkiXVk7ju1y7T5kJos-6TihkmxPOZQ7",
-      "source_title": "Gaomon.png",
-      "source_folder": "Child",
-      "source_url": "https://drive.google.com/file/d/1cIkiXVk7ju1y7T5kJos-6TihkmxPOZQ7/view?usp=drive_web"
-    },
-    {
-      "fps": 6,
-      "frame_count": 12,
-      "frame_width": 16,
-      "frame_height": 16,
-      "name": "Crescemon",
-      "path": "assets/sprite_sources/google_drive_sprites/crescemon.png",
-      "source_file_id": "1E4XuNESQv9avxWNk0ITEvbIEa6HG8bbc",
-      "source_title": "Crescemon.png",
-      "source_folder": "Perfect",
-      "source_url": "https://drive.google.com/file/d/1E4XuNESQv9avxWNk0ITEvbIEa6HG8bbc/view?usp=drive_web"
+      "name": "Bakumon",
+      "path": "assets/sprite_sources/google_drive_sprites/bakumon.png"
     },
     {
       "fps": 6,
@@ -182,39 +74,363 @@
     },
     {
       "fps": 6,
-      "frame_count": 1,
+      "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
-      "name": "Poyomon",
-      "path": "assets/sprite_sources/google_drive_sprites/poyomon.png",
-      "source_file_id": "1iTfDtp9YFFDg0vNZJuVYbPs3wlEcW9FX",
-      "source_title": "Poyomon.png",
-      "source_folder": "Idle Frame Only",
-      "source_url": "https://drive.google.com/file/d/1iTfDtp9YFFDg0vNZJuVYbPs3wlEcW9FX/view?usp=drive_web"
+      "name": "Bubbmon",
+      "path": "assets/sprite_sources/google_drive_sprites/bubbmon.png"
     },
     {
       "fps": 6,
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
-      "name": "Ogremon",
-      "path": "assets/sprite_sources/google_drive_sprites/ogremon.png",
-      "source_file_id": "1Bf9ewoMcGiaHjQWdmfcArQcNTVM3d7Es",
-      "source_title": "Ogremon.png",
-      "source_folder": "Adult",
-      "source_url": "https://drive.google.com/file/d/1Bf9ewoMcGiaHjQWdmfcArQcNTVM3d7Es/view?usp=drive_web"
+      "name": "Candmon",
+      "path": "assets/sprite_sources/google_drive_sprites/candmon.png"
     },
     {
       "fps": 6,
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
-      "name": "Shellmon",
-      "path": "assets/sprite_sources/google_drive_sprites/shellmon.png",
-      "source_file_id": "1a19KJeswjkqTXADzY1pLgwtlWszP99Mk",
-      "source_title": "Shellmon.png",
+      "name": "Caprimon",
+      "path": "assets/sprite_sources/google_drive_sprites/caprimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Choromon",
+      "path": "assets/sprite_sources/google_drive_sprites/choromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Commandramon",
+      "path": "assets/sprite_sources/google_drive_sprites/commandramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Crescemon",
+      "path": "assets/sprite_sources/google_drive_sprites/crescemon.png",
+      "source_file_id": "1E4XuNESQv9avxWNk0ITEvbIEa6HG8bbc",
+      "source_title": "Crescemon.png",
+      "source_folder": "Perfect",
+      "source_url": "https://drive.google.com/file/d/1E4XuNESQv9avxWNk0ITEvbIEa6HG8bbc/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Devimon",
+      "path": "assets/sprite_sources/google_drive_sprites/devimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Dianamon",
+      "path": "assets/sprite_sources/google_drive_sprites/dianamon.png",
+      "source_file_id": "1MfD3UGKe5lFlmPWIIDhBWSYrCuj191J9",
+      "source_title": "Dianamon.png",
+      "source_folder": "Ultimate/Super Ultimate",
+      "source_url": "https://drive.google.com/file/d/1MfD3UGKe5lFlmPWIIDhBWSYrCuj191J9/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Dokugumon",
+      "path": "assets/sprite_sources/google_drive_sprites/dokugumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Drimogemon",
+      "path": "assets/sprite_sources/google_drive_sprites/drimogemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Elecmon",
+      "path": "assets/sprite_sources/google_drive_sprites/elecmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Floramon",
+      "path": "assets/sprite_sources/google_drive_sprites/floramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Fujamon",
+      "path": "assets/sprite_sources/google_drive_sprites/fujamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Fukamon",
+      "path": "assets/sprite_sources/google_drive_sprites/fukamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gabumon",
+      "path": "assets/sprite_sources/google_drive_sprites/gabumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Galgomon",
+      "path": "assets/sprite_sources/google_drive_sprites/galgomon.png",
+      "source_file_id": "1WdWc3U2mCBVh1yp6YynoWm1YyURrF8-x",
+      "source_title": "Galgomon.png",
       "source_folder": "Adult",
-      "source_url": "https://drive.google.com/file/d/1a19KJeswjkqTXADzY1pLgwtlWszP99Mk/view?usp=drive_web"
+      "source_url": "https://drive.google.com/file/d/1WdWc3U2mCBVh1yp6YynoWm1YyURrF8-x/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gammamon",
+      "path": "assets/sprite_sources/google_drive_sprites/gammamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Ganimon",
+      "path": "assets/sprite_sources/google_drive_sprites/ganimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gaomon",
+      "path": "assets/sprite_sources/google_drive_sprites/gaomon.png",
+      "source_file_id": "1cIkiXVk7ju1y7T5kJos-6TihkmxPOZQ7",
+      "source_title": "Gaomon.png",
+      "source_folder": "Child",
+      "source_url": "https://drive.google.com/file/d/1cIkiXVk7ju1y7T5kJos-6TihkmxPOZQ7/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gasamon",
+      "path": "assets/sprite_sources/google_drive_sprites/gasamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gawappamon",
+      "path": "assets/sprite_sources/google_drive_sprites/gawappamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gomamon",
+      "path": "assets/sprite_sources/google_drive_sprites/gomamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gottsumon",
+      "path": "assets/sprite_sources/google_drive_sprites/gottsumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Greymon",
+      "path": "assets/sprite_sources/google_drive_sprites/greymon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Gummymon",
+      "path": "assets/sprite_sources/google_drive_sprites/gummymon.png",
+      "source_file_id": "10SyTPA62B4OZK20vhFa2pEnzOdcme5j7",
+      "source_title": "Gummymon.png",
+      "source_folder": "Baby II",
+      "source_url": "https://drive.google.com/file/d/10SyTPA62B4OZK20vhFa2pEnzOdcme5j7/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Hagurumon",
+      "path": "assets/sprite_sources/google_drive_sprites/hagurumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Hanimon",
+      "path": "assets/sprite_sources/google_drive_sprites/hanimon.png",
+      "source_file_id": "1Nl9Nv9aqQglEIkxZuFRA8WttSN2_1NrZ",
+      "source_title": "Hanimon.png",
+      "source_folder": "Child",
+      "source_url": "https://drive.google.com/file/d/1Nl9Nv9aqQglEIkxZuFRA8WttSN2_1NrZ/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Hanumon",
+      "path": "assets/sprite_sources/google_drive_sprites/hanumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Igamon",
+      "path": "assets/sprite_sources/google_drive_sprites/igamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Ikkakumon",
+      "path": "assets/sprite_sources/google_drive_sprites/ikkakumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Kabuterimon",
+      "path": "assets/sprite_sources/google_drive_sprites/kabuterimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "KaiserLeomon",
+      "path": "assets/sprite_sources/google_drive_sprites/kaiser_leomon.png",
+      "source_file_id": "1KE7RDZywU3D-WRBfGRCQpO_5njjTDfmj",
+      "source_title": "KaiserLeomon.png",
+      "source_folder": "Armor/Hybrid",
+      "source_url": "https://drive.google.com/file/d/1KE7RDZywU3D-WRBfGRCQpO_5njjTDfmj/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Kakamon",
+      "path": "assets/sprite_sources/google_drive_sprites/kakamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Kiwimon",
+      "path": "assets/sprite_sources/google_drive_sprites/kiwimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Kokuwamon",
+      "path": "assets/sprite_sources/google_drive_sprites/kokuwamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Koromon",
+      "path": "assets/sprite_sources/google_drive_sprites/koromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Kunemon",
+      "path": "assets/sprite_sources/google_drive_sprites/kunemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Kuwagamon",
+      "path": "assets/sprite_sources/google_drive_sprites/kuwagamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Leomon",
+      "path": "assets/sprite_sources/google_drive_sprites/leomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Lopmon",
+      "path": "assets/sprite_sources/google_drive_sprites/lopmon.png",
+      "source_file_id": "1A55Pbrq4DE237wmt1TR2F1UeierkLfjj",
+      "source_title": "Lopmon.png",
+      "source_folder": "Child",
+      "source_url": "https://drive.google.com/file/d/1A55Pbrq4DE237wmt1TR2F1UeierkLfjj/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Mechanorimon",
+      "path": "assets/sprite_sources/google_drive_sprites/mechanorimon.png"
     },
     {
       "fps": 6,
@@ -233,12 +449,448 @@
       "frame_count": 12,
       "frame_width": 16,
       "frame_height": 16,
+      "name": "Meramon",
+      "path": "assets/sprite_sources/google_drive_sprites/meramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Mochimon",
+      "path": "assets/sprite_sources/google_drive_sprites/mochimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Mococomon",
+      "path": "assets/sprite_sources/google_drive_sprites/mococomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Mokumon",
+      "path": "assets/sprite_sources/google_drive_sprites/mokumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
       "name": "Monzaemon",
       "path": "assets/sprite_sources/google_drive_sprites/monzaemon.png",
       "source_file_id": "1CO07vyBoAAVLWp0hk3qPNOqndf3wisu_",
       "source_title": "Monzaemon.png",
       "source_folder": "Perfect",
       "source_url": "https://drive.google.com/file/d/1CO07vyBoAAVLWp0hk3qPNOqndf3wisu_/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Mushmon",
+      "path": "assets/sprite_sources/google_drive_sprites/mushmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Nyaromon",
+      "path": "assets/sprite_sources/google_drive_sprites/nyaromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Nyokimon",
+      "path": "assets/sprite_sources/google_drive_sprites/nyokimon.png",
+      "source_file_id": "1epInahsO99O7-uzzbAe1x2VlkPBngOtU",
+      "source_title": "Nyokimon.png",
+      "source_folder": "Baby I",
+      "source_url": "https://drive.google.com/file/d/1epInahsO99O7-uzzbAe1x2VlkPBngOtU/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Ogremon",
+      "path": "assets/sprite_sources/google_drive_sprites/ogremon.png",
+      "source_file_id": "1Bf9ewoMcGiaHjQWdmfcArQcNTVM3d7Es",
+      "source_title": "Ogremon.png",
+      "source_folder": "Adult",
+      "source_url": "https://drive.google.com/file/d/1Bf9ewoMcGiaHjQWdmfcArQcNTVM3d7Es/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Onibimon",
+      "path": "assets/sprite_sources/google_drive_sprites/onibimon.png",
+      "source_file_id": "1JHYmOdbRljM_5qlsceuMStDOQ4rgXI0C",
+      "source_title": "Onibimon.png",
+      "source_folder": "Baby II",
+      "source_url": "https://drive.google.com/file/d/1JHYmOdbRljM_5qlsceuMStDOQ4rgXI0C/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Otamamon",
+      "path": "assets/sprite_sources/google_drive_sprites/otamamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Palmon",
+      "path": "assets/sprite_sources/google_drive_sprites/palmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Patamon",
+      "path": "assets/sprite_sources/google_drive_sprites/patamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Penmon",
+      "path": "assets/sprite_sources/google_drive_sprites/penmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Peti Meramon",
+      "path": "assets/sprite_sources/google_drive_sprites/peti_meramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Pico Devimon",
+      "path": "assets/sprite_sources/google_drive_sprites/pico_devimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Pitchmon",
+      "path": "assets/sprite_sources/google_drive_sprites/pitchmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Piyomon",
+      "path": "assets/sprite_sources/google_drive_sprites/piyomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Plotmon",
+      "path": "assets/sprite_sources/google_drive_sprites/plotmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 1,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Poyomon",
+      "path": "assets/sprite_sources/google_drive_sprites/poyomon.png",
+      "source_file_id": "1iTfDtp9YFFDg0vNZJuVYbPs3wlEcW9FX",
+      "source_title": "Poyomon.png",
+      "source_folder": "Idle Frame Only",
+      "source_url": "https://drive.google.com/file/d/1iTfDtp9YFFDg0vNZJuVYbPs3wlEcW9FX/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Pteromon",
+      "path": "assets/sprite_sources/google_drive_sprites/pteromon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Pukamon",
+      "path": "assets/sprite_sources/google_drive_sprites/pukamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Punimon",
+      "path": "assets/sprite_sources/google_drive_sprites/punimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Pyocomon",
+      "path": "assets/sprite_sources/google_drive_sprites/pyocomon.png",
+      "source_file_id": "1mNCou-tShLkn2nGdg2W0boXQlTSzwoRy",
+      "source_title": "Pyocomon.png",
+      "source_folder": "Baby II",
+      "source_url": "https://drive.google.com/file/d/1mNCou-tShLkn2nGdg2W0boXQlTSzwoRy/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Rapidmon",
+      "path": "assets/sprite_sources/google_drive_sprites/rapidmon_perfect.png",
+      "source_file_id": "1Ptev6IoGqZn-Jl7QzB2zU3s8JDo06eHO",
+      "source_title": "Rapidmon.png",
+      "source_folder": "Perfect",
+      "source_url": "https://drive.google.com/file/d/1Ptev6IoGqZn-Jl7QzB2zU3s8JDo06eHO/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Red Vegimon",
+      "path": "assets/sprite_sources/google_drive_sprites/red_vegimon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Renamon",
+      "path": "assets/sprite_sources/google_drive_sprites/renamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Rukamon",
+      "path": "assets/sprite_sources/google_drive_sprites/rukamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Shakomon",
+      "path": "assets/sprite_sources/google_drive_sprites/shakomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Shellmon",
+      "path": "assets/sprite_sources/google_drive_sprites/shellmon.png",
+      "source_file_id": "1a19KJeswjkqTXADzY1pLgwtlWszP99Mk",
+      "source_title": "Shellmon.png",
+      "source_folder": "Adult",
+      "source_url": "https://drive.google.com/file/d/1a19KJeswjkqTXADzY1pLgwtlWszP99Mk/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Takinmon",
+      "path": "assets/sprite_sources/google_drive_sprites/takinmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Tanemon",
+      "path": "assets/sprite_sources/google_drive_sprites/tanemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Tentomon",
+      "path": "assets/sprite_sources/google_drive_sprites/tentomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Terriermon",
+      "path": "assets/sprite_sources/google_drive_sprites/terriermon.png",
+      "source_file_id": "1gjVML8yBG1oGGMIAZedpgbQF9GmNDCPy",
+      "source_title": "Terriermon.png",
+      "source_folder": "Child",
+      "source_url": "https://drive.google.com/file/d/1gjVML8yBG1oGGMIAZedpgbQF9GmNDCPy/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Thunderballmon",
+      "path": "assets/sprite_sources/google_drive_sprites/thunderballmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Togemon",
+      "path": "assets/sprite_sources/google_drive_sprites/togemon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Tokomon",
+      "path": "assets/sprite_sources/google_drive_sprites/tokomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Tomorimon",
+      "path": "assets/sprite_sources/google_drive_sprites/tomorimon.png",
+      "source_file_id": "10AnyPh0X82jtGdU2P9A6ZEHSasCxDjIW",
+      "source_title": "Tomorimon.png",
+      "source_folder": "Baby I",
+      "source_url": "https://drive.google.com/file/d/10AnyPh0X82jtGdU2P9A6ZEHSasCxDjIW/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Toy Agumon",
+      "path": "assets/sprite_sources/google_drive_sprites/toy_agumon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Tsunomon",
+      "path": "assets/sprite_sources/google_drive_sprites/tsunomon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Turuiemon",
+      "path": "assets/sprite_sources/google_drive_sprites/turuiemon.png",
+      "source_file_id": "1lBmKshbcLr2tbnC5xJIFlO7lVbQxiinq",
+      "source_title": "Turuiemon.png",
+      "source_folder": "Adult",
+      "source_url": "https://drive.google.com/file/d/1lBmKshbcLr2tbnC5xJIFlO7lVbQxiinq/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "V-mon",
+      "path": "assets/sprite_sources/google_drive_sprites/v_mon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Wankomon",
+      "path": "assets/sprite_sources/google_drive_sprites/wankomon.png",
+      "source_file_id": "1KNYld7eQoPK6U5sXk4sKQO8jUJtPlAPr",
+      "source_title": "Wankomon.png",
+      "source_folder": "Child",
+      "source_url": "https://drive.google.com/file/d/1KNYld7eQoPK6U5sXk4sKQO8jUJtPlAPr/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "WaruMonzaemon",
+      "path": "assets/sprite_sources/google_drive_sprites/waru_monzaemon.png",
+      "source_file_id": "1nMilP9IILh_oFW03JgATgEBbDzOX3noo",
+      "source_title": "WaruMonzaemon.png",
+      "source_folder": "Perfect",
+      "source_url": "https://drive.google.com/file/d/1nMilP9IILh_oFW03JgATgEBbDzOX3noo/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Wizarmon",
+      "path": "assets/sprite_sources/google_drive_sprites/wizarmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Woodmon",
+      "path": "assets/sprite_sources/google_drive_sprites/woodmon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Yukimibotamon",
+      "path": "assets/sprite_sources/google_drive_sprites/yukimibotamon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Yuramon",
+      "path": "assets/sprite_sources/google_drive_sprites/yuramon.png"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Zerimon",
+      "path": "assets/sprite_sources/google_drive_sprites/zerimon.png",
+      "source_file_id": "1slLpKw8cHqz4DQ0H9_VwSGLCK7GAHgaO",
+      "source_title": "Zerimon.png",
+      "source_folder": "Baby I",
+      "source_url": "https://drive.google.com/file/d/1slLpKw8cHqz4DQ0H9_VwSGLCK7GAHgaO/view?usp=drive_web"
     }
   ]
 }

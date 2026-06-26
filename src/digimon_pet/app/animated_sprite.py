@@ -54,7 +54,14 @@ class IdleSpriteSheet:
         frame_height = self._animation.frame_height or self._pixmap.height()
         frame_width = max(1, frame_width)
         frame_height = max(1, frame_height)
-        return QRect(self.current_frame_index * frame_width, 0, frame_width, frame_height)
+        columns = max(1, self._pixmap.width() // frame_width)
+        frame_index = self.current_frame_index
+        return QRect(
+            (frame_index % columns) * frame_width,
+            (frame_index // columns) * frame_height,
+            frame_width,
+            frame_height,
+        )
 
 
 def idle_sprite_for_species(species: Species, manifest: dict, *, project_root: Path | None = None) -> IdleSpriteSheet | None:

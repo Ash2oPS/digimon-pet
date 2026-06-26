@@ -28,7 +28,7 @@
   {
     "id": "google_drive_sprites",
     "name": "Google Drive Sprites",
-    "priority": 5,
+    "priority": 0,
     "manifest": "assets/sprite_sources/google_drive_sprites/manifest.json"
   }
 ]

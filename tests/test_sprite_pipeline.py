@@ -122,6 +122,43 @@ def test_preferred_source_overrides_global_source_priority(tmp_path):
     ]
 
 
+def test_google_drive_source_overrides_species_preference_when_available(tmp_path):
+    root = tmp_path
+    roster_path = root / "data" / "roster.json"
+    config_path = root / "data" / "sources.json"
+    output_path = root / "data" / "manifest.json"
+    report_path = root / "data" / "report.md"
+
+    _write_json(
+        roster_path,
+        [{"id": "agumon", "name": "Agumon", "preferred_source_id": "digimon_pendulum_color"}],
+    )
+    _write_json(
+        config_path,
+        [
+            {
+                "id": "digimon_pendulum_color",
+                "name": "Digimon Pendulum COLOR",
+                "priority": 1,
+                "manifest": "assets/pendulum/manifest.json",
+            },
+            {
+                "id": "google_drive_sprites",
+                "name": "Google Drive Sprites",
+                "priority": 2,
+                "manifest": "assets/google/manifest.json",
+            },
+        ],
+    )
+    _write_json(root / "assets" / "pendulum" / "manifest.json", [{"name": "Agumon", "path": "old.png"}])
+    _write_json(root / "assets" / "google" / "manifest.json", [{"name": "Agumon", "path": "drive.png"}])
+
+    result = build_sprite_manifest(root, roster_path, config_path, output_path, report_path)
+
+    assert result["entries"]["agumon"]["source_id"] == "google_drive_sprites"
+    assert result["entries"]["agumon"]["asset_path"] == "assets/google/drive.png"
+
+
 def test_load_roster_excludes_japanese_promos_when_flagged(tmp_path):
     roster_path = tmp_path / "roster.json"
     _write_json(

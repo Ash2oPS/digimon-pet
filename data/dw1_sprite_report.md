@@ -1,43 +1,43 @@
 # Digimon World 1 Sprite Resolution Report
 
 ## Resolved
-- Botamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Botamon.png); aliases: -
-- Poyomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Poyomon.png); aliases: -
-- Punimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Punimon.png); aliases: -
-- Yuramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Yuramon.png); aliases: -
-- Koromon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Koromon.png); aliases: -
-- Tanemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tanemon.png); aliases: -
-- Tokomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tokomon.png); aliases: -
-- Tsunomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Tsunomon.png); aliases: -
-- Agumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Agumon.png); aliases: -
+- Botamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/botamon.png); aliases: -
+- Poyomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/poyomon.png); aliases: -
+- Punimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/punimon.png); aliases: -
+- Yuramon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/yuramon.png); aliases: -
+- Koromon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/koromon.png); aliases: -
+- Tanemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/tanemon.png); aliases: -
+- Tokomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/tokomon.png); aliases: -
+- Tsunomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/tsunomon.png); aliases: -
+- Agumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/agumon.png); aliases: -
 - Betamon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/betamon_digital_monster_color.png); aliases: -
-- Elecmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Elecmon.png); aliases: -
-- Gabumon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/gabumon_digital_monster_color.png); aliases: -
-- Kunemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kunemon.png); aliases: -
-- Palmon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Palmon.png); aliases: -
-- Patamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Patamon.png); aliases: -
-- Biyomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Piyomon.png); aliases: -
-- Penguinmon: Digimon Xros Loader Toy (assets/sprite_sources/xros_loader_toy/Penmon.png); aliases: -
+- Elecmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/elecmon.png); aliases: -
+- Gabumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gabumon.png); aliases: -
+- Kunemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/kunemon.png); aliases: -
+- Palmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/palmon.png); aliases: -
+- Patamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/patamon.png); aliases: -
+- Biyomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/piyomon.png); aliases: Piyomon
+- Penguinmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/penmon.png); aliases: Penmon
 - Airdramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Airdramon.png); aliases: -
-- Angemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Angemon.png); aliases: -
-- Bakemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Bakemon.png); aliases: -
+- Angemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/angemon.png); aliases: -
+- Bakemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/bakemon.png); aliases: -
 - Birdramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Birdramon.png); aliases: -
 - Centarumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Centalmon.png); aliases: -
 - Coelamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Coelamon.png); aliases: -
-- Devimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Devimon.png); aliases: -
-- Drimogemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Drimogemon.png); aliases: -
+- Devimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/devimon.png); aliases: -
+- Drimogemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/drimogemon.png); aliases: -
 - Frigimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Yukidarumon.png); aliases: -
 - Garurumon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Garurumon.png); aliases: -
-- Greymon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Greymon.png); aliases: -
-- Kabuterimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kabuterimon.png); aliases: -
+- Greymon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/greymon.png); aliases: -
+- Kabuterimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/kabuterimon.png); aliases: -
 - Kokatorimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Cockatrimon.png); aliases: -
-- Kuwagamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Kuwagamon.png); aliases: -
-- Leomon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Leomon.png); aliases: -
-- Meramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Meramon.png); aliases: -
+- Kuwagamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/kuwagamon.png); aliases: -
+- Leomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/leomon.png); aliases: -
+- Meramon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/meramon.png); aliases: -
 - Monochromon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Monochromon.png); aliases: -
 - Mojyamon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Mojymon.png); aliases: -
 - Nanimon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Nanimon.png); aliases: -
-- Ninjamon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/ninjamon_d_3_25th_color_evolution.png); aliases: -
+- Ninjamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/igamon.png); aliases: Igamon
 - Numemon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Numemon.png); aliases: -
 - Ogremon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/ogremon.png); aliases: -
 - Seadramon: Digital Monster COLOR (assets/sprite_sources/digital_monster_color/Seadramon.png); aliases: -
@@ -71,7 +71,7 @@
 - Rapidmon Perfect: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/rapidmon_perfect.png); aliases: Rapidmon
 - Angewomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/Angewomon.png); aliases: -
 - Veemon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/veemon_vital_bracelet_digital_monster.png); aliases: -
-- V-mon: Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/v_mon_vital_bracelet_digital_monster.png); aliases: -
+- V-mon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/v_mon.png); aliases: -
 - Lopmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/lopmon.png); aliases: -
 - Gaomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gaomon.png); aliases: -
 - Turuiemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/turuiemon.png); aliases: -
@@ -86,56 +86,56 @@
 - Dianamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/dianamon.png); aliases: -
 - Andiramon_(Deva): Wikimon Virtual Pets (assets/sprite_sources/wikimon_virtual_pets/andiramon_deva_vital_bracelet_digital_monster.png); aliases: -
 - Angoramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/angoramon.png); aliases: -
-- Candmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/candmon.png); aliases: -
-- Commandramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/commandramon.png); aliases: -
-- Floramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/floramon.png); aliases: -
-- Fujamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/fujamon.png); aliases: -
-- Gammamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gammamon.png); aliases: -
-- Ganimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ganimon.png); aliases: -
-- Gasamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gasamon.png); aliases: -
-- Gottsumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gottsumon.png); aliases: -
-- Hagurumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hagurumon.png); aliases: -
+- Candmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/candmon.png); aliases: -
+- Commandramon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/commandramon.png); aliases: -
+- Floramon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/floramon.png); aliases: -
+- Fujamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/fujamon.png); aliases: -
+- Gammamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gammamon.png); aliases: -
+- Ganimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/ganimon.png); aliases: -
+- Gasamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gasamon.png); aliases: -
+- Gottsumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gottsumon.png); aliases: -
+- Hagurumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/hagurumon.png); aliases: -
 - Jellymon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/jellymon.png); aliases: -
 - Loogamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/loogamon.png); aliases: -
-- Mushmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/mushmon.png); aliases: -
-- Otamamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/otamamon.png); aliases: -
-- Pico Devimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pico_devimon.png); aliases: -
-- Plotmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/plotmon.png); aliases: -
-- Pteromon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pteromon.png); aliases: -
-- Renamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/renamon.png); aliases: -
-- Shakomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/shakomon.png); aliases: -
-- Takinmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/takinmon.png); aliases: -
+- Mushmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/mushmon.png); aliases: -
+- Otamamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/otamamon.png); aliases: -
+- Pico Devimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/pico_devimon.png); aliases: -
+- Plotmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/plotmon.png); aliases: -
+- Pteromon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/pteromon.png); aliases: -
+- Renamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/renamon.png); aliases: -
+- Shakomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/shakomon.png); aliases: -
+- Takinmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/takinmon.png); aliases: -
 - Betel Gammamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/betel_gammamon.png); aliases: -
 - Clockmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/clockmon.png); aliases: -
-- Dokugumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/dokugumon.png); aliases: -
+- Dokugumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/dokugumon.png); aliases: -
 - Ebidramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ebidramon.png); aliases: -
 - Fugamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/fugamon.png); aliases: -
 - Galemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/galemon.png); aliases: -
-- Gawappamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gawappamon.png); aliases: -
+- Gawappamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gawappamon.png); aliases: -
 - Gekomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gekomon.png); aliases: -
 - Gesomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gesomon.png); aliases: -
 - Ginkakumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ginkakumon.png); aliases: -
 - Guardromon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/guardromon.png); aliases: -
 - Gulus Gammamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gulus_gammamon.png); aliases: -
 - Hakubamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hakubamon.png); aliases: -
-- Hanumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hanumon.png); aliases: -
+- Hanumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/hanumon.png); aliases: -
 - Hi-Commandramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hi_commandramon.png); aliases: -
-- Igamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/igamon.png); aliases: -
-- Ikkakumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ikkakumon.png); aliases: -
+- Igamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/igamon.png); aliases: -
+- Ikkakumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/ikkakumon.png); aliases: -
 - Kaus Gammamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kaus_gammamon.png); aliases: -
 - Kinkakumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kinkakumon.png); aliases: -
-- Kiwimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kiwimon.png); aliases: -
+- Kiwimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/kiwimon.png); aliases: -
 - Kokeshimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kokeshimon.png); aliases: -
 - Lianpumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/lianpumon.png); aliases: -
 - Loogarmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/loogarmon.png); aliases: -
 - Manekimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/manekimon.png); aliases: -
-- Mechanorimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/mechanorimon.png); aliases: -
+- Mechanorimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/mechanorimon.png); aliases: -
 - Musyamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/musyamon.png); aliases: -
 - Octmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/octmon.png); aliases: -
 - Peckmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/peckmon.png); aliases: -
-- Red Vegimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/red_vegimon.png); aliases: -
+- Red Vegimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/red_vegimon.png); aliases: -
 - Revolmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/revolmon.png); aliases: -
-- Rukamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/rukamon.png); aliases: -
+- Rukamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/rukamon.png); aliases: -
 - Siesamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/siesamon.png); aliases: -
 - Starmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/starmon.png); aliases: -
 - Symbare Angoramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/symbare_angoramon.png); aliases: -
@@ -143,13 +143,13 @@
 - Tankmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tankmon.png); aliases: -
 - Tenkomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tenkomon.png); aliases: -
 - Tesla Jellymon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tesla_jellymon.png); aliases: -
-- Thunderballmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/thunderballmon.png); aliases: -
-- Togemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/togemon.png); aliases: -
+- Thunderballmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/thunderballmon.png); aliases: -
+- Togemon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/togemon.png); aliases: -
 - Tortamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tortamon.png); aliases: -
 - V-dramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/v_dramon.png); aliases: -
 - Wezen Gammamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/wezen_gammamon.png); aliases: -
-- Wizarmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/wizarmon.png); aliases: -
-- Woodmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/woodmon.png); aliases: -
+- Wizarmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/wizarmon.png); aliases: -
+- Woodmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/woodmon.png); aliases: -
 - Xiquemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/xiquemon.png); aliases: -
 - Aero V-dramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/aero_v_dramon.png); aliases: -
 - Anomalocarimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/anomalocarimon.png); aliases: -
@@ -201,62 +201,137 @@
 - Vamdemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/vamdemon.png); aliases: -
 - Xingtianmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/xingtianmon.png); aliases: -
 - Zudomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/zudomon.png); aliases: -
-- Pitchmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pitchmon.png); aliases: -
-- Pukamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pukamon.png); aliases: -
-- Gomamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gomamon.png); aliases: -
-- Choromon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/choromon.png); aliases: -
-- Caprimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/caprimon.png); aliases: -
-- Kokuwamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kokuwamon.png); aliases: -
-- Toy Agumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/toy_agumon.png); aliases: -
-- Bubbmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/bubbmon.png); aliases: -
-- Mochimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/mochimon.png); aliases: -
-- Tentomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tentomon.png); aliases: -
-- Mokumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/mokumon.png); aliases: -
-- Peti Meramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/peti_meramon.png); aliases: -
-- Bakumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/bakumon.png); aliases: -
-- Fukamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/fukamon.png); aliases: -
-- Mococomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/mococomon.png); aliases: -
-- Kakamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kakamon.png); aliases: -
+- Pitchmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/pitchmon.png); aliases: -
+- Pukamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/pukamon.png); aliases: -
+- Gomamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/gomamon.png); aliases: -
+- Choromon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/choromon.png); aliases: -
+- Caprimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/caprimon.png); aliases: -
+- Kokuwamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/kokuwamon.png); aliases: -
+- Toy Agumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/toy_agumon.png); aliases: -
+- Bubbmon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/bubbmon.png); aliases: -
+- Mochimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/mochimon.png); aliases: -
+- Tentomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/tentomon.png); aliases: -
+- Mokumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/mokumon.png); aliases: -
+- Peti Meramon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/peti_meramon.png); aliases: -
+- Bakumon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/bakumon.png); aliases: -
+- Fukamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/fukamon.png); aliases: -
+- Mococomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/mococomon.png); aliases: -
+- Kakamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/kakamon.png); aliases: -
 - Kamemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kamemon.png); aliases: -
-- Tomorimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tomorimon.png); aliases: -
-- Onibimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/onibimon.png); aliases: -
-- Hanimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hanimon.png); aliases: -
-- Wankomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/wankomon.png); aliases: -
-- Yukimibotamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/yukimibotamon.png); aliases: -
-- Nyaromon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/nyaromon.png); aliases: -
-- Nyokimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/nyokimon.png); aliases: -
-- Pyocomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pyocomon.png); aliases: -
+- Tomorimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/tomorimon.png); aliases: -
+- Onibimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/onibimon.png); aliases: -
+- Hanimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/hanimon.png); aliases: -
+- Wankomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/wankomon.png); aliases: -
+- Yukimibotamon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/yukimibotamon.png); aliases: -
+- Nyaromon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/nyaromon.png); aliases: -
+- Nyokimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/nyokimon.png); aliases: -
+- Pyocomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/pyocomon.png); aliases: -
 - MetalEtemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/metal_etemon.png); aliases: -
 
 ## Missing
 - None
 
 ## Conflicts
-- Botamon: chose digital_monster_color from digital_monster_color, google_drive_sprites
-- Poyomon: chose digital_monster_color from digital_monster_color, google_drive_sprites
-- Agumon: chose digital_monster_color from digital_monster_color, digimon_pendulum_color
+- Botamon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Poyomon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Punimon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Yuramon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Koromon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Tanemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Tokomon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Tsunomon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Agumon: chose google_drive_sprites from google_drive_sprites, digital_monster_color, digimon_pendulum_color
 - Betamon: chose wikimon_virtual_pets from digital_monster_color, wikimon_virtual_pets
-- Gabumon: chose wikimon_virtual_pets from digital_monster_color, digimon_pendulum_color, wikimon_virtual_pets
-- Biyomon: chose digital_monster_color from digital_monster_color, digimon_pendulum_color
-- Ninjamon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets
-- Ogremon: chose google_drive_sprites from digital_monster_color, google_drive_sprites
-- Shellmon: chose google_drive_sprites from digital_monster_color, google_drive_sprites
+- Elecmon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Gabumon: chose google_drive_sprites from google_drive_sprites, digital_monster_color, digimon_pendulum_color, wikimon_virtual_pets
+- Kunemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Palmon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Patamon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Biyomon: chose google_drive_sprites from google_drive_sprites, digital_monster_color, digimon_pendulum_color
+- Penguinmon: chose google_drive_sprites from google_drive_sprites, xros_loader_toy
+- Angemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Bakemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Devimon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Drimogemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Greymon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Kabuterimon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Kuwagamon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Leomon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Meramon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Ninjamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color, wikimon_virtual_pets
+- Ogremon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
+- Shellmon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
 - HerculesKabuterimon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets
-- MegaSeadramon: chose google_drive_sprites from digimon_pendulum_color, wikimon_virtual_pets, google_drive_sprites
-- Monzaemon: chose google_drive_sprites from digital_monster_color, google_drive_sprites
+- MegaSeadramon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color, wikimon_virtual_pets
+- Monzaemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
 - Phoenixmon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets
 - Piximon: chose digital_monster_color from digital_monster_color, digimon_pendulum_color
-- Terriermon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Gummymon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Zerimon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Galgomon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Rapidmon Perfect: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Lopmon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Gaomon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Turuiemon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Antylamon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Crescemon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Black Tailmon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Waru Monzaemon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Kaiser Leomon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
-- Dianamon: chose google_drive_sprites from wikimon_virtual_pets, google_drive_sprites
+- Terriermon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Gummymon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Zerimon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Galgomon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Rapidmon Perfect: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- V-mon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Lopmon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Gaomon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Turuiemon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Antylamon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Crescemon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Black Tailmon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Waru Monzaemon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Kaiser Leomon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Dianamon: chose google_drive_sprites from google_drive_sprites, wikimon_virtual_pets
+- Candmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Commandramon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Floramon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Fujamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Gammamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Ganimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Gasamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Gottsumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Hagurumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Mushmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Otamamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Pico Devimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Plotmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Pteromon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Renamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Shakomon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Takinmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Dokugumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Gawappamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Hanumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Igamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Ikkakumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Kiwimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Mechanorimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Red Vegimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Rukamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Thunderballmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Togemon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Wizarmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Woodmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Pitchmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Pukamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Gomamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Choromon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Caprimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Kokuwamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Toy Agumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Bubbmon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Mochimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Tentomon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Mokumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Peti Meramon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Bakumon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Fukamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Mococomon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Kakamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Tomorimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Onibimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Hanimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Wankomon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Yukimibotamon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Nyaromon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Nyokimon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
+- Pyocomon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color
