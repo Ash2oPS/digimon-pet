@@ -18,6 +18,7 @@ BASE_WIDGET_SIZE = QSize(352, 128)
 SPRITE_TARGET_RECT = QRect(128, 16, 96, 96)
 POOP_SPRITE_PATH = PROJECT_ROOT / "assets" / "misc" / "poop.png"
 POOP_TARGET_SIZE = QSize(128, 96)
+POOP_VISIBLE = False
 SHADOW_OFFSET = QPoint(6, 6)
 SHADOW_COLOR = QColor(0, 0, 0, 95)
 EFFECT_INTERVAL_MS = 33
@@ -857,7 +858,7 @@ class PetWidget(QWidget):
         return SHADOW_OFFSET
 
     def _draw_poop(self, painter: QPainter) -> None:
-        if self._poop_pixmap.isNull():
+        if not POOP_VISIBLE or self._poop_pixmap.isNull():
             return
         painter.drawPixmap(self._logical_poop_rect(), self._poop_pixmap, self._poop_pixmap.rect())
 

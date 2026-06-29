@@ -266,6 +266,22 @@ def test_poop_sits_opposite_screen_side_and_matches_pet_bottom_pixel():
     assert left_screen_rect.left() == SPRITE_TARGET_RECT.right() + 1
 
 
+def test_poop_is_hidden_until_enabled_later():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
+    widget._pixmap.fill(Qt.GlobalColor.transparent)
+
+    image = _render_widget(widget)
+    poop_rect = widget.poop_rect()
+
+    assert not any(
+        image.pixelColor(x, y).alpha() > 0
+        for x in range(poop_rect.left(), poop_rect.right() + 1)
+        for y in range(poop_rect.top(), poop_rect.bottom() + 1)
+    )
+
+
 def test_event_bubble_tail_points_toward_pet_body():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
