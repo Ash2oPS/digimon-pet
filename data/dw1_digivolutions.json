@@ -2517,32 +2517,6 @@
       ]
     },
     {
-      "id": "elecmon__to__bakemon",
-      "type": "natural",
-      "source_species_id": "elecmon",
-      "source_name": "Elecmon",
-      "target_species_id": "bakemon",
-      "target_name": "Bakemon",
-      "target_stage": "champion",
-      "chart_order": 1,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "mp": 1000
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "elecmon__to__kokatorimon",
       "type": "natural",
       "source_species_id": "elecmon",
@@ -3097,32 +3071,6 @@
             "defense": 1,
             "speed": 1,
             "brains": 1
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "kunemon__to__bakemon",
-      "type": "natural",
-      "source_species_id": "kunemon",
-      "source_name": "Kunemon",
-      "target_species_id": "bakemon",
-      "target_name": "Bakemon",
-      "target_stage": "champion",
-      "chart_order": 2,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "mp": 1000
           }
         }
       },
@@ -8203,68 +8151,6 @@
       "target_name": "Devimon",
       "target_stage": "champion",
       "chart_order": 111,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 11000,
-            "mp": 12500,
-            "offense": 1400,
-            "defense": 1100
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family:"
-      ]
-    },
-    {
-      "id": "picodevimon__to__bakemon",
-      "type": "natural",
-      "source_species_id": "picodevimon",
-      "source_name": "Pico Devimon",
-      "target_species_id": "bakemon",
-      "target_name": "Bakemon",
-      "target_stage": "champion",
-      "chart_order": 112,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 11000,
-            "mp": 12500,
-            "offense": 1400,
-            "defense": 1100
-          }
-        }
-      },
-      "sources": [
-        "humulos_penc"
-      ],
-      "notes": [
-        "Imported from PenC family:"
-      ]
-    },
-    {
-      "id": "loogamon__to__bakemon",
-      "type": "natural",
-      "source_species_id": "loogamon",
-      "source_name": "Loogamon",
-      "target_species_id": "bakemon",
-      "target_name": "Bakemon",
-      "target_stage": "champion",
-      "chart_order": 113,
       "requirements": {
         "mode": "stats_only",
         "required_group_count": 1,
@@ -17191,7 +17077,6 @@
       ],
       "elecmon": [
         "elecmon__to__angemon",
-        "elecmon__to__bakemon",
         "elecmon__to__kokatorimon",
         "elecmon__to__leomon"
       ],
@@ -17433,7 +17318,6 @@
         "koromon__to__gabumon"
       ],
       "kunemon": [
-        "kunemon__to__bakemon",
         "kunemon__to__kabuterimon",
         "kunemon__to__kuwagamon",
         "kunemon__to__nanimon",
@@ -17461,7 +17345,6 @@
         "lianpumon__to__xingtianmon"
       ],
       "loogamon": [
-        "loogamon__to__bakemon",
         "loogamon__to__dokugumon",
         "loogamon__to__hanumon",
         "loogamon__to__loogarmon"
@@ -17604,7 +17487,6 @@
         "petimeramon__to__picodevimon"
       ],
       "picodevimon": [
-        "picodevimon__to__bakemon",
         "picodevimon__to__devimon",
         "picodevimon__to__dokugumon",
         "picodevimon__to__meramon",
