@@ -2328,6 +2328,8 @@
       "metadata": {
         "fps": 6,
         "frame_count": 1,
+        "frame_height": 70,
+        "frame_width": 80,
         "source_label": "Vital Bracelet BE",
         "source_page": "https://wikimon.net/HerculesKabuterimon"
       },
@@ -3525,6 +3527,8 @@
       "metadata": {
         "fps": 6,
         "frame_count": 1,
+        "frame_height": 64,
+        "frame_width": 80,
         "source_label": "Vital Bracelet BE",
         "source_page": "https://wikimon.net/Phoenixmon"
       },

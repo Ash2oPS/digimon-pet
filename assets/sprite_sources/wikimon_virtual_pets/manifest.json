@@ -65,6 +65,8 @@
     {
       "fps": 6,
       "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 70,
       "name": "HerculesKabuterimon",
       "path": "assets/sprite_sources/wikimon_virtual_pets/herculeskabuterimon_vital_bracelet_be.png",
       "source_page": "https://wikimon.net/HerculesKabuterimon",
@@ -83,6 +85,8 @@
     {
       "fps": 6,
       "frame_count": 1,
+      "frame_width": 80,
+      "frame_height": 64,
       "name": "Phoenixmon",
       "path": "assets/sprite_sources/wikimon_virtual_pets/phoenixmon_vital_bracelet_be.png",
       "source_page": "https://wikimon.net/Phoenixmon",
