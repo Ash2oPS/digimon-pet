@@ -83,6 +83,7 @@ SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
 SAVE_DEBOUNCE_MS = 30_000
 ACTION_ANIMATION_HOLD_TICKS = 2
+AUTO_SECONDARY_EVENT_ACTION_HOLD_TICKS = 5
 PET_SCALE_OPTIONS = (50, 75, 100, 125, 150)
 FILLED_INCUBATOR_ITEM_PREFIX = "filled_incubator:"
 BONUS_STATS = ("hp", "mp", "offense", "defense", "speed", "brains")
@@ -1186,7 +1187,7 @@ class PetWindow(QWidget):
         self._secondary_event_ttl_seconds = SECONDARY_EVENT_TTL_SECONDS
         self._secondary_event_seconds_remaining = 0
         if self._auto_clicker_active():
-            self._claim_secondary_event()
+            self._claim_secondary_event(auto_claim=True)
             return
         self._play_action_animation("walk")
         self._pet_widget.set_secondary_event_prompt(self._secondary_event_kind)
@@ -1196,7 +1197,7 @@ class PetWindow(QWidget):
             return SECONDARY_EVENT_ITEM_KIND
         return self._rng.choice(SECONDARY_EVENT_KINDS)
 
-    def _claim_secondary_event(self) -> None:
+    def _claim_secondary_event(self, *, auto_claim: bool = False) -> None:
         if self._secondary_event_kind is None:
             return
         event_kind = self._secondary_event_kind
@@ -1216,7 +1217,10 @@ class PetWindow(QWidget):
             item_gain_name=item_gain_definition.name if item_gain_definition is not None else None,
         )
         self._clear_secondary_event(schedule_next=True)
-        self._play_action_animation(SECONDARY_EVENT_ACTIONS.get(event_kind, "happy"))
+        self._play_action_animation(
+            SECONDARY_EVENT_ACTIONS.get(event_kind, "happy"),
+            hold_ticks=AUTO_SECONDARY_EVENT_ACTION_HOLD_TICKS if auto_claim else ACTION_ANIMATION_HOLD_TICKS,
+        )
         self._save_and_refresh()
 
     def _grant_secondary_event_item(self) -> str | None:
@@ -1253,15 +1257,15 @@ class PetWindow(QWidget):
     def _clear_expired_auto_clicker(self) -> None:
         self._auto_clicker_active()
 
-    def _play_action_animation(self, action: str) -> None:
+    def _play_action_animation(self, action: str, *, hold_ticks: int = ACTION_ANIMATION_HOLD_TICKS) -> None:
         self._state.current_action = action
-        self._hold_current_action_animation()
+        self._hold_current_action_animation(hold_ticks=hold_ticks)
 
-    def _hold_current_action_animation(self) -> None:
+    def _hold_current_action_animation(self, *, hold_ticks: int = ACTION_ANIMATION_HOLD_TICKS) -> None:
         if self._state.current_action in {"sleep", "idle"}:
             self._action_animation_ticks_remaining = 0
             return
-        self._action_animation_ticks_remaining = ACTION_ANIMATION_HOLD_TICKS
+        self._action_animation_ticks_remaining = max(0, int(hold_ticks))
 
     def _save_and_refresh(self, *, immediate: bool = True) -> None:
         if immediate:

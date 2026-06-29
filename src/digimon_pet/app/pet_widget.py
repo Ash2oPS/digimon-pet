@@ -27,6 +27,7 @@ STAT_GAIN_TEXT_DURATION_MS = 1700
 REWARD_TOAST_RECT = QRect(6, 0, 116, 44)
 REWARD_TOAST_ICON_RECT = QRect(13, 8, 32, 32)
 REWARD_TOAST_STAT_RECT = QRect(14, 5, 100, 22)
+REWARD_TOAST_ITEM_STAT_RECT = QRect(52, 23, 58, 17)
 STATIC_SPRITE_SCALE = 0.9
 SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
 SECONDARY_EVENT_BOUNCE_HEIGHT = 7
@@ -695,7 +696,7 @@ class PetWidget(QWidget):
         if self._stat_gain_item_icon_path is not None:
             self._draw_reward_item_toast(painter, pop)
             if self._stat_gain_labels:
-                self._draw_reward_stat_strip(painter, self._stat_gain_labels[:2])
+                self._draw_reward_item_stat_text(painter, self._stat_gain_labels[:2])
         else:
             self._draw_reward_stat_strip(painter, self._stat_gain_labels[:2])
         painter.restore()
@@ -751,6 +752,30 @@ class PetWidget(QWidget):
                 painter,
                 x,
                 REWARD_TOAST_STAT_RECT.top() + 7,
+                text,
+                QColor(0, 18, 30, 235),
+                QColor(125, 255, 138),
+                scale=scale,
+            )
+
+    def _draw_reward_item_stat_text(self, painter: QPainter, texts: list[str]) -> None:
+        texts = texts[:2]
+        if not texts:
+            return
+        painter.setPen(QPen(QColor(46, 88, 118, 220), 1))
+        painter.setBrush(QColor(9, 24, 39, 190))
+        painter.drawRoundedRect(REWARD_TOAST_ITEM_STAT_RECT, 3, 3)
+        scale = 1
+        row_height = 7
+        for index, text in enumerate(texts):
+            text = _reward_stat_label(text)
+            width = _pixel_text_width(text, scale)
+            x = REWARD_TOAST_ITEM_STAT_RECT.center().x() - width // 2
+            y = REWARD_TOAST_ITEM_STAT_RECT.top() + 3 + index * row_height
+            self._draw_outlined_pixel_text_at(
+                painter,
+                x,
+                y,
                 text,
                 QColor(0, 18, 30, 235),
                 QColor(125, 255, 138),

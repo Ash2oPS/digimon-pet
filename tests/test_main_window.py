@@ -1278,6 +1278,24 @@ def test_auto_clicker_claims_secondary_event_without_showing_prompt(tmp_path, mo
     assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
 
 
+def test_auto_clicker_secondary_event_animation_stays_visible_longer(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    monkeypatch.setattr("digimon_pet.app.main_window.time.time", lambda: 1000.0)
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._state.auto_clicker_expires_at = 4600
+    window._secondary_event_seconds_remaining = 1
+
+    window._tick()
+    window._tick()
+    window._tick()
+    window._tick()
+
+    assert window._state.current_action == "happy"
+
+
 def test_auto_clicker_expiration_uses_real_elapsed_time_after_restart(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"

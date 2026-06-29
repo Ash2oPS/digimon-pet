@@ -462,6 +462,42 @@ def test_item_gain_text_uses_digivice_toast_with_icon_and_name():
     )
 
 
+def test_item_gain_with_stat_text_keeps_item_icon_and_stat_text_visible():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+
+    widget.trigger_stat_gain_text(
+        {"hp": 100, "offense": 10},
+        item_gains=1,
+        item_gain_icon_path="assets/items/monzaemon_head.png",
+        item_gain_name="Monzaemon Head",
+    )
+
+    image = _render_widget(widget)
+
+    assert any(
+        pixel.red() > 170 and pixel.green() > 140 and pixel.blue() < 100
+        for x in range(10, 48)
+        for y in range(5, 43)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
+    assert any(
+        pixel.green() > 180 and pixel.red() < 170
+        for x in range(48, 116)
+        for y in range(20, 43)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
+    icon_green_pixels = sum(
+        1
+        for x in range(10, 48)
+        for y in range(5, 27)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+        and pixel.green() > 180
+        and pixel.red() < 170
+    )
+    assert icon_green_pixels < 80
+
+
 def _render_widget(widget: PetWidget) -> QImage:
     image = QImage(widget.size(), QImage.Format.Format_ARGB32)
     image.fill(Qt.GlobalColor.transparent)
