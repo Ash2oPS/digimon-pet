@@ -294,7 +294,7 @@ def test_item_manager_preserves_consumable_effects_when_editing_and_duplicating(
     item = ItemDefinition(
         id="digimeat",
         name="DigiMeat",
-        description="Increases Off by 25.",
+        description="Increases OFF by 25.",
         type=ItemType.CONSUMABLE,
         effects=(ItemEffect(type=ItemEffectType.STAT_DELTA, stat="offense", amount=25),),
     )

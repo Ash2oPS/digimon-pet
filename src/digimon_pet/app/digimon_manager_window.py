@@ -71,10 +71,10 @@ from digimon_pet.domain.models import GrowthStage, Species
 NATURAL_STAT_FIELDS = (
     ("hp", "HP"),
     ("mp", "MP"),
-    ("offense", "Offense"),
-    ("defense", "Defense"),
-    ("speed", "Speed"),
-    ("brains", "Brains"),
+    ("offense", "OFF"),
+    ("defense", "DEF"),
+    ("speed", "SPD"),
+    ("brains", "INT"),
 )
 
 
@@ -1780,7 +1780,7 @@ class DigimonManagerWindow(QWidget):
         parts: list[str] = []
         stats = groups.get("stats", {})
         if isinstance(stats, dict):
-            parts.extend(f"{stat} {value}" for stat, value in stats.items())
+            parts.extend(f"{_stat_label(stat)} {value}" for stat, value in stats.items())
         weight = groups.get("weight", {})
         if isinstance(weight, dict):
             parts.append(self._range_summary("weight", weight))
@@ -2151,6 +2151,18 @@ class DigimonManagerWindow(QWidget):
 
 def _join_or_none(values: list[str]) -> str:
     return ", ".join(values) if values else "none"
+
+
+def _stat_label(stat: object) -> str:
+    labels = {
+        "hp": "HP",
+        "mp": "MP",
+        "offense": "OFF",
+        "defense": "DEF",
+        "speed": "SPD",
+        "brains": "INT",
+    }
+    return labels.get(str(stat), str(stat).replace("_", " ").upper())
 
 
 def species_id_from_name(name: str) -> str:

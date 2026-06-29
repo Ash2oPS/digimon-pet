@@ -662,7 +662,7 @@ def test_add_natural_evolution_uses_entered_conditions(tmp_path):
             "care_mistakes": {"max": 1},
         },
     }
-    assert "hp 250" in window._natural_table.selectedItems()[3].text()
+    assert "HP 250" in window._natural_table.selectedItems()[3].text()
 
 
 def test_selected_natural_evolution_conditions_can_be_edited(tmp_path):

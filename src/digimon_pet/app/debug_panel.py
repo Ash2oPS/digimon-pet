@@ -102,10 +102,10 @@ class DebugPanel(QWidget):
         for index, (key, label_text) in enumerate([
             ("hp", "HP"),
             ("mp", "MP"),
-            ("offense", "Offense"),
-            ("defense", "Defense"),
-            ("speed", "Speed"),
-            ("brains", "Brains"),
+            ("offense", "OFF"),
+            ("defense", "DEF"),
+            ("speed", "SPD"),
+            ("brains", "INT"),
             ("battles", "Battles"),
             ("techniques", "Techniques"),
         ]):

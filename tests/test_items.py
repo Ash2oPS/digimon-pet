@@ -115,7 +115,7 @@ def test_consumable_stat_delta_effect_increases_stat_and_consumes_item():
     item = ItemDefinition(
         id="digimeat",
         name="DigiMeat",
-        description="Increases Off by 25.",
+        description="Increases OFF by 25.",
         type=ItemType.CONSUMABLE,
         effects=(ItemEffect(type=ItemEffectType.STAT_DELTA, stat="offense", amount=25),),
     )
@@ -139,7 +139,7 @@ def test_consumable_effect_can_apply_multiple_stat_deltas():
     item = ItemDefinition(
         id="green_thing",
         name="Green Thing",
-        description="Increases HP and MP by 500 and Off, Def, Spd and Int by 50",
+        description="Increases HP and MP by 500 and OFF, DEF, SPD and INT by 50",
         type=ItemType.CONSUMABLE,
         effects=(
             ItemEffect(type=ItemEffectType.STAT_DELTA, stat="hp", amount=500),
@@ -247,7 +247,7 @@ def test_consumable_stat_percent_effect_increases_stat_by_current_value_percent(
     item = ItemDefinition(
         id="off_chip",
         name="OFF Chip",
-        description="Increases Off by 10%.",
+        description="Increases OFF by 10%.",
         type=ItemType.CONSUMABLE,
         effects=(ItemEffect(type=ItemEffectType.STAT_PERCENT, stat="offense", amount=10),),
     )
@@ -570,7 +570,7 @@ def test_item_catalog_keeps_inventory_category_optional_for_old_data():
                 {
                     "id": "digimeat",
                     "name": "DigiMeat",
-                    "description": "Increases Off by 25.",
+                    "description": "Increases OFF by 25.",
                     "type": "consumable",
                 }
             ],
