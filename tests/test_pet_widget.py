@@ -421,6 +421,12 @@ def test_stat_gain_text_renders_as_readable_reward_strip():
     assert any(
         pixel.green() > 180 and pixel.red() < 170
         for x in range(12, 116)
+        for y in range(4, 28)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
+    assert not any(
+        pixel.green() > 180 and pixel.red() < 170
+        for x in range(12, 116)
         for y in range(39, 66)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
