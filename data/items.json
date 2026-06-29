@@ -500,6 +500,21 @@
           "amount": 3600
         }
       ]
+    },
+    {
+      "id": "disgusting_tongue",
+      "name": "Disgusting Tongue",
+      "description": "Makes any Rookie Digimon digivolve into Numemon.",
+      "type": "evolution",
+      "inventory_category": "evolution",
+      "icon_path": "assets/items/disgusting-tongue.png",
+      "evolution": {
+        "target_species_id": "numemon",
+        "required_species_ids": [],
+        "required_stages": [
+          "rookie"
+        ]
+      }
     }
   ],
   "pools": {
@@ -627,6 +642,10 @@
       {
         "item_id": "auto_clicker",
         "weight": 3
+      },
+      {
+        "item_id": "disgusting_tongue",
+        "weight": 1
       }
     ]
   }
