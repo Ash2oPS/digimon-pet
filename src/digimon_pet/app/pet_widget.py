@@ -4,7 +4,7 @@ from collections.abc import Callable
 import math
 from pathlib import Path
 
-from PySide6.QtCore import QPoint, QRect, Qt, QTimer
+from PySide6.QtCore import QPoint, QRect, QSize, Qt, QTimer
 from PySide6.QtGui import QColor, QImage, QPainter, QPainterPath, QPen, QPixmap, QTransform
 from PySide6.QtWidgets import QWidget
 
@@ -16,6 +16,8 @@ from digimon_pet.paths import PROJECT_ROOT
 
 BASE_WIDGET_SIZE = 128
 SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
+POOP_SPRITE_PATH = PROJECT_ROOT / "assets" / "misc" / "poop.png"
+POOP_TARGET_SIZE = QSize(16, 12)
 SHADOW_OFFSET = QPoint(6, 6)
 SHADOW_COLOR = QColor(0, 0, 0, 95)
 EFFECT_INTERVAL_MS = 33
@@ -93,6 +95,7 @@ class PetWidget(QWidget):
         self._state: PetState | None = None
         self._species: Species | None = None
         self._pixmap: QPixmap | None = None
+        self._poop_pixmap = QPixmap(str(POOP_SPRITE_PATH))
         self._animation: SpriteAnimation | None = None
         self._frame_index = 0
         self._frame_rects: list[QRect] = []
@@ -241,6 +244,9 @@ class PetWidget(QWidget):
     def event_prompt_rect(self) -> QRect:
         return self._scale_rect(self._logical_event_prompt_rect())
 
+    def poop_rect(self) -> QRect:
+        return self._scale_rect(self._logical_poop_rect())
+
     def is_event_prompt_at(self, point: QPoint) -> bool:
         return self.event_prompt_kind() is not None and self._logical_event_prompt_rect().contains(
             self._to_logical_point(point)
@@ -270,6 +276,7 @@ class PetWidget(QWidget):
         else:
             self._draw_placeholder(painter)
         self._draw_effect_particles(painter)
+        self._draw_poop(painter)
         self._draw_event_prompt(painter)
         self._draw_new_badge(painter)
         self._draw_stat_gain_text(painter)
@@ -846,6 +853,11 @@ class PetWidget(QWidget):
             return QPoint(-SHADOW_OFFSET.x(), SHADOW_OFFSET.y())
         return SHADOW_OFFSET
 
+    def _draw_poop(self, painter: QPainter) -> None:
+        if self._poop_pixmap.isNull():
+            return
+        painter.drawPixmap(self._logical_poop_rect(), self._poop_pixmap, self._poop_pixmap.rect())
+
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
         painter.setBrush(QColor("#f08a3c"))
@@ -858,6 +870,14 @@ class PetWidget(QWidget):
 
     def _logical_event_prompt_rect(self) -> QRect:
         return QRect(RIGHT_EVENT_PROMPT_RECT if self._flipped_x else LEFT_EVENT_PROMPT_RECT)
+
+    def _logical_poop_rect(self) -> QRect:
+        y = SPRITE_TARGET_RECT.bottom() - POOP_TARGET_SIZE.height() + 1
+        if self._flipped_x:
+            x = SPRITE_TARGET_RECT.right() + 1
+        else:
+            x = SPRITE_TARGET_RECT.left() - POOP_TARGET_SIZE.width()
+        return QRect(x, y, POOP_TARGET_SIZE.width(), POOP_TARGET_SIZE.height())
 
     def _scale_rect(self, rect: QRect) -> QRect:
         return QRect(

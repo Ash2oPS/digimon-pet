@@ -6,7 +6,7 @@ from PySide6.QtCore import QPoint, QRect, Qt
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication
 
-from digimon_pet.app.pet_widget import PetWidget, SHADOW_OFFSET, SPRITE_TARGET_RECT
+from digimon_pet.app.pet_widget import PetWidget, POOP_TARGET_SIZE, SHADOW_OFFSET, SPRITE_TARGET_RECT
 from digimon_pet.app.sprite_runtime import SpriteAnimation
 
 
@@ -246,6 +246,22 @@ def test_event_bubble_sits_near_outer_canvas_edges():
 
     assert right_screen_rect.left() <= 4
     assert left_screen_rect.right() >= widget.width() - 5
+
+
+def test_poop_sits_opposite_screen_side_and_matches_pet_bottom_pixel():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+
+    right_screen_rect = widget.poop_rect()
+    widget.set_flipped_x(True)
+    left_screen_rect = widget.poop_rect()
+
+    assert right_screen_rect.left() == 0
+    assert right_screen_rect.size() == POOP_TARGET_SIZE
+    assert right_screen_rect.bottom() == SPRITE_TARGET_RECT.bottom()
+    assert left_screen_rect.right() == widget.width() - 1
+    assert left_screen_rect.size() == POOP_TARGET_SIZE
+    assert left_screen_rect.bottom() == SPRITE_TARGET_RECT.bottom()
 
 
 def test_event_bubble_tail_points_toward_pet_body():
