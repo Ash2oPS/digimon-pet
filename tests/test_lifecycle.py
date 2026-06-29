@@ -973,8 +973,22 @@ def test_rebirth_choice_resets_pet_to_selected_baby_1():
     assert state == PetState(
         species_id="yuramon",
         stage=GrowthStage.BABY,
+        generation_count=2,
         current_generation_species_ids=["yuramon"],
     )
+
+
+def test_rebirth_choice_increments_generation_count():
+    state = PetState(
+        species_id="numemon",
+        stage=GrowthStage.CHAMPION,
+        needs_rebirth_choice=True,
+        generation_count=9,
+    )
+
+    choose_rebirth(state, "botamon", species_map())
+
+    assert state.generation_count == 10
 
 
 def test_baby_1_choices_include_every_catalog_baby():

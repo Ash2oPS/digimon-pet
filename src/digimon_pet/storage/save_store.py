@@ -8,6 +8,7 @@ from typing import Any
 
 from cryptography.fernet import Fernet, InvalidToken
 
+from digimon_pet.data.loaders import load_species
 from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
 from digimon_pet.paths import DATA_DIR, DEBUG_SAVE_PATH, LEGACY_SAVE_PATH, SAVE_PATH as NORMAL_SAVE_PATH, ensure_save_dir
 
@@ -89,6 +90,7 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "is_sleeping": state.is_sleeping,
         "current_action": state.current_action,
         "needs_rebirth_choice": state.needs_rebirth_choice,
+        "generation_count": state.generation_count,
         "discovered_species_ids": list(state.discovered_species_ids),
         "current_generation_species_ids": list(state.current_generation_species_ids),
         "generation_stat_bonuses": dict(state.generation_stat_bonuses),
@@ -193,6 +195,7 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
         is_sleeping=bool(raw.get("is_sleeping", False)),
         current_action=str(raw.get("current_action", "idle")),
         needs_rebirth_choice=bool(raw.get("needs_rebirth_choice", False)),
+        generation_count=_generation_count_from_raw(raw),
         discovered_species_ids=_species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"])),
         current_generation_species_ids=_species_ids_from_raw(
             raw.get("current_generation_species_ids"),
@@ -237,6 +240,29 @@ def _total_age_seconds_from_raw(raw: dict[str, Any]) -> int:
         GrowthStage.ULTIMATE: (10 + 30 + 80 + 120) * 60,
     }[stage]
     return elapsed_before_stage + age_seconds
+
+
+def _generation_count_from_raw(raw: dict[str, Any]) -> int:
+    if "generation_count" in raw:
+        return max(1, int(raw["generation_count"]))
+
+    discovered_species_ids = _species_ids_from_raw(raw.get("discovered_species_ids"), str(raw["species_id"]))
+    try:
+        species = load_species()
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError):
+        return 1
+
+    baby_count = 0
+    rookie_count = 0
+    for species_id in dict.fromkeys(discovered_species_ids):
+        item = species.get(species_id)
+        if item is None:
+            continue
+        if item.stage == GrowthStage.BABY:
+            baby_count += 1
+        elif item.stage == GrowthStage.ROOKIE:
+            rookie_count += 1
+    return max(1, baby_count, rookie_count)
 
 
 def _species_ids_from_raw(raw: Any, current_species_id: str) -> list[str]:

@@ -20,6 +20,7 @@
   "is_sleeping": false,
   "current_action": "idle",
   "needs_rebirth_choice": false,
+  "generation_count": 1,
   "discovered_species_ids": [
     "botamon"
   ],

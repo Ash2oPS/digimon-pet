@@ -131,6 +131,7 @@ class StatsWindow(QDialog):
         self._set_label("stage", _format_stage(species.stage.value))
         self._set_label("action", _format_action(state.current_action))
         self._set_label("sleeping", _format_bool(state.is_sleeping))
+        self._set_label("generation_count", str(state.generation_count))
         self._set_label("weight", str(state.weight))
         self._set_label("care_mistakes", str(state.care_mistakes))
         self._set_label("training_count", str(state.training_count))
@@ -273,6 +274,7 @@ class StatsWindow(QDialog):
         title = QLabel("Care gauges", self)
         title.setObjectName("SectionTitle")
         layout.addWidget(title)
+        layout.addLayout(self._text_row("generation_count", "Generation"))
         for key, label in [
             ("hunger", "Hunger"),
             ("happiness", "Happiness"),
@@ -335,6 +337,19 @@ class StatsWindow(QDialog):
         cell.addLayout(header)
         cell.addWidget(bar)
         return cell
+
+    def _text_row(self, key: str, title: str) -> QHBoxLayout:
+        row = QHBoxLayout()
+        row.setSpacing(6)
+        label = QLabel(title, self)
+        value = QLabel("-", self)
+        value.setObjectName("StatsBarValue")
+        value.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self._register_label(key, value)
+        row.addWidget(label)
+        row.addStretch(1)
+        row.addWidget(value)
+        return row
 
     def _bar_row(self, key: str, title: str) -> QVBoxLayout:
         row = QVBoxLayout()

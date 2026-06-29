@@ -58,6 +58,7 @@ class PetState:
     is_sleeping: bool = False
     current_action: str = "idle"
     needs_rebirth_choice: bool = False
+    generation_count: int = 1
     discovered_species_ids: list[str] = field(default_factory=list)
     current_generation_species_ids: list[str] = field(default_factory=list)
     generation_stat_bonuses: dict[str, int] = field(default_factory=dict)
@@ -97,6 +98,7 @@ class PetState:
         self.weight = max(0, self.weight)
         self.won_battles = max(0, self.won_battles)
         self.techniques_mastered = max(0, self.techniques_mastered)
+        self.generation_count = max(1, int(self.generation_count))
         self.discovered_species_ids = _dedupe_species_ids(self.discovered_species_ids)
         self.current_generation_species_ids = _clean_current_generation_species_ids(
             self.current_generation_species_ids,

@@ -112,6 +112,50 @@ def test_save_load_persists_current_generation_history(tmp_path):
     assert loaded.current_generation_species_ids == ["botamon", "koromon", "agumon", "tyrannomon"]
 
 
+def test_load_legacy_save_estimates_generation_count_from_discovered_baby_or_rookie_species(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "warumonzaemon",
+  "stage": "ultimate",
+  "discovered_species_ids": [
+    "botamon",
+    "poyomon",
+    "yuramon",
+    "punimon",
+    "zerimon",
+    "tomorimon",
+    "choromon",
+    "bubbmon",
+    "nyokimon",
+    "agumon",
+    "gabumon"
+  ]
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.generation_count == 9
+
+
+def test_save_load_persists_generation_count(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="tyrannomon",
+        stage=GrowthStage.CHAMPION,
+        generation_count=12,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.generation_count == 12
+
+
 def test_save_load_persists_evolution_condition_discoveries(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(

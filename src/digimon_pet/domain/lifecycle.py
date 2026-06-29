@@ -462,10 +462,12 @@ def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species])
     if target is None or target.stage != GrowthStage.BABY:
         raise ValueError(f"Unsupported Baby1 choice: {baby_1_id}")
     fresh = PetState(species_id=target.id, stage=target.stage)
+    next_generation_count = state.generation_count + 1
     state.species_id = fresh.species_id
     state.stage = fresh.stage
     state.age_seconds = fresh.age_seconds
     state.total_age_seconds = fresh.total_age_seconds
+    state.generation_count = next_generation_count
     state.current_generation_species_ids = [fresh.species_id]
     state.hunger = fresh.hunger
     state.fatigue = fresh.fatigue
