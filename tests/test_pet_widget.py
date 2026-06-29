@@ -477,25 +477,34 @@ def test_item_gain_with_stat_text_keeps_item_icon_and_stat_text_visible():
 
     assert any(
         pixel.red() > 170 and pixel.green() > 140 and pixel.blue() < 100
-        for x in range(10, 48)
-        for y in range(5, 43)
+        for x in range(7, 54)
+        for y in range(2, 48)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
     assert any(
         pixel.green() > 180 and pixel.red() < 170
-        for x in range(48, 116)
-        for y in range(20, 43)
+        for x in range(54, 121)
+        for y in range(16, 50)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
-    icon_green_pixels = sum(
+    stat_green_pixels = sum(
         1
-        for x in range(10, 48)
-        for y in range(5, 27)
+        for x in range(54, 121)
+        for y in range(16, 50)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
         and pixel.green() > 180
         and pixel.red() < 170
     )
-    assert icon_green_pixels < 80
+    assert stat_green_pixels > 250
+    icon_green_pixels = sum(
+        1
+        for x in range(7, 54)
+        for y in range(2, 30)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+        and pixel.green() > 180
+        and pixel.red() < 170
+    )
+    assert icon_green_pixels < 140
 
 
 def _render_widget(widget: PetWidget) -> QImage:

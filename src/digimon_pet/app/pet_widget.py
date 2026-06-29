@@ -24,10 +24,10 @@ EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
-REWARD_TOAST_RECT = QRect(6, 0, 116, 44)
-REWARD_TOAST_ICON_RECT = QRect(13, 8, 32, 32)
-REWARD_TOAST_STAT_RECT = QRect(14, 5, 100, 22)
-REWARD_TOAST_ITEM_STAT_RECT = QRect(52, 23, 58, 17)
+REWARD_TOAST_RECT = QRect(4, 0, 120, 50)
+REWARD_TOAST_ICON_RECT = QRect(8, 4, 42, 42)
+REWARD_TOAST_STAT_RECT = QRect(10, 2, 108, 24)
+REWARD_TOAST_ITEM_STAT_RECT = QRect(54, 18, 66, 28)
 STATIC_SPRITE_SCALE = 0.9
 SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
 SECONDARY_EVENT_BOUNCE_HEIGHT = 7
@@ -715,8 +715,8 @@ class PetWidget(QWidget):
         label = _reward_item_label(self._stat_gain_item_name)
         self._draw_outlined_pixel_text_at(
             painter,
-            52,
-            16,
+            56,
+            7,
             "ITEM",
             QColor(0, 18, 30, 235),
             QColor(255, 223, 74),
@@ -724,8 +724,8 @@ class PetWidget(QWidget):
         )
         self._draw_outlined_pixel_text_at(
             painter,
-            52,
-            31,
+            56,
+            38,
             label,
             QColor(0, 18, 30, 235),
             QColor(0, 216, 255),
@@ -765,13 +765,13 @@ class PetWidget(QWidget):
         painter.setPen(QPen(QColor(46, 88, 118, 220), 1))
         painter.setBrush(QColor(9, 24, 39, 190))
         painter.drawRoundedRect(REWARD_TOAST_ITEM_STAT_RECT, 3, 3)
-        scale = 1
-        row_height = 7
+        scale = 2
+        row_height = 12
         for index, text in enumerate(texts):
             text = _reward_stat_label(text)
             width = _pixel_text_width(text, scale)
             x = REWARD_TOAST_ITEM_STAT_RECT.center().x() - width // 2
-            y = REWARD_TOAST_ITEM_STAT_RECT.top() + 3 + index * row_height
+            y = REWARD_TOAST_ITEM_STAT_RECT.top() + 2 + index * row_height
             self._draw_outlined_pixel_text_at(
                 painter,
                 x,
