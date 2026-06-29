@@ -361,7 +361,9 @@ class NetworkWindow(QDialog):
         self._friend_detail_name_label.setText(digimon)
         self._friend_detail_trainer_label.setText(trainer)
         self._friend_detail_stage_label.setText(_format_stage(str(payload.get("stage", ""))))
-        self._friend_detail_age_label.setText(_format_age(int(payload.get("age_seconds", 0))))
+        self._friend_detail_age_label.setText(
+            f"Generation {int(payload.get('generation_count', 1))} - {_format_age(int(payload.get('age_seconds', 0)))}"
+        )
         self._set_friend_sprite(payload)
         self._set_friend_lineage(_lineage_species_ids_from_payload(payload))
         for key in self._friend_detail_stats:

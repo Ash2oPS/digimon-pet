@@ -16,7 +16,7 @@ def test_save_writes_protected_payload_without_plain_state_fields(tmp_path):
     raw_save = path.read_text(encoding="utf-8")
     assert "koromon" not in raw_save
     assert "species_id" not in raw_save
-    assert "456" not in raw_save
+    assert '"hp"' not in raw_save
     assert load_pet_state(path) == state
 
 

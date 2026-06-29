@@ -149,7 +149,7 @@ def test_stats_window_displays_current_stage_age_not_total_generation_age(monkey
         Species("skullgreymon", "SkullGreymon", GrowthStage.ULTIMATE),
     )
 
-    assert window._summary_label.text().startswith("0 h 55 min")
+    assert window._summary_label.text() == "Generation 1 - 0 h 55 min - Idle - awake"
 
 
 def test_stats_window_displays_generation_count(monkeypatch):
@@ -164,6 +164,7 @@ def test_stats_window_displays_generation_count(monkeypatch):
         Species("warumonzaemon", "WaruMonzaemon", GrowthStage.ULTIMATE),
     )
 
+    assert window._summary_label.text().startswith("Generation 9 - ")
     assert [label.text() for label in window._label_groups["generation_count"]] == ["9"]
 
 

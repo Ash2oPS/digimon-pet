@@ -124,7 +124,7 @@ class StatsWindow(QDialog):
         self._name_label.setText(species.name)
         self._stage_label.setText(_format_stage(species.stage.value))
         self._summary_label.setText(
-            f"{_format_age(state.age_seconds)} - {_format_action(state.current_action)}"
+            f"Generation {state.generation_count} - {_format_age(state.age_seconds)} - {_format_action(state.current_action)}"
             f" - {'asleep' if state.is_sleeping else 'awake'}"
         )
         self._set_label("age", _format_age(state.age_seconds))
