@@ -14,10 +14,10 @@ from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifes
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
-BASE_WIDGET_SIZE = 128
-SPRITE_TARGET_RECT = QRect(16, 16, 96, 96)
+BASE_WIDGET_SIZE = QSize(352, 128)
+SPRITE_TARGET_RECT = QRect(128, 16, 96, 96)
 POOP_SPRITE_PATH = PROJECT_ROOT / "assets" / "misc" / "poop.png"
-POOP_TARGET_SIZE = QSize(16, 12)
+POOP_TARGET_SIZE = QSize(128, 96)
 SHADOW_OFFSET = QPoint(6, 6)
 SHADOW_COLOR = QColor(0, 0, 0, 95)
 EFFECT_INTERVAL_MS = 33
@@ -33,8 +33,8 @@ REWARD_TOAST_ITEM_STAT_RECT = QRect(54, 18, 66, 28)
 STATIC_SPRITE_SCALE = 0.9
 SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
 SECONDARY_EVENT_BOUNCE_HEIGHT = 7
-LEFT_EVENT_PROMPT_RECT = QRect(4, 5, 42, 34)
-RIGHT_EVENT_PROMPT_RECT = QRect(82, 5, 42, 34)
+LEFT_EVENT_PROMPT_RECT = QRect(82, 5, 42, 34)
+RIGHT_EVENT_PROMPT_RECT = QRect(228, 5, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
 SECONDARY_EVENT_PROMPTS = {"meat", "dumbbell", "item"}
@@ -128,14 +128,17 @@ class PetWidget(QWidget):
         self._stat_gain_item_name: str | None = None
         self._stat_gain_timer = QTimer(self)
         self._stat_gain_timer.timeout.connect(self._advance_stat_gain_text)
-        self.setFixedSize(BASE_WIDGET_SIZE, BASE_WIDGET_SIZE)
+        self.setFixedSize(BASE_WIDGET_SIZE)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
 
     def set_render_scale(self, scale: float) -> None:
         self._render_scale = max(0.5, min(1.5, float(scale)))
-        scaled_size = round(BASE_WIDGET_SIZE * self._render_scale)
-        self.setFixedSize(scaled_size, scaled_size)
+        scaled_size = QSize(
+            round(BASE_WIDGET_SIZE.width() * self._render_scale),
+            round(BASE_WIDGET_SIZE.height() * self._render_scale),
+        )
+        self.setFixedSize(scaled_size)
         self.update()
 
     def set_pet(self, state: PetState, species: Species) -> None:
@@ -792,7 +795,7 @@ class PetWidget(QWidget):
     def _draw_outlined_pixel_text(self, painter: QPainter, y: int, text: str, outline: QColor, fill: QColor) -> None:
         scale = 2
         width = _pixel_text_width(text, scale)
-        x = max(0, (BASE_WIDGET_SIZE - width) // 2)
+        x = max(0, (BASE_WIDGET_SIZE.width() - width) // 2)
         self._draw_outlined_pixel_text_at(painter, x, y, text, outline, fill, scale=scale)
 
     def _draw_outlined_pixel_text_at(

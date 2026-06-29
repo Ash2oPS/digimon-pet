@@ -6,7 +6,7 @@ from PySide6.QtCore import QPoint, QRect, Qt
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication
 
-from digimon_pet.app.pet_widget import PetWidget, POOP_TARGET_SIZE, SHADOW_OFFSET, SPRITE_TARGET_RECT
+from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, PetWidget, POOP_TARGET_SIZE, SHADOW_OFFSET, SPRITE_TARGET_RECT
 from digimon_pet.app.sprite_runtime import SpriteAnimation
 
 
@@ -214,8 +214,8 @@ def test_pet_widget_scales_canvas_and_hitboxes():
     prompt_center = widget.event_prompt_rect().center()
     pet_center = QPoint(round(SPRITE_TARGET_RECT.center().x() * 1.5), round(SPRITE_TARGET_RECT.center().y() * 1.5))
 
-    assert widget.size().width() == 192
-    assert widget.size().height() == 192
+    assert widget.size().width() == round(BASE_WIDGET_SIZE.width() * 1.5)
+    assert widget.size().height() == round(BASE_WIDGET_SIZE.height() * 1.5)
     assert widget.is_event_prompt_at(prompt_center)
     assert widget.is_pet_body_at(pet_center)
 
@@ -244,8 +244,8 @@ def test_event_bubble_sits_near_outer_canvas_edges():
     widget.set_flipped_x(True)
     left_screen_rect = widget.event_prompt_rect()
 
-    assert right_screen_rect.left() <= 4
-    assert left_screen_rect.right() >= widget.width() - 5
+    assert right_screen_rect.right() < SPRITE_TARGET_RECT.left()
+    assert left_screen_rect.left() > SPRITE_TARGET_RECT.right()
 
 
 def test_poop_sits_opposite_screen_side_and_matches_pet_bottom_pixel():
@@ -259,14 +259,19 @@ def test_poop_sits_opposite_screen_side_and_matches_pet_bottom_pixel():
     assert right_screen_rect.left() == 0
     assert right_screen_rect.size() == POOP_TARGET_SIZE
     assert right_screen_rect.bottom() == SPRITE_TARGET_RECT.bottom()
+    assert right_screen_rect.right() + 1 == SPRITE_TARGET_RECT.left()
     assert left_screen_rect.right() == widget.width() - 1
     assert left_screen_rect.size() == POOP_TARGET_SIZE
     assert left_screen_rect.bottom() == SPRITE_TARGET_RECT.bottom()
+    assert left_screen_rect.left() == SPRITE_TARGET_RECT.right() + 1
 
 
 def test_event_bubble_tail_points_toward_pet_body():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
+    widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
+    widget._pixmap.fill(Qt.GlobalColor.transparent)
+    widget._poop_pixmap = QPixmap()
     widget.set_lifecycle_pending("evolution")
 
     left_image = _render_widget(widget)
@@ -276,10 +281,15 @@ def test_event_bubble_tail_points_toward_pet_body():
     right_image = _render_widget(widget)
     right_rect = widget.event_prompt_rect()
 
-    assert left_image.pixelColor(left_rect.right() + 2, left_rect.bottom() + 3).alpha() > 0
-    assert left_image.pixelColor(left_rect.left() - 2, left_rect.bottom() + 3).alpha() == 0
-    assert right_image.pixelColor(right_rect.left() - 2, right_rect.bottom() + 3).alpha() > 0
-    assert right_image.pixelColor(right_rect.right() + 2, right_rect.bottom() + 3).alpha() == 0
+    left_tail_pixel = left_image.pixelColor(left_rect.right() - 6, left_rect.bottom())
+    left_opposite_pixel = left_image.pixelColor(left_rect.left() - 2, left_rect.bottom() + 3)
+    right_tail_pixel = right_image.pixelColor(right_rect.left() + 6, right_rect.bottom())
+    right_opposite_pixel = right_image.pixelColor(right_rect.right() + 2, right_rect.bottom() + 3)
+
+    assert left_tail_pixel.green() > 220 and left_tail_pixel.blue() > 180
+    assert left_opposite_pixel.green() < 200
+    assert right_tail_pixel.green() > 220 and right_tail_pixel.blue() > 180
+    assert right_opposite_pixel.green() < 200
 
 
 def test_death_event_bubble_uses_skull_icon():

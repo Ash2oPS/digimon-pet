@@ -651,7 +651,7 @@ class PetWindow(QWidget):
 
     def _configure_window(self) -> None:
         self.setWindowTitle("Digimon Pet")
-        self.setFixedSize(BASE_WIDGET_SIZE, BASE_WIDGET_SIZE)
+        self.setFixedSize(BASE_WIDGET_SIZE)
         if self._overlay:
             self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
             self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
@@ -1326,10 +1326,14 @@ class PetWindow(QWidget):
 
     def _apply_pet_scale(self) -> None:
         scale = self._pet_scale_percent / 100
-        size = round(BASE_WIDGET_SIZE * scale)
+        size = BASE_WIDGET_SIZE.scaled(
+            round(BASE_WIDGET_SIZE.width() * scale),
+            round(BASE_WIDGET_SIZE.height() * scale),
+            Qt.AspectRatioMode.IgnoreAspectRatio,
+        )
         if hasattr(self, "_pet_widget"):
             self._pet_widget.set_render_scale(scale)
-        self.setFixedSize(size, size)
+        self.setFixedSize(size)
 
     def _sync_pet_scale_state(self) -> None:
         self._state.pet_scale_percent = self._pet_scale_percent

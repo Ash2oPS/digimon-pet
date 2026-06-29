@@ -20,6 +20,7 @@ from digimon_pet.app.main_window import (
     _peer_digimon_died,
 )
 from digimon_pet.app import radial_menu
+from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, SPRITE_TARGET_RECT
 from digimon_pet.app.radial_menu import RadialArcDirection
 from digimon_pet.app.theme import APP_QSS
 from digimon_pet.app.window_positioning import offset_window_position
@@ -609,20 +610,21 @@ def test_click_on_pet_body_starts_lifecycle_resolution_animation(tmp_path, monke
     window._state.stage = GrowthStage.BABY
     window._state.age_seconds = window._lifecycle_schedule.baby_seconds
     window._queue_or_advance_lifecycle()
+    pet_center = QPointF(SPRITE_TARGET_RECT.center())
     press = QMouseEvent(
         QEvent.Type.MouseButtonPress,
-        QPointF(64, 64),
-        QPointF(64, 64),
-        QPointF(64, 64),
+        pet_center,
+        pet_center,
+        pet_center,
         Qt.MouseButton.LeftButton,
         Qt.MouseButton.LeftButton,
         Qt.KeyboardModifier.NoModifier,
     )
     release = QMouseEvent(
         QEvent.Type.MouseButtonRelease,
-        QPointF(64, 64),
-        QPointF(64, 64),
-        QPointF(64, 64),
+        pet_center,
+        pet_center,
+        pet_center,
         Qt.MouseButton.LeftButton,
         Qt.MouseButton.NoButton,
         Qt.KeyboardModifier.NoModifier,
@@ -1122,8 +1124,10 @@ def test_pet_scale_loads_from_save(tmp_path, monkeypatch):
     window = PetWindow(overlay=True, debug=True)
 
     assert window.pet_scale_percent() == 150
-    assert window.size().width() == 192
-    assert window._pet_widget.size().width() == 192
+    assert window.size().width() == round(BASE_WIDGET_SIZE.width() * 1.5)
+    assert window.size().height() == round(BASE_WIDGET_SIZE.height() * 1.5)
+    assert window._pet_widget.size().width() == round(BASE_WIDGET_SIZE.width() * 1.5)
+    assert window._pet_widget.size().height() == round(BASE_WIDGET_SIZE.height() * 1.5)
 
 
 def test_changing_pet_scale_resizes_only_pet_window_and_saves(tmp_path, monkeypatch):
@@ -1139,8 +1143,10 @@ def test_changing_pet_scale_resizes_only_pet_window_and_saves(tmp_path, monkeypa
     window.set_pet_scale_percent(50)
     loaded = load_pet_state(save_path)
 
-    assert window.size().width() == 64
-    assert window._pet_widget.size().width() == 64
+    assert window.size().width() == round(BASE_WIDGET_SIZE.width() * 0.5)
+    assert window.size().height() == round(BASE_WIDGET_SIZE.height() * 0.5)
+    assert window._pet_widget.size().width() == round(BASE_WIDGET_SIZE.width() * 0.5)
+    assert window._pet_widget.size().height() == round(BASE_WIDGET_SIZE.height() * 0.5)
     assert window._stats_window.size() == stats_size_before
     assert loaded.pet_scale_percent == 50
 
