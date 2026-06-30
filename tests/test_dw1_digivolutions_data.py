@@ -146,6 +146,38 @@ def test_biyomon_is_the_only_catalog_entry_for_piyomon_alias():
     assert all(item.get("species_id") != "piyomon" for item in artworks)
 
 
+def test_metal_etemon_uses_one_canonical_species_id():
+    species = load_species()
+    assert "metal_etemon" in species
+    assert "metaletemon" not in species
+    assert species["metal_etemon"].name == "MetalEtemon"
+    assert species["metal_etemon"].stage.value == "mega"
+    assert "Metal Etemon" in species["metal_etemon"].aliases
+
+    roster = json.loads((ROOT / "data" / "dw1_roster.json").read_text(encoding="utf-8"))
+    roster_ids = [item["id"] for item in roster]
+    assert roster_ids.count("metal_etemon") == 1
+    assert "metaletemon" not in roster_ids
+
+    data = load_dw1_digivolutions()
+    assert all(row.get("id") != "metaletemon" for row in data["digimon"])
+    assert "metaletemon" not in data["indexes"]["by_source"]
+    for transition in data["natural_evolutions"]:
+        assert transition["source_species_id"] != "metaletemon"
+        assert transition["target_species_id"] != "metaletemon"
+
+    sprite_manifest = json.loads(
+        (ROOT / "data" / "dw1_sprite_manifest.json").read_text(encoding="utf-8")
+    )
+    assert "metal_etemon" in sprite_manifest["entries"]
+    assert "metaletemon" not in sprite_manifest["entries"]
+
+    artworks = json.loads((ROOT / "data" / "artwork_downloads.json").read_text(encoding="utf-8"))
+    artwork_ids = [item.get("species_id") for item in artworks]
+    assert "metal_etemon" in artwork_ids
+    assert "metaletemon" not in artwork_ids
+
+
 def test_terriermon_line_has_runtime_assets_and_roster_entries():
     line_ids = {"zerimon", "gummymon", "terriermon", "galgomon", "rapidmon"}
 

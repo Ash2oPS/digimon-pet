@@ -198,7 +198,7 @@
       "sprite_slots": {}
     },
     {
-      "id": "metaletemon",
+      "id": "metal_etemon",
       "name": "Metal Etemon",
       "stage": "mega",
       "aliases": [],
@@ -1014,11 +1014,11 @@
       ]
     },
     {
-      "id": "angewomon__to__metaletemon",
+      "id": "angewomon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "angewomon",
       "source_name": "Angewomon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 20,
@@ -1044,11 +1044,11 @@
       ]
     },
     {
-      "id": "triceramon__to__metaletemon",
+      "id": "triceramon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "triceramon",
       "source_name": "Triceramon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 21,
@@ -1074,11 +1074,11 @@
       ]
     },
     {
-      "id": "tonosamagekomon__to__metaletemon",
+      "id": "tonosamagekomon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "tonosamagekomon",
       "source_name": "Tonosama Gekomon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 22,
@@ -1104,11 +1104,11 @@
       ]
     },
     {
-      "id": "okuwamon__to__metaletemon",
+      "id": "okuwamon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "okuwamon",
       "source_name": "Okuwamon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 23,
@@ -6931,7 +6931,7 @@
       "preferred_source_id": "digimon_pendulum_color"
     },
     {
-      "species_id": "metaletemon",
+      "species_id": "metal_etemon",
       "name": "Metal Etemon",
       "sprite_url": "https://humulos.com/digimon/images/dot/penc/metalete.gif",
       "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif",

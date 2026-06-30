@@ -1476,7 +1476,7 @@
       "source_sheet_name": "Megadramon"
     },
     {
-      "id": "metaletemon",
+      "id": "metal_etemon",
       "name": "MetalEtemon",
       "stage": "ultimate",
       "requirements": {
@@ -17156,11 +17156,11 @@
       ]
     },
     {
-      "id": "angewomon__to__metaletemon",
+      "id": "angewomon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "angewomon",
       "source_name": "Angewomon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 20,
@@ -17186,11 +17186,11 @@
       ]
     },
     {
-      "id": "triceramon__to__metaletemon",
+      "id": "triceramon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "triceramon",
       "source_name": "Triceramon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 21,
@@ -17216,11 +17216,11 @@
       ]
     },
     {
-      "id": "tonosamagekomon__to__metaletemon",
+      "id": "tonosamagekomon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "tonosamagekomon",
       "source_name": "Tonosama Gekomon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 22,
@@ -17246,11 +17246,11 @@
       ]
     },
     {
-      "id": "okuwamon__to__metaletemon",
+      "id": "okuwamon__to__metal_etemon",
       "type": "natural",
       "source_species_id": "okuwamon",
       "source_name": "Okuwamon",
-      "target_species_id": "metaletemon",
+      "target_species_id": "metal_etemon",
       "target_name": "Metal Etemon",
       "target_stage": "mega",
       "chart_order": 23,
@@ -22984,7 +22984,7 @@
         "angewomon__to__dominimon",
         "angewomon__to__heraklekabuterimon",
         "angewomon__to__holydramon",
-        "angewomon__to__metaletemon",
+        "angewomon__to__metal_etemon",
         "angewomon__to__quantumon"
       ],
       "angoramon": [
@@ -23660,7 +23660,7 @@
       ],
       "okuwamon": [
         "okuwamon__to__grankuwagamon",
-        "okuwamon__to__metaletemon",
+        "okuwamon__to__metal_etemon",
         "okuwamon__to__saberleomon"
       ],
       "onibimon": [
@@ -23938,7 +23938,7 @@
       "tonosamagekomon": [
         "tonosamagekomon__to__eldoradimon",
         "tonosamagekomon__to__grankuwagamon",
-        "tonosamagekomon__to__metaletemon"
+        "tonosamagekomon__to__metal_etemon"
       ],
       "tortamon": [
         "tortamon__to__atlurkabuterimon",
@@ -23955,7 +23955,7 @@
       "triceramon": [
         "triceramon__to__eldoradimon",
         "triceramon__to__heraklekabuterimon",
-        "triceramon__to__metaletemon",
+        "triceramon__to__metal_etemon",
         "triceramon__to__saberleomon"
       ],
       "tsunomon": [

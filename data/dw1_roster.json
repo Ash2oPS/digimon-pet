@@ -64,7 +64,6 @@
   {"id": "vademon", "name": "Vademon"},
   {"id": "panjyamon", "name": "Panjyamon", "promo_japan": true},
   {"id": "gigadramon", "name": "Gigadramon", "promo_japan": true},
-  {"id": "metaletemon", "name": "MetalEtemon", "promo_japan": true, "preferred_source_id": "digimon_pendulum_color"},
   {"id": "terriermon", "name": "Terriermon", "preferred_source_id": "google_drive_sprites"},
   {"id": "gummymon", "name": "Gummymon", "preferred_source_id": "google_drive_sprites"},
   {"id": "zerimon", "name": "Zerimon", "preferred_source_id": "google_drive_sprites"},

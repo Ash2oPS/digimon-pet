@@ -167,7 +167,7 @@ def test_load_roster_excludes_japanese_promos_when_flagged(tmp_path):
             {"id": "agumon", "name": "Agumon"},
             {"id": "panjyamon", "name": "Panjyamon", "promo_japan": True},
             {"id": "gigadramon", "name": "Gigadramon", "promo_japan": True},
-            {"id": "metaletemon", "name": "MetalEtemon", "promo_japan": True},
+            {"id": "promoonlymon", "name": "PromoOnlymon", "promo_japan": True},
         ],
     )
 

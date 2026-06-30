@@ -53,7 +53,7 @@ Source: https://humulos.com/digimon/penc/
 - Jumbo Gamemon (`jumbogamemon`, mega)
 - Kaguyamon (`kaguyamon`, mega)
 - Marin Angemon (`marinangemon`, mega)
-- Metal Etemon (`metaletemon`, mega)
+- Metal Etemon (`metal_etemon`, mega)
 - Metal Garurumon (`metalgarurumon`, mega)
 - Metal Seadramon (`metalseadramon`, mega)
 - Mugendramon (`mugendramon`, mega)
@@ -322,7 +322,7 @@ Source: https://humulos.com/digimon/penc/
 - Jumbo Gamemon (`jumbogamemon`): https://humulos.com/digimon/images/dot/penc/jumbogame.gif + https://humulos.com/digimon/images/dot/penc/frame2/jumbogame.gif
 - Kaguyamon (`kaguyamon`): https://humulos.com/digimon/images/dot/penc/kaguya.gif + https://humulos.com/digimon/images/dot/penc/frame2/kaguya.gif
 - Marin Angemon (`marinangemon`): https://humulos.com/digimon/images/dot/penc/marinange.gif + https://humulos.com/digimon/images/dot/penc/frame2/marinange.gif
-- Metal Etemon (`metaletemon`): https://humulos.com/digimon/images/dot/penc/metalete.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif
+- Metal Etemon (`metal_etemon`): https://humulos.com/digimon/images/dot/penc/metalete.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif
 - Metal Garurumon (`metalgarurumon`): https://humulos.com/digimon/images/dot/penc/metalgaruru.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalgaruru.gif
 - Metal Seadramon (`metalseadramon`): https://humulos.com/digimon/images/dot/penc/metalseadra.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalseadra.gif
 - Mugendramon (`mugendramon`): https://humulos.com/digimon/images/dot/penc/mugendra.gif + https://humulos.com/digimon/images/dot/penc/frame2/mugendra.gif

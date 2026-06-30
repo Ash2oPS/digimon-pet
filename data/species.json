@@ -1810,8 +1810,10 @@
   {
     "id": "metal_etemon",
     "name": "MetalEtemon",
-    "stage": "ultimate",
-    "aliases": [],
+    "stage": "mega",
+    "aliases": [
+      "Metal Etemon"
+    ],
     "sprite_slots": {}
   },
   {
@@ -2010,13 +2012,6 @@
   {
     "id": "marinangemon",
     "name": "Marin Angemon",
-    "stage": "mega",
-    "aliases": [],
-    "sprite_slots": {}
-  },
-  {
-    "id": "metaletemon",
-    "name": "Metal Etemon",
     "stage": "mega",
     "aliases": [],
     "sprite_slots": {}
