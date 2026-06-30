@@ -227,6 +227,67 @@
 - Nyokimon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/nyokimon.png); aliases: -
 - Pyocomon: Google Drive Sprites (assets/sprite_sources/google_drive_sprites/pyocomon.png); aliases: -
 - MetalEtemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/metal_etemon.png); aliases: -
+- Amphimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/amphimon.png); aliases: -
+- Anubimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/anubimon.png); aliases: -
+- Arcturusmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/arcturusmon.png); aliases: -
+- Ariemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ariemon.png); aliases: -
+- Blastmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/blastmon.png); aliases: -
+- Boltmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/boltmon.png); aliases: -
+- Brigadramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/brigadramon.png); aliases: -
+- Callismon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/callismon.png); aliases: -
+- Cthyllamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/cthyllamon.png); aliases: -
+- Demon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/demon.png); aliases: -
+- Diarbbitmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/diarbbitmon.png); aliases: -
+- Dijiangmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/dijiangmon.png); aliases: -
+- Dominimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/dominimon.png); aliases: -
+- El Doradimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/el_doradimon.png); aliases: -
+- Erlangmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/erlangmon.png); aliases: -
+- Erlangmon: Blast Mode: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/erlangmon_blast_mode.png); aliases: -
+- Fenriloogamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/fenriloogamon.png); aliases: -
+- Gran Kuwagamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/gran_kuwagamon.png); aliases: -
+- Griffomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/griffomon.png); aliases: -
+- Herakle Kabuterimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/herakle_kabuterimon.png); aliases: -
+- Hi Andromon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hi_andromon.png); aliases: -
+- Holydramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/holydramon.png); aliases: -
+- Hououmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hououmon.png); aliases: -
+- Hydramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/hydramon.png); aliases: -
+- Jougamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/jougamon.png); aliases: -
+- Jumbo Gamemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/jumbo_gamemon.png); aliases: -
+- Kaguyamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/kaguyamon.png); aliases: -
+- Marin Angemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/marin_angemon.png); aliases: -
+- Metal Garurumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/metal_garurumon.png); aliases: -
+- Metal Seadramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/metal_seadramon.png); aliases: -
+- Mugendramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/mugendramon.png); aliases: -
+- Nezhamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/nezhamon.png); aliases: -
+- Nezhamon: Crimson Mode: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/nezhamon_crimson_mode.png); aliases: -
+- Noble Pumpmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/noble_pumpmon.png); aliases: -
+- Piemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/piemon.png); aliases: -
+- Pinochimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pinochimon.png); aliases: -
+- Plesiomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/plesiomon.png); aliases: -
+- Pukumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/pukumon.png); aliases: -
+- Quantumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/quantumon.png); aliases: -
+- Rafflesimon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/rafflesimon.png); aliases: -
+- Ragnamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ragnamon.png); aliases: -
+- Ravmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ravmon.png); aliases: -
+- Ravmon: Burst Mode: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ravmon_burst_mode.png); aliases: -
+- Rosemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/rosemon.png); aliases: -
+- Ryugumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ryugumon.png); aliases: -
+- Saber Leomon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/saber_leomon.png); aliases: -
+- Shagaramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/shagaramon.png); aliases: -
+- Siriusmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/siriusmon.png); aliases: -
+- Skull Mammon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/skull_mammon.png); aliases: -
+- Takutoumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/takutoumon.png); aliases: -
+- Takutoumon: Wrath Mode: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/takutoumon_wrath_mode.png); aliases: -
+- Tengumon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/tengumon.png); aliases: -
+- Ulforce V-dramon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/ulforce_v_dramon.png); aliases: -
+- Venom Vamdemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/venom_vamdemon.png); aliases: -
+- Vikemon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/vikemon.png); aliases: -
+- War Greymon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/war_greymon.png); aliases: -
+- Xiangpengmon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/xiangpengmon.png); aliases: -
+- Yukinamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/yukinamon.png); aliases: -
+- Zanbamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/zanbamon.png); aliases: -
+- Zeke Greymon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/zeke_greymon.png); aliases: -
+- Zephagamon: Digimon Pendulum COLOR (assets/sprite_sources/digimon_pendulum_color/zephagamon.png); aliases: -
 
 ## Missing
 - None
@@ -262,6 +323,7 @@
 - Ogremon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
 - Shellmon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
 - HerculesKabuterimon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets
+- Machinedramon: chose digital_monster_color from digital_monster_color, digimon_pendulum_color
 - MegaSeadramon: chose google_drive_sprites from google_drive_sprites, digimon_pendulum_color, wikimon_virtual_pets
 - Monzaemon: chose google_drive_sprites from google_drive_sprites, digital_monster_color
 - Phoenixmon: chose wikimon_virtual_pets from digimon_pendulum_color, wikimon_virtual_pets

@@ -16810,6 +16810,6245 @@
       "notes": [
         "Nanimon completion from an oddball Rookie branch to avoid an unreachable Champion"
       ]
+    },
+    {
+      "id": "atlurkabuterimon__to__heraklekabuterimon",
+      "type": "natural",
+      "source_species_id": "atlurkabuterimon",
+      "source_name": "Atlur Kabuterimon",
+      "target_species_id": "heraklekabuterimon",
+      "target_name": "Herakle Kabuterimon",
+      "target_stage": "mega",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "jyagamon__to__heraklekabuterimon",
+      "type": "natural",
+      "source_species_id": "jyagamon",
+      "source_name": "Jyagamon",
+      "target_species_id": "heraklekabuterimon",
+      "target_name": "Herakle Kabuterimon",
+      "target_stage": "mega",
+      "chart_order": 2,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "angewomon__to__heraklekabuterimon",
+      "type": "natural",
+      "source_species_id": "angewomon",
+      "source_name": "Angewomon",
+      "target_species_id": "heraklekabuterimon",
+      "target_name": "Herakle Kabuterimon",
+      "target_stage": "mega",
+      "chart_order": 3,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "triceramon__to__heraklekabuterimon",
+      "type": "natural",
+      "source_species_id": "triceramon",
+      "source_name": "Triceramon",
+      "target_species_id": "heraklekabuterimon",
+      "target_name": "Herakle Kabuterimon",
+      "target_stage": "mega",
+      "chart_order": 4,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "jyagamon__to__blastmon",
+      "type": "natural",
+      "source_species_id": "jyagamon",
+      "source_name": "Jyagamon",
+      "target_species_id": "blastmon",
+      "target_name": "Blastmon",
+      "target_stage": "mega",
+      "chart_order": 5,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "atlurkabuterimon__to__blastmon",
+      "type": "natural",
+      "source_species_id": "atlurkabuterimon",
+      "source_name": "Atlur Kabuterimon",
+      "target_species_id": "blastmon",
+      "target_name": "Blastmon",
+      "target_stage": "mega",
+      "chart_order": 6,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "angewomon__to__holydramon",
+      "type": "natural",
+      "source_species_id": "angewomon",
+      "source_name": "Angewomon",
+      "target_species_id": "holydramon",
+      "target_name": "Holydramon",
+      "target_stage": "mega",
+      "chart_order": 7,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lamortmon__to__holydramon",
+      "type": "natural",
+      "source_species_id": "lamortmon",
+      "source_name": "Lamortmon",
+      "target_species_id": "holydramon",
+      "target_name": "Holydramon",
+      "target_stage": "mega",
+      "chart_order": 8,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "piccolomon__to__holydramon",
+      "type": "natural",
+      "source_species_id": "piccolomon",
+      "source_name": "Piccolomon",
+      "target_species_id": "holydramon",
+      "target_name": "Holydramon",
+      "target_stage": "mega",
+      "chart_order": 9,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lamortmon__to__diarbbitmon",
+      "type": "natural",
+      "source_species_id": "lamortmon",
+      "source_name": "Lamortmon",
+      "target_species_id": "diarbbitmon",
+      "target_name": "Diarbbitmon",
+      "target_stage": "mega",
+      "chart_order": 10,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "jyagamon__to__saberleomon",
+      "type": "natural",
+      "source_species_id": "jyagamon",
+      "source_name": "Jyagamon",
+      "target_species_id": "saberleomon",
+      "target_name": "Saber Leomon",
+      "target_stage": "mega",
+      "chart_order": 11,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lamortmon__to__saberleomon",
+      "type": "natural",
+      "source_species_id": "lamortmon",
+      "source_name": "Lamortmon",
+      "target_species_id": "saberleomon",
+      "target_name": "Saber Leomon",
+      "target_stage": "mega",
+      "chart_order": 12,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "triceramon__to__saberleomon",
+      "type": "natural",
+      "source_species_id": "triceramon",
+      "source_name": "Triceramon",
+      "target_species_id": "saberleomon",
+      "target_name": "Saber Leomon",
+      "target_stage": "mega",
+      "chart_order": 13,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "piccolomon__to__saberleomon",
+      "type": "natural",
+      "source_species_id": "piccolomon",
+      "source_name": "Piccolomon",
+      "target_species_id": "saberleomon",
+      "target_name": "Saber Leomon",
+      "target_stage": "mega",
+      "chart_order": 14,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "okuwamon__to__saberleomon",
+      "type": "natural",
+      "source_species_id": "okuwamon",
+      "source_name": "Okuwamon",
+      "target_species_id": "saberleomon",
+      "target_name": "Saber Leomon",
+      "target_stage": "mega",
+      "chart_order": 15,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "atlurkabuterimon__to__eldoradimon",
+      "type": "natural",
+      "source_species_id": "atlurkabuterimon",
+      "source_name": "Atlur Kabuterimon",
+      "target_species_id": "eldoradimon",
+      "target_name": "El Doradimon",
+      "target_stage": "mega",
+      "chart_order": 16,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "triceramon__to__eldoradimon",
+      "type": "natural",
+      "source_species_id": "triceramon",
+      "source_name": "Triceramon",
+      "target_species_id": "eldoradimon",
+      "target_name": "El Doradimon",
+      "target_stage": "mega",
+      "chart_order": 17,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "piccolomon__to__eldoradimon",
+      "type": "natural",
+      "source_species_id": "piccolomon",
+      "source_name": "Piccolomon",
+      "target_species_id": "eldoradimon",
+      "target_name": "El Doradimon",
+      "target_stage": "mega",
+      "chart_order": 18,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "tonosamagekomon__to__eldoradimon",
+      "type": "natural",
+      "source_species_id": "tonosamagekomon",
+      "source_name": "Tonosama Gekomon",
+      "target_species_id": "eldoradimon",
+      "target_name": "El Doradimon",
+      "target_stage": "mega",
+      "chart_order": 19,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "angewomon__to__metaletemon",
+      "type": "natural",
+      "source_species_id": "angewomon",
+      "source_name": "Angewomon",
+      "target_species_id": "metaletemon",
+      "target_name": "Metal Etemon",
+      "target_stage": "mega",
+      "chart_order": 20,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "triceramon__to__metaletemon",
+      "type": "natural",
+      "source_species_id": "triceramon",
+      "source_name": "Triceramon",
+      "target_species_id": "metaletemon",
+      "target_name": "Metal Etemon",
+      "target_stage": "mega",
+      "chart_order": 21,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "tonosamagekomon__to__metaletemon",
+      "type": "natural",
+      "source_species_id": "tonosamagekomon",
+      "source_name": "Tonosama Gekomon",
+      "target_species_id": "metaletemon",
+      "target_name": "Metal Etemon",
+      "target_stage": "mega",
+      "chart_order": 22,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "okuwamon__to__metaletemon",
+      "type": "natural",
+      "source_species_id": "okuwamon",
+      "source_name": "Okuwamon",
+      "target_species_id": "metaletemon",
+      "target_name": "Metal Etemon",
+      "target_stage": "mega",
+      "chart_order": 23,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "piccolomon__to__grankuwagamon",
+      "type": "natural",
+      "source_species_id": "piccolomon",
+      "source_name": "Piccolomon",
+      "target_species_id": "grankuwagamon",
+      "target_name": "Gran Kuwagamon",
+      "target_stage": "mega",
+      "chart_order": 24,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "tonosamagekomon__to__grankuwagamon",
+      "type": "natural",
+      "source_species_id": "tonosamagekomon",
+      "source_name": "Tonosama Gekomon",
+      "target_species_id": "grankuwagamon",
+      "target_name": "Gran Kuwagamon",
+      "target_stage": "mega",
+      "chart_order": 25,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "okuwamon__to__grankuwagamon",
+      "type": "natural",
+      "source_species_id": "okuwamon",
+      "source_name": "Okuwamon",
+      "target_species_id": "grankuwagamon",
+      "target_name": "Gran Kuwagamon",
+      "target_stage": "mega",
+      "chart_order": 26,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "defense": 6550,
+            "speed": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "whamon__to__marinangemon",
+      "type": "natural",
+      "source_species_id": "whamon",
+      "source_name": "Whamon",
+      "target_species_id": "marinangemon",
+      "target_name": "Marin Angemon",
+      "target_stage": "mega",
+      "chart_order": 27,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "zudomon__to__marinangemon",
+      "type": "natural",
+      "source_species_id": "zudomon",
+      "source_name": "Zudomon",
+      "target_species_id": "marinangemon",
+      "target_name": "Marin Angemon",
+      "target_stage": "mega",
+      "chart_order": 28,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megaseadramon__to__marinangemon",
+      "type": "natural",
+      "source_species_id": "megaseadramon",
+      "source_name": "Mega Seadramon",
+      "target_species_id": "marinangemon",
+      "target_name": "Marin Angemon",
+      "target_stage": "mega",
+      "chart_order": 29,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "hangyomon__to__marinangemon",
+      "type": "natural",
+      "source_species_id": "hangyomon",
+      "source_name": "Hangyomon",
+      "target_species_id": "marinangemon",
+      "target_name": "Marin Angemon",
+      "target_stage": "mega",
+      "chart_order": 30,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "thetismon__to__marinangemon",
+      "type": "natural",
+      "source_species_id": "thetismon",
+      "source_name": "Thetismon",
+      "target_species_id": "marinangemon",
+      "target_name": "Marin Angemon",
+      "target_stage": "mega",
+      "chart_order": 31,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "whamon__to__vikemon",
+      "type": "natural",
+      "source_species_id": "whamon",
+      "source_name": "Whamon",
+      "target_species_id": "vikemon",
+      "target_name": "Vikemon",
+      "target_stage": "mega",
+      "chart_order": 32,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "zudomon__to__vikemon",
+      "type": "natural",
+      "source_species_id": "zudomon",
+      "source_name": "Zudomon",
+      "target_species_id": "vikemon",
+      "target_name": "Vikemon",
+      "target_stage": "mega",
+      "chart_order": 33,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "anomalocarimon__to__vikemon",
+      "type": "natural",
+      "source_species_id": "anomalocarimon",
+      "source_name": "Anomalocarimon",
+      "target_species_id": "vikemon",
+      "target_name": "Vikemon",
+      "target_stage": "mega",
+      "chart_order": 34,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megaseadramon__to__metalseadramon",
+      "type": "natural",
+      "source_species_id": "megaseadramon",
+      "source_name": "Mega Seadramon",
+      "target_species_id": "metalseadramon",
+      "target_name": "Metal Seadramon",
+      "target_stage": "mega",
+      "chart_order": 35,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "defense": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "thetismon__to__metalseadramon",
+      "type": "natural",
+      "source_species_id": "thetismon",
+      "source_name": "Thetismon",
+      "target_species_id": "metalseadramon",
+      "target_name": "Metal Seadramon",
+      "target_stage": "mega",
+      "chart_order": 36,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "defense": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "marindevimon__to__metalseadramon",
+      "type": "natural",
+      "source_species_id": "marindevimon",
+      "source_name": "Marin Devimon",
+      "target_species_id": "metalseadramon",
+      "target_name": "Metal Seadramon",
+      "target_stage": "mega",
+      "chart_order": 37,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "defense": 7100,
+            "brains": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "zudomon__to__jumbogamemon",
+      "type": "natural",
+      "source_species_id": "zudomon",
+      "source_name": "Zudomon",
+      "target_species_id": "jumbogamemon",
+      "target_name": "Jumbo Gamemon",
+      "target_stage": "mega",
+      "chart_order": 38,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megaseadramon__to__jumbogamemon",
+      "type": "natural",
+      "source_species_id": "megaseadramon",
+      "source_name": "Mega Seadramon",
+      "target_species_id": "jumbogamemon",
+      "target_name": "Jumbo Gamemon",
+      "target_stage": "mega",
+      "chart_order": 39,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "hangyomon__to__jumbogamemon",
+      "type": "natural",
+      "source_species_id": "hangyomon",
+      "source_name": "Hangyomon",
+      "target_species_id": "jumbogamemon",
+      "target_name": "Jumbo Gamemon",
+      "target_stage": "mega",
+      "chart_order": 40,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "anomalocarimon__to__jumbogamemon",
+      "type": "natural",
+      "source_species_id": "anomalocarimon",
+      "source_name": "Anomalocarimon",
+      "target_species_id": "jumbogamemon",
+      "target_name": "Jumbo Gamemon",
+      "target_stage": "mega",
+      "chart_order": 41,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "whamon__to__plesiomon",
+      "type": "natural",
+      "source_species_id": "whamon",
+      "source_name": "Whamon",
+      "target_species_id": "plesiomon",
+      "target_name": "Plesiomon",
+      "target_stage": "mega",
+      "chart_order": 42,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "anomalocarimon__to__plesiomon",
+      "type": "natural",
+      "source_species_id": "anomalocarimon",
+      "source_name": "Anomalocarimon",
+      "target_species_id": "plesiomon",
+      "target_name": "Plesiomon",
+      "target_stage": "mega",
+      "chart_order": 43,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "hangyomon__to__plesiomon",
+      "type": "natural",
+      "source_species_id": "hangyomon",
+      "source_name": "Hangyomon",
+      "target_species_id": "plesiomon",
+      "target_name": "Plesiomon",
+      "target_stage": "mega",
+      "chart_order": 44,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "dagomon__to__plesiomon",
+      "type": "natural",
+      "source_species_id": "dagomon",
+      "source_name": "Dagomon",
+      "target_species_id": "plesiomon",
+      "target_name": "Plesiomon",
+      "target_stage": "mega",
+      "chart_order": 45,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "thetismon__to__amphimon",
+      "type": "natural",
+      "source_species_id": "thetismon",
+      "source_name": "Thetismon",
+      "target_species_id": "amphimon",
+      "target_name": "Amphimon",
+      "target_stage": "mega",
+      "chart_order": 46,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megaseadramon__to__pukumon",
+      "type": "natural",
+      "source_species_id": "megaseadramon",
+      "source_name": "Mega Seadramon",
+      "target_species_id": "pukumon",
+      "target_name": "Pukumon",
+      "target_stage": "mega",
+      "chart_order": 47,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "dagomon__to__pukumon",
+      "type": "natural",
+      "source_species_id": "dagomon",
+      "source_name": "Dagomon",
+      "target_species_id": "pukumon",
+      "target_name": "Pukumon",
+      "target_stage": "mega",
+      "chart_order": 48,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "marindevimon__to__pukumon",
+      "type": "natural",
+      "source_species_id": "marindevimon",
+      "source_name": "Marin Devimon",
+      "target_species_id": "pukumon",
+      "target_name": "Pukumon",
+      "target_stage": "mega",
+      "chart_order": 49,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "anomalocarimon__to__cthyllamon",
+      "type": "natural",
+      "source_species_id": "anomalocarimon",
+      "source_name": "Anomalocarimon",
+      "target_species_id": "cthyllamon",
+      "target_name": "Cthyllamon",
+      "target_stage": "mega",
+      "chart_order": 50,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "hangyomon__to__cthyllamon",
+      "type": "natural",
+      "source_species_id": "hangyomon",
+      "source_name": "Hangyomon",
+      "target_species_id": "cthyllamon",
+      "target_name": "Cthyllamon",
+      "target_stage": "mega",
+      "chart_order": 51,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "thetismon__to__cthyllamon",
+      "type": "natural",
+      "source_species_id": "thetismon",
+      "source_name": "Thetismon",
+      "target_species_id": "cthyllamon",
+      "target_name": "Cthyllamon",
+      "target_stage": "mega",
+      "chart_order": 52,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "dagomon__to__cthyllamon",
+      "type": "natural",
+      "source_species_id": "dagomon",
+      "source_name": "Dagomon",
+      "target_species_id": "cthyllamon",
+      "target_name": "Cthyllamon",
+      "target_stage": "mega",
+      "chart_order": 53,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "marindevimon__to__cthyllamon",
+      "type": "natural",
+      "source_species_id": "marindevimon",
+      "source_name": "Marin Devimon",
+      "target_species_id": "cthyllamon",
+      "target_name": "Cthyllamon",
+      "target_stage": "mega",
+      "chart_order": 54,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "picodevimon__to__bakemon",
+      "type": "natural",
+      "source_species_id": "picodevimon",
+      "source_name": "Pico Devimon",
+      "target_species_id": "bakemon",
+      "target_name": "Bakemon",
+      "target_stage": "champion",
+      "chart_order": 55,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 11000,
+            "mp": 12500,
+            "offense": 1400,
+            "defense": 1100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "loogamon__to__bakemon",
+      "type": "natural",
+      "source_species_id": "loogamon",
+      "source_name": "Loogamon",
+      "target_species_id": "bakemon",
+      "target_name": "Bakemon",
+      "target_stage": "champion",
+      "chart_order": 56,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 11000,
+            "mp": 12500,
+            "offense": 1400,
+            "defense": 1100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "mammon__to__skullmammon",
+      "type": "natural",
+      "source_species_id": "mammon",
+      "source_name": "Mammon",
+      "target_species_id": "skullmammon",
+      "target_name": "Skull Mammon",
+      "target_stage": "mega",
+      "chart_order": 57,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "weregarurumon__to__skullmammon",
+      "type": "natural",
+      "source_species_id": "weregarurumon",
+      "source_name": "Were Garurumon",
+      "target_species_id": "skullmammon",
+      "target_name": "Skull Mammon",
+      "target_stage": "mega",
+      "chart_order": 58,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "deathmeramon__to__skullmammon",
+      "type": "natural",
+      "source_species_id": "deathmeramon",
+      "source_name": "Death Meramon",
+      "target_species_id": "skullmammon",
+      "target_name": "Skull Mammon",
+      "target_stage": "mega",
+      "chart_order": 59,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "mammon__to__anubimon",
+      "type": "natural",
+      "source_species_id": "mammon",
+      "source_name": "Mammon",
+      "target_species_id": "anubimon",
+      "target_name": "Anubimon",
+      "target_stage": "mega",
+      "chart_order": 60,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "weregarurumon__to__anubimon",
+      "type": "natural",
+      "source_species_id": "weregarurumon",
+      "source_name": "Were Garurumon",
+      "target_species_id": "anubimon",
+      "target_name": "Anubimon",
+      "target_stage": "mega",
+      "chart_order": 61,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pumpmon__to__anubimon",
+      "type": "natural",
+      "source_species_id": "pumpmon",
+      "source_name": "Pumpmon",
+      "target_species_id": "anubimon",
+      "target_name": "Anubimon",
+      "target_stage": "mega",
+      "chart_order": 62,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "mammon__to__boltmon",
+      "type": "natural",
+      "source_species_id": "mammon",
+      "source_name": "Mammon",
+      "target_species_id": "boltmon",
+      "target_name": "Boltmon",
+      "target_stage": "mega",
+      "chart_order": 63,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "deathmeramon__to__boltmon",
+      "type": "natural",
+      "source_species_id": "deathmeramon",
+      "source_name": "Death Meramon",
+      "target_species_id": "boltmon",
+      "target_name": "Boltmon",
+      "target_stage": "mega",
+      "chart_order": 64,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pumpmon__to__boltmon",
+      "type": "natural",
+      "source_species_id": "pumpmon",
+      "source_name": "Pumpmon",
+      "target_species_id": "boltmon",
+      "target_name": "Boltmon",
+      "target_stage": "mega",
+      "chart_order": 65,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "vamdemon__to__boltmon",
+      "type": "natural",
+      "source_species_id": "vamdemon",
+      "source_name": "Vamdemon",
+      "target_species_id": "boltmon",
+      "target_name": "Boltmon",
+      "target_stage": "mega",
+      "chart_order": 66,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "soloogarmon__to__boltmon",
+      "type": "natural",
+      "source_species_id": "soloogarmon",
+      "source_name": "Soloogarmon",
+      "target_species_id": "boltmon",
+      "target_name": "Boltmon",
+      "target_stage": "mega",
+      "chart_order": 67,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "weregarurumon__to__noblepumpmon",
+      "type": "natural",
+      "source_species_id": "weregarurumon",
+      "source_name": "Were Garurumon",
+      "target_species_id": "noblepumpmon",
+      "target_name": "Noble Pumpmon",
+      "target_stage": "mega",
+      "chart_order": 68,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "deathmeramon__to__noblepumpmon",
+      "type": "natural",
+      "source_species_id": "deathmeramon",
+      "source_name": "Death Meramon",
+      "target_species_id": "noblepumpmon",
+      "target_name": "Noble Pumpmon",
+      "target_stage": "mega",
+      "chart_order": 69,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pumpmon__to__noblepumpmon",
+      "type": "natural",
+      "source_species_id": "pumpmon",
+      "source_name": "Pumpmon",
+      "target_species_id": "noblepumpmon",
+      "target_name": "Noble Pumpmon",
+      "target_stage": "mega",
+      "chart_order": 70,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "fantomon__to__noblepumpmon",
+      "type": "natural",
+      "source_species_id": "fantomon",
+      "source_name": "Fantomon",
+      "target_species_id": "noblepumpmon",
+      "target_name": "Noble Pumpmon",
+      "target_stage": "mega",
+      "chart_order": 71,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "ladydevimon__to__noblepumpmon",
+      "type": "natural",
+      "source_species_id": "ladydevimon",
+      "source_name": "Lady Devimon",
+      "target_species_id": "noblepumpmon",
+      "target_name": "Noble Pumpmon",
+      "target_stage": "mega",
+      "chart_order": 72,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "vamdemon__to__callismon",
+      "type": "natural",
+      "source_species_id": "vamdemon",
+      "source_name": "Vamdemon",
+      "target_species_id": "callismon",
+      "target_name": "Callismon",
+      "target_stage": "mega",
+      "chart_order": 73,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "fantomon__to__callismon",
+      "type": "natural",
+      "source_species_id": "fantomon",
+      "source_name": "Fantomon",
+      "target_species_id": "callismon",
+      "target_name": "Callismon",
+      "target_stage": "mega",
+      "chart_order": 74,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "soloogarmon__to__callismon",
+      "type": "natural",
+      "source_species_id": "soloogarmon",
+      "source_name": "Soloogarmon",
+      "target_species_id": "callismon",
+      "target_name": "Callismon",
+      "target_stage": "mega",
+      "chart_order": 75,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "deathmeramon__to__demon",
+      "type": "natural",
+      "source_species_id": "deathmeramon",
+      "source_name": "Death Meramon",
+      "target_species_id": "demon",
+      "target_name": "Demon",
+      "target_stage": "mega",
+      "chart_order": 76,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "fantomon__to__demon",
+      "type": "natural",
+      "source_species_id": "fantomon",
+      "source_name": "Fantomon",
+      "target_species_id": "demon",
+      "target_name": "Demon",
+      "target_stage": "mega",
+      "chart_order": 77,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "ladydevimon__to__demon",
+      "type": "natural",
+      "source_species_id": "ladydevimon",
+      "source_name": "Lady Devimon",
+      "target_species_id": "demon",
+      "target_name": "Demon",
+      "target_stage": "mega",
+      "chart_order": 78,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pumpmon__to__piemon",
+      "type": "natural",
+      "source_species_id": "pumpmon",
+      "source_name": "Pumpmon",
+      "target_species_id": "piemon",
+      "target_name": "Piemon",
+      "target_stage": "mega",
+      "chart_order": 79,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "vamdemon__to__piemon",
+      "type": "natural",
+      "source_species_id": "vamdemon",
+      "source_name": "Vamdemon",
+      "target_species_id": "piemon",
+      "target_name": "Piemon",
+      "target_stage": "mega",
+      "chart_order": 80,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "ladydevimon__to__piemon",
+      "type": "natural",
+      "source_species_id": "ladydevimon",
+      "source_name": "Lady Devimon",
+      "target_species_id": "piemon",
+      "target_name": "Piemon",
+      "target_stage": "mega",
+      "chart_order": 81,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "soloogarmon__to__fenriloogamon",
+      "type": "natural",
+      "source_species_id": "soloogarmon",
+      "source_name": "Soloogarmon",
+      "target_species_id": "fenriloogamon",
+      "target_name": "Fenriloogamon",
+      "target_stage": "mega",
+      "chart_order": 82,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "aerovdramon__to__ulforcevdramon",
+      "type": "natural",
+      "source_species_id": "aerovdramon",
+      "source_name": "Aero V-dramon",
+      "target_species_id": "ulforcevdramon",
+      "target_name": "Ulforce V-dramon",
+      "target_stage": "mega",
+      "chart_order": 83,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "garudamon__to__ulforcevdramon",
+      "type": "natural",
+      "source_species_id": "garudamon",
+      "source_name": "Garudamon",
+      "target_species_id": "ulforcevdramon",
+      "target_name": "Ulforce V-dramon",
+      "target_stage": "mega",
+      "chart_order": 84,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "blossomon__to__ulforcevdramon",
+      "type": "natural",
+      "source_species_id": "blossomon",
+      "source_name": "Blossomon",
+      "target_species_id": "ulforcevdramon",
+      "target_name": "Ulforce V-dramon",
+      "target_stage": "mega",
+      "chart_order": 85,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "grandgalemon__to__ulforcevdramon",
+      "type": "natural",
+      "source_species_id": "grandgalemon",
+      "source_name": "Grand Galemon",
+      "target_species_id": "ulforcevdramon",
+      "target_name": "Ulforce V-dramon",
+      "target_stage": "mega",
+      "chart_order": 86,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "aerovdramon__to__hououmon",
+      "type": "natural",
+      "source_species_id": "aerovdramon",
+      "source_name": "Aero V-dramon",
+      "target_species_id": "hououmon",
+      "target_name": "Hououmon",
+      "target_stage": "mega",
+      "chart_order": 87,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "garudamon__to__hououmon",
+      "type": "natural",
+      "source_species_id": "garudamon",
+      "source_name": "Garudamon",
+      "target_species_id": "hououmon",
+      "target_name": "Hououmon",
+      "target_stage": "mega",
+      "chart_order": 88,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lilimon__to__hououmon",
+      "type": "natural",
+      "source_species_id": "lilimon",
+      "source_name": "Lilimon",
+      "target_species_id": "hououmon",
+      "target_name": "Hououmon",
+      "target_stage": "mega",
+      "chart_order": 89,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "delumon__to__hououmon",
+      "type": "natural",
+      "source_species_id": "delumon",
+      "source_name": "Delumon",
+      "target_species_id": "hououmon",
+      "target_name": "Hououmon",
+      "target_stage": "mega",
+      "chart_order": 90,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "mp": 60000,
+            "speed": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lilimon__to__rosemon",
+      "type": "natural",
+      "source_species_id": "lilimon",
+      "source_name": "Lilimon",
+      "target_species_id": "rosemon",
+      "target_name": "Rosemon",
+      "target_stage": "mega",
+      "chart_order": 91,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "delumon__to__rosemon",
+      "type": "natural",
+      "source_species_id": "delumon",
+      "source_name": "Delumon",
+      "target_species_id": "rosemon",
+      "target_name": "Rosemon",
+      "target_stage": "mega",
+      "chart_order": 92,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "jyureimon__to__rosemon",
+      "type": "natural",
+      "source_species_id": "jyureimon",
+      "source_name": "Jyureimon",
+      "target_species_id": "rosemon",
+      "target_name": "Rosemon",
+      "target_stage": "mega",
+      "chart_order": 93,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "aerovdramon__to__rafflesimon",
+      "type": "natural",
+      "source_species_id": "aerovdramon",
+      "source_name": "Aero V-dramon",
+      "target_species_id": "rafflesimon",
+      "target_name": "Rafflesimon",
+      "target_stage": "mega",
+      "chart_order": 94,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lilimon__to__rafflesimon",
+      "type": "natural",
+      "source_species_id": "lilimon",
+      "source_name": "Lilimon",
+      "target_species_id": "rafflesimon",
+      "target_name": "Rafflesimon",
+      "target_stage": "mega",
+      "chart_order": 95,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "blossomon__to__rafflesimon",
+      "type": "natural",
+      "source_species_id": "blossomon",
+      "source_name": "Blossomon",
+      "target_species_id": "rafflesimon",
+      "target_name": "Rafflesimon",
+      "target_stage": "mega",
+      "chart_order": 96,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "gerbemon__to__rafflesimon",
+      "type": "natural",
+      "source_species_id": "gerbemon",
+      "source_name": "Gerbemon",
+      "target_species_id": "rafflesimon",
+      "target_name": "Rafflesimon",
+      "target_stage": "mega",
+      "chart_order": 97,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "garudamon__to__griffomon",
+      "type": "natural",
+      "source_species_id": "garudamon",
+      "source_name": "Garudamon",
+      "target_species_id": "griffomon",
+      "target_name": "Griffomon",
+      "target_stage": "mega",
+      "chart_order": 98,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "blossomon__to__griffomon",
+      "type": "natural",
+      "source_species_id": "blossomon",
+      "source_name": "Blossomon",
+      "target_species_id": "griffomon",
+      "target_name": "Griffomon",
+      "target_stage": "mega",
+      "chart_order": 99,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "delumon__to__griffomon",
+      "type": "natural",
+      "source_species_id": "delumon",
+      "source_name": "Delumon",
+      "target_species_id": "griffomon",
+      "target_name": "Griffomon",
+      "target_stage": "mega",
+      "chart_order": 100,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "grandgalemon__to__zephagamon",
+      "type": "natural",
+      "source_species_id": "grandgalemon",
+      "source_name": "Grand Galemon",
+      "target_species_id": "zephagamon",
+      "target_name": "Zephagamon",
+      "target_stage": "mega",
+      "chart_order": 101,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "gerbemon__to__zephagamon",
+      "type": "natural",
+      "source_species_id": "gerbemon",
+      "source_name": "Gerbemon",
+      "target_species_id": "zephagamon",
+      "target_name": "Zephagamon",
+      "target_stage": "mega",
+      "chart_order": 102,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "delumon__to__pinochimon",
+      "type": "natural",
+      "source_species_id": "delumon",
+      "source_name": "Delumon",
+      "target_species_id": "pinochimon",
+      "target_name": "Pinochimon",
+      "target_stage": "mega",
+      "chart_order": 103,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "grandgalemon__to__pinochimon",
+      "type": "natural",
+      "source_species_id": "grandgalemon",
+      "source_name": "Grand Galemon",
+      "target_species_id": "pinochimon",
+      "target_name": "Pinochimon",
+      "target_stage": "mega",
+      "chart_order": 104,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "jyureimon__to__pinochimon",
+      "type": "natural",
+      "source_species_id": "jyureimon",
+      "source_name": "Jyureimon",
+      "target_species_id": "pinochimon",
+      "target_name": "Pinochimon",
+      "target_stage": "mega",
+      "chart_order": 105,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "gerbemon__to__pinochimon",
+      "type": "natural",
+      "source_species_id": "gerbemon",
+      "source_name": "Gerbemon",
+      "target_species_id": "pinochimon",
+      "target_name": "Pinochimon",
+      "target_stage": "mega",
+      "chart_order": 106,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "lilimon__to__hydramon",
+      "type": "natural",
+      "source_species_id": "lilimon",
+      "source_name": "Lilimon",
+      "target_species_id": "hydramon",
+      "target_name": "Hydramon",
+      "target_stage": "mega",
+      "chart_order": 107,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "blossomon__to__hydramon",
+      "type": "natural",
+      "source_species_id": "blossomon",
+      "source_name": "Blossomon",
+      "target_species_id": "hydramon",
+      "target_name": "Hydramon",
+      "target_stage": "mega",
+      "chart_order": 108,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "jyureimon__to__hydramon",
+      "type": "natural",
+      "source_species_id": "jyureimon",
+      "source_name": "Jyureimon",
+      "target_species_id": "hydramon",
+      "target_name": "Hydramon",
+      "target_stage": "mega",
+      "chart_order": 109,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "gerbemon__to__hydramon",
+      "type": "natural",
+      "source_species_id": "gerbemon",
+      "source_name": "Gerbemon",
+      "target_species_id": "hydramon",
+      "target_name": "Hydramon",
+      "target_stage": "mega",
+      "chart_order": 110,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "clockmon__to__warumonzaemon",
+      "type": "natural",
+      "source_species_id": "clockmon",
+      "source_name": "Clockmon",
+      "target_species_id": "warumonzaemon",
+      "target_name": "Waru Monzaemon",
+      "target_stage": "ultimate",
+      "chart_order": 111,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 36500,
+            "mp": 40500,
+            "offense": 4450,
+            "defense": 3650
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "thunderballmon__to__warumonzaemon",
+      "type": "natural",
+      "source_species_id": "thunderballmon",
+      "source_name": "Thunderballmon",
+      "target_species_id": "warumonzaemon",
+      "target_name": "Waru Monzaemon",
+      "target_stage": "ultimate",
+      "chart_order": 112,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 36500,
+            "mp": 40500,
+            "offense": 4450,
+            "defense": 3650
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "guardromon__to__warumonzaemon",
+      "type": "natural",
+      "source_species_id": "guardromon",
+      "source_name": "Guardromon",
+      "target_species_id": "warumonzaemon",
+      "target_name": "Waru Monzaemon",
+      "target_stage": "ultimate",
+      "chart_order": 113,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 36500,
+            "mp": 40500,
+            "offense": 4450,
+            "defense": 3650
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "mechanorimon__to__warumonzaemon",
+      "type": "natural",
+      "source_species_id": "mechanorimon",
+      "source_name": "Mechanorimon",
+      "target_species_id": "warumonzaemon",
+      "target_name": "Waru Monzaemon",
+      "target_stage": "ultimate",
+      "chart_order": 114,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 36500,
+            "mp": 40500,
+            "offense": 4450,
+            "defense": 3650
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "knightmon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "knightmon",
+      "source_name": "Knightmon",
+      "target_species_id": "wargreymon",
+      "target_name": "War Greymon",
+      "target_stage": "mega",
+      "chart_order": 115,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "cargodramon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "cargodramon",
+      "source_name": "Cargodramon",
+      "target_species_id": "wargreymon",
+      "target_name": "War Greymon",
+      "target_stage": "mega",
+      "chart_order": 116,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "andromon__to__hiandromon",
+      "type": "natural",
+      "source_species_id": "andromon",
+      "source_name": "Andromon",
+      "target_species_id": "hiandromon",
+      "target_name": "Hi Andromon",
+      "target_stage": "mega",
+      "chart_order": 117,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "cyberdramon__to__hiandromon",
+      "type": "natural",
+      "source_species_id": "cyberdramon",
+      "source_name": "Cyberdramon",
+      "target_species_id": "hiandromon",
+      "target_name": "Hi Andromon",
+      "target_stage": "mega",
+      "chart_order": 118,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "bigmamemon__to__hiandromon",
+      "type": "natural",
+      "source_species_id": "bigmamemon",
+      "source_name": "Big Mamemon",
+      "target_species_id": "hiandromon",
+      "target_name": "Hi Andromon",
+      "target_stage": "mega",
+      "chart_order": 119,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megadramon__to__hiandromon",
+      "type": "natural",
+      "source_species_id": "megadramon",
+      "source_name": "Megadramon",
+      "target_species_id": "hiandromon",
+      "target_name": "Hi Andromon",
+      "target_stage": "mega",
+      "chart_order": 120,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "andromon__to__ragnamon",
+      "type": "natural",
+      "source_species_id": "andromon",
+      "source_name": "Andromon",
+      "target_species_id": "ragnamon",
+      "target_name": "Ragnamon",
+      "target_stage": "mega",
+      "chart_order": 121,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "cyberdramon__to__ragnamon",
+      "type": "natural",
+      "source_species_id": "cyberdramon",
+      "source_name": "Cyberdramon",
+      "target_species_id": "ragnamon",
+      "target_name": "Ragnamon",
+      "target_stage": "mega",
+      "chart_order": 122,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "bigmamemon__to__ragnamon",
+      "type": "natural",
+      "source_species_id": "bigmamemon",
+      "source_name": "Big Mamemon",
+      "target_species_id": "ragnamon",
+      "target_name": "Ragnamon",
+      "target_stage": "mega",
+      "chart_order": 123,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "knightmon__to__ragnamon",
+      "type": "natural",
+      "source_species_id": "knightmon",
+      "source_name": "Knightmon",
+      "target_species_id": "ragnamon",
+      "target_name": "Ragnamon",
+      "target_stage": "mega",
+      "chart_order": 124,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "andromon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "andromon",
+      "source_name": "Andromon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 125,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "bigmamemon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "bigmamemon",
+      "source_name": "Big Mamemon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 126,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "warumonzaemon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "warumonzaemon",
+      "source_name": "Waru Monzaemon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 127,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "knightmon__to__zekegreymon",
+      "type": "natural",
+      "source_species_id": "knightmon",
+      "source_name": "Knightmon",
+      "target_species_id": "zekegreymon",
+      "target_name": "Zeke Greymon",
+      "target_stage": "mega",
+      "chart_order": 128,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megadramon__to__zekegreymon",
+      "type": "natural",
+      "source_species_id": "megadramon",
+      "source_name": "Megadramon",
+      "target_species_id": "zekegreymon",
+      "target_name": "Zeke Greymon",
+      "target_stage": "mega",
+      "chart_order": 129,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "warumonzaemon__to__zekegreymon",
+      "type": "natural",
+      "source_species_id": "warumonzaemon",
+      "source_name": "Waru Monzaemon",
+      "target_species_id": "zekegreymon",
+      "target_name": "Zeke Greymon",
+      "target_stage": "mega",
+      "chart_order": 130,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megadramon__to__mugendramon",
+      "type": "natural",
+      "source_species_id": "megadramon",
+      "source_name": "Megadramon",
+      "target_species_id": "mugendramon",
+      "target_name": "Mugendramon",
+      "target_stage": "mega",
+      "chart_order": 131,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "cargodramon__to__mugendramon",
+      "type": "natural",
+      "source_species_id": "cargodramon",
+      "source_name": "Cargodramon",
+      "target_species_id": "mugendramon",
+      "target_name": "Mugendramon",
+      "target_stage": "mega",
+      "chart_order": 132,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "cyberdramon__to__venomvamdemon",
+      "type": "natural",
+      "source_species_id": "cyberdramon",
+      "source_name": "Cyberdramon",
+      "target_species_id": "venomvamdemon",
+      "target_name": "Venom Vamdemon",
+      "target_stage": "mega",
+      "chart_order": 133,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "bigmamemon__to__venomvamdemon",
+      "type": "natural",
+      "source_species_id": "bigmamemon",
+      "source_name": "Big Mamemon",
+      "target_species_id": "venomvamdemon",
+      "target_name": "Venom Vamdemon",
+      "target_stage": "mega",
+      "chart_order": 134,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "knightmon__to__venomvamdemon",
+      "type": "natural",
+      "source_species_id": "knightmon",
+      "source_name": "Knightmon",
+      "target_species_id": "venomvamdemon",
+      "target_name": "Venom Vamdemon",
+      "target_stage": "mega",
+      "chart_order": 135,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "warumonzaemon__to__venomvamdemon",
+      "type": "natural",
+      "source_species_id": "warumonzaemon",
+      "source_name": "Waru Monzaemon",
+      "target_species_id": "venomvamdemon",
+      "target_name": "Venom Vamdemon",
+      "target_stage": "mega",
+      "chart_order": 136,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "megadramon__to__brigadramon",
+      "type": "natural",
+      "source_species_id": "megadramon",
+      "source_name": "Megadramon",
+      "target_species_id": "brigadramon",
+      "target_name": "Brigadramon",
+      "target_stage": "mega",
+      "chart_order": 137,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "cargodramon__to__brigadramon",
+      "type": "natural",
+      "source_species_id": "cargodramon",
+      "source_name": "Cargodramon",
+      "target_species_id": "brigadramon",
+      "target_name": "Brigadramon",
+      "target_stage": "mega",
+      "chart_order": 138,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "defense": 6000,
+            "offense": 6550,
+            "brains": 7100
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "asuramon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "asuramon",
+      "source_name": "Asuramon",
+      "target_species_id": "wargreymon",
+      "target_name": "War Greymon",
+      "target_stage": "mega",
+      "chart_order": 139,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "metalmamemon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "metalmamemon",
+      "source_name": "Metal Mamemon",
+      "target_species_id": "wargreymon",
+      "target_name": "War Greymon",
+      "target_stage": "mega",
+      "chart_order": 140,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "holyangemon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "holyangemon",
+      "source_name": "Holy Angemon",
+      "target_species_id": "wargreymon",
+      "target_name": "War Greymon",
+      "target_stage": "mega",
+      "chart_order": 141,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "canoweissmon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "canoweissmon",
+      "source_name": "Canoweissmon",
+      "target_species_id": "wargreymon",
+      "target_name": "War Greymon",
+      "target_stage": "mega",
+      "chart_order": 142,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "asuramon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "asuramon",
+      "source_name": "Asuramon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 143,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "weregarurumon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "weregarurumon",
+      "source_name": "Were Garurumon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 144,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "metalmamemon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "metalmamemon",
+      "source_name": "Metal Mamemon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 145,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "holyangemon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "holyangemon",
+      "source_name": "Holy Angemon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 146,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "regulusmon__to__metalgarurumon",
+      "type": "natural",
+      "source_species_id": "regulusmon",
+      "source_name": "Regulusmon",
+      "target_species_id": "metalgarurumon",
+      "target_name": "Metal Garurumon",
+      "target_stage": "mega",
+      "chart_order": 147,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "speed": 6000,
+            "offense": 6550
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "asuramon__to__dominimon",
+      "type": "natural",
+      "source_species_id": "asuramon",
+      "source_name": "Asuramon",
+      "target_species_id": "dominimon",
+      "target_name": "Dominimon",
+      "target_stage": "mega",
+      "chart_order": 148,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "holyangemon__to__dominimon",
+      "type": "natural",
+      "source_species_id": "holyangemon",
+      "source_name": "Holy Angemon",
+      "target_species_id": "dominimon",
+      "target_name": "Dominimon",
+      "target_stage": "mega",
+      "chart_order": 149,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "weregarurumon__to__dominimon",
+      "type": "natural",
+      "source_species_id": "weregarurumon",
+      "source_name": "Were Garurumon",
+      "target_species_id": "dominimon",
+      "target_name": "Dominimon",
+      "target_stage": "mega",
+      "chart_order": 150,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "angewomon__to__dominimon",
+      "type": "natural",
+      "source_species_id": "angewomon",
+      "source_name": "Angewomon",
+      "target_species_id": "dominimon",
+      "target_name": "Dominimon",
+      "target_stage": "mega",
+      "chart_order": 151,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "metalmamemon__to__quantumon",
+      "type": "natural",
+      "source_species_id": "metalmamemon",
+      "source_name": "Metal Mamemon",
+      "target_species_id": "quantumon",
+      "target_name": "Quantumon",
+      "target_stage": "mega",
+      "chart_order": 152,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "weregarurumon__to__quantumon",
+      "type": "natural",
+      "source_species_id": "weregarurumon",
+      "source_name": "Were Garurumon",
+      "target_species_id": "quantumon",
+      "target_name": "Quantumon",
+      "target_stage": "mega",
+      "chart_order": 153,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "angewomon__to__quantumon",
+      "type": "natural",
+      "source_species_id": "angewomon",
+      "source_name": "Angewomon",
+      "target_species_id": "quantumon",
+      "target_name": "Quantumon",
+      "target_stage": "mega",
+      "chart_order": 154,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "metalmamemon__to__siriusmon",
+      "type": "natural",
+      "source_species_id": "metalmamemon",
+      "source_name": "Metal Mamemon",
+      "target_species_id": "siriusmon",
+      "target_name": "Siriusmon",
+      "target_stage": "mega",
+      "chart_order": 155,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "canoweissmon__to__siriusmon",
+      "type": "natural",
+      "source_species_id": "canoweissmon",
+      "source_name": "Canoweissmon",
+      "target_species_id": "siriusmon",
+      "target_name": "Siriusmon",
+      "target_stage": "mega",
+      "chart_order": 156,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "regulusmon__to__siriusmon",
+      "type": "natural",
+      "source_species_id": "regulusmon",
+      "source_name": "Regulusmon",
+      "target_species_id": "siriusmon",
+      "target_name": "Siriusmon",
+      "target_stage": "mega",
+      "chart_order": 157,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "metalmamemon__to__arcturusmon",
+      "type": "natural",
+      "source_species_id": "metalmamemon",
+      "source_name": "Metal Mamemon",
+      "target_species_id": "arcturusmon",
+      "target_name": "Arcturusmon",
+      "target_stage": "mega",
+      "chart_order": 158,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "canoweissmon__to__arcturusmon",
+      "type": "natural",
+      "source_species_id": "canoweissmon",
+      "source_name": "Canoweissmon",
+      "target_species_id": "arcturusmon",
+      "target_name": "Arcturusmon",
+      "target_stage": "mega",
+      "chart_order": 159,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "regulusmon__to__arcturusmon",
+      "type": "natural",
+      "source_species_id": "regulusmon",
+      "source_name": "Regulusmon",
+      "target_species_id": "arcturusmon",
+      "target_name": "Arcturusmon",
+      "target_stage": "mega",
+      "chart_order": 160,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sanzomon__to__erlangmon",
+      "type": "natural",
+      "source_species_id": "sanzomon",
+      "source_name": "Sanzomon",
+      "target_species_id": "erlangmon",
+      "target_name": "Erlangmon",
+      "target_stage": "mega",
+      "chart_order": 161,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pandamon__to__erlangmon",
+      "type": "natural",
+      "source_species_id": "pandamon",
+      "source_name": "Pandamon",
+      "target_species_id": "erlangmon",
+      "target_name": "Erlangmon",
+      "target_stage": "mega",
+      "chart_order": 162,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "huankunmon__to__xiangpengmon",
+      "type": "natural",
+      "source_species_id": "huankunmon",
+      "source_name": "Huankunmon",
+      "target_species_id": "xiangpengmon",
+      "target_name": "Xiangpengmon",
+      "target_stage": "mega",
+      "chart_order": 163,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sagomon__to__xiangpengmon",
+      "type": "natural",
+      "source_species_id": "sagomon",
+      "source_name": "Sagomon",
+      "target_species_id": "xiangpengmon",
+      "target_name": "Xiangpengmon",
+      "target_stage": "mega",
+      "chart_order": 164,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "huankunmon__to__shagaramon",
+      "type": "natural",
+      "source_species_id": "huankunmon",
+      "source_name": "Huankunmon",
+      "target_species_id": "shagaramon",
+      "target_name": "Shagaramon",
+      "target_stage": "mega",
+      "chart_order": 165,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "chohakkaimon__to__shagaramon",
+      "type": "natural",
+      "source_species_id": "chohakkaimon",
+      "source_name": "Cho-Hakkaimon",
+      "target_species_id": "shagaramon",
+      "target_name": "Shagaramon",
+      "target_stage": "mega",
+      "chart_order": 166,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pandamon__to__shagaramon",
+      "type": "natural",
+      "source_species_id": "pandamon",
+      "source_name": "Pandamon",
+      "target_species_id": "shagaramon",
+      "target_name": "Shagaramon",
+      "target_stage": "mega",
+      "chart_order": 167,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sagomon__to__shagaramon",
+      "type": "natural",
+      "source_species_id": "sagomon",
+      "source_name": "Sagomon",
+      "target_species_id": "shagaramon",
+      "target_name": "Shagaramon",
+      "target_stage": "mega",
+      "chart_order": 168,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sanzomon__to__nezhamon",
+      "type": "natural",
+      "source_species_id": "sanzomon",
+      "source_name": "Sanzomon",
+      "target_species_id": "nezhamon",
+      "target_name": "Nezhamon",
+      "target_stage": "mega",
+      "chart_order": 169,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "chohakkaimon__to__nezhamon",
+      "type": "natural",
+      "source_species_id": "chohakkaimon",
+      "source_name": "Cho-Hakkaimon",
+      "target_species_id": "nezhamon",
+      "target_name": "Nezhamon",
+      "target_stage": "mega",
+      "chart_order": 170,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "pandamon__to__nezhamon",
+      "type": "natural",
+      "source_species_id": "pandamon",
+      "source_name": "Pandamon",
+      "target_species_id": "nezhamon",
+      "target_name": "Nezhamon",
+      "target_stage": "mega",
+      "chart_order": 171,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "gokuwmon__to__nezhamon",
+      "type": "natural",
+      "source_species_id": "gokuwmon",
+      "source_name": "Gokuwmon",
+      "target_species_id": "nezhamon",
+      "target_name": "Nezhamon",
+      "target_stage": "mega",
+      "chart_order": 172,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "huankunmon__to__dijiangmon",
+      "type": "natural",
+      "source_species_id": "huankunmon",
+      "source_name": "Huankunmon",
+      "target_species_id": "dijiangmon",
+      "target_name": "Dijiangmon",
+      "target_stage": "mega",
+      "chart_order": 173,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "chohakkaimon__to__dijiangmon",
+      "type": "natural",
+      "source_species_id": "chohakkaimon",
+      "source_name": "Cho-Hakkaimon",
+      "target_species_id": "dijiangmon",
+      "target_name": "Dijiangmon",
+      "target_stage": "mega",
+      "chart_order": 174,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "gokuwmon__to__dijiangmon",
+      "type": "natural",
+      "source_species_id": "gokuwmon",
+      "source_name": "Gokuwmon",
+      "target_species_id": "dijiangmon",
+      "target_name": "Dijiangmon",
+      "target_stage": "mega",
+      "chart_order": 175,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "xingtianmon__to__dijiangmon",
+      "type": "natural",
+      "source_species_id": "xingtianmon",
+      "source_name": "Xingtianmon",
+      "target_species_id": "dijiangmon",
+      "target_name": "Dijiangmon",
+      "target_stage": "mega",
+      "chart_order": 176,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sanzomon__to__takutoumon",
+      "type": "natural",
+      "source_species_id": "sanzomon",
+      "source_name": "Sanzomon",
+      "target_species_id": "takutoumon",
+      "target_name": "Takutoumon",
+      "target_stage": "mega",
+      "chart_order": 177,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "xingtianmon__to__takutoumon",
+      "type": "natural",
+      "source_species_id": "xingtianmon",
+      "source_name": "Xingtianmon",
+      "target_species_id": "takutoumon",
+      "target_name": "Takutoumon",
+      "target_stage": "mega",
+      "chart_order": 178,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sagomon__to__takutoumon",
+      "type": "natural",
+      "source_species_id": "sagomon",
+      "source_name": "Sagomon",
+      "target_species_id": "takutoumon",
+      "target_name": "Takutoumon",
+      "target_stage": "mega",
+      "chart_order": 179,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "chohakkaimon__to__jougamon",
+      "type": "natural",
+      "source_species_id": "chohakkaimon",
+      "source_name": "Cho-Hakkaimon",
+      "target_species_id": "jougamon",
+      "target_name": "Jougamon",
+      "target_stage": "mega",
+      "chart_order": 180,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "erlangmon__to__erlangmonblastmode",
+      "type": "natural",
+      "source_species_id": "erlangmon",
+      "source_name": "Erlangmon",
+      "target_species_id": "erlangmonblastmode",
+      "target_name": "Erlangmon: Blast Mode",
+      "target_stage": "mega",
+      "chart_order": 181,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "nezhamon__to__nezhamoncrimsonmode",
+      "type": "natural",
+      "source_species_id": "nezhamon",
+      "source_name": "Nezhamon",
+      "target_species_id": "nezhamoncrimsonmode",
+      "target_name": "Nezhamon: Crimson Mode",
+      "target_stage": "mega",
+      "chart_order": 182,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "takutoumon__to__takutoumonwrathmode",
+      "type": "natural",
+      "source_species_id": "takutoumon",
+      "source_name": "Takutoumon",
+      "target_species_id": "takutoumonwrathmode",
+      "target_name": "Takutoumon: Wrath Mode",
+      "target_stage": "mega",
+      "chart_order": 183,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karakurumon__to__ravmon",
+      "type": "natural",
+      "source_species_id": "karakurumon",
+      "source_name": "Karakurumon",
+      "target_species_id": "ravmon",
+      "target_name": "Ravmon",
+      "target_stage": "mega",
+      "chart_order": 184,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karatenmon__to__ravmon",
+      "type": "natural",
+      "source_species_id": "karatenmon",
+      "source_name": "Karatenmon",
+      "target_species_id": "ravmon",
+      "target_name": "Ravmon",
+      "target_stage": "mega",
+      "chart_order": 185,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karakurumon__to__kaguyamon",
+      "type": "natural",
+      "source_species_id": "karakurumon",
+      "source_name": "Karakurumon",
+      "target_species_id": "kaguyamon",
+      "target_name": "Kaguyamon",
+      "target_stage": "mega",
+      "chart_order": 186,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "marinbullmon__to__kaguyamon",
+      "type": "natural",
+      "source_species_id": "marinbullmon",
+      "source_name": "Marin Bullmon",
+      "target_species_id": "kaguyamon",
+      "target_name": "Kaguyamon",
+      "target_stage": "mega",
+      "chart_order": 187,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karakurumon__to__ryugumon",
+      "type": "natural",
+      "source_species_id": "karakurumon",
+      "source_name": "Karakurumon",
+      "target_species_id": "ryugumon",
+      "target_name": "Ryugumon",
+      "target_stage": "mega",
+      "chart_order": 188,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "marinbullmon__to__ryugumon",
+      "type": "natural",
+      "source_species_id": "marinbullmon",
+      "source_name": "Marin Bullmon",
+      "target_species_id": "ryugumon",
+      "target_name": "Ryugumon",
+      "target_stage": "mega",
+      "chart_order": 189,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sekkamon__to__ryugumon",
+      "type": "natural",
+      "source_species_id": "sekkamon",
+      "source_name": "Sekkamon",
+      "target_species_id": "ryugumon",
+      "target_name": "Ryugumon",
+      "target_stage": "mega",
+      "chart_order": 190,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "shishimamon__to__zanbamon",
+      "type": "natural",
+      "source_species_id": "shishimamon",
+      "source_name": "Shishimamon",
+      "target_species_id": "zanbamon",
+      "target_name": "Zanbamon",
+      "target_stage": "mega",
+      "chart_order": 191,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "darumamon__to__zanbamon",
+      "type": "natural",
+      "source_species_id": "darumamon",
+      "source_name": "Darumamon",
+      "target_species_id": "zanbamon",
+      "target_name": "Zanbamon",
+      "target_stage": "mega",
+      "chart_order": 192,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "oboromon__to__zanbamon",
+      "type": "natural",
+      "source_species_id": "oboromon",
+      "source_name": "Oboromon",
+      "target_species_id": "zanbamon",
+      "target_name": "Zanbamon",
+      "target_stage": "mega",
+      "chart_order": 193,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karatenmon__to__zanbamon",
+      "type": "natural",
+      "source_species_id": "karatenmon",
+      "source_name": "Karatenmon",
+      "target_species_id": "zanbamon",
+      "target_name": "Zanbamon",
+      "target_stage": "mega",
+      "chart_order": 194,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "oboromon__to__tengumon",
+      "type": "natural",
+      "source_species_id": "oboromon",
+      "source_name": "Oboromon",
+      "target_species_id": "tengumon",
+      "target_name": "Tengumon",
+      "target_stage": "mega",
+      "chart_order": 195,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karatenmon__to__tengumon",
+      "type": "natural",
+      "source_species_id": "karatenmon",
+      "source_name": "Karatenmon",
+      "target_species_id": "tengumon",
+      "target_name": "Tengumon",
+      "target_stage": "mega",
+      "chart_order": 196,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "shishimamon__to__ariemon",
+      "type": "natural",
+      "source_species_id": "shishimamon",
+      "source_name": "Shishimamon",
+      "target_species_id": "ariemon",
+      "target_name": "Ariemon",
+      "target_stage": "mega",
+      "chart_order": 197,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "darumamon__to__ariemon",
+      "type": "natural",
+      "source_species_id": "darumamon",
+      "source_name": "Darumamon",
+      "target_species_id": "ariemon",
+      "target_name": "Ariemon",
+      "target_stage": "mega",
+      "chart_order": 198,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sekkamon__to__ariemon",
+      "type": "natural",
+      "source_species_id": "sekkamon",
+      "source_name": "Sekkamon",
+      "target_species_id": "ariemon",
+      "target_name": "Ariemon",
+      "target_stage": "mega",
+      "chart_order": 199,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "karakurumon__to__yukinamon",
+      "type": "natural",
+      "source_species_id": "karakurumon",
+      "source_name": "Karakurumon",
+      "target_species_id": "yukinamon",
+      "target_name": "Yukinamon",
+      "target_stage": "mega",
+      "chart_order": 200,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "marinbullmon__to__yukinamon",
+      "type": "natural",
+      "source_species_id": "marinbullmon",
+      "source_name": "Marin Bullmon",
+      "target_species_id": "yukinamon",
+      "target_name": "Yukinamon",
+      "target_stage": "mega",
+      "chart_order": 201,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "sekkamon__to__yukinamon",
+      "type": "natural",
+      "source_species_id": "sekkamon",
+      "source_name": "Sekkamon",
+      "target_species_id": "yukinamon",
+      "target_name": "Yukinamon",
+      "target_stage": "mega",
+      "chart_order": 202,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
+    },
+    {
+      "id": "ravmon__to__ravmonburstmode",
+      "type": "natural",
+      "source_species_id": "ravmon",
+      "source_name": "Ravmon",
+      "target_species_id": "ravmonburstmode",
+      "target_name": "Ravmon: Burst Mode",
+      "target_stage": "mega",
+      "chart_order": 203,
+      "requirements": {
+        "mode": "stats_only",
+        "required_group_count": 1,
+        "alternate": null,
+        "available_base_group_count": 1,
+        "has_bonus_group": false,
+        "groups": {
+          "stats": {
+            "hp": 60000,
+            "mp": 65500,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "sources": [
+        "humulos_penc"
+      ],
+      "notes": [
+        "Imported from PenC family:"
+      ]
     }
   ],
   "special_evolutions": [
@@ -16941,6 +23180,11 @@
   ],
   "indexes": {
     "by_source": {
+      "aerovdramon": [
+        "aerovdramon__to__hououmon",
+        "aerovdramon__to__rafflesimon",
+        "aerovdramon__to__ulforcevdramon"
+      ],
       "agumon": [
         "agumon__to__angemon",
         "agumon__to__betelgammamon",
@@ -16958,6 +23202,11 @@
         "airdramon__to__megadramon",
         "airdramon__to__phoenixmon"
       ],
+      "andromon": [
+        "andromon__to__hiandromon",
+        "andromon__to__metalgarurumon",
+        "andromon__to__ragnamon"
+      ],
       "angemon": [
         "angemon__to__andromon",
         "angemon__to__angewomon",
@@ -16965,11 +23214,34 @@
         "angemon__to__holyangemon",
         "angemon__to__phoenixmon"
       ],
+      "angewomon": [
+        "angewomon__to__dominimon",
+        "angewomon__to__heraklekabuterimon",
+        "angewomon__to__holydramon",
+        "angewomon__to__metaletemon",
+        "angewomon__to__quantumon"
+      ],
       "angoramon": [
         "angoramon__to__kabuterimon",
         "angoramon__to__monochromon",
         "angoramon__to__symbareangoramon",
         "angoramon__to__tailmon"
+      ],
+      "anomalocarimon": [
+        "anomalocarimon__to__cthyllamon",
+        "anomalocarimon__to__jumbogamemon",
+        "anomalocarimon__to__plesiomon",
+        "anomalocarimon__to__vikemon"
+      ],
+      "asuramon": [
+        "asuramon__to__dominimon",
+        "asuramon__to__metalgarurumon",
+        "asuramon__to__wargreymon"
+      ],
+      "atlurkabuterimon": [
+        "atlurkabuterimon__to__blastmon",
+        "atlurkabuterimon__to__eldoradimon",
+        "atlurkabuterimon__to__heraklekabuterimon"
       ],
       "bakemon": [
         "bakemon__to__fantomon",
@@ -16994,6 +23266,12 @@
         "betelgammamon__to__metalgreymon",
         "betelgammamon__to__metalmamemon"
       ],
+      "bigmamemon": [
+        "bigmamemon__to__hiandromon",
+        "bigmamemon__to__metalgarurumon",
+        "bigmamemon__to__ragnamon",
+        "bigmamemon__to__venomvamdemon"
+      ],
       "birdramon": [
         "birdramon__to__aerovdramon",
         "birdramon__to__blossomon",
@@ -17010,6 +23288,12 @@
         "biyomon__to__unimon",
         "biyomon__to__woodmon"
       ],
+      "blossomon": [
+        "blossomon__to__griffomon",
+        "blossomon__to__hydramon",
+        "blossomon__to__rafflesimon",
+        "blossomon__to__ulforcevdramon"
+      ],
       "botamon": [
         "botamon__to__koromon"
       ],
@@ -17022,15 +23306,31 @@
         "candmon__to__meramon",
         "candmon__to__wizarmon"
       ],
+      "canoweissmon": [
+        "canoweissmon__to__arcturusmon",
+        "canoweissmon__to__siriusmon",
+        "canoweissmon__to__wargreymon"
+      ],
       "caprimon": [
         "caprimon__to__commandramon",
         "caprimon__to__hagurumon",
         "caprimon__to__kokuwamon",
         "caprimon__to__toyagumon"
       ],
+      "cargodramon": [
+        "cargodramon__to__brigadramon",
+        "cargodramon__to__mugendramon",
+        "cargodramon__to__wargreymon"
+      ],
       "centarumon": [
         "centarumon__to__andromon",
         "centarumon__to__giromon"
+      ],
+      "chohakkaimon": [
+        "chohakkaimon__to__dijiangmon",
+        "chohakkaimon__to__jougamon",
+        "chohakkaimon__to__nezhamon",
+        "chohakkaimon__to__shagaramon"
       ],
       "choromon": [
         "choromon__to__caprimon"
@@ -17038,7 +23338,8 @@
       "clockmon": [
         "clockmon__to__andromon",
         "clockmon__to__knightmon",
-        "clockmon__to__metalgreymon"
+        "clockmon__to__metalgreymon",
+        "clockmon__to__warumonzaemon"
       ],
       "coelamon": [
         "coelamon__to__anomalocarimon",
@@ -17054,6 +23355,32 @@
       ],
       "crescemon": [
         "crescemon__to__dianamon"
+      ],
+      "cyberdramon": [
+        "cyberdramon__to__hiandromon",
+        "cyberdramon__to__ragnamon",
+        "cyberdramon__to__venomvamdemon"
+      ],
+      "dagomon": [
+        "dagomon__to__cthyllamon",
+        "dagomon__to__plesiomon",
+        "dagomon__to__pukumon"
+      ],
+      "darumamon": [
+        "darumamon__to__ariemon",
+        "darumamon__to__zanbamon"
+      ],
+      "deathmeramon": [
+        "deathmeramon__to__boltmon",
+        "deathmeramon__to__demon",
+        "deathmeramon__to__noblepumpmon",
+        "deathmeramon__to__skullmammon"
+      ],
+      "delumon": [
+        "delumon__to__griffomon",
+        "delumon__to__hououmon",
+        "delumon__to__pinochimon",
+        "delumon__to__rosemon"
       ],
       "devimon": [
         "devimon__to__deathmeramon",
@@ -17079,6 +23406,14 @@
         "elecmon__to__angemon",
         "elecmon__to__kokatorimon",
         "elecmon__to__leomon"
+      ],
+      "erlangmon": [
+        "erlangmon__to__erlangmonblastmode"
+      ],
+      "fantomon": [
+        "fantomon__to__callismon",
+        "fantomon__to__demon",
+        "fantomon__to__noblepumpmon"
       ],
       "floramon": [
         "floramon__to__birdramon",
@@ -17143,6 +23478,11 @@
       "gaomon": [
         "gaomon__to__galgomon"
       ],
+      "garudamon": [
+        "garudamon__to__griffomon",
+        "garudamon__to__hououmon",
+        "garudamon__to__ulforcevdramon"
+      ],
       "garurumon": [
         "garurumon__to__angewomon",
         "garurumon__to__holyangemon",
@@ -17169,6 +23509,12 @@
         "gekomon__to__tonosamagekomon",
         "gekomon__to__triceramon"
       ],
+      "gerbemon": [
+        "gerbemon__to__hydramon",
+        "gerbemon__to__pinochimon",
+        "gerbemon__to__rafflesimon",
+        "gerbemon__to__zephagamon"
+      ],
       "gesomon": [
         "gesomon__to__anomalocarimon",
         "gesomon__to__dagomon",
@@ -17177,6 +23523,10 @@
       "ginkakumon": [
         "ginkakumon__to__pandamon",
         "ginkakumon__to__xingtianmon"
+      ],
+      "gokuwmon": [
+        "gokuwmon__to__dijiangmon",
+        "gokuwmon__to__nezhamon"
       ],
       "gomamon": [
         "gomamon__to__coelamon",
@@ -17191,6 +23541,11 @@
         "gottsumon__to__starmon",
         "gottsumon__to__tortamon"
       ],
+      "grandgalemon": [
+        "grandgalemon__to__pinochimon",
+        "grandgalemon__to__ulforcevdramon",
+        "grandgalemon__to__zephagamon"
+      ],
       "greymon": [
         "greymon__to__asuramon",
         "greymon__to__bigmamemon",
@@ -17200,7 +23555,8 @@
       ],
       "guardromon": [
         "guardromon__to__knightmon",
-        "guardromon__to__megadramon"
+        "guardromon__to__megadramon",
+        "guardromon__to__warumonzaemon"
       ],
       "gulusgammamon": [
         "gulusgammamon__to__asuramon",
@@ -17223,6 +23579,12 @@
         "hakubamon__to__huankunmon",
         "hakubamon__to__sanzomon"
       ],
+      "hangyomon": [
+        "hangyomon__to__cthyllamon",
+        "hangyomon__to__jumbogamemon",
+        "hangyomon__to__marinangemon",
+        "hangyomon__to__plesiomon"
+      ],
       "hanimon": [
         "hanimon__to__fugamon",
         "hanimon__to__kokeshimon",
@@ -17239,6 +23601,16 @@
       "hicommandramon": [
         "hicommandramon__to__cargodramon",
         "hicommandramon__to__megadramon"
+      ],
+      "holyangemon": [
+        "holyangemon__to__dominimon",
+        "holyangemon__to__metalgarurumon",
+        "holyangemon__to__wargreymon"
+      ],
+      "huankunmon": [
+        "huankunmon__to__dijiangmon",
+        "huankunmon__to__shagaramon",
+        "huankunmon__to__xiangpengmon"
       ],
       "igamon": [
         "igamon__to__angewomon",
@@ -17259,6 +23631,16 @@
         "jellymon__to__seadramon",
         "jellymon__to__teslajellymon"
       ],
+      "jyagamon": [
+        "jyagamon__to__blastmon",
+        "jyagamon__to__heraklekabuterimon",
+        "jyagamon__to__saberleomon"
+      ],
+      "jyureimon": [
+        "jyureimon__to__hydramon",
+        "jyureimon__to__pinochimon",
+        "jyureimon__to__rosemon"
+      ],
       "kabuterimon": [
         "kabuterimon__to__angewomon",
         "kabuterimon__to__atlurkabuterimon",
@@ -17278,6 +23660,17 @@
         "kamemon__to__hanumon",
         "kamemon__to__xiquemon"
       ],
+      "karakurumon": [
+        "karakurumon__to__kaguyamon",
+        "karakurumon__to__ravmon",
+        "karakurumon__to__ryugumon",
+        "karakurumon__to__yukinamon"
+      ],
+      "karatenmon": [
+        "karatenmon__to__ravmon",
+        "karatenmon__to__tengumon",
+        "karatenmon__to__zanbamon"
+      ],
       "kausgammamon": [
         "kausgammamon__to__canoweissmon",
         "kausgammamon__to__regulusmon",
@@ -17294,6 +23687,12 @@
         "kiwimon__to__gerbemon",
         "kiwimon__to__grandgalemon",
         "kiwimon__to__lilimon"
+      ],
+      "knightmon": [
+        "knightmon__to__ragnamon",
+        "knightmon__to__venomvamdemon",
+        "knightmon__to__wargreymon",
+        "knightmon__to__zekegreymon"
       ],
       "kokatorimon": [
         "kokatorimon__to__phoenixmon",
@@ -17330,6 +23729,16 @@
         "kuwagamon__to__piximon",
         "kuwagamon__to__tonosamagekomon"
       ],
+      "ladydevimon": [
+        "ladydevimon__to__demon",
+        "ladydevimon__to__noblepumpmon",
+        "ladydevimon__to__piemon"
+      ],
+      "lamortmon": [
+        "lamortmon__to__diarbbitmon",
+        "lamortmon__to__holydramon",
+        "lamortmon__to__saberleomon"
+      ],
       "leomon": [
         "leomon__to__andromon",
         "leomon__to__asuramon",
@@ -17344,7 +23753,14 @@
         "lianpumon__to__sanzomon",
         "lianpumon__to__xingtianmon"
       ],
+      "lilimon": [
+        "lilimon__to__hououmon",
+        "lilimon__to__hydramon",
+        "lilimon__to__rafflesimon",
+        "lilimon__to__rosemon"
+      ],
       "loogamon": [
+        "loogamon__to__bakemon",
         "loogamon__to__dokugumon",
         "loogamon__to__hanumon",
         "loogamon__to__loogarmon"
@@ -17357,13 +23773,41 @@
       "lopmon": [
         "lopmon__to__turuiemon"
       ],
+      "mammon": [
+        "mammon__to__anubimon",
+        "mammon__to__boltmon",
+        "mammon__to__skullmammon"
+      ],
       "manekimon": [
         "manekimon__to__darumamon",
         "manekimon__to__sekkamon"
       ],
+      "marinbullmon": [
+        "marinbullmon__to__kaguyamon",
+        "marinbullmon__to__ryugumon",
+        "marinbullmon__to__yukinamon"
+      ],
+      "marindevimon": [
+        "marindevimon__to__cthyllamon",
+        "marindevimon__to__metalseadramon",
+        "marindevimon__to__pukumon"
+      ],
       "mechanorimon": [
         "mechanorimon__to__bigmamemon",
-        "mechanorimon__to__megadramon"
+        "mechanorimon__to__megadramon",
+        "mechanorimon__to__warumonzaemon"
+      ],
+      "megadramon": [
+        "megadramon__to__brigadramon",
+        "megadramon__to__hiandromon",
+        "megadramon__to__mugendramon",
+        "megadramon__to__zekegreymon"
+      ],
+      "megaseadramon": [
+        "megaseadramon__to__jumbogamemon",
+        "megaseadramon__to__marinangemon",
+        "megaseadramon__to__metalseadramon",
+        "megaseadramon__to__pukumon"
       ],
       "meramon": [
         "meramon__to__andromon",
@@ -17372,6 +23816,13 @@
         "meramon__to__metalgreymon",
         "meramon__to__pumpmon",
         "meramon__to__weregarurumon"
+      ],
+      "metalmamemon": [
+        "metalmamemon__to__arcturusmon",
+        "metalmamemon__to__metalgarurumon",
+        "metalmamemon__to__quantumon",
+        "metalmamemon__to__siriusmon",
+        "metalmamemon__to__wargreymon"
       ],
       "mochimon": [
         "mochimon__to__angoramon",
@@ -17415,6 +23866,9 @@
       "nanimon": [
         "nanimon__to__digitamamon"
       ],
+      "nezhamon": [
+        "nezhamon__to__nezhamoncrimsonmode"
+      ],
       "ninjamon": [
         "ninjamon__to__mamemon",
         "ninjamon__to__metalmamemon",
@@ -17429,6 +23883,10 @@
       "nyokimon": [
         "nyokimon__to__pyocomon"
       ],
+      "oboromon": [
+        "oboromon__to__tengumon",
+        "oboromon__to__zanbamon"
+      ],
       "octmon": [
         "octmon__to__dagomon",
         "octmon__to__hangyomon",
@@ -17437,6 +23895,11 @@
       "ogremon": [
         "ogremon__to__andromon",
         "ogremon__to__giromon"
+      ],
+      "okuwamon": [
+        "okuwamon__to__grankuwagamon",
+        "okuwamon__to__metaletemon",
+        "okuwamon__to__saberleomon"
       ],
       "onibimon": [
         "onibimon__to__gasamon",
@@ -17460,6 +23923,11 @@
         "palmon__to__vegiemon",
         "palmon__to__whamon",
         "palmon__to__woodmon"
+      ],
+      "pandamon": [
+        "pandamon__to__erlangmon",
+        "pandamon__to__nezhamon",
+        "pandamon__to__shagaramon"
       ],
       "patamon": [
         "patamon__to__angemon",
@@ -17486,7 +23954,14 @@
         "petimeramon__to__loogamon",
         "petimeramon__to__picodevimon"
       ],
+      "piccolomon": [
+        "piccolomon__to__eldoradimon",
+        "piccolomon__to__grankuwagamon",
+        "piccolomon__to__holydramon",
+        "piccolomon__to__saberleomon"
+      ],
       "picodevimon": [
+        "picodevimon__to__bakemon",
         "picodevimon__to__devimon",
         "picodevimon__to__dokugumon",
         "picodevimon__to__meramon",
@@ -17520,6 +23995,12 @@
         "pukamon__to__jellymon",
         "pukamon__to__shakomon"
       ],
+      "pumpmon": [
+        "pumpmon__to__anubimon",
+        "pumpmon__to__boltmon",
+        "pumpmon__to__noblepumpmon",
+        "pumpmon__to__piemon"
+      ],
       "punimon": [
         "punimon__to__tsunomon"
       ],
@@ -17530,10 +24011,18 @@
         "pyocomon__to__palmon",
         "pyocomon__to__pteromon"
       ],
+      "ravmon": [
+        "ravmon__to__ravmonburstmode"
+      ],
       "redvegimon": [
         "redvegimon__to__delumon",
         "redvegimon__to__gerbemon",
         "redvegimon__to__jyureimon"
+      ],
+      "regulusmon": [
+        "regulusmon__to__arcturusmon",
+        "regulusmon__to__metalgarurumon",
+        "regulusmon__to__siriusmon"
       ],
       "renamon": [
         "renamon__to__crescemon",
@@ -17552,12 +24041,27 @@
         "rukamon__to__whamon",
         "rukamon__to__zudomon"
       ],
+      "sagomon": [
+        "sagomon__to__shagaramon",
+        "sagomon__to__takutoumon",
+        "sagomon__to__xiangpengmon"
+      ],
+      "sanzomon": [
+        "sanzomon__to__erlangmon",
+        "sanzomon__to__nezhamon",
+        "sanzomon__to__takutoumon"
+      ],
       "seadramon": [
         "seadramon__to__dagomon",
         "seadramon__to__hangyomon",
         "seadramon__to__megadramon",
         "seadramon__to__megaseadramon",
         "seadramon__to__whamon"
+      ],
+      "sekkamon": [
+        "sekkamon__to__ariemon",
+        "sekkamon__to__ryugumon",
+        "sekkamon__to__yukinamon"
       ],
       "shakomon": [
         "shakomon__to__gesomon",
@@ -17572,10 +24076,19 @@
         "shellmon__to__megaseadramon",
         "shellmon__to__sekkamon"
       ],
+      "shishimamon": [
+        "shishimamon__to__ariemon",
+        "shishimamon__to__zanbamon"
+      ],
       "siesamon": [
         "siesamon__to__darumamon",
         "siesamon__to__karakurumon",
         "siesamon__to__shishimamon"
+      ],
+      "soloogarmon": [
+        "soloogarmon__to__boltmon",
+        "soloogarmon__to__callismon",
+        "soloogarmon__to__fenriloogamon"
       ],
       "starmon": [
         "starmon__to__angewomon",
@@ -17600,6 +24113,9 @@
         "takinmon__to__kinkakumon",
         "takinmon__to__lianpumon",
         "takinmon__to__turuiemon"
+      ],
+      "takutoumon": [
+        "takutoumon__to__takutoumonwrathmode"
       ],
       "tanemon": [
         "tanemon__to__betamon",
@@ -17633,10 +24149,17 @@
         "teslajellymon__to__thetismon",
         "teslajellymon__to__zudomon"
       ],
+      "thetismon": [
+        "thetismon__to__amphimon",
+        "thetismon__to__cthyllamon",
+        "thetismon__to__marinangemon",
+        "thetismon__to__metalseadramon"
+      ],
       "thunderballmon": [
         "thunderballmon__to__bigmamemon",
         "thunderballmon__to__cyberdramon",
-        "thunderballmon__to__knightmon"
+        "thunderballmon__to__knightmon",
+        "thunderballmon__to__warumonzaemon"
       ],
       "togemon": [
         "togemon__to__aerovdramon",
@@ -17651,6 +24174,11 @@
       "tomorimon": [
         "tomorimon__to__onibimon"
       ],
+      "tonosamagekomon": [
+        "tonosamagekomon__to__eldoradimon",
+        "tonosamagekomon__to__grankuwagamon",
+        "tonosamagekomon__to__metaletemon"
+      ],
       "tortamon": [
         "tortamon__to__atlurkabuterimon",
         "tortamon__to__jyagamon",
@@ -17662,6 +24190,12 @@
         "toyagumon__to__mechanorimon",
         "toyagumon__to__revolmon",
         "toyagumon__to__thunderballmon"
+      ],
+      "triceramon": [
+        "triceramon__to__eldoradimon",
+        "triceramon__to__heraklekabuterimon",
+        "triceramon__to__metaletemon",
+        "triceramon__to__saberleomon"
       ],
       "tsunomon": [
         "tsunomon__to__elecmon",
@@ -17682,6 +24216,11 @@
         "unimon__to__giromon",
         "unimon__to__phoenixmon"
       ],
+      "vamdemon": [
+        "vamdemon__to__boltmon",
+        "vamdemon__to__callismon",
+        "vamdemon__to__piemon"
+      ],
       "vdramon": [
         "vdramon__to__aerovdramon",
         "vdramon__to__delumon",
@@ -17696,6 +24235,19 @@
         "wankomon__to__siesamon",
         "wankomon__to__tenkomon"
       ],
+      "warumonzaemon": [
+        "warumonzaemon__to__metalgarurumon",
+        "warumonzaemon__to__venomvamdemon",
+        "warumonzaemon__to__zekegreymon"
+      ],
+      "weregarurumon": [
+        "weregarurumon__to__anubimon",
+        "weregarurumon__to__dominimon",
+        "weregarurumon__to__metalgarurumon",
+        "weregarurumon__to__noblepumpmon",
+        "weregarurumon__to__quantumon",
+        "weregarurumon__to__skullmammon"
+      ],
       "wezengammamon": [
         "wezengammamon__to__canoweissmon",
         "wezengammamon__to__metalgreymon",
@@ -17703,7 +24255,10 @@
       ],
       "whamon": [
         "whamon__to__mamemon",
-        "whamon__to__megaseadramon"
+        "whamon__to__marinangemon",
+        "whamon__to__megaseadramon",
+        "whamon__to__plesiomon",
+        "whamon__to__vikemon"
       ],
       "wizarmon": [
         "wizarmon__to__deathmeramon",
@@ -17715,6 +24270,10 @@
         "woodmon__to__delumon",
         "woodmon__to__gerbemon",
         "woodmon__to__jyureimon"
+      ],
+      "xingtianmon": [
+        "xingtianmon__to__dijiangmon",
+        "xingtianmon__to__takutoumon"
       ],
       "xiquemon": [
         "xiquemon__to__huankunmon",
@@ -17729,6 +24288,11 @@
       ],
       "zerimon": [
         "zerimon__to__gummymon"
+      ],
+      "zudomon": [
+        "zudomon__to__jumbogamemon",
+        "zudomon__to__marinangemon",
+        "zudomon__to__vikemon"
       ]
     }
   }

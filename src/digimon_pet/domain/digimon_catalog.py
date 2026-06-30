@@ -322,7 +322,7 @@ def _validate_link_shape(
             continue
         if stage not in {GrowthStage.BABY.value, GrowthStage.BABY_2.value} and species_id not in incoming:
             warnings.append(f"{species_id} has no incoming natural evolution")
-        if stage not in {GrowthStage.CHAMPION.value, GrowthStage.ULTIMATE.value} and species_id not in outgoing:
+        if stage not in {GrowthStage.CHAMPION.value, GrowthStage.ULTIMATE.value, GrowthStage.MEGA.value} and species_id not in outgoing:
             warnings.append(f"{species_id} has no outgoing natural evolution")
 
 

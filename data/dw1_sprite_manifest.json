@@ -277,6 +277,15 @@
     },
     {
       "available_source_ids": [
+        "digital_monster_color",
+        "digimon_pendulum_color"
+      ],
+      "chosen_source_id": "digital_monster_color",
+      "name": "Machinedramon",
+      "species_id": "machinedramon"
+    },
+    {
+      "available_source_ids": [
         "google_drive_sprites",
         "digimon_pendulum_color",
         "wikimon_virtual_pets"
@@ -982,6 +991,25 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "airdramon"
     },
+    "amphimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/amphimon.png",
+      "matched_name": "Amphimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Amphimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/amphi.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/amphi.gif"
+      },
+      "name": "Amphimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "amphimon"
+    },
     "andiramon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/wikimon_virtual_pets/andiramon_deva_vital_bracelet_digital_monster.png",
@@ -1102,6 +1130,63 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "antylamon"
+    },
+    "anubimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/anubimon.png",
+      "matched_name": "Anubimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Anubimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/anubi.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/anubi.gif"
+      },
+      "name": "Anubimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "anubimon"
+    },
+    "arcturusmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/arcturusmon.png",
+      "matched_name": "Arcturusmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Arcturusmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/arcturus.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/arcturus.gif"
+      },
+      "name": "Arcturusmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "arcturusmon"
+    },
+    "ariemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/ariemon.png",
+      "matched_name": "Ariemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Ariemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/arie.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/arie.gif"
+      },
+      "name": "Ariemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ariemon"
     },
     "asuramon": {
       "aliases_used": [],
@@ -1275,6 +1360,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "blacktailmon"
     },
+    "blastmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/blastmon.png",
+      "matched_name": "Blastmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Blastmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/blast.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/blast.gif"
+      },
+      "name": "Blastmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "blastmon"
+    },
     "blossomon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digimon_pendulum_color/blossomon.png",
@@ -1293,6 +1397,25 @@
       "source_id": "digimon_pendulum_color",
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "blossomon"
+    },
+    "boltmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/boltmon.png",
+      "matched_name": "Boltmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Boltmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/bolt.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/bolt.gif"
+      },
+      "name": "Boltmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "boltmon"
     },
     "botamon": {
       "aliases_used": [],
@@ -1313,6 +1436,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "botamon"
     },
+    "brigadramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/brigadramon.png",
+      "matched_name": "Brigadramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Brigadramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/brigadra.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/brigadra.gif"
+      },
+      "name": "Brigadramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "brigadramon"
+    },
     "bubbmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/bubbmon.png",
@@ -1327,6 +1469,25 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "bubbmon"
+    },
+    "callismon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/callismon.png",
+      "matched_name": "Callismon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Callismon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/callis.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/callis.gif"
+      },
+      "name": "Callismon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "callismon"
     },
     "candmon": {
       "aliases_used": [],
@@ -1526,6 +1687,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "crescemon"
     },
+    "cthyllamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/cthyllamon.png",
+      "matched_name": "Cthyllamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Cthyllamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/cthylla.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/cthylla.gif"
+      },
+      "name": "Cthyllamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "cthyllamon"
+    },
     "cyberdramon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digimon_pendulum_color/cyberdramon.png",
@@ -1621,6 +1801,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "delumon"
     },
+    "demon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/demon.png",
+      "matched_name": "Demon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Demon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/de.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/de.gif"
+      },
+      "name": "Demon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "demon"
+    },
     "devimon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/devimon.png",
@@ -1655,6 +1854,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "dianamon"
     },
+    "diarbbitmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/diarbbitmon.png",
+      "matched_name": "Diarbbitmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Diarbbitmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/diarbbit.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/diarbbit.gif"
+      },
+      "name": "Diarbbitmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "diarbbitmon"
+    },
     "digitamamon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Digitamamon.png",
@@ -1667,6 +1885,25 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "digitamamon"
+    },
+    "dijiangmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/dijiangmon.png",
+      "matched_name": "Dijiangmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Dijiangmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/dijiang.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/dijiang.gif"
+      },
+      "name": "Dijiangmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "dijiangmon"
     },
     "dokugumon": {
       "aliases_used": [],
@@ -1682,6 +1919,25 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "dokugumon"
+    },
+    "dominimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/dominimon.png",
+      "matched_name": "Dominimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Dominimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/domini.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/domini.gif"
+      },
+      "name": "Dominimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "dominimon"
     },
     "drimogemon": {
       "aliases_used": [],
@@ -1717,6 +1973,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "ebidramon"
     },
+    "eldoradimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/el_doradimon.png",
+      "matched_name": "El Doradimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "El Doradimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/eldoradi.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/eldoradi.gif"
+      },
+      "name": "El Doradimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "eldoradimon"
+    },
     "elecmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/elecmon.png",
@@ -1731,6 +2006,44 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "elecmon"
+    },
+    "erlangmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/erlangmon.png",
+      "matched_name": "Erlangmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Erlangmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/erlang.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/erlang.gif"
+      },
+      "name": "Erlangmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "erlangmon"
+    },
+    "erlangmonblastmode": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/erlangmon_blast_mode.png",
+      "matched_name": "Erlangmon: Blast Mode",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Erlangmon: Blast Mode",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/erlang_b.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/erlang_b.gif"
+      },
+      "name": "Erlangmon: Blast Mode",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "erlangmonblastmode"
     },
     "etemon": {
       "aliases_used": [],
@@ -1763,6 +2076,25 @@
       "source_id": "digimon_pendulum_color",
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "fantomon"
+    },
+    "fenriloogamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/fenriloogamon.png",
+      "matched_name": "Fenriloogamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Fenriloogamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/fenrilooga.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/fenrilooga.gif"
+      },
+      "name": "Fenriloogamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "fenriloogamon"
     },
     "floramon": {
       "aliases_used": [],
@@ -2162,6 +2494,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "grandgalemon"
     },
+    "grankuwagamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/gran_kuwagamon.png",
+      "matched_name": "Gran Kuwagamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Gran Kuwagamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/grankuwaga.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/grankuwaga.gif"
+      },
+      "name": "Gran Kuwagamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "grankuwagamon"
+    },
     "greymon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/greymon.png",
@@ -2176,6 +2527,25 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "greymon"
+    },
+    "griffomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/griffomon.png",
+      "matched_name": "Griffomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Griffomon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/griffo.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/griffo.gif"
+      },
+      "name": "Griffomon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "griffomon"
     },
     "guardromon": {
       "aliases_used": [],
@@ -2321,6 +2691,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "hanumon"
     },
+    "heraklekabuterimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/herakle_kabuterimon.png",
+      "matched_name": "Herakle Kabuterimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Herakle Kabuterimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/heraklekabuteri.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/heraklekabuteri.gif"
+      },
+      "name": "Herakle Kabuterimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "heraklekabuterimon"
+    },
     "herculeskabuterimon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/wikimon_virtual_pets/herculeskabuterimon_vital_bracelet_be.png",
@@ -2337,6 +2726,25 @@
       "source_id": "wikimon_virtual_pets",
       "source_name": "Wikimon Virtual Pets",
       "species_id": "herculeskabuterimon"
+    },
+    "hiandromon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/hi_andromon.png",
+      "matched_name": "Hi Andromon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Hi Andromon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/hiandro.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hiandro.gif"
+      },
+      "name": "Hi Andromon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "hiandromon"
     },
     "hicommandramon": {
       "aliases_used": [],
@@ -2376,6 +2784,44 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "holyangemon"
     },
+    "holydramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/holydramon.png",
+      "matched_name": "Holydramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Holydramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/holydra.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/holydra.gif"
+      },
+      "name": "Holydramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "holydramon"
+    },
+    "hououmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/hououmon.png",
+      "matched_name": "Hououmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Hououmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/houou.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/houou.gif"
+      },
+      "name": "Hououmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "hououmon"
+    },
     "huankunmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digimon_pendulum_color/huankunmon.png",
@@ -2394,6 +2840,25 @@
       "source_id": "digimon_pendulum_color",
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "huankunmon"
+    },
+    "hydramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/hydramon.png",
+      "matched_name": "Hydramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Hydramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/hydra.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/hydra.gif"
+      },
+      "name": "Hydramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "hydramon"
     },
     "igamon": {
       "aliases_used": [],
@@ -2443,6 +2908,44 @@
       "source_id": "digimon_pendulum_color",
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "jellymon"
+    },
+    "jougamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/jougamon.png",
+      "matched_name": "Jougamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Jougamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/jouga.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jouga.gif"
+      },
+      "name": "Jougamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "jougamon"
+    },
+    "jumbogamemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/jumbo_gamemon.png",
+      "matched_name": "Jumbo Gamemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Jumbo Gamemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/jumbogame.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/jumbogame.gif"
+      },
+      "name": "Jumbo Gamemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "jumbogamemon"
     },
     "jyagamon": {
       "aliases_used": [],
@@ -2496,6 +2999,25 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "kabuterimon"
+    },
+    "kaguyamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/kaguyamon.png",
+      "matched_name": "Kaguyamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Kaguyamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/kaguya.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/kaguya.gif"
+      },
+      "name": "Kaguyamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "kaguyamon"
     },
     "kaiserleomon": {
       "aliases_used": [],
@@ -2964,6 +3486,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "manekimon"
     },
+    "marinangemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/marin_angemon.png",
+      "matched_name": "Marin Angemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Marin Angemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/marinange.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/marinange.gif"
+      },
+      "name": "Marin Angemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "marinangemon"
+    },
     "marinbullmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digimon_pendulum_color/marin_bullmon.png",
@@ -3083,6 +3624,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "metal_etemon"
     },
+    "metalgarurumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/metal_garurumon.png",
+      "matched_name": "Metal Garurumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Metal Garurumon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/metalgaruru.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalgaruru.gif"
+      },
+      "name": "Metal Garurumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "metalgarurumon"
+    },
     "metalgreymon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Metal Greymon.png",
@@ -3108,6 +3668,25 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "metalmamemon"
+    },
+    "metalseadramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/metal_seadramon.png",
+      "matched_name": "Metal Seadramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Metal Seadramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/metalseadra.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/metalseadra.gif"
+      },
+      "name": "Metal Seadramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "metalseadramon"
     },
     "mochimon": {
       "aliases_used": [],
@@ -3199,6 +3778,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "monzaemon"
     },
+    "mugendramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/mugendramon.png",
+      "matched_name": "Mugendramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Mugendramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/mugendra.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mugendra.gif"
+      },
+      "name": "Mugendramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "mugendramon"
+    },
     "mushmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/mushmon.png",
@@ -3246,6 +3844,44 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "nanimon"
     },
+    "nezhamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/nezhamon.png",
+      "matched_name": "Nezhamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Nezhamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/nezha.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nezha.gif"
+      },
+      "name": "Nezhamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "nezhamon"
+    },
+    "nezhamoncrimsonmode": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/nezhamon_crimson_mode.png",
+      "matched_name": "Nezhamon: Crimson Mode",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Nezhamon: Crimson Mode",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/nezha_c.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/nezha_c.gif"
+      },
+      "name": "Nezhamon: Crimson Mode",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "nezhamoncrimsonmode"
+    },
     "ninjamon": {
       "aliases_used": [
         "Igamon"
@@ -3262,6 +3898,25 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "ninjamon"
+    },
+    "noblepumpmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/noble_pumpmon.png",
+      "matched_name": "Noble Pumpmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Noble Pumpmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/noblepump.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/noblepump.gif"
+      },
+      "name": "Noble Pumpmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "noblepumpmon"
     },
     "numemon": {
       "aliases_used": [],
@@ -3571,6 +4226,44 @@
       "source_name": "Google Drive Sprites",
       "species_id": "picodevimon"
     },
+    "piemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/piemon.png",
+      "matched_name": "Piemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Piemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/pie.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pie.gif"
+      },
+      "name": "Piemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "piemon"
+    },
+    "pinochimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/pinochimon.png",
+      "matched_name": "Pinochimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Pinochimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/pinochi.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/pinochi.gif"
+      },
+      "name": "Pinochimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "pinochimon"
+    },
     "pitchmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/pitchmon.png",
@@ -3598,6 +4291,25 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "piximon"
+    },
+    "plesiomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/plesiomon.png",
+      "matched_name": "Plesiomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Plesiomon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/plesio.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/plesio.gif"
+      },
+      "name": "Plesiomon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "plesiomon"
     },
     "plotmon": {
       "aliases_used": [],
@@ -3680,6 +4392,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "pukamon"
     },
+    "pukumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/pukumon.png",
+      "matched_name": "Pukumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Pukumon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/puku.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/puku.gif"
+      },
+      "name": "Pukumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "pukumon"
+    },
     "pumpmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digimon_pendulum_color/pumpmon.png",
@@ -3733,6 +4464,63 @@
       "source_name": "Google Drive Sprites",
       "species_id": "pyocomon"
     },
+    "quantumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/quantumon.png",
+      "matched_name": "Quantumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Quantumon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/quantu.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/quantu.gif"
+      },
+      "name": "Quantumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "quantumon"
+    },
+    "rafflesimon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/rafflesimon.png",
+      "matched_name": "Rafflesimon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Rafflesimon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/rafflesi.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rafflesi.gif"
+      },
+      "name": "Rafflesimon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "rafflesimon"
+    },
+    "ragnamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/ragnamon.png",
+      "matched_name": "Ragnamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Ragnamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/ragna.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ragna.gif"
+      },
+      "name": "Ragnamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ragnamon"
+    },
     "rapidmon": {
       "aliases_used": [
         "Rapidmon"
@@ -3753,6 +4541,44 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "rapidmon"
+    },
+    "ravmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/ravmon.png",
+      "matched_name": "Ravmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Ravmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/rav.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rav.gif"
+      },
+      "name": "Ravmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ravmon"
+    },
+    "ravmonburstmode": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/ravmon_burst_mode.png",
+      "matched_name": "Ravmon: Burst Mode",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Ravmon: Burst Mode",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/rav_b.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rav_b.gif"
+      },
+      "name": "Ravmon: Burst Mode",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ravmonburstmode"
     },
     "redvegimon": {
       "aliases_used": [],
@@ -3822,6 +4648,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "revolmon"
     },
+    "rosemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/rosemon.png",
+      "matched_name": "Rosemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Rosemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/rose.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/rose.gif"
+      },
+      "name": "Rosemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "rosemon"
+    },
     "rukamon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/rukamon.png",
@@ -3836,6 +4681,44 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "rukamon"
+    },
+    "ryugumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/ryugumon.png",
+      "matched_name": "Ryugumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Ryugumon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/ryugu.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ryugu.gif"
+      },
+      "name": "Ryugumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ryugumon"
+    },
+    "saberleomon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/saber_leomon.png",
+      "matched_name": "Saber Leomon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Saber Leomon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/saberleo.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/saberleo.gif"
+      },
+      "name": "Saber Leomon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "saberleomon"
     },
     "sagomon": {
       "aliases_used": [],
@@ -3906,6 +4789,25 @@
       "source_id": "digimon_pendulum_color",
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "sekkamon"
+    },
+    "shagaramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/shagaramon.png",
+      "matched_name": "Shagaramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Shagaramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/shagara.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/shagara.gif"
+      },
+      "name": "Shagaramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "shagaramon"
     },
     "shakomon": {
       "aliases_used": [],
@@ -3979,6 +4881,25 @@
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "siesamon"
     },
+    "siriusmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/siriusmon.png",
+      "matched_name": "Siriusmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Siriusmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/sirius.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/sirius.gif"
+      },
+      "name": "Siriusmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "siriusmon"
+    },
     "skullgreymon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Skull Greymon.png",
@@ -3991,6 +4912,25 @@
       "source_id": "digital_monster_color",
       "source_name": "Digital Monster COLOR",
       "species_id": "skullgreymon"
+    },
+    "skullmammon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/skull_mammon.png",
+      "matched_name": "Skull Mammon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Skull Mammon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/skullmam.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/skullmam.gif"
+      },
+      "name": "Skull Mammon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "skullmammon"
     },
     "soloogarmon": {
       "aliases_used": [],
@@ -4096,6 +5036,44 @@
       "source_name": "Google Drive Sprites",
       "species_id": "takinmon"
     },
+    "takutoumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/takutoumon.png",
+      "matched_name": "Takutoumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Takutoumon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/takutou.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takutou.gif"
+      },
+      "name": "Takutoumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "takutoumon"
+    },
+    "takutoumonwrathmode": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/takutoumon_wrath_mode.png",
+      "matched_name": "Takutoumon: Wrath Mode",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Takutoumon: Wrath Mode",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/takutou_w.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/takutou_w.gif"
+      },
+      "name": "Takutoumon: Wrath Mode",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "takutoumonwrathmode"
+    },
     "tanemon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/tanemon.png",
@@ -4129,6 +5107,25 @@
       "source_id": "digimon_pendulum_color",
       "source_name": "Digimon Pendulum COLOR",
       "species_id": "tankmon"
+    },
+    "tengumon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/tengumon.png",
+      "matched_name": "Tengumon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Tengumon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/tengu.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/tengu.gif"
+      },
+      "name": "Tengumon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "tengumon"
     },
     "tenkomon": {
       "aliases_used": [],
@@ -4404,6 +5401,25 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "tyrannomon"
     },
+    "ulforcevdramon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/ulforce_v_dramon.png",
+      "matched_name": "Ulforce V-dramon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Ulforce V-dramon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/ulforcevdra.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/ulforcevdra.gif"
+      },
+      "name": "Ulforce V-dramon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "ulforcevdramon"
+    },
     "unimon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digital_monster_color/Unimon.png",
@@ -4498,6 +5514,44 @@
       "source_name": "Digital Monster COLOR",
       "species_id": "vegiemon"
     },
+    "venomvamdemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/venom_vamdemon.png",
+      "matched_name": "Venom Vamdemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Venom Vamdemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/venomvamde.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/venomvamde.gif"
+      },
+      "name": "Venom Vamdemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "venomvamdemon"
+    },
+    "vikemon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/vikemon.png",
+      "matched_name": "Vikemon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Vikemon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/vike.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/vike.gif"
+      },
+      "name": "Vikemon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "vikemon"
+    },
     "vmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/v_mon.png",
@@ -4531,6 +5585,25 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "wankomon"
+    },
+    "wargreymon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/war_greymon.png",
+      "matched_name": "War Greymon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "War Greymon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/wargrey.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/wargrey.gif"
+      },
+      "name": "War Greymon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "wargreymon"
     },
     "warumonzaemon": {
       "aliases_used": [],
@@ -4643,6 +5716,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "woodmon"
     },
+    "xiangpengmon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/xiangpengmon.png",
+      "matched_name": "Xiangpengmon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Xiangpengmon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/xiangpeng.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/xiangpeng.gif"
+      },
+      "name": "Xiangpengmon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "xiangpengmon"
+    },
     "xingtianmon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/digimon_pendulum_color/xingtianmon.png",
@@ -4696,6 +5788,25 @@
       "source_name": "Google Drive Sprites",
       "species_id": "yukimibotamon"
     },
+    "yukinamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/yukinamon.png",
+      "matched_name": "Yukinamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Yukinamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/yukina.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/yukina.gif"
+      },
+      "name": "Yukinamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "yukinamon"
+    },
     "yuramon": {
       "aliases_used": [],
       "asset_path": "assets/sprite_sources/google_drive_sprites/yuramon.png",
@@ -4710,6 +5821,63 @@
       "source_id": "google_drive_sprites",
       "source_name": "Google Drive Sprites",
       "species_id": "yuramon"
+    },
+    "zanbamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/zanbamon.png",
+      "matched_name": "Zanbamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Zanbamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/zanba.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zanba.gif"
+      },
+      "name": "Zanbamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "zanbamon"
+    },
+    "zekegreymon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/zeke_greymon.png",
+      "matched_name": "Zeke Greymon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Zeke Greymon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/zekegrey.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zekegrey.gif"
+      },
+      "name": "Zeke Greymon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "zekegreymon"
+    },
+    "zephagamon": {
+      "aliases_used": [],
+      "asset_path": "assets/sprite_sources/digimon_pendulum_color/zephagamon.png",
+      "matched_name": "Zephagamon",
+      "metadata": {
+        "fps": 6,
+        "frame_count": 2,
+        "frame_height": 36,
+        "frame_width": 36,
+        "source_page": "https://humulos.com/digimon/penc/",
+        "source_title": "Zephagamon",
+        "source_url": "https://humulos.com/digimon/images/dot/penc/zephaga.gif",
+        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/zephaga.gif"
+      },
+      "name": "Zephagamon",
+      "source_id": "digimon_pendulum_color",
+      "source_name": "Digimon Pendulum COLOR",
+      "species_id": "zephagamon"
     },
     "zerimon": {
       "aliases_used": [],

@@ -24,7 +24,7 @@ PENC_STAGE_ORDER = {
     GrowthStage.ROOKIE.value: 2,
     GrowthStage.CHAMPION.value: 3,
     GrowthStage.ULTIMATE.value: 4,
-    "mega": 5,
+    GrowthStage.MEGA.value: 5,
 }
 HP_MP_STATS = {"hp", "mp"}
 COMBAT_STATS = {"offense", "defense", "speed", "brains"}
@@ -34,12 +34,16 @@ VALID_RUNTIME_STAGES = {
     GrowthStage.ROOKIE.value,
     GrowthStage.CHAMPION.value,
     GrowthStage.ULTIMATE.value,
+    GrowthStage.MEGA.value,
 }
 STAGE_BANDS = {
     GrowthStage.ROOKIE.value: {"hp_mp": (300, 1500), "combat": (30, 150)},
     GrowthStage.CHAMPION.value: {"hp_mp": (5000, 18000), "combat": (500, 1800)},
     GrowthStage.ULTIMATE.value: {"hp_mp": (25000, 65000), "combat": (2500, 6500)},
+    GrowthStage.MEGA.value: {"hp_mp": (40000, 85000), "combat": (4000, 8500)},
 }
+HIGH_ULTIMATE_REQUIREMENT_THRESHOLDS = {"hp_mp": 40000, "combat": 4000}
+HIGH_ULTIMATE_REQUIREMENT_SCALE = 0.85
 PROFILE_STATS = {
     "aquatic": ("hp", "mp", "defense", "brains"),
     "beast": ("speed", "offense"),
@@ -62,8 +66,8 @@ STAGE_CLASS_MAP = {
     "child": GrowthStage.ROOKIE.value,
     "adult": GrowthStage.CHAMPION.value,
     "perfect": GrowthStage.ULTIMATE.value,
-    "ultimate": "mega",
-    "superultimate": "mega",
+    "ultimate": GrowthStage.MEGA.value,
+    "superultimate": GrowthStage.MEGA.value,
 }
 DW1_STAGE_BY_APP_STAGE = {
     GrowthStage.BABY.value: "fresh",
@@ -337,8 +341,6 @@ def _species_item(
     excluded_reason = ""
     if _is_alternate_form(name):
         excluded_reason = "alternate form"
-    elif stage == "mega":
-        excluded_reason = "stage exceeds Ultimate"
     return {
         "slug": slug,
         "id": species_id_from_name(_canonical_name(name)),
@@ -465,11 +467,24 @@ def _scaled_stats_for_profile(profile: str, band: dict[str, tuple[int, int]], se
         low, high = band["hp_mp"] if stat in HP_MP_STATS else band["combat"]
         spread = high - low
         value = low + round(spread * (0.45 + (0.12 * (index % 3))))
+        value = _scaled_down_high_ultimate_requirement(value, stat, band)
         stats[stat] = _round_requirement(value, stat)
     if not stats:
         low, high = band["combat"]
-        stats["brains"] = _round_requirement((low + high) // 2, "brains")
+        value = _scaled_down_high_ultimate_requirement((low + high) // 2, "brains", band)
+        stats["brains"] = _round_requirement(value, "brains")
     return stats
+
+
+def _scaled_down_high_ultimate_requirement(value: int, stat: str, band: dict[str, tuple[int, int]]) -> int:
+    ultimate_band = STAGE_BANDS[GrowthStage.ULTIMATE.value]
+    if band != ultimate_band:
+        return value
+    threshold_key = "hp_mp" if stat in HP_MP_STATS else "combat"
+    threshold = HIGH_ULTIMATE_REQUIREMENT_THRESHOLDS[threshold_key]
+    if value <= threshold:
+        return value
+    return round(value * HIGH_ULTIMATE_REQUIREMENT_SCALE)
 
 
 def _round_requirement(value: int, stat: str) -> int:
@@ -586,7 +601,7 @@ def _stage_from_label(label: str) -> str:
 
 def _stage_from_data(label: str) -> str:
     value = label.strip()
-    if value in VALID_RUNTIME_STAGES or value == "mega":
+    if value in VALID_RUNTIME_STAGES:
         return value
     return _stage_from_label(value)
 

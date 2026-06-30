@@ -1199,6 +1199,22 @@ def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch
     assert window._pet_widget._stat_gain_labels == ["+120 HP", "+12 OFF"]
 
 
+def test_secondary_event_click_uses_mega_boosts(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.stage = GrowthStage.MEGA
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._show_secondary_event("dumbbell")
+
+    window._claim_secondary_event()
+
+    assert window._state.hp == 550
+    assert window._state.offense == 55
+    assert window._pet_widget._stat_gain_labels == ["+250 HP", "+25 OFF"]
+
+
 @pytest.mark.parametrize(
     ("event_kind", "expected_action"),
     [
@@ -1365,6 +1381,20 @@ def test_passive_ultimate_growth_doubles_every_third_minute(tmp_path, monkeypatc
     window._apply_passive_stat_growth(previous_age_seconds=0)
 
     assert window._state.hp == 340
+
+
+def test_passive_mega_growth_uses_large_every_minute_and_fifth_minute_boost(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.stage = GrowthStage.MEGA
+    window._state.age_seconds = 5 * 60
+    window._rng = _FixedChoiceRng("hp")
+
+    window._apply_passive_stat_growth(previous_age_seconds=0)
+
+    assert window._state.hp == 650
 
 
 def test_secondary_event_does_not_override_pending_lifecycle(tmp_path, monkeypatch):
@@ -1637,7 +1667,7 @@ def test_collection_dialog_groups_species_by_growth_stage():
         for label in window._collection_dialog.findChildren(QLabel)
         if label.objectName() == "StageHeader"
     ]
-    assert headers == ["Baby1", "Baby2", "Rookie", "Champion", "Ultimate"]
+    assert headers == ["Baby1", "Baby2", "Rookie", "Champion", "Ultimate", "Mega"]
 
 
 def test_stats_window_opens_and_refreshes_live_values():

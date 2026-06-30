@@ -251,6 +251,17 @@ def _peer_digimon_became_ultimate(previous: PeerStatus | None, current: PeerStat
     )
 
 
+def _peer_digimon_became_mega(previous: PeerStatus | None, current: PeerStatus) -> bool:
+    if not current.online or current.payload is None:
+        return False
+    if previous is None or previous.payload is None:
+        return False
+    return (
+        str(previous.payload.get("stage", "")).casefold() != GrowthStage.MEGA.value
+        and str(current.payload.get("stage", "")).casefold() == GrowthStage.MEGA.value
+    )
+
+
 def _peer_digimon_became_numemon(previous: PeerStatus | None, current: PeerStatus) -> bool:
     if not current.online or current.payload is None:
         return False
@@ -273,6 +284,8 @@ def _friend_notification_message(payload: PresencePayload, event_kind: str) -> s
         return f"{trainer}'s {digimon} just died."
     if event_kind == "numemon":
         return f"{trainer}'s Digimon just became Numemon."
+    if event_kind == "mega":
+        return f"{trainer}'s {digimon} just became a Mega."
     return f"{trainer}'s {digimon} just became an Ultimate."
 
 
@@ -830,6 +843,10 @@ class PetWindow(QWidget):
         self._state.clamp()
 
     def _passive_stat_increment(self, stat_name: str, current_minute: int) -> int:
+        if self._state.stage == GrowthStage.MEGA:
+            if current_minute % 5 == 0:
+                return 150 if stat_name in {"hp", "mp"} else 15
+            return 50 if stat_name in {"hp", "mp"} else 5
         increment = 10 if stat_name in {"hp", "mp"} else 1
         if self._state.stage == GrowthStage.ULTIMATE and current_minute % 3 == 0:
             return increment * 2
@@ -1241,6 +1258,8 @@ class PetWindow(QWidget):
         return self._rng.randint(SECONDARY_EVENT_MIN_SECONDS, SECONDARY_EVENT_MAX_SECONDS)
 
     def _secondary_event_stat_increment(self, stat_name: str) -> int:
+        if self._state.stage == GrowthStage.MEGA:
+            return 250 if stat_name in {"hp", "mp"} else 25
         if self._state.stage == GrowthStage.ULTIMATE:
             return 120 if stat_name in {"hp", "mp"} else 12
         return 100 if stat_name in {"hp", "mp"} else 10
@@ -1509,6 +1528,9 @@ class PetWindow(QWidget):
             return
         if self._network_settings.notify_friend_ultimate and _peer_digimon_became_ultimate(previous, current):
             self._show_friend_notification(current.payload, "ultimate")
+            return
+        if self._network_settings.notify_friend_ultimate and _peer_digimon_became_mega(previous, current):
+            self._show_friend_notification(current.payload, "mega")
             return
         if self._network_settings.notify_friend_numemon and _peer_digimon_became_numemon(previous, current):
             self._show_friend_notification(current.payload, "numemon")

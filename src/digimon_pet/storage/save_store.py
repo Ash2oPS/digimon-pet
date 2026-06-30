@@ -238,6 +238,7 @@ def _total_age_seconds_from_raw(raw: dict[str, Any]) -> int:
         GrowthStage.ROOKIE: (10 + 30) * 60,
         GrowthStage.CHAMPION: (10 + 30 + 80) * 60,
         GrowthStage.ULTIMATE: (10 + 30 + 80 + 120) * 60,
+        GrowthStage.MEGA: (10 + 30 + 80 + 120 + 120) * 60,
     }[stage]
     return elapsed_before_stage + age_seconds
 

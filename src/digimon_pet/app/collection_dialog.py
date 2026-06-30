@@ -19,6 +19,7 @@ STAGE_LABELS = {
     GrowthStage.ROOKIE: "Rookie",
     GrowthStage.CHAMPION: "Champion",
     GrowthStage.ULTIMATE: "Ultimate",
+    GrowthStage.MEGA: "Mega",
 }
 
 STAGE_ORDER = (
@@ -27,6 +28,7 @@ STAGE_ORDER = (
     GrowthStage.ROOKIE,
     GrowthStage.CHAMPION,
     GrowthStage.ULTIMATE,
+    GrowthStage.MEGA,
 )
 
 

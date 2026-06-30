@@ -3,1022 +3,361 @@
 Source: https://humulos.com/digimon/penc/
 
 ## Summary
-- New Digimon proposed: 142
-- New natural evolutions proposed: 383
-- New sprite imports proposed: 142
-- Existing sprites preserved: 77
-- Excluded PenC entries: 65
+- New Digimon proposed: 62
+- New natural evolutions proposed: 203
+- New sprite imports proposed: 62
+- Existing sprites preserved: 219
+- Excluded PenC entries: 3
 
 ## Blocking Errors
 - None
 
 ## Warnings
-- atlurkabuterimon__to__heraklekabuterimon skipped because source or target is excluded
-- jyagamon__to__heraklekabuterimon skipped because source or target is excluded
-- angewomon__to__heraklekabuterimon skipped because source or target is excluded
-- triceramon__to__heraklekabuterimon skipped because source or target is excluded
-- jyagamon__to__blastmon skipped because source or target is excluded
-- atlurkabuterimon__to__blastmon skipped because source or target is excluded
-- angewomon__to__holydramon skipped because source or target is excluded
-- lamortmon__to__holydramon skipped because source or target is excluded
-- piccolomon__to__holydramon skipped because source or target is excluded
-- lamortmon__to__diarbbitmon skipped because source or target is excluded
-- jyagamon__to__saberleomon skipped because source or target is excluded
-- lamortmon__to__saberleomon skipped because source or target is excluded
-- triceramon__to__saberleomon skipped because source or target is excluded
-- piccolomon__to__saberleomon skipped because source or target is excluded
-- okuwamon__to__saberleomon skipped because source or target is excluded
-- atlurkabuterimon__to__eldoradimon skipped because source or target is excluded
-- triceramon__to__eldoradimon skipped because source or target is excluded
-- piccolomon__to__eldoradimon skipped because source or target is excluded
-- tonosamagekomon__to__eldoradimon skipped because source or target is excluded
-- angewomon__to__metaletemon skipped because source or target is excluded
-- triceramon__to__metaletemon skipped because source or target is excluded
-- tonosamagekomon__to__metaletemon skipped because source or target is excluded
-- okuwamon__to__metaletemon skipped because source or target is excluded
-- piccolomon__to__grankuwagamon skipped because source or target is excluded
-- tonosamagekomon__to__grankuwagamon skipped because source or target is excluded
-- okuwamon__to__grankuwagamon skipped because source or target is excluded
-- whamon__to__marinangemon skipped because source or target is excluded
-- zudomon__to__marinangemon skipped because source or target is excluded
-- megaseadramon__to__marinangemon skipped because source or target is excluded
-- hangyomon__to__marinangemon skipped because source or target is excluded
-- thetismon__to__marinangemon skipped because source or target is excluded
-- whamon__to__vikemon skipped because source or target is excluded
-- zudomon__to__vikemon skipped because source or target is excluded
-- anomalocarimon__to__vikemon skipped because source or target is excluded
-- megaseadramon__to__metalseadramon skipped because source or target is excluded
-- thetismon__to__metalseadramon skipped because source or target is excluded
-- marindevimon__to__metalseadramon skipped because source or target is excluded
-- zudomon__to__jumbogamemon skipped because source or target is excluded
-- megaseadramon__to__jumbogamemon skipped because source or target is excluded
-- hangyomon__to__jumbogamemon skipped because source or target is excluded
-- anomalocarimon__to__jumbogamemon skipped because source or target is excluded
-- whamon__to__plesiomon skipped because source or target is excluded
-- anomalocarimon__to__plesiomon skipped because source or target is excluded
-- hangyomon__to__plesiomon skipped because source or target is excluded
-- dagomon__to__plesiomon skipped because source or target is excluded
-- thetismon__to__amphimon skipped because source or target is excluded
-- megaseadramon__to__pukumon skipped because source or target is excluded
-- dagomon__to__pukumon skipped because source or target is excluded
-- marindevimon__to__pukumon skipped because source or target is excluded
-- anomalocarimon__to__cthyllamon skipped because source or target is excluded
-- hangyomon__to__cthyllamon skipped because source or target is excluded
-- thetismon__to__cthyllamon skipped because source or target is excluded
-- dagomon__to__cthyllamon skipped because source or target is excluded
-- marindevimon__to__cthyllamon skipped because source or target is excluded
-- mammon__to__skullmammon skipped because source or target is excluded
-- weregarurumon__to__skullmammon skipped because source or target is excluded
-- deathmeramon__to__skullmammon skipped because source or target is excluded
-- mammon__to__anubimon skipped because source or target is excluded
-- weregarurumon__to__anubimon skipped because source or target is excluded
-- pumpmon__to__anubimon skipped because source or target is excluded
-- mammon__to__boltmon skipped because source or target is excluded
-- deathmeramon__to__boltmon skipped because source or target is excluded
-- pumpmon__to__boltmon skipped because source or target is excluded
-- vamdemon__to__boltmon skipped because source or target is excluded
-- soloogarmon__to__boltmon skipped because source or target is excluded
-- weregarurumon__to__noblepumpmon skipped because source or target is excluded
-- deathmeramon__to__noblepumpmon skipped because source or target is excluded
-- pumpmon__to__noblepumpmon skipped because source or target is excluded
-- fantomon__to__noblepumpmon skipped because source or target is excluded
-- ladydevimon__to__noblepumpmon skipped because source or target is excluded
-- vamdemon__to__callismon skipped because source or target is excluded
-- fantomon__to__callismon skipped because source or target is excluded
-- soloogarmon__to__callismon skipped because source or target is excluded
-- deathmeramon__to__demon skipped because source or target is excluded
-- fantomon__to__demon skipped because source or target is excluded
-- ladydevimon__to__demon skipped because source or target is excluded
-- pumpmon__to__piemon skipped because source or target is excluded
-- vamdemon__to__piemon skipped because source or target is excluded
-- ladydevimon__to__piemon skipped because source or target is excluded
-- soloogarmon__to__fenriloogamon skipped because source or target is excluded
-- aerovdramon__to__ulforcevdramon skipped because source or target is excluded
-- garudamon__to__ulforcevdramon skipped because source or target is excluded
-- blossomon__to__ulforcevdramon skipped because source or target is excluded
-- grandgalemon__to__ulforcevdramon skipped because source or target is excluded
-- aerovdramon__to__hououmon skipped because source or target is excluded
-- garudamon__to__hououmon skipped because source or target is excluded
-- lilimon__to__hououmon skipped because source or target is excluded
-- delumon__to__hououmon skipped because source or target is excluded
-- lilimon__to__rosemon skipped because source or target is excluded
-- delumon__to__rosemon skipped because source or target is excluded
-- jyureimon__to__rosemon skipped because source or target is excluded
-- aerovdramon__to__rafflesimon skipped because source or target is excluded
-- lilimon__to__rafflesimon skipped because source or target is excluded
-- blossomon__to__rafflesimon skipped because source or target is excluded
-- gerbemon__to__rafflesimon skipped because source or target is excluded
-- garudamon__to__griffomon skipped because source or target is excluded
-- blossomon__to__griffomon skipped because source or target is excluded
-- delumon__to__griffomon skipped because source or target is excluded
-- grandgalemon__to__zephagamon skipped because source or target is excluded
-- gerbemon__to__zephagamon skipped because source or target is excluded
-- delumon__to__pinochimon skipped because source or target is excluded
-- grandgalemon__to__pinochimon skipped because source or target is excluded
-- jyureimon__to__pinochimon skipped because source or target is excluded
-- gerbemon__to__pinochimon skipped because source or target is excluded
-- lilimon__to__hydramon skipped because source or target is excluded
-- blossomon__to__hydramon skipped because source or target is excluded
-- jyureimon__to__hydramon skipped because source or target is excluded
-- gerbemon__to__hydramon skipped because source or target is excluded
-- knightmon__to__wargreymon skipped because source or target is excluded
-- cargodramon__to__wargreymon skipped because source or target is excluded
-- andromon__to__hiandromon skipped because source or target is excluded
-- cyberdramon__to__hiandromon skipped because source or target is excluded
-- bigmamemon__to__hiandromon skipped because source or target is excluded
-- megadramon__to__hiandromon skipped because source or target is excluded
-- andromon__to__ragnamon skipped because source or target is excluded
-- cyberdramon__to__ragnamon skipped because source or target is excluded
-- bigmamemon__to__ragnamon skipped because source or target is excluded
-- knightmon__to__ragnamon skipped because source or target is excluded
-- andromon__to__metalgarurumon skipped because source or target is excluded
-- bigmamemon__to__metalgarurumon skipped because source or target is excluded
-- warumonzaemon__to__metalgarurumon skipped because source or target is excluded
-- knightmon__to__zekegreymon skipped because source or target is excluded
-- megadramon__to__zekegreymon skipped because source or target is excluded
-- warumonzaemon__to__zekegreymon skipped because source or target is excluded
-- megadramon__to__mugendramon skipped because source or target is excluded
-- cargodramon__to__mugendramon skipped because source or target is excluded
-- cyberdramon__to__venomvamdemon skipped because source or target is excluded
-- bigmamemon__to__venomvamdemon skipped because source or target is excluded
-- knightmon__to__venomvamdemon skipped because source or target is excluded
-- warumonzaemon__to__venomvamdemon skipped because source or target is excluded
-- megadramon__to__brigadramon skipped because source or target is excluded
-- cargodramon__to__brigadramon skipped because source or target is excluded
-- asuramon__to__wargreymon skipped because source or target is excluded
-- metalmamemon__to__wargreymon skipped because source or target is excluded
-- holyangemon__to__wargreymon skipped because source or target is excluded
-- canoweissmon__to__wargreymon skipped because source or target is excluded
-- asuramon__to__metalgarurumon skipped because source or target is excluded
-- weregarurumon__to__metalgarurumon skipped because source or target is excluded
-- metalmamemon__to__metalgarurumon skipped because source or target is excluded
-- holyangemon__to__metalgarurumon skipped because source or target is excluded
-- regulusmon__to__metalgarurumon skipped because source or target is excluded
-- asuramon__to__dominimon skipped because source or target is excluded
-- holyangemon__to__dominimon skipped because source or target is excluded
-- weregarurumon__to__dominimon skipped because source or target is excluded
-- angewomon__to__dominimon skipped because source or target is excluded
-- metalmamemon__to__quantumon skipped because source or target is excluded
-- weregarurumon__to__quantumon skipped because source or target is excluded
-- angewomon__to__quantumon skipped because source or target is excluded
-- metalmamemon__to__siriusmon skipped because source or target is excluded
-- canoweissmon__to__siriusmon skipped because source or target is excluded
-- regulusmon__to__siriusmon skipped because source or target is excluded
-- metalmamemon__to__arcturusmon skipped because source or target is excluded
-- canoweissmon__to__arcturusmon skipped because source or target is excluded
-- regulusmon__to__arcturusmon skipped because source or target is excluded
 - hanumon__to__andiramon skipped because source or target is excluded
 - lianpumon__to__andiramon skipped because source or target is excluded
 - ginkakumon__to__andiramon skipped because source or target is excluded
 - turuiemon__to__andiramon skipped because source or target is excluded
-- sanzomon__to__erlangmon skipped because source or target is excluded
-- pandamon__to__erlangmon skipped because source or target is excluded
-- huankunmon__to__xiangpengmon skipped because source or target is excluded
-- sagomon__to__xiangpengmon skipped because source or target is excluded
-- huankunmon__to__shagaramon skipped because source or target is excluded
-- chohakkaimon__to__shagaramon skipped because source or target is excluded
-- pandamon__to__shagaramon skipped because source or target is excluded
-- sagomon__to__shagaramon skipped because source or target is excluded
-- sanzomon__to__nezhamon skipped because source or target is excluded
-- chohakkaimon__to__nezhamon skipped because source or target is excluded
-- pandamon__to__nezhamon skipped because source or target is excluded
-- gokuwmon__to__nezhamon skipped because source or target is excluded
-- huankunmon__to__dijiangmon skipped because source or target is excluded
-- chohakkaimon__to__dijiangmon skipped because source or target is excluded
-- gokuwmon__to__dijiangmon skipped because source or target is excluded
-- xingtianmon__to__dijiangmon skipped because source or target is excluded
-- sanzomon__to__takutoumon skipped because source or target is excluded
-- xingtianmon__to__takutoumon skipped because source or target is excluded
-- sagomon__to__takutoumon skipped because source or target is excluded
-- chohakkaimon__to__jougamon skipped because source or target is excluded
-- erlangmon__to__erlangmonblastmode skipped because source or target is excluded
-- nezhamon__to__nezhamoncrimsonmode skipped because source or target is excluded
-- takutoumon__to__takutoumonwrathmode skipped because source or target is excluded
 - peckmon__to__yatagaramon skipped because source or target is excluded
 - shellmon__to__yatagaramon skipped because source or target is excluded
 - manekimon__to__yatagaramon skipped because source or target is excluded
-- karakurumon__to__ravmon skipped because source or target is excluded
-- karatenmon__to__ravmon skipped because source or target is excluded
-- karakurumon__to__kaguyamon skipped because source or target is excluded
-- marinbullmon__to__kaguyamon skipped because source or target is excluded
-- karakurumon__to__ryugumon skipped because source or target is excluded
-- marinbullmon__to__ryugumon skipped because source or target is excluded
-- sekkamon__to__ryugumon skipped because source or target is excluded
-- shishimamon__to__zanbamon skipped because source or target is excluded
-- darumamon__to__zanbamon skipped because source or target is excluded
-- oboromon__to__zanbamon skipped because source or target is excluded
-- karatenmon__to__zanbamon skipped because source or target is excluded
-- oboromon__to__tengumon skipped because source or target is excluded
-- karatenmon__to__tengumon skipped because source or target is excluded
-- shishimamon__to__ariemon skipped because source or target is excluded
-- darumamon__to__ariemon skipped because source or target is excluded
-- sekkamon__to__ariemon skipped because source or target is excluded
-- karakurumon__to__yukinamon skipped because source or target is excluded
-- marinbullmon__to__yukinamon skipped because source or target is excluded
-- sekkamon__to__yukinamon skipped because source or target is excluded
-- ravmon__to__ravmonburstmode skipped because source or target is excluded
 - Andiramon excluded: alternate form
 - Metal Greymon excluded: alternate form
 - Yatagaramon excluded: alternate form
-- Amphimon excluded: stage exceeds Ultimate
-- Anubimon excluded: stage exceeds Ultimate
-- Arcturusmon excluded: stage exceeds Ultimate
-- Ariemon excluded: stage exceeds Ultimate
-- Blastmon excluded: stage exceeds Ultimate
-- Boltmon excluded: stage exceeds Ultimate
-- Brigadramon excluded: stage exceeds Ultimate
-- Callismon excluded: stage exceeds Ultimate
-- Cthyllamon excluded: stage exceeds Ultimate
-- Demon excluded: stage exceeds Ultimate
-- Diarbbitmon excluded: stage exceeds Ultimate
-- Dijiangmon excluded: stage exceeds Ultimate
-- Dominimon excluded: stage exceeds Ultimate
-- El Doradimon excluded: stage exceeds Ultimate
-- Erlangmon excluded: stage exceeds Ultimate
-- Erlangmon: Blast Mode excluded: stage exceeds Ultimate
-- Fenriloogamon excluded: stage exceeds Ultimate
-- Gran Kuwagamon excluded: stage exceeds Ultimate
-- Griffomon excluded: stage exceeds Ultimate
-- Herakle Kabuterimon excluded: stage exceeds Ultimate
-- Hi Andromon excluded: stage exceeds Ultimate
-- Holydramon excluded: stage exceeds Ultimate
-- Hououmon excluded: stage exceeds Ultimate
-- Hydramon excluded: stage exceeds Ultimate
-- Jougamon excluded: stage exceeds Ultimate
-- Jumbo Gamemon excluded: stage exceeds Ultimate
-- Kaguyamon excluded: stage exceeds Ultimate
-- Marin Angemon excluded: stage exceeds Ultimate
-- Metal Etemon excluded: stage exceeds Ultimate
-- Metal Garurumon excluded: stage exceeds Ultimate
-- Metal Seadramon excluded: stage exceeds Ultimate
-- Mugendramon excluded: stage exceeds Ultimate
-- Nezhamon excluded: stage exceeds Ultimate
-- Nezhamon: Crimson Mode excluded: stage exceeds Ultimate
-- Noble Pumpmon excluded: stage exceeds Ultimate
-- Piemon excluded: stage exceeds Ultimate
-- Pinochimon excluded: stage exceeds Ultimate
-- Plesiomon excluded: stage exceeds Ultimate
-- Pukumon excluded: stage exceeds Ultimate
-- Quantumon excluded: stage exceeds Ultimate
-- Rafflesimon excluded: stage exceeds Ultimate
-- Ragnamon excluded: stage exceeds Ultimate
-- Ravmon excluded: stage exceeds Ultimate
-- Ravmon: Burst Mode excluded: stage exceeds Ultimate
-- Rosemon excluded: stage exceeds Ultimate
-- Ryugumon excluded: stage exceeds Ultimate
-- Saber Leomon excluded: stage exceeds Ultimate
-- Shagaramon excluded: stage exceeds Ultimate
-- Siriusmon excluded: stage exceeds Ultimate
-- Skull Mammon excluded: stage exceeds Ultimate
-- Takutoumon excluded: stage exceeds Ultimate
-- Takutoumon: Wrath Mode excluded: stage exceeds Ultimate
-- Tengumon excluded: stage exceeds Ultimate
-- Ulforce V-dramon excluded: stage exceeds Ultimate
-- Venom Vamdemon excluded: stage exceeds Ultimate
-- Vikemon excluded: stage exceeds Ultimate
-- War Greymon excluded: stage exceeds Ultimate
-- Xiangpengmon excluded: stage exceeds Ultimate
-- Yukinamon excluded: stage exceeds Ultimate
-- Zanbamon excluded: stage exceeds Ultimate
-- Zeke Greymon excluded: stage exceeds Ultimate
-- Zephagamon excluded: stage exceeds Ultimate
 
 ## New Digimon
-- Angoramon (`angoramon`, rookie)
-- Candmon (`candmon`, rookie)
-- Commandramon (`commandramon`, rookie)
-- Floramon (`floramon`, rookie)
-- Fujamon (`fujamon`, rookie)
-- Gammamon (`gammamon`, rookie)
-- Ganimon (`ganimon`, rookie)
-- Gasamon (`gasamon`, rookie)
-- Gottsumon (`gottsumon`, rookie)
-- Hagurumon (`hagurumon`, rookie)
-- Jellymon (`jellymon`, rookie)
-- Loogamon (`loogamon`, rookie)
-- Mushmon (`mushmon`, rookie)
-- Otamamon (`otamamon`, rookie)
-- Pico Devimon (`picodevimon`, rookie)
-- Plotmon (`plotmon`, rookie)
-- Pteromon (`pteromon`, rookie)
-- Renamon (`renamon`, rookie)
-- Shakomon (`shakomon`, rookie)
-- Takinmon (`takinmon`, rookie)
-- Betel Gammamon (`betelgammamon`, champion)
-- Clockmon (`clockmon`, champion)
-- Dokugumon (`dokugumon`, champion)
-- Ebidramon (`ebidramon`, champion)
-- Fugamon (`fugamon`, champion)
-- Galemon (`galemon`, champion)
-- Gawappamon (`gawappamon`, champion)
-- Gekomon (`gekomon`, champion)
-- Gesomon (`gesomon`, champion)
-- Ginkakumon (`ginkakumon`, champion)
-- Guardromon (`guardromon`, champion)
-- Gulus Gammamon (`gulusgammamon`, champion)
-- Hakubamon (`hakubamon`, champion)
-- Hanumon (`hanumon`, champion)
-- Hi-Commandramon (`hicommandramon`, champion)
-- Igamon (`igamon`, champion)
-- Ikkakumon (`ikkakumon`, champion)
-- Kaus Gammamon (`kausgammamon`, champion)
-- Kinkakumon (`kinkakumon`, champion)
-- Kiwimon (`kiwimon`, champion)
-- Kokeshimon (`kokeshimon`, champion)
-- Lianpumon (`lianpumon`, champion)
-- Loogarmon (`loogarmon`, champion)
-- Manekimon (`manekimon`, champion)
-- Mechanorimon (`mechanorimon`, champion)
-- Musyamon (`musyamon`, champion)
-- Octmon (`octmon`, champion)
-- Peckmon (`peckmon`, champion)
-- Red Vegimon (`redvegimon`, champion)
-- Revolmon (`revolmon`, champion)
-- Rukamon (`rukamon`, champion)
-- Siesamon (`siesamon`, champion)
-- Starmon (`starmon`, champion)
-- Symbare Angoramon (`symbareangoramon`, champion)
-- Tailmon (`tailmon`, champion)
-- Tankmon (`tankmon`, champion)
-- Tenkomon (`tenkomon`, champion)
-- Tesla Jellymon (`teslajellymon`, champion)
-- Thunderballmon (`thunderballmon`, champion)
-- Togemon (`togemon`, champion)
-- Tortamon (`tortamon`, champion)
-- V-dramon (`vdramon`, champion)
-- Wezen Gammamon (`wezengammamon`, champion)
-- Wizarmon (`wizarmon`, champion)
-- Woodmon (`woodmon`, champion)
-- Xiquemon (`xiquemon`, champion)
-- Aero V-dramon (`aerovdramon`, ultimate)
-- Anomalocarimon (`anomalocarimon`, ultimate)
-- Asuramon (`asuramon`, ultimate)
-- Atlur Kabuterimon (`atlurkabuterimon`, ultimate)
-- Big Mamemon (`bigmamemon`, ultimate)
-- Blossomon (`blossomon`, ultimate)
-- Canoweissmon (`canoweissmon`, ultimate)
-- Cargodramon (`cargodramon`, ultimate)
-- Cho-Hakkaimon (`chohakkaimon`, ultimate)
-- Cyberdramon (`cyberdramon`, ultimate)
-- Dagomon (`dagomon`, ultimate)
-- Darumamon (`darumamon`, ultimate)
-- Death Meramon (`deathmeramon`, ultimate)
-- Delumon (`delumon`, ultimate)
-- Fantomon (`fantomon`, ultimate)
-- Garudamon (`garudamon`, ultimate)
-- Gerbemon (`gerbemon`, ultimate)
-- Gokuwmon (`gokuwmon`, ultimate)
-- Grand Galemon (`grandgalemon`, ultimate)
-- Hangyomon (`hangyomon`, ultimate)
-- Holy Angemon (`holyangemon`, ultimate)
-- Huankunmon (`huankunmon`, ultimate)
-- Jyagamon (`jyagamon`, ultimate)
-- Jyureimon (`jyureimon`, ultimate)
-- Karakurumon (`karakurumon`, ultimate)
-- Karatenmon (`karatenmon`, ultimate)
-- Knightmon (`knightmon`, ultimate)
-- Lady Devimon (`ladydevimon`, ultimate)
-- Lamortmon (`lamortmon`, ultimate)
-- Lilimon (`lilimon`, ultimate)
-- Mammon (`mammon`, ultimate)
-- Marin Bullmon (`marinbullmon`, ultimate)
-- Marin Devimon (`marindevimon`, ultimate)
-- Oboromon (`oboromon`, ultimate)
-- Okuwamon (`okuwamon`, ultimate)
-- Pandamon (`pandamon`, ultimate)
-- Piccolomon (`piccolomon`, ultimate)
-- Pumpmon (`pumpmon`, ultimate)
-- Regulusmon (`regulusmon`, ultimate)
-- Sagomon (`sagomon`, ultimate)
-- Sanzomon (`sanzomon`, ultimate)
-- Sekkamon (`sekkamon`, ultimate)
-- Shishimamon (`shishimamon`, ultimate)
-- Soloogarmon (`soloogarmon`, ultimate)
-- Thetismon (`thetismon`, ultimate)
-- Tonosama Gekomon (`tonosamagekomon`, ultimate)
-- Triceramon (`triceramon`, ultimate)
-- Vamdemon (`vamdemon`, ultimate)
-- Xingtianmon (`xingtianmon`, ultimate)
-- Zudomon (`zudomon`, ultimate)
-- Pitchmon (`pitchmon`, baby)
-- Pukamon (`pukamon`, baby_2)
-- Gomamon (`gomamon`, rookie)
-- Choromon (`choromon`, baby)
-- Caprimon (`caprimon`, baby_2)
-- Kokuwamon (`kokuwamon`, rookie)
-- Toy Agumon (`toyagumon`, rookie)
-- Bubbmon (`bubbmon`, baby)
-- Mochimon (`mochimon`, baby_2)
-- Tentomon (`tentomon`, rookie)
-- Mokumon (`mokumon`, baby)
-- Peti Meramon (`petimeramon`, baby_2)
-- Bakumon (`bakumon`, rookie)
-- Fukamon (`fukamon`, baby)
-- Mococomon (`mococomon`, baby_2)
-- Kakamon (`kakamon`, rookie)
-- Kamemon (`kamemon`, rookie)
-- Tomorimon (`tomorimon`, baby)
-- Onibimon (`onibimon`, baby_2)
-- Hanimon (`hanimon`, rookie)
-- Wankomon (`wankomon`, rookie)
-- Yukimibotamon (`yukimibotamon`, baby)
-- Nyaromon (`nyaromon`, baby_2)
-- Nyokimon (`nyokimon`, baby)
-- Pyocomon (`pyocomon`, baby_2)
-- Biyomon (`biyomon`, rookie)
+- Amphimon (`amphimon`, mega)
+- Anubimon (`anubimon`, mega)
+- Arcturusmon (`arcturusmon`, mega)
+- Ariemon (`ariemon`, mega)
+- Blastmon (`blastmon`, mega)
+- Boltmon (`boltmon`, mega)
+- Brigadramon (`brigadramon`, mega)
+- Callismon (`callismon`, mega)
+- Cthyllamon (`cthyllamon`, mega)
+- Demon (`demon`, mega)
+- Diarbbitmon (`diarbbitmon`, mega)
+- Dijiangmon (`dijiangmon`, mega)
+- Dominimon (`dominimon`, mega)
+- El Doradimon (`eldoradimon`, mega)
+- Erlangmon (`erlangmon`, mega)
+- Erlangmon: Blast Mode (`erlangmonblastmode`, mega)
+- Fenriloogamon (`fenriloogamon`, mega)
+- Gran Kuwagamon (`grankuwagamon`, mega)
+- Griffomon (`griffomon`, mega)
+- Herakle Kabuterimon (`heraklekabuterimon`, mega)
+- Hi Andromon (`hiandromon`, mega)
+- Holydramon (`holydramon`, mega)
+- Hououmon (`hououmon`, mega)
+- Hydramon (`hydramon`, mega)
+- Jougamon (`jougamon`, mega)
+- Jumbo Gamemon (`jumbogamemon`, mega)
+- Kaguyamon (`kaguyamon`, mega)
+- Marin Angemon (`marinangemon`, mega)
+- Metal Etemon (`metaletemon`, mega)
+- Metal Garurumon (`metalgarurumon`, mega)
+- Metal Seadramon (`metalseadramon`, mega)
+- Mugendramon (`mugendramon`, mega)
+- Nezhamon (`nezhamon`, mega)
+- Nezhamon: Crimson Mode (`nezhamoncrimsonmode`, mega)
+- Noble Pumpmon (`noblepumpmon`, mega)
+- Piemon (`piemon`, mega)
+- Pinochimon (`pinochimon`, mega)
+- Plesiomon (`plesiomon`, mega)
+- Pukumon (`pukumon`, mega)
+- Quantumon (`quantumon`, mega)
+- Rafflesimon (`rafflesimon`, mega)
+- Ragnamon (`ragnamon`, mega)
+- Ravmon (`ravmon`, mega)
+- Ravmon: Burst Mode (`ravmonburstmode`, mega)
+- Rosemon (`rosemon`, mega)
+- Ryugumon (`ryugumon`, mega)
+- Saber Leomon (`saberleomon`, mega)
+- Shagaramon (`shagaramon`, mega)
+- Siriusmon (`siriusmon`, mega)
+- Skull Mammon (`skullmammon`, mega)
+- Takutoumon (`takutoumon`, mega)
+- Takutoumon: Wrath Mode (`takutoumonwrathmode`, mega)
+- Tengumon (`tengumon`, mega)
+- Ulforce V-dramon (`ulforcevdramon`, mega)
+- Venom Vamdemon (`venomvamdemon`, mega)
+- Vikemon (`vikemon`, mega)
+- War Greymon (`wargreymon`, mega)
+- Xiangpengmon (`xiangpengmon`, mega)
+- Yukinamon (`yukinamon`, mega)
+- Zanbamon (`zanbamon`, mega)
+- Zeke Greymon (`zekegreymon`, mega)
+- Zephagamon (`zephagamon`, mega)
 
 ## New Evolutions
-- Mochimon -> Tentomon: hp 1000, defense 100, speed 100, brains 100
-- Mochimon -> Angoramon: speed 100, offense 100
-- Mochimon -> Gottsumon: hp 1000, mp 1000, offense 100, defense 100
-- Mochimon -> Otamamon: hp 1000, mp 1000, offense 100, defense 100
-- Tentomon -> Kabuterimon: hp 11000, defense 1250, speed 1400, brains 1100
-- Angoramon -> Kabuterimon: hp 11000, defense 1250, speed 1400, brains 1100
-- Tentomon -> Tortamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gottsumon -> Tortamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Tentomon -> Tailmon: speed 1100, offense 1250
-- Angoramon -> Tailmon: speed 1100, offense 1250
-- Otamamon -> Tailmon: speed 1100, offense 1250
-- Angoramon -> Symbare Angoramon: speed 1100, offense 1250
-- Angoramon -> Monochromon: speed 1100, offense 1250
-- Gottsumon -> Monochromon: speed 1100, offense 1250
-- Gottsumon -> Starmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Otamamon -> Starmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Tentomon -> Gekomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gottsumon -> Gekomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Otamamon -> Gekomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Tentomon -> Kuwagamon: hp 11000, defense 1250, speed 1400, brains 1100
-- Otamamon -> Kuwagamon: hp 11000, defense 1250, speed 1400, brains 1100
-- Kabuterimon -> Atlur Kabuterimon: hp 43000, defense 4800, speed 5250, brains 4300
-- Tortamon -> Atlur Kabuterimon: hp 43000, defense 4800, speed 5250, brains 4300
-- Symbare Angoramon -> Atlur Kabuterimon: hp 43000, defense 4800, speed 5250, brains 4300
-- Tortamon -> Jyagamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tailmon -> Jyagamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Monochromon -> Jyagamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kabuterimon -> Angewomon: mp 43000, speed 4800, brains 5250
-- Tailmon -> Angewomon: mp 43000, speed 4800, brains 5250
-- Starmon -> Angewomon: mp 43000, speed 4800, brains 5250
-- Symbare Angoramon -> Lamortmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Monochromon -> Triceramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Starmon -> Triceramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gekomon -> Triceramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kabuterimon -> Piccolomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tortamon -> Piccolomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tailmon -> Piccolomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Monochromon -> Piccolomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Starmon -> Piccolomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kuwagamon -> Piccolomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Monochromon -> Tonosama Gekomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Starmon -> Tonosama Gekomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gekomon -> Tonosama Gekomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kuwagamon -> Tonosama Gekomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Symbare Angoramon -> Okuwamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gekomon -> Okuwamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kuwagamon -> Okuwamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Pukamon -> Gomamon: hp 1000, mp 1000, offense 100, defense 100
-- Pukamon -> Ganimon: hp 1000, mp 1000, offense 100, defense 100
-- Pukamon -> Jellymon: hp 1000, mp 1000, defense 100, brains 100
-- Pukamon -> Shakomon: hp 1000, mp 1000, offense 100, defense 100
-- Gomamon -> Rukamon: hp 11000, mp 12500, defense 1400, brains 1100
-- Ganimon -> Rukamon: hp 11000, mp 12500, defense 1400, brains 1100
-- Jellymon -> Rukamon: hp 11000, mp 12500, defense 1400, brains 1100
-- Gomamon -> Ikkakumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Shakomon -> Ikkakumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Ganimon -> Seadramon: hp 11000, mp 12500, defense 1400, brains 1100
-- Jellymon -> Seadramon: hp 11000, mp 12500, defense 1400, brains 1100
-- Shakomon -> Seadramon: hp 11000, mp 12500, defense 1400, brains 1100
-- Gomamon -> Coelamon: hp 11000, mp 12500, defense 1400, brains 1100
-- Ganimon -> Coelamon: hp 11000, mp 12500, defense 1400, brains 1100
-- Gomamon -> Ebidramon: defense 1100, offense 1250, brains 1400
-- Ganimon -> Ebidramon: defense 1100, offense 1250, brains 1400
-- Jellymon -> Ebidramon: defense 1100, offense 1250, brains 1400
-- Jellymon -> Tesla Jellymon: hp 11000, mp 12500, defense 1400, brains 1100
-- Gomamon -> Octmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Shakomon -> Octmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Ganimon -> Gesomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Shakomon -> Gesomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Rukamon -> Whamon: hp 43000, mp 48000, defense 5250, brains 4300
-- Ikkakumon -> Whamon: hp 43000, mp 48000, defense 5250, brains 4300
-- Seadramon -> Whamon: hp 43000, mp 48000, defense 5250, brains 4300
-- Coelamon -> Whamon: hp 43000, mp 48000, defense 5250, brains 4300
-- Ikkakumon -> Zudomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Rukamon -> Zudomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Ebidramon -> Zudomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tesla Jellymon -> Zudomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tesla Jellymon -> Mega Seadramon: hp 43000, mp 48000, defense 5250, brains 4300
-- Ikkakumon -> Anomalocarimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Coelamon -> Anomalocarimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Ebidramon -> Anomalocarimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gesomon -> Anomalocarimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Rukamon -> Hangyomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Seadramon -> Hangyomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Ebidramon -> Hangyomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Octmon -> Hangyomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tesla Jellymon -> Thetismon: hp 43000, mp 48000, offense 5250, defense 4300
-- Seadramon -> Dagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Coelamon -> Dagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Octmon -> Dagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gesomon -> Dagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Ebidramon -> Marin Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tesla Jellymon -> Marin Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Octmon -> Marin Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gesomon -> Marin Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Peti Meramon -> Bakumon: hp 1000, mp 1000, offense 100, defense 100
-- Peti Meramon -> Candmon: hp 1000, mp 1000, offense 100, defense 100
-- Peti Meramon -> Pico Devimon: hp 1000, mp 1000, offense 100, defense 100
-- Peti Meramon -> Loogamon: hp 1000, mp 1000, offense 100, defense 100
-- Bakumon -> Hanumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Loogamon -> Hanumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Bakumon -> Garurumon: speed 1100, offense 1250
-- Candmon -> Garurumon: speed 1100, offense 1250
-- Bakumon -> Meramon: hp 11000, mp 12500, offense 1400, defense 1100
-- Candmon -> Meramon: hp 11000, mp 12500, offense 1400, defense 1100
-- Pico Devimon -> Meramon: hp 11000, mp 12500, offense 1400, defense 1100
-- Bakumon -> Wizarmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Candmon -> Wizarmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Pico Devimon -> Wizarmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Candmon -> Devimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Pico Devimon -> Devimon: hp 11000, mp 12500, offense 1400, defense 1100
+- Atlur Kabuterimon -> Herakle Kabuterimon: hp 60000, defense 6550, speed 7100, brains 6000
+- Jyagamon -> Herakle Kabuterimon: hp 60000, defense 6550, speed 7100, brains 6000
+- Angewomon -> Herakle Kabuterimon: hp 60000, defense 6550, speed 7100, brains 6000
+- Triceramon -> Herakle Kabuterimon: hp 60000, defense 6550, speed 7100, brains 6000
+- Jyagamon -> Blastmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Atlur Kabuterimon -> Blastmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Angewomon -> Holydramon: defense 6000, offense 6550, brains 7100
+- Lamortmon -> Holydramon: defense 6000, offense 6550, brains 7100
+- Piccolomon -> Holydramon: defense 6000, offense 6550, brains 7100
+- Lamortmon -> Diarbbitmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Jyagamon -> Saber Leomon: speed 6000, offense 6550
+- Lamortmon -> Saber Leomon: speed 6000, offense 6550
+- Triceramon -> Saber Leomon: speed 6000, offense 6550
+- Piccolomon -> Saber Leomon: speed 6000, offense 6550
+- Okuwamon -> Saber Leomon: speed 6000, offense 6550
+- Atlur Kabuterimon -> El Doradimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Triceramon -> El Doradimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Piccolomon -> El Doradimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Tonosama Gekomon -> El Doradimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Angewomon -> Metal Etemon: defense 6000, offense 6550, brains 7100
+- Triceramon -> Metal Etemon: defense 6000, offense 6550, brains 7100
+- Tonosama Gekomon -> Metal Etemon: defense 6000, offense 6550, brains 7100
+- Okuwamon -> Metal Etemon: defense 6000, offense 6550, brains 7100
+- Piccolomon -> Gran Kuwagamon: hp 60000, defense 6550, speed 7100, brains 6000
+- Tonosama Gekomon -> Gran Kuwagamon: hp 60000, defense 6550, speed 7100, brains 6000
+- Okuwamon -> Gran Kuwagamon: hp 60000, defense 6550, speed 7100, brains 6000
+- Whamon -> Marin Angemon: mp 60000, speed 6550, brains 7100
+- Zudomon -> Marin Angemon: mp 60000, speed 6550, brains 7100
+- Mega Seadramon -> Marin Angemon: mp 60000, speed 6550, brains 7100
+- Hangyomon -> Marin Angemon: mp 60000, speed 6550, brains 7100
+- Thetismon -> Marin Angemon: mp 60000, speed 6550, brains 7100
+- Whamon -> Vikemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Zudomon -> Vikemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Anomalocarimon -> Vikemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Mega Seadramon -> Metal Seadramon: hp 60000, mp 65500, defense 7100, brains 6000
+- Thetismon -> Metal Seadramon: hp 60000, mp 65500, defense 7100, brains 6000
+- Marin Devimon -> Metal Seadramon: hp 60000, mp 65500, defense 7100, brains 6000
+- Zudomon -> Jumbo Gamemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Mega Seadramon -> Jumbo Gamemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Hangyomon -> Jumbo Gamemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Anomalocarimon -> Jumbo Gamemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Whamon -> Plesiomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Anomalocarimon -> Plesiomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Hangyomon -> Plesiomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Dagomon -> Plesiomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Thetismon -> Amphimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Mega Seadramon -> Pukumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Dagomon -> Pukumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Marin Devimon -> Pukumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Anomalocarimon -> Cthyllamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Hangyomon -> Cthyllamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Thetismon -> Cthyllamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Dagomon -> Cthyllamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Marin Devimon -> Cthyllamon: hp 60000, mp 65500, offense 7100, defense 6000
 - Pico Devimon -> Bakemon: hp 11000, mp 12500, offense 1400, defense 1100
 - Loogamon -> Bakemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Pico Devimon -> Dokugumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Loogamon -> Dokugumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Loogamon -> Loogarmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hanumon -> Mammon: hp 43000, mp 48000, offense 5250, defense 4300
-- Garurumon -> Mammon: hp 43000, mp 48000, offense 5250, defense 4300
-- Wizarmon -> Mammon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hanumon -> Were Garurumon: speed 4300, offense 4800
-- Meramon -> Were Garurumon: speed 4300, offense 4800
-- Loogarmon -> Were Garurumon: speed 4300, offense 4800
-- Meramon -> Death Meramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Wizarmon -> Death Meramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Devimon -> Death Meramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hanumon -> Pumpmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Garurumon -> Pumpmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Meramon -> Pumpmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Wizarmon -> Pumpmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Bakemon -> Pumpmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Dokugumon -> Pumpmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Devimon -> Vamdemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Dokugumon -> Vamdemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Loogarmon -> Vamdemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Meramon -> Fantomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Wizarmon -> Fantomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Bakemon -> Fantomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Devimon -> Lady Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Bakemon -> Lady Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Dokugumon -> Lady Devimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Loogarmon -> Soloogarmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Pyocomon -> Biyomon: hp 1000, mp 1000, offense 100, defense 100
-- Pyocomon -> Floramon: hp 1000, defense 100, speed 100, brains 100
-- Pyocomon -> Palmon: hp 1000, defense 100, speed 100, brains 100
-- Pyocomon -> Pteromon: hp 1000, mp 1000, offense 100, defense 100
-- Pyocomon -> Mushmon: hp 1000, mp 1000, offense 100, defense 100
-- Floramon -> V-dramon: defense 1100, offense 1250, brains 1400
-- Mushmon -> V-dramon: defense 1100, offense 1250, brains 1400
-- Pteromon -> V-dramon: defense 1100, offense 1250, brains 1400
-- Biyomon -> Birdramon: defense 1100, offense 1250, brains 1400
-- Floramon -> Birdramon: defense 1100, offense 1250, brains 1400
-- Pteromon -> Birdramon: defense 1100, offense 1250, brains 1400
-- Palmon -> Togemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Mushmon -> Togemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Pteromon -> Togemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Biyomon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Floramon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Palmon -> Kiwimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Floramon -> Galemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Mushmon -> Galemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Pteromon -> Galemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Biyomon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Palmon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Mushmon -> Woodmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Biyomon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
-- Floramon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
-- Palmon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
-- Mushmon -> Red Vegimon: hp 11000, defense 1250, speed 1400, brains 1100
-- V-dramon -> Aero V-dramon: defense 4300, offense 4800, brains 5250
-- Birdramon -> Aero V-dramon: defense 4300, offense 4800, brains 5250
-- Togemon -> Aero V-dramon: defense 4300, offense 4800, brains 5250
-- Galemon -> Aero V-dramon: defense 4300, offense 4800, brains 5250
-- V-dramon -> Garudamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Birdramon -> Garudamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kiwimon -> Garudamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Togemon -> Lilimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kiwimon -> Lilimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Galemon -> Lilimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Birdramon -> Blossomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Togemon -> Blossomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kiwimon -> Blossomon: hp 43000, mp 48000, offense 5250, defense 4300
-- V-dramon -> Delumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Woodmon -> Delumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Red Vegimon -> Delumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kiwimon -> Grand Galemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Galemon -> Grand Galemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Togemon -> Jyureimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Woodmon -> Jyureimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Red Vegimon -> Jyureimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kiwimon -> Gerbemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Woodmon -> Gerbemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Red Vegimon -> Gerbemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Caprimon -> Toy Agumon: hp 1000, mp 1000, offense 100, defense 100
-- Caprimon -> Kokuwamon: hp 1000, mp 1000, offense 100, defense 100
-- Caprimon -> Hagurumon: defense 100, offense 100, brains 100
-- Caprimon -> Commandramon: defense 100, offense 100, brains 100
-- Toy Agumon -> Greymon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hagurumon -> Greymon: hp 11000, mp 12500, offense 1400, defense 1100
-- Commandramon -> Greymon: hp 11000, mp 12500, offense 1400, defense 1100
-- Toy Agumon -> Revolmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kokuwamon -> Revolmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Toy Agumon -> Clockmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kokuwamon -> Clockmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Commandramon -> Clockmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Toy Agumon -> Thunderballmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kokuwamon -> Thunderballmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kokuwamon -> Tankmon: defense 1100, offense 1250, brains 1400
-- Hagurumon -> Tankmon: defense 1100, offense 1250, brains 1400
-- Kokuwamon -> Guardromon: defense 1100, offense 1250, brains 1400
-- Hagurumon -> Guardromon: defense 1100, offense 1250, brains 1400
-- Commandramon -> Guardromon: defense 1100, offense 1250, brains 1400
-- Toy Agumon -> Mechanorimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hagurumon -> Mechanorimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kokuwamon -> Hi-Commandramon: defense 1100, offense 1250, brains 1400
-- Hagurumon -> Hi-Commandramon: defense 1100, offense 1250, brains 1400
-- Commandramon -> Hi-Commandramon: defense 1100, offense 1250, brains 1400
-- Clockmon -> MetalGreymon: defense 4300, offense 4800, brains 5250
-- Tankmon -> MetalGreymon: defense 4300, offense 4800, brains 5250
-- Revolmon -> Andromon: hp 43000, mp 48000, offense 5250, defense 4300
-- Clockmon -> Andromon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tankmon -> Andromon: hp 43000, mp 48000, offense 5250, defense 4300
-- Greymon -> Cyberdramon: defense 4300, offense 4800, brains 5250
-- Revolmon -> Cyberdramon: defense 4300, offense 4800, brains 5250
-- Thunderballmon -> Cyberdramon: defense 4300, offense 4800, brains 5250
-- Greymon -> Big Mamemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Thunderballmon -> Big Mamemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tankmon -> Big Mamemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Mechanorimon -> Big Mamemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Revolmon -> Knightmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Clockmon -> Knightmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Thunderballmon -> Knightmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Guardromon -> Knightmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tankmon -> Megadramon: defense 4300, offense 4800, brains 5250
-- Guardromon -> Megadramon: defense 4300, offense 4800, brains 5250
-- Mechanorimon -> Megadramon: defense 4300, offense 4800, brains 5250
-- Hi-Commandramon -> Megadramon: defense 4300, offense 4800, brains 5250
-- Clockmon -> Waru Monzaemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Thunderballmon -> Waru Monzaemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Guardromon -> Waru Monzaemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Mechanorimon -> Waru Monzaemon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tankmon -> Cargodramon: defense 4300, offense 4800, brains 5250
-- Hi-Commandramon -> Cargodramon: defense 4300, offense 4800, brains 5250
-- Nyaromon -> Agumon: hp 1000, mp 1000, offense 100, defense 100
-- Nyaromon -> Gabumon: hp 1000, mp 1000, offense 100, defense 100
-- Nyaromon -> Plotmon: hp 1000, mp 1000, offense 100, defense 100
-- Nyaromon -> Gammamon: hp 1000, mp 1000, offense 100, defense 100
-- Plotmon -> Greymon: hp 11000, mp 12500, offense 1400, defense 1100
-- Agumon -> Leomon: speed 1100, offense 1250
-- Gabumon -> Leomon: speed 1100, offense 1250
-- Plotmon -> Garurumon: speed 1100, offense 1250
-- Agumon -> Igamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gabumon -> Igamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Plotmon -> Igamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Agumon -> Angemon: mp 11000, speed 1250, brains 1400
-- Plotmon -> Angemon: mp 11000, speed 1250, brains 1400
-- Gabumon -> Tailmon: speed 1100, offense 1250
-- Plotmon -> Tailmon: speed 1100, offense 1250
-- Agumon -> Betel Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gammamon -> Betel Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gabumon -> Kaus Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gammamon -> Kaus Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gabumon -> Wezen Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Plotmon -> Wezen Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gammamon -> Wezen Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Agumon -> Gulus Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Plotmon -> Gulus Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gammamon -> Gulus Gammamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Leomon -> MetalGreymon: defense 4300, offense 4800, brains 5250
-- Betel Gammamon -> MetalGreymon: defense 4300, offense 4800, brains 5250
-- Igamon -> MetalGreymon: defense 4300, offense 4800, brains 5250
-- Wezen Gammamon -> MetalGreymon: defense 4300, offense 4800, brains 5250
-- Greymon -> Asuramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Leomon -> Asuramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Angemon -> Asuramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gulus Gammamon -> Asuramon: hp 43000, mp 48000, offense 5250, defense 4300
-- Igamon -> Were Garurumon: speed 4300, offense 4800
-- Kaus Gammamon -> Were Garurumon: speed 4300, offense 4800
-- Tailmon -> Were Garurumon: speed 4300, offense 4800
-- Greymon -> Metal Mamemon: defense 4300, offense 4800, brains 5250
-- Leomon -> Metal Mamemon: defense 4300, offense 4800, brains 5250
-- Betel Gammamon -> Metal Mamemon: defense 4300, offense 4800, brains 5250
-- Garurumon -> Metal Mamemon: defense 4300, offense 4800, brains 5250
-- Igamon -> Metal Mamemon: defense 4300, offense 4800, brains 5250
-- Garurumon -> Holy Angemon: mp 43000, speed 4800, brains 5250
-- Tailmon -> Holy Angemon: mp 43000, speed 4800, brains 5250
-- Angemon -> Holy Angemon: mp 43000, speed 4800, brains 5250
-- Gulus Gammamon -> Holy Angemon: mp 43000, speed 4800, brains 5250
-- Garurumon -> Angewomon: mp 43000, speed 4800, brains 5250
-- Igamon -> Angewomon: mp 43000, speed 4800, brains 5250
-- Igamon -> Canoweissmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Betel Gammamon -> Canoweissmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kaus Gammamon -> Canoweissmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Wezen Gammamon -> Canoweissmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Igamon -> Regulusmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kaus Gammamon -> Regulusmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Wezen Gammamon -> Regulusmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gulus Gammamon -> Regulusmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Mococomon -> Kakamon: hp 1000, mp 1000, offense 100, defense 100
-- Mococomon -> Kamemon: hp 1000, mp 1000, offense 100, defense 100
-- Mococomon -> Fujamon: hp 1000, mp 1000, offense 100, defense 100
-- Mococomon -> Takinmon: hp 1000, mp 1000, offense 100, defense 100
-- Kakamon -> Hanumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kamemon -> Hanumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kamemon -> Xiquemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Fujamon -> Xiquemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kamemon -> Gawappamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Fujamon -> Gawappamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kakamon -> Lianpumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Takinmon -> Lianpumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kakamon -> Ginkakumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Fujamon -> Ginkakumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Fujamon -> Kinkakumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Takinmon -> Kinkakumon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kamemon -> Hakubamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Takinmon -> Hakubamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Kakamon -> Turuiemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Takinmon -> Turuiemon: hp 11000, mp 12500, offense 1400, defense 1100
-- Xiquemon -> Sanzomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Lianpumon -> Sanzomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Turuiemon -> Sanzomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hakubamon -> Sanzomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Xiquemon -> Huankunmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gawappamon -> Huankunmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kinkakumon -> Huankunmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hakubamon -> Huankunmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kinkakumon -> Cho-Hakkaimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hakubamon -> Cho-Hakkaimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Turuiemon -> Cho-Hakkaimon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hanumon -> Pandamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gawappamon -> Pandamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Ginkakumon -> Pandamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Hanumon -> Gokuwmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kinkakumon -> Gokuwmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Turuiemon -> Gokuwmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gawappamon -> Xingtianmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Lianpumon -> Xingtianmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Ginkakumon -> Xingtianmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Xiquemon -> Sagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Lianpumon -> Sagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Gawappamon -> Sagomon: hp 43000, mp 48000, offense 5250, defense 4300
-- Onibimon -> Wankomon: hp 1000, mp 1000, offense 100, defense 100
-- Onibimon -> Hanimon: hp 1000, mp 1000, offense 100, defense 100
-- Onibimon -> Gasamon: hp 1000, mp 1000, offense 100, defense 100
-- Onibimon -> Renamon: hp 1000, mp 1000, offense 100, defense 100
-- Wankomon -> Siesamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Renamon -> Siesamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gasamon -> Peckmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Renamon -> Peckmon: hp 11000, mp 12500, offense 1400, defense 1100
-- Wankomon -> Kokeshimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hanimon -> Kokeshimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hanimon -> Shellmon: hp 11000, mp 12500, defense 1400, brains 1100
-- Gasamon -> Shellmon: hp 11000, mp 12500, defense 1400, brains 1100
-- Wankomon -> Musyamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gasamon -> Musyamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hanimon -> Fugamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Renamon -> Fugamon: hp 11000, mp 12500, offense 1400, defense 1100
-- Hanimon -> Manekimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Gasamon -> Manekimon: hp 11000, mp 12500, offense 1400, defense 1100
-- Wankomon -> Tenkomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Renamon -> Tenkomon: hp 11000, mp 12500, offense 1400, defense 1100
-- Siesamon -> Shishimamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Peckmon -> Shishimamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tenkomon -> Shishimamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Siesamon -> Karakurumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kokeshimon -> Karakurumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Shellmon -> Karakurumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Musyamon -> Karakurumon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kokeshimon -> Marin Bullmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Shellmon -> Marin Bullmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Fugamon -> Marin Bullmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kokeshimon -> Oboromon: hp 43000, mp 48000, offense 5250, defense 4300
-- Musyamon -> Oboromon: hp 43000, mp 48000, offense 5250, defense 4300
-- Fugamon -> Oboromon: hp 43000, mp 48000, offense 5250, defense 4300
-- Peckmon -> Karatenmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Musyamon -> Karatenmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Fugamon -> Karatenmon: hp 43000, mp 48000, offense 5250, defense 4300
-- Siesamon -> Darumamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Kokeshimon -> Darumamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Manekimon -> Darumamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tenkomon -> Darumamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Shellmon -> Sekkamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Manekimon -> Sekkamon: hp 43000, mp 48000, offense 5250, defense 4300
-- Tenkomon -> Sekkamon: hp 43000, mp 48000, offense 5250, defense 4300
+- Mammon -> Skull Mammon: hp 60000, mp 65500, offense 7100, defense 6000
+- Were Garurumon -> Skull Mammon: hp 60000, mp 65500, offense 7100, defense 6000
+- Death Meramon -> Skull Mammon: hp 60000, mp 65500, offense 7100, defense 6000
+- Mammon -> Anubimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Were Garurumon -> Anubimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pumpmon -> Anubimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Mammon -> Boltmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Death Meramon -> Boltmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pumpmon -> Boltmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Vamdemon -> Boltmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Soloogarmon -> Boltmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Were Garurumon -> Noble Pumpmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Death Meramon -> Noble Pumpmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pumpmon -> Noble Pumpmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Fantomon -> Noble Pumpmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Lady Devimon -> Noble Pumpmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Vamdemon -> Callismon: hp 60000, mp 65500, offense 7100, defense 6000
+- Fantomon -> Callismon: hp 60000, mp 65500, offense 7100, defense 6000
+- Soloogarmon -> Callismon: hp 60000, mp 65500, offense 7100, defense 6000
+- Death Meramon -> Demon: hp 60000, mp 65500, offense 7100, defense 6000
+- Fantomon -> Demon: hp 60000, mp 65500, offense 7100, defense 6000
+- Lady Devimon -> Demon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pumpmon -> Piemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Vamdemon -> Piemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Lady Devimon -> Piemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Soloogarmon -> Fenriloogamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Aero V-dramon -> Ulforce V-dramon: defense 6000, offense 6550, brains 7100
+- Garudamon -> Ulforce V-dramon: defense 6000, offense 6550, brains 7100
+- Blossomon -> Ulforce V-dramon: defense 6000, offense 6550, brains 7100
+- Grand Galemon -> Ulforce V-dramon: defense 6000, offense 6550, brains 7100
+- Aero V-dramon -> Hououmon: mp 60000, speed 6550, brains 7100
+- Garudamon -> Hououmon: mp 60000, speed 6550, brains 7100
+- Lilimon -> Hououmon: mp 60000, speed 6550, brains 7100
+- Delumon -> Hououmon: mp 60000, speed 6550, brains 7100
+- Lilimon -> Rosemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Delumon -> Rosemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Jyureimon -> Rosemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Aero V-dramon -> Rafflesimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Lilimon -> Rafflesimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Blossomon -> Rafflesimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Gerbemon -> Rafflesimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Garudamon -> Griffomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Blossomon -> Griffomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Delumon -> Griffomon: hp 60000, mp 65500, offense 7100, defense 6000
+- Grand Galemon -> Zephagamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Gerbemon -> Zephagamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Delumon -> Pinochimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Grand Galemon -> Pinochimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Jyureimon -> Pinochimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Gerbemon -> Pinochimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Lilimon -> Hydramon: defense 6000, offense 6550, brains 7100
+- Blossomon -> Hydramon: defense 6000, offense 6550, brains 7100
+- Jyureimon -> Hydramon: defense 6000, offense 6550, brains 7100
+- Gerbemon -> Hydramon: defense 6000, offense 6550, brains 7100
+- Clockmon -> Waru Monzaemon: hp 36500, mp 40500, offense 4450, defense 3650
+- Thunderballmon -> Waru Monzaemon: hp 36500, mp 40500, offense 4450, defense 3650
+- Guardromon -> Waru Monzaemon: hp 36500, mp 40500, offense 4450, defense 3650
+- Mechanorimon -> Waru Monzaemon: hp 36500, mp 40500, offense 4450, defense 3650
+- Knightmon -> War Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cargodramon -> War Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Andromon -> Hi Andromon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cyberdramon -> Hi Andromon: hp 60000, mp 65500, offense 7100, defense 6000
+- Big Mamemon -> Hi Andromon: hp 60000, mp 65500, offense 7100, defense 6000
+- Megadramon -> Hi Andromon: hp 60000, mp 65500, offense 7100, defense 6000
+- Andromon -> Ragnamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cyberdramon -> Ragnamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Big Mamemon -> Ragnamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Knightmon -> Ragnamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Andromon -> Metal Garurumon: speed 6000, offense 6550
+- Big Mamemon -> Metal Garurumon: speed 6000, offense 6550
+- Waru Monzaemon -> Metal Garurumon: speed 6000, offense 6550
+- Knightmon -> Zeke Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Megadramon -> Zeke Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Waru Monzaemon -> Zeke Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Megadramon -> Mugendramon: defense 6000, offense 6550, brains 7100
+- Cargodramon -> Mugendramon: defense 6000, offense 6550, brains 7100
+- Cyberdramon -> Venom Vamdemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Big Mamemon -> Venom Vamdemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Knightmon -> Venom Vamdemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Waru Monzaemon -> Venom Vamdemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Megadramon -> Brigadramon: defense 6000, offense 6550, brains 7100
+- Cargodramon -> Brigadramon: defense 6000, offense 6550, brains 7100
+- Asuramon -> War Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Metal Mamemon -> War Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Holy Angemon -> War Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Canoweissmon -> War Greymon: hp 60000, mp 65500, offense 7100, defense 6000
+- Asuramon -> Metal Garurumon: speed 6000, offense 6550
+- Were Garurumon -> Metal Garurumon: speed 6000, offense 6550
+- Metal Mamemon -> Metal Garurumon: speed 6000, offense 6550
+- Holy Angemon -> Metal Garurumon: speed 6000, offense 6550
+- Regulusmon -> Metal Garurumon: speed 6000, offense 6550
+- Asuramon -> Dominimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Holy Angemon -> Dominimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Were Garurumon -> Dominimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Angewomon -> Dominimon: hp 60000, mp 65500, offense 7100, defense 6000
+- Metal Mamemon -> Quantumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Were Garurumon -> Quantumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Angewomon -> Quantumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Metal Mamemon -> Siriusmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Canoweissmon -> Siriusmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Regulusmon -> Siriusmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Metal Mamemon -> Arcturusmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Canoweissmon -> Arcturusmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Regulusmon -> Arcturusmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sanzomon -> Erlangmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pandamon -> Erlangmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Huankunmon -> Xiangpengmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sagomon -> Xiangpengmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Huankunmon -> Shagaramon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cho-Hakkaimon -> Shagaramon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pandamon -> Shagaramon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sagomon -> Shagaramon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sanzomon -> Nezhamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cho-Hakkaimon -> Nezhamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Pandamon -> Nezhamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Gokuwmon -> Nezhamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Huankunmon -> Dijiangmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cho-Hakkaimon -> Dijiangmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Gokuwmon -> Dijiangmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Xingtianmon -> Dijiangmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sanzomon -> Takutoumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Xingtianmon -> Takutoumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sagomon -> Takutoumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Cho-Hakkaimon -> Jougamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Erlangmon -> Erlangmon: Blast Mode: hp 60000, mp 65500, offense 7100, defense 6000
+- Nezhamon -> Nezhamon: Crimson Mode: hp 60000, mp 65500, offense 7100, defense 6000
+- Takutoumon -> Takutoumon: Wrath Mode: hp 60000, mp 65500, offense 7100, defense 6000
+- Karakurumon -> Ravmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Karatenmon -> Ravmon: hp 60000, mp 65500, offense 7100, defense 6000
+- Karakurumon -> Kaguyamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Marin Bullmon -> Kaguyamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Karakurumon -> Ryugumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Marin Bullmon -> Ryugumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sekkamon -> Ryugumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Shishimamon -> Zanbamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Darumamon -> Zanbamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Oboromon -> Zanbamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Karatenmon -> Zanbamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Oboromon -> Tengumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Karatenmon -> Tengumon: hp 60000, mp 65500, offense 7100, defense 6000
+- Shishimamon -> Ariemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Darumamon -> Ariemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sekkamon -> Ariemon: hp 60000, mp 65500, offense 7100, defense 6000
+- Karakurumon -> Yukinamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Marin Bullmon -> Yukinamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Sekkamon -> Yukinamon: hp 60000, mp 65500, offense 7100, defense 6000
+- Ravmon -> Ravmon: Burst Mode: hp 60000, mp 65500, offense 7100, defense 6000
 
 ## Sprite Imports
-- Angoramon (`angoramon`): https://humulos.com/digimon/images/dot/penc/angora.gif + https://humulos.com/digimon/images/dot/penc/frame2/angora.gif
-- Candmon (`candmon`): https://humulos.com/digimon/images/dot/penc/cand.gif + https://humulos.com/digimon/images/dot/penc/frame2/cand.gif
-- Commandramon (`commandramon`): https://humulos.com/digimon/images/dot/penc/commandra.gif + https://humulos.com/digimon/images/dot/penc/frame2/commandra.gif
-- Floramon (`floramon`): https://humulos.com/digimon/images/dot/penc/flora.gif + https://humulos.com/digimon/images/dot/penc/frame2/flora.gif
-- Fujamon (`fujamon`): https://humulos.com/digimon/images/dot/penc/fuja.gif + https://humulos.com/digimon/images/dot/penc/frame2/fuja.gif
-- Gammamon (`gammamon`): https://humulos.com/digimon/images/dot/penc/gamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/gamma.gif
-- Ganimon (`ganimon`): https://humulos.com/digimon/images/dot/penc/gani.gif + https://humulos.com/digimon/images/dot/penc/frame2/gani.gif
-- Gasamon (`gasamon`): https://humulos.com/digimon/images/dot/penc/gasa.gif + https://humulos.com/digimon/images/dot/penc/frame2/gasa.gif
-- Gottsumon (`gottsumon`): https://humulos.com/digimon/images/dot/penc/gottsu.gif + https://humulos.com/digimon/images/dot/penc/frame2/gottsu.gif
-- Hagurumon (`hagurumon`): https://humulos.com/digimon/images/dot/penc/haguru.gif + https://humulos.com/digimon/images/dot/penc/frame2/haguru.gif
-- Jellymon (`jellymon`): https://humulos.com/digimon/images/dot/penc/jelly.gif + https://humulos.com/digimon/images/dot/penc/frame2/jelly.gif
-- Loogamon (`loogamon`): https://humulos.com/digimon/images/dot/penc/looga.gif + https://humulos.com/digimon/images/dot/penc/frame2/looga.gif
-- Mushmon (`mushmon`): https://humulos.com/digimon/images/dot/penc/mush.gif + https://humulos.com/digimon/images/dot/penc/frame2/mush.gif
-- Otamamon (`otamamon`): https://humulos.com/digimon/images/dot/penc/otama.gif + https://humulos.com/digimon/images/dot/penc/frame2/otama.gif
-- Pico Devimon (`picodevimon`): https://humulos.com/digimon/images/dot/penc/picodevi.gif + https://humulos.com/digimon/images/dot/penc/frame2/picodevi.gif
-- Plotmon (`plotmon`): https://humulos.com/digimon/images/dot/penc/plot.gif + https://humulos.com/digimon/images/dot/penc/frame2/plot.gif
-- Pteromon (`pteromon`): https://humulos.com/digimon/images/dot/penc/ptero.gif + https://humulos.com/digimon/images/dot/penc/frame2/ptero.gif
-- Renamon (`renamon`): https://humulos.com/digimon/images/dot/penc/rena.gif + https://humulos.com/digimon/images/dot/penc/frame2/rena.gif
-- Shakomon (`shakomon`): https://humulos.com/digimon/images/dot/penc/shako.gif + https://humulos.com/digimon/images/dot/penc/frame2/shako.gif
-- Takinmon (`takinmon`): https://humulos.com/digimon/images/dot/penc/takin.gif + https://humulos.com/digimon/images/dot/penc/frame2/takin.gif
-- Betel Gammamon (`betelgammamon`): https://humulos.com/digimon/images/dot/penc/betelgamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/betelgamma.gif
-- Clockmon (`clockmon`): https://humulos.com/digimon/images/dot/penc/clock.gif + https://humulos.com/digimon/images/dot/penc/frame2/clock.gif
-- Dokugumon (`dokugumon`): https://humulos.com/digimon/images/dot/penc/dokugu.gif + https://humulos.com/digimon/images/dot/penc/frame2/dokugu.gif
-- Ebidramon (`ebidramon`): https://humulos.com/digimon/images/dot/penc/ebidra.gif + https://humulos.com/digimon/images/dot/penc/frame2/ebidra.gif
-- Fugamon (`fugamon`): https://humulos.com/digimon/images/dot/penc/fuga.gif + https://humulos.com/digimon/images/dot/penc/frame2/fuga.gif
-- Galemon (`galemon`): https://humulos.com/digimon/images/dot/penc/gale.gif + https://humulos.com/digimon/images/dot/penc/frame2/gale.gif
-- Gawappamon (`gawappamon`): https://humulos.com/digimon/images/dot/penc/gawappa.gif + https://humulos.com/digimon/images/dot/penc/frame2/gawappa.gif
-- Gekomon (`gekomon`): https://humulos.com/digimon/images/dot/penc/geko.gif + https://humulos.com/digimon/images/dot/penc/frame2/geko.gif
-- Gesomon (`gesomon`): https://humulos.com/digimon/images/dot/penc/geso.gif + https://humulos.com/digimon/images/dot/penc/frame2/geso.gif
-- Ginkakumon (`ginkakumon`): https://humulos.com/digimon/images/dot/penc/ginkaku.gif + https://humulos.com/digimon/images/dot/penc/frame2/ginkaku.gif
-- Guardromon (`guardromon`): https://humulos.com/digimon/images/dot/penc/guardro.gif + https://humulos.com/digimon/images/dot/penc/frame2/guardro.gif
-- Gulus Gammamon (`gulusgammamon`): https://humulos.com/digimon/images/dot/penc/gulusgamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/gulusgamma.gif
-- Hakubamon (`hakubamon`): https://humulos.com/digimon/images/dot/penc/hakuba.gif + https://humulos.com/digimon/images/dot/penc/frame2/hakuba.gif
-- Hanumon (`hanumon`): https://humulos.com/digimon/images/dot/penc/hanu.gif + https://humulos.com/digimon/images/dot/penc/frame2/hanu.gif
-- Hi-Commandramon (`hicommandramon`): https://humulos.com/digimon/images/dot/penc/hicommandra.gif + https://humulos.com/digimon/images/dot/penc/frame2/hicommandra.gif
-- Igamon (`igamon`): https://humulos.com/digimon/images/dot/penc/iga.gif + https://humulos.com/digimon/images/dot/penc/frame2/iga.gif
-- Ikkakumon (`ikkakumon`): https://humulos.com/digimon/images/dot/penc/ikkaku.gif + https://humulos.com/digimon/images/dot/penc/frame2/ikkaku.gif
-- Kaus Gammamon (`kausgammamon`): https://humulos.com/digimon/images/dot/penc/kausgamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/kausgamma.gif
-- Kinkakumon (`kinkakumon`): https://humulos.com/digimon/images/dot/penc/kinkaku.gif + https://humulos.com/digimon/images/dot/penc/frame2/kinkaku.gif
-- Kiwimon (`kiwimon`): https://humulos.com/digimon/images/dot/penc/kiwi.gif + https://humulos.com/digimon/images/dot/penc/frame2/kiwi.gif
-- Kokeshimon (`kokeshimon`): https://humulos.com/digimon/images/dot/penc/kokeshi.gif + https://humulos.com/digimon/images/dot/penc/frame2/kokeshi.gif
-- Lianpumon (`lianpumon`): https://humulos.com/digimon/images/dot/penc/lianpu.gif + https://humulos.com/digimon/images/dot/penc/frame2/lianpu.gif
-- Loogarmon (`loogarmon`): https://humulos.com/digimon/images/dot/penc/loogar.gif + https://humulos.com/digimon/images/dot/penc/frame2/loogar.gif
-- Manekimon (`manekimon`): https://humulos.com/digimon/images/dot/penc/maneki.gif + https://humulos.com/digimon/images/dot/penc/frame2/maneki.gif
-- Mechanorimon (`mechanorimon`): https://humulos.com/digimon/images/dot/penc/mechanori.gif + https://humulos.com/digimon/images/dot/penc/frame2/mechanori.gif
-- Musyamon (`musyamon`): https://humulos.com/digimon/images/dot/penc/musya.gif + https://humulos.com/digimon/images/dot/penc/frame2/musya.gif
-- Octmon (`octmon`): https://humulos.com/digimon/images/dot/penc/oct.gif + https://humulos.com/digimon/images/dot/penc/frame2/oct.gif
-- Peckmon (`peckmon`): https://humulos.com/digimon/images/dot/penc/peck.gif + https://humulos.com/digimon/images/dot/penc/frame2/peck.gif
-- Red Vegimon (`redvegimon`): https://humulos.com/digimon/images/dot/penc/redvegi.gif + https://humulos.com/digimon/images/dot/penc/frame2/redvegi.gif
-- Revolmon (`revolmon`): https://humulos.com/digimon/images/dot/penc/revol.gif + https://humulos.com/digimon/images/dot/penc/frame2/revol.gif
-- Rukamon (`rukamon`): https://humulos.com/digimon/images/dot/penc/ruka.gif + https://humulos.com/digimon/images/dot/penc/frame2/ruka.gif
-- Siesamon (`siesamon`): https://humulos.com/digimon/images/dot/penc/siesa.gif + https://humulos.com/digimon/images/dot/penc/frame2/siesa.gif
-- Starmon (`starmon`): https://humulos.com/digimon/images/dot/penc/star.gif + https://humulos.com/digimon/images/dot/penc/frame2/star.gif
-- Symbare Angoramon (`symbareangoramon`): https://humulos.com/digimon/images/dot/penc/symbareangora.gif + https://humulos.com/digimon/images/dot/penc/frame2/symbareangora.gif
-- Tailmon (`tailmon`): https://humulos.com/digimon/images/dot/penc/tail.gif + https://humulos.com/digimon/images/dot/penc/frame2/tail.gif
-- Tankmon (`tankmon`): https://humulos.com/digimon/images/dot/penc/tank.gif + https://humulos.com/digimon/images/dot/penc/frame2/tank.gif
-- Tenkomon (`tenkomon`): https://humulos.com/digimon/images/dot/penc/tenko.gif + https://humulos.com/digimon/images/dot/penc/frame2/tenko.gif
-- Tesla Jellymon (`teslajellymon`): https://humulos.com/digimon/images/dot/penc/teslajelly.gif + https://humulos.com/digimon/images/dot/penc/frame2/teslajelly.gif
-- Thunderballmon (`thunderballmon`): https://humulos.com/digimon/images/dot/penc/thunderball.gif + https://humulos.com/digimon/images/dot/penc/frame2/thunderball.gif
-- Togemon (`togemon`): https://humulos.com/digimon/images/dot/penc/toge.gif + https://humulos.com/digimon/images/dot/penc/frame2/toge.gif
-- Tortamon (`tortamon`): https://humulos.com/digimon/images/dot/penc/torta.gif + https://humulos.com/digimon/images/dot/penc/frame2/torta.gif
-- V-dramon (`vdramon`): https://humulos.com/digimon/images/dot/penc/vdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/vdra.gif
-- Wezen Gammamon (`wezengammamon`): https://humulos.com/digimon/images/dot/penc/wezengamma.gif + https://humulos.com/digimon/images/dot/penc/frame2/wezengamma.gif
-- Wizarmon (`wizarmon`): https://humulos.com/digimon/images/dot/penc/wizar.gif + https://humulos.com/digimon/images/dot/penc/frame2/wizar.gif
-- Woodmon (`woodmon`): https://humulos.com/digimon/images/dot/penc/wood.gif + https://humulos.com/digimon/images/dot/penc/frame2/wood.gif
-- Xiquemon (`xiquemon`): https://humulos.com/digimon/images/dot/penc/xique.gif + https://humulos.com/digimon/images/dot/penc/frame2/xique.gif
-- Aero V-dramon (`aerovdramon`): https://humulos.com/digimon/images/dot/penc/aerovdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/aerovdra.gif
-- Anomalocarimon (`anomalocarimon`): https://humulos.com/digimon/images/dot/penc/anomalocari.gif + https://humulos.com/digimon/images/dot/penc/frame2/anomalocari.gif
-- Asuramon (`asuramon`): https://humulos.com/digimon/images/dot/penc/asura.gif + https://humulos.com/digimon/images/dot/penc/frame2/asura.gif
-- Atlur Kabuterimon (`atlurkabuterimon`): https://humulos.com/digimon/images/dot/penc/atlurkabuteri.gif + https://humulos.com/digimon/images/dot/penc/frame2/atlurkabuteri.gif
-- Big Mamemon (`bigmamemon`): https://humulos.com/digimon/images/dot/penc/bigmame.gif + https://humulos.com/digimon/images/dot/penc/frame2/bigmame.gif
-- Blossomon (`blossomon`): https://humulos.com/digimon/images/dot/penc/blosso.gif + https://humulos.com/digimon/images/dot/penc/frame2/blosso.gif
-- Canoweissmon (`canoweissmon`): https://humulos.com/digimon/images/dot/penc/canoweiss.gif + https://humulos.com/digimon/images/dot/penc/frame2/canoweiss.gif
-- Cargodramon (`cargodramon`): https://humulos.com/digimon/images/dot/penc/cargodra.gif + https://humulos.com/digimon/images/dot/penc/frame2/cargodra.gif
-- Cho-Hakkaimon (`chohakkaimon`): https://humulos.com/digimon/images/dot/penc/chohakkai.gif + https://humulos.com/digimon/images/dot/penc/frame2/chohakkai.gif
-- Cyberdramon (`cyberdramon`): https://humulos.com/digimon/images/dot/penc/cyberdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/cyberdra.gif
-- Dagomon (`dagomon`): https://humulos.com/digimon/images/dot/penc/dago.gif + https://humulos.com/digimon/images/dot/penc/frame2/dago.gif
-- Darumamon (`darumamon`): https://humulos.com/digimon/images/dot/penc/daruma.gif + https://humulos.com/digimon/images/dot/penc/frame2/daruma.gif
-- Death Meramon (`deathmeramon`): https://humulos.com/digimon/images/dot/penc/deathmera.gif + https://humulos.com/digimon/images/dot/penc/frame2/deathmera.gif
-- Delumon (`delumon`): https://humulos.com/digimon/images/dot/penc/delu.gif + https://humulos.com/digimon/images/dot/penc/frame2/delu.gif
-- Fantomon (`fantomon`): https://humulos.com/digimon/images/dot/penc/fanto.gif + https://humulos.com/digimon/images/dot/penc/frame2/fanto.gif
-- Garudamon (`garudamon`): https://humulos.com/digimon/images/dot/penc/garuda.gif + https://humulos.com/digimon/images/dot/penc/frame2/garuda.gif
-- Gerbemon (`gerbemon`): https://humulos.com/digimon/images/dot/penc/gerbe.gif + https://humulos.com/digimon/images/dot/penc/frame2/gerbe.gif
-- Gokuwmon (`gokuwmon`): https://humulos.com/digimon/images/dot/penc/gokuw.gif + https://humulos.com/digimon/images/dot/penc/frame2/gokuw.gif
-- Grand Galemon (`grandgalemon`): https://humulos.com/digimon/images/dot/penc/grandgale.gif + https://humulos.com/digimon/images/dot/penc/frame2/grandgale.gif
-- Hangyomon (`hangyomon`): https://humulos.com/digimon/images/dot/penc/hangyo.gif + https://humulos.com/digimon/images/dot/penc/frame2/hangyo.gif
-- Holy Angemon (`holyangemon`): https://humulos.com/digimon/images/dot/penc/holyange.gif + https://humulos.com/digimon/images/dot/penc/frame2/holyange.gif
-- Huankunmon (`huankunmon`): https://humulos.com/digimon/images/dot/penc/huankun.gif + https://humulos.com/digimon/images/dot/penc/frame2/huankun.gif
-- Jyagamon (`jyagamon`): https://humulos.com/digimon/images/dot/penc/jyaga.gif + https://humulos.com/digimon/images/dot/penc/frame2/jyaga.gif
-- Jyureimon (`jyureimon`): https://humulos.com/digimon/images/dot/penc/jyurei.gif + https://humulos.com/digimon/images/dot/penc/frame2/jyurei.gif
-- Karakurumon (`karakurumon`): https://humulos.com/digimon/images/dot/penc/karakuru.gif + https://humulos.com/digimon/images/dot/penc/frame2/karakuru.gif
-- Karatenmon (`karatenmon`): https://humulos.com/digimon/images/dot/penc/karaten.gif + https://humulos.com/digimon/images/dot/penc/frame2/karaten.gif
-- Knightmon (`knightmon`): https://humulos.com/digimon/images/dot/penc/knight.gif + https://humulos.com/digimon/images/dot/penc/frame2/knight.gif
-- Lady Devimon (`ladydevimon`): https://humulos.com/digimon/images/dot/penc/ladydevi.gif + https://humulos.com/digimon/images/dot/penc/frame2/ladydevi.gif
-- Lamortmon (`lamortmon`): https://humulos.com/digimon/images/dot/penc/lamort.gif + https://humulos.com/digimon/images/dot/penc/frame2/lamort.gif
-- Lilimon (`lilimon`): https://humulos.com/digimon/images/dot/penc/lili.gif + https://humulos.com/digimon/images/dot/penc/frame2/lili.gif
-- Mammon (`mammon`): https://humulos.com/digimon/images/dot/penc/mam.gif + https://humulos.com/digimon/images/dot/penc/frame2/mam.gif
-- Marin Bullmon (`marinbullmon`): https://humulos.com/digimon/images/dot/penc/marinbull.gif + https://humulos.com/digimon/images/dot/penc/frame2/marinbull.gif
-- Marin Devimon (`marindevimon`): https://humulos.com/digimon/images/dot/penc/marindevi.gif + https://humulos.com/digimon/images/dot/penc/frame2/marindevi.gif
-- Oboromon (`oboromon`): https://humulos.com/digimon/images/dot/penc/oboro.gif + https://humulos.com/digimon/images/dot/penc/frame2/oboro.gif
-- Okuwamon (`okuwamon`): https://humulos.com/digimon/images/dot/penc/okuwa.gif + https://humulos.com/digimon/images/dot/penc/frame2/okuwa.gif
-- Pandamon (`pandamon`): https://humulos.com/digimon/images/dot/penc/panda.gif + https://humulos.com/digimon/images/dot/penc/frame2/panda.gif
-- Piccolomon (`piccolomon`): https://humulos.com/digimon/images/dot/penc/piccolo.gif + https://humulos.com/digimon/images/dot/penc/frame2/piccolo.gif
-- Pumpmon (`pumpmon`): https://humulos.com/digimon/images/dot/penc/pump.gif + https://humulos.com/digimon/images/dot/penc/frame2/pump.gif
-- Regulusmon (`regulusmon`): https://humulos.com/digimon/images/dot/penc/regulus.gif + https://humulos.com/digimon/images/dot/penc/frame2/regulus.gif
-- Sagomon (`sagomon`): https://humulos.com/digimon/images/dot/penc/sago.gif + https://humulos.com/digimon/images/dot/penc/frame2/sago.gif
-- Sanzomon (`sanzomon`): https://humulos.com/digimon/images/dot/penc/sanzo.gif + https://humulos.com/digimon/images/dot/penc/frame2/sanzo.gif
-- Sekkamon (`sekkamon`): https://humulos.com/digimon/images/dot/penc/sekka.gif + https://humulos.com/digimon/images/dot/penc/frame2/sekka.gif
-- Shishimamon (`shishimamon`): https://humulos.com/digimon/images/dot/penc/shishima.gif + https://humulos.com/digimon/images/dot/penc/frame2/shishima.gif
-- Soloogarmon (`soloogarmon`): https://humulos.com/digimon/images/dot/penc/soloogar.gif + https://humulos.com/digimon/images/dot/penc/frame2/soloogar.gif
-- Thetismon (`thetismon`): https://humulos.com/digimon/images/dot/penc/thetis.gif + https://humulos.com/digimon/images/dot/penc/frame2/thetis.gif
-- Tonosama Gekomon (`tonosamagekomon`): https://humulos.com/digimon/images/dot/penc/tonosamageko.gif + https://humulos.com/digimon/images/dot/penc/frame2/tonosamageko.gif
-- Triceramon (`triceramon`): https://humulos.com/digimon/images/dot/penc/tricera.gif + https://humulos.com/digimon/images/dot/penc/frame2/tricera.gif
-- Vamdemon (`vamdemon`): https://humulos.com/digimon/images/dot/penc/vamde.gif + https://humulos.com/digimon/images/dot/penc/frame2/vamde.gif
-- Xingtianmon (`xingtianmon`): https://humulos.com/digimon/images/dot/penc/xingtian.gif + https://humulos.com/digimon/images/dot/penc/frame2/xingtian.gif
-- Zudomon (`zudomon`): https://humulos.com/digimon/images/dot/penc/zudo.gif + https://humulos.com/digimon/images/dot/penc/frame2/zudo.gif
-- Pitchmon (`pitchmon`): https://humulos.com/digimon/images/dot/penc/pitch.gif + https://humulos.com/digimon/images/dot/penc/frame2/pitch.gif
-- Pukamon (`pukamon`): https://humulos.com/digimon/images/dot/penc/puka.gif + https://humulos.com/digimon/images/dot/penc/frame2/puka.gif
-- Gomamon (`gomamon`): https://humulos.com/digimon/images/dot/penc/goma.gif + https://humulos.com/digimon/images/dot/penc/frame2/goma.gif
-- Choromon (`choromon`): https://humulos.com/digimon/images/dot/penc/choro.gif + https://humulos.com/digimon/images/dot/penc/frame2/choro.gif
-- Caprimon (`caprimon`): https://humulos.com/digimon/images/dot/penc/capri.gif + https://humulos.com/digimon/images/dot/penc/frame2/capri.gif
-- Kokuwamon (`kokuwamon`): https://humulos.com/digimon/images/dot/penc/kokuwa.gif + https://humulos.com/digimon/images/dot/penc/frame2/kokuwa.gif
-- Toy Agumon (`toyagumon`): https://humulos.com/digimon/images/dot/penc/toyagu.gif + https://humulos.com/digimon/images/dot/penc/frame2/toyagu.gif
-- Bubbmon (`bubbmon`): https://humulos.com/digimon/images/dot/penc/bubb.gif + https://humulos.com/digimon/images/dot/penc/frame2/bubb.gif
-- Mochimon (`mochimon`): https://humulos.com/digimon/images/dot/penc/mochi.gif + https://humulos.com/digimon/images/dot/penc/frame2/mochi.gif
-- Tentomon (`tentomon`): https://humulos.com/digimon/images/dot/penc/tento.gif + https://humulos.com/digimon/images/dot/penc/frame2/tento.gif
-- Mokumon (`mokumon`): https://humulos.com/digimon/images/dot/penc/moku.gif + https://humulos.com/digimon/images/dot/penc/frame2/moku.gif
-- Peti Meramon (`petimeramon`): https://humulos.com/digimon/images/dot/penc/petimera.gif + https://humulos.com/digimon/images/dot/penc/frame2/petimera.gif
-- Bakumon (`bakumon`): https://humulos.com/digimon/images/dot/penc/baku.gif + https://humulos.com/digimon/images/dot/penc/frame2/baku.gif
-- Fukamon (`fukamon`): https://humulos.com/digimon/images/dot/penc/fuka.gif + https://humulos.com/digimon/images/dot/penc/frame2/fuka.gif
-- Mococomon (`mococomon`): https://humulos.com/digimon/images/dot/penc/mococo.gif + https://humulos.com/digimon/images/dot/penc/frame2/mococo.gif
-- Kakamon (`kakamon`): https://humulos.com/digimon/images/dot/penc/kaka.gif + https://humulos.com/digimon/images/dot/penc/frame2/kaka.gif
-- Kamemon (`kamemon`): https://humulos.com/digimon/images/dot/penc/kame.gif + https://humulos.com/digimon/images/dot/penc/frame2/kame.gif
-- Tomorimon (`tomorimon`): https://humulos.com/digimon/images/dot/penc/tomori.gif + https://humulos.com/digimon/images/dot/penc/frame2/tomori.gif
-- Onibimon (`onibimon`): https://humulos.com/digimon/images/dot/penc/onibi.gif + https://humulos.com/digimon/images/dot/penc/frame2/onibi.gif
-- Hanimon (`hanimon`): https://humulos.com/digimon/images/dot/penc/hani.gif + https://humulos.com/digimon/images/dot/penc/frame2/hani.gif
-- Wankomon (`wankomon`): https://humulos.com/digimon/images/dot/penc/wanko.gif + https://humulos.com/digimon/images/dot/penc/frame2/wanko.gif
-- Yukimibotamon (`yukimibotamon`): https://humulos.com/digimon/images/dot/penc/yukimibota.gif + https://humulos.com/digimon/images/dot/penc/frame2/yukimibota.gif
-- Nyaromon (`nyaromon`): https://humulos.com/digimon/images/dot/penc/nyaro.gif + https://humulos.com/digimon/images/dot/penc/frame2/nyaro.gif
-- Nyokimon (`nyokimon`): https://humulos.com/digimon/images/dot/penc/nyoki.gif + https://humulos.com/digimon/images/dot/penc/frame2/nyoki.gif
-- Pyocomon (`pyocomon`): https://humulos.com/digimon/images/dot/penc/pyoco.gif + https://humulos.com/digimon/images/dot/penc/frame2/pyoco.gif
-- Biyomon (`biyomon`): https://humulos.com/digimon/images/dot/penc/piyo.gif + https://humulos.com/digimon/images/dot/penc/frame2/piyo.gif
+- Amphimon (`amphimon`): https://humulos.com/digimon/images/dot/penc/amphi.gif + https://humulos.com/digimon/images/dot/penc/frame2/amphi.gif
+- Anubimon (`anubimon`): https://humulos.com/digimon/images/dot/penc/anubi.gif + https://humulos.com/digimon/images/dot/penc/frame2/anubi.gif
+- Arcturusmon (`arcturusmon`): https://humulos.com/digimon/images/dot/penc/arcturus.gif + https://humulos.com/digimon/images/dot/penc/frame2/arcturus.gif
+- Ariemon (`ariemon`): https://humulos.com/digimon/images/dot/penc/arie.gif + https://humulos.com/digimon/images/dot/penc/frame2/arie.gif
+- Blastmon (`blastmon`): https://humulos.com/digimon/images/dot/penc/blast.gif + https://humulos.com/digimon/images/dot/penc/frame2/blast.gif
+- Boltmon (`boltmon`): https://humulos.com/digimon/images/dot/penc/bolt.gif + https://humulos.com/digimon/images/dot/penc/frame2/bolt.gif
+- Brigadramon (`brigadramon`): https://humulos.com/digimon/images/dot/penc/brigadra.gif + https://humulos.com/digimon/images/dot/penc/frame2/brigadra.gif
+- Callismon (`callismon`): https://humulos.com/digimon/images/dot/penc/callis.gif + https://humulos.com/digimon/images/dot/penc/frame2/callis.gif
+- Cthyllamon (`cthyllamon`): https://humulos.com/digimon/images/dot/penc/cthylla.gif + https://humulos.com/digimon/images/dot/penc/frame2/cthylla.gif
+- Demon (`demon`): https://humulos.com/digimon/images/dot/penc/de.gif + https://humulos.com/digimon/images/dot/penc/frame2/de.gif
+- Diarbbitmon (`diarbbitmon`): https://humulos.com/digimon/images/dot/penc/diarbbit.gif + https://humulos.com/digimon/images/dot/penc/frame2/diarbbit.gif
+- Dijiangmon (`dijiangmon`): https://humulos.com/digimon/images/dot/penc/dijiang.gif + https://humulos.com/digimon/images/dot/penc/frame2/dijiang.gif
+- Dominimon (`dominimon`): https://humulos.com/digimon/images/dot/penc/domini.gif + https://humulos.com/digimon/images/dot/penc/frame2/domini.gif
+- El Doradimon (`eldoradimon`): https://humulos.com/digimon/images/dot/penc/eldoradi.gif + https://humulos.com/digimon/images/dot/penc/frame2/eldoradi.gif
+- Erlangmon (`erlangmon`): https://humulos.com/digimon/images/dot/penc/erlang.gif + https://humulos.com/digimon/images/dot/penc/frame2/erlang.gif
+- Erlangmon: Blast Mode (`erlangmonblastmode`): https://humulos.com/digimon/images/dot/penc/erlang_b.gif + https://humulos.com/digimon/images/dot/penc/frame2/erlang_b.gif
+- Fenriloogamon (`fenriloogamon`): https://humulos.com/digimon/images/dot/penc/fenrilooga.gif + https://humulos.com/digimon/images/dot/penc/frame2/fenrilooga.gif
+- Gran Kuwagamon (`grankuwagamon`): https://humulos.com/digimon/images/dot/penc/grankuwaga.gif + https://humulos.com/digimon/images/dot/penc/frame2/grankuwaga.gif
+- Griffomon (`griffomon`): https://humulos.com/digimon/images/dot/penc/griffo.gif + https://humulos.com/digimon/images/dot/penc/frame2/griffo.gif
+- Herakle Kabuterimon (`heraklekabuterimon`): https://humulos.com/digimon/images/dot/penc/heraklekabuteri.gif + https://humulos.com/digimon/images/dot/penc/frame2/heraklekabuteri.gif
+- Hi Andromon (`hiandromon`): https://humulos.com/digimon/images/dot/penc/hiandro.gif + https://humulos.com/digimon/images/dot/penc/frame2/hiandro.gif
+- Holydramon (`holydramon`): https://humulos.com/digimon/images/dot/penc/holydra.gif + https://humulos.com/digimon/images/dot/penc/frame2/holydra.gif
+- Hououmon (`hououmon`): https://humulos.com/digimon/images/dot/penc/houou.gif + https://humulos.com/digimon/images/dot/penc/frame2/houou.gif
+- Hydramon (`hydramon`): https://humulos.com/digimon/images/dot/penc/hydra.gif + https://humulos.com/digimon/images/dot/penc/frame2/hydra.gif
+- Jougamon (`jougamon`): https://humulos.com/digimon/images/dot/penc/jouga.gif + https://humulos.com/digimon/images/dot/penc/frame2/jouga.gif
+- Jumbo Gamemon (`jumbogamemon`): https://humulos.com/digimon/images/dot/penc/jumbogame.gif + https://humulos.com/digimon/images/dot/penc/frame2/jumbogame.gif
+- Kaguyamon (`kaguyamon`): https://humulos.com/digimon/images/dot/penc/kaguya.gif + https://humulos.com/digimon/images/dot/penc/frame2/kaguya.gif
+- Marin Angemon (`marinangemon`): https://humulos.com/digimon/images/dot/penc/marinange.gif + https://humulos.com/digimon/images/dot/penc/frame2/marinange.gif
+- Metal Etemon (`metaletemon`): https://humulos.com/digimon/images/dot/penc/metalete.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalete.gif
+- Metal Garurumon (`metalgarurumon`): https://humulos.com/digimon/images/dot/penc/metalgaruru.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalgaruru.gif
+- Metal Seadramon (`metalseadramon`): https://humulos.com/digimon/images/dot/penc/metalseadra.gif + https://humulos.com/digimon/images/dot/penc/frame2/metalseadra.gif
+- Mugendramon (`mugendramon`): https://humulos.com/digimon/images/dot/penc/mugendra.gif + https://humulos.com/digimon/images/dot/penc/frame2/mugendra.gif
+- Nezhamon (`nezhamon`): https://humulos.com/digimon/images/dot/penc/nezha.gif + https://humulos.com/digimon/images/dot/penc/frame2/nezha.gif
+- Nezhamon: Crimson Mode (`nezhamoncrimsonmode`): https://humulos.com/digimon/images/dot/penc/nezha_c.gif + https://humulos.com/digimon/images/dot/penc/frame2/nezha_c.gif
+- Noble Pumpmon (`noblepumpmon`): https://humulos.com/digimon/images/dot/penc/noblepump.gif + https://humulos.com/digimon/images/dot/penc/frame2/noblepump.gif
+- Piemon (`piemon`): https://humulos.com/digimon/images/dot/penc/pie.gif + https://humulos.com/digimon/images/dot/penc/frame2/pie.gif
+- Pinochimon (`pinochimon`): https://humulos.com/digimon/images/dot/penc/pinochi.gif + https://humulos.com/digimon/images/dot/penc/frame2/pinochi.gif
+- Plesiomon (`plesiomon`): https://humulos.com/digimon/images/dot/penc/plesio.gif + https://humulos.com/digimon/images/dot/penc/frame2/plesio.gif
+- Pukumon (`pukumon`): https://humulos.com/digimon/images/dot/penc/puku.gif + https://humulos.com/digimon/images/dot/penc/frame2/puku.gif
+- Quantumon (`quantumon`): https://humulos.com/digimon/images/dot/penc/quantu.gif + https://humulos.com/digimon/images/dot/penc/frame2/quantu.gif
+- Rafflesimon (`rafflesimon`): https://humulos.com/digimon/images/dot/penc/rafflesi.gif + https://humulos.com/digimon/images/dot/penc/frame2/rafflesi.gif
+- Ragnamon (`ragnamon`): https://humulos.com/digimon/images/dot/penc/ragna.gif + https://humulos.com/digimon/images/dot/penc/frame2/ragna.gif
+- Ravmon (`ravmon`): https://humulos.com/digimon/images/dot/penc/rav.gif + https://humulos.com/digimon/images/dot/penc/frame2/rav.gif
+- Ravmon: Burst Mode (`ravmonburstmode`): https://humulos.com/digimon/images/dot/penc/rav_b.gif + https://humulos.com/digimon/images/dot/penc/frame2/rav_b.gif
+- Rosemon (`rosemon`): https://humulos.com/digimon/images/dot/penc/rose.gif + https://humulos.com/digimon/images/dot/penc/frame2/rose.gif
+- Ryugumon (`ryugumon`): https://humulos.com/digimon/images/dot/penc/ryugu.gif + https://humulos.com/digimon/images/dot/penc/frame2/ryugu.gif
+- Saber Leomon (`saberleomon`): https://humulos.com/digimon/images/dot/penc/saberleo.gif + https://humulos.com/digimon/images/dot/penc/frame2/saberleo.gif
+- Shagaramon (`shagaramon`): https://humulos.com/digimon/images/dot/penc/shagara.gif + https://humulos.com/digimon/images/dot/penc/frame2/shagara.gif
+- Siriusmon (`siriusmon`): https://humulos.com/digimon/images/dot/penc/sirius.gif + https://humulos.com/digimon/images/dot/penc/frame2/sirius.gif
+- Skull Mammon (`skullmammon`): https://humulos.com/digimon/images/dot/penc/skullmam.gif + https://humulos.com/digimon/images/dot/penc/frame2/skullmam.gif
+- Takutoumon (`takutoumon`): https://humulos.com/digimon/images/dot/penc/takutou.gif + https://humulos.com/digimon/images/dot/penc/frame2/takutou.gif
+- Takutoumon: Wrath Mode (`takutoumonwrathmode`): https://humulos.com/digimon/images/dot/penc/takutou_w.gif + https://humulos.com/digimon/images/dot/penc/frame2/takutou_w.gif
+- Tengumon (`tengumon`): https://humulos.com/digimon/images/dot/penc/tengu.gif + https://humulos.com/digimon/images/dot/penc/frame2/tengu.gif
+- Ulforce V-dramon (`ulforcevdramon`): https://humulos.com/digimon/images/dot/penc/ulforcevdra.gif + https://humulos.com/digimon/images/dot/penc/frame2/ulforcevdra.gif
+- Venom Vamdemon (`venomvamdemon`): https://humulos.com/digimon/images/dot/penc/venomvamde.gif + https://humulos.com/digimon/images/dot/penc/frame2/venomvamde.gif
+- Vikemon (`vikemon`): https://humulos.com/digimon/images/dot/penc/vike.gif + https://humulos.com/digimon/images/dot/penc/frame2/vike.gif
+- War Greymon (`wargreymon`): https://humulos.com/digimon/images/dot/penc/wargrey.gif + https://humulos.com/digimon/images/dot/penc/frame2/wargrey.gif
+- Xiangpengmon (`xiangpengmon`): https://humulos.com/digimon/images/dot/penc/xiangpeng.gif + https://humulos.com/digimon/images/dot/penc/frame2/xiangpeng.gif
+- Yukinamon (`yukinamon`): https://humulos.com/digimon/images/dot/penc/yukina.gif + https://humulos.com/digimon/images/dot/penc/frame2/yukina.gif
+- Zanbamon (`zanbamon`): https://humulos.com/digimon/images/dot/penc/zanba.gif + https://humulos.com/digimon/images/dot/penc/frame2/zanba.gif
+- Zeke Greymon (`zekegreymon`): https://humulos.com/digimon/images/dot/penc/zekegrey.gif + https://humulos.com/digimon/images/dot/penc/frame2/zekegrey.gif
+- Zephagamon (`zephagamon`): https://humulos.com/digimon/images/dot/penc/zephaga.gif + https://humulos.com/digimon/images/dot/penc/frame2/zephaga.gif
 
 ## Excluded
 - Andiramon: alternate form
 - Metal Greymon: alternate form
 - Yatagaramon: alternate form
-- Amphimon: stage exceeds Ultimate
-- Anubimon: stage exceeds Ultimate
-- Arcturusmon: stage exceeds Ultimate
-- Ariemon: stage exceeds Ultimate
-- Blastmon: stage exceeds Ultimate
-- Boltmon: stage exceeds Ultimate
-- Brigadramon: stage exceeds Ultimate
-- Callismon: stage exceeds Ultimate
-- Cthyllamon: stage exceeds Ultimate
-- Demon: stage exceeds Ultimate
-- Diarbbitmon: stage exceeds Ultimate
-- Dijiangmon: stage exceeds Ultimate
-- Dominimon: stage exceeds Ultimate
-- El Doradimon: stage exceeds Ultimate
-- Erlangmon: stage exceeds Ultimate
-- Erlangmon: Blast Mode: stage exceeds Ultimate
-- Fenriloogamon: stage exceeds Ultimate
-- Gran Kuwagamon: stage exceeds Ultimate
-- Griffomon: stage exceeds Ultimate
-- Herakle Kabuterimon: stage exceeds Ultimate
-- Hi Andromon: stage exceeds Ultimate
-- Holydramon: stage exceeds Ultimate
-- Hououmon: stage exceeds Ultimate
-- Hydramon: stage exceeds Ultimate
-- Jougamon: stage exceeds Ultimate
-- Jumbo Gamemon: stage exceeds Ultimate
-- Kaguyamon: stage exceeds Ultimate
-- Marin Angemon: stage exceeds Ultimate
-- Metal Etemon: stage exceeds Ultimate
-- Metal Garurumon: stage exceeds Ultimate
-- Metal Seadramon: stage exceeds Ultimate
-- Mugendramon: stage exceeds Ultimate
-- Nezhamon: stage exceeds Ultimate
-- Nezhamon: Crimson Mode: stage exceeds Ultimate
-- Noble Pumpmon: stage exceeds Ultimate
-- Piemon: stage exceeds Ultimate
-- Pinochimon: stage exceeds Ultimate
-- Plesiomon: stage exceeds Ultimate
-- Pukumon: stage exceeds Ultimate
-- Quantumon: stage exceeds Ultimate
-- Rafflesimon: stage exceeds Ultimate
-- Ragnamon: stage exceeds Ultimate
-- Ravmon: stage exceeds Ultimate
-- Ravmon: Burst Mode: stage exceeds Ultimate
-- Rosemon: stage exceeds Ultimate
-- Ryugumon: stage exceeds Ultimate
-- Saber Leomon: stage exceeds Ultimate
-- Shagaramon: stage exceeds Ultimate
-- Siriusmon: stage exceeds Ultimate
-- Skull Mammon: stage exceeds Ultimate
-- Takutoumon: stage exceeds Ultimate
-- Takutoumon: Wrath Mode: stage exceeds Ultimate
-- Tengumon: stage exceeds Ultimate
-- Ulforce V-dramon: stage exceeds Ultimate
-- Venom Vamdemon: stage exceeds Ultimate
-- Vikemon: stage exceeds Ultimate
-- War Greymon: stage exceeds Ultimate
-- Xiangpengmon: stage exceeds Ultimate
-- Yukinamon: stage exceeds Ultimate
-- Zanbamon: stage exceeds Ultimate
-- Zeke Greymon: stage exceeds Ultimate
-- Zephagamon: stage exceeds Ultimate

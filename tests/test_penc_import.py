@@ -17,11 +17,12 @@ def test_parse_penc_html_extracts_species_edges_and_exclusions():
     assert species["tentomon"]["stage"] == "rookie"
     assert species["kabuterimon"]["stage"] == "champion"
     assert species["atlurkabuterimon"]["stage"] == "ultimate"
-    assert species["heraklekabuterimon"]["excluded_reason"] == "stage exceeds Ultimate"
+    assert species["heraklekabuterimon"]["stage"] == "mega"
+    assert species["heraklekabuterimon"]["excluded_reason"] == ""
     assert species["metalgreymon"]["excluded_reason"] == "alternate form"
     assert species["tentomon"]["sprite_url"] == "https://humulos.com/digimon/images/dot/penc/tento.gif"
     assert species["tentomon"]["sprite_frame2_url"] == "https://humulos.com/digimon/images/dot/penc/frame2/tento.gif"
-    assert {item["name"] for item in raw["excluded"]} == {"Herakle Kabuterimon", "Metal Greymon"}
+    assert {item["name"] for item in raw["excluded"]} == {"Metal Greymon"}
     assert ("mochimon", "tentomon") in {
         (edge["source_id"], edge["target_id"])
         for edge in raw["edges"]
@@ -70,14 +71,21 @@ def test_generate_penc_proposal_adds_new_branches_without_replacing_existing():
     assert proposal["errors"] == []
     assert "bubbmon" in {item["id"] for item in proposal["new_species"]}
     assert "kabuterimon" in {item["id"] for item in proposal["new_species"]}
+    assert "heraklekabuterimon" in {item["id"] for item in proposal["new_species"]}
     evolution_ids = {item["id"] for item in proposal["new_natural_evolutions"]}
     assert "mochimon__to__tentomon" not in evolution_ids
     assert "tentomon__to__kabuterimon" in evolution_ids
+    assert "atlurkabuterimon__to__heraklekabuterimon" in evolution_ids
     target = next(item for item in proposal["new_natural_evolutions"] if item["id"] == "tentomon__to__kabuterimon")
     stats = target["requirements"]["groups"]["stats"]
     assert all(500 <= value <= 18000 for value in stats.values())
     assert "tentomon" in proposal["preserved_existing_sprite_species_ids"]
-    assert "Herakle Kabuterimon excluded: stage exceeds Ultimate" in proposal["warnings"]
+    mega = next(item for item in proposal["new_natural_evolutions"] if item["id"] == "atlurkabuterimon__to__heraklekabuterimon")
+    mega_stats = mega["requirements"]["groups"]["stats"]
+    assert mega["target_stage"] == "mega"
+    assert all(40000 <= value <= 85000 for stat, value in mega_stats.items() if stat in {"hp", "mp"})
+    assert all(4000 <= value <= 8500 for stat, value in mega_stats.items() if stat not in {"hp", "mp"})
+    assert "Herakle Kabuterimon excluded: stage exceeds Ultimate" not in proposal["warnings"]
 
 
 def test_generate_penc_proposal_does_not_readd_piyomon_when_biyomon_exists():
@@ -96,6 +104,30 @@ def test_generate_penc_proposal_does_not_readd_piyomon_when_biyomon_exists():
         item["id"]
         for item in proposal["new_natural_evolutions"]
     }
+
+
+def test_generate_penc_proposal_scales_down_only_high_ultimate_requirements():
+    raw = {
+        "source_url": "fixture",
+        "species": [
+            {"id": "source", "name": "Source", "stage": "champion", "sprite_url": "https://example.test/source.gif"},
+            {"id": "targetchampion", "name": "Target Champion", "stage": "champion", "sprite_url": "https://example.test/champion.gif"},
+            {"id": "targetultimate", "name": "Target Ultimate", "stage": "ultimate", "sprite_url": "https://example.test/ultimate.gif"},
+        ],
+        "edges": [
+            {"source_id": "source", "target_id": "targetchampion", "family": "fixture"},
+            {"source_id": "source", "target_id": "targetultimate", "family": "fixture"},
+        ],
+        "excluded": [],
+    }
+    proposal = generate_penc_proposal(raw, [], {"natural_evolutions": [], "indexes": {"by_source": {}}})
+
+    champion_requirements = next(item for item in proposal["new_natural_evolutions"] if item["target_species_id"] == "targetchampion")["requirements"]["groups"]["stats"]
+    ultimate_requirements = next(item for item in proposal["new_natural_evolutions"] if item["target_species_id"] == "targetultimate")["requirements"]["groups"]["stats"]
+
+    assert all(value >= 5000 for stat, value in champion_requirements.items() if stat in {"hp", "mp"})
+    assert all(value >= 500 for stat, value in champion_requirements.items() if stat not in {"hp", "mp"})
+    assert ultimate_requirements == {"hp": 36500, "mp": 40500, "offense": 4450, "defense": 3650}
 
 
 def test_apply_penc_proposal_merges_species_and_indexes():
@@ -140,7 +172,7 @@ def test_render_penc_report_is_reviewable():
             ],
             "sprite_imports": [{"species_id": "kabuterimon", "name": "Kabuterimon", "sprite_url": "https://example.test/kabuteri.gif"}],
             "preserved_existing_sprite_species_ids": ["tentomon"],
-            "excluded": [{"name": "Herakle Kabuterimon", "excluded_reason": "stage exceeds Ultimate"}],
+            "excluded": [],
             "warnings": [],
             "errors": [],
         }
@@ -148,7 +180,7 @@ def test_render_penc_report_is_reviewable():
 
     assert "New Digimon proposed: 1" in report
     assert "Tentomon -> Kabuterimon" in report
-    assert "Herakle Kabuterimon: stage exceeds Ultimate" in report
+    assert "## Excluded\n- None" in report
 
 
 def _fixture_html():

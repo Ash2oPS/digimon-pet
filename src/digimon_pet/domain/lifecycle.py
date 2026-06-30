@@ -12,6 +12,7 @@ ROOKIE_FALLBACK_ID = "numemon"
 INHERITED_STAT_NAMES = ("hp", "mp", "offense", "defense", "speed", "brains")
 REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 30
 ULTIMATE_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 40
+MEGA_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 50
 REBIRTH_STAT_ALLOCATION_STEP_PERCENT = 5
 BABY_1_TO_BABY_2 = {
     "botamon": "koromon",
@@ -39,6 +40,7 @@ class EvolutionSchedule:
     rookie_seconds: int = 80 * 60
     champion_seconds: int = 2 * 60 * 60
     ultimate_seconds: int = 2 * 60 * 60
+    mega_seconds: int = 60 * 60
 
     def threshold_for(self, stage: GrowthStage) -> int:
         return {
@@ -47,6 +49,7 @@ class EvolutionSchedule:
             GrowthStage.ROOKIE: self.rookie_seconds,
             GrowthStage.CHAMPION: self.champion_seconds,
             GrowthStage.ULTIMATE: self.ultimate_seconds,
+            GrowthStage.MEGA: self.mega_seconds,
         }[stage]
 
 
@@ -66,7 +69,8 @@ def next_lifecycle_event(state: PetState, schedule: EvolutionSchedule) -> Lifecy
         GrowthStage.BABY_2: f"Rookie evolution check, fallback to {rookie_id.title()}, or Kunemon",
         GrowthStage.ROOKIE: "Evolution check",
         GrowthStage.CHAMPION: "Ultimate check or death",
-        GrowthStage.ULTIMATE: "Death and rebirth",
+        GrowthStage.ULTIMATE: "Mega check or death",
+        GrowthStage.MEGA: "Death and rebirth",
     }[state.stage]
     return LifecycleEventPreview(label=label, remaining_seconds=remaining)
 
@@ -119,6 +123,12 @@ def advance_lifecycle(
             return _die_and_rebirth(state, rng)
         return _evolve_to(state, target, rng)
     if state.stage == GrowthStage.ULTIMATE:
+        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
+        if target is None:
+            return _die_and_rebirth(state, rng)
+        return _evolve_to(state, target, rng)
+    if state.stage == GrowthStage.MEGA:
         return _die_and_rebirth(state, rng)
     return None
 
@@ -373,7 +383,12 @@ def _die_and_rebirth(state: PetState, rng: random.Random) -> str:
 
 
 def _roll_rebirth_stat_bonuses(state: PetState, rng: random.Random) -> dict[str, int]:
-    rates = (0.20, 0.10, 0.05, 0.05) if state.stage == GrowthStage.ULTIMATE else (0.15, 0.10, 0.05)
+    if state.stage == GrowthStage.MEGA:
+        rates = (0.30, 0.10, 0.05, 0.05)
+    elif state.stage == GrowthStage.ULTIMATE:
+        rates = (0.20, 0.10, 0.05, 0.05)
+    else:
+        rates = (0.15, 0.10, 0.05)
     selected_stats = rng.sample(INHERITED_STAT_NAMES, len(rates))
     return {
         stat_name: int(_rebirth_source_stats(state).get(stat_name, getattr(state, stat_name)) * rate)
@@ -430,6 +445,8 @@ def _rebirth_source_stats(state: PetState) -> dict[str, int]:
 
 
 def rebirth_stat_allocation_total_percent(state: PetState) -> int:
+    if state.stage == GrowthStage.MEGA:
+        return MEGA_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT
     if state.stage == GrowthStage.ULTIMATE:
         return ULTIMATE_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT
     return REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT

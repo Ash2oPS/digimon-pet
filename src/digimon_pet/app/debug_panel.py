@@ -121,6 +121,7 @@ class DebugPanel(QWidget):
             ("rookie_seconds", "Rookie"),
             ("champion_seconds", "Champion"),
             ("ultimate_seconds", "Ultimate"),
+            ("mega_seconds", "Mega"),
         ]):
             label = QLabel(f"{label_text}:")
             label.setObjectName("Muted")
@@ -273,6 +274,7 @@ class DebugPanel(QWidget):
                 rookie_seconds=self._schedule_inputs["rookie_seconds"].value(),
                 champion_seconds=self._schedule_inputs["champion_seconds"].value(),
                 ultimate_seconds=self._schedule_inputs["ultimate_seconds"].value(),
+                mega_seconds=self._schedule_inputs["mega_seconds"].value(),
             )
         )
 

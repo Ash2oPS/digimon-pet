@@ -1806,5 +1806,493 @@
     "source_page": "https://wikimon-france.fandom.com/fr/wiki/Metal_Etemon",
     "url": "https://static.wikia.nocookie.net/wikimon-france/images/3/3a/Metal_Etemon.png/revision/latest?cb=20220625150917&path-prefix=fr",
     "path": "assets/artworks/metal_etemon.png"
+  },
+  {
+    "species_id": "amphimon",
+    "name": "Amphimon",
+    "official_name": "Amphimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Amphimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/9/9e/Amphimon.png/revision/latest?cb=20250825205912&path-prefix=fr",
+    "path": "assets/artworks/amphimon.png"
+  },
+  {
+    "species_id": "anubimon",
+    "name": "Anubimon",
+    "official_name": "Anubimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Anubimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/f/f2/Anubimon.png/revision/latest?cb=20220725201700&path-prefix=fr",
+    "path": "assets/artworks/anubimon.png"
+  },
+  {
+    "species_id": "arcturusmon",
+    "name": "Arcturusmon",
+    "official_name": "Arcturusmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Arcturusmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/b/b0/Arcturusmon.png/revision/latest?cb=20251201202222&path-prefix=fr",
+    "path": "assets/artworks/arcturusmon.png"
+  },
+  {
+    "species_id": "ariemon",
+    "name": "Ariemon",
+    "official_name": "Ariemon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Ariemon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/d/d8/Ariemon.png/revision/latest?cb=20250706130613&path-prefix=fr",
+    "path": "assets/artworks/ariemon.png"
+  },
+  {
+    "species_id": "blastmon",
+    "name": "Blastmon",
+    "official_name": "Blastmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Blastmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/e/e4/Blastmon.png/revision/latest?cb=20241029015039&path-prefix=fr",
+    "path": "assets/artworks/blastmon.png"
+  },
+  {
+    "species_id": "boltmon",
+    "name": "Boltmon",
+    "official_name": "Boltmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Boltmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/f/fd/Boltmon.png/revision/latest?cb=20220626110840&path-prefix=fr",
+    "path": "assets/artworks/boltmon.png"
+  },
+  {
+    "species_id": "brigadramon",
+    "name": "Brigadramon",
+    "official_name": "Brigadramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Brigadramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/3/34/Brigadramon.png/revision/latest?cb=20250428205551&path-prefix=fr",
+    "path": "assets/artworks/brigadramon.png"
+  },
+  {
+    "species_id": "callismon",
+    "name": "Callismon",
+    "official_name": "Callismon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Callismon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/9/98/Callismon.png/revision/latest?cb=20250911100807&path-prefix=fr",
+    "path": "assets/artworks/callismon.png"
+  },
+  {
+    "species_id": "cthyllamon",
+    "name": "Cthyllamon",
+    "official_name": "Cthyllamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Cthyllamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/4/42/Cthyllamon.png/revision/latest?cb=20250828155145&path-prefix=fr",
+    "path": "assets/artworks/cthyllamon.png"
+  },
+  {
+    "species_id": "demon",
+    "name": "Demon",
+    "official_name": "Demon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Demon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/c/c4/Demon.png/revision/latest?cb=20220626124953&path-prefix=fr",
+    "path": "assets/artworks/demon.png"
+  },
+  {
+    "species_id": "diarbbitmon",
+    "name": "Diarbbitmon",
+    "official_name": "Diarbbitmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Diarbbitmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/0/04/Diarbbitmon.png/revision/latest?cb=20250710103142&path-prefix=fr",
+    "path": "assets/artworks/diarbbitmon.png"
+  },
+  {
+    "species_id": "dijiangmon",
+    "name": "Dijiangmon",
+    "official_name": "Dijiangmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Dijiangmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/6/6c/Dijiangmon.png/revision/latest?cb=20250607001900&path-prefix=fr",
+    "path": "assets/artworks/dijiangmon.png"
+  },
+  {
+    "species_id": "dominimon",
+    "name": "Dominimon",
+    "official_name": "Dominimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Dominimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/5/5c/Dominimon.png/revision/latest?cb=20220128113809&path-prefix=fr",
+    "path": "assets/artworks/dominimon.png"
+  },
+  {
+    "species_id": "eldoradimon",
+    "name": "El Doradimon",
+    "official_name": "El Doradimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/El_Doradimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/9/98/El_Doradimon.png/revision/latest?cb=20231025224128&path-prefix=fr",
+    "path": "assets/artworks/eldoradimon.png"
+  },
+  {
+    "species_id": "erlangmon",
+    "name": "Erlangmon",
+    "official_name": "Erlangmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Erlangmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/0/0d/Erlangmon.png/revision/latest?cb=20260301235606&path-prefix=fr",
+    "path": "assets/artworks/erlangmon.png"
+  },
+  {
+    "species_id": "erlangmonblastmode",
+    "name": "Erlangmon: Blast Mode",
+    "official_name": "Erlangmon: Blast Mode",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=erlangmonblastmode",
+    "url": "https://www.digimon.net/cimages/digimon/erlangmonblastmode.jpg",
+    "path": "assets/artworks/erlangmonblastmode.png"
+  },
+  {
+    "species_id": "fenriloogamon",
+    "name": "Fenriloogamon",
+    "official_name": "Fenriloogamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Fenriloogamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/5/52/Fenriloogamon.png/revision/latest?cb=20250710125254&path-prefix=fr",
+    "path": "assets/artworks/fenriloogamon.png"
+  },
+  {
+    "species_id": "grankuwagamon",
+    "name": "Gran Kuwagamon",
+    "official_name": "Gran Kuwagamon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=grankuwagamon",
+    "url": "https://www.digimon.net/cimages/digimon/grankuwagamon.jpg",
+    "path": "assets/artworks/grankuwagamon.png"
+  },
+  {
+    "species_id": "griffomon",
+    "name": "Griffomon",
+    "official_name": "Griffomon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Griffomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/14/Griffomon.png/revision/latest?cb=20200423222220&path-prefix=fr",
+    "path": "assets/artworks/griffomon.png"
+  },
+  {
+    "species_id": "heraklekabuterimon",
+    "name": "Herakle Kabuterimon",
+    "official_name": "Herakle Kabuterimon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=heraklekabuterimon",
+    "url": "https://www.digimon.net/cimages/digimon/heraklekabuterimon.jpg",
+    "path": "assets/artworks/heraklekabuterimon.png"
+  },
+  {
+    "species_id": "hiandromon",
+    "name": "Hi Andromon",
+    "official_name": "Hi Andromon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Hi_Andromon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/0/0e/Hi_Andromon.png/revision/latest?cb=20220709130624&path-prefix=fr",
+    "path": "assets/artworks/hiandromon.png"
+  },
+  {
+    "species_id": "holydramon",
+    "name": "Holydramon",
+    "official_name": "Holydramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Holydramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/c/c3/Holydramon.png/revision/latest?cb=20250919203832&path-prefix=fr",
+    "path": "assets/artworks/holydramon.png"
+  },
+  {
+    "species_id": "hououmon",
+    "name": "Hououmon",
+    "official_name": "Hououmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Hououmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/a/ab/Phoenixmon.png/revision/latest?cb=20201205192656&path-prefix=fr",
+    "path": "assets/artworks/hououmon.png"
+  },
+  {
+    "species_id": "hydramon",
+    "name": "Hydramon",
+    "official_name": "Hydramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Hydramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/9/9c/Hydramon.png/revision/latest?cb=20220117002407&path-prefix=fr",
+    "path": "assets/artworks/hydramon.png"
+  },
+  {
+    "species_id": "jougamon",
+    "name": "Jougamon",
+    "official_name": "Jougamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Jougamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/3/32/Jougamon.png/revision/latest?cb=20241126142113&path-prefix=fr",
+    "path": "assets/artworks/jougamon.png"
+  },
+  {
+    "species_id": "jumbogamemon",
+    "name": "Jumbo Gamemon",
+    "official_name": "Jumbo Gamemon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Jumbo_Gamemon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/3/31/Jumbo_Gamemon.png/revision/latest?cb=20231029033915&path-prefix=fr",
+    "path": "assets/artworks/jumbogamemon.png"
+  },
+  {
+    "species_id": "kaguyamon",
+    "name": "Kaguyamon",
+    "official_name": "Kaguyamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Kaguyamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/5/52/Kaguyamon.png/revision/latest?cb=20250529000350&path-prefix=fr",
+    "path": "assets/artworks/kaguyamon.png"
+  },
+  {
+    "species_id": "marinangemon",
+    "name": "Marin Angemon",
+    "official_name": "Marin Angemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=marinangemon",
+    "url": "https://www.digimon.net/cimages/digimon/marinangemon.jpg",
+    "path": "assets/artworks/marinangemon.png"
+  },
+  {
+    "species_id": "metalgarurumon",
+    "name": "Metal Garurumon",
+    "official_name": "Metal Garurumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Metal_Garurumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/f/f7/MetalGarurumon.png/revision/latest?cb=20160914171905&path-prefix=fr",
+    "path": "assets/artworks/metalgarurumon.png"
+  },
+  {
+    "species_id": "metalseadramon",
+    "name": "Metal Seadramon",
+    "official_name": "Metal Seadramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Metal_Seadramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/8/8d/Metal_Seadramon.png/revision/latest?cb=20250706181540&path-prefix=fr",
+    "path": "assets/artworks/metalseadramon.png"
+  },
+  {
+    "species_id": "mugendramon",
+    "name": "Mugendramon",
+    "official_name": "Mugendramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Mugendramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/2/2a/Machinedramon.png/revision/latest?cb=20220602005721&path-prefix=fr",
+    "path": "assets/artworks/mugendramon.png"
+  },
+  {
+    "species_id": "nezhamon",
+    "name": "Nezhamon",
+    "official_name": "Nezhamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Nezhamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/e/eb/Nezhamon.png/revision/latest?cb=20250209150409&path-prefix=fr",
+    "path": "assets/artworks/nezhamon.png"
+  },
+  {
+    "species_id": "nezhamoncrimsonmode",
+    "name": "Nezhamon: Crimson Mode",
+    "official_name": "Nezhamon: Crimson Mode",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=nezhamoncrimsonmode",
+    "url": "https://www.digimon.net/cimages/digimon/nezhamoncrimsonmode.jpg",
+    "path": "assets/artworks/nezhamoncrimsonmode.png"
+  },
+  {
+    "species_id": "noblepumpmon",
+    "name": "Noble Pumpmon",
+    "official_name": "Noble Pumpmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=noblepumpmon",
+    "url": "https://www.digimon.net/cimages/digimon/noblepumpmon.jpg",
+    "path": "assets/artworks/noblepumpmon.png"
+  },
+  {
+    "species_id": "piemon",
+    "name": "Piemon",
+    "official_name": "Piemon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Piemon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/b/b4/Piemon.png/revision/latest?cb=20220627182229&path-prefix=fr",
+    "path": "assets/artworks/piemon.png"
+  },
+  {
+    "species_id": "pinochimon",
+    "name": "Pinochimon",
+    "official_name": "Pinochimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Pinochimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/8/8c/Pinochimon.png/revision/latest?cb=20220627182337&path-prefix=fr",
+    "path": "assets/artworks/pinochimon.png"
+  },
+  {
+    "species_id": "plesiomon",
+    "name": "Plesiomon",
+    "official_name": "Plesiomon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Plesiomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/7/71/Plesiomon.png/revision/latest?cb=20260415043607&path-prefix=fr",
+    "path": "assets/artworks/plesiomon.png"
+  },
+  {
+    "species_id": "pukumon",
+    "name": "Pukumon",
+    "official_name": "Pukumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Pukumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/0/00/Pukumon.png/revision/latest?cb=20220626004619&path-prefix=fr",
+    "path": "assets/artworks/pukumon.png"
+  },
+  {
+    "species_id": "quantumon",
+    "name": "Quantumon",
+    "official_name": "Quantumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Quantumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/e/ee/Quantumon.png/revision/latest?cb=20260402211325&path-prefix=fr",
+    "path": "assets/artworks/quantumon.png"
+  },
+  {
+    "species_id": "rafflesimon",
+    "name": "Rafflesimon",
+    "official_name": "Rafflesimon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Rafflesimon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/f/f6/Rafflesimon.png/revision/latest?cb=20220619195648&path-prefix=fr",
+    "path": "assets/artworks/rafflesimon.png"
+  },
+  {
+    "species_id": "ragnamon",
+    "name": "Ragnamon",
+    "official_name": "Ragnamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Ragnamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/6/61/Ragnamon.png/revision/latest?cb=20221102001348&path-prefix=fr",
+    "path": "assets/artworks/ragnamon.png"
+  },
+  {
+    "species_id": "ravmon",
+    "name": "Ravmon",
+    "official_name": "Ravmon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=ravmon",
+    "url": "https://www.digimon.net/cimages/digimon/ravmon.jpg",
+    "path": "assets/artworks/ravmon.png"
+  },
+  {
+    "species_id": "ravmonburstmode",
+    "name": "Ravmon: Burst Mode",
+    "official_name": "Ravmon: Burst Mode",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=ravmonburstmode",
+    "url": "https://www.digimon.net/cimages/digimon/ravmonburstmode.jpg",
+    "path": "assets/artworks/ravmonburstmode.png"
+  },
+  {
+    "species_id": "rosemon",
+    "name": "Rosemon",
+    "official_name": "Rosemon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Rosemon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/10/Rosemon.png/revision/latest?cb=20220123235318&path-prefix=fr",
+    "path": "assets/artworks/rosemon.png"
+  },
+  {
+    "species_id": "ryugumon",
+    "name": "Ryugumon",
+    "official_name": "Ryugumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Ryugumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/5/59/Ryugumon.png/revision/latest?cb=20250218103954&path-prefix=fr",
+    "path": "assets/artworks/ryugumon.png"
+  },
+  {
+    "species_id": "saberleomon",
+    "name": "Saber Leomon",
+    "official_name": "Saber Leomon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Saber_Leomon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/c/cd/Saber_Leomon.png/revision/latest?cb=20231025230622&path-prefix=fr",
+    "path": "assets/artworks/saberleomon.png"
+  },
+  {
+    "species_id": "shagaramon",
+    "name": "Shagaramon",
+    "official_name": "Shagaramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Shagaramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/4/44/Shagaramon.png/revision/latest?cb=20250419121319&path-prefix=fr",
+    "path": "assets/artworks/shagaramon.png"
+  },
+  {
+    "species_id": "siriusmon",
+    "name": "Siriusmon",
+    "official_name": "Siriusmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Siriusmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/18/Sirius.png/revision/latest?cb=20250607154845&path-prefix=fr",
+    "path": "assets/artworks/siriusmon.png"
+  },
+  {
+    "species_id": "skullmammon",
+    "name": "Skull Mammon",
+    "official_name": "Skull Mammon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=skullmammon",
+    "url": "https://www.digimon.net/cimages/digimon/skullmammon.jpg",
+    "path": "assets/artworks/skullmammon.png"
+  },
+  {
+    "species_id": "takutoumon",
+    "name": "Takutoumon",
+    "official_name": "Takutoumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Takutoumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/7/75/Takutoumon.png/revision/latest?cb=20241024201923&path-prefix=fr",
+    "path": "assets/artworks/takutoumon.png"
+  },
+  {
+    "species_id": "takutoumonwrathmode",
+    "name": "Takutoumon: Wrath Mode",
+    "official_name": "Takutoumon: Wrath Mode",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=takutoumonwrathmode",
+    "url": "https://www.digimon.net/cimages/digimon/takutoumonwrathmode.jpg",
+    "path": "assets/artworks/takutoumonwrathmode.png"
+  },
+  {
+    "species_id": "tengumon",
+    "name": "Tengumon",
+    "official_name": "Tengumon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Tengumon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/a/a1/Tengumon.png/revision/latest?cb=20250827163119&path-prefix=fr",
+    "path": "assets/artworks/tengumon.png"
+  },
+  {
+    "species_id": "ulforcevdramon",
+    "name": "Ulforce V-dramon",
+    "official_name": "Ulforce V-dramon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Ulforce_V-dramon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/1/14/Ulforce_V-dramon_%282%29.png/revision/latest?cb=20160828171918&path-prefix=fr",
+    "path": "assets/artworks/ulforcevdramon.png"
+  },
+  {
+    "species_id": "venomvamdemon",
+    "name": "Venom Vamdemon",
+    "official_name": "Venom Vamdemon",
+    "source_page": "https://www.digimon.net/reference_en/detail.php?directory_name=venomvamdemon",
+    "url": "https://www.digimon.net/cimages/digimon/venomvamdemon.jpg",
+    "path": "assets/artworks/venomvamdemon.png"
+  },
+  {
+    "species_id": "vikemon",
+    "name": "Vikemon",
+    "official_name": "Vikemon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Vikemon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/8/8c/Vikemon.png/revision/latest?cb=20210919115548&path-prefix=fr",
+    "path": "assets/artworks/vikemon.png"
+  },
+  {
+    "species_id": "wargreymon",
+    "name": "War Greymon",
+    "official_name": "War Greymon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/War_Greymon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/2/21/War_Greymon.png/revision/latest?cb=20220628130443&path-prefix=fr",
+    "path": "assets/artworks/wargreymon.png"
+  },
+  {
+    "species_id": "xiangpengmon",
+    "name": "Xiangpengmon",
+    "official_name": "Xiangpengmon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Xiangpengmon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/a/ad/Xiangpengmon.png/revision/latest?cb=20250704130832&path-prefix=fr",
+    "path": "assets/artworks/xiangpengmon.png"
+  },
+  {
+    "species_id": "yukinamon",
+    "name": "Yukinamon",
+    "official_name": "Yukinamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Yukinamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/f/f1/Yukinamon.jpg/revision/latest?cb=20250819144310&path-prefix=fr",
+    "path": "assets/artworks/yukinamon.png"
+  },
+  {
+    "species_id": "zanbamon",
+    "name": "Zanbamon",
+    "official_name": "Zanbamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Zanbamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/3/38/Zanbamon.png/revision/latest?cb=20240130031802&path-prefix=fr",
+    "path": "assets/artworks/zanbamon.png"
+  },
+  {
+    "species_id": "zekegreymon",
+    "name": "Zeke Greymon",
+    "official_name": "Zeke Greymon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Zeke_Greymon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/b/ba/Zeke_Greymon.png/revision/latest?cb=20250827192402&path-prefix=fr",
+    "path": "assets/artworks/zekegreymon.png"
+  },
+  {
+    "species_id": "zephagamon",
+    "name": "Zephagamon",
+    "official_name": "Zephagamon",
+    "source_page": "https://wikimon-france.fandom.com/fr/wiki/Zephagamon",
+    "url": "https://static.wikia.nocookie.net/wikimon-france/images/2/2f/Zephagamon.png/revision/latest?cb=20250218113825&path-prefix=fr",
+    "path": "assets/artworks/zephagamon.png"
   }
 ]

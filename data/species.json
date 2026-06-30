@@ -1837,5 +1837,439 @@
     "stage": "ultimate",
     "aliases": [],
     "sprite_slots": {}
+  },
+  {
+    "id": "amphimon",
+    "name": "Amphimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "anubimon",
+    "name": "Anubimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "arcturusmon",
+    "name": "Arcturusmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "ariemon",
+    "name": "Ariemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "blastmon",
+    "name": "Blastmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "boltmon",
+    "name": "Boltmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "brigadramon",
+    "name": "Brigadramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "callismon",
+    "name": "Callismon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "cthyllamon",
+    "name": "Cthyllamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "demon",
+    "name": "Demon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "diarbbitmon",
+    "name": "Diarbbitmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "dijiangmon",
+    "name": "Dijiangmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "dominimon",
+    "name": "Dominimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "eldoradimon",
+    "name": "El Doradimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "erlangmon",
+    "name": "Erlangmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "erlangmonblastmode",
+    "name": "Erlangmon: Blast Mode",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "fenriloogamon",
+    "name": "Fenriloogamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "grankuwagamon",
+    "name": "Gran Kuwagamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "griffomon",
+    "name": "Griffomon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "heraklekabuterimon",
+    "name": "Herakle Kabuterimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "hiandromon",
+    "name": "Hi Andromon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "holydramon",
+    "name": "Holydramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "hououmon",
+    "name": "Hououmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "hydramon",
+    "name": "Hydramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "jougamon",
+    "name": "Jougamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "jumbogamemon",
+    "name": "Jumbo Gamemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "kaguyamon",
+    "name": "Kaguyamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "marinangemon",
+    "name": "Marin Angemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "metaletemon",
+    "name": "Metal Etemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "metalgarurumon",
+    "name": "Metal Garurumon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "metalseadramon",
+    "name": "Metal Seadramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "mugendramon",
+    "name": "Mugendramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "nezhamon",
+    "name": "Nezhamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "nezhamoncrimsonmode",
+    "name": "Nezhamon: Crimson Mode",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "noblepumpmon",
+    "name": "Noble Pumpmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "piemon",
+    "name": "Piemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "pinochimon",
+    "name": "Pinochimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "plesiomon",
+    "name": "Plesiomon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "pukumon",
+    "name": "Pukumon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "quantumon",
+    "name": "Quantumon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "rafflesimon",
+    "name": "Rafflesimon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "ragnamon",
+    "name": "Ragnamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "ravmon",
+    "name": "Ravmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "ravmonburstmode",
+    "name": "Ravmon: Burst Mode",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "rosemon",
+    "name": "Rosemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "ryugumon",
+    "name": "Ryugumon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "saberleomon",
+    "name": "Saber Leomon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "shagaramon",
+    "name": "Shagaramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "siriusmon",
+    "name": "Siriusmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "skullmammon",
+    "name": "Skull Mammon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "takutoumon",
+    "name": "Takutoumon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "takutoumonwrathmode",
+    "name": "Takutoumon: Wrath Mode",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "tengumon",
+    "name": "Tengumon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "ulforcevdramon",
+    "name": "Ulforce V-dramon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "venomvamdemon",
+    "name": "Venom Vamdemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "vikemon",
+    "name": "Vikemon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "wargreymon",
+    "name": "War Greymon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "xiangpengmon",
+    "name": "Xiangpengmon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "yukinamon",
+    "name": "Yukinamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "zanbamon",
+    "name": "Zanbamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "zekegreymon",
+    "name": "Zeke Greymon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
+  },
+  {
+    "id": "zephagamon",
+    "name": "Zephagamon",
+    "stage": "mega",
+    "aliases": [],
+    "sprite_slots": {}
   }
 ]

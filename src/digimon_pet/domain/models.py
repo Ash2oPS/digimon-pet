@@ -10,6 +10,7 @@ class GrowthStage(StrEnum):
     ROOKIE = "rookie"
     CHAMPION = "champion"
     ULTIMATE = "ultimate"
+    MEGA = "mega"
 
 
 @dataclass(frozen=True)

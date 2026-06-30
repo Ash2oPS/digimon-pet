@@ -34,6 +34,7 @@ def species_map():
         "metalgreymon": Species("metalgreymon", "MetalGreymon", GrowthStage.ULTIMATE),
         "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
         "vademon": Species("vademon", "Vademon", GrowthStage.ULTIMATE),
+        "wargreymon": Species("wargreymon", "WarGreymon", GrowthStage.MEGA),
     }
 
 
@@ -45,6 +46,71 @@ def test_default_evolution_schedule_matches_target_stage_durations():
     assert schedule.rookie_seconds == 80 * 60
     assert schedule.champion_seconds == 2 * 60 * 60
     assert schedule.ultimate_seconds == 2 * 60 * 60
+    assert schedule.mega_seconds == 60 * 60
+
+
+def test_ultimate_evolves_to_mega_when_requirements_match():
+    schedule = EvolutionSchedule(ultimate_seconds=3600)
+    state = PetState(
+        species_id="metalgreymon",
+        stage=GrowthStage.ULTIMATE,
+        age_seconds=3600,
+        hp=70000,
+        offense=7000,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "metalgreymon",
+                "target_species_id": "wargreymon",
+                "requirements": {"groups": {"stats": {"hp": 60000, "offense": 6000}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "evolved:wargreymon"
+    assert state.stage == GrowthStage.MEGA
+    assert state.needs_rebirth_choice is False
+
+
+def test_ultimate_dies_when_no_mega_requirements_match():
+    schedule = EvolutionSchedule(ultimate_seconds=3600)
+    state = PetState(
+        species_id="metalgreymon",
+        stage=GrowthStage.ULTIMATE,
+        age_seconds=3600,
+        hp=1000,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "metalgreymon",
+                "target_species_id": "wargreymon",
+                "requirements": {"groups": {"stats": {"hp": 60000}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(1))
+
+    assert event == "died:choice_required"
+    assert state.stage == GrowthStage.ULTIMATE
+    assert state.needs_rebirth_choice is True
+
+
+def test_mega_dies_after_mega_duration():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        age_seconds=3600,
+    )
+
+    event = advance_lifecycle(state, species_map(), {}, EvolutionSchedule(mega_seconds=3600), random.Random(1))
+
+    assert event == "died:choice_required"
+    assert state.needs_rebirth_choice is True
 
 
 def test_baby_line_evolves_forced_and_resets_stage_state():
@@ -761,6 +827,20 @@ def test_ultimate_rebirth_stat_allocation_requires_exact_forty_percent():
         allocate_rebirth_stat_bonuses(state, {"hp": 15, "mp": 10, "speed": 5})
 
 
+def test_mega_rebirth_stat_allocation_requires_exact_fifty_percent():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "speed": 70},
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 25, "mp": 20, "speed": 5})
+
+    assert bonuses == {"hp": 75, "mp": 80, "speed": 3}
+    with pytest.raises(ValueError, match="total 50"):
+        allocate_rebirth_stat_bonuses(state, {"hp": 20, "mp": 15, "speed": 5})
+
+
 def test_auto_rebirth_random_bonus_keeps_old_distribution():
     state = PetState(
         species_id="numemon",
@@ -809,6 +889,31 @@ def test_ultimate_auto_rebirth_random_bonus_uses_forty_percent_distribution():
     bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
 
     assert bonuses == {"mp": 80, "speed": 7, "hp": 15, "brains": 4}
+
+
+def test_mega_auto_rebirth_random_bonus_uses_fifty_percent_distribution():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        hp=300,
+        mp=400,
+        offense=50,
+        defense=60,
+        speed=70,
+        brains=80,
+        pending_rebirth_stat_source_stats={
+            "hp": 300,
+            "mp": 400,
+            "offense": 50,
+            "defense": 60,
+            "speed": 70,
+            "brains": 80,
+        },
+    )
+
+    bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
+
+    assert bonuses == {"mp": 120, "speed": 7, "hp": 15, "brains": 4}
 
 
 def test_catalog_champion_uses_declared_ultimate_evolution_for_added_species():
