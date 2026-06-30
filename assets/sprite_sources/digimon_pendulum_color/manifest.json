@@ -1754,9 +1754,7 @@
     },
     {
       "fps": 6,
-      "frame_count": 2,
-      "frame_width": 36,
-      "frame_height": 36,
+      "frame_count": 13,
       "name": "Metal Etemon",
       "path": "assets/sprite_sources/digimon_pendulum_color/metal_etemon.png",
       "source_page": "https://humulos.com/digimon/penc/",
