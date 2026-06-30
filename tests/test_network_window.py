@@ -90,6 +90,15 @@ def test_network_window_settings_header_is_compact():
     assert window._settings_panel.maximumHeight() <= 118
 
 
+def test_network_window_gives_friend_list_more_width_than_stats_panel():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai")
+
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+
+    assert window._content_layout.stretch(0) > window._content_layout.stretch(1)
+
+
 def test_network_window_saves_notification_toggles():
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai")

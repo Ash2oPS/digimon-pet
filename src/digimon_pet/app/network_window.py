@@ -153,8 +153,8 @@ class NetworkWindow(QDialog):
         self._status_label.setObjectName("Muted")
         layout.addWidget(self._status_label)
 
-        content = QHBoxLayout()
-        content.setSpacing(10)
+        self._content_layout = QHBoxLayout()
+        self._content_layout.setSpacing(10)
         self._friends_table = QTableWidget(0, len(FRIEND_TABLE_COLUMNS), self)
         self._friends_table.setObjectName("NetworkFriendsTable")
         self._friends_table.setHorizontalHeaderLabels(list(FRIEND_TABLE_COLUMNS))
@@ -164,9 +164,9 @@ class NetworkWindow(QDialog):
         self._friends_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._friends_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self._friends_table.setSortingEnabled(True)
-        content.addWidget(self._friends_table, 1)
-        content.addWidget(self._build_friend_detail_panel(), 2)
-        layout.addLayout(content, 1)
+        self._content_layout.addWidget(self._friends_table, 3)
+        self._content_layout.addWidget(self._build_friend_detail_panel(), 2)
+        layout.addLayout(self._content_layout, 1)
 
         self._enabled_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
         self._notify_death_checkbox.toggled.connect(lambda checked=False: self._save_from_inputs())
