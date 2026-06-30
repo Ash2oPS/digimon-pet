@@ -1016,6 +1016,8 @@ class DigimonManagerWindow(QWidget):
             if index >= 0:
                 combo.setCurrentIndex(index)
             combo.blockSignals(False)
+        if self._item_manager_window is not None:
+            self._item_manager_window.refresh_species(self._species_map_for_items())
         if self._fusion_manager_window is not None:
             self._fusion_manager_window.refresh_species(self._catalog.species_rows)
         self._refresh_evolution_actions()
@@ -1827,6 +1829,49 @@ class DigimonManagerWindow(QWidget):
         species = self._catalog.species_by_id().get(species_id)
         return species is not None and selector_stage == str(species.get("stage", ""))
 
+    def _fusion_references_species(self, recipe: FusionRecipe, species_id: str) -> bool:
+        return species_id == recipe.target_species_id or species_id in recipe.source_species_ids
+
+    def _fusion_references_for_species(self, species_id: str) -> list[str]:
+        return [
+            _fusion_recipe_label(recipe)
+            for recipe in self._fusion_catalog.recipes
+            if self._fusion_references_species(recipe, species_id)
+        ]
+
+    def _remove_fusion_recipes_referencing_species(self, species_id: str) -> list[str]:
+        removed = self._fusion_references_for_species(species_id)
+        if not removed:
+            return []
+        self._fusion_catalog.recipes = tuple(
+            recipe
+            for recipe in self._fusion_catalog.recipes
+            if not self._fusion_references_species(recipe, species_id)
+        )
+        if self._fusion_manager_window is not None:
+            self._fusion_manager_window.refresh()
+        return removed
+
+    def _evolution_item_references_for_species(self, species_id: str) -> list[str]:
+        if self._item_manager_window is None:
+            return []
+        return [
+            item.id
+            for item in self._item_manager_window._catalog.items.values()
+            if (
+                item.evolution is not None
+                and (
+                    item.evolution.target_species_id == species_id
+                    or species_id in item.evolution.required_species_ids
+                )
+            )
+        ]
+
+    def _remove_evolution_items_referencing_species(self, species_id: str) -> list[str]:
+        if self._item_manager_window is None:
+            return []
+        return self._item_manager_window.remove_evolution_items_referencing_species(species_id)
+
     def add_species(self) -> None:
         species_id = add_species(self._catalog)
         self._selected_id = species_id
@@ -1868,6 +1913,8 @@ class DigimonManagerWindow(QWidget):
         if result != QMessageBox.StandardButton.Yes:
             return
         delete_species(self._catalog, species_id)
+        self._remove_fusion_recipes_referencing_species(species_id)
+        self._remove_evolution_items_referencing_species(species_id)
         self._selected_id = None
         self._selected_row = None
         self._mark_dirty()
@@ -1906,6 +1953,8 @@ class DigimonManagerWindow(QWidget):
             natural_as_target=natural_as_target,
             special_references=special_references,
             sprite_paths=[str(path) for path in sprite_paths],
+            fusion_references=self._fusion_references_for_species(species_id),
+            evolution_item_references=self._evolution_item_references_for_species(species_id),
         )
 
     def _format_delete_impact(self, impact) -> str:
@@ -1913,6 +1962,8 @@ class DigimonManagerWindow(QWidget):
         lines.append(f"Natural as source: {_join_or_none(impact.natural_as_source)}")
         lines.append(f"Natural as target: {_join_or_none(impact.natural_as_target)}")
         lines.append(f"Special references: {_join_or_none(impact.special_references)}")
+        lines.append(f"Fusion references: {_join_or_none(impact.fusion_references)}")
+        lines.append(f"Evolution items: {_join_or_none(impact.evolution_item_references)}")
         lines.append(f"Sprite paths: {_join_or_none(impact.sprite_paths)}")
         return "\n".join(lines)
 

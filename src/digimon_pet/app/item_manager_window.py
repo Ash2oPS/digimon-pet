@@ -362,6 +362,51 @@ class ItemManagerWindow(QWidget):
         )
         self._validation_output.setPlainText("\n".join(errors) if errors else "No validation errors.")
 
+    def refresh_species(self, species: dict[str, Species]) -> None:
+        self._species = species
+        target = self._target_species_input.currentText()
+        required = self._required_species_input.currentText()
+        self._target_species_input.blockSignals(True)
+        self._required_species_input.blockSignals(True)
+        self._target_species_input.clear()
+        self._target_species_input.addItems(sorted(species))
+        self._required_species_input.clear()
+        self._required_species_input.addItem("")
+        self._required_species_input.addItems(sorted(species))
+        self._target_species_input.setCurrentText(target)
+        self._required_species_input.setCurrentText(required)
+        self._target_species_input.blockSignals(False)
+        self._required_species_input.blockSignals(False)
+        self._validate_current_catalog()
+
+    def remove_evolution_items_referencing_species(self, species_id: str) -> list[str]:
+        removed_item_ids = [
+            item.id
+            for item in self._catalog.items.values()
+            if _evolution_item_references_species(item, species_id)
+        ]
+        if not removed_item_ids:
+            return []
+
+        removed = set(removed_item_ids)
+        self._set_catalog_items({
+            key: item
+            for key, item in self._catalog.items.items()
+            if item.id not in removed
+        })
+        self._set_catalog_pools({
+            pool_name: tuple(entry for entry in entries if entry.item_id not in removed)
+            for pool_name, entries in self._catalog.pools.items()
+        })
+        self._refresh_item_list()
+        if self._item_list.count() > 0:
+            self._item_list.setCurrentRow(0)
+        else:
+            self._clear_editor_fields()
+            self._update_editor_enabled_state()
+        self._validate_current_catalog()
+        return removed_item_ids
+
     def _load_selected_item(self, row: int) -> None:
         item_key = self._selected_item_key()
         item = self._catalog.items.get(item_key or "")
@@ -681,6 +726,15 @@ def _inventory_category_for_item(item: ItemDefinition) -> InventoryCategory:
     if item.type == ItemType.EVOLUTION:
         return InventoryCategory.EVOLUTION
     return InventoryCategory.SPECIAL
+
+
+def _evolution_item_references_species(item: ItemDefinition, species_id: str) -> bool:
+    if item.type != ItemType.EVOLUTION or item.evolution is None:
+        return False
+    return (
+        item.evolution.target_species_id == species_id
+        or species_id in item.evolution.required_species_ids
+    )
 
 
 def _inventory_category_label(category: InventoryCategory) -> str:

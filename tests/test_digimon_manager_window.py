@@ -13,7 +13,14 @@ from digimon_pet.app.digimon_manager_window import DigimonManagerWindow, Runtime
 from digimon_pet.data.pendulum_sprite_import import SpriteImportOption
 from digimon_pet.domain.digimon_catalog import load_digimon_catalog
 from digimon_pet.domain.fusions import FusionCatalog, FusionRecipe
-from digimon_pet.domain.items import EvolutionItemEffect, ItemCatalog, ItemDefinition, ItemType, item_catalog_to_dict
+from digimon_pet.domain.items import (
+    EvolutionItemEffect,
+    ItemCatalog,
+    ItemDefinition,
+    ItemPoolEntry,
+    ItemType,
+    item_catalog_to_dict,
+)
 from tests.test_digimon_catalog import write_catalog_files
 
 
@@ -771,3 +778,76 @@ def test_delete_confirmation_receives_impact_summary(tmp_path, monkeypatch):
     assert "Natural as target: koromon__to__agumon" in messages[0]
     assert "Special references: special__to__greymon" in messages[0]
     assert "agumon" not in window._catalog.species_by_id()
+
+
+def test_deleting_species_removes_referencing_fusion_recipes(tmp_path, monkeypatch):
+    window = make_window(tmp_path)
+    manager = window._fusion_manager_window
+    assert manager is not None
+    manager._catalog.recipes = (
+        FusionRecipe(("agumon", "koromon"), "greymon"),
+        FusionRecipe(("koromon", "greymon"), "agumon"),
+    )
+    manager.refresh()
+
+    monkeypatch.setattr(QMessageBox, "question", lambda *args, **kwargs: QMessageBox.StandardButton.Yes)
+
+    window._species_table.selectRow(1)
+    window.delete_selected_species()
+
+    assert manager._catalog.recipes == ()
+    assert manager._recipe_list.count() == 0
+    assert window.save_catalog() is True
+    assert json.loads((tmp_path / "fusions.json").read_text(encoding="utf-8")) == {"fusions": []}
+
+
+def test_deleting_species_removes_referencing_evolution_items_and_pool_entries(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    species_path, digivolutions_path = write_catalog_files(tmp_path)
+    catalog = load_digimon_catalog(species_path, digivolutions_path)
+    item_catalog = ItemCatalog(
+        items={
+            "grey_claws": ItemDefinition(
+                id="grey_claws",
+                name="Grey Claws",
+                description="Makes Agumon digivolve into Greymon.",
+                type=ItemType.EVOLUTION,
+                evolution=EvolutionItemEffect(
+                    target_species_id="greymon",
+                    required_species_ids=("agumon",),
+                ),
+            ),
+            "digimeat": ItemDefinition(
+                id="digimeat",
+                name="DigiMeat",
+                description="Food.",
+                type=ItemType.CONSUMABLE,
+            ),
+        },
+        pools={
+            "secondary_event": (
+                ItemPoolEntry(item_id="grey_claws", weight=1),
+                ItemPoolEntry(item_id="digimeat", weight=4),
+            )
+        },
+    )
+    window = DigimonManagerWindow(
+        catalog,
+        tmp_path,
+        species_path=species_path,
+        digivolutions_path=digivolutions_path,
+        item_catalog=item_catalog,
+        item_save_path=tmp_path / "items.json",
+        fusion_catalog=FusionCatalog(),
+        fusion_save_path=tmp_path / "fusions.json",
+    )
+
+    monkeypatch.setattr(QMessageBox, "question", lambda *args, **kwargs: QMessageBox.StandardButton.Yes)
+
+    window._species_table.selectRow(1)
+    window.delete_selected_species()
+
+    assert "grey_claws" not in item_catalog.items
+    assert "digimeat" in item_catalog.items
+    assert [entry.item_id for entry in item_catalog.pools["secondary_event"]] == ["digimeat"]
+    assert window.save_catalog() is True

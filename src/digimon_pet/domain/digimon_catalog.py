@@ -3,7 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +40,8 @@ class DigimonDeleteImpact:
     natural_as_target: list[str]
     special_references: list[str]
     sprite_paths: list[str]
+    fusion_references: list[str] = field(default_factory=list)
+    evolution_item_references: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
