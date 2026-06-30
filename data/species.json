@@ -788,8 +788,9 @@
   {
     "id": "warumonzaemon",
     "name": "Waru Monzaemon",
-    "stage": "ultimate",
-    "sprite_slots": {}
+    "stage": "mega",
+    "sprite_slots": {},
+    "aliases": []
   },
   {
     "id": "kaiserleomon",
