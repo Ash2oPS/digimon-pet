@@ -336,6 +336,8 @@ def test_stats_window_evolution_intel_lists_direct_evolutions_and_hides_unknown_
     assert "OFF" in texts
     assert "202 / 250" in texts
     assert "No requirement" in texts
+    no_requirement = next(label for label in window.findChildren(QLabel) if label.text() == "No requirement")
+    assert no_requirement.property("state") == "none"
     assert "SPD" in texts
     assert "400" not in texts
 

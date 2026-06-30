@@ -267,6 +267,11 @@ QLabel#EvolutionRequirementStatus[state="unknown"] {{
     border-color: {COLORS["line"]};
 }}
 
+QLabel#EvolutionRequirementStatus[state="none"] {{
+    color: {COLORS["muted"]};
+    border-color: {COLORS["line"]};
+}}
+
 QTabWidget#StatsTabs::pane {{
     background: {COLORS["surface"]};
 }}

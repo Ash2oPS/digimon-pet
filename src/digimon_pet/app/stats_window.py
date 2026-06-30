@@ -554,7 +554,7 @@ class StatsWindow(QDialog):
         elif required is None:
             value_text = "-"
             status_text = "No requirement"
-            status_state = "ok"
+            status_state = "none"
             percent = 100
         else:
             value_text = f"{current} / {required}"
