@@ -17161,7 +17161,7 @@
       "source_species_id": "angewomon",
       "source_name": "Angewomon",
       "target_species_id": "metal_etemon",
-      "target_name": "Metal Etemon",
+      "target_name": "MetalEtemon",
       "target_stage": "mega",
       "chart_order": 20,
       "requirements": {
@@ -17191,7 +17191,7 @@
       "source_species_id": "triceramon",
       "source_name": "Triceramon",
       "target_species_id": "metal_etemon",
-      "target_name": "Metal Etemon",
+      "target_name": "MetalEtemon",
       "target_stage": "mega",
       "chart_order": 21,
       "requirements": {
@@ -17221,7 +17221,7 @@
       "source_species_id": "tonosamagekomon",
       "source_name": "Tonosama Gekomon",
       "target_species_id": "metal_etemon",
-      "target_name": "Metal Etemon",
+      "target_name": "MetalEtemon",
       "target_stage": "mega",
       "chart_order": 22,
       "requirements": {
@@ -17251,7 +17251,7 @@
       "source_species_id": "okuwamon",
       "source_name": "Okuwamon",
       "target_species_id": "metal_etemon",
-      "target_name": "Metal Etemon",
+      "target_name": "MetalEtemon",
       "target_stage": "mega",
       "chart_order": 23,
       "requirements": {
@@ -20917,14 +20917,10 @@
       "chart_order": 142,
       "requirements": {
         "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
+            "hp": 6000,
+            "mp": 6550,
             "offense": 7100,
             "defense": 6000
           }
@@ -22817,6 +22813,27 @@
       "notes": [
         "Imported from PenC family:"
       ]
+    },
+    {
+      "id": "metalgreymon__to__wargreymon",
+      "type": "natural",
+      "source_species_id": "metalgreymon",
+      "target_species_id": "wargreymon",
+      "target_stage": "mega",
+      "chart_order": 1,
+      "requirements": {
+        "mode": "stats_only",
+        "groups": {
+          "stats": {
+            "hp": 6000,
+            "mp": 6550,
+            "offense": 7100,
+            "defense": 6000
+          }
+        }
+      },
+      "source_name": "MetalGreymon",
+      "target_name": "War Greymon"
     }
   ],
   "special_evolutions": [
@@ -23578,6 +23595,9 @@
         "meramon__to__metalgreymon",
         "meramon__to__pumpmon",
         "meramon__to__weregarurumon"
+      ],
+      "metalgreymon": [
+        "metalgreymon__to__wargreymon"
       ],
       "metalmamemon": [
         "metalmamemon__to__arcturusmon",
