@@ -45,6 +45,7 @@ def build_presence_payload(nickname: str, state: PetState, species: Species) -> 
         "stage": state.stage.value,
         "age_seconds": int(state.age_seconds),
         "generation_count": int(state.generation_count),
+        "collected_species_count": len(state.discovered_species_ids),
         "current_generation_species_ids": list(state.current_generation_species_ids or [state.species_id]),
         "current_action": state.current_action,
         "is_sleeping": bool(state.is_sleeping),
@@ -253,6 +254,7 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
         "stage": str(raw["stage"]),
         "age_seconds": int(raw.get("age_seconds", 0)),
         "generation_count": max(1, int(raw.get("generation_count", 1))),
+        "collected_species_count": max(0, int(raw.get("collected_species_count", 0))),
         "current_generation_species_ids": _current_generation_species_ids_from_raw(
             raw.get("current_generation_species_ids"),
             str(raw["species_id"]),

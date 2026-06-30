@@ -45,7 +45,7 @@ def test_network_window_adds_and_removes_friend():
     assert settings.friends == ["192.168.1.42:54545"]
     assert saved[-1] == ["192.168.1.42:54545"]
     assert window._friends_table.rowCount() == 1
-    assert window._friends_table.columnCount() == 4
+    assert window._friends_table.columnCount() == 7
 
     window._friends_table.selectRow(0)
     window._remove_friend_button.click()
@@ -164,6 +164,7 @@ def test_network_window_has_no_friend_combat_stats_context_action():
         "stage": "champion",
         "age_seconds": 5400,
         "generation_count": 7,
+        "collected_species_count": 12,
         "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
         "current_action": "idle",
         "is_sleeping": False,
@@ -197,6 +198,7 @@ def test_network_window_embeds_selected_friend_combat_stats():
         "stage": "champion",
         "age_seconds": 5400,
         "generation_count": 7,
+        "collected_species_count": 12,
         "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
         "current_action": "idle",
         "is_sleeping": False,
@@ -230,6 +232,86 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert lineage_labels == ["Botamon", "->", "Koromon", "->", "Agumon", "->", "Numemon"]
     assert window._friend_detail_stats["hp"].text() == "9370"
     assert window._friend_detail_stats["mp"].text() == "5618"
+
+
+def test_network_window_table_shows_self_and_summary_columns():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545"])
+    service = _service(settings)
+    local_payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Tai",
+        "species_id": "agumon",
+        "digimon_name": "Agumon",
+        "stage": "rookie",
+        "age_seconds": 120,
+        "generation_count": 4,
+        "collected_species_count": 9,
+        "current_generation_species_ids": ["botamon", "koromon", "agumon"],
+        "current_action": "idle",
+        "is_sleeping": False,
+        "hp": 1000,
+        "mp": 500,
+        "offense": 100,
+        "defense": 90,
+        "speed": 80,
+        "brains": 70,
+    }
+
+    window = NetworkWindow(settings, service, lambda updated: None, lambda: local_payload)
+
+    assert window._friends_table.rowCount() == 2
+    assert [window._friends_table.horizontalHeaderItem(index).text() for index in range(7)] == [
+        "Trainer",
+        "Connected",
+        "Digimon",
+        "Total Stats",
+        "Generation",
+        "Collected",
+        "Sprite",
+    ]
+    assert window._friends_table.item(0, 0).text() == "Tai"
+    assert window._friends_table.item(0, 3).text() == "490"
+    assert window._friends_table.item(0, 4).text() == "4"
+    assert window._friends_table.item(0, 5).text() == "9"
+
+
+def test_network_window_sorts_numeric_summary_columns():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545", "192.168.1.43:54545"])
+    service = _service(settings)
+    for address, trainer, generation in [
+        ("192.168.1.42:54545", "Sora", 12),
+        ("192.168.1.43:54545", "Matt", 3),
+    ]:
+        service._peers[address] = PeerStatus(
+            address=address,
+            online=True,
+            payload={
+                "protocol_version": 1,
+                "trainer_nickname": trainer,
+                "species_id": "agumon",
+                "digimon_name": "Agumon",
+                "stage": "rookie",
+                "age_seconds": 120,
+                "generation_count": generation,
+                "collected_species_count": generation,
+                "current_generation_species_ids": ["agumon"],
+                "current_action": "idle",
+                "is_sleeping": False,
+                "hp": generation * 1000,
+                "mp": 0,
+                "offense": 0,
+                "defense": 0,
+                "speed": 0,
+                "brains": 0,
+            },
+        )
+    window = NetworkWindow(settings, service, lambda updated: None)
+
+    window._friends_table.sortItems(4, Qt.SortOrder.AscendingOrder)
+
+    assert [window._friends_table.item(row, 0).text() for row in range(2)] == ["Matt", "Sora"]
 
 
 def test_network_window_table_shows_animated_idle_sprite(tmp_path, monkeypatch):
@@ -281,7 +363,7 @@ def test_network_window_table_shows_animated_idle_sprite(tmp_path, monkeypatch):
     window = NetworkWindow(settings, service, lambda updated: None)
 
     label, sprite = window._friend_table_sprite_labels[0]
-    assert window._friends_table.horizontalHeaderItem(3).text() == "Sprite"
+    assert window._friends_table.horizontalHeaderItem(6).text() == "Sprite"
     assert label.pixmap() is not None
     assert sprite.current_frame_index == 0
 

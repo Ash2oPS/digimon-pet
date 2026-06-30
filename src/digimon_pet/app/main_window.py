@@ -1460,6 +1460,7 @@ class PetWindow(QWidget):
                 self._network_settings,
                 self._presence_service,
                 self._apply_network_settings,
+                self._presence_payload,
                 parent=self,
             )
         self._position_secondary_window(self._network_window)

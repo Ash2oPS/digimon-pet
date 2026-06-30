@@ -39,18 +39,35 @@ from digimon_pet.storage.network_settings import (
 )
 
 
+SELF_ADDRESS = "__self__"
+FRIEND_TABLE_COLUMNS = ("Trainer", "Connected", "Digimon", "Total Stats", "Generation", "Collected", "Sprite")
+
+
+class _SortableTableWidgetItem(QTableWidgetItem):
+    def __init__(self, text: str, sort_value: str | int | float | tuple = "") -> None:
+        super().__init__(text)
+        self._sort_value = sort_value
+
+    def __lt__(self, other: QTableWidgetItem) -> bool:
+        if isinstance(other, _SortableTableWidgetItem):
+            return self._sort_value < other._sort_value
+        return super().__lt__(other)
+
+
 class NetworkWindow(QDialog):
     def __init__(
         self,
         settings: NetworkSettings,
         service: PresenceService,
         settings_changed: Callable[[NetworkSettings], None],
+        local_payload_provider: Callable[[], PresencePayload] | None = None,
         parent=None,
     ) -> None:
         super().__init__(parent)
         self._settings = settings
         self._service = service
         self._settings_changed = settings_changed
+        self._local_payload_provider = local_payload_provider
         self._species_by_id = load_species()
         self._manifest = load_runtime_manifest()
         self._lineage_sprite_labels: list[tuple[QLabel, IdleSpriteSheet]] = []
@@ -138,14 +155,15 @@ class NetworkWindow(QDialog):
 
         content = QHBoxLayout()
         content.setSpacing(10)
-        self._friends_table = QTableWidget(0, 4, self)
+        self._friends_table = QTableWidget(0, len(FRIEND_TABLE_COLUMNS), self)
         self._friends_table.setObjectName("NetworkFriendsTable")
-        self._friends_table.setHorizontalHeaderLabels(["Trainer", "Connected", "Digimon", "Sprite"])
+        self._friends_table.setHorizontalHeaderLabels(list(FRIEND_TABLE_COLUMNS))
         self._friends_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self._friends_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
+        self._friends_table.horizontalHeader().setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)
         self._friends_table.verticalHeader().setDefaultSectionSize(42)
         self._friends_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self._friends_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self._friends_table.setSortingEnabled(True)
         content.addWidget(self._friends_table, 1)
         content.addWidget(self._build_friend_detail_panel(), 2)
         layout.addLayout(content, 1)
@@ -169,21 +187,40 @@ class NetworkWindow(QDialog):
 
     def refresh(self) -> None:
         self._local_address_label.setText(self._local_address_text())
+        selected_address = self._selected_row_address()
+        sorting_enabled = self._friends_table.isSortingEnabled()
+        self._friends_table.setSortingEnabled(False)
         self._friend_table_sprite_labels = []
-        self._friends_table.setRowCount(len(self._settings.friends))
+        rows = self._friend_rows()
+        self._friends_table.setRowCount(len(rows))
         statuses = {status.address: status for status in self._service.peer_statuses()}
-        for row, address in enumerate(self._settings.friends):
-            status = statuses.get(address)
-            payload = status.payload if status is not None else None
-            state_text = "Online" if status is not None and status.online else "Offline"
-            trainer = str(payload["trainer_nickname"]) if payload is not None else address.split(":", 1)[0]
+        for row, address in enumerate(rows):
+            if address == SELF_ADDRESS:
+                payload = self._local_payload()
+                state_text = "Online" if self._settings.network_enabled else "Offline"
+                display_address = self._primary_local_ip_text()
+                online_payload = payload if self._settings.network_enabled else None
+            else:
+                status = statuses.get(address)
+                payload = status.payload if status is not None else None
+                state_text = "Online" if status is not None and status.online else "Offline"
+                display_address = address
+                online_payload = payload if status is not None and status.online else None
+            trainer = str(payload["trainer_nickname"]) if payload is not None else display_address.split(":", 1)[0]
             digimon = str(payload["digimon_name"]) if payload is not None else ""
-            trainer_item = QTableWidgetItem(trainer)
-            trainer_item.setToolTip(address)
-            self._friends_table.setItem(row, 0, trainer_item)
-            self._friends_table.setItem(row, 1, QTableWidgetItem(state_text))
-            self._friends_table.setItem(row, 2, QTableWidgetItem(digimon))
-            self._set_friend_table_sprite(row, payload if status is not None and status.online else None)
+            total_stats = _total_stats(payload)
+            generation = _payload_int(payload, "generation_count")
+            collected = _payload_int(payload, "collected_species_count")
+            self._set_friend_table_item(row, 0, trainer, trainer.casefold(), address, display_address)
+            self._set_friend_table_item(row, 1, state_text, 0 if state_text == "Online" else 1, address)
+            self._set_friend_table_item(row, 2, digimon, digimon.casefold(), address)
+            self._set_friend_table_item(row, 3, str(total_stats) if payload is not None else "", total_stats, address)
+            self._set_friend_table_item(row, 4, str(generation) if payload is not None else "", generation, address)
+            self._set_friend_table_item(row, 5, str(collected) if payload is not None else "", collected, address)
+            self._set_friend_table_item(row, 6, "", digimon.casefold(), address)
+            self._set_friend_table_sprite(row, online_payload)
+        self._friends_table.setSortingEnabled(sorting_enabled)
+        self._restore_selected_address(selected_address)
         if self._service.last_error:
             self._status_label.setText(self._service.last_error)
         elif self._settings.network_enabled:
@@ -191,6 +228,34 @@ class NetworkWindow(QDialog):
         else:
             self._status_label.setText("Network availability is disabled.")
         self._refresh_friend_detail()
+
+    def _friend_rows(self) -> list[str]:
+        rows = [SELF_ADDRESS] if self._local_payload_provider is not None else []
+        rows.extend(self._settings.friends)
+        return rows
+
+    def _local_payload(self) -> PresencePayload | None:
+        if self._local_payload_provider is None:
+            return None
+        try:
+            return self._local_payload_provider()
+        except (KeyError, ValueError):
+            return None
+
+    def _set_friend_table_item(
+        self,
+        row: int,
+        column: int,
+        text: str,
+        sort_value: str | int | float | tuple,
+        address: str,
+        tooltip: str = "",
+    ) -> None:
+        item = _SortableTableWidgetItem(text, sort_value)
+        item.setData(Qt.ItemDataRole.UserRole, address)
+        if tooltip:
+            item.setToolTip(tooltip)
+        self._friends_table.setItem(row, column, item)
 
     def _save_from_inputs(self) -> None:
         self._settings.network_enabled = self._enabled_checkbox.isChecked()
@@ -222,23 +287,48 @@ class NetworkWindow(QDialog):
         self._status_label.setText("IP copied.")
 
     def _remove_selected_friend(self) -> None:
-        selected_rows = sorted({index.row() for index in self._friends_table.selectedIndexes()}, reverse=True)
-        for row in selected_rows:
-            if 0 <= row < len(self._settings.friends):
-                del self._settings.friends[row]
-        if selected_rows:
+        selected_addresses = set()
+        for row in {index.row() for index in self._friends_table.selectedIndexes()}:
+            address = self._row_address(row)
+            if address and address != SELF_ADDRESS:
+                selected_addresses.add(address)
+        if selected_addresses:
+            self._settings.friends = [
+                address for address in self._settings.friends if address not in selected_addresses
+            ]
             self._settings_changed(self._settings)
             self.refresh()
 
     def _payload_for_row(self, row: int) -> PresencePayload | None:
-        if row < 0 or row >= len(self._settings.friends):
+        address = self._row_address(row)
+        if not address:
             return None
-        address = self._settings.friends[row]
+        if address == SELF_ADDRESS:
+            return self._local_payload() if self._settings.network_enabled else None
         statuses = {status.address: status for status in self._service.peer_statuses()}
         status = statuses.get(address)
         if status is None or not status.online:
             return None
         return status.payload
+
+    def _row_address(self, row: int) -> str:
+        if row < 0:
+            return ""
+        item = self._friends_table.item(row, 0)
+        if item is None:
+            return ""
+        return str(item.data(Qt.ItemDataRole.UserRole) or "")
+
+    def _selected_row_address(self) -> str:
+        return self._row_address(self._friends_table.currentRow())
+
+    def _restore_selected_address(self, address: str) -> None:
+        if not address:
+            return
+        for row in range(self._friends_table.rowCount()):
+            if self._row_address(row) == address:
+                self._friends_table.selectRow(row)
+                return
 
     def _local_address_text(self) -> str:
         return ", ".join(f"{address}:{DEFAULT_LISTEN_PORT}" for address in presence_module.local_ip_addresses())
@@ -395,7 +485,7 @@ class NetworkWindow(QDialog):
         label = QLabel(self._friends_table)
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         label.setFixedSize(40, 36)
-        self._friends_table.setCellWidget(row, 3, label)
+        self._friends_table.setCellWidget(row, 6, label)
         if payload is None:
             return
         sprite = self._idle_sprite_from_payload(payload)
@@ -478,6 +568,20 @@ def _format_stage(stage: str) -> str:
 
 def _stat_maximum(stat: str) -> int:
     return 99999 if stat in {"hp", "mp"} else 9999
+
+
+def _payload_int(payload: PresencePayload | None, key: str) -> int:
+    if payload is None:
+        return 0
+    return int(payload.get(key, 0))
+
+
+def _total_stats(payload: PresencePayload | None) -> int:
+    if payload is None:
+        return 0
+    hp_mp = (_payload_int(payload, "hp") + _payload_int(payload, "mp")) * 0.1
+    combat = sum(_payload_int(payload, key) for key in ("offense", "defense", "speed", "brains"))
+    return round(hp_mp + combat)
 
 
 def _lineage_species_ids_from_payload(payload: PresencePayload) -> list[str]:
