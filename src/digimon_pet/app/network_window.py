@@ -41,7 +41,7 @@ from digimon_pet.storage.network_settings import (
 
 SELF_ADDRESS = "__self__"
 FRIEND_TABLE_COLUMNS = ("Trainer", "Connected", "Digimon", "Total Stats", "Generation", "Collected", "Sprite")
-LINEAGE_SCROLL_HEIGHT = 48
+LINEAGE_SCROLL_HEIGHT = 56
 LINEAGE_SPRITE_LABEL_SIZE = 32
 LINEAGE_SPRITE_FRAME_SIZE = 28
 LINEAGE_NAME_WIDTH = 54
@@ -324,10 +324,15 @@ class NetworkWindow(QDialog):
         return str(item.data(Qt.ItemDataRole.UserRole) or "")
 
     def _selected_row_address(self) -> str:
-        return self._row_address(self._friends_table.currentRow())
+        selected_rows = {index.row() for index in self._friends_table.selectedIndexes()}
+        if not selected_rows:
+            return ""
+        return self._row_address(min(selected_rows))
 
     def _restore_selected_address(self, address: str) -> None:
         if not address:
+            self._friends_table.clearSelection()
+            self._friends_table.setCurrentCell(-1, -1)
             return
         for row in range(self._friends_table.rowCount()):
             if self._row_address(row) == address:

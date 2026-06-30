@@ -105,6 +105,17 @@ def test_network_window_gives_friend_list_more_width_than_stats_panel():
     assert window._content_layout.stretch(0) > window._content_layout.stretch(1)
 
 
+def test_network_window_refresh_does_not_select_friend_without_user_selection():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545"])
+
+    window = NetworkWindow(settings, _service(settings), lambda updated: None)
+    window.refresh()
+
+    assert window._friends_table.selectedIndexes() == []
+    assert window._friends_table.currentRow() == -1
+
+
 def test_network_window_saves_notification_toggles():
     app = QApplication.instance() or QApplication([])
     settings = NetworkSettings(trainer_nickname="Tai")

@@ -176,6 +176,21 @@ QScrollArea#FriendLineageScroll QWidget {{
     background: {COLORS["surface_alt"]};
 }}
 
+QScrollArea#FriendLineageScroll QScrollBar:horizontal {{
+    height: 4px;
+    background: {COLORS["surface_alt"]};
+}}
+
+QScrollArea#FriendLineageScroll QScrollBar::handle:horizontal {{
+    background: {COLORS["line"]};
+    min-width: 24px;
+}}
+
+QScrollArea#FriendLineageScroll QScrollBar::add-line:horizontal,
+QScrollArea#FriendLineageScroll QScrollBar::sub-line:horizontal {{
+    width: 0px;
+}}
+
 QLabel#FriendLineageSprite {{
     background: {COLORS["panel"]};
     border: 1px solid {COLORS["line_soft"]};
