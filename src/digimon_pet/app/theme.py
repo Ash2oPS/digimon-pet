@@ -184,12 +184,13 @@ QLabel#FriendLineageSprite {{
 
 QLabel#FriendLineageName {{
     color: {COLORS["text"]};
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 800;
 }}
 
 QLabel#FriendLineageArrow {{
     color: {COLORS["focus"]};
+    font-size: 10px;
     font-weight: 900;
 }}
 

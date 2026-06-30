@@ -41,6 +41,10 @@ from digimon_pet.storage.network_settings import (
 
 SELF_ADDRESS = "__self__"
 FRIEND_TABLE_COLUMNS = ("Trainer", "Connected", "Digimon", "Total Stats", "Generation", "Collected", "Sprite")
+LINEAGE_SCROLL_HEIGHT = 48
+LINEAGE_SPRITE_LABEL_SIZE = 32
+LINEAGE_SPRITE_FRAME_SIZE = 28
+LINEAGE_NAME_WIDTH = 54
 
 
 class _SortableTableWidgetItem(QTableWidgetItem):
@@ -351,8 +355,10 @@ class NetworkWindow(QDialog):
         self._friend_detail_sprite_label.setFixedSize(116, 116)
         header.addWidget(self._friend_detail_sprite_label)
 
+        detail_column = QVBoxLayout()
+        detail_column.setSpacing(4)
         identity = QVBoxLayout()
-        identity.setSpacing(3)
+        identity.setSpacing(2)
         self._friend_detail_name_label = QLabel("Select a friend", self)
         self._friend_detail_name_label.setObjectName("Title")
         self._friend_detail_trainer_label = QLabel("", self)
@@ -365,22 +371,22 @@ class NetworkWindow(QDialog):
         identity.addWidget(self._friend_detail_stage_label)
         identity.addWidget(self._friend_detail_age_label)
         identity.addWidget(self._friend_detail_trainer_label)
-        identity.addStretch(1)
-        header.addLayout(identity, 1)
+        detail_column.addLayout(identity)
 
         self._friend_lineage_scroll = QScrollArea(self)
         self._friend_lineage_scroll.setObjectName("FriendLineageScroll")
         self._friend_lineage_scroll.setWidgetResizable(True)
         self._friend_lineage_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self._friend_lineage_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        self._friend_lineage_scroll.setMinimumHeight(92)
+        self._friend_lineage_scroll.setFixedHeight(LINEAGE_SCROLL_HEIGHT)
         self._friend_lineage_scroll.setFrameShape(QFrame.Shape.NoFrame)
         self._friend_lineage_content = QWidget(self._friend_lineage_scroll)
         self._friend_lineage_layout = QHBoxLayout(self._friend_lineage_content)
         self._friend_lineage_layout.setContentsMargins(4, 2, 4, 2)
-        self._friend_lineage_layout.setSpacing(8)
+        self._friend_lineage_layout.setSpacing(5)
         self._friend_lineage_scroll.setWidget(self._friend_lineage_content)
-        header.addWidget(self._friend_lineage_scroll, 3)
+        detail_column.addWidget(self._friend_lineage_scroll)
+        header.addLayout(detail_column, 1)
         layout.addLayout(header)
 
         title = QLabel("Combat", self)
@@ -525,6 +531,7 @@ class NetworkWindow(QDialog):
                 arrow = QLabel("->", self._friend_lineage_content)
                 arrow.setObjectName("FriendLineageArrow")
                 arrow.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                arrow.setFixedWidth(18)
                 self._friend_lineage_layout.addWidget(arrow)
             self._friend_lineage_layout.addWidget(self._lineage_cell(species_id))
         self._friend_lineage_layout.addStretch(1)
@@ -539,12 +546,13 @@ class NetworkWindow(QDialog):
         sprite_label = QLabel(cell)
         sprite_label.setObjectName("FriendLineageSprite")
         sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        sprite_label.setFixedSize(48, 48)
+        sprite_label.setFixedSize(LINEAGE_SPRITE_LABEL_SIZE, LINEAGE_SPRITE_LABEL_SIZE)
         name_label = QLabel(species.name, cell)
         name_label.setObjectName("FriendLineageName")
         name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        name_label.setFixedWidth(74)
-        name_label.setWordWrap(True)
+        name_label.setFixedWidth(LINEAGE_NAME_WIDTH)
+        name_label.setToolTip(species.name)
+        name_label.setWordWrap(False)
         layout.addWidget(sprite_label, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(name_label)
         sprite = idle_sprite_for_species(species, self._manifest)
@@ -604,8 +612,8 @@ def _set_lineage_sprite_frame(label: QLabel, sprite: IdleSpriteSheet) -> None:
         return
     label.setPixmap(
         pixmap.scaled(
-            44,
-            44,
+            LINEAGE_SPRITE_FRAME_SIZE,
+            LINEAGE_SPRITE_FRAME_SIZE,
             Qt.AspectRatioMode.KeepAspectRatio,
             _lineage_sprite_transformation_mode(),
         )

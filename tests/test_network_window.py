@@ -7,7 +7,13 @@ from PySide6.QtGui import QColor, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QLabel, QScrollArea
 
 from digimon_pet.app import network_window
-from digimon_pet.app.network_window import NetworkWindow, _lineage_sprite_transformation_mode
+from digimon_pet.app.network_window import (
+    LINEAGE_NAME_WIDTH,
+    LINEAGE_SCROLL_HEIGHT,
+    LINEAGE_SPRITE_LABEL_SIZE,
+    NetworkWindow,
+    _lineage_sprite_transformation_mode,
+)
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 from digimon_pet.network import presence as presence_module
 from digimon_pet.network.presence import PeerStatus, PresenceService, build_presence_payload
@@ -241,6 +247,51 @@ def test_network_window_embeds_selected_friend_combat_stats():
     assert lineage_labels == ["Botamon", "->", "Koromon", "->", "Agumon", "->", "Numemon"]
     assert window._friend_detail_stats["hp"].text() == "9370"
     assert window._friend_detail_stats["mp"].text() == "5618"
+
+
+def test_network_window_lineage_history_uses_compact_detail_strip():
+    app = QApplication.instance() or QApplication([])
+    settings = NetworkSettings(trainer_nickname="Tai", friends=["192.168.1.42:54545"])
+    service = _service(settings)
+    payload = {
+        "protocol_version": 1,
+        "trainer_nickname": "Sora",
+        "species_id": "numemon",
+        "digimon_name": "Numemon",
+        "stage": "champion",
+        "age_seconds": 5400,
+        "generation_count": 7,
+        "collected_species_count": 12,
+        "current_generation_species_ids": ["botamon", "koromon", "agumon", "numemon"],
+        "current_action": "idle",
+        "is_sleeping": False,
+        "hp": 9370,
+        "mp": 5618,
+        "offense": 526,
+        "defense": 625,
+        "speed": 447,
+        "brains": 458,
+    }
+    service._peers["192.168.1.42:54545"] = PeerStatus(
+        address="192.168.1.42:54545",
+        online=True,
+        payload=payload,
+    )
+
+    window = NetworkWindow(settings, service, lambda updated: None)
+    window._friends_table.selectRow(0)
+
+    sprite_labels = [
+        label for label in window._friend_lineage_content.findChildren(QLabel)
+        if label.objectName() == "FriendLineageSprite"
+    ]
+    name_labels = [
+        label for label in window._friend_lineage_content.findChildren(QLabel)
+        if label.objectName() == "FriendLineageName"
+    ]
+    assert window._friend_lineage_scroll.height() == LINEAGE_SCROLL_HEIGHT
+    assert all(label.width() == LINEAGE_SPRITE_LABEL_SIZE for label in sprite_labels)
+    assert all(label.width() == LINEAGE_NAME_WIDTH for label in name_labels)
 
 
 def test_network_window_table_shows_self_and_summary_columns():
