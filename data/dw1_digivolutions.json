@@ -16720,10 +16720,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -16751,10 +16751,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -16782,9 +16782,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2600,
+            "offense": 2600,
+            "brains": 2600
           }
         }
       },
@@ -16812,9 +16812,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2600,
+            "offense": 2600,
+            "brains": 2600
           }
         }
       },
@@ -16842,9 +16842,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2600,
+            "offense": 2600,
+            "brains": 2600
           }
         }
       },
@@ -16872,10 +16872,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 33000,
+            "mp": 33000,
+            "offense": 3300,
+            "defense": 3300
           }
         }
       },
@@ -16903,8 +16903,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2550,
+            "offense": 2550
           }
         }
       },
@@ -16932,8 +16932,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2550,
+            "offense": 2550
           }
         }
       },
@@ -16961,8 +16961,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2550,
+            "offense": 2550
           }
         }
       },
@@ -16990,8 +16990,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2550,
+            "offense": 2550
           }
         }
       },
@@ -17019,8 +17019,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2550,
+            "offense": 2550
           }
         }
       },
@@ -17048,10 +17048,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -17079,10 +17079,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -17110,10 +17110,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -17141,10 +17141,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -17172,9 +17172,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2800,
+            "offense": 2800,
+            "brains": 2800
           }
         }
       },
@@ -17202,9 +17202,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2800,
+            "offense": 2800,
+            "brains": 2800
           }
         }
       },
@@ -17232,9 +17232,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2800,
+            "offense": 2800,
+            "brains": 2800
           }
         }
       },
@@ -17262,9 +17262,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2800,
+            "offense": 2800,
+            "brains": 2800
           }
         }
       },
@@ -17385,9 +17385,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 27500,
+            "speed": 2750,
+            "brains": 2750
           }
         }
       },
@@ -17415,9 +17415,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 27500,
+            "speed": 2750,
+            "brains": 2750
           }
         }
       },
@@ -17445,9 +17445,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 27500,
+            "speed": 2750,
+            "brains": 2750
           }
         }
       },
@@ -17475,9 +17475,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 27500,
+            "speed": 2750,
+            "brains": 2750
           }
         }
       },
@@ -17505,9 +17505,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 27500,
+            "speed": 2750,
+            "brains": 2750
           }
         }
       },
@@ -17969,10 +17969,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 29000,
+            "mp": 29000,
+            "offense": 2900,
+            "defense": 2900
           }
         }
       },
@@ -18093,10 +18093,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32000,
+            "mp": 32000,
+            "offense": 3200,
+            "defense": 3200
           }
         }
       },
@@ -18124,10 +18124,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32000,
+            "mp": 32000,
+            "offense": 3200,
+            "defense": 3200
           }
         }
       },
@@ -18155,10 +18155,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32000,
+            "mp": 32000,
+            "offense": 3200,
+            "defense": 3200
           }
         }
       },
@@ -18186,10 +18186,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32000,
+            "mp": 32000,
+            "offense": 3200,
+            "defense": 3200
           }
         }
       },
@@ -18217,10 +18217,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32000,
+            "mp": 32000,
+            "offense": 3200,
+            "defense": 3200
           }
         }
       },
@@ -18403,10 +18403,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 29500,
+            "mp": 29500,
+            "offense": 2950,
+            "defense": 2950
           }
         }
       },
@@ -18434,10 +18434,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 29500,
+            "mp": 29500,
+            "offense": 2950,
+            "defense": 2950
           }
         }
       },
@@ -18465,10 +18465,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 29500,
+            "mp": 29500,
+            "offense": 2950,
+            "defense": 2950
           }
         }
       },
@@ -18496,10 +18496,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -18527,10 +18527,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -18558,10 +18558,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -18589,10 +18589,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -18620,10 +18620,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31000,
+            "mp": 31000,
+            "offense": 3100,
+            "defense": 3100
           }
         }
       },
@@ -18806,10 +18806,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31500,
+            "mp": 31500,
+            "offense": 3150,
+            "defense": 3150
           }
         }
       },
@@ -18837,10 +18837,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31500,
+            "mp": 31500,
+            "offense": 3150,
+            "defense": 3150
           }
         }
       },
@@ -18868,10 +18868,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 31500,
+            "mp": 31500,
+            "offense": 3150,
+            "defense": 3150
           }
         }
       },
@@ -18899,10 +18899,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32500,
+            "mp": 32500,
+            "offense": 3250,
+            "defense": 3250
           }
         }
       },
@@ -18930,10 +18930,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32500,
+            "mp": 32500,
+            "offense": 3250,
+            "defense": 3250
           }
         }
       },
@@ -18961,10 +18961,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 32500,
+            "mp": 32500,
+            "offense": 3250,
+            "defense": 3250
           }
         }
       },
@@ -19116,9 +19116,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2900,
+            "offense": 2900,
+            "brains": 2900
           }
         }
       },
@@ -19146,9 +19146,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2900,
+            "offense": 2900,
+            "brains": 2900
           }
         }
       },
@@ -19176,9 +19176,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2900,
+            "offense": 2900,
+            "brains": 2900
           }
         }
       },
@@ -19206,9 +19206,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2900,
+            "offense": 2900,
+            "brains": 2900
           }
         }
       },
@@ -19236,9 +19236,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 28500,
+            "speed": 2850,
+            "brains": 2850
           }
         }
       },
@@ -19266,9 +19266,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 28500,
+            "speed": 2850,
+            "brains": 2850
           }
         }
       },
@@ -19296,9 +19296,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 28500,
+            "speed": 2850,
+            "brains": 2850
           }
         }
       },
@@ -19326,9 +19326,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "mp": 60000,
-            "speed": 6550,
-            "brains": 7100
+            "mp": 28500,
+            "speed": 2850,
+            "brains": 2850
           }
         }
       },
@@ -19852,9 +19852,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2650,
+            "offense": 2650,
+            "brains": 2650
           }
         }
       },
@@ -19882,9 +19882,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2650,
+            "offense": 2650,
+            "brains": 2650
           }
         }
       },
@@ -19912,9 +19912,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2650,
+            "offense": 2650,
+            "brains": 2650
           }
         }
       },
@@ -19942,9 +19942,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2650,
+            "offense": 2650,
+            "brains": 2650
           }
         }
       },
@@ -19962,7 +19962,7 @@
       "source_name": "Clockmon",
       "target_species_id": "warumonzaemon",
       "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
+      "target_stage": "mega",
       "chart_order": 111,
       "requirements": {
         "mode": "stats_only",
@@ -19993,7 +19993,7 @@
       "source_name": "Thunderballmon",
       "target_species_id": "warumonzaemon",
       "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
+      "target_stage": "mega",
       "chart_order": 112,
       "requirements": {
         "mode": "stats_only",
@@ -20024,7 +20024,7 @@
       "source_name": "Guardromon",
       "target_species_id": "warumonzaemon",
       "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
+      "target_stage": "mega",
       "chart_order": 113,
       "requirements": {
         "mode": "stats_only",
@@ -20055,7 +20055,7 @@
       "source_name": "Mechanorimon",
       "target_species_id": "warumonzaemon",
       "target_name": "Waru Monzaemon",
-      "target_stage": "ultimate",
+      "target_stage": "mega",
       "chart_order": 114,
       "requirements": {
         "mode": "stats_only",
@@ -20406,8 +20406,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -20435,8 +20435,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -20464,8 +20464,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -20586,9 +20586,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2700,
+            "offense": 2700,
+            "brains": 2700
           }
         }
       },
@@ -20616,9 +20616,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2700,
+            "offense": 2700,
+            "brains": 2700
           }
         }
       },
@@ -20770,9 +20770,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2600,
+            "offense": 2600,
+            "brains": 2600
           }
         }
       },
@@ -20800,9 +20800,9 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "defense": 6000,
-            "offense": 6550,
-            "brains": 7100
+            "defense": 2600,
+            "offense": 2600,
+            "brains": 2600
           }
         }
       },
@@ -20954,8 +20954,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -20983,8 +20983,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -21012,8 +21012,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -21041,8 +21041,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -21070,8 +21070,8 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "speed": 6000,
-            "offense": 6550
+            "speed": 2500,
+            "offense": 2500
           }
         }
       },
@@ -21099,10 +21099,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -21130,10 +21130,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -21161,10 +21161,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -21192,10 +21192,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34000,
+            "mp": 34000,
+            "offense": 3400,
+            "defense": 3400
           }
         }
       },
@@ -21409,10 +21409,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 30000,
+            "mp": 30000,
+            "offense": 3000,
+            "defense": 3000
           }
         }
       },
@@ -21440,10 +21440,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 30000,
+            "mp": 30000,
+            "offense": 3000,
+            "defense": 3000
           }
         }
       },
@@ -21471,10 +21471,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 30000,
+            "mp": 30000,
+            "offense": 3000,
+            "defense": 3000
           }
         }
       },
@@ -21502,10 +21502,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34500,
+            "mp": 34500,
+            "offense": 3450,
+            "defense": 3450
           }
         }
       },
@@ -21533,10 +21533,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 34500,
+            "mp": 34500,
+            "offense": 3450,
+            "defense": 3450
           }
         }
       },
@@ -21874,10 +21874,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 33500,
+            "mp": 33500,
+            "offense": 3350,
+            "defense": 3350
           }
         }
       },
@@ -21905,10 +21905,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 33500,
+            "mp": 33500,
+            "offense": 3350,
+            "defense": 3350
           }
         }
       },
@@ -21936,10 +21936,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 33500,
+            "mp": 33500,
+            "offense": 3350,
+            "defense": 3350
           }
         }
       },
@@ -21967,10 +21967,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 33500,
+            "mp": 33500,
+            "offense": 3350,
+            "defense": 3350
           }
         }
       },
@@ -22122,10 +22122,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 35000,
+            "mp": 35000,
+            "offense": 3500,
+            "defense": 3500
           }
         }
       },
@@ -22618,10 +22618,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 30500,
+            "mp": 30500,
+            "offense": 3050,
+            "defense": 3050
           }
         }
       },
@@ -22649,10 +22649,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 30500,
+            "mp": 30500,
+            "offense": 3050,
+            "defense": 3050
           }
         }
       },
@@ -22680,10 +22680,10 @@
         "has_bonus_group": false,
         "groups": {
           "stats": {
-            "hp": 60000,
-            "mp": 65500,
-            "offense": 7100,
-            "defense": 6000
+            "hp": 30500,
+            "mp": 30500,
+            "offense": 3050,
+            "defense": 3050
           }
         }
       },
