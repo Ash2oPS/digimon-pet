@@ -603,18 +603,6 @@
     }
   },
   {
-    "id": "herculeskabuterimon",
-    "name": "HerculesKabuterimon",
-    "stage": "ultimate",
-    "sprite_slots": {
-      "idle": "assets/sprites/herculeskabuterimon/idle.png",
-      "walk": "assets/sprites/herculeskabuterimon/walk.png",
-      "sleep": "assets/sprites/herculeskabuterimon/sleep.png",
-      "eat": "assets/sprites/herculeskabuterimon/eat.png",
-      "train": "assets/sprites/herculeskabuterimon/train.png"
-    }
-  },
-  {
     "id": "mamemon",
     "name": "Mamemon",
     "stage": "ultimate",
@@ -684,18 +672,6 @@
       "sleep": "assets/sprites/monzaemon/sleep.png",
       "eat": "assets/sprites/monzaemon/eat.png",
       "train": "assets/sprites/monzaemon/train.png"
-    }
-  },
-  {
-    "id": "phoenixmon",
-    "name": "Phoenixmon",
-    "stage": "ultimate",
-    "sprite_slots": {
-      "idle": "assets/sprites/phoenixmon/idle.png",
-      "walk": "assets/sprites/phoenixmon/walk.png",
-      "sleep": "assets/sprites/phoenixmon/sleep.png",
-      "eat": "assets/sprites/phoenixmon/eat.png",
-      "train": "assets/sprites/phoenixmon/train.png"
     }
   },
   {
@@ -1973,9 +1949,11 @@
   },
   {
     "id": "heraklekabuterimon",
-    "name": "Herakle Kabuterimon",
+    "name": "HerculesKabuterimon",
     "stage": "mega",
-    "aliases": [],
+    "aliases": [
+      "Heraklekabuterimon"
+    ],
     "sprite_slots": {}
   },
   {
@@ -1994,9 +1972,11 @@
   },
   {
     "id": "hououmon",
-    "name": "Hououmon",
+    "name": "Phoenixmon",
     "stage": "mega",
-    "aliases": [],
+    "aliases": [
+      "Hououmon"
+    ],
     "sprite_slots": {}
   },
   {
@@ -2057,9 +2037,11 @@
   },
   {
     "id": "mugendramon",
-    "name": "Mugendramon",
+    "name": "Machinedramon",
     "stage": "mega",
-    "aliases": [],
+    "aliases": [
+      "Mugendramon"
+    ],
     "sprite_slots": {}
   },
   {

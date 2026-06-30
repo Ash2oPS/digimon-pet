@@ -2,8 +2,8 @@
   "conflicts": [
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Botamon",
@@ -11,8 +11,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Poyomon",
@@ -20,8 +20,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Punimon",
@@ -29,8 +29,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Yuramon",
@@ -38,8 +38,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Koromon",
@@ -47,8 +47,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Tanemon",
@@ -56,8 +56,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Tokomon",
@@ -65,8 +65,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Tsunomon",
@@ -74,9 +74,9 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
         "digital_monster_color",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Agumon",
@@ -93,8 +93,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Elecmon",
@@ -102,10 +102,10 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
         "digital_monster_color",
         "digimon_pendulum_color",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gabumon",
@@ -113,8 +113,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kunemon",
@@ -122,8 +122,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Palmon",
@@ -131,8 +131,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Patamon",
@@ -140,9 +140,9 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
         "digital_monster_color",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Biyomon",
@@ -150,8 +150,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "xros_loader_toy"
+        "xros_loader_toy",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Penguinmon",
@@ -159,8 +159,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Angemon",
@@ -168,8 +168,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Bakemon",
@@ -177,8 +177,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Devimon",
@@ -186,8 +186,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Drimogemon",
@@ -195,8 +195,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Greymon",
@@ -204,8 +204,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kabuterimon",
@@ -213,8 +213,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kuwagamon",
@@ -222,8 +222,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Leomon",
@@ -231,8 +231,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Meramon",
@@ -240,9 +240,9 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
         "digimon_pendulum_color",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Ninjamon",
@@ -250,8 +250,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Ogremon",
@@ -259,8 +259,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Shellmon",
@@ -269,26 +269,28 @@
     {
       "available_source_ids": [
         "digimon_pendulum_color",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
-      "chosen_source_id": "wikimon_virtual_pets",
+      "chosen_source_id": "google_drive_sprites",
       "name": "HerculesKabuterimon",
       "species_id": "herculeskabuterimon"
     },
     {
       "available_source_ids": [
         "digital_monster_color",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
-      "chosen_source_id": "digital_monster_color",
+      "chosen_source_id": "google_drive_sprites",
       "name": "Machinedramon",
       "species_id": "machinedramon"
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
         "digimon_pendulum_color",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "MegaSeadramon",
@@ -296,8 +298,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digital_monster_color"
+        "digital_monster_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Monzaemon",
@@ -306,9 +308,10 @@
     {
       "available_source_ids": [
         "digimon_pendulum_color",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
-      "chosen_source_id": "wikimon_virtual_pets",
+      "chosen_source_id": "google_drive_sprites",
       "name": "Phoenixmon",
       "species_id": "phoenixmon"
     },
@@ -323,8 +326,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Terriermon",
@@ -332,8 +335,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gummymon",
@@ -341,8 +344,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Zerimon",
@@ -350,8 +353,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Galgomon",
@@ -359,8 +362,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Rapidmon Perfect",
@@ -368,8 +371,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "V-mon",
@@ -377,8 +380,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Lopmon",
@@ -386,8 +389,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gaomon",
@@ -395,8 +398,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Turuiemon",
@@ -404,8 +407,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Antylamon",
@@ -413,8 +416,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Crescemon",
@@ -422,8 +425,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Black Tailmon",
@@ -431,8 +434,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Waru Monzaemon",
@@ -440,8 +443,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kaiser Leomon",
@@ -449,8 +452,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "wikimon_virtual_pets"
+        "wikimon_virtual_pets",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Dianamon",
@@ -458,8 +461,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Candmon",
@@ -467,8 +470,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Commandramon",
@@ -476,8 +479,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Floramon",
@@ -485,8 +488,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Fujamon",
@@ -494,8 +497,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gammamon",
@@ -503,8 +506,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Ganimon",
@@ -512,8 +515,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gasamon",
@@ -521,8 +524,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gottsumon",
@@ -530,8 +533,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Hagurumon",
@@ -539,8 +542,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Mushmon",
@@ -548,8 +551,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Otamamon",
@@ -557,8 +560,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Pico Devimon",
@@ -566,8 +569,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Plotmon",
@@ -575,8 +578,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Pteromon",
@@ -584,8 +587,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Renamon",
@@ -593,8 +596,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Shakomon",
@@ -602,8 +605,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Takinmon",
@@ -611,8 +614,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Dokugumon",
@@ -620,8 +623,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gawappamon",
@@ -629,8 +632,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Hanumon",
@@ -638,8 +641,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Igamon",
@@ -647,8 +650,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Ikkakumon",
@@ -656,8 +659,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kiwimon",
@@ -665,8 +668,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Mechanorimon",
@@ -674,8 +677,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Red Vegimon",
@@ -683,8 +686,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Rukamon",
@@ -692,8 +695,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Thunderballmon",
@@ -701,8 +704,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Togemon",
@@ -710,8 +713,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Wizarmon",
@@ -719,8 +722,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Woodmon",
@@ -728,8 +731,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Pitchmon",
@@ -737,8 +740,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Pukamon",
@@ -746,8 +749,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Gomamon",
@@ -755,8 +758,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Choromon",
@@ -764,8 +767,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Caprimon",
@@ -773,8 +776,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kokuwamon",
@@ -782,8 +785,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Toy Agumon",
@@ -791,8 +794,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Bubbmon",
@@ -800,8 +803,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Mochimon",
@@ -809,8 +812,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Tentomon",
@@ -818,8 +821,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Mokumon",
@@ -827,8 +830,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Peti Meramon",
@@ -836,8 +839,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Bakumon",
@@ -845,8 +848,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Fukamon",
@@ -854,8 +857,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Mococomon",
@@ -863,8 +866,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Kakamon",
@@ -872,8 +875,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Tomorimon",
@@ -881,8 +884,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Onibimon",
@@ -890,8 +893,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Hanimon",
@@ -899,8 +902,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Wankomon",
@@ -908,8 +911,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Yukimibotamon",
@@ -917,8 +920,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Nyaromon",
@@ -926,8 +929,8 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Nyokimon",
@@ -935,12 +938,39 @@
     },
     {
       "available_source_ids": [
-        "google_drive_sprites",
-        "digimon_pendulum_color"
+        "digimon_pendulum_color",
+        "google_drive_sprites"
       ],
       "chosen_source_id": "google_drive_sprites",
       "name": "Pyocomon",
       "species_id": "pyocomon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "google_drive_sprites"
+      ],
+      "chosen_source_id": "google_drive_sprites",
+      "name": "Herakle Kabuterimon",
+      "species_id": "heraklekabuterimon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "google_drive_sprites"
+      ],
+      "chosen_source_id": "google_drive_sprites",
+      "name": "Hououmon",
+      "species_id": "hououmon"
+    },
+    {
+      "available_source_ids": [
+        "digimon_pendulum_color",
+        "google_drive_sprites"
+      ],
+      "chosen_source_id": "google_drive_sprites",
+      "name": "Mugendramon",
+      "species_id": "mugendramon"
     }
   ],
   "entries": {
@@ -2693,38 +2723,42 @@
     },
     "heraklekabuterimon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/herakle_kabuterimon.png",
-      "matched_name": "Herakle Kabuterimon",
+      "asset_path": "assets/sprite_sources/google_drive_sprites/heraklekabuterimon.png",
+      "matched_name": "HerakleKabuterimon",
       "metadata": {
         "fps": 6,
-        "frame_count": 2,
-        "frame_height": 36,
-        "frame_width": 36,
-        "source_page": "https://humulos.com/digimon/penc/",
-        "source_title": "Herakle Kabuterimon",
-        "source_url": "https://humulos.com/digimon/images/dot/penc/heraklekabuteri.gif",
-        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/heraklekabuteri.gif"
+        "frame_count": 12,
+        "frame_height": 16,
+        "frame_width": 16,
+        "source_file_id": "1oc72vRan5lmpTez8f0YbrIPN5K7Nmxrv",
+        "source_folder": "Ultimate/Super Ultimate",
+        "source_title": "HerakleKabuterimon.png",
+        "source_url": "https://drive.google.com/file/d/1oc72vRan5lmpTez8f0YbrIPN5K7Nmxrv/view?usp=drive_web"
       },
       "name": "Herakle Kabuterimon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "google_drive_sprites",
+      "source_name": "Google Drive Sprites",
       "species_id": "heraklekabuterimon"
     },
     "herculeskabuterimon": {
-      "aliases_used": [],
-      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/herculeskabuterimon_vital_bracelet_be.png",
-      "matched_name": "HerculesKabuterimon",
+      "aliases_used": [
+        "Herakle Kabuterimon"
+      ],
+      "asset_path": "assets/sprite_sources/google_drive_sprites/heraklekabuterimon.png",
+      "matched_name": "HerakleKabuterimon",
       "metadata": {
         "fps": 6,
-        "frame_count": 1,
-        "frame_height": 70,
-        "frame_width": 80,
-        "source_label": "Vital Bracelet BE",
-        "source_page": "https://wikimon.net/HerculesKabuterimon"
+        "frame_count": 12,
+        "frame_height": 16,
+        "frame_width": 16,
+        "source_file_id": "1oc72vRan5lmpTez8f0YbrIPN5K7Nmxrv",
+        "source_folder": "Ultimate/Super Ultimate",
+        "source_title": "HerakleKabuterimon.png",
+        "source_url": "https://drive.google.com/file/d/1oc72vRan5lmpTez8f0YbrIPN5K7Nmxrv/view?usp=drive_web"
       },
       "name": "HerculesKabuterimon",
-      "source_id": "wikimon_virtual_pets",
-      "source_name": "Wikimon Virtual Pets",
+      "source_id": "google_drive_sprites",
+      "source_name": "Google Drive Sprites",
       "species_id": "herculeskabuterimon"
     },
     "hiandromon": {
@@ -2805,21 +2839,21 @@
     },
     "hououmon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/hououmon.png",
+      "asset_path": "assets/sprite_sources/google_drive_sprites/hououmon.png",
       "matched_name": "Hououmon",
       "metadata": {
         "fps": 6,
-        "frame_count": 2,
-        "frame_height": 36,
-        "frame_width": 36,
-        "source_page": "https://humulos.com/digimon/penc/",
-        "source_title": "Hououmon",
-        "source_url": "https://humulos.com/digimon/images/dot/penc/houou.gif",
-        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/houou.gif"
+        "frame_count": 12,
+        "frame_height": 16,
+        "frame_width": 16,
+        "source_file_id": "18rMnPamCTGusojMkQ0VjFPrFVq2KzYmQ",
+        "source_folder": "Ultimate/Super Ultimate",
+        "source_title": "Hououmon.png",
+        "source_url": "https://drive.google.com/file/d/18rMnPamCTGusojMkQ0VjFPrFVq2KzYmQ/view?usp=drive_web"
       },
       "name": "Hououmon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "google_drive_sprites",
+      "source_name": "Google Drive Sprites",
       "species_id": "hououmon"
     },
     "huankunmon": {
@@ -3423,16 +3457,24 @@
       "species_id": "lopmon"
     },
     "machinedramon": {
-      "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digital_monster_color/Mugendramon.png",
-      "matched_name": "Machinedramon",
+      "aliases_used": [
+        "Mugendramon"
+      ],
+      "asset_path": "assets/sprite_sources/google_drive_sprites/machinedramon.png",
+      "matched_name": "Mugendramon",
       "metadata": {
         "fps": 6,
-        "frame_count": 13
+        "frame_count": 12,
+        "frame_height": 16,
+        "frame_width": 16,
+        "source_file_id": "1oG9Pu7kFcxmAT9ktNDlMhSu1L7qK51NZ",
+        "source_folder": "Ultimate/Super Ultimate",
+        "source_title": "Mugendramon.png",
+        "source_url": "https://drive.google.com/file/d/1oG9Pu7kFcxmAT9ktNDlMhSu1L7qK51NZ/view?usp=drive_web"
       },
       "name": "Machinedramon",
-      "source_id": "digital_monster_color",
-      "source_name": "Digital Monster COLOR",
+      "source_id": "google_drive_sprites",
+      "source_name": "Google Drive Sprites",
       "species_id": "machinedramon"
     },
     "mamemon": {
@@ -3780,21 +3822,21 @@
     },
     "mugendramon": {
       "aliases_used": [],
-      "asset_path": "assets/sprite_sources/digimon_pendulum_color/mugendramon.png",
+      "asset_path": "assets/sprite_sources/google_drive_sprites/machinedramon.png",
       "matched_name": "Mugendramon",
       "metadata": {
         "fps": 6,
-        "frame_count": 2,
-        "frame_height": 36,
-        "frame_width": 36,
-        "source_page": "https://humulos.com/digimon/penc/",
-        "source_title": "Mugendramon",
-        "source_url": "https://humulos.com/digimon/images/dot/penc/mugendra.gif",
-        "sprite_frame2_url": "https://humulos.com/digimon/images/dot/penc/frame2/mugendra.gif"
+        "frame_count": 12,
+        "frame_height": 16,
+        "frame_width": 16,
+        "source_file_id": "1oG9Pu7kFcxmAT9ktNDlMhSu1L7qK51NZ",
+        "source_folder": "Ultimate/Super Ultimate",
+        "source_title": "Mugendramon.png",
+        "source_url": "https://drive.google.com/file/d/1oG9Pu7kFcxmAT9ktNDlMhSu1L7qK51NZ/view?usp=drive_web"
       },
       "name": "Mugendramon",
-      "source_id": "digimon_pendulum_color",
-      "source_name": "Digimon Pendulum COLOR",
+      "source_id": "google_drive_sprites",
+      "source_name": "Google Drive Sprites",
       "species_id": "mugendramon"
     },
     "mushmon": {
@@ -4176,20 +4218,24 @@
       "species_id": "petimeramon"
     },
     "phoenixmon": {
-      "aliases_used": [],
-      "asset_path": "assets/sprite_sources/wikimon_virtual_pets/phoenixmon_vital_bracelet_be.png",
-      "matched_name": "Phoenixmon",
+      "aliases_used": [
+        "Hououmon"
+      ],
+      "asset_path": "assets/sprite_sources/google_drive_sprites/hououmon.png",
+      "matched_name": "Hououmon",
       "metadata": {
         "fps": 6,
-        "frame_count": 1,
-        "frame_height": 64,
-        "frame_width": 80,
-        "source_label": "Vital Bracelet BE",
-        "source_page": "https://wikimon.net/Phoenixmon"
+        "frame_count": 12,
+        "frame_height": 16,
+        "frame_width": 16,
+        "source_file_id": "18rMnPamCTGusojMkQ0VjFPrFVq2KzYmQ",
+        "source_folder": "Ultimate/Super Ultimate",
+        "source_title": "Hououmon.png",
+        "source_url": "https://drive.google.com/file/d/18rMnPamCTGusojMkQ0VjFPrFVq2KzYmQ/view?usp=drive_web"
       },
       "name": "Phoenixmon",
-      "source_id": "wikimon_virtual_pets",
-      "source_name": "Wikimon Virtual Pets",
+      "source_id": "google_drive_sprites",
+      "source_name": "Google Drive Sprites",
       "species_id": "phoenixmon"
     },
     "piccolomon": {
@@ -5921,11 +5967,6 @@
   "missing": [],
   "source_priority": [
     {
-      "id": "google_drive_sprites",
-      "name": "Google Drive Sprites",
-      "priority": 0
-    },
-    {
       "id": "digital_monster_color",
       "name": "Digital Monster COLOR",
       "priority": 1
@@ -5944,6 +5985,11 @@
       "id": "wikimon_virtual_pets",
       "name": "Wikimon Virtual Pets",
       "priority": 4
+    },
+    {
+      "id": "google_drive_sprites",
+      "name": "Google Drive Sprites",
+      "priority": 5
     }
   ]
 }

@@ -1929,35 +1929,6 @@
       ]
     },
     {
-      "id": "airdramon__to__phoenixmon",
-      "type": "natural",
-      "source_species_id": "airdramon",
-      "source_name": "Airdramon",
-      "target_species_id": "phoenixmon",
-      "target_name": "Phoenixmon",
-      "target_stage": "ultimate",
-      "chart_order": 3,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 4000,
-            "speed": 400,
-            "brains": 600
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "angemon__to__andromon",
       "type": "natural",
       "source_species_id": "angemon",
@@ -1980,35 +1951,6 @@
             "defense": 400,
             "speed": 200,
             "brains": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "angemon__to__phoenixmon",
-      "type": "natural",
-      "source_species_id": "angemon",
-      "source_name": "Angemon",
-      "target_species_id": "phoenixmon",
-      "target_name": "Phoenixmon",
-      "target_stage": "ultimate",
-      "chart_order": 2,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 4000,
-            "speed": 400,
-            "brains": 600
           }
         }
       },
@@ -2144,35 +2086,6 @@
           "stats": {
             "hp": 1000,
             "brains": 100
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "birdramon__to__phoenixmon",
-      "type": "natural",
-      "source_species_id": "birdramon",
-      "source_name": "Birdramon",
-      "target_species_id": "phoenixmon",
-      "target_name": "Phoenixmon",
-      "target_stage": "ultimate",
-      "chart_order": 1,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 4000,
-            "speed": 400,
-            "brains": 600
           }
         }
       },
@@ -2908,35 +2821,6 @@
       ]
     },
     {
-      "id": "kabuterimon__to__herculeskabuterimon",
-      "type": "natural",
-      "source_species_id": "kabuterimon",
-      "source_name": "Kabuterimon",
-      "target_species_id": "herculeskabuterimon",
-      "target_name": "HerculesKabuterimon",
-      "target_stage": "ultimate",
-      "chart_order": 1,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 7000,
-            "offense": 400,
-            "defense": 600,
-            "speed": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "kabuterimon__to__metalmamemon",
       "type": "natural",
       "source_species_id": "kabuterimon",
@@ -2957,35 +2841,6 @@
             "defense": 400,
             "speed": 400,
             "brains": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "kokatorimon__to__phoenixmon",
-      "type": "natural",
-      "source_species_id": "kokatorimon",
-      "source_name": "Kokatorimon",
-      "target_species_id": "phoenixmon",
-      "target_name": "Phoenixmon",
-      "target_stage": "ultimate",
-      "chart_order": 4,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 4000,
-            "speed": 400,
-            "brains": 600
           }
         }
       },
@@ -3155,35 +3010,6 @@
         "groups": {
           "stats": {
             "mp": 1000
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "kuwagamon__to__herculeskabuterimon",
-      "type": "natural",
-      "source_species_id": "kuwagamon",
-      "source_name": "Kuwagamon",
-      "target_species_id": "herculeskabuterimon",
-      "target_name": "HerculesKabuterimon",
-      "target_stage": "ultimate",
-      "chart_order": 2,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 7000,
-            "offense": 400,
-            "defense": 600,
-            "speed": 400
           }
         }
       },
@@ -4204,35 +4030,6 @@
       ]
     },
     {
-      "id": "shellmon__to__herculeskabuterimon",
-      "type": "natural",
-      "source_species_id": "shellmon",
-      "source_name": "Shellmon",
-      "target_species_id": "herculeskabuterimon",
-      "target_name": "HerculesKabuterimon",
-      "target_stage": "ultimate",
-      "chart_order": 3,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 7000,
-            "offense": 400,
-            "defense": 600,
-            "speed": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
       "id": "shellmon__to__megaseadramon",
       "type": "natural",
       "source_species_id": "shellmon",
@@ -4511,35 +4308,6 @@
             "offense": 400,
             "speed": 300,
             "brains": 400
-          }
-        }
-      },
-      "sources": [
-        "sydmontague_gamefaqs",
-        "sydmontague_extracted_sheet"
-      ]
-    },
-    {
-      "id": "unimon__to__phoenixmon",
-      "type": "natural",
-      "source_species_id": "unimon",
-      "source_name": "Unimon",
-      "target_species_id": "phoenixmon",
-      "target_name": "Phoenixmon",
-      "target_stage": "ultimate",
-      "chart_order": 5,
-      "requirements": {
-        "mode": "stats_only",
-        "required_group_count": 1,
-        "alternate": null,
-        "available_base_group_count": 1,
-        "has_bonus_group": false,
-        "groups": {
-          "stats": {
-            "hp": 4000,
-            "mp": 4000,
-            "speed": 400,
-            "brains": 600
           }
         }
       },
@@ -16817,7 +16585,7 @@
       "source_species_id": "atlurkabuterimon",
       "source_name": "Atlur Kabuterimon",
       "target_species_id": "heraklekabuterimon",
-      "target_name": "Herakle Kabuterimon",
+      "target_name": "HerculesKabuterimon",
       "target_stage": "mega",
       "chart_order": 1,
       "requirements": {
@@ -16848,7 +16616,7 @@
       "source_species_id": "jyagamon",
       "source_name": "Jyagamon",
       "target_species_id": "heraklekabuterimon",
-      "target_name": "Herakle Kabuterimon",
+      "target_name": "HerculesKabuterimon",
       "target_stage": "mega",
       "chart_order": 2,
       "requirements": {
@@ -16879,7 +16647,7 @@
       "source_species_id": "angewomon",
       "source_name": "Angewomon",
       "target_species_id": "heraklekabuterimon",
-      "target_name": "Herakle Kabuterimon",
+      "target_name": "HerculesKabuterimon",
       "target_stage": "mega",
       "chart_order": 3,
       "requirements": {
@@ -16910,7 +16678,7 @@
       "source_species_id": "triceramon",
       "source_name": "Triceramon",
       "target_species_id": "heraklekabuterimon",
-      "target_name": "Herakle Kabuterimon",
+      "target_name": "HerculesKabuterimon",
       "target_stage": "mega",
       "chart_order": 4,
       "requirements": {
@@ -17664,7 +17432,7 @@
       "id": "megaseadramon__to__marinangemon",
       "type": "natural",
       "source_species_id": "megaseadramon",
-      "source_name": "Mega Seadramon",
+      "source_name": "MegaSeadramon",
       "target_species_id": "marinangemon",
       "target_name": "Marin Angemon",
       "target_stage": "mega",
@@ -17847,7 +17615,7 @@
       "id": "megaseadramon__to__metalseadramon",
       "type": "natural",
       "source_species_id": "megaseadramon",
-      "source_name": "Mega Seadramon",
+      "source_name": "MegaSeadramon",
       "target_species_id": "metalseadramon",
       "target_name": "Metal Seadramon",
       "target_stage": "mega",
@@ -17971,7 +17739,7 @@
       "id": "megaseadramon__to__jumbogamemon",
       "type": "natural",
       "source_species_id": "megaseadramon",
-      "source_name": "Mega Seadramon",
+      "source_name": "MegaSeadramon",
       "target_species_id": "jumbogamemon",
       "target_name": "Jumbo Gamemon",
       "target_stage": "mega",
@@ -18219,7 +17987,7 @@
       "id": "megaseadramon__to__pukumon",
       "type": "natural",
       "source_species_id": "megaseadramon",
-      "source_name": "Mega Seadramon",
+      "source_name": "MegaSeadramon",
       "target_species_id": "pukumon",
       "target_name": "Pukumon",
       "target_stage": "mega",
@@ -18560,7 +18328,7 @@
       "id": "weregarurumon__to__skullmammon",
       "type": "natural",
       "source_species_id": "weregarurumon",
-      "source_name": "Were Garurumon",
+      "source_name": "WereGarurumon",
       "target_species_id": "skullmammon",
       "target_name": "Skull Mammon",
       "target_stage": "mega",
@@ -18653,7 +18421,7 @@
       "id": "weregarurumon__to__anubimon",
       "type": "natural",
       "source_species_id": "weregarurumon",
-      "source_name": "Were Garurumon",
+      "source_name": "WereGarurumon",
       "target_species_id": "anubimon",
       "target_name": "Anubimon",
       "target_stage": "mega",
@@ -18870,7 +18638,7 @@
       "id": "weregarurumon__to__noblepumpmon",
       "type": "natural",
       "source_species_id": "weregarurumon",
-      "source_name": "Were Garurumon",
+      "source_name": "WereGarurumon",
       "target_species_id": "noblepumpmon",
       "target_name": "Noble Pumpmon",
       "target_stage": "mega",
@@ -19457,7 +19225,7 @@
       "source_species_id": "aerovdramon",
       "source_name": "Aero V-dramon",
       "target_species_id": "hououmon",
-      "target_name": "Hououmon",
+      "target_name": "Phoenixmon",
       "target_stage": "mega",
       "chart_order": 87,
       "requirements": {
@@ -19487,7 +19255,7 @@
       "source_species_id": "garudamon",
       "source_name": "Garudamon",
       "target_species_id": "hououmon",
-      "target_name": "Hououmon",
+      "target_name": "Phoenixmon",
       "target_stage": "mega",
       "chart_order": 88,
       "requirements": {
@@ -19517,7 +19285,7 @@
       "source_species_id": "lilimon",
       "source_name": "Lilimon",
       "target_species_id": "hououmon",
-      "target_name": "Hououmon",
+      "target_name": "Phoenixmon",
       "target_stage": "mega",
       "chart_order": 89,
       "requirements": {
@@ -19547,7 +19315,7 @@
       "source_species_id": "delumon",
       "source_name": "Delumon",
       "target_species_id": "hououmon",
-      "target_name": "Hououmon",
+      "target_name": "Phoenixmon",
       "target_stage": "mega",
       "chart_order": 90,
       "requirements": {
@@ -20807,7 +20575,7 @@
       "source_species_id": "megadramon",
       "source_name": "Megadramon",
       "target_species_id": "mugendramon",
-      "target_name": "Mugendramon",
+      "target_name": "Machinedramon",
       "target_stage": "mega",
       "chart_order": 131,
       "requirements": {
@@ -20837,7 +20605,7 @@
       "source_species_id": "cargodramon",
       "source_name": "Cargodramon",
       "target_species_id": "mugendramon",
-      "target_name": "Mugendramon",
+      "target_name": "Machinedramon",
       "target_stage": "mega",
       "chart_order": 132,
       "requirements": {
@@ -21080,7 +20848,7 @@
       "id": "metalmamemon__to__wargreymon",
       "type": "natural",
       "source_species_id": "metalmamemon",
-      "source_name": "Metal Mamemon",
+      "source_name": "MetalMamemon",
       "target_species_id": "wargreymon",
       "target_name": "War Greymon",
       "target_stage": "mega",
@@ -21202,7 +20970,7 @@
       "id": "weregarurumon__to__metalgarurumon",
       "type": "natural",
       "source_species_id": "weregarurumon",
-      "source_name": "Were Garurumon",
+      "source_name": "WereGarurumon",
       "target_species_id": "metalgarurumon",
       "target_name": "Metal Garurumon",
       "target_stage": "mega",
@@ -21231,7 +20999,7 @@
       "id": "metalmamemon__to__metalgarurumon",
       "type": "natural",
       "source_species_id": "metalmamemon",
-      "source_name": "Metal Mamemon",
+      "source_name": "MetalMamemon",
       "target_species_id": "metalgarurumon",
       "target_name": "Metal Garurumon",
       "target_stage": "mega",
@@ -21380,7 +21148,7 @@
       "id": "weregarurumon__to__dominimon",
       "type": "natural",
       "source_species_id": "weregarurumon",
-      "source_name": "Were Garurumon",
+      "source_name": "WereGarurumon",
       "target_species_id": "dominimon",
       "target_name": "Dominimon",
       "target_stage": "mega",
@@ -21442,7 +21210,7 @@
       "id": "metalmamemon__to__quantumon",
       "type": "natural",
       "source_species_id": "metalmamemon",
-      "source_name": "Metal Mamemon",
+      "source_name": "MetalMamemon",
       "target_species_id": "quantumon",
       "target_name": "Quantumon",
       "target_stage": "mega",
@@ -21473,7 +21241,7 @@
       "id": "weregarurumon__to__quantumon",
       "type": "natural",
       "source_species_id": "weregarurumon",
-      "source_name": "Were Garurumon",
+      "source_name": "WereGarurumon",
       "target_species_id": "quantumon",
       "target_name": "Quantumon",
       "target_stage": "mega",
@@ -21535,7 +21303,7 @@
       "id": "metalmamemon__to__siriusmon",
       "type": "natural",
       "source_species_id": "metalmamemon",
-      "source_name": "Metal Mamemon",
+      "source_name": "MetalMamemon",
       "target_species_id": "siriusmon",
       "target_name": "Siriusmon",
       "target_stage": "mega",
@@ -21628,7 +21396,7 @@
       "id": "metalmamemon__to__arcturusmon",
       "type": "natural",
       "source_species_id": "metalmamemon",
-      "source_name": "Metal Mamemon",
+      "source_name": "MetalMamemon",
       "target_species_id": "arcturusmon",
       "target_name": "Arcturusmon",
       "target_stage": "mega",
@@ -23199,8 +22967,7 @@
         "agumon__to__tyrannomon"
       ],
       "airdramon": [
-        "airdramon__to__megadramon",
-        "airdramon__to__phoenixmon"
+        "airdramon__to__megadramon"
       ],
       "andromon": [
         "andromon__to__hiandromon",
@@ -23211,8 +22978,7 @@
         "angemon__to__andromon",
         "angemon__to__angewomon",
         "angemon__to__asuramon",
-        "angemon__to__holyangemon",
-        "angemon__to__phoenixmon"
+        "angemon__to__holyangemon"
       ],
       "angewomon": [
         "angewomon__to__dominimon",
@@ -23275,8 +23041,7 @@
       "birdramon": [
         "birdramon__to__aerovdramon",
         "birdramon__to__blossomon",
-        "birdramon__to__garudamon",
-        "birdramon__to__phoenixmon"
+        "birdramon__to__garudamon"
       ],
       "biyomon": [
         "biyomon__to__airdramon",
@@ -23644,7 +23409,6 @@
       "kabuterimon": [
         "kabuterimon__to__angewomon",
         "kabuterimon__to__atlurkabuterimon",
-        "kabuterimon__to__herculeskabuterimon",
         "kabuterimon__to__metalmamemon",
         "kabuterimon__to__piccolomon"
       ],
@@ -23695,7 +23459,6 @@
         "knightmon__to__zekegreymon"
       ],
       "kokatorimon": [
-        "kokatorimon__to__phoenixmon",
         "kokatorimon__to__piximon"
       ],
       "kokeshimon": [
@@ -23723,7 +23486,6 @@
         "kunemon__to__vegiemon"
       ],
       "kuwagamon": [
-        "kuwagamon__to__herculeskabuterimon",
         "kuwagamon__to__okuwamon",
         "kuwagamon__to__piccolomon",
         "kuwagamon__to__piximon",
@@ -24070,7 +23832,6 @@
         "shakomon__to__seadramon"
       ],
       "shellmon": [
-        "shellmon__to__herculeskabuterimon",
         "shellmon__to__karakurumon",
         "shellmon__to__marinbullmon",
         "shellmon__to__megaseadramon",
@@ -24213,8 +23974,7 @@
         "tyrannomon__to__metalgreymon"
       ],
       "unimon": [
-        "unimon__to__giromon",
-        "unimon__to__phoenixmon"
+        "unimon__to__giromon"
       ],
       "vamdemon": [
         "vamdemon__to__boltmon",

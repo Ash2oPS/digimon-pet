@@ -891,6 +891,42 @@
       "source_title": "Zerimon.png",
       "source_folder": "Baby I",
       "source_url": "https://drive.google.com/file/d/1slLpKw8cHqz4DQ0H9_VwSGLCK7GAHgaO/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Mugendramon",
+      "path": "assets/sprite_sources/google_drive_sprites/machinedramon.png",
+      "source_file_id": "1oG9Pu7kFcxmAT9ktNDlMhSu1L7qK51NZ",
+      "source_title": "Mugendramon.png",
+      "source_folder": "Ultimate/Super Ultimate",
+      "source_url": "https://drive.google.com/file/d/1oG9Pu7kFcxmAT9ktNDlMhSu1L7qK51NZ/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "HerakleKabuterimon",
+      "path": "assets/sprite_sources/google_drive_sprites/heraklekabuterimon.png",
+      "source_file_id": "1oc72vRan5lmpTez8f0YbrIPN5K7Nmxrv",
+      "source_title": "HerakleKabuterimon.png",
+      "source_folder": "Ultimate/Super Ultimate",
+      "source_url": "https://drive.google.com/file/d/1oc72vRan5lmpTez8f0YbrIPN5K7Nmxrv/view?usp=drive_web"
+    },
+    {
+      "fps": 6,
+      "frame_count": 12,
+      "frame_width": 16,
+      "frame_height": 16,
+      "name": "Hououmon",
+      "path": "assets/sprite_sources/google_drive_sprites/hououmon.png",
+      "source_file_id": "18rMnPamCTGusojMkQ0VjFPrFVq2KzYmQ",
+      "source_title": "Hououmon.png",
+      "source_folder": "Ultimate/Super Ultimate",
+      "source_url": "https://drive.google.com/file/d/18rMnPamCTGusojMkQ0VjFPrFVq2KzYmQ/view?usp=drive_web"
     }
   ]
 }
