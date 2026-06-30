@@ -248,6 +248,29 @@ def test_existing_save_queues_lifecycle_event_on_startup(tmp_path, monkeypatch):
     assert window._pet_widget._effect_name == "pending_evolution"
 
 
+def test_existing_save_with_deleted_species_falls_back_to_valid_baby(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            species_id="deletedmon",
+            stage=GrowthStage.ROOKIE,
+            inventory={"digimeat": 1},
+            discovered_species_ids=["deletedmon", "agumon"],
+        )
+    )
+
+    window = PetWindow(overlay=True, debug=True)
+    loaded = load_pet_state(save_path)
+
+    assert window._state.species_id == "botamon"
+    assert window._state.stage == GrowthStage.BABY
+    assert window._state.inventory == {"digimeat": 1}
+    assert window._state.discovered_species_ids == ["agumon", "botamon"]
+    assert loaded.species_id == "botamon"
+
+
 def test_item_manager_opens_only_in_debug_mode():
     app = QApplication.instance() or QApplication([])
 

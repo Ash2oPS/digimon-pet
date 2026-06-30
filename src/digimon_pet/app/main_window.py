@@ -538,6 +538,7 @@ class PetWindow(QWidget):
         self._rng = random.Random()
         self._needs_initial_baby_choice = not save_store.SAVE_PATH.exists()
         self._state = load_pet_state()
+        self._repair_missing_saved_species()
         self._pending_lifecycle_kind: str | None = None
         self._pending_inventory_item_id: str | None = None
         self._lifecycle_animating = False
@@ -1562,6 +1563,29 @@ class PetWindow(QWidget):
         if pixmap is None or pixmap.isNull():
             return None
         return QIcon(pixmap)
+
+    def _repair_missing_saved_species(self) -> None:
+        if self._state.species_id in self._species:
+            return
+        fallback = self._fallback_species_for_missing_save()
+        invalid_id = self._state.species_id
+        self._state.species_id = fallback.id
+        self._state.stage = fallback.stage
+        self._state.current_action = "idle"
+        self._state.current_generation_species_ids = [fallback.id]
+        self._state.discovered_species_ids = [
+            species_id
+            for species_id in self._state.discovered_species_ids
+            if species_id in self._species and species_id != invalid_id
+        ]
+        self._state.mark_discovered(fallback.id)
+        save_pet_state(self._state)
+
+    def _fallback_species_for_missing_save(self) -> Species:
+        for species in self._species.values():
+            if species.stage == GrowthStage.BABY:
+                return species
+        return next(iter(self._species.values()))
 
     def shutdown(self) -> None:
         self._flush_scheduled_save()
