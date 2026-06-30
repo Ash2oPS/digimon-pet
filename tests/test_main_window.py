@@ -462,7 +462,7 @@ def test_rebirth_stat_allocation_dialog_requires_complete_allocation():
     assert ok_button.isEnabled() is True
 
 
-def test_ultimate_rebirth_stat_allocation_dialog_requires_forty_percent():
+def test_ultimate_rebirth_stat_allocation_dialog_requires_fifty_percent():
     app = QApplication.instance() or QApplication([])
     state = PetState(
         "metalgreymon",
@@ -480,16 +480,16 @@ def test_ultimate_rebirth_stat_allocation_dialog_requires_forty_percent():
     buttons = dialog.findChild(QDialogButtonBox)
     ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
 
-    for _index in range(4):
+    for _index in range(5):
         dialog._adjust("hp", 5)
-    for _index in range(3):
+    for _index in range(4):
         dialog._adjust("mp", 5)
     dialog._adjust("speed", 5)
 
-    assert dialog.selected_allocations()["hp"] == 20
-    assert dialog.selected_allocations()["mp"] == 15
+    assert dialog.selected_allocations()["hp"] == 25
+    assert dialog.selected_allocations()["mp"] == 20
     assert dialog.selected_allocations()["speed"] == 5
-    assert dialog._bonus_labels["hp"].text() == "+60"
+    assert dialog._bonus_labels["hp"].text() == "+75"
     assert ok_button.isEnabled() is True
 
 
@@ -838,7 +838,7 @@ def test_manual_rebirth_prompts_stat_allocation_before_baby_choice(tmp_path, mon
 
     def allocate():
         calls.append(("allocation", dict(window._state.pending_rebirth_stat_source_stats)))
-        return {"hp": 20, "mp": 15, "speed": 5}, True
+        return {"hp": 25, "mp": 20, "speed": 5}, True
 
     def choose_baby(baby_ids):
         calls.append(("baby", dict(window._state.pending_rebirth_stat_bonuses)))
@@ -861,11 +861,11 @@ def test_manual_rebirth_prompts_stat_allocation_before_baby_choice(tmp_path, mon
                 "brains": 30,
             },
         ),
-        ("baby", {"hp": 60, "mp": 60, "speed": 3}),
+        ("baby", {"hp": 75, "mp": 80, "speed": 3}),
     ]
     assert window._state.species_id == "botamon"
-    assert window._state.hp == 360
-    assert window._state.mp == 360
+    assert window._state.hp == 375
+    assert window._state.mp == 380
     assert window._state.speed == 33
 
 

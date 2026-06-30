@@ -813,24 +813,10 @@ def test_rebirth_stat_allocation_requires_exact_thirty_percent_in_five_percent_s
         allocate_rebirth_stat_bonuses(state, {"hp": 17, "mp": 13})
 
 
-def test_ultimate_rebirth_stat_allocation_requires_exact_forty_percent():
+def test_ultimate_rebirth_stat_allocation_requires_exact_fifty_percent():
     state = PetState(
         species_id="metalgreymon",
         stage=GrowthStage.ULTIMATE,
-        pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "speed": 70},
-    )
-
-    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 20, "mp": 15, "speed": 5})
-
-    assert bonuses == {"hp": 60, "mp": 60, "speed": 3}
-    with pytest.raises(ValueError, match="total 40"):
-        allocate_rebirth_stat_bonuses(state, {"hp": 15, "mp": 10, "speed": 5})
-
-
-def test_mega_rebirth_stat_allocation_requires_exact_fifty_percent():
-    state = PetState(
-        species_id="wargreymon",
-        stage=GrowthStage.MEGA,
         pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "speed": 70},
     )
 
@@ -839,6 +825,20 @@ def test_mega_rebirth_stat_allocation_requires_exact_fifty_percent():
     assert bonuses == {"hp": 75, "mp": 80, "speed": 3}
     with pytest.raises(ValueError, match="total 50"):
         allocate_rebirth_stat_bonuses(state, {"hp": 20, "mp": 15, "speed": 5})
+
+
+def test_mega_rebirth_stat_allocation_requires_exact_hundred_percent():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "speed": 70},
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 50, "mp": 40, "speed": 10})
+
+    assert bonuses == {"hp": 150, "mp": 160, "speed": 7}
+    with pytest.raises(ValueError, match="total 100"):
+        allocate_rebirth_stat_bonuses(state, {"hp": 50, "mp": 40, "speed": 5})
 
 
 def test_auto_rebirth_random_bonus_keeps_old_distribution():
