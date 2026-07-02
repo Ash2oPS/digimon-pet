@@ -59,6 +59,7 @@ class ShopWindow(QDialog):
         self._friend_listings: list[FriendMarketListing] = []
         self._bits = 0
         self._selected_listing_item_id: str | None = None
+        self._listing_price_item_id: str | None = None
 
         self.setWindowTitle("Shop")
         self.setMinimumSize(680, 430)
@@ -308,13 +309,16 @@ class ShopWindow(QDialog):
             self._selected_item_hint_label.setText("Pick one owned item on the left.")
             self._listing_price_input.setValue(1)
             self._list_selected_button.setEnabled(False)
+            self._listing_price_item_id = None
             return
         suggested = _suggested_market_price(item)
         self._selected_item_name_label.setText(item.name)
         self._selected_item_hint_label.setText(
             f"Suggested price: {suggested} Bits." if suggested is not None else "No suggested price for this item."
         )
-        self._listing_price_input.setValue(suggested or 1)
+        if self._listing_price_item_id != item.id:
+            self._listing_price_input.setValue(suggested or 1)
+            self._listing_price_item_id = item.id
         self._list_selected_button.setEnabled(True)
 
     def _list_selected_item(self) -> None:

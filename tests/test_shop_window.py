@@ -89,6 +89,33 @@ def test_shop_window_uses_separate_listing_form_instead_of_inline_table_controls
     assert calls == [("list", "digimeat", 425)]
 
 
+def test_shop_window_preserves_typed_listing_price_across_refreshes():
+    app = QApplication.instance() or QApplication([])
+    calls = []
+    window = _window(calls)
+
+    window.set_data(
+        bits=100,
+        catalog=_catalog(),
+        inventory={"digimeat": 1, "black_wings": 1},
+        listings=[],
+        friend_listings=[],
+    )
+    window._inventory_table.selectRow(1)
+    window._listing_price_input.setValue(425)
+
+    window.set_data(
+        bits=125,
+        catalog=_catalog(),
+        inventory={"digimeat": 1, "black_wings": 1},
+        listings=[],
+        friend_listings=[],
+    )
+
+    assert window._selected_item_name_label.text() == "DigiMeat"
+    assert window._listing_price_input.value() == 425
+
+
 def test_shop_window_cancels_listing():
     app = QApplication.instance() or QApplication([])
     calls = []
