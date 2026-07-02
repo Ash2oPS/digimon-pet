@@ -9,7 +9,9 @@ from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
     QDialog,
     QFrame,
+    QGridLayout,
     QHBoxLayout,
+    QHeaderView,
     QLabel,
     QPushButton,
     QSpinBox,
@@ -56,6 +58,7 @@ class ShopWindow(QDialog):
         self._listings: list[MarketListingState] = []
         self._friend_listings: list[FriendMarketListing] = []
         self._bits = 0
+        self._selected_listing_item_id: str | None = None
 
         self.setWindowTitle("Shop")
         self.setMinimumSize(680, 430)
@@ -126,12 +129,50 @@ class ShopWindow(QDialog):
         inventory_panel = QFrame(tab)
         inventory_panel.setObjectName("StatsPanel")
         inventory_layout = QVBoxLayout(inventory_panel)
-        inventory_layout.addWidget(QLabel("Inventory", inventory_panel))
-        self._inventory_table = QTableWidget(0, 4, inventory_panel)
-        self._inventory_table.setHorizontalHeaderLabels(["Item", "Owned", "Suggested", "List"])
+        inventory_title = QLabel("Choose Item To Sell", inventory_panel)
+        inventory_title.setObjectName("SectionTitle")
+        inventory_layout.addWidget(inventory_title)
+        self._inventory_table = QTableWidget(0, 3, inventory_panel)
+        self._inventory_table.setHorizontalHeaderLabels(["Item", "Owned", "Suggested"])
         self._inventory_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self._inventory_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        self._inventory_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
+        self._inventory_table.itemSelectionChanged.connect(self._refresh_listing_form)
+        self._inventory_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        self._inventory_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self._inventory_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
         inventory_layout.addWidget(self._inventory_table)
         layout.addWidget(inventory_panel, 1)
+
+        action_panel = QFrame(tab)
+        action_panel.setObjectName("StatsPanel")
+        action_layout = QVBoxLayout(action_panel)
+        action_title = QLabel("Selected Item", action_panel)
+        action_title.setObjectName("SectionTitle")
+        action_layout.addWidget(action_title)
+        self._selected_item_name_label = QLabel("Select an item", action_panel)
+        self._selected_item_name_label.setObjectName("ShopSelectedName")
+        self._selected_item_name_label.setWordWrap(True)
+        action_layout.addWidget(self._selected_item_name_label)
+        self._selected_item_hint_label = QLabel("Pick one owned item on the left.", action_panel)
+        self._selected_item_hint_label.setObjectName("Muted")
+        self._selected_item_hint_label.setWordWrap(True)
+        action_layout.addWidget(self._selected_item_hint_label)
+        price_grid = QGridLayout()
+        price_grid.setColumnStretch(1, 1)
+        price_grid.addWidget(QLabel("Price", action_panel), 0, 0)
+        self._listing_price_input = QSpinBox(action_panel)
+        self._listing_price_input.setRange(1, 999999)
+        self._listing_price_input.setMinimumWidth(110)
+        price_grid.addWidget(self._listing_price_input, 0, 1)
+        action_layout.addLayout(price_grid)
+        self._list_selected_button = QPushButton("List item", action_panel)
+        self._list_selected_button.setObjectName("PrimaryButton")
+        self._list_selected_button.setEnabled(False)
+        self._list_selected_button.clicked.connect(self._list_selected_item)
+        action_layout.addWidget(self._list_selected_button)
+        action_layout.addStretch(1)
+        layout.addWidget(action_panel)
 
         listing_panel = QFrame(tab)
         listing_panel.setObjectName("StatsPanel")
@@ -174,23 +215,19 @@ class ShopWindow(QDialog):
         ]
         self._inventory_table.setRowCount(len(items))
         for row, item in enumerate(items):
-            suggested = item.suggested_market_price_bits or item.shop_price_bits or 1
+            suggested = _suggested_market_price(item)
             self._set_item(self._inventory_table, row, 0, item.name, item.icon_path)
+            self._inventory_table.item(row, 0).setData(Qt.ItemDataRole.UserRole + 1, item.id)
             self._inventory_table.setItem(row, 1, _table_item(str(self._inventory.get(item.id, 0)), self._inventory.get(item.id, 0)))
-            self._inventory_table.setItem(row, 2, _table_item(f"{suggested} Bits", suggested))
-            editor = QWidget(self._inventory_table)
-            row_layout = QHBoxLayout(editor)
-            row_layout.setContentsMargins(0, 0, 0, 0)
-            price_input = QSpinBox(editor)
-            price_input.setRange(1, 999999)
-            price_input.setValue(suggested)
-            button = QPushButton("List", editor)
-            button.clicked.connect(
-                lambda checked=False, item_id=item.id, spin=price_input: self._create_listing(item_id, spin.value())
+            self._inventory_table.setItem(
+                row,
+                2,
+                _table_item(f"{suggested} Bits" if suggested is not None else "No suggestion", suggested or 0),
             )
-            row_layout.addWidget(price_input)
-            row_layout.addWidget(button)
-            self._inventory_table.setCellWidget(row, 3, editor)
+        if self._selected_listing_item_id not in {item.id for item in items}:
+            self._selected_listing_item_id = items[0].id if items else None
+        self._restore_inventory_selection()
+        self._refresh_listing_form()
         self._inventory_table.resizeColumnsToContents()
 
     def _render_listing_table(self) -> None:
@@ -240,6 +277,52 @@ class ShopWindow(QDialog):
             key=lambda item: item.name.casefold(),
         )
 
+    def _selected_inventory_item(self) -> ItemDefinition | None:
+        if self._catalog is None:
+            return None
+        selected_rows = {index.row() for index in self._inventory_table.selectedIndexes()}
+        if selected_rows:
+            row = min(selected_rows)
+            item = self._inventory_table.item(row, 0)
+            if item is not None:
+                item_id = str(item.data(Qt.ItemDataRole.UserRole + 1) or "")
+                self._selected_listing_item_id = item_id or None
+        if self._selected_listing_item_id is None:
+            return None
+        return self._catalog.items.get(self._selected_listing_item_id)
+
+    def _restore_inventory_selection(self) -> None:
+        if self._selected_listing_item_id is None:
+            self._inventory_table.clearSelection()
+            return
+        for row in range(self._inventory_table.rowCount()):
+            item = self._inventory_table.item(row, 0)
+            if item is not None and item.data(Qt.ItemDataRole.UserRole + 1) == self._selected_listing_item_id:
+                self._inventory_table.selectRow(row)
+                return
+
+    def _refresh_listing_form(self) -> None:
+        item = self._selected_inventory_item()
+        if item is None:
+            self._selected_item_name_label.setText("Select an item")
+            self._selected_item_hint_label.setText("Pick one owned item on the left.")
+            self._listing_price_input.setValue(1)
+            self._list_selected_button.setEnabled(False)
+            return
+        suggested = _suggested_market_price(item)
+        self._selected_item_name_label.setText(item.name)
+        self._selected_item_hint_label.setText(
+            f"Suggested price: {suggested} Bits." if suggested is not None else "No suggested price for this item."
+        )
+        self._listing_price_input.setValue(suggested or 1)
+        self._list_selected_button.setEnabled(True)
+
+    def _list_selected_item(self) -> None:
+        item = self._selected_inventory_item()
+        if item is None:
+            return
+        self._create_listing(item.id, self._listing_price_input.value())
+
     def _set_item(self, table: QTableWidget, row: int, column: int, text: str, icon_path: str | None = None) -> None:
         item = _table_item(text)
         if icon_path:
@@ -255,6 +338,10 @@ def _table_item(text: str, sort_value: int | str | None = None) -> QTableWidgetI
     return item
 
 
+def _suggested_market_price(item: ItemDefinition) -> int | None:
+    return item.suggested_market_price_bits or item.shop_price_bits
+
+
 _SHOP_QSS = f"""
 QLabel#ShopBits {{
     background: {COLORS["surface_alt"]};
@@ -263,5 +350,11 @@ QLabel#ShopBits {{
     color: {COLORS["focus"]};
     font-weight: 900;
     padding: 5px 10px;
+}}
+
+QLabel#ShopSelectedName {{
+    color: {COLORS["text"]};
+    font-size: 14px;
+    font-weight: 900;
 }}
 """

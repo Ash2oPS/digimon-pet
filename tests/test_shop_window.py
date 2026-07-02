@@ -12,6 +12,12 @@ from digimon_pet.domain.models import MarketListingState
 def _catalog() -> ItemCatalog:
     return ItemCatalog(
         items={
+            "black_wings": ItemDefinition(
+                id="black_wings",
+                name="Black Wings",
+                description="Makes Angemon digivolve into Devimon.",
+                type=ItemType.EVOLUTION,
+            ),
             "digimeat": ItemDefinition(
                 id="digimeat",
                 name="DigiMeat",
@@ -60,7 +66,7 @@ def test_shop_window_renders_shop_items_and_disables_unaffordable_buy():
     assert calls == [("buy", "digimeat")]
 
 
-def test_shop_window_creates_listing_with_selected_price():
+def test_shop_window_uses_separate_listing_form_instead_of_inline_table_controls():
     app = QApplication.instance() or QApplication([])
     calls = []
     window = _window(calls)
@@ -68,15 +74,17 @@ def test_shop_window_creates_listing_with_selected_price():
     window.set_data(
         bits=100,
         catalog=_catalog(),
-        inventory={"digimeat": 1},
+        inventory={"digimeat": 1, "black_wings": 1},
         listings=[],
         friend_listings=[],
     )
-    editor = window._inventory_table.cellWidget(0, 3)
-    price_input = editor.findChild(QSpinBox)
-    button = editor.findChild(QPushButton)
-    price_input.setValue(425)
-    button.click()
+    assert window._inventory_table.columnCount() == 3
+    assert window._inventory_table.cellWidget(0, 2) is None
+    assert window._inventory_table.item(0, 2).text() == "No suggestion"
+
+    window._inventory_table.selectRow(1)
+    window._listing_price_input.setValue(425)
+    window._list_selected_button.click()
 
     assert calls == [("list", "digimeat", 425)]
 
