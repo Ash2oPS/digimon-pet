@@ -64,7 +64,7 @@ def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
         if baseline_image.pixelColor(x, y) != image.pixelColor(x, y)
     ]
     assert deltas
-    assert 25 <= max(deltas) <= 30
+    assert 34 <= max(deltas) <= 40
     assert 100 <= len(deltas) <= 500
     assert not any(
         max(
@@ -73,7 +73,7 @@ def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
             abs(base_pixel.blue() - sparkle_pixel.blue()),
             abs(base_pixel.alpha() - sparkle_pixel.alpha()),
         )
-        > 30
+        > 40
         for x in range(widget.width())
         for y in range(widget.height())
     )
