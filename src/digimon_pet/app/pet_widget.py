@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 import math
+import time
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QRect, QSize, Qt, QTimer
@@ -46,15 +47,6 @@ STAT_LABELS = {
     "defense": "DEF",
     "speed": "SPD",
     "brains": "INT",
-}
-DEBUG_FORCE_COMPLETE_STATS_EFFECT = True
-COMPLETE_STATS_MAXIMUMS = {
-    "hp": 99999,
-    "mp": 99999,
-    "offense": 9999,
-    "defense": 9999,
-    "speed": 9999,
-    "brains": 9999,
 }
 PIXEL_GLYPHS = {
     "+": ("000", "010", "111", "010", "000"),
@@ -159,7 +151,7 @@ class PetWidget(QWidget):
         self._state = state
         self._species = species
         self.setToolTip(_stats_tooltip(state, species))
-        self._set_complete_stats_effect(DEBUG_FORCE_COMPLETE_STATS_EFFECT or _has_complete_stats(state))
+        self._set_complete_stats_effect(_auto_clicker_active(state))
         animation = resolve_sprite_animation(state, species, self._manifest)
         if animation != self._animation:
             self._animation = animation
@@ -967,8 +959,9 @@ def _stats_tooltip(state: PetState, species: Species) -> str:
     )
 
 
-def _has_complete_stats(state: PetState) -> bool:
-    return all(int(getattr(state, stat_name)) >= maximum for stat_name, maximum in COMPLETE_STATS_MAXIMUMS.items())
+def _auto_clicker_active(state: PetState) -> bool:
+    expires_at = state.auto_clicker_expires_at
+    return expires_at is not None and int(expires_at) > int(time.time())
 
 
 def _pixel_text_width(text: str, scale: int) -> int:

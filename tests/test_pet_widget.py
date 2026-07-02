@@ -40,10 +40,14 @@ def test_pet_widget_draws_shadow_from_sprite_alpha():
     assert transparent_pixel.alpha() == 0
 
 
-def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
+def test_autoclicker_effect_renders_sparkles_without_center_shine(monkeypatch):
     app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr("digimon_pet.app.pet_widget.time.time", lambda: 1000.0)
     widget = PetWidget()
-    widget.set_pet(PetState("agumon", GrowthStage.ROOKIE), Species("agumon", "Agumon", GrowthStage.ROOKIE))
+    widget.set_pet(
+        PetState("agumon", GrowthStage.ROOKIE, auto_clicker_expires_at=4600),
+        Species("agumon", "Agumon", GrowthStage.ROOKIE),
+    )
     widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
     widget._pixmap.fill(QColor("#2080ff"))
     widget._complete_stats_effect_elapsed_ms = 360
@@ -80,10 +84,47 @@ def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
     assert image.pixelColor(SPRITE_TARGET_RECT.center()) == QColor("#2080ff")
 
 
-def test_complete_stats_effect_loops_without_visual_jump():
+def test_complete_stats_do_not_enable_sparkles_without_autoclicker(monkeypatch):
     app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr("digimon_pet.app.pet_widget.time.time", lambda: 1000.0)
     widget = PetWidget()
-    widget.set_pet(PetState("agumon", GrowthStage.ROOKIE), Species("agumon", "Agumon", GrowthStage.ROOKIE))
+    widget.set_pet(
+        PetState(
+            "agumon",
+            GrowthStage.ROOKIE,
+            hp=99999,
+            mp=99999,
+            offense=9999,
+            defense=9999,
+            speed=9999,
+            brains=9999,
+        ),
+        Species("agumon", "Agumon", GrowthStage.ROOKIE),
+    )
+
+    assert widget._complete_stats_effect_enabled is False
+
+
+def test_expired_autoclicker_does_not_enable_sparkles(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr("digimon_pet.app.pet_widget.time.time", lambda: 5000.0)
+    widget = PetWidget()
+    widget.set_pet(
+        PetState("agumon", GrowthStage.ROOKIE, auto_clicker_expires_at=4600),
+        Species("agumon", "Agumon", GrowthStage.ROOKIE),
+    )
+
+    assert widget._complete_stats_effect_enabled is False
+
+
+def test_autoclicker_effect_loops_without_visual_jump(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr("digimon_pet.app.pet_widget.time.time", lambda: 1000.0)
+    widget = PetWidget()
+    widget.set_pet(
+        PetState("agumon", GrowthStage.ROOKIE, auto_clicker_expires_at=4600),
+        Species("agumon", "Agumon", GrowthStage.ROOKIE),
+    )
     widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
     widget._pixmap.fill(QColor("#2080ff"))
 
