@@ -38,9 +38,9 @@ class RadialArcDirection(Enum):
 
 
 class RadialPetMenu(QWidget):
-    _SIZE = 400
+    _SIZE = 500
     _BUTTON_SIZE = 48
-    _RADIUS = 176
+    _RADIUS = 218
     _ANIMATION_MS = 180
 
     def __init__(
@@ -50,6 +50,7 @@ class RadialPetMenu(QWidget):
         open_network: Callable[[], None],
         open_collection: Callable[[], None],
         open_inventory: Callable[[], None],
+        open_shop: Callable[[], None],
         close_app: Callable[[], None],
         closed: Callable[[], None] | None = None,
         parent: QWidget | None = None,
@@ -70,6 +71,7 @@ class RadialPetMenu(QWidget):
             "stats": open_stats,
             "collection": open_collection,
             "inventory": open_inventory,
+            "shop": open_shop,
             "network": open_network,
             "close": close_app,
         }
@@ -78,6 +80,7 @@ class RadialPetMenu(QWidget):
             ("stats", "Stats"),
             ("collection", "Collection"),
             ("inventory", "Inventory"),
+            ("shop", "Shop"),
             ("network", "Network"),
             ("close", "Close"),
         ):
@@ -224,6 +227,12 @@ def _icon_for(action: str) -> QIcon:
         painter.setBrush(Qt.BrushStyle.NoBrush)
         painter.drawRoundedRect(6, 9, 16, 13, 3, 3)
         painter.drawArc(9, 4, 10, 10, 0, 180 * 16)
+    elif action == "shop":
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        painter.drawRoundedRect(6, 8, 16, 14, 3, 3)
+        painter.drawLine(9, 8, 9, 5)
+        painter.drawLine(19, 8, 19, 5)
+        painter.drawText(10, 20, "B")
     elif action == "close":
         painter.drawLine(8, 8, 20, 20)
         painter.drawLine(20, 8, 8, 20)

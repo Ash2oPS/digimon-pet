@@ -103,6 +103,27 @@ def test_load_item_catalog_contains_food_items_added_from_manager():
         assert item.icon_path == icon_path
 
 
+def test_load_item_catalog_contains_shop_prices():
+    catalog = load_item_catalog()
+
+    expected_prices = {
+        "digimeat": 300,
+        "digifish": 300,
+        "digiweed": 300,
+        "digimushroom": 300,
+        "digiveggie": 300,
+        "digiberry": 300,
+        "digigun": 1000,
+        "digialcohol": 1000,
+        "auto_clicker": 1500,
+    }
+
+    for item_id, price_bits in expected_prices.items():
+        item = catalog.items[item_id]
+        assert item.shop_price_bits == price_bits
+        assert item.suggested_market_price_bits == price_bits
+
+
 def test_load_item_catalog_contains_consumable_effects():
     catalog = load_item_catalog()
 

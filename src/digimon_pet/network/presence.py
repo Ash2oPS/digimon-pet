@@ -21,6 +21,7 @@ REQUEST_TIMEOUT_SECONDS = 2
 
 
 PresencePayload = dict[str, str | int | bool | list[str]]
+MarketListingPayload = dict[str, str | int]
 COMBAT_STAT_KEYS = ("hp", "mp", "offense", "defense", "speed", "brains")
 
 
@@ -33,7 +34,17 @@ class PeerStatus:
     error: str = ""
 
 
+@dataclass(frozen=True)
+class MarketPurchaseResult:
+    ok: bool
+    item_id: str = ""
+    price_bits: int = 0
+    reason: str = ""
+
+
 PeerStatusChangedCallback = Callable[[PeerStatus | None, PeerStatus], None]
+MarketListingsProvider = Callable[[], list[MarketListingPayload]]
+MarketPurchaseHandler = Callable[[str], MarketPurchaseResult]
 
 
 def build_presence_payload(nickname: str, state: PetState, species: Species) -> PresencePayload:
@@ -103,11 +114,15 @@ class PresenceService:
         payload_provider: Callable[[], PresencePayload],
         poll_interval_seconds: int = PEER_POLL_INTERVAL_SECONDS,
         peer_status_changed: PeerStatusChangedCallback | None = None,
+        market_listings_provider: MarketListingsProvider | None = None,
+        market_purchase_handler: MarketPurchaseHandler | None = None,
     ) -> None:
         self._settings = settings
         self._payload_provider = payload_provider
         self._poll_interval_seconds = max(1, int(poll_interval_seconds))
         self._peer_status_changed = peer_status_changed
+        self._market_listings_provider = market_listings_provider
+        self._market_purchase_handler = market_purchase_handler
         self._server: ThreadingHTTPServer | None = None
         self._server_thread: threading.Thread | None = None
         self._poll_thread: threading.Thread | None = None
@@ -171,11 +186,41 @@ class PresenceService:
         for address in self._settings.friends:
             self._poll_peer(address)
 
+    def market_listings_for(self, address: str) -> list[MarketListingPayload]:
+        host, port = parse_friend_address(address)
+        url = f"http://{host}:{port}/market/listings"
+        request = urllib.request.Request(url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            if response.status != 200:
+                raise ValueError(f"HTTP {response.status}")
+            raw = json.loads(response.read().decode("utf-8"))
+        return _market_listings_from_raw(raw)
+
+    def buy_market_listing(self, address: str, listing_id: str) -> MarketPurchaseResult:
+        try:
+            host, port = parse_friend_address(address)
+            url = f"http://{host}:{port}/market/buy"
+            body = json.dumps({"listing_id": str(listing_id)}, separators=(",", ":")).encode("utf-8")
+            request = urllib.request.Request(
+                url,
+                data=body,
+                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+                raw = json.loads(response.read().decode("utf-8"))
+        except (OSError, ValueError, AttributeError, json.JSONDecodeError, urllib.error.URLError) as exc:
+            return MarketPurchaseResult(ok=False, reason=_short_error(exc))
+        return _market_purchase_result_from_raw(raw)
+
     def _start_server(self) -> bool:
         service = self
 
         class PresenceHandler(BaseHTTPRequestHandler):
             def do_GET(self) -> None:  # noqa: N802
+                if self.path == "/market/listings":
+                    service._handle_market_listings(self)
+                    return
                 if self.path != "/presence":
                     self.send_error(404)
                     return
@@ -190,6 +235,12 @@ class PresenceService:
                 self.send_header("Content-Length", str(len(body)))
                 self.end_headers()
                 self.wfile.write(body)
+
+            def do_POST(self) -> None:  # noqa: N802
+                if self.path != "/market/buy":
+                    self.send_error(404)
+                    return
+                service._handle_market_buy(self)
 
             def log_message(self, format: str, *args: Any) -> None:
                 return
@@ -207,6 +258,50 @@ class PresenceService:
         )
         self._server_thread.start()
         return True
+
+    def _handle_market_listings(self, handler: BaseHTTPRequestHandler) -> None:
+        try:
+            listings = self._market_listings_provider() if self._market_listings_provider is not None else []
+            body = json.dumps(
+                {"protocol_version": PROTOCOL_VERSION, "listings": listings},
+                separators=(",", ":"),
+            ).encode("utf-8")
+        except Exception:
+            handler.send_error(500)
+            return
+        handler.send_response(200)
+        handler.send_header("Content-Type", "application/json")
+        handler.send_header("Content-Length", str(len(body)))
+        handler.end_headers()
+        handler.wfile.write(body)
+
+    def _handle_market_buy(self, handler: BaseHTTPRequestHandler) -> None:
+        if self._market_purchase_handler is None:
+            handler.send_error(404)
+            return
+        try:
+            length = int(handler.headers.get("Content-Length", "0"))
+            raw = json.loads(handler.rfile.read(length).decode("utf-8"))
+            listing_id = str(raw["listing_id"])
+            result = self._market_purchase_handler(listing_id)
+            body = json.dumps(
+                {
+                    "protocol_version": PROTOCOL_VERSION,
+                    "ok": result.ok,
+                    "item_id": result.item_id,
+                    "price_bits": result.price_bits,
+                    "reason": result.reason,
+                },
+                separators=(",", ":"),
+            ).encode("utf-8")
+        except Exception:
+            handler.send_error(400)
+            return
+        handler.send_response(200)
+        handler.send_header("Content-Type", "application/json")
+        handler.send_header("Content-Length", str(len(body)))
+        handler.end_headers()
+        handler.wfile.write(body)
 
     def _poll_loop(self) -> None:
         self.poll_once()
@@ -268,6 +363,49 @@ def _presence_payload_from_raw(raw: Any) -> PresencePayload:
     if not payload["trainer_nickname"] or not payload["species_id"] or not payload["digimon_name"]:
         raise ValueError("Presence response is incomplete.")
     return payload
+
+
+def _market_listings_from_raw(raw: Any) -> list[MarketListingPayload]:
+    if not isinstance(raw, dict):
+        raise ValueError("Market response must be an object.")
+    if int(raw.get("protocol_version", 0)) != PROTOCOL_VERSION:
+        raise ValueError("Unsupported protocol version.")
+    raw_listings = raw.get("listings", [])
+    if not isinstance(raw_listings, list):
+        raise ValueError("Market listings must be a list.")
+    listings: list[MarketListingPayload] = []
+    for item in raw_listings:
+        if not isinstance(item, dict):
+            continue
+        listing_id = str(item.get("listing_id", "")).strip()
+        item_id = str(item.get("item_id", "")).strip()
+        item_name = str(item.get("item_name", "")).strip()
+        trainer_name = str(item.get("trainer_name", "")).strip()
+        price_bits = int(item.get("price_bits", 0))
+        if listing_id and item_id and item_name and trainer_name and price_bits > 0:
+            listings.append(
+                {
+                    "listing_id": listing_id,
+                    "item_id": item_id,
+                    "item_name": item_name,
+                    "trainer_name": trainer_name,
+                    "price_bits": price_bits,
+                }
+            )
+    return listings
+
+
+def _market_purchase_result_from_raw(raw: Any) -> MarketPurchaseResult:
+    if not isinstance(raw, dict):
+        raise ValueError("Market purchase response must be an object.")
+    if int(raw.get("protocol_version", 0)) != PROTOCOL_VERSION:
+        raise ValueError("Unsupported protocol version.")
+    return MarketPurchaseResult(
+        ok=bool(raw.get("ok", False)),
+        item_id=str(raw.get("item_id", "")),
+        price_bits=max(0, int(raw.get("price_bits", 0))),
+        reason=str(raw.get("reason", "")),
+    )
 
 
 def _current_generation_species_ids_from_raw(raw: Any, current_species_id: str) -> list[str]:

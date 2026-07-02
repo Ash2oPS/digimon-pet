@@ -31,6 +31,7 @@ from digimon_pet.app.item_manager_window import ItemManagerWindow
 from digimon_pet.app.network_window import NetworkWindow
 from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, PetWidget
 from digimon_pet.app.radial_menu import RadialPetMenu
+from digimon_pet.app.shop_window import FriendMarketListing, ShopWindow
 from digimon_pet.app.sprite_frames import sprite_frame_rect
 from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifest, resolve_sprite_animation
 from digimon_pet.app.stats_window import StatsWindow
@@ -39,6 +40,13 @@ from digimon_pet.app.window_positioning import offset_window_position
 from digimon_pet.data import load_dw1_digivolutions, load_fusion_catalog, load_item_catalog, load_species
 from digimon_pet.domain import battle, clean, feed, scold, sleep, train, wake
 from digimon_pet.domain.care import apply_tick
+from digimon_pet.domain.economy import (
+    award_bits,
+    buy_shop_item,
+    cancel_market_listing,
+    create_market_listing,
+    sell_market_listing,
+)
 from digimon_pet.domain.evolution_intel import reveal_random_evolution_clue
 from digimon_pet.domain.fusions import find_fusion_target
 from digimon_pet.domain.items import INCUBATOR_ID, ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
@@ -60,7 +68,14 @@ from digimon_pet.domain.lifecycle import (
     rebirth_stat_preview,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
-from digimon_pet.network.presence import PeerStatus, PresencePayload, PresenceService, build_presence_payload
+from digimon_pet.network.presence import (
+    MarketListingPayload,
+    MarketPurchaseResult,
+    PeerStatus,
+    PresencePayload,
+    PresenceService,
+    build_presence_payload,
+)
 from digimon_pet.paths import PROJECT_ROOT
 from digimon_pet.storage import debug_settings
 from digimon_pet.storage.network_settings import (
@@ -85,6 +100,8 @@ SECONDARY_EVENT_ACTIONS = {
 SECONDARY_EVENT_ITEM_CHANCE_ROLL = 1
 SECONDARY_EVENT_ITEM_CHANCE_SIDES = 3
 SECONDARY_EVENT_ITEM_POOL = "secondary_event"
+SECONDARY_EVENT_MIN_BITS = 50
+SECONDARY_EVENT_MAX_BITS = 120
 SAVE_DEBOUNCE_MS = 30_000
 ACTION_ANIMATION_HOLD_TICKS = 2
 AUTO_SECONDARY_EVENT_ACTION_HOLD_TICKS = 5
@@ -182,6 +199,21 @@ def _inventory_unavailable_reason(item, reason: str | None, species: dict[str, S
         "invalid_effect": "Invalid effect.",
         "lifecycle_too_soon": "Requires more than 1 minute remaining.",
     }.get(reason, "Item unavailable.")
+
+
+def _economy_reason_text(reason: str | None) -> str:
+    return {
+        "invalid_amount": "Invalid Bits amount.",
+        "invalid_quantity": "Invalid quantity.",
+        "item_not_sold": "This item is not sold here.",
+        "insufficient_bits": "Not enough Bits.",
+        "unknown_item": "Unknown item.",
+        "invalid_listing_price": "Price must be at least 1 Bit.",
+        "missing_inventory_item": "You do not own that item.",
+        "listing_not_found": "Listing not found.",
+        "seller_offline": "Seller is offline.",
+        "seller_rejected_purchase": "Seller rejected the purchase.",
+    }.get(reason or "", reason or "Action failed.")
 
 
 def _baby_choice_pixmap(species: Species, manifest: dict, discovered: bool) -> QPixmap:
@@ -580,6 +612,7 @@ class PetWindow(QWidget):
         self._inventory_window: InventoryWindow | None = None
         self._item_manager_window: ItemManagerWindow | None = None
         self._network_window: NetworkWindow | None = None
+        self._shop_window: ShopWindow | None = None
         self._radial_menu: RadialPetMenu | None = None
         self._resume_move_after_radial_menu = False
         self._network_settings = load_network_settings()
@@ -590,6 +623,8 @@ class PetWindow(QWidget):
             settings=self._network_settings,
             payload_provider=self._presence_payload,
             peer_status_changed=self._network_notification_bridge.handle_peer_status_changed,
+            market_listings_provider=self._market_listing_payloads,
+            market_purchase_handler=self._sell_market_listing_to_friend,
         )
         if self._network_settings.network_enabled and self._network_settings.trainer_nickname:
             self._presence_service.start()
@@ -664,6 +699,7 @@ class PetWindow(QWidget):
                 open_network=self._open_network_window,
                 open_collection=self._open_collection,
                 open_inventory=self._open_inventory,
+                open_shop=self._open_shop_window,
                 close_app=QApplication.quit,
                 closed=self._radial_menu_closed,
                 parent=None,
@@ -1255,6 +1291,7 @@ class PetWindow(QWidget):
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
             gains[stat_name] = increment
         item_gain = self._grant_secondary_event_item() if self._secondary_event_kind == SECONDARY_EVENT_ITEM_KIND else None
+        award_bits(self._state, self._rng.randint(SECONDARY_EVENT_MIN_BITS, SECONDARY_EVENT_MAX_BITS))
         reveal_random_evolution_clue(self._state, self._digivolutions, self._rng)
         self._state.clamp()
         item_gain_definition = self._item_catalog.items[item_gain] if item_gain is not None else None
@@ -1397,6 +1434,8 @@ class PetWindow(QWidget):
             self._stats_window.refresh(self._state, species)
         if self._inventory_window is not None and self._inventory_window.isVisible():
             self._refresh_inventory_window()
+        if self._shop_window is not None and self._shop_window.isVisible():
+            self._refresh_shop_window()
 
     def _set_lifecycle_schedule(self, schedule: EvolutionSchedule) -> None:
         self._lifecycle_schedule = schedule
@@ -1485,6 +1524,21 @@ class PetWindow(QWidget):
         self._inventory_window.raise_()
         self._inventory_window.activateWindow()
 
+    def _open_shop_window(self) -> None:
+        if self._shop_window is None:
+            self._shop_window = ShopWindow(
+                buy_shop_item=self._buy_shop_item,
+                create_listing=self._create_shop_listing,
+                cancel_listing=self._cancel_shop_listing,
+                buy_friend_listing=self._buy_friend_listing,
+                parent=self,
+            )
+        self._refresh_shop_window()
+        self._position_secondary_window(self._shop_window)
+        self._shop_window.show()
+        self._shop_window.raise_()
+        self._shop_window.activateWindow()
+
     def _open_item_manager(self) -> None:
         if not self._debug:
             return
@@ -1518,6 +1572,129 @@ class PetWindow(QWidget):
         self._network_window.show()
         self._network_window.raise_()
         self._network_window.activateWindow()
+
+    def _buy_shop_item(self, item_id: str) -> None:
+        item = self._item_catalog.items.get(item_id)
+        if item is None:
+            self._set_shop_status("Unknown item.")
+            return
+        result = buy_shop_item(self._state, item)
+        if not result.ok:
+            self._set_shop_status(_economy_reason_text(result.reason))
+            return
+        self._set_shop_status(f"Bought {item.name}.")
+        self._save_and_refresh()
+
+    def _create_shop_listing(self, item_id: str, price_bits: int) -> None:
+        item = self._item_catalog.items.get(item_id)
+        result = create_market_listing(self._state, item_id, price_bits)
+        if not result.ok:
+            self._set_shop_status(_economy_reason_text(result.reason))
+            return
+        name = item.name if item is not None else item_id
+        self._set_shop_status(f"Listed {name}.")
+        self._save_and_refresh()
+
+    def _cancel_shop_listing(self, listing_id: str) -> None:
+        result = cancel_market_listing(self._state, listing_id)
+        if not result.ok:
+            self._set_shop_status(_economy_reason_text(result.reason))
+            return
+        self._set_shop_status("Listing cancelled.")
+        self._save_and_refresh()
+
+    def _buy_friend_listing(self, address: str, listing_id: str) -> None:
+        listing = next(
+            (
+                item for item in self._friend_market_listings()
+                if item.address == address and item.listing_id == listing_id
+            ),
+            None,
+        )
+        if listing is None:
+            self._set_shop_status("Listing not found.")
+            return
+        if self._state.bits < listing.price_bits:
+            self._set_shop_status("Not enough Bits.")
+            return
+        result = self._presence_service.buy_market_listing(address, listing_id)
+        if not result.ok:
+            self._set_shop_status(_economy_reason_text(result.reason or "seller_rejected_purchase"))
+            return
+        item_id = result.item_id or listing.item_id
+        price_bits = result.price_bits or listing.price_bits
+        self._state.bits -= price_bits
+        self._state.inventory[item_id] = self._state.inventory.get(item_id, 0) + 1
+        self._state.clamp()
+        item = self._item_catalog.items.get(item_id)
+        self._set_shop_status(f"Bought {item.name if item else item_id} from {listing.trainer_name}.")
+        self._save_and_refresh()
+
+    def _set_shop_status(self, text: str) -> None:
+        if self._shop_window is not None:
+            self._shop_window.set_status(text)
+
+    def _refresh_shop_window(self) -> None:
+        if self._shop_window is None:
+            return
+        self._shop_window.set_data(
+            bits=self._state.bits,
+            catalog=self._item_catalog,
+            inventory=self._state.inventory,
+            listings=self._state.market_listings,
+            friend_listings=self._friend_market_listings(),
+        )
+
+    def _friend_market_listings(self) -> list[FriendMarketListing]:
+        listings: list[FriendMarketListing] = []
+        for status in self._presence_service.peer_statuses():
+            if not status.online:
+                continue
+            try:
+                for payload in self._presence_service.market_listings_for(status.address):
+                    listings.append(
+                        FriendMarketListing(
+                            address=status.address,
+                            trainer_name=str(payload["trainer_name"]),
+                            listing_id=str(payload["listing_id"]),
+                            item_id=str(payload["item_id"]),
+                            item_name=str(payload["item_name"]),
+                            price_bits=int(payload["price_bits"]),
+                            online=True,
+                        )
+                    )
+            except (OSError, ValueError):
+                continue
+        return listings
+
+    def _market_listing_payloads(self) -> list[MarketListingPayload]:
+        payloads: list[MarketListingPayload] = []
+        trainer_name = self._network_settings.trainer_nickname or "Trainer"
+        for listing in self._state.market_listings:
+            item = self._item_catalog.items.get(listing.item_id)
+            if item is None:
+                continue
+            payloads.append(
+                {
+                    "listing_id": listing.id,
+                    "item_id": item.id,
+                    "item_name": item.name,
+                    "trainer_name": trainer_name,
+                    "price_bits": listing.price_bits,
+                }
+            )
+        return payloads
+
+    def _sell_market_listing_to_friend(self, listing_id: str) -> MarketPurchaseResult:
+        result = sell_market_listing(self._state, listing_id)
+        if not result.ok or result.listing is None:
+            return MarketPurchaseResult(ok=False, reason=result.reason or "listing_not_found")
+        save_pet_state(self._state)
+        return MarketPurchaseResult(
+            ok=True,
+            item_id=result.listing.item_id,
+            price_bits=result.listing.price_bits,
+        )
 
     def _ensure_trainer_nickname(self) -> None:
         if self._trainer_nickname_prompted or self._network_settings.trainer_nickname:

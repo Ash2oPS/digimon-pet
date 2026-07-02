@@ -579,3 +579,27 @@ def test_item_catalog_keeps_inventory_category_optional_for_old_data():
     )
 
     assert catalog.items["digimeat"].inventory_category is None
+
+
+def test_item_catalog_serializes_shop_price_fields():
+    catalog = ItemCatalog(
+        items={
+            "digimeat": ItemDefinition(
+                id="digimeat",
+                name="DigiMeat",
+                description="Increases OFF by 25.",
+                type=ItemType.CONSUMABLE,
+                shop_price_bits=300,
+                suggested_market_price_bits=300,
+            )
+        },
+        pools={},
+    )
+
+    raw = item_catalog_to_dict(catalog)
+    loaded = item_catalog_from_dict(raw)
+
+    assert raw["items"][0]["shop_price_bits"] == 300
+    assert raw["items"][0]["suggested_market_price_bits"] == 300
+    assert loaded.items["digimeat"].shop_price_bits == 300
+    assert loaded.items["digimeat"].suggested_market_price_bits == 300

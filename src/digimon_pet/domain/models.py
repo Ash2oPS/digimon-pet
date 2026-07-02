@@ -35,6 +35,14 @@ class FilledIncubatorState:
     brains: int = 30
 
 
+@dataclass(frozen=True)
+class MarketListingState:
+    id: str
+    item_id: str
+    price_bits: int
+    created_at: int
+
+
 @dataclass
 class PetState:
     species_id: str
@@ -69,6 +77,8 @@ class PetState:
     bakemon_generation_cooldown: int = 0
     evolution_condition_discoveries: dict[str, list[str]] = field(default_factory=dict)
     inventory: dict[str, int] = field(default_factory=dict)
+    bits: int = 100
+    market_listings: list[MarketListingState] = field(default_factory=list)
     filled_incubators: list[FilledIncubatorState] = field(default_factory=list)
     secondary_event_kind: str | None = None
     secondary_event_ttl_seconds: int = 0
@@ -114,6 +124,8 @@ class PetState:
             self.evolution_condition_discoveries
         )
         self.inventory = _clean_inventory(self.inventory)
+        self.bits = max(0, int(self.bits))
+        self.market_listings = _clean_market_listings(self.market_listings)
         self.filled_incubators = _clean_filled_incubators(self.filled_incubators)
         self.secondary_event_kind = _clean_secondary_event_kind(self.secondary_event_kind)
         self.secondary_event_ttl_seconds = max(0, int(self.secondary_event_ttl_seconds))
@@ -194,6 +206,27 @@ def _clean_inventory(inventory: dict[str, int]) -> dict[str, int]:
         for item_id, quantity in inventory.items()
         if str(item_id).strip() and int(quantity) > 0
     }
+
+
+def _clean_market_listings(listings: list[MarketListingState]) -> list[MarketListingState]:
+    cleaned: list[MarketListingState] = []
+    seen_ids: set[str] = set()
+    for listing in listings:
+        listing_id = str(listing.id).strip()
+        item_id = str(listing.item_id).strip()
+        price_bits = int(listing.price_bits)
+        if not listing_id or not item_id or listing_id in seen_ids or price_bits < 1:
+            continue
+        cleaned.append(
+            MarketListingState(
+                id=listing_id,
+                item_id=item_id,
+                price_bits=price_bits,
+                created_at=max(0, int(listing.created_at)),
+            )
+        )
+        seen_ids.add(listing_id)
+    return cleaned
 
 
 def _clean_filled_incubators(incubators: list[FilledIncubatorState]) -> list[FilledIncubatorState]:

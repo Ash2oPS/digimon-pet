@@ -1126,6 +1126,7 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
 
     assert window._state.hp == 400
     assert window._state.offense == 40
+    assert window._state.bits == 150
     assert len(window._state.evolution_condition_discoveries) == 1
     transition_id, clues = next(iter(window._state.evolution_condition_discoveries.items()))
     assert transition_id
@@ -1817,6 +1818,7 @@ def test_radial_menu_shows_stats_network_collection_inventory_and_close():
         "Stats",
         "Collection",
         "Inventory",
+        "Shop",
         "Network",
         "Close",
     ]
@@ -1844,6 +1846,7 @@ def test_radial_menu_keeps_same_pet_actions_in_debug():
         "Stats",
         "Collection",
         "Inventory",
+        "Shop",
         "Network",
         "Close",
     ]
@@ -1960,6 +1963,21 @@ def test_inventory_button_closes_menu_without_opening_panel():
 
     menu.button_for_action("inventory").click()
 
+    assert not menu.isVisible()
+
+
+def test_shop_button_opens_shop_window_and_closes_menu(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=False)
+    opened = []
+    monkeypatch.setattr(window, "_open_shop_window", lambda: opened.append("shop"))
+    menu = window._ensure_radial_menu()
+    menu.show()
+
+    menu.button_for_action("shop").click()
+
+    assert opened == ["shop"]
     assert not menu.isVisible()
 
 

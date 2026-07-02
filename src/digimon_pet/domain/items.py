@@ -67,6 +67,8 @@ class ItemDefinition:
     icon_path: str | None = None
     evolution: EvolutionItemEffect | None = None
     effects: tuple[ItemEffect, ...] = ()
+    shop_price_bits: int | None = None
+    suggested_market_price_bits: int | None = None
 
 
 @dataclass(frozen=True)
@@ -478,6 +480,8 @@ def _item_from_dict(raw: dict[str, Any]) -> ItemDefinition:
         icon_path=_optional_str(raw.get("icon_path")),
         evolution=_evolution_effect_from_dict(evolution) if evolution else None,
         effects=tuple(_item_effect_from_dict(effect) for effect in raw.get("effects", ())),
+        shop_price_bits=_optional_positive_int(raw.get("shop_price_bits")),
+        suggested_market_price_bits=_optional_positive_int(raw.get("suggested_market_price_bits")),
     )
 
 
@@ -516,6 +520,10 @@ def _item_to_dict(item: ItemDefinition) -> dict[str, Any]:
         raw["evolution"] = _evolution_effect_to_dict(item.evolution)
     if item.effects:
         raw["effects"] = [_item_effect_to_dict(effect) for effect in item.effects]
+    if item.shop_price_bits is not None:
+        raw["shop_price_bits"] = item.shop_price_bits
+    if item.suggested_market_price_bits is not None:
+        raw["suggested_market_price_bits"] = item.suggested_market_price_bits
     return raw
 
 
@@ -544,6 +552,13 @@ def _optional_str(value: Any) -> str | None:
     if value is None:
         return None
     return str(value)
+
+
+def _optional_positive_int(value: Any) -> int | None:
+    if value is None:
+        return None
+    parsed = int(value)
+    return parsed if parsed > 0 else None
 
 
 def _optional_inventory_category(value: Any) -> InventoryCategory | None:

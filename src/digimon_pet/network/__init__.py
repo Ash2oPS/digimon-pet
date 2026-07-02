@@ -1,6 +1,8 @@
 from digimon_pet.network.presence import (
     PEER_POLL_INTERVAL_SECONDS,
     PROTOCOL_VERSION,
+    MarketListingPayload,
+    MarketPurchaseResult,
     PeerStatus,
     PresencePayload,
     PresenceService,
@@ -12,6 +14,8 @@ from digimon_pet.network.presence import (
 __all__ = [
     "PEER_POLL_INTERVAL_SECONDS",
     "PROTOCOL_VERSION",
+    "MarketListingPayload",
+    "MarketPurchaseResult",
     "PeerStatus",
     "PresencePayload",
     "PresenceService",

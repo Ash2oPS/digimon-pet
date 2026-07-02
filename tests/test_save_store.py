@@ -1,4 +1,4 @@
-from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, MarketListingState, PetState
 from digimon_pet.storage import save_store
 from digimon_pet.storage import load_pet_state, save_pet_state
 
@@ -240,6 +240,79 @@ def test_load_legacy_save_defaults_to_no_filled_incubators(tmp_path):
     loaded = load_pet_state(path)
 
     assert loaded.filled_incubators == []
+
+
+def test_load_legacy_save_defaults_economy_fields(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie"
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.bits == 100
+    assert loaded.market_listings == []
+
+
+def test_save_load_persists_economy_fields(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        bits=725,
+        market_listings=[
+            MarketListingState(
+                id="listing-1",
+                item_id="digimeat",
+                price_bits=350,
+                created_at=12345,
+            )
+        ],
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.bits == 725
+    assert loaded.market_listings == [
+        MarketListingState(
+            id="listing-1",
+            item_id="digimeat",
+            price_bits=350,
+            created_at=12345,
+        )
+    ]
+
+
+def test_load_cleans_invalid_economy_values(tmp_path):
+    path = tmp_path / "pet_save.json"
+    path.write_text(
+        """
+{
+  "species_id": "agumon",
+  "stage": "rookie",
+  "bits": -50,
+  "market_listings": [
+    {"id": "free", "item_id": "digimeat", "price_bits": 0, "created_at": 1},
+    {"id": "valid", "item_id": "digifish", "price_bits": 25, "created_at": -2}
+  ]
+}
+""".strip(),
+        encoding="utf-8",
+    )
+
+    loaded = load_pet_state(path)
+
+    assert loaded.bits == 0
+    assert loaded.market_listings == [
+        MarketListingState(id="valid", item_id="digifish", price_bits=25, created_at=0)
+    ]
 
 
 def test_save_load_persists_filled_incubators(tmp_path):

@@ -9,7 +9,7 @@ from typing import Any
 from cryptography.fernet import Fernet, InvalidToken
 
 from digimon_pet.data.loaders import load_species
-from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState
+from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, MarketListingState, PetState
 from digimon_pet.paths import DATA_DIR, DEBUG_SAVE_PATH, LEGACY_SAVE_PATH, SAVE_PATH as NORMAL_SAVE_PATH, ensure_save_dir
 
 SAVE_PATH = NORMAL_SAVE_PATH
@@ -100,6 +100,8 @@ def _state_to_payload(state: PetState) -> dict[str, Any]:
         "bakemon_generation_cooldown": state.bakemon_generation_cooldown,
         "evolution_condition_discoveries": dict(state.evolution_condition_discoveries),
         "inventory": dict(state.inventory),
+        "bits": state.bits,
+        "market_listings": [_market_listing_to_dict(item) for item in state.market_listings],
         "filled_incubators": [_filled_incubator_to_dict(item) for item in state.filled_incubators],
         "secondary_event_kind": state.secondary_event_kind,
         "secondary_event_ttl_seconds": state.secondary_event_ttl_seconds,
@@ -210,6 +212,8 @@ def _state_from_dict(raw: dict[str, Any]) -> PetState:
             raw.get("evolution_condition_discoveries")
         ),
         inventory=_inventory_from_raw(raw.get("inventory")),
+        bits=int(raw.get("bits", 100)),
+        market_listings=_market_listings_from_raw(raw.get("market_listings")),
         filled_incubators=_filled_incubators_from_raw(raw.get("filled_incubators")),
         secondary_event_kind=_secondary_event_kind_from_raw(raw.get("secondary_event_kind")),
         secondary_event_ttl_seconds=int(raw.get("secondary_event_ttl_seconds", 0)),
@@ -329,6 +333,36 @@ def _filled_incubators_from_raw(raw: Any) -> list[FilledIncubatorState]:
         except (KeyError, TypeError, ValueError):
             continue
     return incubators
+
+
+def _market_listings_from_raw(raw: Any) -> list[MarketListingState]:
+    if not isinstance(raw, list):
+        return []
+    listings: list[MarketListingState] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        try:
+            listings.append(
+                MarketListingState(
+                    id=str(item["id"]),
+                    item_id=str(item["item_id"]),
+                    price_bits=int(item["price_bits"]),
+                    created_at=int(item.get("created_at", 0)),
+                )
+            )
+        except (KeyError, TypeError, ValueError):
+            continue
+    return listings
+
+
+def _market_listing_to_dict(item: MarketListingState) -> dict[str, Any]:
+    return {
+        "id": item.id,
+        "item_id": item.item_id,
+        "price_bits": item.price_bits,
+        "created_at": item.created_at,
+    }
 
 
 def _filled_incubator_to_dict(item: FilledIncubatorState) -> dict[str, Any]:

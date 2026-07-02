@@ -37,6 +37,8 @@
       "type": "consumable",
       "inventory_category": "special",
       "icon_path": "assets/items/gun.png",
+      "shop_price_bits": 1000,
+      "suggested_market_price_bits": 1000,
       "effects": [
         {
           "type": "instant_death"
@@ -50,6 +52,8 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/meat-icon.png",
+      "shop_price_bits": 300,
+      "suggested_market_price_bits": 300,
       "effects": [
         {
           "type": "stat_delta",
@@ -65,6 +69,8 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/digimushrm-icon.png",
+      "shop_price_bits": 300,
+      "suggested_market_price_bits": 300,
       "effects": [
         {
           "type": "stat_delta",
@@ -80,6 +86,8 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/digianchovy-icon.png",
+      "shop_price_bits": 300,
+      "suggested_market_price_bits": 300,
       "effects": [
         {
           "type": "stat_delta",
@@ -95,6 +103,8 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/big-berry-icon.png",
+      "shop_price_bits": 300,
+      "suggested_market_price_bits": 300,
       "effects": [
         {
           "type": "stat_delta",
@@ -110,6 +120,8 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/super-veggy-icon.png",
+      "shop_price_bits": 300,
+      "suggested_market_price_bits": 300,
       "effects": [
         {
           "type": "stat_delta",
@@ -125,6 +137,8 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/spiny-green-icon.png",
+      "shop_price_bits": 300,
+      "suggested_market_price_bits": 300,
       "effects": [
         {
           "type": "stat_delta",
@@ -308,6 +322,8 @@
       "type": "consumable",
       "inventory_category": "special",
       "icon_path": "assets/items/beer.png",
+      "shop_price_bits": 1000,
+      "suggested_market_price_bits": 1000,
       "effects": [
         {
           "type": "halve_lifecycle_remaining"
@@ -494,6 +510,8 @@
       "type": "consumable",
       "inventory_category": "special",
       "icon_path": "assets/items/autoclicker.png",
+      "shop_price_bits": 1500,
+      "suggested_market_price_bits": 1500,
       "effects": [
         {
           "type": "auto_secondary_events",
