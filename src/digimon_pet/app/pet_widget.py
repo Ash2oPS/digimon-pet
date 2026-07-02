@@ -475,7 +475,7 @@ class PetWidget(QWidget):
             x = round(center.x() + math.cos(angle) * distance)
             y = round(center.y() + math.sin(angle) * distance * 0.82)
             twinkle = 0.5 + 0.5 * math.sin(phase * math.tau * 2 + index)
-            alpha = 4
+            alpha = 6
             radius = 1 + round(2 * twinkle)
             color = QColor(255, 238, 128, alpha)
             painter.setBrush(color)
