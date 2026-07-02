@@ -124,6 +124,39 @@ def test_load_item_catalog_contains_shop_prices():
         assert item.suggested_market_price_bits == price_bits
 
 
+def test_load_item_catalog_contains_theoretical_prices_for_all_items():
+    catalog = load_item_catalog()
+
+    expected_prices = {
+        "monzaemon_head": 1800,
+        "golden_poop": 900,
+        "sunglasses": 900,
+        "fatal_bone": 1800,
+        "black_wings": 900,
+        "green_thing": 2500,
+        "golden_banana": 1800,
+        "grey_claws": 900,
+        "metal_parts": 1800,
+        "incubator": 2000,
+        "red_cape": 3000,
+        "metal_banana": 3000,
+        "black_wings_for_ladies": 1800,
+        "my_digibigburger": 900,
+        "off_chip": 900,
+        "def_chip": 900,
+        "spd_chip": 900,
+        "int_chip": 900,
+        "hp_chip": 900,
+        "mp_chip": 900,
+        "omni_chip": 3000,
+        "mega_chip": 2500,
+        "disgusting_tongue": 900,
+    }
+
+    for item_id, price_bits in expected_prices.items():
+        assert catalog.items[item_id].suggested_market_price_bits == price_bits
+
+
 def test_load_item_catalog_contains_consumable_effects():
     catalog = load_item_catalog()
 

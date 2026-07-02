@@ -17,6 +17,7 @@ def _catalog() -> ItemCatalog:
                 name="Black Wings",
                 description="Makes Angemon digivolve into Devimon.",
                 type=ItemType.EVOLUTION,
+                suggested_market_price_bits=900,
             ),
             "digimeat": ItemDefinition(
                 id="digimeat",
@@ -42,6 +43,7 @@ def _catalog() -> ItemCatalog:
 def _window(calls: list[tuple]) -> ShopWindow:
     return ShopWindow(
         buy_shop_item=lambda item_id: calls.append(("buy", item_id)),
+        sell_shop_item=lambda item_id: calls.append(("sell", item_id)),
         create_listing=lambda item_id, price: calls.append(("list", item_id, price)),
         cancel_listing=lambda listing_id: calls.append(("cancel", listing_id)),
         buy_friend_listing=lambda address, listing_id: calls.append(("friend", address, listing_id)),
@@ -55,15 +57,43 @@ def test_shop_window_renders_shop_items_and_disables_unaffordable_buy():
 
     window.set_data(bits=300, catalog=_catalog(), inventory={}, listings=[], friend_listings=[])
 
-    assert window._shop_table.rowCount() == 2
+    assert window._shop_table.rowCount() == 3
     assert window._shop_table.item(0, 0).text() == "DigiMeat"
-    assert window._shop_table.item(1, 0).text() == "Auto Clicker"
+    assert window._shop_table.item(2, 0).text() == "Auto Clicker"
     assert window._shop_table.cellWidget(0, 3).isEnabled() is True
-    assert window._shop_table.cellWidget(1, 3).isEnabled() is False
+    assert window._shop_table.cellWidget(2, 3).isEnabled() is False
 
     window._shop_table.cellWidget(0, 3).click()
 
     assert calls == [("buy", "digimeat")]
+
+
+def test_shop_window_sells_owned_items_for_one_third_value():
+    app = QApplication.instance() or QApplication([])
+    calls = []
+    window = _window(calls)
+
+    window.set_data(
+        bits=300,
+        catalog=_catalog(),
+        inventory={"black_wings": 1},
+        listings=[],
+        friend_listings=[],
+    )
+
+    assert window._shop_table.rowCount() == 3
+    assert window._shop_table.item(0, 0).text() == "DigiMeat"
+    assert window._shop_table.item(2, 0).text() == "Auto Clicker"
+    black_wings_row = 1
+    assert window._shop_table.item(black_wings_row, 0).text() == "Black Wings"
+    assert window._shop_table.item(black_wings_row, 1).text() == "900 Bits"
+    assert window._shop_table.item(black_wings_row, 4).text() == "300 Bits"
+    assert window._shop_table.cellWidget(black_wings_row, 3).isEnabled() is False
+    assert window._shop_table.cellWidget(black_wings_row, 5).isEnabled() is True
+
+    window._shop_table.cellWidget(black_wings_row, 5).click()
+
+    assert calls == [("sell", "black_wings")]
 
 
 def test_shop_window_uses_separate_listing_form_instead_of_inline_table_controls():
@@ -80,7 +110,7 @@ def test_shop_window_uses_separate_listing_form_instead_of_inline_table_controls
     )
     assert window._inventory_table.columnCount() == 3
     assert window._inventory_table.cellWidget(0, 2) is None
-    assert window._inventory_table.item(0, 2).text() == "No suggestion"
+    assert window._inventory_table.item(0, 2).text() == "900 Bits"
 
     window._inventory_table.selectRow(1)
     window._listing_price_input.setValue(425)

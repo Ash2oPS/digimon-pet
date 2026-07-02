@@ -4,6 +4,7 @@ from digimon_pet.domain.economy import (
     cancel_market_listing,
     create_market_listing,
     sell_market_listing,
+    sell_inventory_item,
 )
 from digimon_pet.domain.items import ItemDefinition, ItemType
 from digimon_pet.domain.models import GrowthStage, MarketListingState, PetState
@@ -73,6 +74,62 @@ def test_buy_shop_item_rejects_item_without_shop_price():
     assert result.reason == "item_not_sold"
     assert state.bits == 999
     assert state.inventory == {}
+
+
+def test_sell_inventory_item_credits_one_third_of_theoretical_price_and_removes_item():
+    item = ItemDefinition(
+        id="black_wings",
+        name="Black Wings",
+        description="Makes Angemon digivolve into Devimon.",
+        type=ItemType.EVOLUTION,
+        suggested_market_price_bits=900,
+    )
+    state = _state(bits=100, inventory={"black_wings": 2})
+
+    result = sell_inventory_item(state, item)
+
+    assert result.ok is True
+    assert result.item_id == "black_wings"
+    assert state.bits == 400
+    assert state.inventory == {"black_wings": 1}
+
+
+def test_sell_inventory_item_uses_shop_price_when_no_suggested_price_exists():
+    item = _shop_item(300)
+    state = _state(bits=100, inventory={"digimeat": 1})
+
+    result = sell_inventory_item(state, item)
+
+    assert result.ok is True
+    assert state.bits == 200
+    assert state.inventory == {}
+
+
+def test_sell_inventory_item_rejects_missing_inventory_or_unpriced_item_without_mutation():
+    unpriced = ItemDefinition(
+        id="incubator",
+        name="Incubator",
+        description="Incubates your Digimon.",
+        type=ItemType.MISC,
+    )
+    missing_item = ItemDefinition(
+        id="auto_clicker",
+        name="Auto Clicker",
+        description="Auto triggers Secondary Events for 1h.",
+        type=ItemType.CONSUMABLE,
+        suggested_market_price_bits=1500,
+    )
+    state = _state(bits=100, inventory={"digimeat": 1})
+
+    missing = sell_inventory_item(state, missing_item)
+    no_price = sell_inventory_item(state, unpriced)
+
+    assert missing.ok is False
+    assert missing.reason == "missing_inventory_item"
+    assert no_price.ok is False
+    assert no_price.reason == "item_not_valued"
+    assert state.bits == 100
+    assert state.inventory == {"digimeat": 1}
 
 
 def test_create_market_listing_removes_inventory_and_saves_listing():

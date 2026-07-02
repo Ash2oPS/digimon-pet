@@ -7,6 +7,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/monzaemon_head.png",
+      "suggested_market_price_bits": 1800,
       "evolution": {
         "target_species_id": "monzaemon",
         "required_species_ids": [
@@ -22,6 +23,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/golden_poop.png",
+      "suggested_market_price_bits": 900,
       "evolution": {
         "target_species_id": "sukamon",
         "required_species_ids": [],
@@ -154,6 +156,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/sunglasses-icon.png",
+      "suggested_market_price_bits": 900,
       "evolution": {
         "target_species_id": "nanimon",
         "required_species_ids": [],
@@ -169,6 +172,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/fatal-bone-icon.png",
+      "suggested_market_price_bits": 1800,
       "evolution": {
         "target_species_id": "skullgreymon",
         "required_species_ids": [
@@ -184,6 +188,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/black-wing-icon.png",
+      "suggested_market_price_bits": 900,
       "evolution": {
         "target_species_id": "devimon",
         "required_species_ids": [
@@ -199,6 +204,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/chain-melon-icon.png",
+      "suggested_market_price_bits": 2500,
       "effects": [
         {
           "type": "stat_delta",
@@ -239,6 +245,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/gold-banana-icon.png",
+      "suggested_market_price_bits": 1800,
       "evolution": {
         "target_species_id": "etemon",
         "required_species_ids": [
@@ -254,6 +261,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/grey-claws-icon.png",
+      "suggested_market_price_bits": 900,
       "evolution": {
         "target_species_id": "greymon",
         "required_species_ids": [
@@ -269,6 +277,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/metal-part-icon.png",
+      "suggested_market_price_bits": 1800,
       "evolution": {
         "target_species_id": "metalgreymon",
         "required_species_ids": [
@@ -283,7 +292,8 @@
       "description": "Incubates your Digimon. You hatch a new one.",
       "type": "misc",
       "inventory_category": "special",
-      "icon_path": "assets/items/incubator.png"
+      "icon_path": "assets/items/incubator.png",
+      "suggested_market_price_bits": 2000
     },
     {
       "id": "red_cape",
@@ -292,6 +302,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/red-cape.png",
+      "suggested_market_price_bits": 3000,
       "evolution": {
         "target_species_id": "warumonzaemon",
         "required_species_ids": [
@@ -307,6 +318,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/metal-banana-icon.png",
+      "suggested_market_price_bits": 3000,
       "evolution": {
         "target_species_id": "metal_etemon",
         "required_species_ids": [
@@ -337,6 +349,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/lady-black-wing-icon.png",
+      "suggested_market_price_bits": 1800,
       "evolution": {
         "target_species_id": "ladydevimon",
         "required_species_ids": [
@@ -352,6 +365,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/big-burger.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "random_stat_delta",
@@ -366,6 +380,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/off-chip-icon.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "stat_percent",
@@ -381,6 +396,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/def-chip-icon.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "stat_percent",
@@ -396,6 +412,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/quick-chip-icon.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "stat_percent",
@@ -411,6 +428,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/brain-chip-icon.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "stat_percent",
@@ -426,6 +444,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/hp-chip-icon.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "stat_percent",
@@ -441,6 +460,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/mp-chip-icon.png",
+      "suggested_market_price_bits": 900,
       "effects": [
         {
           "type": "stat_percent",
@@ -456,6 +476,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/hispeed-dsk-icon.png",
+      "suggested_market_price_bits": 3000,
       "effects": [
         {
           "type": "stat_percent",
@@ -496,6 +517,7 @@
       "type": "consumable",
       "inventory_category": "consumable",
       "icon_path": "assets/items/omni-disk-icon.png",
+      "suggested_market_price_bits": 2500,
       "effects": [
         {
           "type": "random_stat_percent",
@@ -526,6 +548,7 @@
       "type": "evolution",
       "inventory_category": "evolution",
       "icon_path": "assets/items/disgusting-tongue.png",
+      "suggested_market_price_bits": 900,
       "evolution": {
         "target_species_id": "numemon",
         "required_species_ids": [],

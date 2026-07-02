@@ -43,6 +43,7 @@ class ShopWindow(QDialog):
         self,
         *,
         buy_shop_item: Callable[[str], None],
+        sell_shop_item: Callable[[str], None],
         create_listing: Callable[[str, int], None],
         cancel_listing: Callable[[str], None],
         buy_friend_listing: Callable[[str, str], None],
@@ -50,6 +51,7 @@ class ShopWindow(QDialog):
     ) -> None:
         super().__init__(parent)
         self._buy_shop_item = buy_shop_item
+        self._sell_shop_item = sell_shop_item
         self._create_listing = create_listing
         self._cancel_listing = cancel_listing
         self._buy_friend_listing = buy_friend_listing
@@ -115,8 +117,8 @@ class ShopWindow(QDialog):
     def _build_shop_tab(self) -> QWidget:
         tab = QWidget(self)
         layout = QVBoxLayout(tab)
-        self._shop_table = QTableWidget(0, 4, tab)
-        self._shop_table.setHorizontalHeaderLabels(["Item", "Price", "Owned", "Buy"])
+        self._shop_table = QTableWidget(0, 6, tab)
+        self._shop_table.setHorizontalHeaderLabels(["Item", "Value", "Owned", "Buy", "Sell For", "Sell"])
         self._shop_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self._shop_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         layout.addWidget(self._shop_table)
@@ -200,13 +202,21 @@ class ShopWindow(QDialog):
         items = self._shop_items()
         self._shop_table.setRowCount(len(items))
         for row, item in enumerate(items):
+            theoretical_price = _suggested_market_price(item)
+            owned = self._inventory.get(item.id, 0)
             self._set_item(self._shop_table, row, 0, item.name, item.icon_path)
-            self._shop_table.setItem(row, 1, _table_item(f"{item.shop_price_bits} Bits", item.shop_price_bits or 0))
-            self._shop_table.setItem(row, 2, _table_item(str(self._inventory.get(item.id, 0)), self._inventory.get(item.id, 0)))
+            self._shop_table.setItem(row, 1, _table_item(f"{theoretical_price} Bits", theoretical_price or 0))
+            self._shop_table.setItem(row, 2, _table_item(str(owned), owned))
             button = QPushButton("Buy", self._shop_table)
             button.setEnabled(item.shop_price_bits is not None and self._bits >= item.shop_price_bits)
             button.clicked.connect(lambda checked=False, item_id=item.id: self._buy_shop_item(item_id))
             self._shop_table.setCellWidget(row, 3, button)
+            sell_price = max(1, (theoretical_price or 0) // 3)
+            self._shop_table.setItem(row, 4, _table_item(f"{sell_price} Bits", sell_price))
+            sell_button = QPushButton("Sell", self._shop_table)
+            sell_button.setEnabled(owned > 0 and theoretical_price is not None)
+            sell_button.clicked.connect(lambda checked=False, item_id=item.id: self._sell_shop_item(item_id))
+            self._shop_table.setCellWidget(row, 5, sell_button)
         self._shop_table.resizeColumnsToContents()
 
     def _render_inventory_table(self) -> None:
@@ -263,8 +273,8 @@ class ShopWindow(QDialog):
         if self._catalog is None:
             return []
         return sorted(
-            (item for item in self._catalog.items.values() if item.shop_price_bits is not None),
-            key=lambda item: (item.shop_price_bits or 0, item.name.casefold()),
+            (item for item in self._catalog.items.values() if _suggested_market_price(item) is not None),
+            key=lambda item: (_suggested_market_price(item) or 0, item.name.casefold()),
         )
 
     def _known_inventory_items(self) -> list[ItemDefinition]:

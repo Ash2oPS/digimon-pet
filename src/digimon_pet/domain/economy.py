@@ -41,6 +41,30 @@ def buy_shop_item(state: PetState, item: ItemDefinition, quantity: int = 1) -> E
     return EconomyResult(ok=True, item_id=item.id)
 
 
+def sell_inventory_item(state: PetState, item: ItemDefinition, quantity: int = 1) -> EconomyResult:
+    quantity = int(quantity)
+    if quantity < 1:
+        return EconomyResult(ok=False, reason="invalid_quantity")
+    theoretical_price = theoretical_item_price_bits(item)
+    if theoretical_price is None:
+        return EconomyResult(ok=False, reason="item_not_valued")
+    if state.inventory.get(item.id, 0) < quantity:
+        return EconomyResult(ok=False, reason="missing_inventory_item")
+    sell_price = max(1, theoretical_price // 3) * quantity
+    remaining = state.inventory.get(item.id, 0) - quantity
+    if remaining <= 0:
+        state.inventory.pop(item.id, None)
+    else:
+        state.inventory[item.id] = remaining
+    state.bits += sell_price
+    state.clamp()
+    return EconomyResult(ok=True, item_id=item.id)
+
+
+def theoretical_item_price_bits(item: ItemDefinition) -> int | None:
+    return item.suggested_market_price_bits or item.shop_price_bits
+
+
 def create_market_listing(
     state: PetState,
     item_id: str,

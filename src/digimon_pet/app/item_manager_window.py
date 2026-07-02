@@ -508,6 +508,8 @@ class ItemManagerWindow(QWidget):
             icon_path=item.icon_path,
             evolution=item.evolution,
             effects=item.effects,
+            shop_price_bits=item.shop_price_bits,
+            suggested_market_price_bits=item.suggested_market_price_bits,
         )
         self._catalog.items[item_id] = duplicate
         self._set_secondary_event_weight(item_id, self._secondary_event_weight_for_item(item.id))
@@ -586,6 +588,8 @@ class ItemManagerWindow(QWidget):
             icon_path=self._icon_path_input.text().strip() or None,
             evolution=evolution,
             effects=item.effects,
+            shop_price_bits=item.shop_price_bits,
+            suggested_market_price_bits=item.suggested_market_price_bits,
         )
         selected_key = self._replace_item_preserving_order(item_key, edited_item)
         self._replace_item_in_pools(item.id, new_item_id)

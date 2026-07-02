@@ -46,6 +46,7 @@ from digimon_pet.domain.economy import (
     cancel_market_listing,
     create_market_listing,
     sell_market_listing,
+    sell_inventory_item,
 )
 from digimon_pet.domain.evolution_intel import reveal_random_evolution_clue
 from digimon_pet.domain.fusions import find_fusion_target
@@ -206,6 +207,7 @@ def _economy_reason_text(reason: str | None) -> str:
         "invalid_amount": "Invalid Bits amount.",
         "invalid_quantity": "Invalid quantity.",
         "item_not_sold": "This item is not sold here.",
+        "item_not_valued": "This item has no shop value.",
         "insufficient_bits": "Not enough Bits.",
         "unknown_item": "Unknown item.",
         "invalid_listing_price": "Price must be at least 1 Bit.",
@@ -1555,6 +1557,7 @@ class PetWindow(QWidget):
         if self._shop_window is None:
             self._shop_window = ShopWindow(
                 buy_shop_item=self._buy_shop_item,
+                sell_shop_item=self._sell_shop_item,
                 create_listing=self._create_shop_listing,
                 cancel_listing=self._cancel_shop_listing,
                 buy_friend_listing=self._buy_friend_listing,
@@ -1610,6 +1613,18 @@ class PetWindow(QWidget):
             self._set_shop_status(_economy_reason_text(result.reason))
             return
         self._set_shop_status(f"Bought {item.name}.")
+        self._save_and_refresh()
+
+    def _sell_shop_item(self, item_id: str) -> None:
+        item = self._item_catalog.items.get(item_id)
+        if item is None:
+            self._set_shop_status("Unknown item.")
+            return
+        result = sell_inventory_item(self._state, item)
+        if not result.ok:
+            self._set_shop_status(_economy_reason_text(result.reason))
+            return
+        self._set_shop_status(f"Sold {item.name}.")
         self._save_and_refresh()
 
     def _create_shop_listing(self, item_id: str, price_bits: int) -> None:

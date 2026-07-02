@@ -297,6 +297,8 @@ def test_item_manager_preserves_consumable_effects_when_editing_and_duplicating(
         description="Increases OFF by 25.",
         type=ItemType.CONSUMABLE,
         effects=(ItemEffect(type=ItemEffectType.STAT_DELTA, stat="offense", amount=25),),
+        shop_price_bits=300,
+        suggested_market_price_bits=300,
     )
     window = ItemManagerWindow(
         ItemCatalog(items={item.id: item}, pools={"secondary_event": ()}),
@@ -308,10 +310,14 @@ def test_item_manager_preserves_consumable_effects_when_editing_and_duplicating(
 
     edited_item = window._catalog.items["digimeat"]
     assert edited_item.effects == item.effects
+    assert edited_item.shop_price_bits == 300
+    assert edited_item.suggested_market_price_bits == 300
 
     window.duplicate_selected_item()
 
     assert window._catalog.items["digimeat_2"].effects == item.effects
+    assert window._catalog.items["digimeat_2"].shop_price_bits == 300
+    assert window._catalog.items["digimeat_2"].suggested_market_price_bits == 300
 
 
 def test_item_manager_edits_inventory_category_without_changing_item_type(tmp_path):
