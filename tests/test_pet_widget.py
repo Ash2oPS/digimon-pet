@@ -49,32 +49,33 @@ def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
     widget._complete_stats_effect_elapsed_ms = 360
 
     image = _render_widget(widget)
+    widget._complete_stats_effect_enabled = False
+    baseline_image = _render_widget(widget)
 
-    bright_pixels = sum(
-        1
-        for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
-        for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
-        if (pixel := image.pixelColor(x, y)).alpha() > 0
-        and pixel.red() > 235
-        and pixel.green() > 220
-        and pixel.blue() > 120
-    )
-    assert bright_pixels <= 10
-    subtle_pixels = sum(
-        1
-        for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
-        for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
-        if (pixel := image.pixelColor(x, y)).alpha() > 0
-        and pixel.red() > 180
-        and pixel.green() > 160
-        and pixel.blue() > 80
-    )
-    assert 8 <= subtle_pixels <= 30
-    assert any(
-        pixel.red() > 180 and pixel.green() > 160 and pixel.blue() > 80
-        for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
-        for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
-        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    deltas = [
+        max(
+            abs((base_pixel := baseline_image.pixelColor(x, y)).red() - (sparkle_pixel := image.pixelColor(x, y)).red()),
+            abs(base_pixel.green() - sparkle_pixel.green()),
+            abs(base_pixel.blue() - sparkle_pixel.blue()),
+            abs(base_pixel.alpha() - sparkle_pixel.alpha()),
+        )
+        for x in range(widget.width())
+        for y in range(widget.height())
+        if baseline_image.pixelColor(x, y) != image.pixelColor(x, y)
+    ]
+    assert deltas
+    assert max(deltas) <= 16
+    assert 100 <= len(deltas) <= 500
+    assert not any(
+        max(
+            abs((base_pixel := baseline_image.pixelColor(x, y)).red() - (sparkle_pixel := image.pixelColor(x, y)).red()),
+            abs(base_pixel.green() - sparkle_pixel.green()),
+            abs(base_pixel.blue() - sparkle_pixel.blue()),
+            abs(base_pixel.alpha() - sparkle_pixel.alpha()),
+        )
+        > 16
+        for x in range(widget.width())
+        for y in range(widget.height())
     )
     assert image.pixelColor(SPRITE_TARGET_RECT.center()) == QColor("#2080ff")
 
@@ -277,32 +278,32 @@ def test_pet_widget_scales_canvas_and_hitboxes():
     assert widget.is_pet_body_at(pet_center)
 
 
-def test_event_bubble_switches_side_with_pet_screen_position():
+def test_event_bubble_stays_above_pet_when_pet_screen_position_changes():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
     widget.set_lifecycle_pending("evolution")
 
-    right_screen_rect = widget.event_prompt_rect()
+    normal_screen_rect = widget.event_prompt_rect()
     widget.set_flipped_x(True)
-    left_screen_rect = widget.event_prompt_rect()
+    flipped_screen_rect = widget.event_prompt_rect()
 
-    assert right_screen_rect.center().x() < widget.width() // 2
-    assert left_screen_rect.center().x() > widget.width() // 2
-    assert widget.is_event_prompt_at(left_screen_rect.center())
-    assert not widget.is_event_prompt_at(right_screen_rect.center())
+    assert normal_screen_rect == flipped_screen_rect
+    assert abs(normal_screen_rect.center().x() - widget.width() // 2) <= 1
+    assert normal_screen_rect.bottom() < SPRITE_TARGET_RECT.top()
+    assert widget.is_event_prompt_at(normal_screen_rect.center())
 
 
-def test_event_bubble_sits_near_outer_canvas_edges():
+def test_event_bubble_sits_above_pet_inside_narrow_canvas():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
     widget.set_lifecycle_pending("evolution")
 
-    right_screen_rect = widget.event_prompt_rect()
-    widget.set_flipped_x(True)
-    left_screen_rect = widget.event_prompt_rect()
+    prompt_rect = widget.event_prompt_rect()
 
-    assert right_screen_rect.right() < SPRITE_TARGET_RECT.left()
-    assert left_screen_rect.left() > SPRITE_TARGET_RECT.right()
+    assert widget.width() == 160
+    assert prompt_rect.left() >= 0
+    assert prompt_rect.right() < widget.width()
+    assert prompt_rect.bottom() < SPRITE_TARGET_RECT.top()
 
 
 def test_poop_sits_opposite_screen_side_and_matches_pet_bottom_pixel():
@@ -313,11 +314,9 @@ def test_poop_sits_opposite_screen_side_and_matches_pet_bottom_pixel():
     widget.set_flipped_x(True)
     left_screen_rect = widget.poop_rect()
 
-    assert right_screen_rect.left() == 0
+    assert right_screen_rect.right() + 1 == SPRITE_TARGET_RECT.left()
     assert right_screen_rect.size() == POOP_TARGET_SIZE
     assert right_screen_rect.bottom() == SPRITE_TARGET_RECT.bottom()
-    assert right_screen_rect.right() + 1 == SPRITE_TARGET_RECT.left()
-    assert left_screen_rect.right() == widget.width() - 1
     assert left_screen_rect.size() == POOP_TARGET_SIZE
     assert left_screen_rect.bottom() == SPRITE_TARGET_RECT.bottom()
     assert left_screen_rect.left() == SPRITE_TARGET_RECT.right() + 1
@@ -332,10 +331,12 @@ def test_poop_is_hidden_until_enabled_later():
     image = _render_widget(widget)
     poop_rect = widget.poop_rect()
 
+    visible_poop_rect = poop_rect.intersected(QRect(QPoint(0, 0), widget.size()))
+
     assert not any(
         image.pixelColor(x, y).alpha() > 0
-        for x in range(poop_rect.left(), poop_rect.right() + 1)
-        for y in range(poop_rect.top(), poop_rect.bottom() + 1)
+        for x in range(visible_poop_rect.left(), visible_poop_rect.right() + 1)
+        for y in range(visible_poop_rect.top(), visible_poop_rect.bottom() + 1)
     )
 
 
@@ -347,22 +348,19 @@ def test_event_bubble_tail_points_toward_pet_body():
     widget._poop_pixmap = QPixmap()
     widget.set_lifecycle_pending("evolution")
 
-    left_image = _render_widget(widget)
-    left_rect = widget.event_prompt_rect()
+    image = _render_widget(widget)
+    prompt_rect = widget.event_prompt_rect()
 
     widget.set_flipped_x(True)
-    right_image = _render_widget(widget)
-    right_rect = widget.event_prompt_rect()
+    flipped_image = _render_widget(widget)
 
-    left_tail_pixel = left_image.pixelColor(left_rect.right() - 6, left_rect.bottom())
-    left_opposite_pixel = left_image.pixelColor(left_rect.left() - 2, left_rect.bottom() + 3)
-    right_tail_pixel = right_image.pixelColor(right_rect.left() + 6, right_rect.bottom())
-    right_opposite_pixel = right_image.pixelColor(right_rect.right() + 2, right_rect.bottom() + 3)
+    tail_tip = QPoint(prompt_rect.center().x(), prompt_rect.bottom() + 4)
+    empty_side = QPoint(prompt_rect.right() + 4, prompt_rect.bottom() + 4)
 
-    assert left_tail_pixel.green() > 220 and left_tail_pixel.blue() > 180
-    assert left_opposite_pixel.green() < 200
-    assert right_tail_pixel.green() > 220 and right_tail_pixel.blue() > 180
-    assert right_opposite_pixel.green() < 200
+    assert image.pixelColor(tail_tip).green() > 220 and image.pixelColor(tail_tip).blue() > 180
+    assert image.pixelColor(empty_side).green() < 200
+    assert flipped_image.pixelColor(tail_tip).green() > 220 and flipped_image.pixelColor(tail_tip).blue() > 180
+    assert flipped_image.pixelColor(empty_side).green() < 200
 
 
 def test_death_event_bubble_uses_skull_icon():

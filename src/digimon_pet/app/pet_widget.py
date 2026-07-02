@@ -14,8 +14,8 @@ from digimon_pet.app.sprite_runtime import SpriteAnimation, load_runtime_manifes
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
-BASE_WIDGET_SIZE = QSize(352, 128)
-SPRITE_TARGET_RECT = QRect(128, 16, 96, 96)
+BASE_WIDGET_SIZE = QSize(160, 176)
+SPRITE_TARGET_RECT = QRect(32, 64, 96, 96)
 POOP_SPRITE_PATH = PROJECT_ROOT / "assets" / "misc" / "poop.png"
 POOP_TARGET_SIZE = QSize(128, 96)
 POOP_VISIBLE = False
@@ -35,8 +35,7 @@ REWARD_TOAST_ITEM_STAT_RECT = QRect(54, 18, 66, 28)
 STATIC_SPRITE_SCALE = 0.9
 SECONDARY_EVENT_BOUNCE_PERIOD_MS = 1100
 SECONDARY_EVENT_BOUNCE_HEIGHT = 7
-LEFT_EVENT_PROMPT_RECT = QRect(82, 5, 42, 34)
-RIGHT_EVENT_PROMPT_RECT = QRect(228, 5, 42, 34)
+EVENT_PROMPT_RECT = QRect(59, 22, 42, 34)
 PENDING_EFFECTS = {"pending_evolution", "pending_death"}
 RESOLUTION_EFFECTS = {"evolution", "death"}
 SECONDARY_EVENT_PROMPTS = {"meat", "dumbbell", "item"}
@@ -476,14 +475,14 @@ class PetWidget(QWidget):
             x = round(center.x() + math.cos(angle) * distance)
             y = round(center.y() + math.sin(angle) * distance * 0.82)
             twinkle = 0.5 + 0.5 * math.sin(phase * math.tau * 2 + index)
-            alpha = round(45 + 90 * twinkle)
-            radius = 1 + round(twinkle)
+            alpha = 4
+            radius = 1 + round(2 * twinkle)
             color = QColor(255, 238, 128, alpha)
             painter.setBrush(color)
             painter.drawEllipse(QPoint(x, y), radius, radius)
             painter.setPen(QPen(QColor(255, 255, 255, alpha), 1))
-            painter.drawLine(x - radius, y, x + radius, y)
-            painter.drawLine(x, y - radius, x, y + radius)
+            painter.drawLine(x - radius - 2, y, x + radius + 2, y)
+            painter.drawLine(x, y - radius - 2, x, y + radius + 2)
             painter.setPen(Qt.PenStyle.NoPen)
         painter.restore()
 
@@ -609,14 +608,9 @@ class PetWidget(QWidget):
         path = QPainterPath()
         path.addRoundedRect(rect, 10, 10)
         tail = QPainterPath()
-        if self._flipped_x:
-            tail.moveTo(rect.left() + 8, rect.bottom() - 6)
-            tail.lineTo(rect.left() - 3, rect.bottom() + 7)
-            tail.lineTo(rect.left() + 15, rect.bottom() - 2)
-        else:
-            tail.moveTo(rect.right() - 8, rect.bottom() - 6)
-            tail.lineTo(rect.right() + 3, rect.bottom() + 7)
-            tail.lineTo(rect.right() - 15, rect.bottom() - 2)
+        tail.moveTo(rect.center().x() - 8, rect.bottom() - 2)
+        tail.lineTo(rect.center().x(), rect.bottom() + 10)
+        tail.lineTo(rect.center().x() + 8, rect.bottom() - 2)
         tail.closeSubpath()
         path = path.united(tail)
         painter.setPen(QPen(QColor(65, 43, 24, 220), 2))
@@ -925,15 +919,16 @@ class PetWidget(QWidget):
     def _draw_placeholder(self, painter: QPainter) -> None:
         painter.setPen(Qt.PenStyle.NoPen)
         painter.setBrush(QColor("#f08a3c"))
-        painter.drawEllipse(QPoint(64, 64), 34, 30)
+        center = SPRITE_TARGET_RECT.center()
+        painter.drawEllipse(center, 34, 30)
         painter.setBrush(QColor("#ffd166"))
-        painter.drawEllipse(QPoint(51, 54), 5, 5)
-        painter.drawEllipse(QPoint(77, 54), 5, 5)
+        painter.drawEllipse(QPoint(center.x() - 13, center.y() - 10), 5, 5)
+        painter.drawEllipse(QPoint(center.x() + 13, center.y() - 10), 5, 5)
         painter.setPen(QColor("#171719"))
-        painter.drawArc(QRect(50, 62, 28, 16), 200 * 16, 140 * 16)
+        painter.drawArc(QRect(center.x() - 14, center.y() - 2, 28, 16), 200 * 16, 140 * 16)
 
     def _logical_event_prompt_rect(self) -> QRect:
-        return QRect(RIGHT_EVENT_PROMPT_RECT if self._flipped_x else LEFT_EVENT_PROMPT_RECT)
+        return QRect(EVENT_PROMPT_RECT)
 
     def _logical_poop_rect(self) -> QRect:
         y = SPRITE_TARGET_RECT.bottom() - POOP_TARGET_SIZE.height() + 1

@@ -1249,7 +1249,7 @@ def test_window_position_restore_uses_full_screen_geometry_below_taskbar(tmp_pat
     monkeypatch.setattr(window, "_saved_screen", lambda: _ScreenStub())
 
     assert window._restore_saved_position() is True
-    assert window.pos() == QPoint(1200, 951)
+    assert window.pos() == QPoint(1200, 903)
 
 
 def test_secondary_event_click_uses_larger_ultimate_boosts(tmp_path, monkeypatch):
