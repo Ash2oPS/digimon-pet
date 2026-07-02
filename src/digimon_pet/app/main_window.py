@@ -1453,6 +1453,8 @@ class PetWindow(QWidget):
     def _refresh(self) -> None:
         species = self._species[self._state.species_id]
         self._pet_widget.set_pet(self._state, species)
+        if self._state.needs_rebirth_choice and not self._lifecycle_animating:
+            self._pet_widget.set_lifecycle_pending("death")
         next_event = next_lifecycle_event(self._state, self._lifecycle_schedule)
         self._debug_panel.refresh(self._state, species, next_event)
         if self._stats_window is not None and self._stats_window.isVisible():

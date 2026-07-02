@@ -307,6 +307,93 @@ def test_existing_rebirth_choice_save_resumes_rebirth_flow_on_startup(tmp_path, 
     assert loaded.needs_rebirth_choice is False
 
 
+def test_refresh_shows_pending_death_for_saved_rebirth_choice():
+    app = QApplication.instance() or QApplication([])
+    window = PetWindow(overlay=True, debug=True)
+    window._pet_widget.set_lifecycle_pending(None)
+    window._state.species_id = "metalgreymon"
+    window._state.stage = GrowthStage.ULTIMATE
+    window._state.needs_rebirth_choice = True
+
+    window._refresh()
+
+    assert window._pet_widget._effect_name == "pending_death"
+
+
+def test_cancelled_rebirth_flow_can_be_resumed_by_clicking_pet(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            species_id="metalgreymon",
+            stage=GrowthStage.ULTIMATE,
+            needs_rebirth_choice=True,
+            hp=300,
+            mp=400,
+            speed=70,
+            pending_rebirth_stat_source_stats={
+                "hp": 300,
+                "mp": 400,
+                "offense": 30,
+                "defense": 30,
+                "speed": 70,
+                "brains": 30,
+            },
+        )
+    )
+    allocations = iter([
+        ({"hp": 25, "mp": 20, "speed": 5}, False),
+        ({"hp": 25, "mp": 20, "speed": 5}, True),
+    ])
+    calls = []
+
+    def allocate(self):
+        calls.append("allocation")
+        return next(allocations)
+
+    def choose_baby(self, baby_ids):
+        calls.append("baby")
+        return "botamon", True
+
+    monkeypatch.setattr(PetWindow, "_get_rebirth_stat_allocation", allocate)
+    monkeypatch.setattr(PetWindow, "_get_baby_choice", choose_baby)
+
+    window = PetWindow(overlay=True, debug=True)
+
+    assert calls == ["allocation"]
+    assert window._state.needs_rebirth_choice is True
+    assert window._pet_widget._effect_name == "pending_death"
+
+    pet_center = QPointF(SPRITE_TARGET_RECT.center())
+    press = QMouseEvent(
+        QEvent.Type.MouseButtonPress,
+        pet_center,
+        pet_center,
+        pet_center,
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.LeftButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+    release = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        pet_center,
+        pet_center,
+        pet_center,
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.NoButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+
+    window.mousePressEvent(press)
+    window.mouseReleaseEvent(release)
+
+    assert calls == ["allocation", "allocation", "baby"]
+    assert window._state.species_id == "botamon"
+    assert window._state.needs_rebirth_choice is False
+    assert window._pet_widget._effect_name is None
+
+
 def test_existing_save_with_deleted_species_falls_back_to_valid_baby(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"
