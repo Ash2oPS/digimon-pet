@@ -477,7 +477,8 @@ def _clean_rebirth_stat_allocations(allocations: dict[str, int], state: PetState
     required_total = rebirth_stat_allocation_total_percent(state)
     if total > required_total:
         raise ValueError(f"Rebirth stat allocation cannot exceed {required_total}%.")
-    if total < required_total and _has_rebirth_stat_capacity_after_allocations(state, cleaned):
+    remaining_percent = required_total - total
+    if remaining_percent > 0 and _has_rebirth_stat_capacity_after_allocations(state, cleaned, remaining_percent):
         raise ValueError(f"Rebirth stat allocation must total {required_total}%.")
     return cleaned
 
@@ -490,8 +491,6 @@ def _clean_rebirth_stat_allocation_values(allocations: dict[str, int], state: Pe
         clean_percent = int(percent)
         if clean_percent < 0:
             raise ValueError("Rebirth stat allocation cannot be negative.")
-        if not _rebirth_stat_allocation_uses_valid_percent(state, stat_name, clean_percent):
-            raise ValueError("Rebirth stat allocation must use 5% steps.")
         cleaned[stat_name] = clean_percent
     return cleaned
 
@@ -548,27 +547,18 @@ def _clamped_rebirth_bonus_for_percent(state: PetState, stat_name: str, percent:
     return _clamped_rebirth_bonus(state, stat_name, _raw_rebirth_bonus_for_percent(state, stat_name, percent))
 
 
-def _rebirth_stat_allocation_uses_valid_percent(state: PetState, stat_name: str, percent: int) -> bool:
-    if percent % REBIRTH_STAT_ALLOCATION_STEP_PERCENT == 0:
-        return True
-    return (
-        percent == effective_rebirth_stat_allocation_percent(state, stat_name, percent)
-        and _clamped_rebirth_bonus_for_percent(state, stat_name, percent) > 0
-        and _rebirth_stat_remaining_capacity_after_allocation(state, stat_name, percent) == 0
-    )
-
-
-def _rebirth_stat_remaining_capacity_after_allocation(state: PetState, stat_name: str, percent: int) -> int:
-    return max(0, _rebirth_stat_capacity(state, stat_name) - _clamped_rebirth_bonus_for_percent(state, stat_name, percent))
-
-
-def _has_rebirth_stat_capacity_after_allocations(state: PetState, allocations: dict[str, int]) -> bool:
+def _has_rebirth_stat_capacity_after_allocations(
+    state: PetState,
+    allocations: dict[str, int],
+    remaining_percent: int,
+) -> bool:
+    step_percent = min(REBIRTH_STAT_ALLOCATION_STEP_PERCENT, remaining_percent)
     return any(
         rebirth_stat_allocation_can_increase(
             state,
             stat_name,
             allocations.get(stat_name, 0),
-            allocations.get(stat_name, 0) + REBIRTH_STAT_ALLOCATION_STEP_PERCENT,
+            allocations.get(stat_name, 0) + step_percent,
         )
         for stat_name in INHERITED_STAT_NAMES
     )

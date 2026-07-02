@@ -856,6 +856,30 @@ def test_rebirth_stat_allocation_accepts_partial_percent_when_cap_returns_surplu
     assert preview["offense"]["after"] == 9999
 
 
+def test_rebirth_stat_allocation_accepts_partial_remaining_percent_on_any_stat():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        generation_stat_bonuses={"offense": 9966},
+        pending_rebirth_stat_source_stats={
+            "hp": 1000,
+            "mp": 1000,
+            "offense": 100,
+            "defense": 100,
+            "speed": 1000,
+            "brains": 100,
+        },
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(state, {"speed": 97, "offense": 3})
+    preview = rebirth_stat_preview(state, {"speed": 97, "offense": 3})
+
+    assert bonuses == {"offense": 3, "speed": 970}
+    assert preview["offense"]["after"] == 9999
+    assert preview["speed"]["percent"] == 97
+    assert preview["speed"]["bonus"] == 970
+
+
 def test_rebirth_stat_capacity_detects_when_every_inherited_stat_is_maxed():
     state = PetState(
         species_id="wargreymon",
@@ -873,7 +897,7 @@ def test_rebirth_stat_capacity_detects_when_every_inherited_stat_is_maxed():
     assert has_rebirth_stat_capacity(state) is False
 
 
-def test_rebirth_stat_allocation_requires_exact_thirty_percent_in_five_percent_steps():
+def test_rebirth_stat_allocation_requires_exact_thirty_percent():
     state = PetState(
         species_id="numemon",
         stage=GrowthStage.CHAMPION,
@@ -883,8 +907,9 @@ def test_rebirth_stat_allocation_requires_exact_thirty_percent_in_five_percent_s
     with pytest.raises(ValueError, match="total 30"):
         allocate_rebirth_stat_bonuses(state, {"hp": 15})
 
-    with pytest.raises(ValueError, match="5% steps"):
-        allocate_rebirth_stat_bonuses(state, {"hp": 17, "mp": 13})
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 17, "mp": 13})
+
+    assert bonuses == {"hp": 51, "mp": 52}
 
 
 def test_ultimate_rebirth_stat_allocation_requires_exact_fifty_percent():

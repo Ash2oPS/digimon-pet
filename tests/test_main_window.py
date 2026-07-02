@@ -525,6 +525,42 @@ def test_rebirth_stat_allocation_dialog_partially_allocates_final_capped_step():
     assert ok_button.isEnabled() is True
 
 
+def test_rebirth_stat_allocation_dialog_allocates_partial_remaining_to_any_stat():
+    app = QApplication.instance() or QApplication([])
+    state = PetState(
+        "wargreymon",
+        GrowthStage.MEGA,
+        generation_stat_bonuses={"offense": 9966},
+        pending_rebirth_stat_source_stats={
+            "hp": 1000,
+            "mp": 1000,
+            "offense": 100,
+            "defense": 100,
+            "speed": 1000,
+            "brains": 100,
+        },
+    )
+    dialog = RebirthStatAllocationDialog(state)
+    buttons = dialog.findChild(QDialogButtonBox)
+    ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
+
+    for _index in range(19):
+        dialog._adjust("speed", 5)
+    dialog._adjust("offense", 5)
+
+    assert dialog.selected_allocations()["offense"] == 3
+    assert "2% remaining" in dialog._remaining_label.text()
+    assert dialog._plus_buttons["speed"].isEnabled() is True
+    assert ok_button.isEnabled() is False
+
+    dialog._adjust("speed", 5)
+
+    assert dialog.selected_allocations()["speed"] == 97
+    assert dialog._percent_labels["speed"].text() == "97%"
+    assert "Allocation complete." in dialog._remaining_label.text()
+    assert ok_button.isEnabled() is True
+
+
 def test_ultimate_rebirth_stat_allocation_dialog_requires_fifty_percent():
     app = QApplication.instance() or QApplication([])
     state = PetState(
