@@ -27,6 +27,7 @@ EVOLUTION_REVEAL_MS = 760
 DEATH_RESOLUTION_DURATION_MS = 900
 NEW_BADGE_DURATION_MS = 1500
 STAT_GAIN_TEXT_DURATION_MS = 1700
+COMPLETE_STATS_EFFECT_INTERVAL_MS = 50
 REWARD_TOAST_RECT = QRect(4, 0, 120, 50)
 REWARD_TOAST_ICON_RECT = QRect(8, 4, 42, 42)
 REWARD_TOAST_STAT_RECT = QRect(10, 2, 108, 24)
@@ -46,6 +47,15 @@ STAT_LABELS = {
     "defense": "DEF",
     "speed": "SPD",
     "brains": "INT",
+}
+DEBUG_FORCE_COMPLETE_STATS_EFFECT = True
+COMPLETE_STATS_MAXIMUMS = {
+    "hp": 99999,
+    "mp": 99999,
+    "offense": 9999,
+    "defense": 9999,
+    "speed": 9999,
+    "brains": 9999,
 }
 PIXEL_GLYPHS = {
     "+": ("000", "010", "111", "010", "000"),
@@ -129,6 +139,10 @@ class PetWidget(QWidget):
         self._stat_gain_item_name: str | None = None
         self._stat_gain_timer = QTimer(self)
         self._stat_gain_timer.timeout.connect(self._advance_stat_gain_text)
+        self._complete_stats_effect_enabled = False
+        self._complete_stats_effect_elapsed_ms = 0
+        self._complete_stats_effect_timer = QTimer(self)
+        self._complete_stats_effect_timer.timeout.connect(self._advance_complete_stats_effect)
         self.setFixedSize(BASE_WIDGET_SIZE)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_AlwaysShowToolTips)
@@ -146,6 +160,7 @@ class PetWidget(QWidget):
         self._state = state
         self._species = species
         self.setToolTip(_stats_tooltip(state, species))
+        self._set_complete_stats_effect(DEBUG_FORCE_COMPLETE_STATS_EFFECT or _has_complete_stats(state))
         animation = resolve_sprite_animation(state, species, self._manifest)
         if animation != self._animation:
             self._animation = animation
@@ -158,6 +173,17 @@ class PetWidget(QWidget):
         if self._effect_name in PENDING_EFFECTS | RESOLUTION_EFFECTS:
             self._animation_timer.stop()
         self.update()
+
+    def _set_complete_stats_effect(self, enabled: bool) -> None:
+        enabled = bool(enabled)
+        if self._complete_stats_effect_enabled == enabled:
+            return
+        self._complete_stats_effect_enabled = enabled
+        self._complete_stats_effect_elapsed_ms = 0
+        if enabled:
+            self._complete_stats_effect_timer.start(COMPLETE_STATS_EFFECT_INTERVAL_MS)
+        else:
+            self._complete_stats_effect_timer.stop()
 
     def set_lifecycle_pending(self, kind: str | None) -> None:
         effect_name = {
@@ -277,8 +303,11 @@ class PetWidget(QWidget):
             if self._draws_sprite():
                 self._draw_sprite_shadow(painter, source_pixmap, target)
                 self._draw_effect_sprite(painter, source_pixmap, target)
+                self._draw_complete_stats_shine(painter, target)
         else:
             self._draw_placeholder(painter)
+            self._draw_complete_stats_shine(painter, SPRITE_TARGET_RECT)
+        self._draw_complete_stats_sparkles(painter)
         self._draw_effect_particles(painter)
         self._draw_poop(painter)
         self._draw_event_prompt(painter)
@@ -387,6 +416,14 @@ class PetWidget(QWidget):
             self._stat_gain_timer.stop()
         self.update()
 
+    def _advance_complete_stats_effect(self) -> None:
+        if not self._complete_stats_effect_enabled:
+            self._complete_stats_effect_elapsed_ms = 0
+            self._complete_stats_effect_timer.stop()
+            return
+        self._complete_stats_effect_elapsed_ms += COMPLETE_STATS_EFFECT_INTERVAL_MS
+        self.update()
+
     def _sprite_pixmap(self, pixmap: QPixmap, source: QRect | None) -> QPixmap:
         source_pixmap = pixmap.copy(source) if source is not None else pixmap
         if not self._flipped_x:
@@ -426,6 +463,45 @@ class PetWidget(QWidget):
         tint_painter.fillRect(tinted.rect(), overlay)
         tint_painter.end()
         painter.drawImage(target, tinted)
+
+    def _draw_complete_stats_shine(self, painter: QPainter, target: QRect) -> None:
+        if not self._complete_stats_effect_enabled:
+            return
+        pulse = _smooth_pulse(self._complete_stats_effect_elapsed_ms, 2200)
+        alpha = 24 + round(24 * pulse)
+        painter.save()
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setBrush(QColor(255, 246, 176, alpha))
+        painter.drawEllipse(target.adjusted(12, 8, -12, -8))
+        painter.setPen(QPen(QColor(255, 255, 255, alpha + 16), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        sweep = (self._complete_stats_effect_elapsed_ms % 1800) / 1800
+        x = target.left() + round(target.width() * sweep)
+        painter.drawLine(x - 16, target.top() + 18, x + 8, target.bottom() - 16)
+        painter.restore()
+
+    def _draw_complete_stats_sparkles(self, painter: QPainter) -> None:
+        if not self._complete_stats_effect_enabled:
+            return
+        center = SPRITE_TARGET_RECT.center()
+        phase = (self._complete_stats_effect_elapsed_ms % 2400) / 2400
+        painter.save()
+        painter.setPen(Qt.PenStyle.NoPen)
+        for index in range(10):
+            angle = math.tau * ((index / 10) + phase * 0.45)
+            distance = 42 + 12 * math.sin(phase * math.tau + index * 1.3)
+            x = round(center.x() + math.cos(angle) * distance)
+            y = round(center.y() + math.sin(angle) * distance * 0.82)
+            twinkle = 0.5 + 0.5 * math.sin(phase * math.tau * 2 + index)
+            alpha = round(80 + 145 * twinkle)
+            radius = 1 + round(2 * twinkle)
+            color = QColor(255, 238, 128, alpha)
+            painter.setBrush(color)
+            painter.drawEllipse(QPoint(x, y), radius, radius)
+            painter.setPen(QPen(QColor(255, 255, 255, alpha), 1))
+            painter.drawLine(x - radius - 2, y, x + radius + 2, y)
+            painter.drawLine(x, y - radius - 2, x, y + radius + 2)
+            painter.setPen(Qt.PenStyle.NoPen)
+        painter.restore()
 
     def _draws_sprite(self) -> bool:
         return self._effect_name != "death"
@@ -910,6 +986,10 @@ def _stats_tooltip(state: PetState, species: Species) -> str:
             f"INT: {state.brains}",
         ]
     )
+
+
+def _has_complete_stats(state: PetState) -> bool:
+    return all(int(getattr(state, stat_name)) >= maximum for stat_name, maximum in COMPLETE_STATS_MAXIMUMS.items())
 
 
 def _pixel_text_width(text: str, scale: int) -> int:

@@ -10,7 +10,9 @@ from digimon_pet.domain.lifecycle import (
     apply_random_rebirth_stat_bonuses,
     baby_1_choices,
     choose_rebirth,
+    has_rebirth_stat_capacity,
     next_lifecycle_event,
+    rebirth_stat_preview,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
 
@@ -797,6 +799,47 @@ def test_rebirth_stat_allocation_calculates_pending_bonuses_from_death_stats():
 
     assert bonuses == {"hp": 45, "mp": 40, "speed": 3}
     assert state.pending_rebirth_stat_bonuses == {"hp": 45, "mp": 40, "speed": 3}
+
+
+def test_rebirth_stat_allocation_clamps_to_stat_caps():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        generation_stat_bonuses={"hp": 99699},
+        pending_rebirth_stat_source_stats={
+            "hp": 99999,
+            "mp": 1000,
+            "offense": 100,
+            "defense": 100,
+            "speed": 100,
+            "brains": 100,
+        },
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 5, "mp": 95})
+    preview = rebirth_stat_preview(state, {"hp": 5, "mp": 95})
+
+    assert bonuses == {"mp": 950}
+    assert preview["hp"]["bonus"] == 0
+    assert preview["hp"]["after"] == 99999
+    assert preview["mp"]["after"] == 1250
+
+
+def test_rebirth_stat_capacity_detects_when_every_inherited_stat_is_maxed():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        generation_stat_bonuses={
+            "hp": 99699,
+            "mp": 99699,
+            "offense": 9969,
+            "defense": 9969,
+            "speed": 9969,
+            "brains": 9969,
+        },
+    )
+
+    assert has_rebirth_stat_capacity(state) is False
 
 
 def test_rebirth_stat_allocation_requires_exact_thirty_percent_in_five_percent_steps():

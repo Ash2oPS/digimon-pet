@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QApplication
 
 from digimon_pet.app.pet_widget import BASE_WIDGET_SIZE, PetWidget, POOP_TARGET_SIZE, SHADOW_OFFSET, SPRITE_TARGET_RECT
 from digimon_pet.app.sprite_runtime import SpriteAnimation
+from digimon_pet.domain.models import GrowthStage, PetState, Species
 
 
 def test_pet_widget_draws_shadow_from_sprite_alpha():
@@ -37,6 +38,25 @@ def test_pet_widget_draws_shadow_from_sprite_alpha():
     assert shadow_pixel.alpha() > 0
     assert shadow_pixel.red() < 10
     assert transparent_pixel.alpha() == 0
+
+
+def test_complete_stats_effect_renders_debug_sparkles_and_shine():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_pet(PetState("agumon", GrowthStage.ROOKIE), Species("agumon", "Agumon", GrowthStage.ROOKIE))
+    widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
+    widget._pixmap.fill(QColor("#2080ff"))
+    widget._complete_stats_effect_elapsed_ms = 360
+
+    image = _render_widget(widget)
+
+    assert any(
+        pixel.red() > 235 and pixel.green() > 220 and pixel.blue() > 120
+        for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
+        for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+    )
+    assert image.pixelColor(SPRITE_TARGET_RECT.center()).red() > 32
 
 
 def test_pet_widget_flips_sprite_and_shadow_when_on_left_side():

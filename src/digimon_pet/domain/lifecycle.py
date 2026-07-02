@@ -10,6 +10,14 @@ from digimon_pet.domain.models import GrowthStage, PetState, Species
 DEFAULT_BABY_1_ID = "botamon"
 ROOKIE_FALLBACK_ID = "numemon"
 INHERITED_STAT_NAMES = ("hp", "mp", "offense", "defense", "speed", "brains")
+INHERITED_STAT_MAXIMUMS = {
+    "hp": 99999,
+    "mp": 99999,
+    "offense": 9999,
+    "defense": 9999,
+    "speed": 9999,
+    "brains": 9999,
+}
 REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 30
 ULTIMATE_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 50
 MEGA_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 100
@@ -405,24 +413,35 @@ def allocate_rebirth_stat_bonuses(state: PetState, allocations: dict[str, int]) 
     cleaned = _clean_rebirth_stat_allocations(allocations, state)
     source_stats = _rebirth_source_stats(state)
     state.pending_rebirth_stat_bonuses = {
-        stat_name: int(source_stats[stat_name] * percent / 100)
+        stat_name: _clamped_rebirth_bonus(state, stat_name, int(source_stats[stat_name] * percent / 100))
         for stat_name, percent in cleaned.items()
-        if percent > 0
+        if percent > 0 and _clamped_rebirth_bonus(state, stat_name, int(source_stats[stat_name] * percent / 100)) > 0
     }
     return dict(state.pending_rebirth_stat_bonuses)
 
 
 def rebirth_stat_preview(state: PetState, allocations: dict[str, int]) -> dict[str, dict[str, int]]:
-    cleaned = _clean_rebirth_stat_allocations(allocations, state)
+    cleaned = _clean_rebirth_stat_allocation_values(allocations)
     source_stats = _rebirth_source_stats(state)
     return {
         stat_name: {
             "before": source_stats[stat_name],
             "percent": cleaned.get(stat_name, 0),
-            "bonus": int(source_stats[stat_name] * cleaned.get(stat_name, 0) / 100),
-            "after": _base_rebirth_stat(stat_name)
-            + state.generation_stat_bonuses.get(stat_name, 0)
-            + int(source_stats[stat_name] * cleaned.get(stat_name, 0) / 100),
+            "bonus": _clamped_rebirth_bonus(
+                state,
+                stat_name,
+                int(source_stats[stat_name] * cleaned.get(stat_name, 0) / 100),
+            ),
+            "after": min(
+                _max_rebirth_stat(stat_name),
+                _base_rebirth_stat(stat_name)
+                + state.generation_stat_bonuses.get(stat_name, 0)
+                + _clamped_rebirth_bonus(
+                    state,
+                    stat_name,
+                    int(source_stats[stat_name] * cleaned.get(stat_name, 0) / 100),
+                ),
+            ),
         }
         for stat_name in INHERITED_STAT_NAMES
     }
@@ -453,6 +472,15 @@ def rebirth_stat_allocation_total_percent(state: PetState) -> int:
 
 
 def _clean_rebirth_stat_allocations(allocations: dict[str, int], state: PetState) -> dict[str, int]:
+    cleaned = _clean_rebirth_stat_allocation_values(allocations)
+    total = sum(cleaned.values())
+    required_total = rebirth_stat_allocation_total_percent(state)
+    if total != required_total:
+        raise ValueError(f"Rebirth stat allocation must total {required_total}%.")
+    return cleaned
+
+
+def _clean_rebirth_stat_allocation_values(allocations: dict[str, int]) -> dict[str, int]:
     cleaned = {stat_name: 0 for stat_name in INHERITED_STAT_NAMES}
     for stat_name, percent in allocations.items():
         if stat_name not in INHERITED_STAT_NAMES:
@@ -463,15 +491,41 @@ def _clean_rebirth_stat_allocations(allocations: dict[str, int], state: PetState
         if clean_percent % REBIRTH_STAT_ALLOCATION_STEP_PERCENT != 0:
             raise ValueError("Rebirth stat allocation must use 5% steps.")
         cleaned[stat_name] = clean_percent
-    total = sum(cleaned.values())
-    required_total = rebirth_stat_allocation_total_percent(state)
-    if total != required_total:
-        raise ValueError(f"Rebirth stat allocation must total {required_total}%.")
     return cleaned
+
+
+def has_rebirth_stat_capacity(state: PetState) -> bool:
+    return any(
+        rebirth_stat_allocation_fits_capacity(state, stat_name, REBIRTH_STAT_ALLOCATION_STEP_PERCENT)
+        for stat_name in INHERITED_STAT_NAMES
+    )
+
+
+def rebirth_stat_allocation_fits_capacity(state: PetState, stat_name: str, percent: int) -> bool:
+    if stat_name not in INHERITED_STAT_NAMES:
+        raise ValueError(f"Unsupported inherited stat: {stat_name}")
+    if percent <= 0:
+        return True
+    source_stats = _rebirth_source_stats(state)
+    bonus = int(source_stats[stat_name] * percent / 100)
+    return bonus > 0 and bonus <= _rebirth_stat_capacity(state, stat_name)
+
+
+def _clamped_rebirth_bonus(state: PetState, stat_name: str, bonus: int) -> int:
+    return max(0, min(int(bonus), _rebirth_stat_capacity(state, stat_name)))
+
+
+def _rebirth_stat_capacity(state: PetState, stat_name: str) -> int:
+    inherited_base = _base_rebirth_stat(stat_name) + state.generation_stat_bonuses.get(stat_name, 0)
+    return max(0, _max_rebirth_stat(stat_name) - inherited_base)
 
 
 def _base_rebirth_stat(stat_name: str) -> int:
     return 300 if stat_name in {"hp", "mp"} else 30
+
+
+def _max_rebirth_stat(stat_name: str) -> int:
+    return INHERITED_STAT_MAXIMUMS[stat_name]
 
 
 def choose_rebirth(state: PetState, baby_1_id: str, species: dict[str, Species]) -> str:

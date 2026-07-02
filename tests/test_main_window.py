@@ -462,6 +462,33 @@ def test_rebirth_stat_allocation_dialog_requires_complete_allocation():
     assert ok_button.isEnabled() is True
 
 
+def test_rebirth_stat_allocation_dialog_returns_capped_percent_to_counter():
+    app = QApplication.instance() or QApplication([])
+    state = PetState(
+        "wargreymon",
+        GrowthStage.MEGA,
+        generation_stat_bonuses={"hp": 99699},
+        pending_rebirth_stat_source_stats={
+            "hp": 99999,
+            "mp": 1000,
+            "offense": 100,
+            "defense": 100,
+            "speed": 100,
+            "brains": 100,
+        },
+    )
+    dialog = RebirthStatAllocationDialog(state)
+
+    dialog._adjust("hp", 5)
+    dialog._adjust("mp", 5)
+
+    assert dialog.selected_allocations()["hp"] == 0
+    assert dialog.selected_allocations()["mp"] == 5
+    assert dialog._plus_buttons["hp"].isEnabled() is False
+    assert dialog._after_labels["hp"].text() == "99999"
+    assert "95% remaining" in dialog._remaining_label.text()
+
+
 def test_ultimate_rebirth_stat_allocation_dialog_requires_fifty_percent():
     app = QApplication.instance() or QApplication([])
     state = PetState(
@@ -491,6 +518,25 @@ def test_ultimate_rebirth_stat_allocation_dialog_requires_fifty_percent():
     assert dialog.selected_allocations()["speed"] == 5
     assert dialog._bonus_labels["hp"].text() == "+75"
     assert ok_button.isEnabled() is True
+
+
+def test_rebirth_stat_allocation_skips_when_all_stats_are_maxed(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    window = PetWindow(overlay=True, debug=True)
+    window._state.generation_stat_bonuses = {
+        "hp": 99699,
+        "mp": 99699,
+        "offense": 9969,
+        "defense": 9969,
+        "speed": 9969,
+        "brains": 9969,
+    }
+    called = []
+    monkeypatch.setattr(window, "_get_rebirth_stat_allocation", lambda: called.append("stats") or ({}, True))
+
+    assert window._prompt_rebirth_stat_allocation() is True
+    assert called == []
 
 
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
