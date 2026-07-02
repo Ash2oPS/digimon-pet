@@ -825,6 +825,37 @@ def test_rebirth_stat_allocation_clamps_to_stat_caps():
     assert preview["mp"]["after"] == 1250
 
 
+def test_rebirth_stat_allocation_accepts_partial_percent_when_cap_returns_surplus():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        generation_stat_bonuses={
+            "hp": 99699,
+            "mp": 99699,
+            "offense": 9967,
+            "defense": 9969,
+            "speed": 9969,
+            "brains": 9969,
+        },
+        pending_rebirth_stat_source_stats={
+            "hp": 1000,
+            "mp": 1000,
+            "offense": 100,
+            "defense": 100,
+            "speed": 100,
+            "brains": 100,
+        },
+    )
+
+    bonuses = allocate_rebirth_stat_bonuses(state, {"offense": 2})
+    preview = rebirth_stat_preview(state, {"offense": 2})
+
+    assert bonuses == {"offense": 2}
+    assert preview["offense"]["percent"] == 2
+    assert preview["offense"]["bonus"] == 2
+    assert preview["offense"]["after"] == 9999
+
+
 def test_rebirth_stat_capacity_detects_when_every_inherited_stat_is_maxed():
     state = PetState(
         species_id="wargreymon",

@@ -51,10 +51,11 @@ from digimon_pet.domain.lifecycle import (
     apply_random_rebirth_stat_bonuses,
     baby_1_choices,
     choose_rebirth,
+    effective_rebirth_stat_allocation_percent,
     force_evolve_to,
     has_rebirth_stat_capacity,
     next_lifecycle_event,
-    rebirth_stat_allocation_fits_capacity,
+    rebirth_stat_allocation_can_increase,
     rebirth_stat_allocation_total_percent,
     rebirth_stat_preview,
 )
@@ -488,8 +489,10 @@ class RebirthStatAllocationDialog(QDialog):
         without_current = self._allocated_total() - current
         next_value = max(0, current + delta)
         next_value = min(next_value, self._total_percent - without_current)
-        if delta > 0 and not self._allocation_fits(stat_name, next_value):
-            next_value = current
+        if delta > 0:
+            next_value = effective_rebirth_stat_allocation_percent(self._state, stat_name, next_value)
+            if not self._allocation_can_increase(stat_name, current, next_value):
+                next_value = current
         self._allocations[stat_name] = next_value
         self._refresh_allocations()
 
@@ -503,21 +506,21 @@ class RebirthStatAllocationDialog(QDialog):
             self._percent_labels[stat_name].setText(f"{percent}%")
             self._bonus_labels[stat_name].setText(f"+{bonus}")
             self._after_labels[stat_name].setText(str(preview[stat_name]["after"]))
-            can_add = remaining > 0 and self._allocation_fits(
-                stat_name,
-                percent + REBIRTH_STAT_ALLOCATION_STEP_PERCENT,
-            )
+            requested_percent = percent + min(REBIRTH_STAT_ALLOCATION_STEP_PERCENT, remaining)
+            effective_percent = effective_rebirth_stat_allocation_percent(self._state, stat_name, requested_percent)
+            can_add = remaining > 0 and self._allocation_can_increase(stat_name, percent, effective_percent)
             self._plus_buttons[stat_name].setEnabled(can_add)
+        can_allocate_more = self._can_allocate_more()
         self._remaining_label.setText(
             "Allocation complete."
             if remaining == 0
             else f"{remaining}% remaining."
         )
-        self._remaining_label.setProperty("state", "ok" if remaining == 0 else "missing")
+        self._remaining_label.setProperty("state", "ok" if remaining == 0 or not can_allocate_more else "missing")
         self._remaining_label.style().unpolish(self._remaining_label)
         self._remaining_label.style().polish(self._remaining_label)
         if self._ok_button is not None:
-            self._ok_button.setEnabled(remaining == 0)
+            self._ok_button.setEnabled(remaining == 0 or not can_allocate_more)
 
     def _allocated_total(self) -> int:
         return sum(self._allocations.values())
@@ -528,8 +531,20 @@ class RebirthStatAllocationDialog(QDialog):
     def _after_value(self, stat_name: str, bonus: int = 0) -> int:
         return rebirth_stat_preview(self._state, {stat_name: self._allocations[stat_name]})[stat_name]["after"]
 
-    def _allocation_fits(self, stat_name: str, percent: int) -> bool:
-        return rebirth_stat_allocation_fits_capacity(self._state, stat_name, percent)
+    def _allocation_can_increase(self, stat_name: str, current_percent: int, requested_percent: int) -> bool:
+        return rebirth_stat_allocation_can_increase(self._state, stat_name, current_percent, requested_percent)
+
+    def _can_allocate_more(self) -> bool:
+        remaining = self._total_percent - self._allocated_total()
+        if remaining <= 0:
+            return False
+        for stat_name in INHERITED_STAT_NAMES:
+            current = self._allocations[stat_name]
+            requested = current + min(REBIRTH_STAT_ALLOCATION_STEP_PERCENT, remaining)
+            effective = effective_rebirth_stat_allocation_percent(self._state, stat_name, requested)
+            if self._allocation_can_increase(stat_name, current, effective):
+                return True
+        return False
 
 
 class PetWindow(QWidget):
