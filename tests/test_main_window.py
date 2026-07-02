@@ -248,6 +248,65 @@ def test_existing_save_queues_lifecycle_event_on_startup(tmp_path, monkeypatch):
     assert window._pet_widget._effect_name == "pending_evolution"
 
 
+def test_existing_rebirth_choice_save_resumes_rebirth_flow_on_startup(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    save_path = tmp_path / "pet_save.json"
+    monkeypatch.setattr(save_store, "SAVE_PATH", save_path)
+    save_pet_state(
+        PetState(
+            species_id="metalgreymon",
+            stage=GrowthStage.ULTIMATE,
+            needs_rebirth_choice=True,
+            hp=300,
+            mp=400,
+            speed=70,
+            pending_rebirth_stat_source_stats={
+                "hp": 300,
+                "mp": 400,
+                "offense": 30,
+                "defense": 30,
+                "speed": 70,
+                "brains": 30,
+            },
+        )
+    )
+    calls = []
+
+    def allocate(self):
+        calls.append(("allocation", dict(self._state.pending_rebirth_stat_source_stats)))
+        return {"hp": 25, "mp": 20, "speed": 5}, True
+
+    def choose_baby(self, baby_ids):
+        calls.append(("baby", dict(self._state.pending_rebirth_stat_bonuses)))
+        return "botamon", True
+
+    monkeypatch.setattr(PetWindow, "_get_rebirth_stat_allocation", allocate)
+    monkeypatch.setattr(PetWindow, "_get_baby_choice", choose_baby)
+
+    window = PetWindow(overlay=True, debug=True)
+    loaded = load_pet_state(save_path)
+
+    assert calls == [
+        (
+            "allocation",
+            {
+                "hp": 300,
+                "mp": 400,
+                "offense": 30,
+                "defense": 30,
+                "speed": 70,
+                "brains": 30,
+            },
+        ),
+        ("baby", {"hp": 75, "mp": 80, "speed": 3}),
+    ]
+    assert window._state.species_id == "botamon"
+    assert window._state.needs_rebirth_choice is False
+    assert window._pet_widget._effect_name is None
+    assert loaded.species_id == "botamon"
+    assert loaded.needs_rebirth_choice is False
+
+
 def test_existing_save_with_deleted_species_falls_back_to_valid_baby(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"

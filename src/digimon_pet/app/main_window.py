@@ -679,7 +679,8 @@ class PetWindow(QWidget):
             self._prompt_initial_baby_choice()
         else:
             self._refresh()
-            self._queue_or_advance_lifecycle()
+            if not self._resume_rebirth_choice_if_needed():
+                self._queue_or_advance_lifecycle()
 
     def set_tray_icon(self, tray_icon: QSystemTrayIcon | None) -> None:
         self._tray_icon = tray_icon
@@ -776,6 +777,18 @@ class PetWindow(QWidget):
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton and self._drag_offset is not None:
+            if (
+                self._state.needs_rebirth_choice
+                and not self._was_dragging
+                and (
+                    self._pet_widget.is_event_prompt_at(event.position().toPoint())
+                    or self._pet_widget.is_pet_body_at(event.position().toPoint())
+                )
+            ):
+                self._drag_offset = None
+                self._resume_rebirth_choice_if_needed()
+                event.accept()
+                return
             if (
                 self._pending_lifecycle_kind is not None
                 and not self._was_dragging
@@ -1190,7 +1203,18 @@ class PetWindow(QWidget):
         return event
 
     def _advance_lifecycle(self) -> None:
-        self._queue_or_advance_lifecycle()
+        if not self._resume_rebirth_choice_if_needed():
+            self._queue_or_advance_lifecycle()
+
+    def _resume_rebirth_choice_if_needed(self) -> bool:
+        if not self._state.needs_rebirth_choice:
+            return False
+        self._pending_lifecycle_kind = None
+        self._pet_widget.set_lifecycle_pending("death")
+        self._prompt_rebirth_choice()
+        if self._state.needs_rebirth_choice:
+            self._pet_widget.set_lifecycle_pending("death")
+        return True
 
     def _prompt_rebirth_choice(self) -> None:
         if not self._prompt_rebirth_stat_allocation():
@@ -1242,6 +1266,7 @@ class PetWindow(QWidget):
     def _choose_rebirth(self, baby_id: str) -> None:
         discovered_before = set(self._state.discovered_species_ids)
         choose_rebirth(self._state, baby_id, self._species)
+        self._pet_widget.set_lifecycle_pending(None)
         self._trigger_new_badge_if_needed(discovered_before)
         self._save_and_refresh()
 
