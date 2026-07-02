@@ -303,10 +303,8 @@ class PetWidget(QWidget):
             if self._draws_sprite():
                 self._draw_sprite_shadow(painter, source_pixmap, target)
                 self._draw_effect_sprite(painter, source_pixmap, target)
-                self._draw_complete_stats_shine(painter, target)
         else:
             self._draw_placeholder(painter)
-            self._draw_complete_stats_shine(painter, SPRITE_TARGET_RECT)
         self._draw_complete_stats_sparkles(painter)
         self._draw_effect_particles(painter)
         self._draw_poop(painter)
@@ -464,21 +462,6 @@ class PetWidget(QWidget):
         tint_painter.end()
         painter.drawImage(target, tinted)
 
-    def _draw_complete_stats_shine(self, painter: QPainter, target: QRect) -> None:
-        if not self._complete_stats_effect_enabled:
-            return
-        pulse = _smooth_pulse(self._complete_stats_effect_elapsed_ms, 2200)
-        alpha = 24 + round(24 * pulse)
-        painter.save()
-        painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(255, 246, 176, alpha))
-        painter.drawEllipse(target.adjusted(12, 8, -12, -8))
-        painter.setPen(QPen(QColor(255, 255, 255, alpha + 16), 2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
-        sweep = (self._complete_stats_effect_elapsed_ms % 1800) / 1800
-        x = target.left() + round(target.width() * sweep)
-        painter.drawLine(x - 16, target.top() + 18, x + 8, target.bottom() - 16)
-        painter.restore()
-
     def _draw_complete_stats_sparkles(self, painter: QPainter) -> None:
         if not self._complete_stats_effect_enabled:
             return
@@ -487,7 +470,7 @@ class PetWidget(QWidget):
         painter.save()
         painter.setPen(Qt.PenStyle.NoPen)
         for index in range(10):
-            angle = math.tau * ((index / 10) + phase * 0.45)
+            angle = math.tau * ((index / 10) + phase)
             distance = 42 + 12 * math.sin(phase * math.tau + index * 1.3)
             x = round(center.x() + math.cos(angle) * distance)
             y = round(center.y() + math.sin(angle) * distance * 0.82)

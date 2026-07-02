@@ -40,7 +40,7 @@ def test_pet_widget_draws_shadow_from_sprite_alpha():
     assert transparent_pixel.alpha() == 0
 
 
-def test_complete_stats_effect_renders_debug_sparkles_and_shine():
+def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
     app = QApplication.instance() or QApplication([])
     widget = PetWidget()
     widget.set_pet(PetState("agumon", GrowthStage.ROOKIE), Species("agumon", "Agumon", GrowthStage.ROOKIE))
@@ -56,7 +56,24 @@ def test_complete_stats_effect_renders_debug_sparkles_and_shine():
         for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
     )
-    assert image.pixelColor(SPRITE_TARGET_RECT.center()).red() > 32
+    assert image.pixelColor(SPRITE_TARGET_RECT.center()) == QColor("#2080ff")
+
+
+def test_complete_stats_effect_loops_without_visual_jump():
+    app = QApplication.instance() or QApplication([])
+    widget = PetWidget()
+    widget.set_pet(PetState("agumon", GrowthStage.ROOKIE), Species("agumon", "Agumon", GrowthStage.ROOKIE))
+    widget._pixmap = QPixmap(SPRITE_TARGET_RECT.size())
+    widget._pixmap.fill(QColor("#2080ff"))
+
+    widget._complete_stats_effect_elapsed_ms = 0
+    start_image = _render_widget(widget)
+    widget._complete_stats_effect_elapsed_ms = 2400
+    looped_image = _render_widget(widget)
+
+    for x in range(widget.width()):
+        for y in range(widget.height()):
+            assert looped_image.pixelColor(x, y) == start_image.pixelColor(x, y)
 
 
 def test_pet_widget_flips_sprite_and_shadow_when_on_left_side():
