@@ -469,20 +469,21 @@ class PetWidget(QWidget):
         phase = (self._complete_stats_effect_elapsed_ms % 2400) / 2400
         painter.save()
         painter.setPen(Qt.PenStyle.NoPen)
-        for index in range(10):
-            angle = math.tau * ((index / 10) + phase)
-            distance = 42 + 12 * math.sin(phase * math.tau + index * 1.3)
+        sparkle_count = 7
+        for index in range(sparkle_count):
+            angle = math.tau * ((index / sparkle_count) + phase)
+            distance = 42 + 10 * math.sin(phase * math.tau + index * 1.3)
             x = round(center.x() + math.cos(angle) * distance)
             y = round(center.y() + math.sin(angle) * distance * 0.82)
             twinkle = 0.5 + 0.5 * math.sin(phase * math.tau * 2 + index)
-            alpha = round(80 + 145 * twinkle)
-            radius = 1 + round(2 * twinkle)
+            alpha = round(45 + 90 * twinkle)
+            radius = 1 + round(twinkle)
             color = QColor(255, 238, 128, alpha)
             painter.setBrush(color)
             painter.drawEllipse(QPoint(x, y), radius, radius)
             painter.setPen(QPen(QColor(255, 255, 255, alpha), 1))
-            painter.drawLine(x - radius - 2, y, x + radius + 2, y)
-            painter.drawLine(x, y - radius - 2, x, y + radius + 2)
+            painter.drawLine(x - radius, y, x + radius, y)
+            painter.drawLine(x, y - radius, x, y + radius)
             painter.setPen(Qt.PenStyle.NoPen)
         painter.restore()
 

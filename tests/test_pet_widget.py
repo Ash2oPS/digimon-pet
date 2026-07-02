@@ -50,8 +50,28 @@ def test_complete_stats_effect_renders_debug_sparkles_without_center_shine():
 
     image = _render_widget(widget)
 
+    bright_pixels = sum(
+        1
+        for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
+        for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+        and pixel.red() > 235
+        and pixel.green() > 220
+        and pixel.blue() > 120
+    )
+    assert bright_pixels <= 10
+    subtle_pixels = sum(
+        1
+        for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
+        for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
+        if (pixel := image.pixelColor(x, y)).alpha() > 0
+        and pixel.red() > 180
+        and pixel.green() > 160
+        and pixel.blue() > 80
+    )
+    assert 8 <= subtle_pixels <= 30
     assert any(
-        pixel.red() > 235 and pixel.green() > 220 and pixel.blue() > 120
+        pixel.red() > 180 and pixel.green() > 160 and pixel.blue() > 80
         for x in range(SPRITE_TARGET_RECT.left() - 12, SPRITE_TARGET_RECT.right() + 13)
         for y in range(SPRITE_TARGET_RECT.top() - 12, SPRITE_TARGET_RECT.bottom() + 13)
         if (pixel := image.pixelColor(x, y)).alpha() > 0
