@@ -8,7 +8,7 @@ from enum import StrEnum
 from collections.abc import Callable
 from typing import Any
 
-from digimon_pet.domain.lifecycle import EvolutionSchedule, force_death, force_evolve_to
+from digimon_pet.domain.lifecycle import EvolutionSchedule, force_death, force_evolve_to, inherited_stats_below_max
 from digimon_pet.domain.models import FilledIncubatorState, GrowthStage, PetState, Species
 
 
@@ -333,15 +333,17 @@ def use_consumable_item(
             setattr(state, effect.stat, getattr(state, effect.stat) + amount)
             stat_gains[effect.stat] = stat_gains.get(effect.stat, 0) + amount
         elif effect.type == ItemEffectType.RANDOM_STAT_DELTA:
-            stat = rng.choice(RANDOM_STAT_DELTA_STATS)
-            amount = int(effect.amount) * (10 if stat in {"hp", "mp"} else 1)
-            setattr(state, stat, getattr(state, stat) + amount)
-            stat_gains[stat] = stat_gains.get(stat, 0) + amount
+            stat = _random_non_maxed_stat(state, rng)
+            if stat is not None:
+                amount = int(effect.amount) * (10 if stat in {"hp", "mp"} else 1)
+                setattr(state, stat, getattr(state, stat) + amount)
+                stat_gains[stat] = stat_gains.get(stat, 0) + amount
         elif effect.type == ItemEffectType.RANDOM_STAT_PERCENT:
-            stat = rng.choice(RANDOM_STAT_DELTA_STATS)
-            amount = _stat_percent_gain(state, stat, effect.amount)
-            setattr(state, stat, getattr(state, stat) + amount)
-            stat_gains[stat] = stat_gains.get(stat, 0) + amount
+            stat = _random_non_maxed_stat(state, rng)
+            if stat is not None:
+                amount = _stat_percent_gain(state, stat, effect.amount)
+                setattr(state, stat, getattr(state, stat) + amount)
+                stat_gains[stat] = stat_gains.get(stat, 0) + amount
         elif effect.type == ItemEffectType.AUTO_SECONDARY_EVENTS:
             current_time = int(time.time())
             start_time = max(current_time, state.auto_clicker_expires_at or 0)
@@ -360,6 +362,11 @@ def use_consumable_item(
 
 def _stat_percent_gain(state: PetState, stat: str, percent: int) -> int:
     return int(getattr(state, stat) * int(percent) / 100)
+
+
+def _random_non_maxed_stat(state: PetState, rng: random.Random) -> str | None:
+    eligible_stats = tuple(stat for stat in RANDOM_STAT_DELTA_STATS if stat in inherited_stats_below_max(state))
+    return rng.choice(eligible_stats) if eligible_stats else None
 
 
 def incubate_current_digimon(

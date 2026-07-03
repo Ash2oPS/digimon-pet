@@ -908,6 +908,25 @@ def test_tick_increases_random_non_resource_stat_by_one_each_elapsed_minute():
     assert window._state.offense == 31
 
 
+def test_passive_stat_growth_uses_only_non_maxed_stats():
+    app = QApplication.instance() or QApplication([])
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = random.Random(0)
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 30
+    window._state.age_seconds = 59
+
+    window._tick()
+
+    assert window._state.brains == 31
+    assert window._state.defense == 9999
+
+
 def test_tick_pauses_age_and_queues_evolution_at_threshold(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -1430,6 +1449,27 @@ def test_secondary_event_click_boosts_two_random_stats_and_clears_prompt(tmp_pat
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() is None
     assert window._pet_widget._stat_gain_labels == ["+100 HP", "+10 OFF"]
+
+
+def test_secondary_event_boosts_only_non_maxed_stats(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = random.Random(2)
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 30
+    window._show_secondary_event("dumbbell")
+
+    window._claim_secondary_event()
+
+    assert window._state.hp == 99999
+    assert window._state.brains == 40
+    assert window._pet_widget._stat_gain_labels == ["+10 INT"]
 
 
 def test_secondary_event_timer_loads_from_save(tmp_path, monkeypatch):

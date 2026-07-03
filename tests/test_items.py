@@ -243,6 +243,35 @@ def test_consumable_random_stat_delta_effect_scales_hp_and_mp_like_large_stats()
     assert state.inventory == {}
 
 
+def test_consumable_random_stat_delta_uses_only_non_maxed_stats():
+    item = ItemDefinition(
+        id="my_digibigburger",
+        name="My DigiBigBurger",
+        description="Increases a random stat by 100(0).",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.RANDOM_STAT_DELTA, amount=100),),
+    )
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        hp=99999,
+        mp=99999,
+        offense=9999,
+        defense=9999,
+        speed=9999,
+        brains=30,
+        inventory={"my_digibigburger": 1},
+    )
+
+    result = use_item(state, "my_digibigburger", species_map(), random.Random(0), catalog)
+
+    assert result.used is True
+    assert result.stat_gains == {"brains": 100}
+    assert state.brains == 130
+    assert state.inventory == {}
+
+
 def test_consumable_stat_percent_effect_increases_stat_by_current_value_percent():
     item = ItemDefinition(
         id="off_chip",
@@ -293,6 +322,35 @@ def test_consumable_random_stat_percent_effect_increases_one_random_stat_by_perc
     assert result.used is True
     assert result.stat_gains == {"defense": 15}
     assert state.defense == 46
+    assert state.inventory == {}
+
+
+def test_consumable_random_stat_percent_uses_only_non_maxed_stats():
+    item = ItemDefinition(
+        id="mega_chip",
+        name="Mega Chip",
+        description="Increases a random stat by 50%.",
+        type=ItemType.CONSUMABLE,
+        effects=(ItemEffect(type=ItemEffectType.RANDOM_STAT_PERCENT, amount=50),),
+    )
+    catalog = ItemCatalog(items={item.id: item}, pools={})
+    state = PetState(
+        "agumon",
+        GrowthStage.ROOKIE,
+        hp=99999,
+        mp=99999,
+        offense=9999,
+        defense=9999,
+        speed=100,
+        brains=9999,
+        inventory={"mega_chip": 1},
+    )
+
+    result = use_item(state, "mega_chip", species_map(), random.Random(0), catalog)
+
+    assert result.used is True
+    assert result.stat_gains == {"speed": 50}
+    assert state.speed == 150
     assert state.inventory == {}
 
 

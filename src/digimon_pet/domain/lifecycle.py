@@ -380,7 +380,8 @@ def force_death(state: PetState, rng: random.Random) -> str:
 
 
 def _boost_evolution_stats(state: PetState, rng: random.Random) -> None:
-    boosted_stats = set(rng.sample(INHERITED_STAT_NAMES, 2))
+    eligible_boost_stats = inherited_stats_below_max(state)
+    boosted_stats = set(rng.sample(eligible_boost_stats, min(2, len(eligible_boost_stats))))
     for stat_name in INHERITED_STAT_NAMES:
         rate = 1.15 if stat_name in boosted_stats else 1.1
         setattr(state, stat_name, int(getattr(state, stat_name) * rate))
@@ -402,10 +403,15 @@ def _roll_rebirth_stat_bonuses(state: PetState, rng: random.Random) -> dict[str,
         rates = (0.20, 0.10, 0.05, 0.05)
     else:
         rates = (0.15, 0.10, 0.05)
-    selected_stats = rng.sample(INHERITED_STAT_NAMES, len(rates))
+    eligible_stats = tuple(
+        stat_name
+        for stat_name in INHERITED_STAT_NAMES
+        if _rebirth_stat_capacity(state, stat_name) > 0
+    )
+    selected_stats = rng.sample(eligible_stats, min(len(rates), len(eligible_stats)))
     return {
         stat_name: int(_rebirth_source_stats(state).get(stat_name, getattr(state, stat_name)) * rate)
-        for stat_name, rate in zip(selected_stats, rates, strict=True)
+        for stat_name, rate in zip(selected_stats, rates, strict=False)
     }
 
 
@@ -507,6 +513,14 @@ def inherited_stats_are_maxed(state: PetState) -> bool:
     return all(
         int(getattr(state, stat_name)) >= _max_rebirth_stat(stat_name)
         for stat_name in INHERITED_STAT_NAMES
+    )
+
+
+def inherited_stats_below_max(state: PetState) -> tuple[str, ...]:
+    return tuple(
+        stat_name
+        for stat_name in INHERITED_STAT_NAMES
+        if int(getattr(state, stat_name)) < _max_rebirth_stat(stat_name)
     )
 
 

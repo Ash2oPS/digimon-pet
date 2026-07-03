@@ -64,6 +64,7 @@ from digimon_pet.domain.lifecycle import (
     force_evolve_to,
     has_rebirth_stat_capacity,
     inherited_stats_are_maxed,
+    inherited_stats_below_max,
     next_lifecycle_event,
     rebirth_stat_allocation_can_increase,
     rebirth_stat_allocation_total_percent,
@@ -917,7 +918,10 @@ class PetWindow(QWidget):
         previous_minutes = max(0, previous_age_seconds) // 60
         elapsed_minutes = self._state.age_seconds // 60 - previous_minutes
         for index in range(max(0, elapsed_minutes)):
-            stat_name = self._rng.choice(PASSIVE_GROWTH_STATS)
+            eligible_stats = tuple(stat for stat in PASSIVE_GROWTH_STATS if stat in inherited_stats_below_max(self._state))
+            if not eligible_stats:
+                break
+            stat_name = self._rng.choice(eligible_stats)
             current_minute = previous_minutes + index + 1
             increment = self._passive_stat_increment(stat_name, current_minute)
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
@@ -1321,7 +1325,8 @@ class PetWindow(QWidget):
             return
         event_kind = self._secondary_event_kind
         gains: dict[str, int] = {}
-        for stat_name in self._rng.sample(BONUS_STATS, 2):
+        eligible_stats = tuple(stat for stat in BONUS_STATS if stat in inherited_stats_below_max(self._state))
+        for stat_name in self._rng.sample(eligible_stats, min(2, len(eligible_stats))):
             increment = self._secondary_event_stat_increment(stat_name)
             setattr(self._state, stat_name, getattr(self._state, stat_name) + increment)
             gains[stat_name] = increment

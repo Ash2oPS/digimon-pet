@@ -268,6 +268,31 @@ def test_evolution_boosts_two_random_stats_more_than_the_others():
     assert state.age_seconds == 0
 
 
+def test_evolution_random_boosts_use_only_non_maxed_stats():
+    schedule = EvolutionSchedule(baby_seconds=1800)
+    state = PetState(
+        species_id="botamon",
+        stage=GrowthStage.BABY,
+        age_seconds=1800,
+        hp=99999,
+        mp=99999,
+        offense=9999,
+        defense=9999,
+        speed=100,
+        brains=100,
+    )
+
+    advance_lifecycle(state, species_map(), {}, schedule, random.Random(1))
+
+    assert state.hp == 99999
+    assert state.mp == 99999
+    assert state.offense == 9999
+    assert state.defense == 9999
+    assert state.speed == 114
+    assert state.brains == 114
+    assert state.age_seconds == 0
+
+
 def test_baby_2_evolves_to_default_rookie_line_without_dw1_data():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
     state = PetState(
@@ -1001,6 +1026,33 @@ def test_auto_rebirth_random_bonus_keeps_old_distribution():
     bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
 
     assert bonuses == {"mp": 60, "speed": 7, "hp": 15}
+
+
+def test_auto_rebirth_random_bonus_uses_only_stats_with_capacity():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        generation_stat_bonuses={
+            "hp": 99699,
+            "mp": 99699,
+            "offense": 9969,
+            "defense": 9969,
+            "speed": 0,
+            "brains": 9969,
+        },
+        pending_rebirth_stat_source_stats={
+            "hp": 99999,
+            "mp": 99999,
+            "offense": 9999,
+            "defense": 9999,
+            "speed": 100,
+            "brains": 9999,
+        },
+    )
+
+    bonuses = apply_random_rebirth_stat_bonuses(state, random.Random(1))
+
+    assert bonuses == {"speed": 30}
 
 
 def test_ultimate_auto_rebirth_random_bonus_uses_forty_percent_distribution():
