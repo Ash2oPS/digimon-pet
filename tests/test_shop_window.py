@@ -40,6 +40,7 @@ def _catalog() -> ItemCatalog:
                 name="DigiAlcohol",
                 description="Makes your Digimon drunk.",
                 type=ItemType.CONSUMABLE,
+                icon_path="assets/items/beer.png",
                 shop_price_bits=1000,
                 suggested_market_price_bits=1000,
             ),
@@ -192,7 +193,7 @@ def test_shop_window_buys_online_friend_listing():
     assert calls == [("friend", "192.168.1.42:54545", "listing-1")]
 
 
-def test_friend_market_cards_show_suggested_price_and_overprice_warning():
+def test_friend_market_cards_use_inventory_like_grid_without_price_advice():
     app = QApplication.instance() or QApplication([])
     calls = []
     window = _window(calls)
@@ -214,8 +215,11 @@ def test_friend_market_cards_show_suggested_price_and_overprice_warning():
         ],
     )
 
+    labels = [label.text() for label in window.findChildren(type(window._friend_price_labels["listing-1"]))]
+    assert window._friend_grid_layout.columnCount() >= 4
+    assert window._friend_icon_labels["listing-1"].pixmap() is not None
     assert window._friend_price_labels["listing-1"].text() == "100000 Bits"
-    assert window._friend_suggestion_labels["listing-1"].text() == "Suggested: 1000 Bits"
-    assert window._friend_price_flags["listing-1"].text() == "100x suggested"
+    assert not any("Suggested" in text for text in labels)
+    assert not any("suggested" in text for text in labels)
     assert window._friend_buy_buttons["listing-1"].isEnabled() is False
     assert window._friend_buy_buttons["listing-1"].toolTip() == "Not enough Bits"
