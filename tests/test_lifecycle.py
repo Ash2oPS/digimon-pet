@@ -12,6 +12,7 @@ from digimon_pet.domain.lifecycle import (
     choose_rebirth,
     has_rebirth_stat_capacity,
     next_lifecycle_event,
+    rebirth_stat_allocation_total_percent,
     rebirth_stat_preview,
 )
 from digimon_pet.domain.models import GrowthStage, PetState, Species
@@ -113,6 +114,23 @@ def test_mega_dies_after_mega_duration():
 
     assert event == "died:choice_required"
     assert state.needs_rebirth_choice is True
+
+
+@pytest.mark.parametrize(
+    ("stage", "expected_percent"),
+    [
+        (GrowthStage.BABY, 0),
+        (GrowthStage.BABY_2, 0),
+        (GrowthStage.ROOKIE, 10),
+        (GrowthStage.CHAMPION, 30),
+        (GrowthStage.ULTIMATE, 50),
+        (GrowthStage.MEGA, 100),
+    ],
+)
+def test_rebirth_stat_allocation_total_percent_depends_on_death_stage(stage, expected_percent):
+    state = PetState("testmon", stage)
+
+    assert rebirth_stat_allocation_total_percent(state) == expected_percent
 
 
 def test_baby_line_evolves_forced_and_resets_stage_state():

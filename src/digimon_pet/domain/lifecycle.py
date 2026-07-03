@@ -18,9 +18,14 @@ INHERITED_STAT_MAXIMUMS = {
     "speed": 9999,
     "brains": 9999,
 }
-REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 30
-ULTIMATE_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 50
-MEGA_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT = 100
+REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT_BY_STAGE = {
+    GrowthStage.BABY: 0,
+    GrowthStage.BABY_2: 0,
+    GrowthStage.ROOKIE: 10,
+    GrowthStage.CHAMPION: 30,
+    GrowthStage.ULTIMATE: 50,
+    GrowthStage.MEGA: 100,
+}
 REBIRTH_STAT_ALLOCATION_STEP_PERCENT = 5
 BABY_1_TO_BABY_2 = {
     "botamon": "koromon",
@@ -464,11 +469,7 @@ def _rebirth_source_stats(state: PetState) -> dict[str, int]:
 
 
 def rebirth_stat_allocation_total_percent(state: PetState) -> int:
-    if state.stage == GrowthStage.MEGA:
-        return MEGA_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT
-    if state.stage == GrowthStage.ULTIMATE:
-        return ULTIMATE_REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT
-    return REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT
+    return REBIRTH_STAT_ALLOCATION_TOTAL_PERCENT_BY_STAGE[state.stage]
 
 
 def _clean_rebirth_stat_allocations(allocations: dict[str, int], state: PetState) -> dict[str, int]:

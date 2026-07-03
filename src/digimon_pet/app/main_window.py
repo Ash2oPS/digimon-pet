@@ -1251,6 +1251,9 @@ class PetWindow(QWidget):
     def _prompt_rebirth_stat_allocation(self) -> bool:
         if self._state.pending_rebirth_stat_bonuses:
             return True
+        if rebirth_stat_allocation_total_percent(self._state) <= 0:
+            self._state.pending_rebirth_stat_bonuses = {}
+            return True
         if not has_rebirth_stat_capacity(self._state):
             self._state.pending_rebirth_stat_bonuses = {}
             return True

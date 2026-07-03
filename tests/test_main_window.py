@@ -757,6 +757,19 @@ def test_rebirth_stat_allocation_skips_when_all_stats_are_maxed(tmp_path, monkey
     assert called == []
 
 
+@pytest.mark.parametrize("stage", [GrowthStage.BABY, GrowthStage.BABY_2])
+def test_rebirth_stat_allocation_skips_for_baby_stages(tmp_path, monkeypatch, stage):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    window = PetWindow(overlay=True, debug=True)
+    window._state.stage = stage
+    called = []
+    monkeypatch.setattr(window, "_get_rebirth_stat_allocation", lambda: called.append("stats") or ({}, True))
+
+    assert window._prompt_rebirth_stat_allocation() is True
+    assert called == []
+
+
 def test_missing_current_save_prompts_even_when_legacy_save_exists(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     save_path = tmp_path / "pet_save.json"
@@ -1149,7 +1162,7 @@ def test_manual_item_death_uses_same_rebirth_stat_allocation_flow(tmp_path, monk
 
     def allocate():
         calls.append(("allocation", dict(window._state.pending_rebirth_stat_source_stats)))
-        return {"hp": 15, "mp": 10, "speed": 5}, True
+        return {"hp": 5, "mp": 5}, True
 
     def choose_baby(baby_ids):
         calls.append(("baby", dict(window._state.pending_rebirth_stat_bonuses)))
@@ -1175,7 +1188,7 @@ def test_manual_item_death_uses_same_rebirth_stat_allocation_flow(tmp_path, monk
                 "brains": 30,
             },
         ),
-        ("baby", {"hp": 45, "mp": 40, "speed": 3}),
+        ("baby", {"hp": 15, "mp": 20}),
     ]
     assert window._state.species_id == "botamon"
     assert window._state.needs_rebirth_choice is False
