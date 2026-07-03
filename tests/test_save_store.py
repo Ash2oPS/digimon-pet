@@ -384,6 +384,22 @@ def test_save_load_persists_auto_clicker_expiration(tmp_path):
     assert loaded.auto_clicker_expires_at == 123456
 
 
+def test_save_load_persists_speedrun_mode(tmp_path):
+    path = tmp_path / "pet_save.json"
+    state = PetState(
+        species_id="agumon",
+        stage=GrowthStage.ROOKIE,
+        speedrun_mode_unlocked=True,
+        speedrun_mode_enabled=True,
+    )
+
+    save_pet_state(state, path)
+    loaded = load_pet_state(path)
+
+    assert loaded.speedrun_mode_unlocked is True
+    assert loaded.speedrun_mode_enabled is True
+
+
 def test_save_load_persists_window_position(tmp_path):
     path = tmp_path / "pet_save.json"
     state = PetState(

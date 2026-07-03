@@ -63,6 +63,7 @@ from digimon_pet.domain.lifecycle import (
     effective_rebirth_stat_allocation_percent,
     force_evolve_to,
     has_rebirth_stat_capacity,
+    inherited_stats_are_maxed,
     next_lifecycle_event,
     rebirth_stat_allocation_can_increase,
     rebirth_stat_allocation_total_percent,
@@ -91,6 +92,7 @@ from digimon_pet.storage import save_store
 SECONDARY_EVENT_MIN_SECONDS = 180
 SECONDARY_EVENT_MAX_SECONDS = 300
 SECONDARY_EVENT_TTL_SECONDS = 30
+SPEEDRUN_MODE_TIME_SCALE = 4
 SECONDARY_EVENT_KINDS = ("meat", "dumbbell")
 SECONDARY_EVENT_ITEM_KIND = "item"
 SECONDARY_EVENT_ACTIONS = {
@@ -899,7 +901,7 @@ class PetWindow(QWidget):
     def _tick(self) -> None:
         if self._pending_lifecycle_kind is None and not self._lifecycle_animating:
             previous_age_seconds = self._state.age_seconds
-            apply_tick(self._state, 1, debug_multiplier=self._debug_time_scale)
+            apply_tick(self._state, 1, debug_multiplier=self._effective_lifecycle_time_scale())
             self._apply_passive_stat_growth(previous_age_seconds)
             if self._state.current_action not in {"sleep", "idle"}:
                 if self._action_animation_ticks_remaining > 0:
@@ -1033,12 +1035,12 @@ class PetWindow(QWidget):
         if self._state.age_seconds < threshold:
             return
         self._state.age_seconds = threshold
-        if self._auto_lifecycle_events:
+        kind = self._preview_lifecycle_kind()
+        if self._auto_lifecycle_events or (self._speedrun_mode_active() and kind == "evolution"):
             event = self._resolve_lifecycle_now(allow_natural_death_evolution=True)
             if event == self._natural_death_evolution_event():
                 self._reveal_death_evolution_resolution()
             return
-        kind = self._preview_lifecycle_kind()
         if kind is None:
             return
         self._pending_lifecycle_kind = kind
@@ -1254,6 +1256,9 @@ class PetWindow(QWidget):
         if rebirth_stat_allocation_total_percent(self._state) <= 0:
             self._state.pending_rebirth_stat_bonuses = {}
             return True
+        if inherited_stats_are_maxed(self._state):
+            self._state.pending_rebirth_stat_bonuses = {}
+            return True
         if not has_rebirth_stat_capacity(self._state):
             self._state.pending_rebirth_stat_bonuses = {}
             return True
@@ -1290,7 +1295,7 @@ class PetWindow(QWidget):
             if self._secondary_event_ttl_seconds <= 0:
                 self._clear_secondary_event(schedule_next=True)
             return
-        self._secondary_event_seconds_remaining -= 1
+        self._secondary_event_seconds_remaining -= self._secondary_event_time_step()
         if self._secondary_event_seconds_remaining <= 0:
             self._show_secondary_event()
 
@@ -1363,6 +1368,8 @@ class PetWindow(QWidget):
         return 100 if stat_name in {"hp", "mp"} else 10
 
     def _auto_clicker_active(self) -> bool:
+        if self._speedrun_mode_active():
+            return True
         expires_at = self._state.auto_clicker_expires_at
         if expires_at is None:
             return False
@@ -1456,6 +1463,7 @@ class PetWindow(QWidget):
         self._state.pet_scale_percent = self._pet_scale_percent
 
     def _refresh(self) -> None:
+        self._update_speedrun_unlock()
         species = self._species[self._state.species_id]
         self._pet_widget.set_pet(self._state, species)
         if self._state.needs_rebirth_choice and not self._lifecycle_animating:
@@ -1488,6 +1496,30 @@ class PetWindow(QWidget):
             self._resolve_lifecycle_now()
             self._save_and_refresh()
         self._save_debug_settings()
+
+    def _set_speedrun_mode_enabled(self, enabled: bool) -> None:
+        self._update_speedrun_unlock()
+        self._state.speedrun_mode_enabled = bool(enabled) and self._state.speedrun_mode_unlocked
+        if self._speedrun_mode_active() and self._secondary_event_kind is not None:
+            self._claim_secondary_event(auto_claim=True)
+            return
+        self._save_and_refresh()
+
+    def _update_speedrun_unlock(self) -> None:
+        if inherited_stats_are_maxed(self._state):
+            self._state.speedrun_mode_unlocked = True
+        if not self._state.speedrun_mode_unlocked:
+            self._state.speedrun_mode_enabled = False
+
+    def _speedrun_mode_active(self) -> bool:
+        return self._state.speedrun_mode_unlocked and self._state.speedrun_mode_enabled
+
+    def _effective_lifecycle_time_scale(self) -> int:
+        multiplier = SPEEDRUN_MODE_TIME_SCALE if self._speedrun_mode_active() else 1
+        return self._debug_time_scale * multiplier
+
+    def _secondary_event_time_step(self) -> int:
+        return SPEEDRUN_MODE_TIME_SCALE if self._speedrun_mode_active() else 1
 
     def _save_debug_settings(self) -> None:
         if not self._debug:
@@ -1540,7 +1572,7 @@ class PetWindow(QWidget):
 
     def _open_stats(self) -> None:
         if self._stats_window is None:
-            self._stats_window = StatsWindow(self)
+            self._stats_window = StatsWindow(self, speedrun_mode_changed=self._set_speedrun_mode_enabled)
         self._stats_window.refresh(self._state, self._species[self._state.species_id])
         self._position_secondary_window(self._stats_window)
         self._stats_window.show()

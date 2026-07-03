@@ -503,6 +503,13 @@ def has_rebirth_stat_capacity(state: PetState) -> bool:
     )
 
 
+def inherited_stats_are_maxed(state: PetState) -> bool:
+    return all(
+        int(getattr(state, stat_name)) >= _max_rebirth_stat(stat_name)
+        for stat_name in INHERITED_STAT_NAMES
+    )
+
+
 def rebirth_stat_allocation_fits_capacity(state: PetState, stat_name: str, percent: int) -> bool:
     if stat_name not in INHERITED_STAT_NAMES:
         raise ValueError(f"Unsupported inherited stat: {stat_name}")

@@ -29,5 +29,7 @@
   "bakemon_lineage_used": false,
   "bakemon_generation_cooldown": 0,
   "inventory": {},
+  "speedrun_mode_unlocked": false,
+  "speedrun_mode_enabled": false,
   "filled_incubators": []
 }

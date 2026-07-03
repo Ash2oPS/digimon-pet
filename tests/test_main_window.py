@@ -757,6 +757,39 @@ def test_rebirth_stat_allocation_skips_when_all_stats_are_maxed(tmp_path, monkey
     assert called == []
 
 
+def test_rebirth_stat_allocation_can_continue_when_caps_consume_remaining_percent():
+    app = QApplication.instance() or QApplication([])
+    state = PetState(
+        "wargreymon",
+        GrowthStage.MEGA,
+        generation_stat_bonuses={
+            "hp": 99699,
+            "mp": 99699,
+            "offense": 9967,
+            "defense": 9969,
+            "speed": 9969,
+            "brains": 9969,
+        },
+        pending_rebirth_stat_source_stats={
+            "hp": 1000,
+            "mp": 1000,
+            "offense": 100,
+            "defense": 100,
+            "speed": 100,
+            "brains": 100,
+        },
+    )
+    dialog = RebirthStatAllocationDialog(state)
+    buttons = dialog.findChild(QDialogButtonBox)
+    ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
+
+    dialog._adjust("offense", 5)
+
+    assert dialog.selected_allocations()["offense"] == 2
+    assert dialog._remaining_label.text() == "78% remaining."
+    assert ok_button.isEnabled() is True
+
+
 @pytest.mark.parametrize("stage", [GrowthStage.BABY, GrowthStage.BABY_2])
 def test_rebirth_stat_allocation_skips_for_baby_stages(tmp_path, monkeypatch, stage):
     app = QApplication.instance() or QApplication([])
@@ -810,6 +843,29 @@ def test_tick_uses_debug_time_scale():
     window._tick()
 
     assert window._state.age_seconds == 5
+
+
+def test_speedrun_mode_unlocks_from_maxed_stats_and_multiplies_lifetime(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 9999
+    window._state.age_seconds = 0
+    window._debug_time_scale = 2
+
+    window._refresh()
+    window._set_speedrun_mode_enabled(True)
+    window._tick()
+
+    assert window._state.speedrun_mode_unlocked is True
+    assert window._state.speedrun_mode_enabled is True
+    assert window._state.age_seconds == 8
 
 
 def test_normal_mode_ignores_saved_debug_time_scale(tmp_path):
@@ -1245,6 +1301,33 @@ def test_auto_lifecycle_resolves_without_pending_animation(tmp_path, monkeypatch
     assert window._state.species_id == "koromon"
 
 
+def test_speedrun_mode_auto_resolves_evolution_but_queues_death(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._auto_lifecycle_events = False
+    window._state.speedrun_mode_unlocked = True
+    window._state.speedrun_mode_enabled = True
+    window._state.species_id = "botamon"
+    window._state.stage = GrowthStage.BABY
+    window._state.age_seconds = window._lifecycle_schedule.baby_seconds
+
+    window._queue_or_advance_lifecycle()
+
+    assert window._pending_lifecycle_kind is None
+    assert window._state.species_id == "koromon"
+
+    window._state.species_id = "wargreymon"
+    window._state.stage = GrowthStage.MEGA
+    window._state.age_seconds = window._lifecycle_schedule.mega_seconds
+
+    window._queue_or_advance_lifecycle()
+
+    assert window._pending_lifecycle_kind == "death"
+    assert window._state.needs_rebirth_choice is False
+
+
 def test_secondary_event_appears_after_random_delay_without_pausing_age(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
@@ -1261,6 +1344,24 @@ def test_secondary_event_appears_after_random_delay_without_pausing_age(tmp_path
     assert window._secondary_event_ttl_seconds == 30
     assert window._pet_widget.event_prompt_kind().startswith("secondary_")
     assert window._pet_widget._effect_name is None
+
+
+def test_speedrun_mode_auto_claims_secondary_events_and_uses_fast_delay(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._rng = _FixedSecondaryEventRng(["hp", "offense"])
+    window._state.speedrun_mode_unlocked = True
+    window._state.speedrun_mode_enabled = True
+    window._secondary_event_seconds_remaining = 4
+
+    window._tick()
+
+    assert window._secondary_event_kind is None
+    assert window._pet_widget.event_prompt_kind() is None
+    assert window._state.hp == 400
+    assert window._state.offense == 40
 
 
 def test_secondary_event_appearance_plays_walk_animation(tmp_path, monkeypatch):
@@ -2001,6 +2102,31 @@ def test_stats_window_opens_and_refreshes_live_values():
     window._refresh()
 
     assert window._stats_window._labels["hp"].text() == "999"
+
+
+def test_stats_window_shows_speedrun_toggle_only_after_unlock(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=False)
+    window._open_stats()
+
+    assert window._stats_window is not None
+    assert window._stats_window._speedrun_checkbox.isVisible() is False
+
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 9999
+    window._refresh()
+
+    assert window._stats_window._speedrun_checkbox.isVisible() is True
+
+    window._stats_window._speedrun_checkbox.setChecked(True)
+
+    assert window._state.speedrun_mode_enabled is True
 
 
 def test_radial_menu_shows_stats_network_collection_inventory_and_close():

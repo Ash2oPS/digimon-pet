@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from pathlib import Path
 import threading
+from collections.abc import Callable
 
 from PySide6.QtCore import QObject, QRect, QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
+    QCheckBox,
     QDialog,
     QFrame,
     QGridLayout,
@@ -49,8 +51,14 @@ class _ArtworkDownloadSignals(QObject):
 
 
 class StatsWindow(QDialog):
-    def __init__(self, parent: QWidget | None = None) -> None:
+    def __init__(
+        self,
+        parent: QWidget | None = None,
+        speedrun_mode_changed: Callable[[bool], None] | None = None,
+    ) -> None:
         super().__init__(parent)
+        self._speedrun_mode_changed = speedrun_mode_changed
+        self._updating_speedrun_toggle = False
         self._manifest = load_runtime_manifest()
         self._state: PetState | None = None
         self._species: Species | None = None
@@ -105,9 +113,13 @@ class StatsWindow(QDialog):
         self._summary_label = QLabel("-", self)
         self._summary_label.setObjectName("Muted")
         self._summary_label.setWordWrap(True)
+        self._speedrun_checkbox = QCheckBox("Speedrun Mode", self)
+        self._speedrun_checkbox.setObjectName("SpeedrunToggle")
+        self._speedrun_checkbox.toggled.connect(self._emit_speedrun_mode_changed)
         identity_layout.addWidget(self._name_label)
         identity_layout.addWidget(self._stage_label)
         identity_layout.addWidget(self._summary_label)
+        identity_layout.addWidget(self._speedrun_checkbox)
         identity_layout.addStretch(1)
         header_layout.addLayout(identity_layout, 1)
         layout.addWidget(header)
@@ -127,6 +139,7 @@ class StatsWindow(QDialog):
             f"Generation {state.generation_count} - {_format_age(state.age_seconds)} - {_format_action(state.current_action)}"
             f" - {'asleep' if state.is_sleeping else 'awake'}"
         )
+        self._refresh_speedrun_toggle(state)
         self._set_label("age", _format_age(state.age_seconds))
         self._set_label("stage", _format_stage(species.stage.value))
         self._set_label("action", _format_action(state.current_action))
@@ -156,6 +169,20 @@ class StatsWindow(QDialog):
         self._current_animation_interval_ms = idle_animation_interval_for_species(species, self._manifest)
         self._refresh_evolution(state, species)
         self._set_sprite(state, species)
+
+    def _refresh_speedrun_toggle(self, state: PetState) -> None:
+        self._updating_speedrun_toggle = True
+        try:
+            self._speedrun_checkbox.setVisible(state.speedrun_mode_unlocked)
+            self._speedrun_checkbox.setEnabled(state.speedrun_mode_unlocked)
+            self._speedrun_checkbox.setChecked(state.speedrun_mode_enabled)
+        finally:
+            self._updating_speedrun_toggle = False
+
+    def _emit_speedrun_mode_changed(self, enabled: bool) -> None:
+        if self._updating_speedrun_toggle or self._speedrun_mode_changed is None:
+            return
+        self._speedrun_mode_changed(enabled)
 
     def _build_overview_tab(self) -> QWidget:
         page = QWidget(self)

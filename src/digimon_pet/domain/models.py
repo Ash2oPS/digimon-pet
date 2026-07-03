@@ -84,6 +84,8 @@ class PetState:
     secondary_event_ttl_seconds: int = 0
     secondary_event_seconds_remaining: int | None = None
     auto_clicker_expires_at: int | None = None
+    speedrun_mode_unlocked: bool = False
+    speedrun_mode_enabled: bool = False
     window_x: int | None = None
     window_y: int | None = None
     window_screen_name: str | None = None
@@ -134,6 +136,8 @@ class PetState:
         if self.secondary_event_seconds_remaining is not None:
             self.secondary_event_seconds_remaining = max(0, int(self.secondary_event_seconds_remaining))
         self.auto_clicker_expires_at = _clean_optional_int(self.auto_clicker_expires_at)
+        self.speedrun_mode_unlocked = bool(self.speedrun_mode_unlocked)
+        self.speedrun_mode_enabled = bool(self.speedrun_mode_enabled) and self.speedrun_mode_unlocked
         self.window_x = _clean_optional_int(self.window_x)
         self.window_y = _clean_optional_int(self.window_y)
         self.window_screen_name = _clean_optional_text(self.window_screen_name)
