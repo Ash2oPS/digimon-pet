@@ -35,6 +35,14 @@ def _catalog() -> ItemCatalog:
                 shop_price_bits=1500,
                 suggested_market_price_bits=1500,
             ),
+            "digialcohol": ItemDefinition(
+                id="digialcohol",
+                name="DigiAlcohol",
+                description="Makes your Digimon drunk.",
+                type=ItemType.CONSUMABLE,
+                shop_price_bits=1000,
+                suggested_market_price_bits=1000,
+            ),
         },
         pools={},
     )
@@ -57,13 +65,15 @@ def test_shop_window_renders_shop_items_and_disables_unaffordable_buy():
 
     window.set_data(bits=300, catalog=_catalog(), inventory={}, listings=[], friend_listings=[])
 
-    assert window._shop_table.rowCount() == 3
-    assert window._shop_table.item(0, 0).text() == "DigiMeat"
-    assert window._shop_table.item(2, 0).text() == "Auto Clicker"
-    assert window._shop_table.cellWidget(0, 3).isEnabled() is True
-    assert window._shop_table.cellWidget(2, 3).isEnabled() is False
+    assert window._tabs.tabText(0) == "Buy Items"
+    assert window._tabs.tabText(1) == "Sell Items"
+    assert window._tabs.tabText(2) == "Friend Market"
+    assert len(window._shop_buy_buttons) == 3
+    assert window._shop_buy_buttons["digimeat"].isEnabled() is True
+    assert window._shop_buy_buttons["auto_clicker"].isEnabled() is False
+    assert window._shop_buy_buttons["auto_clicker"].toolTip() == "Not enough Bits"
 
-    window._shop_table.cellWidget(0, 3).click()
+    window._shop_buy_buttons["digimeat"].click()
 
     assert calls == [("buy", "digimeat")]
 
@@ -81,17 +91,10 @@ def test_shop_window_sells_owned_items_for_one_third_value():
         friend_listings=[],
     )
 
-    assert window._shop_table.rowCount() == 3
-    assert window._shop_table.item(0, 0).text() == "DigiMeat"
-    assert window._shop_table.item(2, 0).text() == "Auto Clicker"
-    black_wings_row = 1
-    assert window._shop_table.item(black_wings_row, 0).text() == "Black Wings"
-    assert window._shop_table.item(black_wings_row, 1).text() == "900 Bits"
-    assert window._shop_table.item(black_wings_row, 4).text() == "300 Bits"
-    assert window._shop_table.cellWidget(black_wings_row, 3).isEnabled() is False
-    assert window._shop_table.cellWidget(black_wings_row, 5).isEnabled() is True
+    assert window._sell_value_labels["black_wings"].text() == "Sell now: 300 Bits"
+    assert window._shop_sell_buttons["black_wings"].isEnabled() is True
 
-    window._shop_table.cellWidget(black_wings_row, 5).click()
+    window._shop_sell_buttons["black_wings"].click()
 
     assert calls == [("sell", "black_wings")]
 
@@ -108,11 +111,9 @@ def test_shop_window_uses_separate_listing_form_instead_of_inline_table_controls
         listings=[],
         friend_listings=[],
     )
-    assert window._inventory_table.columnCount() == 3
-    assert window._inventory_table.cellWidget(0, 2) is None
-    assert window._inventory_table.item(0, 2).text() == "900 Bits"
+    assert window._sell_item_buttons["black_wings"].text() == "List"
 
-    window._inventory_table.selectRow(1)
+    window._select_listing_item("digimeat")
     window._listing_price_input.setValue(425)
     window._list_selected_button.click()
 
@@ -131,7 +132,7 @@ def test_shop_window_preserves_typed_listing_price_across_refreshes():
         listings=[],
         friend_listings=[],
     )
-    window._inventory_table.selectRow(1)
+    window._select_listing_item("digimeat")
     window._listing_price_input.setValue(425)
 
     window.set_data(
@@ -160,7 +161,7 @@ def test_shop_window_cancels_listing():
         ],
         friend_listings=[],
     )
-    window._listing_table.cellWidget(0, 3).click()
+    window._listing_cancel_buttons["listing-1"].click()
 
     assert calls == [("cancel", "listing-1")]
 
@@ -186,6 +187,35 @@ def test_shop_window_buys_online_friend_listing():
             )
         ],
     )
-    window._friend_table.cellWidget(0, 4).click()
+    window._friend_buy_buttons["listing-1"].click()
 
     assert calls == [("friend", "192.168.1.42:54545", "listing-1")]
+
+
+def test_friend_market_cards_show_suggested_price_and_overprice_warning():
+    app = QApplication.instance() or QApplication([])
+    calls = []
+    window = _window(calls)
+
+    window.set_data(
+        bits=1661,
+        catalog=_catalog(),
+        inventory={},
+        listings=[],
+        friend_listings=[
+            FriendMarketListing(
+                address="192.168.1.42:54545",
+                trainer_name="Joris Joestar",
+                listing_id="listing-1",
+                item_id="digialcohol",
+                item_name="DigiAlcohol",
+                price_bits=100000,
+            )
+        ],
+    )
+
+    assert window._friend_price_labels["listing-1"].text() == "100000 Bits"
+    assert window._friend_suggestion_labels["listing-1"].text() == "Suggested: 1000 Bits"
+    assert window._friend_price_flags["listing-1"].text() == "100x suggested"
+    assert window._friend_buy_buttons["listing-1"].isEnabled() is False
+    assert window._friend_buy_buttons["listing-1"].toolTip() == "Not enough Bits"
