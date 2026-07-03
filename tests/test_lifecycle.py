@@ -124,7 +124,7 @@ def test_mega_dies_after_mega_duration():
         (GrowthStage.ROOKIE, 10),
         (GrowthStage.CHAMPION, 30),
         (GrowthStage.ULTIMATE, 50),
-        (GrowthStage.MEGA, 100),
+        (GrowthStage.MEGA, 80),
     ],
 )
 def test_rebirth_stat_allocation_total_percent_depends_on_death_stage(stage, expected_percent):
@@ -834,13 +834,13 @@ def test_rebirth_stat_allocation_clamps_to_stat_caps():
         },
     )
 
-    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 5, "mp": 95})
-    preview = rebirth_stat_preview(state, {"hp": 5, "mp": 95})
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 5, "mp": 75})
+    preview = rebirth_stat_preview(state, {"hp": 5, "mp": 75})
 
-    assert bonuses == {"mp": 950}
+    assert bonuses == {"mp": 750}
     assert preview["hp"]["bonus"] == 0
     assert preview["hp"]["after"] == 99999
-    assert preview["mp"]["after"] == 1250
+    assert preview["mp"]["after"] == 1050
 
 
 def test_rebirth_stat_allocation_accepts_partial_percent_when_cap_returns_surplus():
@@ -889,13 +889,13 @@ def test_rebirth_stat_allocation_accepts_partial_remaining_percent_on_any_stat()
         },
     )
 
-    bonuses = allocate_rebirth_stat_bonuses(state, {"speed": 97, "offense": 3})
-    preview = rebirth_stat_preview(state, {"speed": 97, "offense": 3})
+    bonuses = allocate_rebirth_stat_bonuses(state, {"speed": 77, "offense": 3})
+    preview = rebirth_stat_preview(state, {"speed": 77, "offense": 3})
 
-    assert bonuses == {"offense": 3, "speed": 970}
+    assert bonuses == {"offense": 3, "speed": 770}
     assert preview["offense"]["after"] == 9999
-    assert preview["speed"]["percent"] == 97
-    assert preview["speed"]["bonus"] == 970
+    assert preview["speed"]["percent"] == 77
+    assert preview["speed"]["bonus"] == 770
 
 
 def test_rebirth_stat_capacity_detects_when_every_inherited_stat_is_maxed():
@@ -944,18 +944,18 @@ def test_ultimate_rebirth_stat_allocation_requires_exact_fifty_percent():
         allocate_rebirth_stat_bonuses(state, {"hp": 20, "mp": 15, "speed": 5})
 
 
-def test_mega_rebirth_stat_allocation_requires_exact_hundred_percent():
+def test_mega_rebirth_stat_allocation_requires_exact_eighty_percent():
     state = PetState(
         species_id="wargreymon",
         stage=GrowthStage.MEGA,
         pending_rebirth_stat_source_stats={"hp": 300, "mp": 400, "speed": 70},
     )
 
-    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 50, "mp": 40, "speed": 10})
+    bonuses = allocate_rebirth_stat_bonuses(state, {"hp": 40, "mp": 35, "speed": 5})
 
-    assert bonuses == {"hp": 150, "mp": 160, "speed": 7}
-    with pytest.raises(ValueError, match="total 100"):
-        allocate_rebirth_stat_bonuses(state, {"hp": 50, "mp": 40, "speed": 5})
+    assert bonuses == {"hp": 120, "mp": 140, "speed": 3}
+    with pytest.raises(ValueError, match="total 80"):
+        allocate_rebirth_stat_bonuses(state, {"hp": 40, "mp": 35})
 
 
 def test_auto_rebirth_random_bonus_keeps_old_distribution():

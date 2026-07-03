@@ -632,7 +632,7 @@ def test_rebirth_stat_allocation_dialog_returns_capped_percent_to_counter():
     assert dialog.selected_allocations()["mp"] == 5
     assert dialog._plus_buttons["hp"].isEnabled() is False
     assert dialog._after_labels["hp"].text() == "99999"
-    assert "95% remaining" in dialog._remaining_label.text()
+    assert "75% remaining" in dialog._remaining_label.text()
 
 
 def test_rebirth_stat_allocation_dialog_partially_allocates_final_capped_step():
@@ -667,7 +667,7 @@ def test_rebirth_stat_allocation_dialog_partially_allocates_final_capped_step():
     assert dialog._percent_labels["offense"].text() == "2%"
     assert dialog._bonus_labels["offense"].text() == "+2"
     assert dialog._after_labels["offense"].text() == "9999"
-    assert "98% remaining" in dialog._remaining_label.text()
+    assert "78% remaining" in dialog._remaining_label.text()
     assert ok_button.isEnabled() is True
 
 
@@ -690,7 +690,7 @@ def test_rebirth_stat_allocation_dialog_allocates_partial_remaining_to_any_stat(
     buttons = dialog.findChild(QDialogButtonBox)
     ok_button = buttons.button(QDialogButtonBox.StandardButton.Ok)
 
-    for _index in range(19):
+    for _index in range(15):
         dialog._adjust("speed", 5)
     dialog._adjust("offense", 5)
 
@@ -701,8 +701,8 @@ def test_rebirth_stat_allocation_dialog_allocates_partial_remaining_to_any_stat(
 
     dialog._adjust("speed", 5)
 
-    assert dialog.selected_allocations()["speed"] == 97
-    assert dialog._percent_labels["speed"].text() == "97%"
+    assert dialog.selected_allocations()["speed"] == 77
+    assert dialog._percent_labels["speed"].text() == "77%"
     assert "Allocation complete." in dialog._remaining_label.text()
     assert ok_button.isEnabled() is True
 
