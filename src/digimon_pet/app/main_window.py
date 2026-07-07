@@ -59,11 +59,11 @@ from digimon_pet.domain.lifecycle import (
     allocate_rebirth_stat_bonuses,
     apply_random_rebirth_stat_bonuses,
     baby_1_choices,
+    birth_stats_are_maxed,
     choose_rebirth,
     effective_rebirth_stat_allocation_percent,
     force_evolve_to,
     has_rebirth_stat_capacity,
-    inherited_stats_are_maxed,
     inherited_stats_below_max,
     next_lifecycle_event,
     rebirth_stat_allocation_can_increase,
@@ -1260,7 +1260,7 @@ class PetWindow(QWidget):
         if rebirth_stat_allocation_total_percent(self._state) <= 0:
             self._state.pending_rebirth_stat_bonuses = {}
             return True
-        if inherited_stats_are_maxed(self._state):
+        if birth_stats_are_maxed(self._state):
             self._state.pending_rebirth_stat_bonuses = {}
             return True
         if not has_rebirth_stat_capacity(self._state):
@@ -1511,7 +1511,7 @@ class PetWindow(QWidget):
         self._save_and_refresh()
 
     def _update_speedrun_unlock(self) -> None:
-        if inherited_stats_are_maxed(self._state):
+        if birth_stats_are_maxed(self._state):
             self._state.speedrun_mode_unlocked = True
         if not self._state.speedrun_mode_unlocked:
             self._state.speedrun_mode_enabled = False

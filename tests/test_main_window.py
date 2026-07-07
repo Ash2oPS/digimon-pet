@@ -742,19 +742,35 @@ def test_rebirth_stat_allocation_skips_when_all_stats_are_maxed(tmp_path, monkey
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
     window = PetWindow(overlay=True, debug=True)
-    window._state.generation_stat_bonuses = {
-        "hp": 99699,
-        "mp": 99699,
-        "offense": 9969,
-        "defense": 9969,
-        "speed": 9969,
-        "brains": 9969,
-    }
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 9999
     called = []
     monkeypatch.setattr(window, "_get_rebirth_stat_allocation", lambda: called.append("stats") or ({}, True))
 
     assert window._prompt_rebirth_stat_allocation() is True
     assert called == []
+
+
+def test_rebirth_stat_allocation_does_not_skip_when_only_current_stats_are_maxed(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+    window = PetWindow(overlay=True, debug=True)
+    window._state.stage = GrowthStage.MEGA
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 9999
+    called = []
+    monkeypatch.setattr(window, "_get_rebirth_stat_allocation", lambda: called.append("stats") or ({}, False))
+
+    assert window._prompt_rebirth_stat_allocation() is False
+    assert called == ["stats"]
 
 
 def test_rebirth_stat_allocation_can_continue_when_caps_consume_remaining_percent():
@@ -845,17 +861,19 @@ def test_tick_uses_debug_time_scale():
     assert window._state.age_seconds == 5
 
 
-def test_speedrun_mode_unlocks_from_maxed_stats_and_multiplies_lifetime(tmp_path, monkeypatch):
+def test_speedrun_mode_unlocks_from_maxed_birth_stats_and_multiplies_lifetime(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
 
     window = PetWindow(overlay=True, debug=True)
-    window._state.hp = 99999
-    window._state.mp = 99999
-    window._state.offense = 9999
-    window._state.defense = 9999
-    window._state.speed = 9999
-    window._state.brains = 9999
+    window._state.generation_stat_bonuses = {
+        "hp": 99699,
+        "mp": 99699,
+        "offense": 9969,
+        "defense": 9969,
+        "speed": 9969,
+        "brains": 9969,
+    }
     window._state.age_seconds = 0
     window._debug_time_scale = 2
 
@@ -866,6 +884,25 @@ def test_speedrun_mode_unlocks_from_maxed_stats_and_multiplies_lifetime(tmp_path
     assert window._state.speedrun_mode_unlocked is True
     assert window._state.speedrun_mode_enabled is True
     assert window._state.age_seconds == 8
+
+
+def test_speedrun_mode_does_not_unlock_from_current_stats_only(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 9999
+
+    window._refresh()
+    window._set_speedrun_mode_enabled(True)
+
+    assert window._state.speedrun_mode_unlocked is False
+    assert window._state.speedrun_mode_enabled is False
 
 
 def test_normal_mode_ignores_saved_debug_time_scale(tmp_path):
@@ -2154,12 +2191,14 @@ def test_stats_window_shows_speedrun_toggle_only_after_unlock(tmp_path, monkeypa
     assert window._stats_window is not None
     assert window._stats_window._speedrun_checkbox.isVisible() is False
 
-    window._state.hp = 99999
-    window._state.mp = 99999
-    window._state.offense = 9999
-    window._state.defense = 9999
-    window._state.speed = 9999
-    window._state.brains = 9999
+    window._state.generation_stat_bonuses = {
+        "hp": 99699,
+        "mp": 99699,
+        "offense": 9969,
+        "defense": 9969,
+        "speed": 9969,
+        "brains": 9969,
+    }
     window._refresh()
 
     assert window._stats_window._speedrun_checkbox.isVisible() is True

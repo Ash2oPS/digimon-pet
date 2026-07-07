@@ -516,6 +516,14 @@ def inherited_stats_are_maxed(state: PetState) -> bool:
     )
 
 
+def birth_stats_are_maxed(state: PetState) -> bool:
+    return all(
+        _base_rebirth_stat(stat_name) + state.generation_stat_bonuses.get(stat_name, 0)
+        >= _max_rebirth_stat(stat_name)
+        for stat_name in INHERITED_STAT_NAMES
+    )
+
+
 def inherited_stats_below_max(state: PetState) -> tuple[str, ...]:
     return tuple(
         stat_name

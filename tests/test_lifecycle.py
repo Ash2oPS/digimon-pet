@@ -9,6 +9,7 @@ from digimon_pet.domain.lifecycle import (
     advance_lifecycle,
     apply_random_rebirth_stat_bonuses,
     baby_1_choices,
+    birth_stats_are_maxed,
     choose_rebirth,
     has_rebirth_stat_capacity,
     inherited_stats_are_maxed,
@@ -958,6 +959,32 @@ def test_inherited_stats_are_maxed_checks_current_pet_stats():
     state.brains = 9998
 
     assert inherited_stats_are_maxed(state) is False
+
+
+def test_birth_stats_are_maxed_checks_rebirth_base_stats():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        hp=99999,
+        mp=99999,
+        offense=9999,
+        defense=9999,
+        speed=9999,
+        brains=9999,
+    )
+
+    assert birth_stats_are_maxed(state) is False
+
+    state.generation_stat_bonuses = {
+        "hp": 99699,
+        "mp": 99699,
+        "offense": 9969,
+        "defense": 9969,
+        "speed": 9969,
+        "brains": 9969,
+    }
+
+    assert birth_stats_are_maxed(state) is True
 
 
 def test_rebirth_stat_allocation_requires_exact_thirty_percent():
