@@ -1511,8 +1511,7 @@ class PetWindow(QWidget):
         self._save_and_refresh()
 
     def _update_speedrun_unlock(self) -> None:
-        if birth_stats_are_maxed(self._state):
-            self._state.speedrun_mode_unlocked = True
+        self._state.speedrun_mode_unlocked = birth_stats_are_maxed(self._state)
         if not self._state.speedrun_mode_unlocked:
             self._state.speedrun_mode_enabled = False
 

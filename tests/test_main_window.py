@@ -905,6 +905,26 @@ def test_speedrun_mode_does_not_unlock_from_current_stats_only(tmp_path, monkeyp
     assert window._state.speedrun_mode_enabled is False
 
 
+def test_speedrun_mode_relocks_legacy_unlock_when_birth_stats_are_not_maxed(tmp_path, monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
+
+    window = PetWindow(overlay=True, debug=True)
+    window._state.speedrun_mode_unlocked = True
+    window._state.speedrun_mode_enabled = True
+    window._state.hp = 99999
+    window._state.mp = 99999
+    window._state.offense = 9999
+    window._state.defense = 9999
+    window._state.speed = 9999
+    window._state.brains = 9999
+
+    window._refresh()
+
+    assert window._state.speedrun_mode_unlocked is False
+    assert window._state.speedrun_mode_enabled is False
+
+
 def test_normal_mode_ignores_saved_debug_time_scale(tmp_path):
     app = QApplication.instance() or QApplication([])
     debug_settings.save_debug_settings(
