@@ -1299,7 +1299,7 @@ class PetWindow(QWidget):
             if self._secondary_event_ttl_seconds <= 0:
                 self._clear_secondary_event(schedule_next=True)
             return
-        self._secondary_event_seconds_remaining -= self._secondary_event_time_step()
+        self._secondary_event_seconds_remaining -= 1
         if self._secondary_event_seconds_remaining <= 0:
             self._show_secondary_event()
 
@@ -1521,9 +1521,6 @@ class PetWindow(QWidget):
     def _effective_lifecycle_time_scale(self) -> int:
         multiplier = SPEEDRUN_MODE_TIME_SCALE if self._speedrun_mode_active() else 1
         return self._debug_time_scale * multiplier
-
-    def _secondary_event_time_step(self) -> int:
-        return SPEEDRUN_MODE_TIME_SCALE if self._speedrun_mode_active() else 1
 
     def _save_debug_settings(self) -> None:
         if not self._debug:

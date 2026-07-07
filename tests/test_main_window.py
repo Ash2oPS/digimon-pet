@@ -1422,7 +1422,7 @@ def test_secondary_event_appears_after_random_delay_without_pausing_age(tmp_path
     assert window._pet_widget._effect_name is None
 
 
-def test_speedrun_mode_auto_claims_secondary_events_and_uses_fast_delay(tmp_path, monkeypatch):
+def test_speedrun_mode_keeps_normal_secondary_event_delay(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     monkeypatch.setattr(save_store, "SAVE_PATH", tmp_path / "pet_save.json")
 
@@ -1436,8 +1436,9 @@ def test_speedrun_mode_auto_claims_secondary_events_and_uses_fast_delay(tmp_path
 
     assert window._secondary_event_kind is None
     assert window._pet_widget.event_prompt_kind() is None
-    assert window._state.hp == 400
-    assert window._state.offense == 40
+    assert window._secondary_event_seconds_remaining == 3
+    assert window._state.hp == 300
+    assert window._state.offense == 30
 
 
 def test_secondary_event_appearance_plays_walk_animation(tmp_path, monkeypatch):
