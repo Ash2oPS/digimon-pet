@@ -40,6 +40,7 @@ def species_map():
         "monzaemon": Species("monzaemon", "Monzaemon", GrowthStage.ULTIMATE),
         "vademon": Species("vademon", "Vademon", GrowthStage.ULTIMATE),
         "wargreymon": Species("wargreymon", "WarGreymon", GrowthStage.MEGA),
+        "metalgarurumon": Species("metalgarurumon", "MetalGarurumon", GrowthStage.MEGA),
     }
 
 
@@ -116,6 +117,37 @@ def test_mega_dies_after_mega_duration():
 
     assert event == "died:choice_required"
     assert state.needs_rebirth_choice is True
+
+
+def test_mega_evolves_to_another_mega_when_requirements_match():
+    state = PetState(
+        species_id="wargreymon",
+        stage=GrowthStage.MEGA,
+        age_seconds=3600,
+        hp=70000,
+    )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "wargreymon",
+                "target_species_id": "metalgarurumon",
+                "requirements": {"groups": {"stats": {"hp": 60000}}},
+            }
+        ]
+    }
+
+    event = advance_lifecycle(
+        state,
+        species_map(),
+        digivolutions,
+        EvolutionSchedule(mega_seconds=3600),
+        random.Random(1),
+    )
+
+    assert event == "evolved:metalgarurumon"
+    assert state.species_id == "metalgarurumon"
+    assert state.stage == GrowthStage.MEGA
+    assert state.needs_rebirth_choice is False
 
 
 @pytest.mark.parametrize(

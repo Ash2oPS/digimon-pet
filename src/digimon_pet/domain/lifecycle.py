@@ -142,7 +142,11 @@ def advance_lifecycle(
             return _die_and_rebirth(state, rng)
         return _evolve_to(state, target, rng)
     if state.stage == GrowthStage.MEGA:
-        return _die_and_rebirth(state, rng)
+        target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
+        target = target or _choose_valid_special_evolution(state, species, digivolutions, rng)
+        if target is None:
+            return _die_and_rebirth(state, rng)
+        return _evolve_to(state, target, rng)
     return None
 
 
