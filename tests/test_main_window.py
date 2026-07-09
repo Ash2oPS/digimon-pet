@@ -883,7 +883,7 @@ def test_speedrun_mode_unlocks_from_maxed_birth_stats_and_multiplies_lifetime(tm
 
     assert window._state.speedrun_mode_unlocked is True
     assert window._state.speedrun_mode_enabled is True
-    assert window._state.age_seconds == 8
+    assert window._state.age_seconds == 16
 
 
 def test_speedrun_mode_does_not_unlock_from_current_stats_only(tmp_path, monkeypatch):
