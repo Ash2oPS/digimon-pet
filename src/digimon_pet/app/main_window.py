@@ -49,6 +49,7 @@ from digimon_pet.domain.economy import (
     sell_inventory_item,
 )
 from digimon_pet.domain.evolution_intel import reveal_random_evolution_clue
+from digimon_pet.domain.evolution_tree import build_evolution_links, graph_species_ids
 from digimon_pet.domain.fusions import find_fusion_target
 from digimon_pet.domain.items import INCUBATOR_ID, ItemEffectType, ItemType, can_use_item, choose_weighted_item, use_item
 from digimon_pet.domain.lifecycle import (
@@ -337,6 +338,8 @@ class BabyChoiceDialog(QDialog):
         species: dict[str, Species],
         discovered_species_ids: Sequence[str],
         parent: QWidget | None = None,
+        *,
+        digivolutions: dict | None = None,
     ) -> None:
         super().__init__(parent)
         self.setWindowTitle("Choose Baby Digimon")
@@ -346,6 +349,7 @@ class BabyChoiceDialog(QDialog):
         self._buttons: dict[str, QToolButton] = {}
         self._manifest = load_runtime_manifest()
         discovered = set(discovered_species_ids)
+        digivolutions = digivolutions or {}
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(14, 14, 14, 14)
@@ -369,6 +373,12 @@ class BabyChoiceDialog(QDialog):
             button.setIconSize(QSize(58, 58))
             button.setText(baby_species.name if is_discovered else "???")
             button.setFixedSize(96, 108)
+            completion = _baby_tree_completion(baby_id, species, discovered, digivolutions)
+            badge = QLabel(f"{completion[0]}%", button)
+            badge.setObjectName("BabyTreeCompletionBadge")
+            badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            badge.setToolTip(f"{completion[1]}/{completion[2]} tree Digimon discovered")
+            badge.setGeometry(53, 5, 38, 18)
             button.clicked.connect(lambda checked=False, selected_id=baby_id: self._select_baby(selected_id))
             self._buttons[baby_id] = button
             grid.addWidget(button, index // 4, index % 4)
@@ -396,6 +406,21 @@ class BabyChoiceDialog(QDialog):
 
     def selected_baby_id(self) -> str:
         return self._selected_baby_id
+
+
+def _baby_tree_completion(
+    baby_id: str,
+    species: dict[str, Species],
+    discovered_species_ids: set[str],
+    digivolutions: dict,
+) -> tuple[int, int, int]:
+    links = build_evolution_links(species, digivolutions)
+    tree_ids = graph_species_ids(baby_id, species, links)
+    if not tree_ids:
+        tree_ids = {baby_id}
+    discovered_count = len(tree_ids.intersection(discovered_species_ids))
+    percent = round(discovered_count * 100 / len(tree_ids))
+    return percent, discovered_count, len(tree_ids)
 
 
 class NetworkNotificationBridge(QObject):
@@ -1250,7 +1275,13 @@ class PetWindow(QWidget):
         return list(baby_1_choices(self._species))
 
     def _get_baby_choice(self, baby_ids: list[str]) -> tuple[str, bool]:
-        dialog = BabyChoiceDialog(baby_ids, self._species, self._state.discovered_species_ids, self)
+        dialog = BabyChoiceDialog(
+            baby_ids,
+            self._species,
+            self._state.discovered_species_ids,
+            self,
+            digivolutions=self._digivolutions,
+        )
         accepted = dialog.exec() == QDialog.DialogCode.Accepted
         return dialog.selected_baby_id(), accepted
 

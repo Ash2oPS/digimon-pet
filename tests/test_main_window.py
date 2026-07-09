@@ -538,6 +538,45 @@ def test_baby_choice_dialog_returns_selected_baby_id():
     assert dialog._buttons["punimon"].text() == "???"
 
 
+def test_baby_choice_dialog_shows_full_tree_completion_badge():
+    app = QApplication.instance() or QApplication([])
+    species = {
+        "botamon": load_species()["botamon"],
+        "koromon": load_species()["koromon"],
+        "agumon": load_species()["agumon"],
+        "greymon": load_species()["greymon"],
+        "metalgreymon": load_species()["metalgreymon"],
+    }
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "agumon",
+                "target_species_id": "greymon",
+                "requirements": {},
+            },
+            {
+                "source_species_id": "greymon",
+                "target_species_id": "metalgreymon",
+                "requirements": {},
+            },
+        ],
+        "special_evolutions": [],
+    }
+
+    dialog = BabyChoiceDialog(
+        ["botamon"],
+        species,
+        ["botamon", "koromon", "metalgreymon"],
+        digivolutions=digivolutions,
+    )
+
+    badge = dialog._buttons["botamon"].findChild(QLabel, "BabyTreeCompletionBadge")
+
+    assert badge is not None
+    assert badge.text() == "60%"
+    assert badge.toolTip() == "3/5 tree Digimon discovered"
+
+
 def test_baby_choice_dialog_has_no_cancel_button():
     app = QApplication.instance() or QApplication([])
     species = load_species()

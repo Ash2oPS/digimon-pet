@@ -514,6 +514,15 @@ QToolButton#BabyChoiceCard:checked {{
     border-color: {COLORS["focus"]};
 }}
 
+QLabel#BabyTreeCompletionBadge {{
+    background: {COLORS["accent_soft"]};
+    color: {COLORS["text"]};
+    border: 1px solid {COLORS["focus"]};
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 900;
+}}
+
 QToolTip {{
     background: {COLORS["panel"]};
     color: {COLORS["text"]};
