@@ -475,15 +475,24 @@ def test_baby_2_randomly_chooses_between_valid_dw1_rookie_candidates():
     assert results == {"agumon", "gabumon"}
 
 
-def test_baby_2_has_ten_percent_chance_to_evolve_to_kunemon():
+def test_baby_2_has_ten_percent_chance_to_evolve_to_kunemon_before_natural_evolution():
     schedule = EvolutionSchedule(baby_2_seconds=3600)
     state = PetState(
         species_id="koromon",
         stage=GrowthStage.BABY_2,
         age_seconds=3600,
     )
+    digivolutions = {
+        "natural_evolutions": [
+            {
+                "source_species_id": "koromon",
+                "target_species_id": "agumon",
+                "requirements": {},
+            }
+        ]
+    }
 
-    event = advance_lifecycle(state, species_map(), {}, schedule, random.Random(31))
+    event = advance_lifecycle(state, species_map(), digivolutions, schedule, random.Random(31))
 
     assert event == "evolved:kunemon"
     assert state.species_id == "kunemon"

@@ -115,12 +115,12 @@ def advance_lifecycle(
             return _evolve_to(state, target, rng)
         return None
     if state.stage == GrowthStage.BABY_2:
+        if "kunemon" in species and rng.random() < 0.1:
+            return _evolve_to(state, species["kunemon"], rng)
         target = _choose_valid_natural_evolution(state, species, digivolutions, rng)
         target = target or _choose_nearest_natural_evolution(state, species, digivolutions, rng)
         if target is not None:
             return _evolve_to(state, target, rng)
-        if "kunemon" in species and rng.random() < 0.1:
-            return _evolve_to(state, species["kunemon"], rng)
         target = _mapped_fallback_species(state.species_id, BABY_2_TO_ROOKIE, species)
         if target is not None:
             return _evolve_to(state, target, rng)
