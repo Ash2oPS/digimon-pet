@@ -31,6 +31,7 @@ from digimon_pet.domain.evolution_intel import (
     direct_evolution_options,
     requirement_for_stat,
 )
+from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, graph_species_ids
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -116,10 +117,14 @@ class StatsWindow(QDialog):
         self._speedrun_checkbox = QCheckBox("Speedrun Mode", self)
         self._speedrun_checkbox.setObjectName("SpeedrunToggle")
         self._speedrun_checkbox.toggled.connect(self._emit_speedrun_mode_changed)
+        self._tree_completion_label = QLabel("-", self)
+        self._tree_completion_label.setObjectName("Muted")
+        self._tree_completion_label.setWordWrap(True)
         identity_layout.addWidget(self._name_label)
         identity_layout.addWidget(self._stage_label)
         identity_layout.addWidget(self._summary_label)
         identity_layout.addWidget(self._speedrun_checkbox)
+        identity_layout.addWidget(self._tree_completion_label)
         identity_layout.addStretch(1)
         header_layout.addLayout(identity_layout, 1)
         layout.addWidget(header)
@@ -166,8 +171,10 @@ class StatsWindow(QDialog):
         self._set_bar("fatigue", state.fatigue)
         self._set_bar("discipline", state.discipline)
         self._set_bar("happiness", state.happiness)
+        evolution_links = build_evolution_links(self._species_by_id, self._digivolutions)
+        self._refresh_tree_completion(state, species, evolution_links)
         self._current_animation_interval_ms = idle_animation_interval_for_species(species, self._manifest)
-        self._refresh_evolution(state, species)
+        self._refresh_evolution(state, species, evolution_links)
         self._set_sprite(state, species)
 
     def _refresh_speedrun_toggle(self, state: PetState) -> None:
@@ -419,7 +426,31 @@ class StatsWindow(QDialog):
             bar.setToolTip(f"{_stat_label(key)} {clamped} / {maximum}")
         self._set_label(f"{key}_bar_value", str(clamped))
 
-    def _refresh_evolution(self, state: PetState, species: Species) -> None:
+    def _refresh_tree_completion(
+        self,
+        state: PetState,
+        species: Species,
+        evolution_links: list[EvolutionLink],
+    ) -> None:
+        completion = _species_tree_completion(
+            state,
+            species.id,
+            self._species_by_id,
+            evolution_links,
+        )
+        self._tree_completion_label.setText(
+            f"Evolution tree: {completion[1]}/{completion[2]} Digimon discovered ({completion[0]}%)"
+        )
+        self._tree_completion_label.setToolTip(
+            f"Evolution tree from {species.name}: {completion[1]}/{completion[2]} Digimon discovered"
+        )
+
+    def _refresh_evolution(
+        self,
+        state: PetState,
+        species: Species,
+        evolution_links: list[EvolutionLink] | None = None,
+    ) -> None:
         if self._evolution_cards_layout is None or self._evolution_detail_layout is None:
             return
         _clear_layout(self._evolution_cards_layout)
@@ -433,11 +464,13 @@ class StatsWindow(QDialog):
             self._evolution_cards_layout.addWidget(empty)
             self._refresh_evolution_detail(state, None)
             return
+        if evolution_links is None:
+            evolution_links = build_evolution_links(self._species_by_id, self._digivolutions)
         option_ids = [str(option.get("id", "")) for option in options]
         if self._selected_evolution_id not in option_ids:
             self._selected_evolution_id = option_ids[0]
         for option in options:
-            card = self._evolution_card(state, option)
+            card = self._evolution_card(state, option, evolution_links)
             transition_id = str(option.get("id", ""))
             self._evolution_cards[transition_id] = card
             self._evolution_cards_layout.addWidget(card)
@@ -449,7 +482,12 @@ class StatsWindow(QDialog):
         )
         self._refresh_evolution_detail(state, selected_option)
 
-    def _evolution_card(self, state: PetState, option: dict) -> QToolButton:
+    def _evolution_card(
+        self,
+        state: PetState,
+        option: dict,
+        evolution_links: list[EvolutionLink] | None = None,
+    ) -> QToolButton:
         transition_id = str(option.get("id", ""))
         card = QToolButton(self)
         card.setObjectName("EvolutionIntelCard")
@@ -462,7 +500,23 @@ class StatsWindow(QDialog):
         if sprite is not None:
             card.setIcon(QIcon(sprite.frame_pixmap(silhouette=hidden)))
             self._evolution_card_sprites[transition_id] = (card, sprite, hidden)
-        card.setText(_evolution_card_text(state, option))
+        links = evolution_links if evolution_links is not None else build_evolution_links(
+            self._species_by_id,
+            self._digivolutions,
+        )
+        completion = _evolution_tree_completion(
+            state,
+            option,
+            self._species_by_id,
+            links,
+        )
+        card.setProperty("tree_completion_percent", completion[0])
+        card.setProperty("tree_completion_discovered", completion[1])
+        card.setProperty("tree_completion_total", completion[2])
+        card.setToolTip(
+            f"Evolution tree: {completion[1]}/{completion[2]} Digimon discovered ({completion[0]}%)"
+        )
+        card.setText(_evolution_card_text(state, option, completion[0]))
         card.clicked.connect(lambda checked=False, selected_id=transition_id: self._select_evolution(selected_id))
         return card
 
@@ -738,13 +792,48 @@ def _evolution_detail_title(state: PetState, option: dict) -> str:
     return f"Unknown {_evolution_target_stage(option)}"
 
 
-def _evolution_card_text(state: PetState, option: dict) -> str:
+def _evolution_card_text(state: PetState, option: dict, tree_completion_percent: int = 0) -> str:
     transition_id = str(option.get("id", ""))
     known_stats = state.evolution_condition_discoveries.get(transition_id, [])
     title = _evolution_target_name_for_state(state, option)
     stage = _evolution_target_stage(option)
-    lines = [title, stage, f"{len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)} clues"]
+    lines = [
+        title,
+        stage,
+        f"Tree {tree_completion_percent}%",
+        f"{len(known_stats)}/{len(DISCOVERABLE_EVOLUTION_STATS)} clues",
+    ]
     return "\n".join(lines)
+
+
+def _evolution_tree_completion(
+    state: PetState,
+    option: dict,
+    species: dict[str, Species],
+    evolution_links: list[EvolutionLink],
+) -> tuple[int, int, int]:
+    return _species_tree_completion(
+        state,
+        str(option.get("target_species_id", "")),
+        species,
+        evolution_links,
+    )
+
+
+def _species_tree_completion(
+    state: PetState,
+    species_id: str,
+    species: dict[str, Species],
+    evolution_links: list[EvolutionLink],
+) -> tuple[int, int, int]:
+    tree_species_ids = graph_species_ids(species_id, species, evolution_links)
+    if not tree_species_ids:
+        tree_species_ids = {species_id}
+    discovered_species_ids = set(state.discovered_species_ids)
+    discovered_count = len(tree_species_ids.intersection(discovered_species_ids))
+    total_count = len(tree_species_ids)
+    percent = round(discovered_count * 100 / total_count) if total_count else 0
+    return percent, discovered_count, total_count
 
 
 def _slot_summary(state: PetState, option: dict, stat: str) -> str:

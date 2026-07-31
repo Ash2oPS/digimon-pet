@@ -342,6 +342,73 @@ def test_stats_window_evolution_intel_lists_direct_evolutions_and_hides_unknown_
     assert "400" not in texts
 
 
+def test_stats_window_evolution_cards_show_tree_completion(monkeypatch):
+    app = QApplication.instance() or QApplication([])
+    monkeypatch.setattr(stats_window, "resolve_artwork_path", lambda species_id: None)
+    monkeypatch.setattr(stats_window, "download_artwork_for_species", lambda species_id: None)
+
+    window = StatsWindow()
+    window._species_by_id = {
+        "terriermon": Species("terriermon", "Terriermon", GrowthStage.ROOKIE),
+        "galgomon": Species("galgomon", "Galgomon", GrowthStage.CHAMPION),
+        "rapidmon": Species("rapidmon", "Rapidmon", GrowthStage.ULTIMATE),
+        "andromon": Species("andromon", "Andromon", GrowthStage.ULTIMATE),
+    }
+    window._digivolutions = {
+        "natural_evolutions": [
+            {
+                "id": "terriermon__to__galgomon",
+                "source_species_id": "terriermon",
+                "target_species_id": "galgomon",
+                "target_name": "Galgomon",
+                "target_stage": "champion",
+                "requirements": {},
+            },
+            {
+                "id": "galgomon__to__rapidmon",
+                "source_species_id": "galgomon",
+                "target_species_id": "rapidmon",
+                "target_name": "Rapidmon",
+                "target_stage": "ultimate",
+                "requirements": {},
+            },
+            {
+                "id": "galgomon__to__andromon",
+                "source_species_id": "galgomon",
+                "target_species_id": "andromon",
+                "target_name": "Andromon",
+                "target_stage": "ultimate",
+                "requirements": {},
+            },
+        ],
+        "indexes": {
+            "by_source": {
+                "terriermon": ["terriermon__to__galgomon"],
+            }
+        },
+    }
+
+    window.refresh(
+        PetState(
+            "terriermon",
+            GrowthStage.ROOKIE,
+            discovered_species_ids=["terriermon", "galgomon", "rapidmon"],
+        ),
+        window._species_by_id["terriermon"],
+    )
+
+    card = window._evolution_cards["terriermon__to__galgomon"]
+    assert "Tree 75%" in card.text()
+    assert card.property("tree_completion_percent") == 75
+    assert card.property("tree_completion_discovered") == 3
+    assert card.property("tree_completion_total") == 4
+    assert card.toolTip() == "Evolution tree: 3/4 Digimon discovered (75%)"
+    assert window._tree_completion_label.text() == "Evolution tree: 3/4 Digimon discovered (75%)"
+    assert window._tree_completion_label.toolTip() == (
+        "Evolution tree from Terriermon: 3/4 Digimon discovered"
+    )
+
+
 def test_stats_window_evolution_card_uses_hidden_target_idle_sprite_on_top(tmp_path, monkeypatch):
     app = QApplication.instance() or QApplication([])
     sprite_path = tmp_path / "rapidmon_idle.png"
