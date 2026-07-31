@@ -398,11 +398,11 @@ def test_stats_window_evolution_cards_show_tree_completion(monkeypatch):
     )
 
     card = window._evolution_cards["terriermon__to__galgomon"]
-    assert "Tree 75%" in card.text()
-    assert card.property("tree_completion_percent") == 75
-    assert card.property("tree_completion_discovered") == 3
-    assert card.property("tree_completion_total") == 4
-    assert card.toolTip() == "Evolution tree: 3/4 Digimon discovered (75%)"
+    assert "Tree 67%" in card.text()
+    assert card.property("tree_completion_percent") == 67
+    assert card.property("tree_completion_discovered") == 2
+    assert card.property("tree_completion_total") == 3
+    assert card.toolTip() == "Evolution tree: 2/3 Digimon discovered (67%)"
     assert window._tree_completion_label.text() == "Evolution tree: 3/4 Digimon discovered (75%)"
     assert window._tree_completion_label.toolTip() == (
         "Evolution tree from Terriermon: 3/4 Digimon discovered"

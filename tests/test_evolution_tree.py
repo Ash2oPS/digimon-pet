@@ -16,7 +16,13 @@ from digimon_pet.app.collection_dialog import (
 )
 from digimon_pet.app.animated_sprite import IdleSpriteSheet
 from digimon_pet.app.sprite_runtime import SpriteAnimation
-from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, family_species_ids, graph_species_ids
+from digimon_pet.domain.evolution_tree import (
+    EvolutionLink,
+    build_evolution_links,
+    descendant_species_ids,
+    family_species_ids,
+    graph_species_ids,
+)
 from digimon_pet.domain.models import GrowthStage, Species
 
 
@@ -220,6 +226,33 @@ def test_family_uses_selected_ancestors_and_descendants_without_sibling_branches
     links = build_evolution_links(species, digivolutions)
 
     assert family_species_ids("patamon", links) == {"poyomon", "tokomon", "patamon", "angemon"}
+
+
+def test_descendant_species_ids_exclude_ancestors_and_sibling_branches():
+    species = {
+        "rookie": _species("rookie", "Rookie", GrowthStage.ROOKIE),
+        "champion": _species("champion", "Champion", GrowthStage.CHAMPION),
+        "ultimate": _species("ultimate", "Ultimate", GrowthStage.ULTIMATE),
+        "sibling": _species("sibling", "Sibling", GrowthStage.CHAMPION),
+    }
+    links = [
+        EvolutionLink("rookie", "champion", "natural", ""),
+        EvolutionLink("champion", "ultimate", "natural", ""),
+        EvolutionLink("rookie", "sibling", "natural", ""),
+    ]
+
+    assert descendant_species_ids("champion", species, links) == {"champion", "ultimate"}
+
+
+def test_descendant_species_ids_ignore_broad_specials_outside_baby_trees():
+    species = _species_map()
+    links = build_evolution_links(species, _digivolutions())
+
+    descendants = descendant_species_ids("agumon", species, links)
+
+    assert "agumon" in descendants
+    assert "greymon" in descendants
+    assert not descendants.intersection({"numemon", "sukamon", "vademon"})
 
 
 def test_collection_tile_click_opens_tree_only_for_discovered_species():

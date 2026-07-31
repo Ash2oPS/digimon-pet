@@ -31,7 +31,7 @@ from digimon_pet.domain.evolution_intel import (
     direct_evolution_options,
     requirement_for_stat,
 )
-from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, graph_species_ids
+from digimon_pet.domain.evolution_tree import EvolutionLink, build_evolution_links, descendant_species_ids
 from digimon_pet.domain.models import PetState, Species
 from digimon_pet.paths import PROJECT_ROOT
 
@@ -826,7 +826,7 @@ def _species_tree_completion(
     species: dict[str, Species],
     evolution_links: list[EvolutionLink],
 ) -> tuple[int, int, int]:
-    tree_species_ids = graph_species_ids(species_id, species, evolution_links)
+    tree_species_ids = descendant_species_ids(species_id, species, evolution_links)
     if not tree_species_ids:
         tree_species_ids = {species_id}
     discovered_species_ids = set(state.discovered_species_ids)

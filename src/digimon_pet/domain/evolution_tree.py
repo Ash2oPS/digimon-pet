@@ -75,6 +75,33 @@ def graph_species_ids(selected_species_id: str, species: dict[str, Species], lin
     return graph_ids
 
 
+def descendant_species_ids(selected_species_id: str, species: dict[str, Species], links: list[EvolutionLink]) -> set[str]:
+    """Return the selected species and every species reachable after it."""
+    children_by_species: dict[str, list[EvolutionLink]] = defaultdict(list)
+    for link in links:
+        if link.source_species_id is not None:
+            children_by_species[link.source_species_id].append(link)
+
+    descendants = {selected_species_id}
+    queue = deque([selected_species_id])
+    while queue:
+        source_id = queue.popleft()
+        outgoing_links = list(children_by_species.get(source_id, []))
+        for link in outgoing_links:
+            if link.target_species_id in descendants:
+                continue
+            descendants.add(link.target_species_id)
+            queue.append(link.target_species_id)
+    for link in links:
+        if link.source_species_id is None and _global_link_applies_to_selected_tree(
+            link,
+            selected_species_id,
+            species,
+        ):
+            descendants.add(link.target_species_id)
+    return descendants
+
+
 def graph_links(selected_species_id: str, species: dict[str, Species], links: list[EvolutionLink]) -> list[EvolutionLink]:
     family_ids = family_species_ids(selected_species_id, links)
     graph_ids = graph_species_ids(selected_species_id, species, links)
